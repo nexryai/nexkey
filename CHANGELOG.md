@@ -4,7 +4,8 @@
 ### Improvements
 
 ### Bugfixes
-- 
+- Client: インスタンスティッカーのfaviconを読み込む際に偽サイト警告が出ることがあるのを修正 @syuilo
+-
 
 You should also include the user name that made the change.
 -->
