@@ -6,6 +6,9 @@
 		"type": "git",
 		"url": "https://github.com/atsu1125/misskey-v12.git"
 	},
+	"engines": {
+    "node": ">= 16.0.0"
+  },
 	"private": true,
 	"scripts": {
 		"postinstall": "node ./scripts/install-packages.js",
