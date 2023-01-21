@@ -4,7 +4,7 @@
 	"codename": "indigo",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/misskey-dev/misskey.git"
+		"url": "https://github.com/atsu1125/misskey-v12.git"
 	},
 	"private": true,
 	"scripts": {
