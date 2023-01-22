@@ -17,6 +17,8 @@ services:
     volumes:
       - ./files:/misskey/files
       - ./.config:/misskey/.config:ro
+    healthcheck:
+      test: timeout 10s bash -c ':> /dev/tcp/127.0.0.1/3000' || exit 1
 
   redis:
     restart: always
