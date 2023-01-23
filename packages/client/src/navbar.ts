@@ -95,6 +95,21 @@ export const navbarItemDef = reactive({
 		icon: 'fas fa-satellite-dish',
 		to: '/channels',
 	},
+	federation: {
+		title: 'federation',
+		icon: 'fas fa-globe',
+		to: '/about#federation',
+	},
+	emojis: {
+		title: 'emojis',
+		icon: 'fas fa-laugh',
+		to: '/about#emojis',
+	},
+	scratchpad: {
+		title: 'scratchpad',
+		icon: 'fas fa-terminal',
+		to: '/scratchpad',
+	},
 	ui: {
 		title: 'switchUi',
 		icon: 'fas fa-columns',
