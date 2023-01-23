@@ -1,8 +1,8 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions"/></template>
+	<template #header><MkPageHeader /></template>
 	<MkSpacer :content-max="800" :margin-min="20">
-		<MkButton primary style="margin: 0 auto var(--margin) auto;" @click="create"><i class="fas fa-plus"></i> {{ i18n.ts.createGroup }}</MkButton>
+		<MkButton :disabled="!($i.isAdmin || $i.isModerator)" primary style="margin: 0 auto var(--margin) auto;" @click="create"><i class="fas fa-plus"></i> {{ i18n.ts.createGroup }}</MkButton>
 		<MkPagination v-slot="{items}" ref="owned" :pagination="ownedPagination">
 			<div v-for="group in items" :key="group.id" class="_card">
 				<div class="_title"><MkA :to="`/my/groups/${ group.id }`" class="_link">{{ group.name }}</MkA></div>
@@ -48,14 +48,6 @@ const joinedPagination = {
 	endpoint: 'users/groups/joined' as const,
 	limit: 10,
 };
-
-const headerActions = $computed(() => [
-	{
-		icon: 'fas fa-plus',
-		text: i18n.ts.createGroup,
-		handler: create,
-	},
-]);
 
 definePageMetadata(
 	computed(() => ({
