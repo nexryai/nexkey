@@ -1,0 +1,30 @@
+name: Node.js CI
+on: [push]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install dependencies
+      run: yarn install
+    - run: git diff --exit-code yarn.lock
+    - run: git diff --exit-code packages/backend/yarn.lock
+    - run: git diff --exit-code packages/client/yarn.lock
+    - name: Copy Configure
+      run: cp .github/misskey/test.yml .config
+    - name: Build
+      run: yarn build
+    - name: Check webpack process
+      run: ls built/meta.json
