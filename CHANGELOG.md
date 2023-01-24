@@ -10,6 +10,15 @@
 You should also include the user name that made the change.
 -->
 
+## 12.119.2-fix.2 (2023/01/24)
+### Improvements
+- Add Group (but only moderator can create new group) @atsu1125
+
+## 12.119.2-fix.1 (2023/01/21)
+### Bugfixes
+- fix(client): インスタンスティッカーのfaviconを読み込む際に偽サイト警告が出ることがあるのを修正 @syuilo
+- fix(client): clarify to use props.url @futchitwo
+
 ## 12.119.2 (2022/12/04)
 ### Bugfixes
 - Server: Backported versions mitigate isn't working @mei23
