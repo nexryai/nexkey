@@ -22,8 +22,8 @@ export default async function(follower: { id: User['id']; host: User['host']; ur
 		}),
 	]);
 
-	if (blocking != null) throw new Error('blocking');
-	if (blocked != null) throw new Error('blocked');
+	if (blocking) throw new Error('blocking');
+	if (blocked) throw new Error('blocked');
 
 	const followRequest = await FollowRequests.insert({
 		id: genId(),
