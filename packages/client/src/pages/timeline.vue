@@ -117,7 +117,7 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => [{
 	key: 'home',
 	title: i18n.ts._timelines.home,
-	icon: 'fas fa-home',
+	icon: 'ti ti-home',
 	iconOnly: true,
 }, ...(isLimitedTimelineAvailable ? [{
 	key: 'limited',
@@ -127,12 +127,12 @@ const headerTabs = $computed(() => [{
 }] : []), ...(isLocalTimelineAvailable ? [{
 	key: 'local',
 	title: i18n.ts._timelines.local,
-	icon: 'fas fa-comments',
+	icon: 'ti ti-planet',
 	iconOnly: true,
 }, {
 	key: 'social',
 	title: i18n.ts._timelines.social,
-	icon: 'fas fa-share-alt',
+	icon: 'ti ti-rocket',
 	iconOnly: true,
 }, ...(isMediaTimelineAvailable ? [{
 	key: 'media',
@@ -142,7 +142,7 @@ const headerTabs = $computed(() => [{
 }] : [])] : []), ...(isGlobalTimelineAvailable ? [{
 	key: 'global',
 	title: i18n.ts._timelines.global,
-	icon: 'fas fa-globe',
+	icon: 'ti ti-whirl',
 	iconOnly: true,
 }] : []), ...(isPersonalTimelineAvailable ? [{
 	key: 'personal',
@@ -150,17 +150,17 @@ const headerTabs = $computed(() => [{
 	icon: 'fas fa-book',
 	iconOnly: true,
 }] : []), {
-	icon: 'fas fa-list-ul',
+	icon: 'ti ti-list',
 	title: i18n.ts.lists,
 	iconOnly: true,
 	onClick: chooseList,
 }, {
-	icon: 'fas fa-satellite',
+	icon: 'ti ti-antenna',
 	title: i18n.ts.antennas,
 	iconOnly: true,
 	onClick: chooseAntenna,
 }, {
-	icon: 'fas fa-satellite-dish',
+	icon: 'ti ti-device-tv',
 	title: i18n.ts.channel,
 	iconOnly: true,
 	onClick: chooseChannel,
@@ -168,7 +168,7 @@ const headerTabs = $computed(() => [{
 
 definePageMetadata(computed(() => ({
 	title: i18n.ts.timeline,
-	icon: src === 'local' ? 'fas fa-comments' : src === 'social' ? 'fas fa-share-alt' : src === 'global' ? 'fas fa-globe' : src === 'limited' ? 'fas fa-unlock' :src === 'media' ? 'fas fa-file' :src === 'personal' ? 'fas fa-book' : 'fas fa-home',
+	icon: src === 'local' ? 'ti ti-planet' : src === 'social' ? 'ti ti-rocket' : src === 'global' ? 'ti ti-whirl' : src === 'limited' ? 'ti ti-lock-open' :src === 'media' ? 'ti ti-file' :src === 'personal' ? 'ti ti-book' : 'ti ti-home',
 })));
 </script>
 

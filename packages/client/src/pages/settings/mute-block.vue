@@ -59,7 +59,7 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.muteAndBlock,
-	icon: 'fas fa-ban',
+	icon: 'ti ti-ban',
 });
 </script>
 
