@@ -24,6 +24,7 @@
 								<Mfm :text="announcement.text"/>
 								<img v-if="announcement.imageUrl" :src="announcement.imageUrl" alt="announcement image"/>
 							</div>
+							<div class="time"><MkTime :time="announcement.createdAt" mode="detail"/></div>
 						</section>
 					</MkPagination>
 				</div>
