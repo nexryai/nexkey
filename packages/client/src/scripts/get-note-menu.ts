@@ -29,7 +29,7 @@ export function getNoteMenu(props: {
 	function del(): void {
 		os.confirm({
 			type: 'warning',
-			text: i18n.ts.noteDeleteConfirm,
+			text: (appearNote.userId == $i.id) ? i18n.ts.noteDeleteConfirm : i18n.ts.noteDeleteAsAdminConfirm,
 		}).then(({ canceled }) => {
 			if (canceled) return;
 
@@ -306,7 +306,7 @@ export function getNoteMenu(props: {
 				} : undefined,
 				{
 					icon: 'fas fa-trash-alt',
-					text: i18n.ts.delete,
+					text: (appearNote.userId == $i.id) ? i18n.ts.delete : i18n.ts.deleteAsAdmin,
 					danger: true,
 					action: del,
 				}]
