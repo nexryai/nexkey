@@ -51,6 +51,10 @@
 							<template #key>{{ i18n.ts.notes }}</template>
 							<template #value>{{ number(stats.originalNotesCount) }}</template>
 						</MkKeyValue>
+						<MkKeyValue class="_formBlock">
+							<template #key>{{ i18n.ts.onlineStatus }}</template>
+							<template #value>{{ number(onlineUsersCount) }}</template>
+						</MkKeyValue>
 					</FormSplit>
 				</FormSection>
 			</FormSuspense>
@@ -103,10 +107,15 @@ const props = withDefaults(defineProps<{
 
 let stats = $ref(null);
 let tab = $ref(props.initialTab);
+let onlineUsersCount = $ref();
 
 const initStats = () => os.api('stats', {
 }).then((res) => {
 	stats = res;
+});
+
+os.api('get-online-users-count').then(res => {
+	onlineUsersCount = res.count;
 });
 
 const headerActions = $computed(() => []);
