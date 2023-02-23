@@ -1,6 +1,8 @@
 import { App, defineAsyncComponent } from 'vue';
 
 export default function(app: App) {
+	app.component('MkwProfile', defineAsyncComponent(() => import('./profile.vue')));
+	app.component('MkwInstanceInfo', defineAsyncComponent(() => import('./instance-info.vue')));
 	app.component('MkwMemo', defineAsyncComponent(() => import('./memo.vue')));
 	app.component('MkwNotifications', defineAsyncComponent(() => import('./notifications.vue')));
 	app.component('MkwTimeline', defineAsyncComponent(() => import('./timeline.vue')));
@@ -23,9 +25,12 @@ export default function(app: App) {
 	app.component('MkwButton', defineAsyncComponent(() => import('./button.vue')));
 	app.component('MkwAiscript', defineAsyncComponent(() => import('./aiscript.vue')));
 	app.component('MkwAichan', defineAsyncComponent(() => import('./aichan.vue')));
+
 }
 
 export const widgets = [
+	'profile',
+	'instanceInfo',
 	'memo',
 	'notifications',
 	'timeline',
