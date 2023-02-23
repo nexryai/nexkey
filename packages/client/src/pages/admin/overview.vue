@@ -19,6 +19,12 @@
 							<MkNumberDiff v-if="notesComparedToThePrevDay != null" v-tooltip="i18n.ts.dayOverDayChanges" class="diff" :value="notesComparedToThePrevDay"><template #before>(</template><template #after>)</template></MkNumberDiff>
 						</div>
 					</div>
+					<div class="number _panel">
+						<div class="label">Current Online Users</div>
+						<div class="value _monospace">
+							{{ number(onlineUsersCount) }}
+						</div>
+					</div>
 				</div>
 			</div>
 
@@ -199,6 +205,7 @@ Chart.register(
 const rootEl = $ref<HTMLElement>();
 const chartEl = $ref<HTMLCanvasElement>(null);
 let stats: any = $ref(null);
+let onlineUsersCount = $ref();
 let serverInfo: any = $ref(null);
 let topSubInstancesForPie: any = $ref(null);
 let topPubInstancesForPie: any = $ref(null);
@@ -403,6 +410,10 @@ onMounted(async () => {
 		os.apiGet('charts/notes', { limit: 2, span: 'day' }).then(chart => {
 			notesComparedToThePrevDay = stats.originalNotesCount - chart.local.total[1];
 		});
+	});
+
+	os.api('get-online-users-count').then(res => {
+		onlineUsersCount = res.count;
 	});
 
 	os.apiGet('charts/federation', { limit: 2, span: 'day' }).then(chart => {
