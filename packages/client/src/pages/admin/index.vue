@@ -1,6 +1,6 @@
 <template>
 <div ref="el" class="hiyeyicy" :class="{ wide: !narrow }">
-	<div v-if="!narrow || currentPage?.route.name == null" class="nav">	
+	<div v-if="!narrow || currentPage?.route.name == null" class="nav">
 		<MkSpacer :content-max="700" :margin-min="16">
 			<div class="lxpfedzu">
 				<div class="banner">
@@ -237,25 +237,7 @@ const lookup = (ev) => {
 		icon: 'fas fa-user',
 		action: () => {
 			lookupUser();
-		},
-	}, {
-		text: i18n.ts.note,
-		icon: 'fas fa-pencil-alt',
-		action: () => {
-			alert('TODO');
-		},
-	}, {
-		text: i18n.ts.file,
-		icon: 'fas fa-cloud',
-		action: () => {
-			alert('TODO');
-		},
-	}, {
-		text: i18n.ts.instance,
-		icon: 'fas fa-globe',
-		action: () => {
-			alert('TODO');
-		},
+		}
 	}], ev.currentTarget ?? ev.target);
 };
 
