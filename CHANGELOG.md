@@ -10,6 +10,26 @@
 You should also include the user name that made the change.
 -->
 
+## 12.119.2-fix.3 (2023/02/23)
+### Improvements
+- フォロー、フォロワーのページでフォローされていることを表示 @nenohi @syuilo
+- バージョンチェックは起動時に弾くんじゃなくてインストール時に弾く @mei23
+- お知らせの登録日時を表示 @atsu1125
+- フォロワー解除の際にダイアログを表示 @atsu1125
+- パスワードリセットの際にダイアログを表示 @atsu1125
+- 全てのファイルを削除を安全に @atsu1125
+- モデレータが投稿を削除するステップを改善 @atsu1125
+- オンラインユーザー数を/aboutと/admin/overviewに表示 @atsu1125
+- プロフィールとインスタンス情報のウィジェットを追加 @atsu1125
+
+### Bugfixes
+- Follow Security Advisory @atsu1125 @mei23
+- fix: 一部の状態のファイルをドロップしてアップロードできない場合がある問題を修正 @m-hayabusa
+- add webhookId to api request @m-hayabusa
+- statement_timeoutの初期値を10秒から300秒に（タイムライン・アカウント削除が動くように） @atsu1125
+- TODOとか出るの消す @atsu1125
+- /featuredの消し忘れ @atsu1125
+
 ## 12.119.2-fix.2 (2023/01/24)
 ### Improvements
 - Add Group (but only moderator can create new group) @atsu1125
