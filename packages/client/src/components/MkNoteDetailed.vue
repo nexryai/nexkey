@@ -255,9 +255,9 @@ function menu(viaKeyboard = false): void {
 }
 
 function showRenoteMenu(viaKeyboard = false): void {
-	if (!isMyRenote) return;
+	if (!isMyRenote && !($i.isModerator || $i.isAdmin)) return;
 	os.popupMenu([{
-		text: i18n.ts.unrenote,
+		text: (isMyRenote) ? i18n.ts.unrenote : i18n.ts.unrenoteAsAdmin,
 		icon: 'fas fa-trash-alt',
 		danger: true,
 		action: () => {
