@@ -32,7 +32,7 @@ export const paramDef = {
 } as const;
 
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps) => {
+export default define(meta, paramDef, async (ps, me) => {
 	const user = await Users.findOneBy({ id: ps.userId });
 
 	if (user == null) {
@@ -41,6 +41,10 @@ export default define(meta, paramDef, async (ps) => {
 
 	if (user.isAdmin) {
 		throw new Error('cannot reset password of admin');
+	}
+
+	if (me.isModerator && user.isModerator) {
+		throw new Error('cannot reset password of moderator');
 	}
 
 	const passwd = rndstr('a-zA-Z0-9', 8);

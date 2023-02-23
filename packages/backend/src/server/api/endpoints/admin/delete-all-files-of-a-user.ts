@@ -1,6 +1,6 @@
 import define from '../../define.js';
 import { deleteFile } from '@/services/drive/delete-file.js';
-import { DriveFiles } from '@/models/index.js';
+import { DriveFiles, Users } from '@/models/index.js';
 
 export const meta = {
 	tags: ['admin'],
@@ -22,6 +22,16 @@ export default define(meta, paramDef, async (ps, me) => {
 	const files = await DriveFiles.findBy({
 		userId: ps.userId,
 	});
+
+	const user = await Users.findOne(ps.userId as string);
+
+	if (user.isAdmin) {
+		throw new Error('cannot delete files of admin');
+	}
+
+	if (me.isModerator && user.isModerator) {
+		throw new Error('cannot delete files of moderator');
+	}
 
 	for (const file of files) {
 		deleteFile(file);
