@@ -25,6 +25,7 @@
 							<button v-tooltip="i18n.ts.shareWithNote" v-click-anime class="_button" @click="shareWithNote"><i class="fas fa-retweet fa-fw"></i></button>
 							<button v-tooltip="i18n.ts.share" v-click-anime class="_button" @click="share"><i class="fas fa-share-alt fa-fw"></i></button>
 						</div>
+						<MkButton v-if="$i && ($i.id != page.user.id && ($i.isModerator || $i.isAdmin))" v-tooltip="i18n.ts.deleteAsAdmin" class="button" danger @click="del()"><i class="fas fa-trash-alt"></i></MkButton>
 					</div>
 					<div class="user">
 						<MkAvatar :user="page.user" class="avatar"/>
@@ -137,6 +138,19 @@ async function unlike() {
 	}).then(() => {
 		page.isLiked = false;
 		page.likedCount--;
+	});
+}
+
+async function del() {
+	const confirm = await os.confirm({
+		type: 'warning',
+		text: i18n.ts.noteDeleteAsAdminConfirm,
+	});
+	if (confirm.canceled) return;
+	os.apiWithDialog('pages/delete', {
+		pageId: page.id,
+	}).then(() => {
+		router.push('/pages');
 	});
 }
 

@@ -38,7 +38,7 @@ export default define(meta, paramDef, async (ps, user) => {
 	if (page == null) {
 		throw new ApiError(meta.errors.noSuchPage);
 	}
-	if (page.userId !== user.id) {
+	if (page.userId !== user.id && !(user.isAdmin || user.isModerator)) {
 		throw new ApiError(meta.errors.accessDenied);
 	}
 
