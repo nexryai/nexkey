@@ -10,6 +10,17 @@
 You should also include the user name that made the change.
 -->
 
+## 12.119.2-fix.4 (2023/02/25)
+### Improvements
+- モデレータが管理者権限を行使してGUIからリノートを削除できるように @atsu1125
+- モデレータが管理者権限を行使してページを削除できるように @atsu1125
+- チャンネル作成者がAPIからチャンネル削除できるように @atsu1125
+- モデレータが管理者権限を行使してAPIからチャンネルを削除できるように @atsu1125
+
+### Bugfixes
+- Follow Security Advisory @atsu1125 @mei23
+- お知らせの登録日時のデザインをまともに @atsu1125
+
 ## 12.119.2-fix.3 (2023/02/23)
 ### Improvements
 - フォロー、フォロワーのページでフォローされていることを表示 @nenohi @syuilo
