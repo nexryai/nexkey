@@ -1,10 +1,11 @@
 import { validate as validateEmail } from 'deep-email-validator';
 import { UserProfiles } from '@/models/index.js';
 import { fetchMeta } from '@/misc/fetch-meta.js';
+import extractDomain from 'extract-domain';
 
 export async function validateEmailForAccount(emailAddress: string): Promise<{
 	available: boolean;
-	reason: null | 'used' | 'format' | 'disposable' | 'mx' | 'smtp';
+	reason: null | 'used' | 'format' | 'disposable' | 'mx' | 'smtp' | 'blocked';
 }> {
 	const meta = await fetchMeta();
 
@@ -22,7 +23,14 @@ export async function validateEmailForAccount(emailAddress: string): Promise<{
 		validateSMTP: false, // 日本だと25ポートが殆どのプロバイダーで塞がれていてタイムアウトになるので
 	}) : { valid: true };
 
-	const available = exist === 0 && validated.valid;
+	// メールドメインブロックを判定
+	const domain = extractDomain(emailAddress);
+	let blockedemaildomain = false;
+	if (meta.blockedEmailDomains.includes(domain)) {
+		blockedemaildomain = true;
+	}
+
+	const available = exist === 0 && validated.valid && !blockedemaildomain;
 
 	return {
 		available,
@@ -32,6 +40,7 @@ export async function validateEmailForAccount(emailAddress: string): Promise<{
 		validated.reason === 'disposable' ? 'disposable' :
 		validated.reason === 'mx' ? 'mx' :
 		validated.reason === 'smtp' ? 'smtp' :
+		blockedemaildomain ? 'blocked' :
 		null,
 	};
 }

@@ -187,6 +187,14 @@ export const meta = {
 					optional: false, nullable: false,
 				},
 			},
+			blockedEmailDomains: {
+				type: 'array',
+				optional: true, nullable: false,
+				items: {
+					type: 'string',
+					optional: false, nullable: false,
+				},
+			},
 			hcaptchaSecretKey: {
 				type: 'string',
 				optional: true, nullable: true,
@@ -388,6 +396,7 @@ export default define(meta, paramDef, async (ps, me) => {
 		pinnedUsers: instance.pinnedUsers,
 		hiddenTags: instance.hiddenTags,
 		blockedHosts: instance.blockedHosts,
+		blockedEmailDomains: instance.blockedEmailDomains,
 		hcaptchaSecretKey: instance.hcaptchaSecretKey,
 		recaptchaSecretKey: instance.recaptchaSecretKey,
 		sensitiveMediaDetection: instance.sensitiveMediaDetection,

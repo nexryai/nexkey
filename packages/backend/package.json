@@ -45,6 +45,7 @@
 		"date-fns": "2.29.2",
 		"deep-email-validator": "0.1.21",
 		"escape-regexp": "0.0.1",
+		"extract-domain": "2.4.8",
 		"feed": "4.2.2",
 		"file-type": "17.1.6",
 		"fluent-ffmpeg": "2.1.2",

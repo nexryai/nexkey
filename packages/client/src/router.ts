@@ -369,6 +369,10 @@ export const routes = [{
 		name: 'instance-block',
 		component: page(() => import('./pages/admin/instance-block.vue')),
 	}, {
+		path: '/email-block',
+		name: 'email-block',
+		component: page(() => import('./pages/admin/email-block.vue')),
+	}, {
 		path: '/proxy-account',
 		name: 'proxy-account',
 		component: page(() => import('./pages/admin/proxy-account.vue')),
