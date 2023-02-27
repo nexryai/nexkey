@@ -26,7 +26,7 @@ export async function validateEmailForAccount(emailAddress: string): Promise<{
 	// メールドメインブロックを判定
 	const domain = extractDomain(emailAddress);
 	let blockedemaildomain = false;
-	if (meta.blockedEmailDomains.includes(domain)) {
+	if (meta.blockedEmailDomains.some(x => x.endsWith(domain))) {
 		blockedemaildomain = true;
 	}
 
