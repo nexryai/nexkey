@@ -135,7 +135,7 @@ export default define(meta, paramDef, async (ps, me) => {
 	}
 
 	if (Array.isArray(ps.blockedHosts)) {
-		set.blockedHosts = ps.blockedHosts.filter(Boolean);
+		set.blockedHosts = ps.blockedHosts.filter(Boolean).map(x => x.toLowerCase());
 	}
 
 	if (ps.themeColor !== undefined) {

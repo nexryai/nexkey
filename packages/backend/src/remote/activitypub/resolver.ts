@@ -74,7 +74,7 @@ export default class Resolver {
 		}
 
 		const meta = await fetchMeta();
-		if (meta.blockedHosts.includes(host)) {
+		if (meta.blockedHosts.some(x => x.endsWith(host))) {
 			throw new Error('Instance is blocked');
 		}
 
