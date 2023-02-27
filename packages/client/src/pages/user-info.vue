@@ -33,7 +33,7 @@
 						<template #value><span class="_monospace">{{ user.id }}</span></template>
 					</MkKeyValue>
 					<!-- 要る？
-					<MkKeyValue v-if="ips.length > 0" :copy="user.id" oneline style="margin: 1em 0;">
+					<MkKeyValue :copy="ips[0].ip" v-if="ips.length > 0" oneline style="margin: 1em 0;">
 						<template #key>IP (recent)</template>
 						<template #value><span class="_monospace">{{ ips[0].ip }}</span></template>
 					</MkKeyValue>
@@ -42,13 +42,21 @@
 						<template #key>{{ i18n.ts.createdAt }}</template>
 						<template #value><span class="_monospace"><MkTime :time="user.createdAt" :mode="'detail'"/></span></template>
 					</MkKeyValue>
-					<MkKeyValue v-if="info" oneline style="margin: 1em 0;">
+					<MkKeyValue v-if="info && $i.isAdmin" oneline style="margin: 1em 0;">
 						<template #key>{{ i18n.ts.lastActiveDate }}</template>
 						<template #value><span class="_monospace"><MkTime :time="info.lastActiveDate" :mode="'detail'"/></span></template>
 					</MkKeyValue>
-					<MkKeyValue v-if="info" oneline style="margin: 1em 0;">
+					<MkKeyValue :copy="info.email" v-if="info && $i.isAdmin" oneline style="margin: 1em 0;">
 						<template #key>{{ i18n.ts.email }}</template>
 						<template #value><span class="_monospace">{{ info.email }}</span></template>
+					</MkKeyValue>
+					<MkKeyValue v-if="info" oneline style="margin: 1em 0;">
+						<template #key>Email Status</template>
+						<template v-if="$i.isAdmin && info.email && info.emailVerified" #value><span class="_monospace">Verified</span></template>
+						<template v-if="$i.isAdmin && info.email && !info.emailVerified" #value><span class="_monospace">Not Verified</span></template>
+						<template v-if="$i.isAdmin && !info.email" #value><span class="_monospace">Not Registered</span></template>
+						<template v-if="!$i.isAdmin && info.emailVerified" #value><span class="_monospace">Verified</span></template>
+						<template v-if="!$i.isAdmin && !info.emailVerified" #value><span class="_monospace">Not Verified / Not Registered</span></template>
 					</MkKeyValue>
 				</div>
 
