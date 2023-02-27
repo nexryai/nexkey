@@ -142,7 +142,7 @@ export default define(meta, paramDef, async (ps, me) => {
 	}
 
 	if (Array.isArray(ps.blockedEmailDomains)) {
-		set.blockedEmailDomains = ps.blockedEmailDomains.filter(Boolean);
+		set.blockedEmailDomains = ps.blockedEmailDomains.filter(Boolean).map(x => x.toLowerCase());
 	}
 
 	if (ps.themeColor !== undefined) {
