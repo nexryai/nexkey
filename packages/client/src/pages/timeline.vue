@@ -35,8 +35,11 @@ import { definePageMetadata } from '@/scripts/page-metadata';
 
 const XTutorial = defineAsyncComponent(() => import('./timeline.tutorial.vue'));
 
-const isLocalTimelineAvailable = !instance.disableLocalTimeline || ($i != null && ($i.isModerator || $i.isAdmin));
-const isGlobalTimelineAvailable = !instance.disableGlobalTimeline || ($i != null && ($i.isModerator || $i.isAdmin));
+const isMediaTimelineAvailable = $i != null && defaultStore.state.enableMTL && defaultStore.state.enableLTL;
+const isLocalTimelineAvailable = (!instance.disableLocalTimeline || ($i != null && ($i.isModerator || $i.isAdmin))) && defaultStore.state.enableLTL;
+const isGlobalTimelineAvailable = (!instance.disableGlobalTimeline || ($i != null && ($i.isModerator || $i.isAdmin))) && defaultStore.state.enableGTL;
+const isPersonalTimelineAvailable = $i != null && defaultStore.state.enablePTL;
+const isLimitedTimelineAvailable = $i != null && defaultStore.state.enableLimitedTL;
 const keymap = {
 	't': focus,
 };
@@ -89,7 +92,7 @@ async function chooseChannel(ev: MouseEvent): Promise<void> {
 	os.popupMenu(items, ev.currentTarget ?? ev.target);
 }
 
-function saveSrc(newSrc: 'home' | 'local' | 'social' | 'global'): void {
+function saveSrc(newSrc: 'home' | 'local' | 'social' | 'global' | 'limited' | 'media' | 'personal'): void {
 	defaultStore.set('tl', {
 		...defaultStore.state.tl,
 		src: newSrc,
@@ -116,7 +119,12 @@ const headerTabs = $computed(() => [{
 	title: i18n.ts._timelines.home,
 	icon: 'fas fa-home',
 	iconOnly: true,
-}, ...(isLocalTimelineAvailable ? [{
+}, ...(isLimitedTimelineAvailable ? [{
+	key: 'limited',
+	title: i18n.ts._timelines.limited,
+	icon: 'fas fa-unlock',
+	iconOnly: true,
+}] : []), ...(isLocalTimelineAvailable ? [{
 	key: 'local',
 	title: i18n.ts._timelines.local,
 	icon: 'fas fa-comments',
@@ -126,10 +134,20 @@ const headerTabs = $computed(() => [{
 	title: i18n.ts._timelines.social,
 	icon: 'fas fa-share-alt',
 	iconOnly: true,
-}] : []), ...(isGlobalTimelineAvailable ? [{
+}, ...(isMediaTimelineAvailable ? [{
+	key: 'media',
+	title: i18n.ts._timelines.media,
+	icon: 'fas fa-file',
+	iconOnly: true,
+}] : [])] : []), ...(isGlobalTimelineAvailable ? [{
 	key: 'global',
 	title: i18n.ts._timelines.global,
 	icon: 'fas fa-globe',
+	iconOnly: true,
+}] : []), ...(isPersonalTimelineAvailable ? [{
+	key: 'personal',
+	title: i18n.ts._timelines.personal,
+	icon: 'fas fa-book',
 	iconOnly: true,
 }] : []), {
 	icon: 'fas fa-list-ul',
@@ -150,7 +168,7 @@ const headerTabs = $computed(() => [{
 
 definePageMetadata(computed(() => ({
 	title: i18n.ts.timeline,
-	icon: src === 'local' ? 'fas fa-comments' : src === 'social' ? 'fas fa-share-alt' : src === 'global' ? 'fas fa-globe' : 'fas fa-home',
+	icon: src === 'local' ? 'fas fa-comments' : src === 'social' ? 'fas fa-share-alt' : src === 'global' ? 'fas fa-globe' : src === 'limited' ? 'fas fa-unlock' :src === 'media' ? 'fas fa-file' :src === 'personal' ? 'fas fa-book' : 'fas fa-home',
 })));
 </script>
 

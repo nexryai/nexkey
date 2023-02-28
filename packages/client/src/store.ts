@@ -251,6 +251,26 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: false,
 	},
+	enableMTL: {
+		where: 'device',
+		default: false,
+	},
+	enableLTL: {
+		where: 'device',
+		default: true,
+	},
+	enableGTL: {
+		where: 'device',
+		default: true,
+	},
+	enablePTL: {
+		where: 'device',
+		default: false,
+	},
+	enableLimitedTL: {
+		where: 'device',
+		default: false,
+	},
 }));
 
 // TODO: 他のタブと永続化されたstateを同期
