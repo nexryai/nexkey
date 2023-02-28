@@ -26,6 +26,9 @@
 					<!-- eslint-disable-next-line vue/no-v-html -->
 					<div class="desc" v-html="meta.description || i18n.ts.headlineMisskey"></div>
 				</div>
+				<div v-if="meta.disableRegistration" class="warn">
+					<MkInfo warn>{{ i18n.ts.invitationRequiredToRegister }}</MkInfo>
+				</div>
 				<div class="action">
 					<MkButton inline rounded gradate data-cy-signup style="margin-right: 12px;" @click="signup()">{{ i18n.ts.signup }}</MkButton>
 					<MkButton inline rounded data-cy-signin @click="signin()">{{ i18n.ts.login }}</MkButton>
@@ -59,6 +62,7 @@ import { host, instanceName } from '@/config';
 import * as os from '@/os';
 import number from '@/filters/number';
 import { i18n } from '@/i18n';
+import MkInfo from '@/components/MkInfo.vue';
 
 let meta = $ref();
 let stats = $ref();
@@ -254,6 +258,10 @@ function showMenu(ev) {
 
 				> .about {
 					padding: 0 32px;
+				}
+
+				> .warn {
+					padding: 32px 32px 0 32px;
 				}
 
 				> .action {
