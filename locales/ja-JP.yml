@@ -1436,7 +1436,10 @@ _instanceCharts:
 
 _timelines:
   home: "ホーム"
+  limited: "限定ホーム"
+  personal: "パーソナル"
   local: "ローカル"
+  media: "メディア"
   social: "ソーシャル"
   global: "グローバル"
 
