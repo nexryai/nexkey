@@ -161,11 +161,11 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	useBlurEffectForModal: {
 		where: 'device',
-		default: true,
+		default: false,
 	},
 	useBlurEffect: {
 		where: 'device',
-		default: true,
+		default: false,
 	},
 	showFixedPostForm: {
 		where: 'device',
@@ -185,7 +185,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	darkMode: {
 		where: 'device',
-		default: false,
+		default: true,
 	},
 	instanceTicker: {
 		where: 'device',
@@ -269,17 +269,17 @@ type Plugin = {
 /**
  * 常にメモリにロードしておく必要がないような設定情報を保管するストレージ(非リアクティブ)
  */
-import lightTheme from '@/themes/l-light.json5';
-import darkTheme from '@/themes/d-green-lime.json5';
+import lightTheme from '@/themes/l-apricot.json5';
+import darkTheme from '@/themes/d-persimmon.json5';
 
 export class ColdDeviceStorage {
 	public static default = {
 		lightTheme,
 		darkTheme,
-		syncDeviceDarkMode: true,
+		syncDeviceDarkMode: false,
 		plugins: [] as Plugin[],
-		mediaVolume: 0.5,
-		sound_masterVolume: 0.3,
+		mediaVolume: 0,
+		sound_masterVolume: 0,
 		sound_note: { type: 'syuilo/down', volume: 1 },
 		sound_noteMy: { type: 'syuilo/up', volume: 1 },
 		sound_notification: { type: 'syuilo/pope2', volume: 1 },
