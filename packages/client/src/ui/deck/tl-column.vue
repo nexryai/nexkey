@@ -11,7 +11,7 @@
 		<span style="margin-left: 8px;">{{ column.name }}</span>
 	</template>
 
-	<div v-if="disabled" class="iwaalbte">
+	<div v-if="disabled || ((column.tl === 'local' || column.tl === 'social') && !enableLTL) || (column.tl === 'media' && (!enableMTL || !enableLTL)) || (column.tl === 'global' && !enableGTL) || (column.tl === 'personal' && !enablePTL) || (column.tl === 'limited' && !enableLimitedTL)" class="iwaalbte">
 		<p>
 			<i class="fas fa-minus-circle"></i>
 			{{ $t('disabled-timeline.title') }}
@@ -31,6 +31,7 @@ import * as os from '@/os';
 import { $i } from '@/account';
 import { instance } from '@/instance';
 import { i18n } from '@/i18n';
+import { defaultStore } from '@/store';
 
 const props = defineProps<{
 	column: Column;
@@ -45,6 +46,11 @@ const emit = defineEmits<{
 let disabled = $ref(false);
 let indicated = $ref(false);
 let columnActive = $ref(true);
+let enableMTL = $ref(false);
+let enableLTL = $ref(false);
+let enableGTL = $ref(false);
+let enablePTL = $ref(false);
+let enableLimitedTL = $ref(false);
 
 onMounted(() => {
 	if (props.column.tl == null) {
@@ -54,6 +60,11 @@ onMounted(() => {
 			instance.disableLocalTimeline && ['local', 'social', 'media'].includes(props.column.tl) ||
 			instance.disableGlobalTimeline && ['global'].includes(props.column.tl));
 	}
+	enableLTL = defaultStore.state.enableLTL;
+	enableLimitedTL = defaultStore.state.enableLimitedTL;
+	enableMTL = defaultStore.state.enableMTL;
+	enableGTL = defaultStore.state.enableGTL;
+	enablePTL = defaultStore.state.enablePTL;
 });
 
 async function setType() {
