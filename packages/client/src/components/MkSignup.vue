@@ -29,6 +29,7 @@
 			<span v-else-if="emailState === 'unavailable:disposable'" style="color: var(--error)"><i class="fas fa-exclamation-triangle fa-fw"></i> {{ i18n.ts._emailUnavailable.disposable }}</span>
 			<span v-else-if="emailState === 'unavailable:mx'" style="color: var(--error)"><i class="fas fa-exclamation-triangle fa-fw"></i> {{ i18n.ts._emailUnavailable.mx }}</span>
 			<span v-else-if="emailState === 'unavailable:smtp'" style="color: var(--error)"><i class="fas fa-exclamation-triangle fa-fw"></i> {{ i18n.ts._emailUnavailable.smtp }}</span>
+			<span v-else-if="emailState === 'unavailable:blocked'" style="color: var(--error)"><i class="fas fa-exclamation-triangle fa-fw"></i> {{ i18n.ts._emailUnavailable.blocked }}</span>
 			<span v-else-if="emailState === 'unavailable'" style="color: var(--error)"><i class="fas fa-exclamation-triangle fa-fw"></i> {{ i18n.ts.unavailable }}</span>
 			<span v-else-if="emailState === 'error'" style="color: var(--error)"><i class="fas fa-exclamation-triangle fa-fw"></i> {{ i18n.ts.error }}</span>
 		</template>
@@ -99,7 +100,7 @@ let retypedPassword: string = $ref('');
 let invitationCode: string = $ref('');
 let email = $ref('');
 let usernameState: null | 'wait' | 'ok' | 'unavailable' | 'error' | 'invalid-format' | 'min-range' | 'max-range' = $ref(null);
-let emailState: null | 'wait' | 'ok' | 'unavailable:used' | 'unavailable:format' | 'unavailable:disposable' | 'unavailable:mx' | 'unavailable:smtp' | 'unavailable' | 'error' = $ref(null);
+let emailState: null | 'wait' | 'ok' | 'unavailable:used' | 'unavailable:format' | 'unavailable:disposable' | 'unavailable:mx' | 'unavailable:smtp' | 'unavailable:blocked' | 'unavailable' | 'error' = $ref(null);
 let passwordStrength: '' | 'low' | 'medium' | 'high' = $ref('');
 let passwordRetypeState: null | 'match' | 'not-match' = $ref(null);
 let submitting: boolean = $ref(false);
@@ -162,6 +163,7 @@ function onChangeEmail(): void {
 			result.reason === 'disposable' ? 'unavailable:disposable' :
 			result.reason === 'mx' ? 'unavailable:mx' :
 			result.reason === 'smtp' ? 'unavailable:smtp' :
+			result.reason === 'blocked' ? 'unavailable:blocked' :
 			'unavailable';
 	}).catch(() => {
 		emailState = 'error';

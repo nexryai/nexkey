@@ -27,6 +27,9 @@ export const paramDef = {
 		blockedHosts: { type: 'array', nullable: true, items: {
 			type: 'string',
 		} },
+		blockedEmailDomains: { type: 'array', nullable: true, items: {
+			type: 'string',
+		} },
 		themeColor: { type: 'string', nullable: true, pattern: '^#[0-9a-fA-F]{6}$' },
 		mascotImageUrl: { type: 'string', nullable: true },
 		bannerUrl: { type: 'string', nullable: true },
@@ -136,6 +139,10 @@ export default define(meta, paramDef, async (ps, me) => {
 
 	if (Array.isArray(ps.blockedHosts)) {
 		set.blockedHosts = ps.blockedHosts.filter(Boolean).map(x => x.toLowerCase());
+	}
+
+	if (Array.isArray(ps.blockedEmailDomains)) {
+		set.blockedEmailDomains = ps.blockedEmailDomains.filter(Boolean).map(x => x.toLowerCase());
 	}
 
 	if (ps.themeColor !== undefined) {
