@@ -55,11 +55,6 @@
 		</FormSwitch>
 		<FormSwitch v-model="disableDrawer" class="_formBlock">{{ i18n.ts.disableDrawer }}</FormSwitch>
 		<FormSwitch v-if="$i.isBot" v-model="enableBotLoggedinWarning" class="_formBlock">{{ i18n.ts.enableBotLoggedinWarning }}</FormSwitch>
-		<FormSwitch v-model="enableLimitedTL" class="_formBlock">{{ i18n.ts.enableLimitedTimeline }}</FormSwitch>
-		<FormSwitch v-model="enableLTL" class="_formBlock">{{ i18n.ts.enableLocalTimeline }}</FormSwitch>
-		<FormSwitch v-model="enableMTL" class="_formBlock">{{ i18n.ts.enableMediaTimeline }}</FormSwitch>
-		<FormSwitch v-model="enableGTL" class="_formBlock">{{ i18n.ts.enableGlobalTimeline }}</FormSwitch>
-		<FormSwitch v-model="enablePTL" class="_formBlock">{{ i18n.ts.enablePersonalTimeline }}</FormSwitch>
 
 		<FormRadios v-model="fontSize" class="_formBlock">
 			<template #label>{{ i18n.ts.fontSize }}</template>
@@ -96,6 +91,8 @@
 	<FormLink to="/settings/deck" class="_formBlock">{{ i18n.ts.deck }}</FormLink>
 
 	<FormLink to="/settings/custom-css" class="_formBlock"><template #icon><i class="fas fa-code"></i></template>{{ i18n.ts.customCss }}</FormLink>
+
+	<FormLink to="/settings/timeline" class="_formBlock"><template #icon><i class="fas fa-list"></i></template>{{ i18n.ts.timeline }}</FormLink>
 </div>
 </template>
 
@@ -152,11 +149,6 @@ const squareAvatars = computed(defaultStore.makeGetterSetter('squareAvatars'));
 const aiChanMode = computed(defaultStore.makeGetterSetter('aiChanMode'));
 const enableMfm = computed(defaultStore.makeGetterSetter('enableMfm'));
 const enableBotLoggedinWarning = computed(defaultStore.makeGetterSetter('enableBotLoggedinWarning'));
-const enableMTL = computed(defaultStore.makeGetterSetter('enableMTL'));
-const enableLTL = computed(defaultStore.makeGetterSetter('enableLTL'));
-const enableGTL = computed(defaultStore.makeGetterSetter('enableGTL'));
-const enableLimitedTL = computed(defaultStore.makeGetterSetter('enableLimitedTL'));
-const enablePTL = computed(defaultStore.makeGetterSetter('enablePTL'));
 
 watch(lang, () => {
 	localStorage.setItem('lang', lang.value as string);

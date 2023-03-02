@@ -162,6 +162,10 @@ export const routes = [{
 		name: 'general',
 		component: page(() => import('./pages/settings/custom-css.vue')),
 	}, {
+		path: '/timeline',
+		name: 'timeline',
+		component: page(() => import('./pages/settings/timeline.vue')),
+	}, {
 		path: '/accounts',
 		name: 'profile',
 		component: page(() => import('./pages/settings/accounts.vue')),

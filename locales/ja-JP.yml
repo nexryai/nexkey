@@ -908,6 +908,8 @@ invitationRequiredToRegister: "現在このサーバーは招待制です。招�
 loggedInAsBot: "Botアカウントとしてログインしています"
 enableBotLoggedinWarning: "Botアカウントとしてログインしていることを警告する"
 enableMfm: "MFMを有効にする"
+disabledTimelineTitle: "無効化されたタイムライン"
+disabledTimelineDescription: "このタイムラインは無効化されています。"
 
 _sensitiveMediaDetection:
   description: "機械学習を使って自動でセンシティブなメディアを検出し、モデレーションに役立てることができます。サーバーの負荷が少し増えます。"

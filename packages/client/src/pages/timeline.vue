@@ -7,14 +7,23 @@
 			<XPostForm v-if="$store.reactiveState.showFixedPostForm.value" class="post-form _block" fixed/>
 
 			<div v-if="queue > 0" class="new"><button class="_buttonPrimary" @click="top()">{{ i18n.ts.newNoteRecived }}</button></div>
-			<div class="tl _block">
-				<XTimeline
-					ref="tl" :key="src"
-					class="tl"
-					:src="src"
-					:sound="true"
-					@queue="queueUpdated"
-				/>
+			<div>
+				<div v-if="((src === 'local' || src === 'social') && !isLocalTimelineAvailable) || (src === 'media' && !isMediaTimelineAvailable) || (src === 'personal' && !isPersonalTimelineAvailable) || (src === 'limited' && !isLimitedTimelineAvailable) || (src === 'global' && !isGlobalTimelineAvailable)" class="iwaalbte">
+					<p>
+						<i class="fas fa-minus-circle"></i>
+						{{ i18n.ts.disabledTimelineTitle }}
+					</p>
+					<p class="desc">{{ i18n.ts.disabledTimelineDescription }}</p>
+				</div>
+				<div v-else class="tl _block">
+					<XTimeline
+						ref="tl" :key="src"
+						class="tl"
+						:src="src"
+						:sound="true"
+						@queue="queueUpdated"
+					/>
+				</div>
 			</div>
 		</div>
 	</MkSpacer>
@@ -35,7 +44,7 @@ import { definePageMetadata } from '@/scripts/page-metadata';
 
 const XTutorial = defineAsyncComponent(() => import('./timeline.tutorial.vue'));
 
-const isMediaTimelineAvailable = $i != null && defaultStore.state.enableMTL && defaultStore.state.enableLTL;
+const isMediaTimelineAvailable = (!instance.disableLocalTimeline || ($i != null && ($i.isModerator || $i.isAdmin))) && defaultStore.state.enableMTL && defaultStore.state.enableLTL;
 const isLocalTimelineAvailable = (!instance.disableLocalTimeline || ($i != null && ($i.isModerator || $i.isAdmin))) && defaultStore.state.enableLTL;
 const isGlobalTimelineAvailable = (!instance.disableGlobalTimeline || ($i != null && ($i.isModerator || $i.isAdmin))) && defaultStore.state.enableGTL;
 const isPersonalTimelineAvailable = $i != null && defaultStore.state.enablePTL;
@@ -196,6 +205,15 @@ definePageMetadata(computed(() => ({
 		background: var(--bg);
 		border-radius: var(--radius);
 		overflow: clip;
+	}
+}
+.iwaalbte {
+	text-align: center;
+	> p {
+		margin: 16px;
+		&.desc {
+			font-size: 14px;
+		}
 	}
 }
 </style>

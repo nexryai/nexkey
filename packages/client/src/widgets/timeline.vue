@@ -17,7 +17,16 @@
 	</template>
 
 	<div>
-		<XTimeline :key="widgetProps.src === 'list' ? `list:${widgetProps.list.id}` : widgetProps.src === 'antenna' ? `antenna:${widgetProps.antenna.id}` : widgetProps.src" :src="widgetProps.src" :list="widgetProps.list ? widgetProps.list.id : null" :antenna="widgetProps.antenna ? widgetProps.antenna.id : null"/>
+		<div v-if="((widgetProps.src === 'local' || widgetProps.src === 'social') && !isLocalTimelineAvailable) || (widgetProps.src === 'media' && !isMediaTimelineAvailable) || (widgetProps.src === 'personal' && !isPersonalTimelineAvailable) || (widgetProps.src === 'limited' && !isLimitedTimelineAvailable) || (widgetProps.src === 'global' && !isGlobalTimelineAvailable)" class="iwaalbte">
+			<p>
+				<i class="fas fa-minus-circle"></i>
+				{{ i18n.ts.disabledTimelineTitle }}
+			</p>
+			<p class="desc">{{ i18n.ts.disabledTimelineDescription }}</p>
+		</div>
+		<div v-else>
+			<XTimeline :key="widgetProps.src === 'list' ? `list:${widgetProps.list.id}` : widgetProps.src === 'antenna' ? `antenna:${widgetProps.antenna.id}` : widgetProps.src" :src="widgetProps.src" :list="widgetProps.list ? widgetProps.list.id : null" :antenna="widgetProps.antenna ? widgetProps.antenna.id : null"/>
+		</div>
 	</div>
 </MkContainer>
 </template>
@@ -31,8 +40,15 @@ import MkContainer from '@/components/MkContainer.vue';
 import XTimeline from '@/components/MkTimeline.vue';
 import { $i } from '@/account';
 import { i18n } from '@/i18n';
+import { instance } from '@/instance';
+import { defaultStore } from '@/store';
 
 const name = 'timeline';
+const isMediaTimelineAvailable = (!instance.disableLocalTimeline || ($i != null && ($i.isModerator || $i.isAdmin))) && defaultStore.state.enableMTL && defaultStore.state.enableLTL;
+const isLocalTimelineAvailable = (!instance.disableLocalTimeline || ($i != null && ($i.isModerator || $i.isAdmin))) && defaultStore.state.enableLTL;
+const isGlobalTimelineAvailable = (!instance.disableGlobalTimeline || ($i != null && ($i.isModerator || $i.isAdmin))) && defaultStore.state.enableGTL;
+const isPersonalTimelineAvailable = $i != null && defaultStore.state.enablePTL;
+const isLimitedTimelineAvailable = $i != null && defaultStore.state.enableLimitedTL;
 
 const widgetPropsDef = {
 	showHeader: {
@@ -142,3 +158,15 @@ defineExpose<WidgetComponentExpose>({
 	id: props.widget ? props.widget.id : null,
 });
 </script>
+
+<style lang="scss" scoped>
+.iwaalbte {
+	text-align: center;
+	> p {
+		margin: 16px;
+		&.desc {
+			font-size: 14px;
+		}
+	}
+}
+</style>
