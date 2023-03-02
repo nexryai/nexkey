@@ -905,6 +905,8 @@ shuffle: "シャッフル"
 account: "アカウント"
 move: "移動"
 invitationRequiredToRegister: "現在このサーバーは招待制です。招待コードをお持ちの方のみ登録できます。"
+loggedInAsBot: "Botアカウントとしてログインしています"
+enableBotLoggedinWarning: "Botアカウントとしてログインしていることを警告する"
 
 _sensitiveMediaDetection:
   description: "機械学習を使って自動でセンシティブなメディアを検出し、モデレーションに役立てることができます。サーバーの負荷が少し増えます。"

@@ -53,6 +53,7 @@
 			<div><Mfm :key="useOsNativeEmojis" text="🍮🍦🍭🍩🍰🍫🍬🥞🍪"/></div>
 		</FormSwitch>
 		<FormSwitch v-model="disableDrawer" class="_formBlock">{{ i18n.ts.disableDrawer }}</FormSwitch>
+		<FormSwitch v-if="$i.isBot" v-model="enableBotLoggedinWarning" class="_formBlock">{{ i18n.ts.enableBotLoggedinWarning }}</FormSwitch>
 		<FormSwitch v-model="enableLimitedTL" class="_formBlock">{{ i18n.ts.enableLimitedTimeline }}</FormSwitch>
 		<FormSwitch v-model="enableLTL" class="_formBlock">{{ i18n.ts.enableLocalTimeline }}</FormSwitch>
 		<FormSwitch v-model="enableMTL" class="_formBlock">{{ i18n.ts.enableMediaTimeline }}</FormSwitch>
@@ -148,6 +149,7 @@ const enableInfiniteScroll = computed(defaultStore.makeGetterSetter('enableInfin
 const useReactionPickerForContextMenu = computed(defaultStore.makeGetterSetter('useReactionPickerForContextMenu'));
 const squareAvatars = computed(defaultStore.makeGetterSetter('squareAvatars'));
 const aiChanMode = computed(defaultStore.makeGetterSetter('aiChanMode'));
+const enableBotLoggedinWarning = computed(defaultStore.makeGetterSetter('enableBotLoggedinWarning'));
 const enableMTL = computed(defaultStore.makeGetterSetter('enableMTL'));
 const enableLTL = computed(defaultStore.makeGetterSetter('enableLTL'));
 const enableGTL = computed(defaultStore.makeGetterSetter('enableGTL'));
