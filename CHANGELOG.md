@@ -10,6 +10,15 @@
 You should also include the user name that made the change.
 -->
 
+## 12.119.2-fix.5.1 (2023/03/02)
+### Improvements
+- Botとしてログインしていることをデフォルトで警告（設定で無効化可能） @atsu1125
+- Botアカウントを特定する機能 @atsu1125
+- Adminとしてログインしていることを警告できる機能（デフォルトで無効） @atsu1125
+- アニメーションのない標準的なMFMを完全に無効化できるように @atsu1125
+
+### Bugfixes
+- ローカルタイムライン・グローバルタイムラインを正常に閉鎖できていないのを修正 @atsu1125
 
 ## 12.119.2-fix.5 (2023/02/28)
 ### Improvements
