@@ -40,6 +40,7 @@
 	<FormSection>
 		<template #label>{{ i18n.ts.appearance }}</template>
 		<FormSwitch v-model="disableAnimatedMfm" class="_formBlock">{{ i18n.ts.disableAnimatedMfm }}</FormSwitch>
+		<FormSwitch v-model="enableMfm" class="_formBlock">{{ i18n.ts.enableMfm }}</FormSwitch>
 		<FormSwitch v-model="reduceAnimation" class="_formBlock">{{ i18n.ts.reduceUiAnimation }}</FormSwitch>
 		<FormSwitch v-model="useBlurEffect" class="_formBlock">{{ i18n.ts.useBlurEffect }}</FormSwitch>
 		<FormSwitch v-model="useBlurEffectForModal" class="_formBlock">{{ i18n.ts.useBlurEffectForModal }}</FormSwitch>
@@ -149,6 +150,7 @@ const enableInfiniteScroll = computed(defaultStore.makeGetterSetter('enableInfin
 const useReactionPickerForContextMenu = computed(defaultStore.makeGetterSetter('useReactionPickerForContextMenu'));
 const squareAvatars = computed(defaultStore.makeGetterSetter('squareAvatars'));
 const aiChanMode = computed(defaultStore.makeGetterSetter('aiChanMode'));
+const enableMfm = computed(defaultStore.makeGetterSetter('enableMfm'));
 const enableBotLoggedinWarning = computed(defaultStore.makeGetterSetter('enableBotLoggedinWarning'));
 const enableMTL = computed(defaultStore.makeGetterSetter('enableMTL'));
 const enableLTL = computed(defaultStore.makeGetterSetter('enableLTL'));
