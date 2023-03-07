@@ -10,6 +10,11 @@
 You should also include the user name that made the change.
 -->
 
+## 12.119.2-fix.5.2 (2023/03/08)
+
+## Bugfixes
+- 未ログイン状態でノートが見れないのを修正 @atsu1125
+
 ## 12.119.2-fix.5.1 (2023/03/02)
 ### Improvements
 - Botとしてログインしていることをデフォルトで警告（設定で無効化可能） @atsu1125
