@@ -393,7 +393,7 @@ function menu(ev: MouseEvent, profileId: string) {
 		icon: 'fas fa-floppy-disk',
 		action: () => save(profileId),
 	}, null, {
-		text: ts._preferencesBackups.delete,
+		text: ts.delete,
 		icon: 'fas fa-trash-can',
 		action: () => deleteProfile(profileId),
 		danger: true,
