@@ -158,6 +158,13 @@ export default async function(_follower: { id: User['id'] }, _followee: { id: Us
 		if (blocked) throw new IdentifiableError('3338392a-f764-498d-8855-db939dcf8c48', 'blocked');
 	}
 
+	if (Users.isRemoteUser(follower) && ((follower.isSuspended) || (follower.isDeleted))) {
+		//　リモートフォローを受けてすでに凍結済みか削除済みなら、Rejectを送り返しておしまい。
+		const content = renderActivity(renderReject(renderFollow(follower, followee, requestId), followee));
+		deliver(followee , content, follower.inbox);
+		return;
+	}
+
 	const followeeProfile = await UserProfiles.findOneByOrFail({ userId: followee.id });
 
 	// フォロー対象が鍵アカウントである or
