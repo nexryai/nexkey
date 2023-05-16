@@ -21,8 +21,7 @@ export const paramDef = {
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps) => {
-	const query = makePaginationQuery(Ads.createQueryBuilder('ad'), ps.sinceId, ps.untilId)
-		.andWhere('ad.expiresAt > :now', { now: new Date() });
+	const query = makePaginationQuery(Ads.createQueryBuilder('ad'), ps.sinceId, ps.untilId);
 
 	const ads = await query.take(ps.limit).getMany();
 
