@@ -92,17 +92,46 @@ function remove(ad) {
 
 function save(ad) {
 	if (ad.id == null) {
-		os.apiWithDialog('admin/ad/create', {
+		os.api('admin/ad/create', {
 			...ad,
 			expiresAt: new Date(ad.expiresAt).getTime(),
+		}).then(() => {
+				os.alert({
+					type: 'success',
+					text: i18n.ts.saved,
+				});
+				refresh();
+			}).catch(err => {
+				os.alert({
+					type: 'error',
+					text: err,
+				});
 		});
 	} else {
-		os.apiWithDialog('admin/ad/update', {
+		os.api('admin/ad/update', {
 			...ad,
 			expiresAt: new Date(ad.expiresAt).getTime(),
+		}).then(() => {
+				os.alert({
+					type: 'success',
+					text: i18n.ts.saved,
+				});
+			}).catch(err => {
+				os.alert({
+					type: 'error',
+					text: err,
+			});
 		});
 	}
 }
+
+function refresh() {
+	os.api('admin/ad/list').then(adsResponse => {
+		ads = adsResponse;
+	});
+}
+
+refresh();
 
 const headerActions = $computed(() => [{
 	asFullButton: true,
