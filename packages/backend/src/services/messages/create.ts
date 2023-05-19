@@ -1,7 +1,7 @@
 import { CacheableUser, User } from '@/models/entities/user.js';
 import { UserGroup } from '@/models/entities/user-group.js';
 import { DriveFile } from '@/models/entities/drive-file.js';
-import { MessagingMessages, UserGroupJoinings, Mutings, Users } from '@/models/index.js';
+import { MessagingMessages, UserGroupJoinings, Mutings, Users, Blockings } from '@/models/index.js';
 import { genId } from '@/misc/gen-id.js';
 import { MessagingMessage } from '@/models/entities/messaging-message.js';
 import { publishMessagingStream, publishMessagingIndexStream, publishMainStream, publishGroupMessagingStream } from '@/services/stream.js';
@@ -65,11 +65,15 @@ export async function createMessage(user: { id: User['id']; host: User['host']; 
 		if (recipientUser && Users.isLocalUser(recipientUser)) {
 			if (freshMessage.isRead) return; // 既読
 
-			//#region ただしミュートされているなら発行しない
+			//#region ただしミュートかブロックされているなら発行しない
 			const mute = await Mutings.findBy({
 				muterId: recipientUser.id,
 			});
+			const block = await Blockings.findBy({
+				blockerId: recipientUser.id,
+			});
 			if (mute.map(m => m.muteeId).includes(user.id)) return;
+			if (block.map(m => m.blockeeId).includes(user.id)) return;
 			//#endregion
 
 			publishMainStream(recipientUser.id, 'unreadMessagingMessage', messageObj);
