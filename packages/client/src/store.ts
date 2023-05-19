@@ -185,7 +185,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	darkMode: {
 		where: 'device',
-		default: true,
+		default: false,
 	},
 	instanceTicker: {
 		where: 'device',
