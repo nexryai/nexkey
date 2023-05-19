@@ -46,14 +46,20 @@ async function addRelay() {
 }
 
 function remove(inbox: string) {
-	os.api('admin/relays/remove', {
-		inbox,
-	}).then(() => {
-		refresh();
-	}).catch((err: any) => {
-		os.alert({
-			type: 'error',
-			text: err.message || err,
+	os.confirm({
+		type: 'warning',
+		text: i18n.t('removeAreYouSure', { x: inbox }),
+	}).then(({ canceled }) => {
+		if (canceled) return;
+		os.api('admin/relays/remove', {
+			inbox,
+		}).then(() => {
+			refresh();
+		}).catch((err: any) => {
+			os.alert({
+				type: 'error',
+				text: err.message || err,
+			});
 		});
 	});
 }
