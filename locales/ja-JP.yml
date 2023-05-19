@@ -913,8 +913,6 @@ disabledTimelineDescription: "このタイムラインは無効化されてい�
 loggedInAsAdmin: "管理者としてログインしています"
 enableAdminLoggedinWarning: "管理者アカウントとしてログインしていることを警告する"
 bot: "ボット"
-unrenoteAll: "すべての自分のRenoteを取り消す"
-unrenoteAllConfirm: "このノートに対するあなたのRenoteをすべて取り消します。よろしいですか？"
 
 _sensitiveMediaDetection:
   description: "機械学習を使って自動でセンシティブなメディアを検出し、モデレーションに役立てることができます。サーバーの負荷が少し増えます。"
