@@ -10,6 +10,10 @@
 You should also include the user name that made the change.
 -->
 
+## 12.119.2-fix.5.4 (2023/05/19)
+### Improvements
+- お知らせと広告の登録日時と期限を管理画面で表示できるように @atsu1125
+
 ## 12.119.2-fix.5.3 (2023/05/19)
 ### Improvements
 - 期限切れの広告も管理画面には表示 @atsu1125
