@@ -41,6 +41,7 @@ export const paramDef = {
 export default define(meta, paramDef, async (ps, me) => {
 	const query = Users.createQueryBuilder('user');
 	query.where('user.isExplorable = TRUE');
+	query.andWhere('user.isSilenced = FALSE');
 
 	switch (ps.state) {
 		case 'admin': query.andWhere('user.isAdmin = TRUE'); break;
