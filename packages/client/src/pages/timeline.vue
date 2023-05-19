@@ -108,15 +108,6 @@ function saveSrc(newSrc: 'home' | 'local' | 'social' | 'global' | 'limited' | 'm
 	});
 }
 
-async function timetravel(): Promise<void> {
-	const { canceled, result: date } = await os.inputDate({
-		title: i18n.ts.date,
-	});
-	if (canceled) return;
-
-	tlComponent.timetravel(date);
-}
-
 function focus(): void {
 	tlComponent.focus();
 }

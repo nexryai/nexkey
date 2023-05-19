@@ -48,15 +48,6 @@ function top() {
 	scroll(rootEl, { top: 0 });
 }
 
-async function timetravel() {
-	const { canceled, result: date } = await os.inputDate({
-		title: i18n.ts.date,
-	});
-	if (canceled) return;
-
-	tlEl.timetravel(date);
-}
-
 function settings() {
 	router.push(`/my/antennas/${props.antennaId}`);
 }
@@ -72,10 +63,6 @@ watch(() => props.antennaId, async () => {
 }, { immediate: true });
 
 const headerActions = $computed(() => antenna ? [{
-	icon: 'fas fa-calendar-alt',
-	text: i18n.ts.jumpToSpecifiedDate,
-	handler: timetravel,
-}, {
 	icon: 'fas fa-cog',
 	text: i18n.ts.settings,
 	handler: settings,
