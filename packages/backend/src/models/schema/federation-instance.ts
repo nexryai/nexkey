@@ -106,5 +106,14 @@ export const packedFederationInstanceSchema = {
 			optional: false, nullable: true,
 			format: 'date-time',
 		},
+		latestStatus: {
+			type: 'string',
+			optional: false, nullable: true,
+		},
+		latestRequestReceivedAt: {
+			type: 'string',
+			optional: false, nullable: false,
+			format: 'date-time',
+		},
 	},
 } as const;
