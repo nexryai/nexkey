@@ -452,7 +452,7 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 				}
 
 				if (['public'].includes(note.visibility)) {
-					deliverToRelays(user, noteActivity);
+					deliverToRelays(user, noteActivity, false);
 				}
 
 				dm.execute();

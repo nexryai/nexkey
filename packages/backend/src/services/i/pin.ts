@@ -88,5 +88,5 @@ export async function deliverPinnedChange(userId: User['id'], noteId: Note['id']
 	const content = renderActivity(isAddition ? renderAdd(user, target, item) : renderRemove(user, target, item));
 
 	deliverToFollowers(user, content);
-	deliverToRelays(user, content);
+	deliverToRelays(user, content, true);
 }

@@ -14,6 +14,6 @@ export async function publishToFollowers(userId: User['id']) {
 	if (Users.isLocalUser(user)) {
 		const content = renderActivity(renderUpdate(await renderPerson(user), user));
 		deliverToFollowers(user, content);
-		deliverToRelays(user, content);
+		deliverToRelays(user, content, true);
 	}
 }

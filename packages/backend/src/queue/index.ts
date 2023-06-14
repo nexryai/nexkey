@@ -105,6 +105,32 @@ export function deliver(user: ThinUser, content: unknown, to: string | null) {
 	});
 }
 
+export function createDeliverRelaysJob(user: ThinUser, content: unknown, to: string | null, retryable: boolean | null) {
+	if (content == null) return null;
+	if (to == null) return null;
+	if (retryable == null) {
+		retryable = true;
+	}
+
+	const data = {
+		user: {
+			id: user.id,
+		},
+		content,
+		to,
+	};
+
+	return deliverQueue.add(data, {
+		attempts: retryable ? config.deliverJobMaxAttempts || 12 : 1,
+		timeout: 1 * 60 * 1000,	// 1min
+		backoff: {
+			type: 'apBackoff',
+		},
+		removeOnComplete: true,
+		removeOnFail: true,
+	});
+}
+
 export function inbox(activity: IActivity, signature: httpSignature.IParsedSignature) {
 	const data = {
 		activity: activity,
