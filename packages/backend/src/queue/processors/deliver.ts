@@ -75,6 +75,14 @@ export default async (job: Bull.Job<DeliverJobData>) => {
 				isNotResponding: true,
 			});
 
+			// 一定期間配送エラーなら配送を停止する
+			const faildays = 1000 * 60 * 60 * 24 * 7; // 7日前まで許容
+			if (i.lastCommunicatedAt.getTime() && (i.lastCommunicatedAt.getTime() < (Date.now() - faildays))) {
+				Instances.update(i.id, {
+					isSuspended: true,
+				});
+			}
+
 			instanceChart.requestSent(i.host, false);
 			apRequestChart.deliverFail();
 			federationChart.deliverd(i.host, false);

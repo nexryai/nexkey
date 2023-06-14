@@ -142,7 +142,10 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 			latestRequestReceivedAt: new Date(),
 			lastCommunicatedAt: new Date(),
 			isNotResponding: false,
+			isSuspended: false,
 		});
+
+		// 配送を停止していてもアクティビティ受信したら配送再開する
 
 		fetchInstanceMetadata(i);
 
