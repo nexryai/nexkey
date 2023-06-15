@@ -14,7 +14,6 @@
 					<MkInput v-model="announcement.imageUrl">
 						<template #label>{{ i18n.ts.imageUrl }}</template>
 					</MkInput>
-					<p v-if="announcement.createdAt"><i class="far fa-clock"></i> {{ i18n.ts.createdAt }} <MkTime :time="announcement.createdAt" mode="detail"/></p>
 					<p v-if="announcement.reads">{{ i18n.t('nUsersRead', { n: announcement.reads }) }}</p>
 					<div class="buttons">
 						<MkButton class="button" inline primary @click="save(announcement)"><i class="fas fa-save"></i> {{ i18n.ts.save }}</MkButton>
