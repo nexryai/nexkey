@@ -99,7 +99,8 @@
 				{{ i18n.ts.reflectMayTakeTime }}
 				<div class="_formBlock">
 					<FormButton v-if="user.host == null && iAmModerator" inline style="margin-right: 8px;" @click="resetPassword"><i class="fas fa-key"></i> {{ i18n.ts.resetPassword }}</FormButton>
-					<FormButton v-if="$i.isAdmin" inline danger @click="deleteAccount">{{ i18n.ts.deleteAccount }}</FormButton>
+					<FormButton v-if="$i.isAdmin" inline danger style="margin-right: 8px;" @click="deleteAccount"><i class="fas fa-trash-alt"></i> {{ i18n.ts.deleteAccount }}</FormButton>
+					<FormButton v-if="user.host == null && iAmModerator" inline style="margin-right: 8px;" @click="sendModNotification"><i class="fas fa-bell"></i> {{ $ts.sendModNotification }}</FormButton>
 				</div>
 				<FormTextarea v-model="moderationNote" manual-save class="_formBlock">
 					<template #label>Moderation note</template>
@@ -360,6 +361,18 @@ async function deleteAccount() {
 			text: 'input not match',
 		});
 	}
+}
+
+async function sendModNotification() {
+	const { canceled, result: comment } = await os.inputText({
+		title: "Moderation Notification 運営からの通知",
+	});
+	if (canceled) return;
+	await os.api('admin/send-notification', {
+		comment: comment,
+		userId: user.id,
+	});
+	os.success();
 }
 
 watch(() => props.userId, () => {
