@@ -15,7 +15,8 @@ export async function deliverQuestionUpdate(noteId: Note['id']) {
 
 	if (Users.isLocalUser(user)) {
 		const content = renderActivity(renderUpdate(await renderNote(note, false), user));
+		const retryable = true;
 		deliverToFollowers(user, content);
-		deliverToRelays(user, content, true);
+		deliverToRelays(user, content, retryable);
 	}
 }

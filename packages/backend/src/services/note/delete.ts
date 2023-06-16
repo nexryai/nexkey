@@ -132,8 +132,9 @@ async function getMentionedRemoteUsers(note: Note) {
 }
 
 async function deliverToConcerned(user: { id: ILocalUser['id']; host: null; }, note: Note, content: any) {
+	const retryable = true;
 	deliverToFollowers(user, content);
-	deliverToRelays(user, content, true);
+	deliverToRelays(user, content, retryable);
 	const remoteUsers = await getMentionedRemoteUsers(note);
 	for (const remoteUser of remoteUsers) {
 		deliverToUser(user, content, remoteUser);

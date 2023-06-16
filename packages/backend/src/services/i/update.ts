@@ -13,7 +13,8 @@ export async function publishToFollowers(userId: User['id']) {
 	// フォロワーがリモートユーザーかつ投稿者がローカルユーザーならUpdateを配信
 	if (Users.isLocalUser(user)) {
 		const content = renderActivity(renderUpdate(await renderPerson(user), user));
+		const retryable = true;
 		deliverToFollowers(user, content);
-		deliverToRelays(user, content, true);
+		deliverToRelays(user, content, retryable);
 	}
 }

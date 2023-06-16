@@ -428,6 +428,7 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 			(async () => {
 				const noteActivity = await renderNoteOrRenoteActivity(data, note);
 				const dm = new DeliverManager(user, noteActivity);
+				const retryable = false;
 
 				// メンションされたリモートユーザーに配送
 				for (const u of mentionedUsers.filter(u => Users.isRemoteUser(u))) {
@@ -452,7 +453,7 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 				}
 
 				if (['public'].includes(note.visibility)) {
-					deliverToRelays(user, noteActivity, false);
+					deliverToRelays(user, noteActivity, retryable);
 				}
 
 				dm.execute();
