@@ -4,6 +4,7 @@ import define from '../../define.js';
 import { ApiError } from '../../error.js';
 import { getUser } from '../../common/getters.js';
 import { Blockings, NoteWatchings, Users } from '@/models/index.js';
+import deleteFollowing from '@/services/following/delete.js';
 
 export const meta = {
 	tags: ['account'],
@@ -76,6 +77,11 @@ export default define(meta, paramDef, async (ps, user) => {
 	if (exist != null) {
 		throw new ApiError(meta.errors.alreadyBlocking);
 	}
+
+	// serviceで処理してるはずなのにできないから前処理
+	const follower = blockee;
+	const followee = blocker;
+	await deleteFollowing(follower, followee);
 
 	await create(blocker, blockee);
 

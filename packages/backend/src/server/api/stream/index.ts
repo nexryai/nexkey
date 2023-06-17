@@ -82,7 +82,13 @@ export default class Connection {
 				this.muting.delete(data.body.id);
 				break;
 
-				// TODO: block events
+			case 'block':
+				this.blocking.add(data.body.id);
+				break;
+
+			case 'unblock':
+				this.blocking.delete(data.body.id);
+				break;
 
 			case 'followChannel':
 				this.followingChannels.add(data.body.id);

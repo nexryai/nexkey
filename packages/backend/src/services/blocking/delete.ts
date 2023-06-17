@@ -5,6 +5,7 @@ import { deliver } from '@/queue/index.js';
 import Logger from '../logger.js';
 import { CacheableUser, User } from '@/models/entities/user.js';
 import { Blockings, Users } from '@/models/index.js';
+import { publishUserEvent } from '@/services/stream.js';
 
 const logger = new Logger('blocking/delete');
 
@@ -30,5 +31,9 @@ export default async function(blocker: CacheableUser, blockee: CacheableUser) {
 	if (Users.isLocalUser(blocker) && Users.isRemoteUser(blockee)) {
 		const content = renderActivity(renderUndo(renderBlock(blocking), blocker));
 		deliver(blocker, content, blockee.inbox);
+	}
+
+	if (Users.isLocalUser(blockee)) {
+		publishUserEvent(blockee.id, 'unblock', blocker);
 	}
 }
