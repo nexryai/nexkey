@@ -39,7 +39,10 @@ export async function deleteAccount(job: Bull.Job<DbUserDeleteJobData>): Promise
 
 			cursor = notes[notes.length - 1].id;
 
-			await Notes.delete(notes.map(note => note.id));
+			for (const note of notes) {
+				await Notes.delete(note.id);
+				await new Promise(resolve => setTimeout(resolve, 500)); // 0.5秒待機
+			}
 		}
 
 		logger.succ(`All of notes deleted`);
