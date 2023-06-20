@@ -1,6 +1,6 @@
 import Bull from 'bull';
 import { queueLogger } from '../../logger.js';
-import { AccessTokens, DriveFiles, Notes, UserProfiles, Users, UserNotePinings, MessagingMessages } from '@/models/index.js';
+import { AccessTokens, DriveFiles, Notes, UserProfiles, Users, UserNotePinings, MessagingMessages, Followings, Mutings, Blockings, Notifications } from '@/models/index.js';
 import { DbUserDeleteJobData } from '@/queue/types.js';
 import { Note } from '@/models/entities/note.js';
 import { DriveFile } from '@/models/entities/drive-file.js';
@@ -111,6 +111,11 @@ export async function deleteAccount(job: Bull.Job<DbUserDeleteJobData>): Promise
 				isDeleted: true,
 				isSuspended: true,
 				name: null,
+				followersCount: 0,
+				followingCount: 0,
+				notesCount: 0,
+				avatarId: null,
+				bannerId: null,
 			});
 			await UserNotePinings.delete({
 				userId: job.data.user.id,
@@ -120,6 +125,30 @@ export async function deleteAccount(job: Bull.Job<DbUserDeleteJobData>): Promise
 			});
 			await MessagingMessages.delete({
 				userId: job.data.user.id,
+			});
+			await Followings.delete({
+				followerId: job.data.user.id,
+			});
+			await Followings.delete({
+				followeeId: job.data.user.id,
+			});
+			await Mutings.delete({
+				muteeId: job.data.user.id,
+			});
+			await Mutings.delete({
+				muterId: job.data.user.id,
+			});
+			await Blockings.delete({
+				blockeeId: job.data.user.id,
+			});
+			await Blockings.delete({
+				blockerId: job.data.user.id,
+			});
+			await Notifications.delete({
+				notifierId: job.data.user.id,
+			});
+			await Notifications.delete({
+				notifieeId: job.data.user.id,
 			});
 		} else {
 			await Users.delete(job.data.user.id);
