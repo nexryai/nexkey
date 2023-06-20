@@ -1,6 +1,6 @@
 import Bull from 'bull';
 import { queueLogger } from '../../logger.js';
-import { AccessTokens, DriveFiles, Notes, UserProfiles, Users, UserNotePinings, MessagingMessages, Followings, Mutings, Blockings, Notifications, FollowRequests } from '@/models/index.js';
+import { AccessTokens, DriveFiles, Notes, UserProfiles, Users, UserNotePinings, MessagingMessages, Followings, Mutings, Blockings, Notifications, FollowRequests, Antennas } from '@/models/index.js';
 import { DbUserDeleteJobData } from '@/queue/types.js';
 import { Note } from '@/models/entities/note.js';
 import { DriveFile } from '@/models/entities/drive-file.js';
@@ -155,6 +155,9 @@ export async function deleteAccount(job: Bull.Job<DbUserDeleteJobData>): Promise
 			});
 			await FollowRequests.delete({
 				followeeId: job.data.user.id,
+			});
+			await Antennas.delete({
+				userId: job.data.user.id,
 			});
 		} else {
 			await Users.delete(job.data.user.id);
