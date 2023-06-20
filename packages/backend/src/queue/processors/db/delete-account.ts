@@ -1,6 +1,6 @@
 import Bull from 'bull';
 import { queueLogger } from '../../logger.js';
-import { DriveFiles, Notes, UserProfiles, Users } from '@/models/index.js';
+import { AccessTokens, DriveFiles, Notes, UserProfiles, Users, UserNotePinings } from '@/models/index.js';
 import { DbUserDeleteJobData } from '@/queue/types.js';
 import { Note } from '@/models/entities/note.js';
 import { DriveFile } from '@/models/entities/drive-file.js';
@@ -87,7 +87,37 @@ export async function deleteAccount(job: Bull.Job<DbUserDeleteJobData>): Promise
 	if (job.data.soft) {
 		// nop
 	} else {
-		await Users.delete(job.data.user.id);
+		if (Users.isLocalUser(job.data.user)) {
+			await UserProfiles.update(job.data.user.id, {
+				description: null,
+				email: null,
+				emailVerifyCode: null,
+				emailVerified: false,
+				password: null,
+				twoFactorSecret: null,
+				twoFactorTempSecret: null,
+				twoFactorEnabled: false,
+				location: null,
+				birthday: null,
+				description: null,
+				fields: [],
+				clientData: {},
+				integrations: {},
+			});
+			await Users.update(job.data.user.id, {
+				isDeleted: true,
+				isSuspended: true,
+				name: null,
+			});
+			await UserNotePinings.delete({
+				userId: job.data.user.id,
+			});
+			await AccessTokens.delete({
+				userId: job.data.user.id,
+			});
+		} else {
+			await Users.delete(job.data.user.id);
+		}
 	}
 
 	return 'Account deleted';
