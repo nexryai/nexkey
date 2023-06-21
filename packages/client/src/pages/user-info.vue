@@ -42,15 +42,15 @@
 						<template #key>{{ i18n.ts.createdAt }}</template>
 						<template #value><span class="_monospace"><MkTime :time="user.createdAt" :mode="'detail'"/></span></template>
 					</MkKeyValue>
-					<MkKeyValue v-if="info && $i.isAdmin" oneline style="margin: 1em 0;">
+					<MkKeyValue v-if="info && $i.isAdmin && enableSudo" oneline style="margin: 1em 0;">
 						<template #key>{{ i18n.ts.lastActiveDate }}</template>
 						<template #value><span class="_monospace"><MkTime :time="info.lastActiveDate" :mode="'detail'"/></span></template>
 					</MkKeyValue>
-					<MkKeyValue :copy="info.email" v-if="info && $i.isAdmin" oneline style="margin: 1em 0;">
+					<MkKeyValue :copy="info.email" v-if="info && $i.isAdmin && enableSudo" oneline style="margin: 1em 0;">
 						<template #key>{{ i18n.ts.email }}</template>
 						<template #value><span class="_monospace">{{ info.email }}</span></template>
 					</MkKeyValue>
-					<MkKeyValue v-if="info" oneline style="margin: 1em 0;">
+					<MkKeyValue v-if="info && enableSudo" oneline style="margin: 1em 0;">
 						<template #key>Email Status</template>
 						<template v-if="$i.isAdmin && info.email && info.emailVerified" #value><span class="_monospace">Verified</span></template>
 						<template v-if="$i.isAdmin && info.email && !info.emailVerified" #value><span class="_monospace">Not Verified</span></template>
@@ -186,6 +186,7 @@ import { definePageMetadata } from '@/scripts/page-metadata';
 import { i18n } from '@/i18n';
 import { iAmAdmin, iAmModerator } from '@/account';
 import { instance } from '@/instance';
+import { defaultStore } from '@/store';
 
 const props = defineProps<{
 	userId: string;
@@ -210,6 +211,7 @@ const filesPagination = {
 		userId: props.userId,
 	})),
 };
+const enableSudo = defaultStore.state.enableSudo;
 
 function createFetcher() {
 	if (iAmModerator) {
@@ -380,7 +382,7 @@ const headerTabs = $computed(() => [{
 	key: 'overview',
 	title: i18n.ts.overview,
 	icon: 'fas fa-info-circle',
-}, iAmModerator ? {
+}, (iAmModerator && enableSudo) ? {
 	key: 'moderation',
 	title: i18n.ts.moderation,
 	icon: 'fas fa-shield-halved',

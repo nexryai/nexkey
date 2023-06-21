@@ -25,7 +25,7 @@
 							<button v-tooltip="i18n.ts.shareWithNote" v-click-anime class="_button" @click="shareWithNote"><i class="fas fa-retweet fa-fw"></i></button>
 							<button v-tooltip="i18n.ts.share" v-click-anime class="_button" @click="share"><i class="fas fa-share-alt fa-fw"></i></button>
 						</div>
-						<MkButton v-if="$i && ($i.id != page.user.id && ($i.isModerator || $i.isAdmin))" v-tooltip="i18n.ts.deleteAsAdmin" class="button" danger @click="del()"><i class="fas fa-trash-alt"></i></MkButton>
+						<MkButton v-if="$i && ($i.id != page.user.id && ($i.isModerator || $i.isAdmin) && enableSudo)" v-tooltip="i18n.ts.deleteAsAdmin" class="button" danger @click="del()"><i class="fas fa-trash-alt"></i></MkButton>
 					</div>
 					<div class="user">
 						<MkAvatar :user="page.user" class="avatar"/>
@@ -75,7 +75,9 @@ import MkPagination from '@/components/MkPagination.vue';
 import MkPagePreview from '@/components/MkPagePreview.vue';
 import { i18n } from '@/i18n';
 import { definePageMetadata } from '@/scripts/page-metadata';
+import { defaultStore } from '@/store';
 
+const enableSudo = defaultStore.state.enableSudo;
 const props = defineProps<{
 	pageName: string;
 	username: string;

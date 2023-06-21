@@ -33,6 +33,7 @@ import * as os from '@/os';
 import { lookupUser } from '@/scripts/lookup-user';
 import { useRouter } from '@/router';
 import { definePageMetadata, provideMetadataReceiver, setPageMetadata } from '@/scripts/page-metadata';
+import { defaultStore } from '@/store';
 
 const isEmpty = (x: string | null) => x == null || x === '';
 
@@ -74,6 +75,11 @@ const ro = new ResizeObserver((entries, observer) => {
 const menuDef = $computed(() => [{
 	title: i18n.ts.quickAction,
 	items: [{
+		type: 'button',
+		icon: 'fas fa-bolt',
+		text: 'Sudo',
+		action: sudo,
+	},{
 		type: 'button',
 		icon: 'fas fa-search',
 		text: i18n.ts.lookup,
@@ -221,6 +227,20 @@ provideMetadataReceiver((info) => {
 		childInfo = info;
 	}
 });
+
+const sudo = () => {
+	if (!defaultStore.state.enableSudo) {
+		defaultStore.set('enableSudo', true);
+		os.alert({
+			text: 'You are Sudo now',
+		});
+	} else {
+		defaultStore.set('enableSudo', false);
+		os.alert({
+			text: 'You are NOT Sudo now',
+		});
+	}
+};
 
 const invite = () => {
 	os.api('admin/invite').then(x => {

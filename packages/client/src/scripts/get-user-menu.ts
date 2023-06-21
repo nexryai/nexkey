@@ -8,9 +8,12 @@ import { userActions } from '@/store';
 import { $i, iAmModerator } from '@/account';
 import { mainRouter } from '@/router';
 import { Router } from '@/nirax';
+import { defaultStore } from '@/store';
 
 export function getUserMenu(user, router: Router = mainRouter) {
 	const meId = $i ? $i.id : null;
+
+	const enableSudo = defaultStore.state.enableSudo;
 
 	async function pushList() {
 		const t = i18n.ts.selectList; // なぜか後で参照すると null になるので最初にメモリに確保しておく
@@ -212,7 +215,7 @@ export function getUserMenu(user, router: Router = mainRouter) {
 			action: reportAbuse,
 		}]);
 
-		if (iAmModerator) {
+		if (iAmModerator && enableSudo) {
 			menu = menu.concat([null, {
 				icon: 'fas fa-microphone-slash',
 				text: user.isSilenced ? i18n.ts.unsilence : i18n.ts.silence,

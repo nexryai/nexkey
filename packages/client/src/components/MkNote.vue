@@ -25,7 +25,7 @@
 		</I18n>
 		<div class="info">
 			<button ref="renoteTime" class="_button time" @click="showRenoteMenu()">
-				<i v-if="isMyRenote || ($i && ($i.isModerator || $i.isAdmin))" class="fas fa-ellipsis-h dropdownIcon"></i>
+				<i v-if="isMyRenote || ($i && ($i.isModerator || $i.isAdmin) && enableSudo)" class="fas fa-ellipsis-h dropdownIcon"></i>
 				<MkTime :time="note.createdAt"/>
 			</button>
 			<MkVisibility :note="note"/>
@@ -181,6 +181,7 @@ const muted = ref(checkWordMute(appearNote, $i, defaultStore.state.mutedWords));
 const translation = ref(null);
 const translating = ref(false);
 const showTicker = (defaultStore.state.instanceTicker === 'always') || (defaultStore.state.instanceTicker === 'remote' && appearNote.user.instance);
+const enableSudo = defaultStore.state.enableSudo;
 
 const keymap = {
 	'r': () => reply(true),
@@ -257,7 +258,7 @@ function menu(viaKeyboard = false): void {
 }
 
 function showRenoteMenu(viaKeyboard = false): void {
-	if (!isMyRenote && !($i && ($i.isModerator || $i.isAdmin))) return;
+	if (!isMyRenote && !($i && ($i.isModerator || $i.isAdmin) && enableSudo)) return;
 	os.popupMenu([{
 		text: (isMyRenote) ? i18n.ts.unrenote : i18n.ts.unrenoteAsAdmin,
 		icon: 'fas fa-trash-alt',

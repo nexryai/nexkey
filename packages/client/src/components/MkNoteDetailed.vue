@@ -183,6 +183,7 @@ const urls = appearNote.text ? extractUrlFromMfm(mfm.parse(appearNote.text)) : n
 const showTicker = (defaultStore.state.instanceTicker === 'always') || (defaultStore.state.instanceTicker === 'remote' && appearNote.user.instance);
 const conversation = ref<misskey.entities.Note[]>([]);
 const replies = ref<misskey.entities.Note[]>([]);
+const enableSudo = defaultStore.state.enableSudo;
 
 const keymap = {
 	'r': () => reply(true),
@@ -255,7 +256,7 @@ function menu(viaKeyboard = false): void {
 }
 
 function showRenoteMenu(viaKeyboard = false): void {
-	if (!isMyRenote && !($i && ($i.isModerator || $i.isAdmin))) return;
+	if (!isMyRenote && !($i && ($i.isModerator || $i.isAdmin) && enableSudo)) return;
 	os.popupMenu([{
 		text: (isMyRenote) ? i18n.ts.unrenote : i18n.ts.unrenoteAsAdmin,
 		icon: 'fas fa-trash-alt',

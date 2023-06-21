@@ -24,7 +24,7 @@
 				<template #value>{{ instance.description }}</template>
 			</MkKeyValue>
 
-			<FormSection v-if="iAmModerator">
+			<FormSection v-if="iAmModerator && enableSudo">
 				<template #label>Moderation</template>
 				<FormSwitch v-model="suspended" class="_formBlock" @update:modelValue="toggleSuspend">{{ i18n.ts.stopActivityDelivery }}</FormSwitch>
 				<FormSwitch v-model="isBlocked" class="_formBlock" @update:modelValue="toggleBlock">{{ i18n.ts.blockThisInstance }}</FormSwitch>
@@ -134,6 +134,7 @@ import { definePageMetadata } from '@/scripts/page-metadata';
 import { i18n } from '@/i18n';
 import MkUserCardMini from '@/components/MkUserCardMini.vue';
 import MkPagination from '@/components/MkPagination.vue';
+import { defaultStore } from '@/store';
 
 const props = defineProps<{
 	host: string;
@@ -145,6 +146,7 @@ let meta = $ref<misskey.entities.DetailedInstanceMetadata | null>(null);
 let instance = $ref<misskey.entities.Instance | null>(null);
 let suspended = $ref(false);
 let isBlocked = $ref(false);
+const enableSudo = defaultStore.state.enableSudo;
 
 const usersPagination = {
 	endpoint: iAmModerator ? 'admin/show-users' : 'users' as const,
@@ -206,15 +208,15 @@ const headerTabs = $computed(() => [{
 	key: 'chart',
 	title: i18n.ts.charts,
 	icon: 'fas fa-chart-simple',
-}, {
+}, (iAmModerator && enableSudo) ? {
 	key: 'users',
 	title: i18n.ts.users,
 	icon: 'fas fa-users',
-}, {
+} : null, {
 	key: 'raw',
 	title: 'Raw',
 	icon: 'fas fa-code',
-}]);
+}].filter(x => x != null));
 
 definePageMetadata({
 	title: props.host,

@@ -8,6 +8,7 @@ import * as os from '@/os';
 import copyToClipboard from '@/scripts/copy-to-clipboard';
 import { url } from '@/config';
 import { noteActions } from '@/store';
+import { defaultStore } from '@/store';
 
 export function getNoteMenu(props: {
 	note: misskey.entities.Note;
@@ -25,6 +26,8 @@ export function getNoteMenu(props: {
 	);
 
 	const appearNote = isRenote ? props.note.renote as misskey.entities.Note : props.note;
+
+	const enableSudo = defaultStore.state.enableSudo;
 
 	function del(): void {
 		os.confirm({
@@ -297,7 +300,7 @@ export function getNoteMenu(props: {
 				}]
 			: []
 			),
-			...(appearNote.userId === $i.id || $i.isModerator || $i.isAdmin ? [
+			...(appearNote.userId === $i.id || (($i.isModerator || $i.isAdmin) && enableSudo) ? [
 				null,
 				appearNote.userId === $i.id ? {
 					icon: 'fas fa-edit',
