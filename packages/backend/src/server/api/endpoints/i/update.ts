@@ -244,9 +244,9 @@ export default define(meta, paramDef, async (ps, _user, token) => {
 	publishUserEvent(user.id, 'updateUserProfile', await UserProfiles.findOneBy({ userId: user.id }));
 
 	// 鍵垢を解除したとき、溜まっていたフォローリクエストがあるならすべて承認
-	if (user.isLocked && ps.isLocked === false) {
-		acceptAllFollowRequests(user);
-	}
+	//if (user.isLocked && ps.isLocked === false) {
+	//	acceptAllFollowRequests(user);
+	//}
 
 	// フォロワーにUpdateを配信
 	publishToFollowers(user.id);
