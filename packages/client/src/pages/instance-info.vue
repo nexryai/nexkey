@@ -29,6 +29,8 @@
 				<FormSwitch v-model="suspended" class="_formBlock" @update:modelValue="toggleSuspend">{{ i18n.ts.stopActivityDelivery }}</FormSwitch>
 				<FormSwitch v-model="isBlocked" class="_formBlock" @update:modelValue="toggleBlock">{{ i18n.ts.blockThisInstance }}</FormSwitch>
 				<MkButton @click="refreshMetadata"><i class="fas fa-refresh"></i> Refresh metadata</MkButton>
+				<MkButton v-if="(!suspended && !isBlocked) && $i && $i.isAdmin" inline danger @click="deleteFollowing"><i class="fas fa-minus"></i> Unfollow All Instance Users</MkButton>
+				<MkButton v-if="(suspended || isBlocked) && $i && $i.isAdmin" inline danger @click="deleteInstanceUsers"><i class="fas fa-trash-alt"></i> Delete All Instance Users</MkButton>
 			</FormSection>
 
 			<FormSection>
@@ -53,7 +55,7 @@
 					<template #value><MkTime v-if="instance.latestRequestReceivedAt" :time="instance.latestRequestReceivedAt"/><span v-else>N/A</span></template>
 				</MkKeyValue>
 			</FormSection>
-	
+
 			<FormSection>
 				<MkKeyValue oneline style="margin: 1em 0;">
 					<template #key>Following (Pub)</template>
@@ -188,6 +190,56 @@ function refreshMetadata() {
 	os.alert({
 		text: 'Refresh requested',
 	});
+}
+
+async function deleteInstanceUsers() {
+	const { canceled } = await os.confirm({
+		type: "warning",
+		text: i18n.t("removeAreYouSure", { x: instance.host }),
+	});
+	if (canceled) return;
+	const typed = await os.inputText({
+		text: i18n.t('typeToConfirm', { x: instance?.host }),
+	});
+	if (typed.canceled) return;
+	if (typed.result === instance?.host) {
+		await os.api('admin/delete-instance-users', {
+			host: instance.host,
+		});
+		await os.alert({
+			text: 'Account Deletion is in progress',
+		});
+	} else {
+		os.alert({
+			type: 'error',
+			text: 'input not match',
+		});
+	}
+}
+
+async function deleteFollowing() {
+	const { canceled } = await os.confirm({
+		type: "warning",
+		text: i18n.t("unfollowConfirm", { name: instance.host }),
+	});
+	if (canceled) return;
+	const typed = await os.inputText({
+		text: i18n.t('typeToConfirm', { x: instance?.host }),
+	});
+	if (typed.canceled) return;
+	if (typed.result === instance?.host) {
+		await os.api('admin/federation/remove-all-following', {
+			host: instance.host,
+		});
+		await os.alert({
+			text: 'Unfollowing is in progress',
+		});
+	} else {
+		os.alert({
+			type: 'error',
+			text: 'input not match',
+		});
+	}
 }
 
 fetch();
