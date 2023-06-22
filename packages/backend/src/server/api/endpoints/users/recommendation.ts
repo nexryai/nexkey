@@ -39,6 +39,8 @@ export default define(meta, paramDef, async (ps, me) => {
 		.where('user.isLocked = FALSE')
 		.andWhere('user.isExplorable = TRUE')
 		.andWhere('user.isSilenced = FALSE')
+		.andWhere('user.isSuspended = FALSE')
+		.andWhere('user.isDeleted = FALSE')
 		.andWhere('user.host IS NULL')
 		.andWhere('user.updatedAt >= :date', { date: new Date(Date.now() - ms('7days')) })
 		.andWhere('user.id != :meId', { meId: me.id })

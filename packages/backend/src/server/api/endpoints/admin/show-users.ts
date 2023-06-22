@@ -41,6 +41,7 @@ export const paramDef = {
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, me) => {
 	const query = Users.createQueryBuilder('user');
+	query.andWhere('user.isDeleted = FALSE');
 
 	switch (ps.state) {
 		case 'available': query.where('user.isSuspended = FALSE'); break;
