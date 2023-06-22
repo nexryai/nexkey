@@ -100,6 +100,7 @@
 				<div class="_formBlock">
 					<FormButton v-if="user.host == null && iAmModerator" inline style="margin-right: 8px;" @click="resetPassword"><i class="fas fa-key"></i> {{ i18n.ts.resetPassword }}</FormButton>
 					<FormButton v-if="$i.isAdmin" inline danger style="margin-right: 8px;" @click="deleteAccount"><i class="fas fa-trash-alt"></i> {{ i18n.ts.deleteAccount }}</FormButton>
+					<FormButton v-if="$i.isAdmin" inline danger style="margin-right: 8px;" @click="deleteAllFiles"><i class="fas fa-trash-alt"></i> {{ i18n.ts.deleteAllFiles }}</FormButton>
 					<FormButton v-if="user.host == null && iAmModerator" inline style="margin-right: 8px;" @click="sendModNotification"><i class="fas fa-bell"></i> {{ $ts.sendModNotification }}</FormButton>
 				</div>
 				<FormTextarea v-model="moderationNote" manual-save class="_formBlock">
@@ -310,17 +311,29 @@ async function deleteAllFiles() {
 		text: i18n.ts.deleteAllFilesConfirm,
 	});
 	if (confirm.canceled) return;
-	const process = async () => {
-		await os.api('admin/delete-all-files-of-a-user', { userId: user.id });
-		os.success();
-	};
-	await process().catch(err => {
+	const typed = await os.inputText({
+		text: i18n.t('typeToConfirm', { x: user?.username }),
+	});
+	if (typed.canceled) return;
+
+	if (typed.result === user?.username) {
+		const process = async () => {
+			await os.api('admin/delete-all-files-of-a-user', { userId: user.id });
+			os.success();
+		};
+		await process().catch(err => {
+			os.alert({
+				type: 'error',
+				text: err.toString(),
+			});
+		});
+		await refreshUser();
+	} else {
 		os.alert({
 			type: 'error',
-			text: err.toString(),
+			text: 'input not match',
 		});
-	});
-	await refreshUser();
+	}
 }
 
 async function applyDriveCapacityOverride() {
