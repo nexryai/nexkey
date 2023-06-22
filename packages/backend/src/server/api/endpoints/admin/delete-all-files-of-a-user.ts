@@ -23,7 +23,7 @@ export default define(meta, paramDef, async (ps, me) => {
 		userId: ps.userId,
 	});
 
-	const user = await Users.findOne(ps.userId as string);
+	const user = await Users.findOneByOrFail({ id: ps.userId });
 
 	if (user.isAdmin) {
 		throw new Error('cannot delete files of admin');
