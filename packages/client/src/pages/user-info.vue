@@ -101,7 +101,7 @@
 					<FormButton v-if="user.host == null && iAmModerator" inline style="margin-right: 8px;" @click="resetPassword"><i class="fas fa-key"></i> {{ i18n.ts.resetPassword }}</FormButton>
 					<FormButton v-if="$i.isAdmin" inline danger style="margin-right: 8px;" @click="deleteAccount"><i class="fas fa-trash-alt"></i> {{ i18n.ts.deleteAccount }}</FormButton>
 					<FormButton v-if="$i.isAdmin" inline danger style="margin-right: 8px;" @click="deleteAllFiles"><i class="fas fa-trash-alt"></i> {{ i18n.ts.deleteAllFiles }}</FormButton>
-					<FormButton v-if="user.host == null && iAmModerator" inline style="margin-right: 8px;" @click="sendModNotification"><i class="fas fa-bell"></i> {{ $ts.sendModNotification }}</FormButton>
+					<FormButton v-if="user.host == null && iAmModerator && !suspended" inline style="margin-right: 8px;" @click="sendModNotification"><i class="fas fa-bell"></i> {{ $ts.sendModNotification }}</FormButton>
 				</div>
 				<FormTextarea v-model="moderationNote" manual-save class="_formBlock">
 					<template #label>Moderation note</template>
