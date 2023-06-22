@@ -8,14 +8,12 @@ import { getS3 } from './s3.js';
 import { v4 as uuid } from 'uuid';
 
 export async function deleteFile(file: DriveFile, isExpired = false) {
-	const emojis = await Emojis.find({
+	const emojis = await Emojis.findOneBy({
 		host: null,
 		publicUrl: file.webpublicUrl,
 	});
 
-	const hasUsedforEmojis = emojis.length > 0;
-
-	if (hasUsedforEmojis) {
+	if (emojis) {
 		return; // emojiのpublicUrlがfileに含まれている場合は処理をスキップ
 	}
 
@@ -45,14 +43,12 @@ export async function deleteFile(file: DriveFile, isExpired = false) {
 }
 
 export async function deleteFileSync(file: DriveFile, isExpired = false) {
-	const emojis = await Emojis.find({
+	const emojis = await Emojis.findOneBy({
 		host: null,
 		publicUrl: file.webpublicUrl,
 	});
 
-	const hasUsedforEmojis = emojis.length > 0;
-
-	if (hasUsedforEmojis) {
+	if (emojis) {
 		return; // emojiのpublicUrlがfileに含まれている場合は処理をスキップ
 	}
 
