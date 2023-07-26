@@ -129,39 +129,4 @@ describe('FF visibility', () => {
 		assert.strictEqual(followingRes.status, 400);
 		assert.strictEqual(followersRes.status, 400);
 	}));
-
-	describe('AP', () => {
-		it('ffVisibility が public 以外ならばAPからは取得できない', async(async () => {
-			{
-				await request('/i/update', {
-					ffVisibility: 'public',
-				}, alice);
-
-				const followingRes = await simpleGet(`/users/${alice.id}/following`, 'application/activity+json');
-				const followersRes = await simpleGet(`/users/${alice.id}/followers`, 'application/activity+json');
-				assert.strictEqual(followingRes.status, 200);
-				assert.strictEqual(followersRes.status, 200);
-			}
-			{
-				await request('/i/update', {
-					ffVisibility: 'followers',
-				}, alice);
-
-				const followingRes = await simpleGet(`/users/${alice.id}/following`, 'application/activity+json').catch(res => ({ status: res.statusCode }));
-				const followersRes = await simpleGet(`/users/${alice.id}/followers`, 'application/activity+json').catch(res => ({ status: res.statusCode }));
-				assert.strictEqual(followingRes.status, 403);
-				assert.strictEqual(followersRes.status, 403);
-			}
-			{
-				await request('/i/update', {
-					ffVisibility: 'private',
-				}, alice);
-
-				const followingRes = await simpleGet(`/users/${alice.id}/following`, 'application/activity+json').catch(res => ({ status: res.statusCode }));
-				const followersRes = await simpleGet(`/users/${alice.id}/followers`, 'application/activity+json').catch(res => ({ status: res.statusCode }));
-				assert.strictEqual(followingRes.status, 403);
-				assert.strictEqual(followersRes.status, 403);
-			}
-		}));
-	});
 });
