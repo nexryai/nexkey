@@ -38,7 +38,7 @@
 							<template #label>Access key</template>
 						</FormInput>
 
-						<FormInput v-model="objectStorageSecretKey" class="_formBlock">
+						<FormInput v-model="objectStorageSecretKey" type="password" class="_formBlock">
 							<template #prefix><i class="ti ti-key"></i></template>
 							<template #label>Secret key</template>
 						</FormInput>
