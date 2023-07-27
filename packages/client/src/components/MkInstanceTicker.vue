@@ -1,6 +1,7 @@
 <template>
 <div class="hpaizdrt" :style="bg">
 	<img v-if="instance.faviconUrl" class="icon" :src="instance.faviconUrl"/>
+	<span class="name">{{ instance.name }}</span>
 </div>
 </template>
 
@@ -28,7 +29,7 @@ const instance = props.instance ?? {
 const themeColor = instance.themeColor ?? '#777777';
 
 const bg = {
-	background: `transparent`,
+	background: `linear-gradient(90deg, ${themeColor}, ${themeColor}00)`,
 };
 </script>
 
@@ -56,7 +57,6 @@ const bg = {
 
 	> .icon {
 		height: 100%;
-		vertical-align: middle;
 	}
 
 	> .name {

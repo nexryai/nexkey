@@ -11,7 +11,6 @@
 		</MkA>
 		<MkVisibility :note="note"/>
 	</div>
-	<MkInstanceTicker :class="$style.ticker" :instance="note.user.instance"/>
 </header>
 </template>
 
@@ -21,7 +20,6 @@ import * as misskey from 'misskey-js';
 import MkVisibility from '@/components/MkVisibility.vue';
 import { notePage } from '@/filters/note';
 import { userPage } from '@/filters/user';
-import MkInstanceTicker from '@/components/MkInstanceTicker.vue';
 
 defineProps<{
 	note: misskey.entities.Note;
