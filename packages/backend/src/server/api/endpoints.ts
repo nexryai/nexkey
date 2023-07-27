@@ -82,16 +82,6 @@ import * as ep___auth_session_userkey from './endpoints/auth/session/userkey.js'
 import * as ep___blocking_create from './endpoints/blocking/create.js';
 import * as ep___blocking_delete from './endpoints/blocking/delete.js';
 import * as ep___blocking_list from './endpoints/blocking/list.js';
-import * as ep___channels_create from './endpoints/channels/create.js';
-import * as ep___channels_delete from './endpoints/channels/delete.js';
-import * as ep___channels_featured from './endpoints/channels/featured.js';
-import * as ep___channels_follow from './endpoints/channels/follow.js';
-import * as ep___channels_followed from './endpoints/channels/followed.js';
-import * as ep___channels_owned from './endpoints/channels/owned.js';
-import * as ep___channels_show from './endpoints/channels/show.js';
-import * as ep___channels_timeline from './endpoints/channels/timeline.js';
-import * as ep___channels_unfollow from './endpoints/channels/unfollow.js';
-import * as ep___channels_update from './endpoints/channels/update.js';
 import * as ep___charts_activeUsers from './endpoints/charts/active-users.js';
 import * as ep___charts_apRequest from './endpoints/charts/ap-request.js';
 import * as ep___charts_drive from './endpoints/charts/drive.js';
@@ -148,15 +138,6 @@ import * as ep___following_requests_accept from './endpoints/following/requests/
 import * as ep___following_requests_cancel from './endpoints/following/requests/cancel.js';
 import * as ep___following_requests_list from './endpoints/following/requests/list.js';
 import * as ep___following_requests_reject from './endpoints/following/requests/reject.js';
-import * as ep___gallery_featured from './endpoints/gallery/featured.js';
-import * as ep___gallery_popular from './endpoints/gallery/popular.js';
-import * as ep___gallery_posts from './endpoints/gallery/posts.js';
-import * as ep___gallery_posts_create from './endpoints/gallery/posts/create.js';
-import * as ep___gallery_posts_delete from './endpoints/gallery/posts/delete.js';
-import * as ep___gallery_posts_like from './endpoints/gallery/posts/like.js';
-import * as ep___gallery_posts_show from './endpoints/gallery/posts/show.js';
-import * as ep___gallery_posts_unlike from './endpoints/gallery/posts/unlike.js';
-import * as ep___gallery_posts_update from './endpoints/gallery/posts/update.js';
 import * as ep___getOnlineUsersCount from './endpoints/get-online-users-count.js';
 import * as ep___hashtags_list from './endpoints/hashtags/list.js';
 import * as ep___hashtags_search from './endpoints/hashtags/search.js';
@@ -181,8 +162,6 @@ import * as ep___i_exportMute from './endpoints/i/export-mute.js';
 import * as ep___i_exportNotes from './endpoints/i/export-notes.js';
 import * as ep___i_exportUserLists from './endpoints/i/export-user-lists.js';
 import * as ep___i_favorites from './endpoints/i/favorites.js';
-import * as ep___i_gallery_likes from './endpoints/i/gallery/likes.js';
-import * as ep___i_gallery_posts from './endpoints/i/gallery/posts.js';
 import * as ep___i_getWordMutedNotesCount from './endpoints/i/get-word-muted-notes-count.js';
 import * as ep___i_importBlocking from './endpoints/i/import-blocking.js';
 import * as ep___i_importFollowing from './endpoints/i/import-following.js';
@@ -288,7 +267,6 @@ import * as ep___users from './endpoints/users.js';
 import * as ep___users_clips from './endpoints/users/clips.js';
 import * as ep___users_followers from './endpoints/users/followers.js';
 import * as ep___users_following from './endpoints/users/following.js';
-import * as ep___users_gallery_posts from './endpoints/users/gallery/posts.js';
 import * as ep___users_getFrequentlyRepliedUsers from './endpoints/users/get-frequently-replied-users.js';
 import * as ep___users_groups_create from './endpoints/users/groups/create.js';
 import * as ep___users_groups_delete from './endpoints/users/groups/delete.js';
@@ -405,16 +383,6 @@ const eps = [
 	['blocking/create', ep___blocking_create],
 	['blocking/delete', ep___blocking_delete],
 	['blocking/list', ep___blocking_list],
-	['channels/create', ep___channels_create],
-	['channels/delete', ep___channels_delete],
-	['channels/featured', ep___channels_featured],
-	['channels/follow', ep___channels_follow],
-	['channels/followed', ep___channels_followed],
-	['channels/owned', ep___channels_owned],
-	['channels/show', ep___channels_show],
-	['channels/timeline', ep___channels_timeline],
-	['channels/unfollow', ep___channels_unfollow],
-	['channels/update', ep___channels_update],
 	['charts/active-users', ep___charts_activeUsers],
 	['charts/ap-request', ep___charts_apRequest],
 	['charts/drive', ep___charts_drive],
@@ -471,15 +439,6 @@ const eps = [
 	['following/requests/cancel', ep___following_requests_cancel],
 	['following/requests/list', ep___following_requests_list],
 	['following/requests/reject', ep___following_requests_reject],
-	['gallery/featured', ep___gallery_featured],
-	['gallery/popular', ep___gallery_popular],
-	['gallery/posts', ep___gallery_posts],
-	['gallery/posts/create', ep___gallery_posts_create],
-	['gallery/posts/delete', ep___gallery_posts_delete],
-	['gallery/posts/like', ep___gallery_posts_like],
-	['gallery/posts/show', ep___gallery_posts_show],
-	['gallery/posts/unlike', ep___gallery_posts_unlike],
-	['gallery/posts/update', ep___gallery_posts_update],
 	['get-online-users-count', ep___getOnlineUsersCount],
 	['hashtags/list', ep___hashtags_list],
 	['hashtags/search', ep___hashtags_search],
@@ -504,8 +463,6 @@ const eps = [
 	['i/export-notes', ep___i_exportNotes],
 	['i/export-user-lists', ep___i_exportUserLists],
 	['i/favorites', ep___i_favorites],
-	['i/gallery/likes', ep___i_gallery_likes],
-	['i/gallery/posts', ep___i_gallery_posts],
 	['i/get-word-muted-notes-count', ep___i_getWordMutedNotesCount],
 	['i/import-blocking', ep___i_importBlocking],
 	['i/import-following', ep___i_importFollowing],
@@ -611,7 +568,6 @@ const eps = [
 	['users/clips', ep___users_clips],
 	['users/followers', ep___users_followers],
 	['users/following', ep___users_following],
-	['users/gallery/posts', ep___users_gallery_posts],
 	['users/get-frequently-replied-users', ep___users_getFrequentlyRepliedUsers],
 	['users/groups/create', ep___users_groups_create],
 	['users/groups/delete', ep___users_groups_delete],
