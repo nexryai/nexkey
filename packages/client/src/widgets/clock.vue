@@ -36,7 +36,7 @@ const widgetPropsDef = {
 	},
 	size: {
 		type: 'radio' as const,
-		default: 'medium',
+		default: 'small',
 		options: [{
 			value: 'small', label: i18n.ts.small,
 		}, {
@@ -69,7 +69,7 @@ const widgetPropsDef = {
 	},
 	fadeGraduations: {
 		type: 'boolean' as const,
-		default: true,
+		default: false,
 	},
 	sAnimation: {
 		type: 'radio' as const,

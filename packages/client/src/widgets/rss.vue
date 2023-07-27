@@ -25,7 +25,7 @@ const name = 'rss';
 const widgetPropsDef = {
 	url: {
 		type: 'string' as const,
-		default: 'http://feeds.afpbb.com/rss/afpbb/afpbbnews',
+		default: 'https://gihyo.jp/feed/rss2',
 	},
 	showHeader: {
 		type: 'boolean' as const,
