@@ -73,33 +73,36 @@ function top(): void {
 
 async function chooseList(ev: MouseEvent): Promise<void> {
 	const lists = await os.api('users/lists/list');
-	const items = lists.map(list => ({
+	let items = lists.map(list => ({
 		type: 'link' as const,
 		text: list.name,
 		to: `/timeline/list/${list.id}`,
 	}));
+	items.push({
+  	type: 'link' as const,
+  	icon: 'ti ti-settings',
+  	text: i18n.ts.manageLists,
+  	indicate: false,
+  	to: '/my/lists',
+	});
 	os.popupMenu(items, ev.currentTarget ?? ev.target);
 }
 
 async function chooseAntenna(ev: MouseEvent): Promise<void> {
 	const antennas = await os.api('antennas/list');
-	const items = antennas.map(antenna => ({
+	let items = antennas.map(antenna => ({
 		type: 'link' as const,
 		text: antenna.name,
 		indicate: antenna.hasUnreadNote,
 		to: `/timeline/antenna/${antenna.id}`,
 	}));
-	os.popupMenu(items, ev.currentTarget ?? ev.target);
-}
-
-async function chooseChannel(ev: MouseEvent): Promise<void> {
-	const channels = await os.api('channels/followed');
-	const items = channels.map(channel => ({
-		type: 'link' as const,
-		text: channel.name,
-		indicate: channel.hasUnreadNote,
-		to: `/channels/${channel.id}`,
-	}));
+	items.push({
+  	type: 'link' as const,
+  	icon: 'ti ti-settings',
+  	text: i18n.ts.manageAntennas,
+  	indicate: false,
+  	to: '/my/antennas',
+	});
 	os.popupMenu(items, ev.currentTarget ?? ev.target);
 }
 
@@ -161,11 +164,6 @@ const headerTabs = $computed(() => [{
 	title: i18n.ts.antennas,
 	iconOnly: true,
 	onClick: chooseAntenna,
-}, {
-	icon: 'ti ti-device-tv',
-	title: i18n.ts.channel,
-	iconOnly: true,
-	onClick: chooseChannel,
 }]);
 
 definePageMetadata(computed(() => ({
