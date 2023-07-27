@@ -188,7 +188,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	showGapBetweenNotesInTimeline: {
 		where: 'device',
-		default: false,
+		default: true,
 	},
 	darkMode: {
 		where: 'device',
