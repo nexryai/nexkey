@@ -18,12 +18,19 @@
 
 	<button v-if="!isDesktop && !isMobile" class="widgetButton _button" @click="widgetsShowing = true"><i class="ti ti-apps"></i></button>
 
+
 	<div v-if="isMobile" class="buttons">
-		<button class="button nav _button" @click="drawerMenuShowing = true"><i class="icon ti ti-menu-2"></i><span v-if="menuIndicated" class="indicator"><i class="_indicatorCircle"></i></span></button>
-		<button class="button home _button" @click="mainRouter.currentRoute.value.name === 'index' ? top() : mainRouter.push('/')"><i class="icon ti ti-home"></i></button>
-		<button class="button notifications _button" @click="mainRouter.push('/my/notifications')"><i class="icon ti ti-bell"></i><span v-if="$i?.hasUnreadNotification" class="indicator"><i class="_indicatorCircle"></i></span></button>
-		<button class="button widget _button" @click="widgetsShowing = true"><i class="icon ti ti-apps"></i></button>
-		<button class="button post _button" @click="os.post()"><i class="icon ti ti-pencil"></i></button>
+		<div class="tabs_area">
+			<button class="button nav _button" @click="drawerMenuShowing = true"><i class="icon ti ti-menu-2"></i><span v-if="menuIndicated" class="indicator"><i class="_indicatorCircle"></i></span></button>
+			<button class="button home _button" @click="mainRouter.currentRoute.value.name === 'index' ? top() : mainRouter.push('/')"><i class="icon ti ti-home"></i></button>
+			<button class="button notifications _button" @click="mainRouter.push('/my/notifications')"><i class="icon ti ti-bell"></i><span v-if="$i?.hasUnreadNotification" class="indicator"><i class="_indicatorCircle"></i></span></button>
+			<button class="button widget _button" @click="widgetsShowing = true"><i class="icon ti ti-apps"></i></button>
+		</div>
+		<div class="post_area">
+			<div class="post_button">
+				<button class="button post _button" @click="os.post()"><i class="icon ti ti-pencil"></i></button>
+			</div>
+		</div>
 	</div>
 
 	<transition :name="$store.state.animation ? 'menuDrawer-back' : ''">
@@ -297,6 +304,34 @@ const wallpaper = localStorage.getItem('wallpaper') != null;
 		backdrop-filter: var(--blur, blur(32px));
 		background-color: var(--header);
 		border-top: solid 0.5px var(--divider);
+
+		> .tabs_area {
+			width: 61.8%;
+			display: flex;
+			justify-content: space-around;
+		}
+
+		> .post_area {
+			width: 38.2%;
+		
+			> .post_button {
+				width: 38.2%;
+				background: linear-gradient(90deg,var(--buttonGradateA),var(--buttonGradateB));
+				border-radius: 999px;
+				height: 48px;
+				position: absolute;
+				bottom: 12px;
+			}
+		}
+		.ti-pencil {
+			margin-left: 12px;
+			margin-right: 12px;
+		}
+
+		.button.post {
+			height: 100%;
+			color: var(--bg);
+		}
 
 		> .button {
 			position: relative;
