@@ -266,34 +266,6 @@ export const routes = [{
 	path: '/pages',
 	component: page(() => import('./pages/pages.vue')),
 }, {
-	path: '/gallery/:postId/edit',
-	component: page(() => import('./pages/gallery/edit.vue')),
-	loginRequired: true,
-}, {
-	path: '/gallery/new',
-	component: page(() => import('./pages/gallery/edit.vue')),
-	loginRequired: true,
-}, {
-	path: '/gallery/:postId',
-	component: page(() => import('./pages/gallery/post.vue')),
-}, {
-	path: '/gallery',
-	component: page(() => import('./pages/gallery/index.vue')),
-}, {
-	path: '/channels/:channelId/edit',
-	component: page(() => import('./pages/channel-editor.vue')),
-	loginRequired: true,
-}, {
-	path: '/channels/new',
-	component: page(() => import('./pages/channel-editor.vue')),
-	loginRequired: true,
-}, {
-	path: '/channels/:channelId',
-	component: page(() => import('./pages/channel.vue')),
-}, {
-	path: '/channels',
-	component: page(() => import('./pages/channels.vue')),
-}, {
 	path: '/registry/keys/system/:path(*)?',
 	component: page(() => import('./pages/registry.keys.vue')),
 }, {
