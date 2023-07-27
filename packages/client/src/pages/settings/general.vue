@@ -70,13 +70,6 @@
 		<FormSwitch v-model="aiChanMode">{{ i18n.ts.aiChanMode }}</FormSwitch>
 	</FormSection>
 
-	<FormSelect v-model="instanceTicker" class="_formBlock">
-		<template #label>{{ i18n.ts.instanceTicker }}</template>
-		<option value="none">{{ i18n.ts._instanceTicker.none }}</option>
-		<option value="remote">{{ i18n.ts._instanceTicker.remote }}</option>
-		<option value="always">{{ i18n.ts._instanceTicker.always }}</option>
-	</FormSelect>
-
 	<FormSelect v-model="nsfw" class="_formBlock">
 		<template #label>{{ i18n.ts.nsfw }}</template>
 		<option value="respect">{{ i18n.ts._nsfw.respect }}</option>
