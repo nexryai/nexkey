@@ -1,10 +1,10 @@
 {
 	"name": "misskey",
-	"version": "12.119.2-fix.5.5",
+	"version": "12.119.2-agathos-0.01",
 	"codename": "indigo",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/atsu1125/misskey-v12.git"
+		"url": "https://lab.sda1.net/agathos"
 	},
 	"engines": {
     "node": ">= 16.0.0"
