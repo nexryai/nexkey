@@ -65,18 +65,12 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 
 	menu: {
-		where: 'deviceAccount',
+		where: 'account',
 		default: [
 			'notifications',
-			'favorites',
-			'drive',
 			'followRequests',
-			'-',
+			'drive',
 			'explore',
-			'announcements',
-			'search',
-			'-',
-			'ui',
 		],
 	},
 	visibility: {
@@ -161,11 +155,11 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	useBlurEffectForModal: {
 		where: 'device',
-		default: false,
+		default: true,
 	},
 	useBlurEffect: {
 		where: 'device',
-		default: false,
+		default: true,
 	},
 	showFixedPostForm: {
 		where: 'device',
@@ -306,8 +300,8 @@ type Plugin = {
 /**
  * 常にメモリにロードしておく必要がないような設定情報を保管するストレージ(非リアクティブ)
  */
-import lightTheme from '@/themes/l-apricot.json5';
-import darkTheme from '@/themes/d-persimmon.json5';
+import lightTheme from '@/themes/l-ocean.json5';
+import darkTheme from '@/themes/d-ocean.json5';
 
 export class ColdDeviceStorage {
 	public static default = {
