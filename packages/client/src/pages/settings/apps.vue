@@ -3,7 +3,7 @@
 	<FormPagination ref="list" :pagination="pagination">
 		<template #empty>
 			<div class="_fullinfo">
-				<img src="https://xn--931a.moe/assets/info.jpg" class="_ghost"/>
+				<i class="ti ti-exclamation-mark"></i>
 				<div>{{ i18n.ts.nothing }}</div>
 			</div>
 		</template>

@@ -50,23 +50,11 @@ export const navbarItemDef = reactive({
 		icon: 'ti ti-search',
 		action: () => search(),
 	},
-	lists: {
-		title: 'lists',
-		icon: 'ti ti-list',
-		show: computed(() => $i != null),
-		to: '/my/lists',
-	},
 	groups: {
 		title: 'groups',
 		icon: 'ti ti-users',
 		show: computed(() => $i != null),
 		to: '/my/groups',
-	},
-	antennas: {
-		title: 'antennas',
-		icon: 'ti ti-antenna',
-		show: computed(() => $i != null),
-		to: '/my/antennas',
 	},
 	favorites: {
 		title: 'favorites',
@@ -79,36 +67,11 @@ export const navbarItemDef = reactive({
 		icon: 'ti ti-news',
 		to: '/pages',
 	},
-	gallery: {
-		title: 'gallery',
-		icon: 'ti ti-icons',
-		to: '/gallery',
-	},
 	clips: {
 		title: 'clip',
 		icon: 'ti ti-paperclip',
 		show: computed(() => $i != null),
 		to: '/my/clips',
-	},
-	channels: {
-		title: 'channel',
-		icon: 'ti ti-device-tv',
-		to: '/channels',
-	},
-	federation: {
-		title: 'federation',
-		icon: 'fas fa-globe',
-		to: '/about#federation',
-	},
-	emojis: {
-		title: 'emojis',
-		icon: 'fas fa-laugh',
-		to: '/about#emojis',
-	},
-	scratchpad: {
-		title: 'scratchpad',
-		icon: 'fas fa-terminal',
-		to: '/scratchpad',
 	},
 	ui: {
 		title: 'switchUi',
@@ -136,13 +99,6 @@ export const navbarItemDef = reactive({
 					unisonReload();
 				},
 			}], ev.currentTarget ?? ev.target);
-		},
-	},
-	reload: {
-		title: 'reload',
-		icon: 'ti ti-refresh',
-		action: (ev) => {
-			location.reload();
 		},
 	},
 });
