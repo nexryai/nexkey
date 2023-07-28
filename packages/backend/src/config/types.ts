@@ -32,6 +32,13 @@ export type Source = {
 		pass?: string;
 		index?: string;
 	};
+	sonic: {
+		host: string;
+		port: number;
+		auth?: string;
+		collection?: string;
+		bucket?: string;
+	};
 
 	proxy?: string;
 	proxySmtp?: string;

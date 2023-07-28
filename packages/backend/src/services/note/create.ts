@@ -1,5 +1,6 @@
 import * as mfm from 'mfm-js';
 import es from '../../db/elasticsearch.js';
+import sonic from "../../db/sonic.js";
 import { publishMainStream, publishNotesStream } from '@/services/stream.js';
 import DeliverManager from '@/remote/activitypub/deliver-manager.js';
 import renderNote from '@/remote/activitypub/renderer/note.js';
@@ -478,6 +479,10 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 				Channels.increment({ id: data.channel!.id }, 'usersCount', 1);
 			}
 		});
+
+		// Register to search database
+		await index(note);
+
 	}
 
 	// Register to search database
@@ -600,18 +605,34 @@ async function insertNote(user: { id: User['id']; host: User['host']; }, data: O
 	}
 }
 
-function index(note: Note) {
-	if (note.text == null || config.elasticsearch == null) return;
+export async function index(note: Note): Promise<void> {
+	if (!note.text) return;
 
-	es!.index({
-		index: config.elasticsearch.index || 'misskey_note',
-		id: note.id.toString(),
-		body: {
-			text: normalizeForSearch(note.text),
-			userId: note.userId,
-			userHost: note.userHost,
-		},
-	});
+	if (config.elasticsearch && es) {
+		es.index({
+			index: config.elasticsearch.index || "misskey_note",
+			id: note.id.toString(),
+			body: {
+				text: normalizeForSearch(note.text),
+				userId: note.userId,
+				userHost: note.userHost,
+			},
+		});
+	}
+
+	if (sonic) {
+		await sonic.ingest.push(
+			sonic.collection,
+			sonic.bucket,
+			JSON.stringify({
+				id: note.id,
+				userId: note.userId,
+				userHost: note.userHost,
+				channelId: note.channelId,
+			}),
+			note.text,
+		);
+	}
 }
 
 async function notifyToWatchersOfRenotee(renote: Note, user: { id: User['id']; }, nm: NotificationManager, type: NotificationType) {

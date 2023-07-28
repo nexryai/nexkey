@@ -9,6 +9,7 @@ export const inboxQueue = initializeQueue<InboxJobData>('inbox', config.inboxJob
 export const dbQueue = initializeQueue<DbJobData>('db');
 export const objectStorageQueue = initializeQueue<ObjectStorageJobData>('objectStorage');
 export const webhookDeliverQueue = initializeQueue<WebhookDeliverJobData>('webhookDeliver', 64);
+export const backgroundQueue = initializeQueue<Record<string, unknown>>("bg");
 
 export const queues = [
 	systemQueue,
@@ -18,4 +19,5 @@ export const queues = [
 	dbQueue,
 	objectStorageQueue,
 	webhookDeliverQueue,
+	backgroundQueue,
 ];

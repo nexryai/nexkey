@@ -1,4 +1,4 @@
-import { deliverQueue, inboxQueue, dbQueue, objectStorageQueue } from '@/queue/queues.js';
+import { deliverQueue, inboxQueue, dbQueue, objectStorageQueue, backgroundQueue } from '@/queue/queues.js';
 import define from '../../../define.js';
 
 export const meta = {
@@ -27,6 +27,11 @@ export const meta = {
 				optional: false, nullable: false,
 				ref: 'QueueCount',
 			},
+			backgroundQueue: {
+				optional: false,
+				nullable: false,
+				ref: "QueueCount",
+			},
 		},
 	},
 } as const;
@@ -43,11 +48,13 @@ export default define(meta, paramDef, async (ps) => {
 	const inboxJobCounts = await inboxQueue.getJobCounts();
 	const dbJobCounts = await dbQueue.getJobCounts();
 	const objectStorageJobCounts = await objectStorageQueue.getJobCounts();
+	const backgroundJobCounts = await backgroundQueue.getJobCounts();
 
 	return {
 		deliver: deliverJobCounts,
 		inbox: inboxJobCounts,
 		db: dbJobCounts,
 		objectStorage: objectStorageJobCounts,
+		backgroundQueue: backgroundJobCounts,
 	};
 });
