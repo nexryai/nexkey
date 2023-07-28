@@ -65,7 +65,7 @@
 		"koa-mount": "4.0.0",
 		"koa-send": "5.0.1",
 		"koa-slow": "2.1.0",
-		"koa-views": "7.0.2",
+		"koa-views": "8.1.0",
 		"mfm-js": "0.23.0",
 		"mime-types": "2.1.35",
 		"misskey-js": "0.0.14",
