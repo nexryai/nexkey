@@ -76,7 +76,7 @@
 		"node-fetch": "3.3.2",
 		"nodemailer": "6.7.8",
 		"os-utils": "0.0.14",
-		"parse5": "7.1.1",
+		"parse5": "7.1.2",
 		"pg": "8.8.0",
 		"private-ip": "2.3.4",
 		"probe-image-size": "7.2.3",
