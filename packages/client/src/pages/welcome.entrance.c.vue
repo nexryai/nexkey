@@ -63,6 +63,7 @@ import XSignupDialog from '@/components/MkSignupDialog.vue';
 import MkButton from '@/components/MkButton.vue';
 import XNote from '@/components/MkNote.vue';
 import MkFeaturedPhotos from '@/components/MkFeaturedPhotos.vue';
+import XTimeline from './welcome.timeline.vue';
 import { host, instanceName } from '@/config';
 import * as os from '@/os';
 import number from '@/filters/number';
@@ -72,6 +73,7 @@ export default defineComponent({
 		MkButton,
 		XNote,
 		MkFeaturedPhotos,
+		XTimeline,
 	},
 
 	data() {

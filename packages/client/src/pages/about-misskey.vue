@@ -19,10 +19,25 @@
 				</div>
 				<FormSection>
 					<div class="_formLinks">
-						<FormLink to="https://github.com/nexryai/misskey-agathos" external>
+						<FormLink to="https://github.com/taiyme/misskey" external>
+							<template #icon><i class="ti ti-git-fork"></i></template>
+							{{ i18n.ts._aboutMisskey.source }}
+							<template #suffix>taiyme/misskey</template>
+						</FormLink>
+						<FormLink to="https://github.com/misskey-dev/misskey" external>
 							<template #icon><i class="ti ti-code"></i></template>
 							{{ i18n.ts._aboutMisskey.source }}
 							<template #suffix>GitHub</template>
+						</FormLink>
+						<FormLink to="https://crowdin.com/project/misskey" external>
+							<template #icon><i class="ti ti-language-hiragana"></i></template>
+							{{ i18n.ts._aboutMisskey.translation }}
+							<template #suffix>Crowdin</template>
+						</FormLink>
+						<FormLink to="https://www.patreon.com/syuilo" external>
+							<template #icon><i class="ti ti-pig-money"></i></template>
+							{{ i18n.ts._aboutMisskey.donate }}
+							<template #suffix>Patreon</template>
 						</FormLink>
 					</div>
 				</FormSection>
@@ -40,6 +55,11 @@
 						<FormLink to="https://github.com/marihachi" external>@marihachi</FormLink>
 					</div>
 					<template #caption><MkLink url="https://github.com/misskey-dev/misskey/graphs/contributors">{{ i18n.ts._aboutMisskey.allContributors }}</MkLink></template>
+				</FormSection>
+				<FormSection>
+					<template #label><Mfm text="$[jelly ❤]"/> {{ i18n.ts._aboutMisskey.patrons }}</template>
+					<div v-for="patron in patrons" :key="patron">{{ patron }}</div>
+					<template #caption>{{ i18n.ts._aboutMisskey.morePatrons }}</template>
 				</FormSection>
 			</div>
 		</MkSpacer>
@@ -59,6 +79,87 @@ import { i18n } from '@/i18n';
 import { defaultStore } from '@/store';
 import * as os from '@/os';
 import { definePageMetadata } from '@/scripts/page-metadata';
+
+const patrons = [
+	'まっちゃとーにゅ',
+	'mametsuko',
+	'noellabo',
+	'AureoleArk',
+	'Gargron',
+	'Nokotaro Takeda',
+	'Suji Yan',
+	'oi_yekssim',
+	'regtan',
+	'Hekovic',
+	'nenohi',
+	'Gitmo Life Services',
+	'naga_rus',
+	'Efertone',
+	'Melilot',
+	'motcha',
+	'nanami kan',
+	'sevvie Rose',
+	'Hayato Ishikawa',
+	'Puniko',
+	'skehmatics',
+	'Quinton Macejkovic',
+	'YUKIMOCHI',
+	'dansup',
+	'mewl hayabusa',
+	'Emilis',
+	'Fristi',
+	'makokunsan',
+	'chidori ninokura',
+	'Peter G.',
+	'見当かなみ',
+	'natalie',
+	'Maronu',
+	'Steffen K9',
+	'takimura',
+	'sikyosyounin',
+	'Nesakko',
+	'YuzuRyo61',
+	'blackskye',
+	'sheeta.s',
+	'osapon',
+	'public_yusuke',
+	'CG',
+	'吴浥',
+	't_w',
+	'Jerry',
+	'nafuchoco',
+	'Takumi Sugita',
+	'GLaTAN',
+	'mkatze',
+	'kabo2468y',
+	'mydarkstar',
+	'Roujo',
+	'DignifiedSilence',
+	'uroco @99',
+	'totokoro',
+	'うし',
+	'kiritan',
+	'weepjp',
+	'Liaizon Wakest',
+	'Duponin',
+	'Blue',
+	'Naoki Hirayama',
+	'wara',
+	'Wataru Manji (manji0)',
+	'みなしま',
+	'kanoy',
+	'xianon',
+	'Denshi',
+	'Osushimaru',
+	'にょんへら',
+	'おのだい',
+	'Leni',
+	'oss',
+	'Weeble',
+	'蝉暮せせせ',
+	'ThatOneCalculator',
+	'pixeldesu',
+];
 
 let easterEggReady = false;
 let easterEggEmojis = $ref([]);

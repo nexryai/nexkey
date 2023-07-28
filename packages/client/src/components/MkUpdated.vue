@@ -21,7 +21,7 @@ const modal = ref<InstanceType<typeof MkModal>>();
 
 const whatIsNew = () => {
 	modal.value.close();
-	window.open(`https://github.com/nexryai/misskey-agathos/blob/main/CHANGELOG.md`, '_blank');
+	window.open(`https://github.com/atsu1125/misskey-v12/releases/tag/${version}`, '_blank');
 };
 </script>
 
