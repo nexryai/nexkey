@@ -1,9 +1,9 @@
-import Channel from '../channel.js';
 import { Notes } from '@/models/index.js';
 import { checkWordMute } from '@/misc/check-word-mute.js';
 import { isUserRelated } from '@/misc/is-user-related.js';
 import { isInstanceMuted } from '@/misc/is-instance-muted.js';
 import { Packed } from '@/misc/schema.js';
+import Channel from '../channel.js';
 
 export default class extends Channel {
 	public readonly chName = 'homeTimeline';
@@ -29,7 +29,8 @@ export default class extends Channel {
 		}
 
 		// Ignore notes from instances the user has muted
-		if (isInstanceMuted(note, new Set<string>(this.userProfile?.mutedInstances ?? []))) return;
+		// フォローしているなら対象から除外する
+		if (isInstanceMuted(note, new Set<string>(this.userProfile?.mutedInstances ?? [])) && !this.following.has(note.userId)) return;
 
 		if (['followers', 'specified'].includes(note.visibility)) {
 			note = await Notes.pack(note.id, this.user!, {
