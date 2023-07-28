@@ -915,6 +915,9 @@ enableAdminLoggedinWarning: "管理者アカウントとしてログインして
 bot: "ボット"
 sendModNotification: "運営上の通知を送信する"
 emailNotSupported: "このインスタンスではメール配信はサポートされていません"
+indexPosts: "投稿をインデックス"
+indexFrom: "この投稿ID以降をインデックスする（空白で全ての投稿を指定します）"
+indexNotice: "インデックスを開始しました。完了まで時間がかかる場合があります。"
 
 _sensitiveMediaDetection:
   description: "機械学習を使って自動でセンシティブなメディアを検出し、モデレーションに役立てることができます。サーバーの負荷が少し増えます。"

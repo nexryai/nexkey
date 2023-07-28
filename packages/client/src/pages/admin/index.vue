@@ -31,6 +31,7 @@ import { scroll } from '@/scripts/scroll';
 import { instance } from '@/instance';
 import * as os from '@/os';
 import { lookupUser } from '@/scripts/lookup-user';
+import { indexPosts } from "@/scripts/index-posts";
 import { useRouter } from '@/router';
 import { definePageMetadata, provideMetadataReceiver, setPageMetadata } from '@/scripts/page-metadata';
 import { defaultStore } from '@/store';
@@ -84,6 +85,11 @@ const menuDef = $computed(() => [{
 		icon: 'ti ti-search',
 		text: i18n.ts.lookup,
 		action: lookup,
+	},{
+		type: "button",
+	  icon: "ti ti-database",
+		text: i18n.ts.indexPosts,
+		action: indexPosts,
 	}, ...(instance.disableRegistration ? [{
 		type: 'button',
 		icon: 'ti ti-user',
