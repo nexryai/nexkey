@@ -1,4 +1,4 @@
-# Misskey v12 fork by nexryai (Codename: agathos)
+# Nexkey
 nexryaiによるMisskey v12フォーク
 
 ### 変更点

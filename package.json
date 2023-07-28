@@ -4,7 +4,7 @@
 	"codename": "agathos",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/nexryai/misskey-agathos"
+		"url": "https://github.com/nexryai/nexkey"
 	},
 	"engines": {
 		"node": ">= 16.0.0"
