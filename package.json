@@ -4,7 +4,7 @@
 	"codename": "indigo",
 	"repository": {
 		"type": "git",
-		"url": "https://lab.sda1.net/agathos"
+		"url": "https://github.com/nexryai/misskey-agathos"
 	},
 	"engines": {
 		"node": ">= 16.0.0"
