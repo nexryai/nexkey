@@ -16,7 +16,6 @@ import { driveChart, perUserDriveChart, instanceChart } from '@/services/chart/i
 import { genId } from '@/misc/gen-id.js';
 import { isDuplicateKeyValueError } from '@/misc/is-duplicate-key-value-error.js';
 import { FILE_TYPE_BROWSERSAFE } from '@/const.js';
-import { IdentifiableError } from '@/misc/identifiable-error.js';
 import { getS3 } from './s3.js';
 import { InternalStorage } from './internal-storage.js';
 import { IImage, convertSharpToJpeg, convertSharpToWebp, convertSharpToPng } from './image-processor.js';
@@ -350,30 +349,8 @@ export async function addFile({
 	requestIp = null,
 	requestHeaders = null,
 }: AddFileArgs): Promise<DriveFile> {
-	let skipNsfwCheck = false;
-	const instance = await fetchMeta();
-	if (user == null) skipNsfwCheck = true;
-	if (instance.sensitiveMediaDetection === 'none') skipNsfwCheck = true;
-	if (user && instance.sensitiveMediaDetection === 'local' && Users.isRemoteUser(user)) skipNsfwCheck = true;
-	if (user && instance.sensitiveMediaDetection === 'remote' && Users.isLocalUser(user)) skipNsfwCheck = true;
-
-	const info = await getFileInfo(path, {
-		skipSensitiveDetection: skipNsfwCheck,
-		sensitiveThreshold: // 感度が高いほどしきい値は低くすることになる
-			instance.sensitiveMediaDetectionSensitivity === 'veryHigh' ? 0.1 :
-			instance.sensitiveMediaDetectionSensitivity === 'high' ? 0.3 :
-			instance.sensitiveMediaDetectionSensitivity === 'low' ? 0.7 :
-			instance.sensitiveMediaDetectionSensitivity === 'veryLow' ? 0.9 :
-			0.5,
-		sensitiveThresholdForPorn: 0.75,
-		enableSensitiveMediaDetectionForVideos: instance.enableSensitiveMediaDetectionForVideos,
-	});
+	const info = await getFileInfo(path);
 	logger.info(`${JSON.stringify(info)}`);
-
-	// 現状 false positive が多すぎて実用に耐えない
-	//if (info.porn && instance.disallowUploadWhenPredictedAsPorn) {
-	//	throw new IdentifiableError('282f77bf-5816-4f72-9264-aa14d8261a21', 'Detected as porn.');
-	//}
 
 	// detect name
 	const detectedName = name || (info.type.ext ? `untitled.${info.type.ext}` : 'untitled');
@@ -410,7 +387,7 @@ export async function addFile({
 		// If usage limit exceeded
 		if (usage + info.size > driveCapacity) {
 			if (Users.isLocalUser(user)) {
-				throw new IdentifiableError('c6244ed2-a39a-4e1c-bf93-f0fbd7764fa6', 'No free space.');
+				throw new Error('no-free-space');
 			} else {
 				// (アバターまたはバナーを含まず)最も古いファイルを削除する
 				deleteOldFile(await Users.findOneByOrFail({ id: user.id }) as IRemoteUser);
@@ -464,17 +441,12 @@ export async function addFile({
 	file.isLink = isLink;
 	file.requestIp = requestIp;
 	file.requestHeaders = requestHeaders;
-	file.maybeSensitive = info.sensitive;
-	file.maybePorn = info.porn;
 	file.isSensitive = user
 		? Users.isLocalUser(user) && profile!.alwaysMarkNsfw ? true :
 		(sensitive !== null && sensitive !== undefined)
 			? sensitive
 			: false
 		: false;
-
-	if (info.sensitive && profile!.autoSensitive) file.isSensitive = true;
-	if (info.sensitive && instance.setSensitiveFlagAutomatically) file.isSensitive = true;
 
 	if (url !== null) {
 		file.src = url;
