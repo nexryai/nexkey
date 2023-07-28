@@ -9,6 +9,9 @@ nexryaiによるMisskey v12フォーク
  - 脆弱性のある依存関係の更新
  - 旧りなっくすきーv13フォークで行った改善を取り込み
    * インスタンスティッカーやエントランス画面周りの改善
+ - インスタンスミュートの仕様を改善
+   * FFであれば適用しない、メンションには適用しないなど制限を緩和し本家より気軽に使えるようにした
+   * 完全に断交したいという需要があるなら将来的にユーザー毎のインスタンスブロックを実装する予定
 
 ### Thanks
 Thanks to the developers and contributors of the original Misskey and the referenced fork!
