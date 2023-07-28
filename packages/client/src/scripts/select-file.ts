@@ -1,9 +1,9 @@
 import { ref } from 'vue';
-import { DriveFile } from 'misskey-js/built/entities';
 import * as os from '@/os';
 import { stream } from '@/stream';
 import { i18n } from '@/i18n';
 import { defaultStore } from '@/store';
+import { DriveFile } from 'misskey-js/built/entities';
 import { uploadFile } from '@/scripts/upload';
 
 function select(src: any, label: string | null, multiple: boolean): Promise<DriveFile | DriveFile[]> {
@@ -20,7 +20,10 @@ function select(src: any, label: string | null, multiple: boolean): Promise<Driv
 				Promise.all(promises).then(driveFiles => {
 					res(multiple ? driveFiles : driveFiles[0]);
 				}).catch(err => {
-					// アップロードのエラーは uploadFile 内でハンドリングされているためアラートダイアログを出したりはしてはいけない
+					os.alert({
+						type: 'error',
+						text: err
+					});
 				});
 
 				// 一応廃棄
@@ -44,7 +47,7 @@ function select(src: any, label: string | null, multiple: boolean): Promise<Driv
 			os.inputText({
 				title: i18n.ts.uploadFromUrl,
 				type: 'url',
-				placeholder: i18n.ts.uploadFromUrlDescription,
+				placeholder: i18n.ts.uploadFromUrlDescription
 			}).then(({ canceled, result: url }) => {
 				if (canceled) return;
 
@@ -61,23 +64,23 @@ function select(src: any, label: string | null, multiple: boolean): Promise<Driv
 				os.api('drive/files/upload-from-url', {
 					url: url,
 					folderId: defaultStore.state.uploadFolder,
-					marker,
+					marker
 				});
 
 				os.alert({
 					title: i18n.ts.uploadFromUrlRequested,
-					text: i18n.ts.uploadFromUrlMayTakeTime,
+					text: i18n.ts.uploadFromUrlMayTakeTime
 				});
 			});
 		};
 
 		os.popupMenu([label ? {
 			text: label,
-			type: 'label',
+			type: 'label'
 		} : undefined, {
 			type: 'switch',
 			text: i18n.ts.keepOriginalUploading,
-			ref: keepOriginal,
+			ref: keepOriginal
 		}, {
 			text: i18n.ts.upload,
 			icon: 'ti ti-upload',

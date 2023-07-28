@@ -203,22 +203,6 @@ export const meta = {
 				type: 'string',
 				optional: true, nullable: true,
 			},
-			sensitiveMediaDetection: {
-				type: 'string',
-				optional: true, nullable: false,
-			},
-			sensitiveMediaDetectionSensitivity: {
-				type: 'string',
-				optional: true, nullable: false,
-			},
-			setSensitiveFlagAutomatically: {
-				type: 'boolean',
-				optional: true, nullable: false,
-			},
-			enableSensitiveMediaDetectionForVideos: {
-				type: 'boolean',
-				optional: true, nullable: false,
-			},
 			proxyAccountId: {
 				type: 'string',
 				optional: true, nullable: true,
@@ -399,10 +383,6 @@ export default define(meta, paramDef, async (ps, me) => {
 		blockedEmailDomains: instance.blockedEmailDomains,
 		hcaptchaSecretKey: instance.hcaptchaSecretKey,
 		recaptchaSecretKey: instance.recaptchaSecretKey,
-		sensitiveMediaDetection: instance.sensitiveMediaDetection,
-		sensitiveMediaDetectionSensitivity: instance.sensitiveMediaDetectionSensitivity,
-		setSensitiveFlagAutomatically: instance.setSensitiveFlagAutomatically,
-		enableSensitiveMediaDetectionForVideos: instance.enableSensitiveMediaDetectionForVideos,
 		proxyAccountId: instance.proxyAccountId,
 		twitterConsumerKey: instance.twitterConsumerKey,
 		twitterConsumerSecret: instance.twitterConsumerSecret,
