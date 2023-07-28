@@ -16,7 +16,7 @@
 			</main>
 			<div v-if="!root" class="powered-by">
 				<b><MkA to="/">{{ host }}</MkA></b>
-				<small>Powered by <a href="https://github.com/nexryai/misskey-agathos" target="_blank">Misskey</a></small>
+				<small>Powered by <a href="https://github.com/atsu1125/misskey-v12" target="_blank">Misskey</a></small>
 			</div>
 		</div>
 	</div>
