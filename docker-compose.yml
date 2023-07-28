@@ -3,7 +3,7 @@ version: "3"
 services:
   web:
     #build: .
-    image: ghcr.io/atsu1125/misskey-v12
+    image: nexryai/misskey-agathos
     restart: always
     links:
       - db
