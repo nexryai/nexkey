@@ -135,11 +135,12 @@ export async function detectType(path: string): Promise<{
 /**
  * Check the file is SVG or not
  */
-export async function checkSvg(path: string) {
+export async function checkSvg(path: string): Promise<boolean> {
 	try {
 		const size = await getFileSize(path);
 		if (size > 1 * 1024 * 1024) return false;
-		return isSvg(fs.readFileSync(path));
+		const buffer = await fs.promises.readFile(path);
+		return isSvg(buffer.toString());
 	} catch {
 		return false;
 	}
