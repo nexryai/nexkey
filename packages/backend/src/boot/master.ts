@@ -28,22 +28,22 @@ function greet() {
 	if (!envOption.quiet) {
 		//#region Misskey logo
 		const v = `v${meta.version}`;
-		console.log(themeColor('  _____ _         _           '));
-		console.log(themeColor(' |     |_|___ ___| |_ ___ _ _ '));
-		console.log(themeColor(' | | | | |_ -|_ -| \'_| -_| | |'));
-		console.log(themeColor(' |_|_|_|_|___|___|_,_|___|_  |'));
-		console.log(' ' + chalk.gray(v) + themeColor('                        |___|\n'.substr(v.length)));
+		console.log(themeColor('                 _              '));
+		console.log(themeColor(' _ __   _____  _| | _____ _   _ '));
+		console.log(themeColor('| \'_ \\ / _ \\ \\/ / |/ / _ \\ | | |'));
+		console.log(themeColor('| | | |  __/>  <|   <  __/ |_| |'));
+		console.log(themeColor('|_| |_|\\___/_/\\_\\_|\\_\\___|\\__, |'));
+		console.log(' ' + chalk.gray(v) + themeColor('                         |___/ \n'.substr(v.length)));
 		//#endregion
 
-		console.log(' Misskey is an open-source decentralized microblogging platform.');
-		console.log(chalk.rgb(255, 136, 0)(' If you like Misskey, please donate to support development. https://www.patreon.com/syuilo'));
+		console.log(' Nexkey is an open-source decentralized microblogging platform.');
 
 		console.log('');
 		console.log(chalkTemplate`--- ${os.hostname()} {gray (PID: ${process.pid.toString()})} ---`);
 	}
 
-	bootLogger.info('Welcome to Misskey!');
-	bootLogger.info(`Misskey v${meta.version}`, null, true);
+	bootLogger.info('Welcome to Nexkey!');
+	bootLogger.info(`Nexkey v${meta.version}`, null, true);
 }
 
 /**
