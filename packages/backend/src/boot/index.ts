@@ -18,7 +18,7 @@ const ev = new Xev();
  * Init process
  */
 export default async function() {
-	process.title = `Misskey (${cluster.isPrimary ? 'master' : 'worker'})`;
+	process.title = `Nexkey (${cluster.isPrimary ? 'master' : 'worker'})`;
 
 	if (cluster.isPrimary || envOption.disableClustering) {
 		await masterMain();

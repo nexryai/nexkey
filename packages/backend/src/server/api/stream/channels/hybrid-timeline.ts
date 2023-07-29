@@ -1,10 +1,10 @@
-import Channel from '../channel.js';
 import { fetchMeta } from '@/misc/fetch-meta.js';
 import { Notes } from '@/models/index.js';
 import { checkWordMute } from '@/misc/check-word-mute.js';
 import { isUserRelated } from '@/misc/is-user-related.js';
 import { isInstanceMuted } from '@/misc/is-instance-muted.js';
 import { Packed } from '@/misc/schema.js';
+import Channel from '../channel.js';
 
 export default class extends Channel {
 	public readonly chName = 'hybridTimeline';
@@ -60,7 +60,8 @@ export default class extends Channel {
 		}
 
 		// Ignore notes from instances the user has muted
-		if (isInstanceMuted(note, new Set<string>(this.userProfile?.mutedInstances ?? []))) return;
+		// フォローしているなら対象から除外する
+		if (isInstanceMuted(note, new Set<string>(this.userProfile?.mutedInstances ?? [])) && !this.following.has(note.userId)) return;
 
 		// 関係ない返信は除外
 		if (note.reply && !this.user!.showTimelineReplies) {
@@ -73,6 +74,8 @@ export default class extends Channel {
 		if (isUserRelated(note, this.muting)) return;
 		// 流れてきたNoteがブロックされているユーザーが関わるものだったら無視する
 		if (isUserRelated(note, this.blocking)) return;
+		// リノートミュートされてたら無視
+		if (note.renote && !note.text && isUserRelated(note, this.renoteMuting)) return;
 
 		// 流れてきたNoteがミュートすべきNoteだったら無視する
 		// TODO: 将来的には、単にMutedNoteテーブルにレコードがあるかどうかで判定したい(以下の理由により難しそうではある)

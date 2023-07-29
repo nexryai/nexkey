@@ -2,6 +2,7 @@ import { Brackets } from 'typeorm';
 import { fetchMeta } from '@/misc/fetch-meta.js';
 import { Followings, Notes } from '@/models/index.js';
 import { activeUsersChart } from '@/services/chart/index.js';
+import { genId } from '@/misc/gen-id.js';
 import define from '../../define.js';
 import { ApiError } from '../../error.js';
 import { makePaginationQuery } from '../../common/make-pagination-query.js';
@@ -11,6 +12,7 @@ import { generateRepliesQuery } from '../../common/generate-replies-query.js';
 import { generateMutedNoteQuery } from '../../common/generate-muted-note-query.js';
 import { generateChannelQuery } from '../../common/generate-channel-query.js';
 import { generateBlockedUserQuery } from '../../common/generate-block-query.js';
+import { generateMutedRenotesQuery } from '../../common/generated-muted-renote-query.js';
 
 export const meta = {
 	tags: ['notes'],
@@ -70,10 +72,7 @@ export default define(meta, paramDef, async (ps, user) => {
 
 	const query = makePaginationQuery(Notes.createQueryBuilder('note'),
 		ps.sinceId, ps.untilId, ps.sinceDate, ps.untilDate)
-		.andWhere(new Brackets(qb => {
-			qb.where(`((note.userId IN (${ followingQuery.getQuery() })) OR (note.userId = :meId))`, { meId: user.id })
-				.orWhere('(note.visibility = \'public\') AND (note.userHost IS NULL)');
-		}))
+		.andWhere('note.id > :minId', { minId: genId(new Date(Date.now() - (1000 * 60 * 60 * 24 * 10))) }) // 10日前まで
 		.innerJoinAndSelect('note.user', 'user')
 		.leftJoinAndSelect('user.avatar', 'avatar')
 		.leftJoinAndSelect('user.banner', 'banner')
@@ -93,6 +92,7 @@ export default define(meta, paramDef, async (ps, user) => {
 	generateMutedUserQuery(query, user);
 	generateMutedNoteQuery(query, user);
 	generateBlockedUserQuery(query, user);
+	generateMutedRenotesQuery(query, user);
 
 	if (ps.includeMyRenotes === false) {
 		query.andWhere(new Brackets(qb => {

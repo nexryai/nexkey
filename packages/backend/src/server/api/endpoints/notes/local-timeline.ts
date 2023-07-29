@@ -1,7 +1,8 @@
 import { Brackets } from 'typeorm';
 import { fetchMeta } from '@/misc/fetch-meta.js';
-import { Notes, Users } from '@/models/index.js';
+import { Notes } from '@/models/index.js';
 import { activeUsersChart } from '@/services/chart/index.js';
+import { genId } from '@/misc/gen-id.js';
 import define from '../../define.js';
 import { ApiError } from '../../error.js';
 import { generateMutedUserQuery } from '../../common/generate-muted-user-query.js';
@@ -11,6 +12,7 @@ import { generateRepliesQuery } from '../../common/generate-replies-query.js';
 import { generateMutedNoteQuery } from '../../common/generate-muted-note-query.js';
 import { generateChannelQuery } from '../../common/generate-channel-query.js';
 import { generateBlockedUserQuery } from '../../common/generate-block-query.js';
+import { generateMutedRenotesQuery } from '../../common/generated-muted-renote-query.js';
 
 export const meta = {
 	tags: ['notes'],
@@ -67,7 +69,7 @@ export default define(meta, paramDef, async (ps, user) => {
 	//#region Construct query
 	const query = makePaginationQuery(Notes.createQueryBuilder('note'),
 		ps.sinceId, ps.untilId, ps.sinceDate, ps.untilDate)
-		.andWhere('(note.visibility = \'public\') AND (note.userHost IS NULL)')
+		.andWhere('note.id > :minId', { minId: genId(new Date(Date.now() - (1000 * 60 * 60 * 24 * 10))) }) // 10日前まで
 		.innerJoinAndSelect('note.user', 'user')
 		.leftJoinAndSelect('user.avatar', 'avatar')
 		.leftJoinAndSelect('user.banner', 'banner')
@@ -86,16 +88,18 @@ export default define(meta, paramDef, async (ps, user) => {
 	if (user) generateMutedUserQuery(query, user);
 	if (user) generateMutedNoteQuery(query, user);
 	if (user) generateBlockedUserQuery(query, user);
+	if (user) generateMutedRenotesQuery(query, user);
 
 	if (ps.withFiles) {
 		query.andWhere('note.fileIds != \'{}\'');
 	}
 
 	if (ps.fileType != null) {
+		const fileType = ps.fileType;
 		query.andWhere('note.fileIds != \'{}\'');
 		query.andWhere(new Brackets(qb => {
-			for (const type of ps.fileType!) {
-				const i = ps.fileType!.indexOf(type);
+			for (const type of fileType) {
+				const i = fileType.indexOf(type);
 				qb.orWhere(`:type${i} = ANY(note.attachedFileTypes)`, { [`type${i}`]: type });
 			}
 		}));

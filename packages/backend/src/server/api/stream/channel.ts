@@ -30,6 +30,10 @@ export default abstract class Channel {
 		return this.connection.blocking;
 	}
 
+	protected get renoteMuting() {
+		return this.connection.renoteMuting;
+	}
+
 	protected get followingChannels() {
 		return this.connection.followingChannels;
 	}

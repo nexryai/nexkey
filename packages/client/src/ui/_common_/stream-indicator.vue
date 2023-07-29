@@ -1,17 +1,20 @@
 <template>
-<div v-if="hasDisconnected && $store.state.serverDisconnectedBehavior === 'quiet'" class="nsbbhtug" @click="resetDisconnected">
-	<div>{{ i18n.ts.disconnectedFromServer }}</div>
-	<div class="command">
-		<button class="_textButton" @click="reload">{{ i18n.ts.reload }}</button>
-		<button class="_textButton">{{ i18n.ts.doNothing }}</button>
-	</div>
-</div>
+  <div v-if="hasDisconnected && $store.state.serverDisconnectedBehavior === 'quiet'" class="nsbbhtug _panel _shadow" @click="resetDisconnected">
+    <div><i class="ti ti-alert-triangle"></i> {{ i18n.ts.disconnectedFromServer }}</div>
+    <div class="command _buttons">
+      <MkButton class="commandButton" small primary @click="reload">{{ i18n.ts.reload }}</MkButton>
+      <MkButton class="commandButton" small>{{ i18n.ts.doNothing }}</MkButton>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
 import { onUnmounted } from 'vue';
 import { stream } from '@/stream';
 import { i18n } from '@/i18n';
+import MkButton from '@/components/MkButton.vue';
+import * as os from '@/os';
+const zIndex = os.claimZIndex('high');
 
 let hasDisconnected = $ref(false);
 
@@ -37,25 +40,20 @@ onUnmounted(() => {
 <style lang="scss" scoped>
 .nsbbhtug {
 	position: fixed;
-	z-index: 16385;
-	bottom: 8px;
+  z-index: v-bind(zIndex);
+  padding: 12px;
+  bottom: 8px;
 	right: 8px;
 	margin: 0;
-	padding: 6px 12px;
 	font-size: 0.9em;
-	color: #fff;
-	background: #000;
-	opacity: 0.8;
-	border-radius: 4px;
 	max-width: 320px;
 
 	> .command {
-		display: flex;
-		justify-content: space-around;
-
-		> button {
-			padding: 0.7em;
-		}
+    display: flex;
+    margin-top: 8px;
+    > .commandButton {
+        margin: 5px;
+    }
 	}
 }
 </style>
