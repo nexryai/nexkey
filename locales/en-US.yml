@@ -1109,7 +1109,7 @@ _wordMute:
   mutedNotes: "Muted notes"
 _instanceMute:
   instanceMuteDescription: "This will mute any notes/renotes from the listed instances, including those of users replying to a user from a muted instance."
-  instanceMuteDescription2: "Separate with newlines"
+  instanceMuteDescription2: "However, it does not apply to users who are followed or menshoned. with newlines."
   title: "Hides notes from listed instances."
   heading: "List of instances to be muted"
 _theme:
