@@ -29,7 +29,7 @@
 			</main>
 			<div class="powered-by">
 				<b><MkA to="/">{{ host }}</MkA></b>
-				<small>Powered by <a href="https://github.com/nexryai/misskey-agathos" target="_blank">Misskey</a></small>
+				<small>Powered by <a href="https://github.com/nexryai/nexkey/" target="_blank">Nexkey</a></small>
 			</div>
 		</div>
 	</div>
