@@ -33,7 +33,6 @@ const instance = props.instance ?? {
 
 	height: $height;
 	border-radius: 4px;
-	overflow: hidden;
 	color: #fff;
 	padding-left: 17px;
 
