@@ -3,11 +3,22 @@
 	<div class="body">
 		<div class="top">
 			<div class="banner" :style="{ backgroundImage: `url(${ $instance.bannerUrl })` }"></div>
-			<button v-click-anime class="item _button instance" @click="openInstanceMenu">
-				<img :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" alt="" class="icon"/>
-			</button>
+      <div class="instance_info">
+        <button v-click-anime class="item _button instance" @click="openInstanceMenu">
+          <img :src="instance.iconUrl || instance.faviconUrl || '/favicon.ico'" alt="" class="icon"/>
+        </button>
+        <div class="instance_info_text">
+          <div class="instance_name">
+            {{ instance.name || host }}
+          </div>
+          <I18n v-if="onlineUsersCount" :src="i18n.ts.onlineUsersCount" text-tag="span" class="text">
+            <template #n><b>{{ onlineUsersCount }}</b></template>
+          </I18n>
+        </div>
+      </div>
 		</div>
-		<div class="middle">
+
+    <div class="middle">
 			<MkA v-click-anime class="item index" active-class="active" to="/" exact>
 				<i class="icon ti ti-home ti-fw"></i><span class="text">{{ i18n.ts.timeline }}</span>
 			</MkA>
@@ -30,6 +41,7 @@
 				<i class="icon ti ti-settings ti-fw"></i><span class="text">{{ i18n.ts.settings }}</span>
 			</MkA>
 		</div>
+
 		<div class="bottom">
 			<button class="item _button post" data-cy-open-post-form @click="os.post">
 				<i class="icon ti ti-pencil ti-fw"></i><span class="text">{{ i18n.ts.note }}</span>
@@ -52,6 +64,7 @@ import { openAccountMenu as openAccountMenu_ } from '@/account';
 import { defaultStore } from '@/store';
 import { instance } from '@/instance';
 import { i18n } from '@/i18n';
+import { useInterval } from '@/scripts/use-interval';
 
 const menu = toRef(defaultStore.state, 'menu');
 const otherMenuItemIndicated = computed(() => {
@@ -126,6 +139,17 @@ function more() {
 	os.popup(defineAsyncComponent(() => import('@/components/MkLaunchPad.vue')), {}, {
 	}, 'closed');
 }
+
+const onlineUsersCount = ref(0);
+const tick = () => {
+  os.api('get-online-users-count').then(res => {
+    onlineUsersCount.value = res.count;
+  });
+};
+useInterval(tick, 1000 * 15, {
+  immediate: true,
+  afterMounted: true,
+});
 </script>
 
 <style lang="scss" scoped>
@@ -155,19 +179,36 @@ function more() {
 				mask-image: linear-gradient(0deg, rgba(0,0,0,0) 15%, rgba(0,0,0,0.75) 100%);
 			}
 
-			> .instance {
-				position: relative;
-				display: block;
-				text-align: center;
-				width: 100%;
+      > .instance_info {
+        display: flex;
+        > .instance {
+          position: relative;
+          display: block;
+          text-align: center;
+          //width: 100%;
+          padding: 12px;
+          padding-left: 3.5vh;
 
-				> .icon {
-					display: inline-block;
-					width: 38px;
-					aspect-ratio: 1;
-				}
-			}
-		}
+          > .icon {
+            display: inline-block;
+            width: 38px;
+            aspect-ratio: 1;
+          }
+        }
+
+        > .instance_info_text {
+          margin-top: auto;
+          margin-bottom: auto;
+          margin-right: 12px;
+          > .instance_name {
+            font-size: small;
+          }
+          > .text {
+            font-size: smaller;
+          }
+        }
+      }
+    }
 
 		> .bottom {
 			position: sticky;

@@ -5,6 +5,13 @@
 			<div class="banner" :style="{ backgroundImage: `url(${ $instance.bannerUrl })` }"></div>
 			<button v-click-anime v-tooltip.noDelay.right="$instance.name ?? i18n.ts.instance" class="item _button instance" @click="openInstanceMenu">
 				<img :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" alt="" class="icon"/>
+        <div v-if="!iconOnly" class="instance_info">
+          <div class="instance_info_text">
+            <I18n v-if="onlineUsersCount" :src="i18n.ts.onlineUsersCountAlt" text-tag="span" class="text">
+              <template #n><i class="ti ti-access-point" style="vertical-align: middle; padding-right: 4px;"></i><b>{{ onlineUsersCount }}</b></template>
+            </I18n>
+          </div>
+        </div>
 			</button>
 		</div>
 		<div class="middle">
@@ -61,6 +68,7 @@ import { defaultStore } from '@/store';
 import { i18n } from '@/i18n';
 import { instance } from '@/instance';
 import { host } from '@/config';
+import { useInterval } from '@/scripts/use-interval';
 
 const iconOnly = ref(false);
 
@@ -151,6 +159,17 @@ function more(ev: MouseEvent) {
 	}, {
 	}, 'closed');
 }
+
+const onlineUsersCount = ref(0);
+const tick = () => {
+  os.api('get-online-users-count').then(res => {
+    onlineUsersCount.value = res.count;
+  });
+};
+useInterval(tick, 1000 * 15, {
+  immediate: true,
+  afterMounted: true,
+});
 </script>
 
 <style lang="scss" scoped>
