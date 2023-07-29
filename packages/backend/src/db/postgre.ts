@@ -22,6 +22,7 @@ import { Meta } from '@/models/entities/meta.js';
 import { Following } from '@/models/entities/following.js';
 import { Instance } from '@/models/entities/instance.js';
 import { Muting } from '@/models/entities/muting.js';
+import { RenoteMuting } from '@/models/entities/renote-muting.js';
 import { SwSubscription } from '@/models/entities/sw-subscription.js';
 import { Blocking } from '@/models/entities/blocking.js';
 import { UserList } from '@/models/entities/user-list.js';
@@ -134,6 +135,7 @@ export const entities = [
 	Following,
 	FollowRequest,
 	Muting,
+	RenoteMuting,
 	Blocking,
 	Note,
 	NoteFavorite,

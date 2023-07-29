@@ -47,6 +47,10 @@ export const meta = {
 						type: 'boolean',
 						optional: false, nullable: false,
 					},
+					isRenoteMuted: {
+						type: 'boolean',
+						optional: false, nullable: false,
+					},
 				},
 			},
 			{
@@ -85,6 +89,10 @@ export const meta = {
 							optional: false, nullable: false,
 						},
 						isMuted: {
+							type: 'boolean',
+							optional: false, nullable: false,
+						},
+						isRenoteMuted: {
 							type: 'boolean',
 							optional: false, nullable: false,
 						},
