@@ -4,7 +4,7 @@
 		<MkSpacer :content-max="700" :margin-min="16">
 			<div class="lxpfedzu">
 				<div class="banner">
-					<img :src="$instance.iconUrl || '/favicon.ico'" alt="" class="icon"/>
+          <i class="icon ti ti-dashboard dashboard-icon"></i>
 				</div>
 
 				<MkInfo v-if="thereIsUnresolvedAbuseReport" warn class="info">{{ i18n.ts.thereIsUnresolvedAbuseReportWarning }} <MkA to="/admin/abuses" class="_link">{{ i18n.ts.check }}</MkA></MkInfo>
@@ -12,7 +12,7 @@
 				<MkInfo v-if="noBotProtection" warn class="info">{{ i18n.ts.noBotProtectionWarning }} <MkA to="/admin/security" class="_link">{{ i18n.ts.configure }}</MkA></MkInfo>
 				<MkInfo v-if="noEmailServer" warn class="info">{{ i18n.ts.noEmailServerWarning }} <MkA to="/admin/email-settings" class="_link">{{ i18n.ts.configure }}</MkA></MkInfo>
 
-				<MkSuperMenu :def="menuDef" :grid="currentPage?.route.name == null"></MkSuperMenu>
+        <MkSuperMenu :def="menuDef" :grid="narrow"></MkSuperMenu>
 			</div>
 		</MkSpacer>
 	</div>
@@ -226,6 +226,12 @@ onUnmounted(() => {
 	ro.disconnect();
 });
 
+watch(router.currentRef, (to) => {
+  if (to.route.path === "/admin" && to.child?.route.name == null && !narrow) {
+    router.replace('/admin/overview');
+  }
+});
+
 provideMetadataReceiver((info) => {
 	if (info == null) {
 		childInfo = null;
@@ -286,6 +292,11 @@ defineExpose({
 </script>
 
 <style lang="scss" scoped>
+.dashboard-icon {
+  text-align: center;
+  font-size: 25px;
+}
+
 .hiyeyicy {
 	&.wide {
 		display: flex;
