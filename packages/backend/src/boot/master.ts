@@ -25,7 +25,7 @@ const bootLogger = logger.createSubLogger('boot', 'magenta', false);
 const themeColor = chalk.hex('#86b300');
 
 function greet() {
-	/*
+
 	if (!envOption.quiet) {
 		//#region Misskey logo
 		const v = `v${meta.version}`;
@@ -42,7 +42,7 @@ function greet() {
 		console.log('');
 		console.log(chalkTemplate`--- ${os.hostname()} {gray (PID: ${process.pid.toString()})} ---`);
 	}
-	*/
+
 
 	bootLogger.info('Welcome to Nexkey!');
 	bootLogger.info(`Nexkey v${meta.version}`, null, true);
