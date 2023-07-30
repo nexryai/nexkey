@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"git.sda1.net/nexryai/nexkey/core"
 	"git.sda1.net/nexryai/nexkey/daemons"
-	"git.sda1.net/nexryai/nexkey/services"
+	"git.sda1.net/nexryai/nexkey/endpoints"
 )
 
 func greeting() {
@@ -27,7 +27,7 @@ func Boot() {
 	}()
 
 	// Goの部分を起動させる
-	services.CreateServer()
+	endpoints.CreateServer()
 
 	select {}
 }
