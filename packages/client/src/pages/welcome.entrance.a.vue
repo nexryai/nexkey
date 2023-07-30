@@ -27,6 +27,7 @@
 				<div class="action">
 					<MkButton inline rounded gradate data-cy-signup style="margin-right: 12px;" @click="signup()">{{ i18n.ts.signup }}</MkButton>
 					<MkButton inline rounded data-cy-signin @click="signin()">{{ i18n.ts.login }}</MkButton>
+          <MkButton inline rounded data-cy-signin style="margin-left: 12px;" @click="jumpToExplore()">{{ i18n.ts.explore }}</MkButton>
 				</div>
 			</div>
 		</div>
@@ -36,16 +37,12 @@
 
 <script lang="ts" setup>
 import { } from 'vue';
-import { toUnicode } from 'punycode/';
-import MarqueeText from '@/components/MkMarquee.vue';
 import XSigninDialog from '@/components/MkSigninDialog.vue';
 import XSignupDialog from '@/components/MkSignupDialog.vue';
 import MkButton from '@/components/MkButton.vue';
-import XNote from '@/components/MkNote.vue';
 import MkFeaturedPhotos from '@/components/MkFeaturedPhotos.vue';
-import { host, instanceName } from '@/config';
+import { instanceName } from '@/config';
 import * as os from '@/os';
-import number from '@/filters/number';
 import { i18n } from '@/i18n';
 import MkInfo from '@/components/MkInfo.vue';
 
@@ -83,6 +80,10 @@ function signup() {
 	os.popup(XSignupDialog, {
 		autoSet: true,
 	}, {}, 'closed');
+}
+
+function jumpToExplore() {
+  window.location.href = '/explore';
 }
 
 function showMenu(ev) {

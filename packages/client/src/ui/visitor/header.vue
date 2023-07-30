@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import {defineComponent, ref} from 'vue';
 import XSigninDialog from '@/components/MkSigninDialog.vue';
 import XSignupDialog from '@/components/MkSignupDialog.vue';
 import * as os from '@/os';
@@ -110,7 +110,7 @@ export default defineComponent({
 			margin: 0 auto;
 			display: flex;
 			align-items: center;
-      background-image: linear-gradient(to left, rgba(255, 255, 255, 0), var(--bg)), url("https://s3.sda1.net/misskey/contents/4c0bf5c4-2884-471c-9ae1-c8146886cca5.avif");
+      background: linear-gradient(330deg,var(--accentLighten),var(--accentedBg),rgb(255,255,255));
       background-size: cover;
 
       > .header-logo {
@@ -215,7 +215,7 @@ export default defineComponent({
 
 	> .narrow {
 		display: flex;
-    background-image: linear-gradient(to left, rgba(255, 255, 255, 0), var(--bg)), url("https://s3.sda1.net/misskey/contents/4c0bf5c4-2884-471c-9ae1-c8146886cca5.avif");
+    background: linear-gradient(330deg,var(--accentLighten),var(--accentedBg),rgb(255,255,255));
     background-size: cover;
 
     > .header-logo-mobile {
