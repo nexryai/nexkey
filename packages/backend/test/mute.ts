@@ -80,7 +80,7 @@ describe('Mute', () => {
 			const bobNote = await post(bob);
 			const carolNote = await post(carol);
 
-			const res = await request('/notes/local-timeline', {}, alice);
+			const res = await request('/notes/hybrid-timeline', {}, alice);
 
 			assert.strictEqual(res.status, 200);
 			assert.strictEqual(Array.isArray(res.body), true);
@@ -96,7 +96,7 @@ describe('Mute', () => {
 				renoteId: carolNote.id,
 			});
 
-			const res = await request('/notes/local-timeline', {}, alice);
+			const res = await request('/notes/hybrid-timeline', {}, alice);
 
 			assert.strictEqual(res.status, 200);
 			assert.strictEqual(Array.isArray(res.body), true);
