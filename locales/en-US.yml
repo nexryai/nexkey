@@ -1419,11 +1419,8 @@ _instanceCharts:
   filesTotal: "Cumulative number of files"
 _timelines:
   home: "Home"
-  limited: "Limited Home"
-  personal: "Personal"
   local: "Local"
   social: "Social"
-  media: "Media"
   global: "Global"
 _pages:
   newPage: "Create a new Page"

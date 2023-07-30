@@ -2,12 +2,8 @@
 <XColumn :menu="menu" :column="column" :is-stacked="isStacked" :indicated="indicated" @change-active-state="onChangeActiveState" @parent-focus="$event => emit('parent-focus', $event)">
 	<template #header>
 		<i v-if="column.tl === 'home'" class="ti ti-home"></i>
-		<i v-else-if="column.tl === 'limited'" class="ti ti-lock-open"></i>
-		<i v-else-if="column.tl === 'local'" class="ti ti-planet"></i>
 		<i v-else-if="column.tl === 'social'" class="ti ti-rocket"></i>
-		<i v-else-if="column.tl === 'media'" class="ti ti-file"></i>
 		<i v-else-if="column.tl === 'global'" class="ti ti-whirl"></i>
-		<i v-else-if="column.tl === 'personal'" class="ti ti-book"></i>
 		<span style="margin-left: 8px;">{{ column.name }}</span>
 	</template>
 
@@ -57,7 +53,7 @@ onMounted(() => {
 		setType();
 	} else if ($i) {
 		disabled = !$i.isModerator && !$i.isAdmin && (
-			instance.disableLocalTimeline && ['local', 'social', 'media'].includes(props.column.tl) ||
+			instance.disableLocalTimeline && ['local', 'social'].includes(props.column.tl) ||
 			instance.disableGlobalTimeline && ['global'].includes(props.column.tl));
 	}
 	enableLTL = defaultStore.state.enableLTL;
@@ -73,17 +69,11 @@ async function setType() {
 		items: [{
 			value: 'home' as const, text: i18n.ts._timelines.home,
 		}, {
-			value: 'limited' as const, text: i18n.ts._timelines.limited,
-		}, {
 			value: 'local' as const, text: i18n.ts._timelines.local,
 		}, {
 			value: 'social' as const, text: i18n.ts._timelines.social,
 		}, {
-			value: 'media' as const, text: i18n.ts._timelines.media,
-		}, {
 			value: 'global' as const, text: i18n.ts._timelines.global,
-		}, {
-			value: 'personal' as const, text: i18n.ts._timelines.personal,
 		}],
 	});
 	if (canceled) {

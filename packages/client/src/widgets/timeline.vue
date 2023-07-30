@@ -3,12 +3,8 @@
 	<template #header>
 		<button class="_button" @click="choose">
 			<i v-if="widgetProps.src === 'home'" class="ti ti-home"></i>
-			<i v-else-if="widgetProps.src === 'limited'" class="ti ti-lock-open"></i>
-			<i v-else-if="widgetProps.src === 'local'" class="ti ti-planet"></i>
 			<i v-else-if="widgetProps.src === 'social'" class="ti ti-rocket"></i>
-			<i v-else-if="widgetProps.src === 'media'" class="ti ti-file"></i>
 			<i v-else-if="widgetProps.src === 'global'" class="ti ti-whirl"></i>
-			<i v-else-if="widgetProps.src === 'personal'" class="ti ti-book"></i>
 			<i v-else-if="widgetProps.src === 'list'" class="ti ti-list"></i>
 			<i v-else-if="widgetProps.src === 'antenna'" class="ti ti-antenna"></i>
 			<span style="margin-left: 8px;">{{ widgetProps.src === 'list' ? widgetProps.list.name : widgetProps.src === 'antenna' ? widgetProps.antenna.name : $t('_timelines.' + widgetProps.src) }}</span>
@@ -124,29 +120,13 @@ const choose = async (ev) => {
 		icon: 'ti ti-home',
 		action: () => { setSrc('home'); }
 	}, {
-		text: i18n.ts._timelines.limited,
-		icon: 'fas fa-unlock',
-		action: () => { setSrc('limited'); }
-	}, {
-		text: i18n.ts._timelines.local,
-		icon: 'ti ti-planet',
-		action: () => { setSrc('local'); },
-	}, {
 		text: i18n.ts._timelines.social,
 		icon: 'ti ti-rocket',
 		action: () => { setSrc('social'); },
 	}, {
-		text: i18n.ts._timelines.media,
-		icon: 'fas fa-file',
-		action: () => { setSrc('media'); }
-	}, {
 		text: i18n.ts._timelines.global,
 		icon: 'ti ti-whirl',
 		action: () => { setSrc('global'); }
-	}, {
-		text: i18n.ts._timelines.personal,
-		icon: 'ti ti-book',
-		action: () => { setSrc('personal'); }
 	}, antennaItems.length > 0 ? null : undefined, ...antennaItems, listItems.length > 0 ? null : undefined, ...listItems], ev.currentTarget ?? ev.target).then(() => {
 		menuOpened.value = false;
 	});
