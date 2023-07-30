@@ -1,11 +1,11 @@
 <template>
 <div class="sqxihjet">
-	<div v-if="narrow === false" class="wide">
-		<div class="content">
-			<MkA to="/" class="link" active-class="active"><i class="ti ti-home icon"></i>{{ $ts.home }}</MkA>
+	<div class="wide">
+		<div v-if="narrow === false" class="content">
+      <img @click="jumpToHome" :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" class="header-logo"/>
 			<MkA to="/explore" class="link" active-class="active"><i class="ti ti-hash icon"></i>{{ $ts.explore }}</MkA>
-			<MkA to="/featured" class="link" active-class="active"><i class="ti ti-flare icon"></i>{{ $ts.featured }}</MkA>
-			<MkA to="/channels" class="link" active-class="active"><i class="ti ti-device-tv icon"></i>{{ $ts.channel }}</MkA>
+			<MkA to="/pages" class="link" active-class="active"><i class="ti ti-news icon"></i>{{ $ts.pages }}</MkA>
+      <MkA to="/announcements" class="link" active-class="active"><i class="ti ti-speakerphone icon"></i>{{ $ts.announcements }}</MkA>
 			<div v-if="info" class="page active link">
 				<div class="title">
 					<i v-if="info.icon" class="icon" :class="info.icon"></i>
@@ -16,17 +16,18 @@
 				<button v-if="info.action" class="_button action" @click.stop="info.action.handler"><!-- TODO --></button>
 			</div>
 			<div class="right">
-				<button class="_button search" @click="search()"><i class="ti ti-search icon"></i><span>{{ $ts.search }}</span></button>
 				<button class="_buttonPrimary signup" @click="signup()">{{ $ts.signup }}</button>
 				<button class="_button login" @click="signin()">{{ $ts.login }}</button>
 			</div>
 		</div>
 	</div>
-	<div v-else-if="narrow === true" class="narrow">
+	<div v-if="narrow === true" class="narrow">
 		<button class="menu _button" @click="$parent.showMenu = true">
 			<i class="ti ti-menu-2 icon"></i>
 		</button>
-		<div v-if="info" class="title">
+    <img @click="jumpToHome" :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" class="header-logo-mobile"/>
+    <MkA to="/" class="instance-name" active-class="active"><span>{{ instanceName() }}</span></MkA>
+    <div v-if="info" class="title">
 			<i v-if="info.icon" class="icon" :class="info.icon"></i>
 			<MkAvatar v-else-if="info.avatar" class="avatar" :user="info.avatar" :disable-preview="true" :show-indicator="true"/>
 			<span v-if="info.title" class="text">{{ info.title }}</span>
@@ -45,6 +46,8 @@ import XSigninDialog from '@/components/MkSigninDialog.vue';
 import XSignupDialog from '@/components/MkSignupDialog.vue';
 import * as os from '@/os';
 import { search } from '@/scripts/search';
+import {i18n} from "@/i18n";
+import { instanceName } from '@/config';
 
 export default defineComponent({
 	props: {
@@ -61,10 +64,17 @@ export default defineComponent({
 	},
 
 	mounted() {
-		this.narrow = this.$el.clientWidth < 1300;
+		this.narrow = this.$el.clientWidth < 800;
 	},
 
 	methods: {
+    instanceName() {
+      return instanceName
+    },
+    jumpToHome() {
+      window.location.href = '/';
+    },
+
 		signin() {
 			os.popup(XSigninDialog, {
 				autoSet: true,
@@ -100,6 +110,14 @@ export default defineComponent({
 			margin: 0 auto;
 			display: flex;
 			align-items: center;
+      background-image: linear-gradient(to left, rgba(255, 255, 255, 0), var(--bg)), url("https://s3.sda1.net/misskey/contents/4c0bf5c4-2884-471c-9ae1-c8146886cca5.avif");
+      background-size: cover;
+
+      > .header-logo {
+        height: auto;
+        width: 30px;
+        padding: 0 10px 0 15px;
+      }
 
 			> .link {
 				$line: 3px;
@@ -185,7 +203,11 @@ export default defineComponent({
 				}
 
 				> .login {
-					padding: 0 16px;
+          background: var(--bg);
+          border-radius: 999px;
+					padding: 0 24px;
+          line-height: $height - 20px;
+          margin: 0 16px 0 16px;
 				}
 			}
 		}
@@ -193,6 +215,19 @@ export default defineComponent({
 
 	> .narrow {
 		display: flex;
+    background-image: linear-gradient(to left, rgba(255, 255, 255, 0), var(--bg)), url("https://s3.sda1.net/misskey/contents/4c0bf5c4-2884-471c-9ae1-c8146886cca5.avif");
+    background-size: cover;
+
+    > .header-logo-mobile {
+      height: 35px;
+      width: auto;
+      padding-top: 12px;
+    }
+
+    > .instance-name {
+      font-size: 20px;
+      padding-left: 10px;
+    }
 
 		> .menu,
 		> .action {

@@ -2,9 +2,7 @@
 <div v-if="meta" class="rsqzvsbo">
 	<div class="top">
 		<MkFeaturedPhotos class="bg"/>
-		<div class="shape1"></div>
-		<div class="shape2"></div>
-		<img src="/client-assets/misskey.svg" class="misskey"/>
+		<img @click="showMenu" :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" class="misskey"/>
 		<div class="emojis">
 			<MkEmoji :normal="true" :no-style="true" emoji="👍"/>
 			<MkEmoji :normal="true" :no-style="true" emoji="❤"/>
@@ -13,8 +11,6 @@
 			<MkEmoji :normal="true" :no-style="true" emoji="🍮"/>
 		</div>
 		<div class="main">
-			<img :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" alt="" class="icon"/>
-			<button class="_button _acrylic menu" @click="showMenu"><i class="ti ti-dots"></i></button>
 			<div class="fg">
 				<h1>
 					<!-- 背景色によってはロゴが見えなくなるのでとりあえず無効に -->
@@ -125,7 +121,7 @@ function showMenu(ev) {
 			position: absolute;
 			top: 0;
 			right: 0;
-			width: 80%; // 100%からshapeの幅を引いている
+			width: 100%;
 			height: 100%;
 		}
 
@@ -168,19 +164,16 @@ function showMenu(ev) {
 
 		> .misskey {
 			position: absolute;
-			top: 42px;
-			left: 42px;
-			width: 140px;
-
-			@media (max-width: 450px) {
-				width: 130px;
-			}
+			top: 28px;
+			left: 28px;
+			width: 50px;
+      height: auto;
 		}
 
 		> .emojis {
 			position: absolute;
 			bottom: 32px;
-			left: 35px;
+			right: 35px;
 
 			> * {
 				margin-right: 8px;
@@ -227,7 +220,7 @@ function showMenu(ev) {
 				> h1 {
 					display: block;
 					margin: 0;
-					padding: 16px 32px 24px 32px;
+					padding: 32px 32px 24px 32px;
 					font-size: 1.4em;
 
 					> .logo {
