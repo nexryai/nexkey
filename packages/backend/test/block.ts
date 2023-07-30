@@ -69,12 +69,12 @@ describe('Block', () => {
 
 	// TODO: ユーザーリストから除外されるテスト
 
-	it('タイムライン(LTL)にブロックされているユーザーの投稿が含まれない', async(async () => {
+	it('タイムライン(GTL)にブロックされているユーザーの投稿が含まれない', async(async () => {
 		const aliceNote = await post(alice);
 		const bobNote = await post(bob);
 		const carolNote = await post(carol);
 
-		const res = await request('/notes/local-timeline', {}, bob);
+		const res = await request('/notes/global-timeline', {}, bob);
 
 		assert.strictEqual(res.status, 200);
 		assert.strictEqual(Array.isArray(res.body), true);

@@ -124,30 +124,15 @@ const headerTabs = $computed(() => [{
 	title: i18n.ts._timelines.home,
 	icon: 'ti ti-home',
 	iconOnly: true,
-}, ...(isLimitedTimelineAvailable ? [{
-	key: 'limited',
-	title: i18n.ts._timelines.limited,
-	icon: 'fas fa-unlock',
-	iconOnly: true,
-}] : []), ...(isLocalTimelineAvailable ? [{
+}, ...(isLocalTimelineAvailable ? [{
 	key: 'social',
 	title: i18n.ts._timelines.social,
 	icon: 'ti ti-rocket',
 	iconOnly: true,
-}, ...(isMediaTimelineAvailable ? [{
-	key: 'media',
-	title: i18n.ts._timelines.media,
-	icon: 'fas fa-file',
-	iconOnly: true,
-}] : [])] : []), ...(isGlobalTimelineAvailable ? [{
+}] : []), ...(isGlobalTimelineAvailable ? [{
 	key: 'global',
 	title: i18n.ts._timelines.global,
 	icon: 'ti ti-whirl',
-	iconOnly: true,
-}] : []), ...(isPersonalTimelineAvailable ? [{
-	key: 'personal',
-	title: i18n.ts._timelines.personal,
-	icon: 'fas fa-book',
 	iconOnly: true,
 }] : []), {
 	icon: 'ti ti-list',

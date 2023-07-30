@@ -220,10 +220,6 @@ import * as ep___notes_favorites_delete from './endpoints/notes/favorites/delete
 import * as ep___notes_featured from './endpoints/notes/featured.js';
 import * as ep___notes_globalTimeline from './endpoints/notes/global-timeline.js';
 import * as ep___notes_hybridTimeline from './endpoints/notes/hybrid-timeline.js';
-import * as ep___notes_localTimeline from './endpoints/notes/local-timeline.js';
-import * as ep___notes_limitedTimeline from './endpoints/notes/limited-timeline.js';
-import * as ep___notes_mediaTimeline from './endpoints/notes/media-timeline.js';
-import * as ep___notes_personalTimeline from './endpoints/notes/personal-timeline.js';
 import * as ep___notes_mentions from './endpoints/notes/mentions.js';
 import * as ep___notes_polls_recommendation from './endpoints/notes/polls/recommendation.js';
 import * as ep___notes_polls_vote from './endpoints/notes/polls/vote.js';
@@ -525,10 +521,6 @@ const eps = [
 	['notes/featured', ep___notes_featured],
 	['notes/global-timeline', ep___notes_globalTimeline],
 	['notes/hybrid-timeline', ep___notes_hybridTimeline],
-	['notes/local-timeline', ep___notes_localTimeline],
-	['notes/limited-timeline', ep___notes_limitedTimeline],
-	['notes/media-timeline', ep___notes_mediaTimeline],
-	['notes/personal-timeline', ep___notes_personalTimeline],
 	['notes/mentions', ep___notes_mentions],
 	['notes/polls/recommendation', ep___notes_polls_recommendation],
 	['notes/polls/vote', ep___notes_polls_vote],

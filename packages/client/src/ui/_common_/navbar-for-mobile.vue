@@ -157,6 +157,7 @@ useInterval(tick, 1000 * 15, {
 	> .body {
 		display: flex;
 		flex-direction: column;
+		height: calc(var(--vh, 1vh) * 100);
 
 		> .top {
 			position: sticky;
@@ -266,7 +267,7 @@ useInterval(tick, 1000 * 15, {
 				align-items: center;
 				padding-left: 30px;
 				text-overflow: ellipsis;
-				overflow: hidden;
+				/*overflow: hidden;*/
 				white-space: nowrap;
 				width: 100%;
 				text-align: left;

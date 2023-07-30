@@ -2,9 +2,7 @@
 <div v-if="meta" class="rsqzvsbo">
 	<div class="top">
 		<MkFeaturedPhotos class="bg"/>
-		<div class="shape1"></div>
-		<div class="shape2"></div>
-		<img src="/client-assets/misskey.svg" class="misskey"/>
+		<img @click="showMenu" :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" class="misskey"/>
 		<div class="emojis">
 			<MkEmoji :normal="true" :no-style="true" emoji="👍"/>
 			<MkEmoji :normal="true" :no-style="true" emoji="❤"/>
@@ -13,8 +11,6 @@
 			<MkEmoji :normal="true" :no-style="true" emoji="🍮"/>
 		</div>
 		<div class="main">
-			<img :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" alt="" class="icon"/>
-			<button class="_button _acrylic menu" @click="showMenu"><i class="ti ti-dots"></i></button>
 			<div class="fg">
 				<h1>
 					<!-- 背景色によってはロゴが見えなくなるのでとりあえず無効に -->
@@ -31,6 +27,7 @@
 				<div class="action">
 					<MkButton inline rounded gradate data-cy-signup style="margin-right: 12px;" @click="signup()">{{ i18n.ts.signup }}</MkButton>
 					<MkButton inline rounded data-cy-signin @click="signin()">{{ i18n.ts.login }}</MkButton>
+          <MkButton inline rounded data-cy-signin style="margin-left: 12px;" @click="jumpToExplore()">{{ i18n.ts.explore }}</MkButton>
 				</div>
 			</div>
 		</div>
@@ -40,16 +37,12 @@
 
 <script lang="ts" setup>
 import { } from 'vue';
-import { toUnicode } from 'punycode/';
-import MarqueeText from '@/components/MkMarquee.vue';
 import XSigninDialog from '@/components/MkSigninDialog.vue';
 import XSignupDialog from '@/components/MkSignupDialog.vue';
 import MkButton from '@/components/MkButton.vue';
-import XNote from '@/components/MkNote.vue';
 import MkFeaturedPhotos from '@/components/MkFeaturedPhotos.vue';
-import { host, instanceName } from '@/config';
+import { instanceName } from '@/config';
 import * as os from '@/os';
-import number from '@/filters/number';
 import { i18n } from '@/i18n';
 import MkInfo from '@/components/MkInfo.vue';
 
@@ -89,6 +82,10 @@ function signup() {
 	}, {}, 'closed');
 }
 
+function jumpToExplore() {
+  window.location.href = '/explore';
+}
+
 function showMenu(ev) {
 	os.popupMenu([{
 		text: i18n.ts.instanceInfo,
@@ -125,7 +122,7 @@ function showMenu(ev) {
 			position: absolute;
 			top: 0;
 			right: 0;
-			width: 80%; // 100%からshapeの幅を引いている
+			width: 100%;
 			height: 100%;
 		}
 
@@ -168,19 +165,16 @@ function showMenu(ev) {
 
 		> .misskey {
 			position: absolute;
-			top: 42px;
-			left: 42px;
-			width: 140px;
-
-			@media (max-width: 450px) {
-				width: 130px;
-			}
+			top: 28px;
+			left: 28px;
+			width: 50px;
+      height: auto;
 		}
 
 		> .emojis {
 			position: absolute;
 			bottom: 32px;
-			left: 35px;
+			right: 35px;
 
 			> * {
 				margin-right: 8px;
@@ -227,7 +221,7 @@ function showMenu(ev) {
 				> h1 {
 					display: block;
 					margin: 0;
-					padding: 16px 32px 24px 32px;
+					padding: 32px 32px 24px 32px;
 					font-size: 1.4em;
 
 					> .logo {
