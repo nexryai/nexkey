@@ -308,6 +308,7 @@ definePageMetadata(computed(() => !fetching ? user ? {
 .mk-messaging-room {
 	position: relative;
 	overflow: auto;
+	padding: 23px;
 
 	> .body {
 		.more {

@@ -211,14 +211,15 @@ definePageMetadata(computed(() => page ? {
 		}
 
 		> .content {
-			margin-top: 16px;
+
+			margin: 16px;
 			padding: 16px 0 0 0;
 		}
 
 		> .actions {
 			display: flex;
 			align-items: center;
-			margin-top: 16px;
+			margin: 16px;
 			padding: 16px 0 0 0;
 			border-top: solid 0.5px var(--divider);
 
@@ -251,7 +252,7 @@ definePageMetadata(computed(() => page ? {
 		}
 
 		> .user {
-			margin-top: 16px;
+			margin: 16px;
 			padding: 16px 0 0 0;
 			border-top: solid 0.5px var(--divider);
 			display: flex;
@@ -273,8 +274,8 @@ definePageMetadata(computed(() => page ? {
 		}
 
 		> .links {
-			margin-top: 16px;
-			padding: 24px 0 0 0;
+			margin: 16px;
+			padding: 24px 0 24px 0;
 			border-top: solid 0.5px var(--divider);
 
 			> .link {

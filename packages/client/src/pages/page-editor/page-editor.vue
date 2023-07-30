@@ -9,7 +9,7 @@
 			<MkButton v-if="pageId && !readonly" inline class="button" danger @click="del"><i class="ti ti-trash"></i> {{ $ts.delete }}</MkButton>
 		</div>
 
-		<div v-if="tab === 'settings'">
+		<div v-if="tab === 'settings'" style="margin-top: 10px;">
 			<div class="_formRoot">
 				<MkInput v-model="title" class="_formBlock">
 					<template #label>{{ $ts._pages.title }}</template>
@@ -444,6 +444,8 @@ definePageMetadata(computed(() => {
 
 <style lang="scss" scoped>
 .jqqmcavi {
+	margin-bottom: 10px;
+
 	> .button {
 		& + .button {
 			margin-left: 8px;
