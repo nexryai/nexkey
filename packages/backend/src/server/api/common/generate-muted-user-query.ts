@@ -35,17 +35,14 @@ export function generateMutedUserQuery(q: SelectQueryBuilder<any>, me: { id: Use
 		// mute instances
 		.andWhere(new Brackets(qb => { qb
 			.andWhere('note.userHost IS NULL')
-			.andWhere(`note.userId NOT IN (${ followingQuery.getQuery() })`)
 			.orWhere(`NOT ((${ mutingInstanceQuery.getQuery() })::jsonb ? note.userHost)`);
 		}))
 		.andWhere(new Brackets(qb => { qb
 			.where('note.replyUserHost IS NULL')
-			.andWhere(`note.replyUserId NOT IN (${ followingQuery.getQuery() })`)
 			.orWhere(`NOT ((${ mutingInstanceQuery.getQuery() })::jsonb ? note.replyUserHost)`);
 		}))
 		.andWhere(new Brackets(qb => { qb
 			.where('note.renoteUserHost IS NULL')
-			.andWhere(`note.renoteUserId NOT IN (${ followingQuery.getQuery() })`)
 			.orWhere(`NOT ((${ mutingInstanceQuery.getQuery() })::jsonb ? note.renoteUserHost)`);
 		}));
 
