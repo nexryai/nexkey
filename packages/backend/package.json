@@ -54,7 +54,7 @@
 		"is-svg": "5.0.0",
 		"js-yaml": "4.1.0",
 		"jsdom": "20.0.0",
-		"json5": "2.2.2",
+		"json5": "2.2.3",
 		"json5-loader": "4.0.1",
 		"jsonld": "6.0.0",
 		"jsrsasign": "10.5.27",
