@@ -1,10 +1,9 @@
-import bcrypt from 'bcryptjs';
 import * as speakeasy from 'speakeasy';
 import * as QRCode from 'qrcode';
 import config from '@/config/index.js';
 import { UserProfiles } from '@/models/index.js';
 import define from '../../../define.js';
-
+import { comparePassword } from "@/misc/password.js";
 export const meta = {
 	requireCredential: true,
 
@@ -24,7 +23,7 @@ export default define(meta, paramDef, async (ps, user) => {
 	const profile = await UserProfiles.findOneByOrFail({ userId: user.id });
 
 	// Compare password
-	const same = await bcrypt.compare(ps.password, profile.password!);
+	const same = await comparePassword(ps.password, profile.password!);
 
 	if (!same) {
 		throw new Error('incorrect password');

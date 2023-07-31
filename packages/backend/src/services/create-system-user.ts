@@ -1,4 +1,3 @@
-import bcrypt from 'bcryptjs';
 import { v4 as uuid } from 'uuid';
 import generateNativeUserToken from '../server/api/common/generate-native-user-token.js';
 import { genRsaKeyPair } from '@/misc/gen-key-pair.js';
@@ -9,13 +8,13 @@ import { genId } from '@/misc/gen-id.js';
 import { UserKeypair } from '@/models/entities/user-keypair.js';
 import { UsedUsername } from '@/models/entities/used-username.js';
 import { db } from '@/db/postgre.js';
+import { hashPassword } from "@/misc/password.js";
 
 export async function createSystemUser(username: string) {
 	const password = uuid();
 
 	// Generate hash of password
-	const salt = await bcrypt.genSalt(8);
-	const hash = await bcrypt.hash(password, salt);
+	const hash = await hashPassword(password);
 
 	// Generate secret
 	const secret = generateNativeUserToken();

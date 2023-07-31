@@ -131,7 +131,10 @@ async function connectDb(): Promise<void> {
 		dbLogger.succ(`Connected: v${v}`);
 	} catch (e) {
 		dbLogger.error('Cannot connect', null, true);
+
+		// @ts-ignore
 		dbLogger.error(e);
+
 		process.exit(1);
 	}
 }

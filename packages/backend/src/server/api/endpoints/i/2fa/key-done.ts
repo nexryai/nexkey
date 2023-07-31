@@ -1,4 +1,3 @@
-import bcrypt from 'bcryptjs';
 import { promisify } from 'node:util';
 import * as cbor from 'cbor';
 import define from '../../../define.js';
@@ -11,6 +10,7 @@ import {
 import config from '@/config/index.js';
 import { procedures, hash } from '../../../2fa.js';
 import { publishMainStream } from '@/services/stream.js';
+import { comparePassword } from "@/misc/password.js";
 
 const cborDecodeFirst = promisify(cbor.decodeFirst) as any;
 const rpIdHashReal = hash(Buffer.from(config.hostname, 'utf-8'));
@@ -38,7 +38,7 @@ export default define(meta, paramDef, async (ps, user) => {
 	const profile = await UserProfiles.findOneByOrFail({ userId: user.id });
 
 	// Compare password
-	const same = await bcrypt.compare(ps.password, profile.password!);
+	const same = await comparePassword(ps.password, profile.password!);
 
 	if (!same) {
 		throw new Error('incorrect password');
