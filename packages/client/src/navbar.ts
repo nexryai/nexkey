@@ -50,12 +50,6 @@ export const navbarItemDef = reactive({
 		show: computed(() => $i != null),
 		to: '/my/groups',
 	},
-	favorites: {
-		title: 'favorites',
-		icon: 'ti ti-star',
-		show: computed(() => $i != null),
-		to: '/my/favorites',
-	},
 	pages: {
 		title: 'pages',
 		icon: 'ti ti-news',

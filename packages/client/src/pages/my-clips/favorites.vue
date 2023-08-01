@@ -1,6 +1,5 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader/></template>
 	<MkSpacer :content-max="800">
 		<MkPagination ref="pagingComponent" :pagination="pagination">
 			<template #empty>
