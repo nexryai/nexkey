@@ -1,9 +1,5 @@
-import { computed, ref, reactive } from 'vue';
+import { computed, reactive } from 'vue';
 import { $i } from './account';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
-import { ui } from '@/config';
-import { unisonReload } from '@/scripts/unison-reload';
 
 export const navbarItemDef = reactive({
 	notifications: {
@@ -60,33 +56,5 @@ export const navbarItemDef = reactive({
 		icon: 'ti ti-paperclip',
 		show: computed(() => $i != null),
 		to: '/my/clips',
-	},
-	ui: {
-		title: 'switchUi',
-		icon: 'ti ti-devices',
-		action: (ev) => {
-			os.popupMenu([{
-				text: i18n.ts.default,
-				active: ui === 'default' || ui === null,
-				action: () => {
-					localStorage.setItem('ui', 'default');
-					unisonReload();
-				},
-			}, {
-				text: i18n.ts.deck,
-				active: ui === 'deck',
-				action: () => {
-					localStorage.setItem('ui', 'deck');
-					unisonReload();
-				},
-			}, {
-				text: i18n.ts.classic,
-				active: ui === 'classic',
-				action: () => {
-					localStorage.setItem('ui', 'classic');
-					unisonReload();
-				},
-			}], ev.currentTarget ?? ev.target);
-		},
 	},
 });
