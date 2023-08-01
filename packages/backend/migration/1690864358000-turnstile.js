@@ -1,6 +1,3 @@
-1690864358
-
-
 export class turnstile1690864358000 {
 	name = 'turnstile1690864358000'
 
