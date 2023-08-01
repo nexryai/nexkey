@@ -49,7 +49,7 @@ const isLimitedTimelineAvailable = $i != null && defaultStore.state.enableLimite
 const widgetPropsDef = {
 	showHeader: {
 		type: 'boolean' as const,
-		default: true,
+		default: false,
 	},
 	height: {
 		type: 'number' as const,
