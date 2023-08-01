@@ -68,6 +68,7 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'account',
 		default: [
 			'notifications',
+			'messaging',
 			'followRequests',
 			'drive',
 			'explore',
@@ -103,6 +104,12 @@ export const defaultStore = markRaw(new Storage('base', {
 			},
 			{
 				id: 'b',
+				data: {},
+				name: 'clock',
+				place: 'right',
+			},
+			{
+				id: 'c',
 				data: {},
 				name: 'notifications',
 				place: 'right',
@@ -264,11 +271,11 @@ export const defaultStore = markRaw(new Storage('base', {
 		default: false,
 	},
 	enableLTL: {
-		where: 'device',
+		where: 'account',
 		default: true,
 	},
 	enableGTL: {
-		where: 'device',
+		where: 'account',
 		default: true,
 	},
 	enablePTL: {
