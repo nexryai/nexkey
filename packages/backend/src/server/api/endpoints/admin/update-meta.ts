@@ -51,6 +51,9 @@ export const paramDef = {
 		enableRecaptcha: { type: 'boolean' },
 		recaptchaSiteKey: { type: 'string', nullable: true },
 		recaptchaSecretKey: { type: 'string', nullable: true },
+		enableTurnstile: { type: 'boolean' },
+		turnstileSiteKey: { type: 'string', nullable: true },
+		turnstileSecretKey: { type: 'string', nullable: true },
 		proxyAccountId: { type: 'string', format: 'misskey:id', nullable: true },
 		maintainerName: { type: 'string', nullable: true },
 		maintainerEmail: { type: 'string', nullable: true },
@@ -219,6 +222,18 @@ export default define(meta, paramDef, async (ps, me) => {
 
 	if (ps.recaptchaSecretKey !== undefined) {
 		set.recaptchaSecretKey = ps.recaptchaSecretKey;
+	}
+
+	if (ps.enableTurnstile !== undefined) {
+		set.enableTurnstile = ps.enableTurnstile;
+	}
+
+	if (ps.turnstileSiteKey !== undefined) {
+		set.turnstileSiteKey = ps.turnstileSiteKey;
+	}
+
+	if (ps.turnstileSecretKey !== undefined) {
+		set.turnstileSecretKey = ps.turnstileSecretKey;
 	}
 
 	if (ps.proxyAccountId !== undefined) {

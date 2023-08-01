@@ -9,6 +9,7 @@
 					<template #label>{{ i18n.ts.botProtection }}</template>
 					<template v-if="enableHcaptcha" #suffix>hCaptcha</template>
 					<template v-else-if="enableRecaptcha" #suffix>reCAPTCHA</template>
+					<template v-else-if="enableTurnstile" #suffix>Turnstile</template>
 					<template v-else #suffix>{{ i18n.ts.none }} ({{ i18n.ts.notRecommended }})</template>
 
 					<XBotProtection/>
@@ -63,6 +64,7 @@ import { definePageMetadata } from '@/scripts/page-metadata';
 let summalyProxy: string = $ref('');
 let enableHcaptcha: boolean = $ref(false);
 let enableRecaptcha: boolean = $ref(false);
+let enableTurnstile: boolean = $ref(false);
 let enableIpLogging: boolean = $ref(false);
 let enableActiveEmailValidation: boolean = $ref(false);
 
@@ -71,6 +73,7 @@ async function init() {
 	summalyProxy = meta.summalyProxy;
 	enableHcaptcha = meta.enableHcaptcha;
 	enableRecaptcha = meta.enableRecaptcha;
+	enableTurnstile = meta.enableTurnstile;
 	enableIpLogging = meta.enableIpLogging;
 	enableActiveEmailValidation = meta.enableActiveEmailValidation;
 }

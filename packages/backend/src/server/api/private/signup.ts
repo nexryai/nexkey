@@ -1,7 +1,7 @@
 import Koa from 'koa';
 import rndstr from 'rndstr';
 import { fetchMeta } from '@/misc/fetch-meta.js';
-import { verifyHcaptcha, verifyRecaptcha } from '@/misc/captcha.js';
+import { verifyHcaptcha, verifyRecaptcha, verifyTurnstile } from '@/misc/captcha.js';
 import { Users, RegistrationTickets, UserPendings } from '@/models/index.js';
 import { signup } from '../common/signup.js';
 import config from '@/config/index.js';
@@ -25,6 +25,12 @@ export default async (ctx: Koa.Context) => {
 
 		if (instance.enableRecaptcha && instance.recaptchaSecretKey) {
 			await verifyRecaptcha(instance.recaptchaSecretKey, body['g-recaptcha-response']).catch(e => {
+				ctx.throw(400, e);
+			});
+		}
+
+		if (instance.enableTurnstile && instance.turnstileSecretKey) {
+			await verifyTurnstile(instance.turnstileSecretKey, body['turnstile-response']).catch(e => {
 				ctx.throw(400, e);
 			});
 		}
