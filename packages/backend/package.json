@@ -18,7 +18,7 @@
 		"@discordapp/twemoji": "14.0.2",
 		"@elastic/elasticsearch": "7.11.0",
 		"@koa/cors": "3.1.0",
-		"@koa/multer": "3.0.0",
+		"@koa/multer": "3.0.2",
 		"@koa/router": "9.0.1",
 		"@peertube/http-signature": "1.7.0",
 		"@sinonjs/fake-timers": "9.1.2",
