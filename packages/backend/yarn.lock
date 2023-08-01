@@ -6634,10 +6634,10 @@ syslog-pro@1.0.0:
   dependencies:
     moment "^2.22.2"
 
-systeminformation@5.12.6:
-  version "5.12.6"
-  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-5.12.6.tgz#b75d7aaf9f5da32439fc633d2be9eb741691d200"
-  integrity sha512-FkCvT5BOuH1OE3+8lFM25oXIYJ0CM8kq4Wgvz2jyBTrsOIgha/6gdJXgbF4rv+g0j/5wJqQLDKan7kc/p7uIvw==
+systeminformation@5.18.10:
+  version "5.18.10"
+  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-5.18.10.tgz#ed9b8e204d6730eb98c71b04398bc1fec3c503fd"
+  integrity sha512-p7Su6y3MhKODBVOeQuJQG8jk3HvaU9dtSgVHT/pkRGj2g97n4fmYhYCJ2+djK0Ed5Zq4nSQ7zzEYFVlW71RbHg==
 
 tapable@^2.2.0:
   version "2.2.1"
