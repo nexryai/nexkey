@@ -1,5 +1,6 @@
-import { Signins, UserProfiles, Users } from '@/models/index.js';
+import { Signins, UserProfiles, Users, DriveFiles } from '@/models/index.js';
 import define from '../../define.js';
+import { fetchMeta } from '@/misc/fetch-meta.js';
 
 export const meta = {
 	tags: ['admin'],
@@ -37,12 +38,19 @@ export default define(meta, paramDef, async (ps, me) => {
 		throw new Error('cannot show info of admin');
 	}
 
+	const instance = await fetchMeta(true);
+
+	// Calculate drive usage
+	const usage = await DriveFiles.calcDriveUsageOf(ps.userId);
+
 	if (!_me.isAdmin) {
 		return {
 			isModerator: user.isModerator,
 			isSilenced: user.isSilenced,
 			isSuspended: user.isSuspended,
 			emailVerified: profile.emailVerified,
+			capacity: 1024 * 1024 * (user.driveCapacityOverrideMb || instance.localDriveCapacityMb),
+			usage: usage,
 		};
 	}
 
@@ -72,6 +80,8 @@ export default define(meta, paramDef, async (ps, me) => {
 		isSuspended: user.isSuspended,
 		lastActiveDate: user.lastActiveDate,
 		moderationNote: profile.moderationNote,
+		capacity: 1024 * 1024 * (user.driveCapacityOverrideMb || instance.localDriveCapacityMb),
+		usage: usage,
 		signins,
 	};
 });
