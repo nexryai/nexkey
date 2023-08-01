@@ -3,9 +3,6 @@
 	<button class="disablePlayer" :title="i18n.ts.disablePlayer" @click="playerEnabled = false"><i class="ti ti-x"></i></button>
 	<iframe :src="player.url + (player.url.match(/\?/) ? '&autoplay=1&auto_play=1' : '?autoplay=1&auto_play=1')" :width="player.width || '100%'" :heigth="player.height || 250" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen/>
 </div>
-<div v-else-if="tweetId && tweetExpanded" ref="twitter" class="twitter">
-	<iframe ref="tweet" scrolling="no" frameborder="no" :style="{ position: 'relative', width: '100%', height: `${tweetHeight}px` }" :src="`https://platform.twitter.com/embed/index.html?embedId=${embedId}&amp;hideCard=false&amp;hideThread=false&amp;lang=en&amp;theme=${$store.state.darkMode ? 'dark' : 'light'}&amp;id=${tweetId}`"></iframe>
-</div>
 <div v-else v-size="{ max: [400, 350] }" class="mk-url-preview">
 	<transition :name="$store.state.animation ? 'zoom' : ''" mode="out-in">
 		<component :is="self ? 'MkA' : 'a'" v-if="!fetching" class="link" :class="{ compact }" :[attr]="self ? url.substr(local.length) : url" rel="nofollow noopener" :target="target" :title="url">
@@ -24,11 +21,6 @@
 			</article>
 		</component>
 	</transition>
-	<div v-if="tweetId" class="expandTweet">
-		<a @click="tweetExpanded = true">
-			<i class="ti ti-brand-twitter"></i> {{ i18n.ts.expandTweet }}
-		</a>
-	</div>
 </div>
 </template>
 
