@@ -41,7 +41,7 @@
 		"misskey-js": "0.0.14",
 		"photoswipe": "5.3.8",
 		"prismjs": "1.29.0",
-		"punycode": "2.1.1",
+		"punycode": "2.3.0",
 		"querystring": "0.2.1",
 		"rndstr": "1.0.0",
 		"s-age": "1.1.2",
