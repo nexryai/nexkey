@@ -1,8 +1,8 @@
 <template>
-<div v-if="$i && fetching" class="">
-	<MkLoading/>
-</div>
-<div v-else-if="$i">
+	<div v-if="$i && fetching" class="">
+		<MkLoading/>
+	</div>
+<div v-else-if="$i" style="margin: 32px;">
 	<XForm
 		v-if="state == 'waiting'"
 		ref="form"
