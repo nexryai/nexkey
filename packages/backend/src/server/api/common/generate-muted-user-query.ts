@@ -1,11 +1,15 @@
 import { SelectQueryBuilder, Brackets } from 'typeorm';
 import { User } from '@/models/entities/user.js';
-import { Mutings, UserProfiles } from '@/models/index.js';
+import {Followings, Mutings, UserProfiles} from '@/models/index.js';
 
 export function generateMutedUserQuery(q: SelectQueryBuilder<any>, me: { id: User['id'] }, exclude?: User) {
 	const mutingQuery = Mutings.createQueryBuilder('muting')
 		.select('muting.muteeId')
 		.where('muting.muterId = :muterId', { muterId: me.id });
+
+	const followingQuery = Followings.createQueryBuilder('following')
+		.select('following.followeeId')
+		.where('following.followerId = :followerId', { followerId: me.id });
 
 	if (exclude) {
 		mutingQuery.andWhere('muting.muteeId != :excludeId', { excludeId: exclude.id });

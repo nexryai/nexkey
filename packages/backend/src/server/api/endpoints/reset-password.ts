@@ -1,8 +1,8 @@
-import bcrypt from 'bcryptjs';
 import { publishMainStream } from '@/services/stream.js';
 import { Users, UserProfiles, PasswordResetRequests } from '@/models/index.js';
 import define from '../define.js';
 import { ApiError } from '../error.js';
+import { hashPassword } from "@/misc/password.js";
 
 export const meta = {
 	tags: ['reset password'],
@@ -37,8 +37,7 @@ export default define(meta, paramDef, async (ps, user) => {
 	}
 
 	// Generate hash of password
-	const salt = await bcrypt.genSalt(8);
-	const hash = await bcrypt.hash(ps.password, salt);
+	const hash = await hashPassword(ps.password);
 
 	await UserProfiles.update(req.userId, {
 		password: hash,

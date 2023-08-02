@@ -25,6 +25,7 @@ const bootLogger = logger.createSubLogger('boot', 'magenta', false);
 const themeColor = chalk.hex('#86b300');
 
 function greet() {
+
 	if (!envOption.quiet) {
 		//#region Misskey logo
 		const v = `v${meta.version}`;
@@ -41,6 +42,7 @@ function greet() {
 		console.log('');
 		console.log(chalkTemplate`--- ${os.hostname()} {gray (PID: ${process.pid.toString()})} ---`);
 	}
+
 
 	bootLogger.info('Welcome to Nexkey!');
 	bootLogger.info(`Nexkey v${meta.version}`, null, true);
@@ -104,14 +106,12 @@ function loadConfigBoot(): Config {
 	try {
 		config = loadConfig();
 	} catch (exception) {
+
 		if (typeof exception === 'string') {
 			configLogger.error(exception);
 			process.exit(1);
 		}
-		if (exception.code === 'ENOENT') {
-			configLogger.error('Configuration file not found', null, true);
-			process.exit(1);
-		}
+
 		throw exception;
 	}
 
@@ -131,7 +131,10 @@ async function connectDb(): Promise<void> {
 		dbLogger.succ(`Connected: v${v}`);
 	} catch (e) {
 		dbLogger.error('Cannot connect', null, true);
+
+		// @ts-ignore
 		dbLogger.error(e);
+
 		process.exit(1);
 	}
 }

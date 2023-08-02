@@ -110,7 +110,7 @@ export default defineComponent({
 			margin: 0 auto;
 			display: flex;
 			align-items: center;
-      background: linear-gradient(330deg,var(--accentLighten),var(--accentedBg),rgb(255,255,255));
+			background: linear-gradient(330deg,var(--accentedBg),var(--accentLighten),var(--bg));
       background-size: cover;
 
       > .header-logo {
@@ -215,7 +215,7 @@ export default defineComponent({
 
 	> .narrow {
 		display: flex;
-    background: linear-gradient(330deg,var(--accentLighten),var(--accentedBg),rgb(255,255,255));
+		background: linear-gradient(330deg,var(--accentedBg),var(--accentLighten),var(--bg));
     background-size: cover;
 
     > .header-logo-mobile {

@@ -67,8 +67,9 @@ import { $i, openAccountMenu as openAccountMenu_ } from '@/account';
 import { defaultStore } from '@/store';
 import { i18n } from '@/i18n';
 import { instance } from '@/instance';
-import { host } from '@/config';
+import {host, ui} from '@/config';
 import { useInterval } from '@/scripts/use-interval';
+import {unisonReload} from "@/scripts/unison-reload";
 
 const iconOnly = ref(false);
 
@@ -118,7 +119,24 @@ function openInstanceMenu(ev: MouseEvent) {
 		text: i18n.ts.federation,
 		icon: 'ti ti-whirl',
 		to: '/about#federation',
-	}, null, {
+  }, null, {
+      type: 'parent',
+      text: i18n.ts.switchUi,
+      icon: 'ti ti-devices',
+      children: [{
+        text: i18n.ts.default,
+        action: () => {
+          localStorage.setItem('ui', 'default');
+          unisonReload();
+        },
+      }, {
+        text: i18n.ts.deck,
+        action: () => {
+          localStorage.setItem('ui', 'deck');
+          unisonReload();
+        },
+      }],
+	}, {
 		type: 'parent',
 		text: i18n.ts.help,
 		icon: 'ti ti-question-circle',

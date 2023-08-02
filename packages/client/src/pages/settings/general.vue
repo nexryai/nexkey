@@ -20,6 +20,7 @@
 		<option value="desktop"><i class="ti ti-device-desktop"/> {{ i18n.ts.desktop }}</option>
 	</FormRadios>
 
+  <MkButton @click="switchUi"><i class="ti ti-devices"></i> {{ i18n.ts.switchUi }}</MkButton>
 	<FormSwitch v-model="showFixedPostForm" class="_formBlock">{{ i18n.ts.showFixedPostForm }}</FormSwitch>
 
 	<FormSection>
@@ -99,12 +100,13 @@ import FormRange from '@/components/form/range.vue';
 import FormSection from '@/components/form/section.vue';
 import FormLink from '@/components/form/link.vue';
 import MkLink from '@/components/MkLink.vue';
-import { langs } from '@/config';
+import { langs, ui } from '@/config';
 import { defaultStore } from '@/store';
 import * as os from '@/os';
 import { unisonReload } from '@/scripts/unison-reload';
 import { i18n } from '@/i18n';
 import { definePageMetadata } from '@/scripts/page-metadata';
+import MkButton from "@/components/MkButton.vue";
 
 const lang = ref(localStorage.getItem('lang'));
 const fontSize = ref(localStorage.getItem('fontSize'));
@@ -188,4 +190,22 @@ definePageMetadata({
 	title: i18n.ts.general,
 	icon: 'ti ti-adjustments',
 });
+
+function switchUi(ev) {
+  os.popupMenu([{
+    text: i18n.ts.default,
+    active: ui === 'default' || ui === null,
+    action: () => {
+      localStorage.setItem('ui', 'default');
+      unisonReload();
+    },
+  }, {
+    text: i18n.ts.deck,
+    active: ui === 'deck',
+    action: () => {
+      localStorage.setItem('ui', 'deck');
+      unisonReload();
+    },
+  }], ev.currentTarget ?? ev.target);
+}
 </script>

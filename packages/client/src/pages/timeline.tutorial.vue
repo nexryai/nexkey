@@ -79,6 +79,8 @@ const tutorial = computed({
 
 <style lang="scss" scoped>
 .tbkwesmv {
+	margin-bottom: 32px;
+
 	> ._content {
 		> small {
 			opacity: 0.7;

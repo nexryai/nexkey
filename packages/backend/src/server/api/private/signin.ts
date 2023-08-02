@@ -1,7 +1,7 @@
 import Koa from 'koa';
-import bcrypt from 'bcryptjs';
 import * as speakeasy from 'speakeasy';
 import signin from '../common/signin.js';
+import { comparePassword, hashPassword, isOldAlgorithm } from '@/misc/password.js';
 import config from '@/config/index.js';
 import { Users, Signins, UserProfiles, UserSecurityKeys, AttestationChallenges } from '@/models/index.js';
 import { ILocalUser } from '@/models/entities/user.js';
@@ -79,7 +79,13 @@ export default async (ctx: Koa.Context) => {
 	const profile = await UserProfiles.findOneByOrFail({ userId: user.id });
 
 	// Compare password
-	const same = await bcrypt.compare(password, profile.password!);
+	const same = await comparePassword(password, profile.password!);
+
+	if (same && isOldAlgorithm(profile.password!)) {
+		profile.password = await hashPassword(password);
+		await UserProfiles.save(profile);
+	}
+
 
 	async function fail(status?: number, failure?: { id: string }) {
 		// Append signin history

@@ -1,7 +1,7 @@
-import bcrypt from 'bcryptjs';
 import { UserProfiles, Users } from '@/models/index.js';
 import { deleteAccount } from '@/services/delete-account.js';
 import define from '../../define.js';
+import { comparePassword } from "@/misc/password.js";
 
 export const meta = {
 	requireCredential: true,
@@ -26,7 +26,7 @@ export default define(meta, paramDef, async (ps, user) => {
 	}
 
 	// Compare password
-	const same = await bcrypt.compare(ps.password, profile.password!);
+	const same = await comparePassword(ps.password, profile.password!);
 
 	if (!same) {
 		throw new Error('incorrect password');

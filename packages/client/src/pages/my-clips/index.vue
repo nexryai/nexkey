@@ -1,8 +1,11 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><MkPageHeader v-model:tab="tab"  :actions="headerActions" :tabs="headerTabs"/></template>
 	<MkSpacer :content-max="700">
-		<div class="qtcaoidl">
+		<div v-if="tab === 'favorites'">
+			<XFavorites></XFavorites>
+		</div>
+		<div v-if="tab === 'clip'" class="qtcaoidl">
 			<MkButton primary class="add" @click="create"><i class="ti ti-plus"></i> {{ i18n.ts.add }}</MkButton>
 
 			<MkPagination v-slot="{items}" ref="pagingComponent" :pagination="pagination" class="list">
@@ -18,6 +21,7 @@
 
 <script lang="ts" setup>
 import { } from 'vue';
+import XFavorites from './favorites.vue';
 import MkPagination from '@/components/MkPagination.vue';
 import MkButton from '@/components/MkButton.vue';
 import * as os from '@/os';
@@ -30,6 +34,8 @@ const pagination = {
 };
 
 const pagingComponent = $ref<InstanceType<typeof MkPagination>>();
+
+let tab = $ref('favorites');
 
 async function create() {
 	const { canceled, result } = await os.form(i18n.ts.createNewClip, {
@@ -66,7 +72,15 @@ function onClipDeleted() {
 
 const headerActions = $computed(() => []);
 
-const headerTabs = $computed(() => []);
+const headerTabs = $computed(() => [{
+	key: 'favorites',
+	title: i18n.ts.favorites,
+	icon: 'ti ti-star',
+}, {
+	key: 'clip',
+	title: i18n.ts.clip,
+	icon: 'ti ti-edit',
+}]);
 
 definePageMetadata({
 	title: i18n.ts.clip,

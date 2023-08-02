@@ -1,7 +1,6 @@
-import bcrypt from 'bcryptjs';
 import define from '../../define.js';
 import { UserProfiles } from '@/models/index.js';
-
+import { hashPassword, comparePassword } from "@/misc/password.js";
 export const meta = {
 	requireCredential: true,
 
@@ -22,15 +21,14 @@ export default define(meta, paramDef, async (ps, user) => {
 	const profile = await UserProfiles.findOneByOrFail({ userId: user.id });
 
 	// Compare password
-	const same = await bcrypt.compare(ps.currentPassword, profile.password!);
+	const same = await comparePassword(ps.currentPassword, profile.password!);
 
 	if (!same) {
 		throw new Error('incorrect password');
 	}
 
 	// Generate hash of password
-	const salt = await bcrypt.genSalt(8);
-	const hash = await bcrypt.hash(ps.newPassword, salt);
+	const hash = await hashPassword(ps.newPassword);
 
 	await UserProfiles.update(user.id, {
 		password: hash,

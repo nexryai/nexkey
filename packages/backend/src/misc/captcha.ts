@@ -25,6 +25,17 @@ export async function verifyHcaptcha(secret: string, response: string) {
 	}
 }
 
+export async function verifyTurnstile(secret: string, response: string) {
+	const result = await getCaptchaResponse('https://challenges.cloudflare.com/turnstile/v0/siteverify', secret, response).catch(e => {
+		throw `turnstile-request-failed: ${e}`;
+	});
+
+	if (result.success !== true) {
+		const errorCodes = result['error-codes'] ? result['error-codes'].join(', ') : '';
+		throw `turnstile-failed: ${errorCodes}`;
+	}
+}
+
 type CaptchaResponse = {
 	success: boolean;
 	'error-codes'?: string[];
