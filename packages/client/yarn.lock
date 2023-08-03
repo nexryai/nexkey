@@ -1000,9 +1000,12 @@ broadcast-channel@5.1.0:
     rimraf "3.0.2"
     unload "2.4.1"
 
-"browser-image-resizer@git+https://github.com/misskey-dev/browser-image-resizer#v2.2.1-misskey.2":
-  version "2.2.1-misskey.2"
-  resolved "git+https://github.com/misskey-dev/browser-image-resizer#a58834f5fe2af9f9f31ff115121aef3de6f9d416"
+"browser-image-resizer@git+https://github.com/misskey-dev/browser-image-resizer#v2.2.1":
+  version "2.2.1"
+  uid "26a5c839f8a23da5ced4b9084ec9b872e04876d8"
+  resolved "git+https://github.com/misskey-dev/browser-image-resizer#26a5c839f8a23da5ced4b9084ec9b872e04876d8"
+  dependencies:
+    exifreader "^3.1.0"
 
 buffer-crc32@~0.2.3:
   version "0.2.13"
@@ -1862,6 +1865,13 @@ executable@^4.1.1:
   integrity sha512-8iA79xD3uAch729dUG8xaaBBFGaEa0wdD2VkYLFHwlqosEj/jT66AzcreRDSgV7ehnNLBW2WR5jIXwGKjVdTLg==
   dependencies:
     pify "^2.2.0"
+
+exifreader@^3.1.0:
+  version "3.16.0"
+  resolved "https://registry.yarnpkg.com/exifreader/-/exifreader-3.16.0.tgz#3c106eccd134e8f4786f9e8e600f8269c5296b80"
+  integrity sha512-RfdE1LrU3KJm8NFnU3jJG4/1quEancwTz1VgwzItP11fBoVnb3Vp7JL8bQKU8rSgZm+Roa3+BJ7zg4OtoFhTFA==
+  optionalDependencies:
+    xmldom "^0.1.31"
 
 extend@~3.0.2:
   version "3.0.2"
@@ -3991,6 +4001,11 @@ xml-name-validator@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/xml-name-validator/-/xml-name-validator-4.0.0.tgz#79a006e2e63149a8600f15430f0a4725d1524835"
   integrity sha512-ICP2e+jsHvAj2E2lIHxa5tjXRlKDJo4IdvPvCXbXQGdzSfmSpNVyIKMvoZHjDY9DP0zV17iI85o90vRFXNccRw==
+
+xmldom@^0.1.31:
+  version "0.1.31"
+  resolved "https://registry.yarnpkg.com/xmldom/-/xmldom-0.1.31.tgz#b76c9a1bd9f0a9737e5a72dc37231cf38375e2ff"
+  integrity sha512-yS2uJflVQs6n+CyjHoaBmVSqIDevTAWrzMmjG1Gc7h1qQ7uVozNhEPJAwZXWyGQ/Gafo3fCwrcaokezLPupVyQ==
 
 yallist@^4.0.0:
   version "4.0.0"
