@@ -37,7 +37,7 @@
 		"json5": "2.2.2",
 		"katex": "0.16.8",
 		"matter-js": "0.19.0",
-		"mfm-js": "0.23.0",
+		"mfm-js": "0.23.3",
 		"misskey-js": "0.0.14",
 		"photoswipe": "5.3.8",
 		"prismjs": "1.29.0",
