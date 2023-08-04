@@ -40,7 +40,7 @@
 		"cli-highlight": "2.1.11",
 		"color-convert": "2.0.1",
 		"content-disposition": "0.5.4",
-		"date-fns": "2.29.2",
+		"date-fns": "2.30.0",
 		"deep-email-validator": "0.1.21",
 		"escape-regexp": "0.0.1",
 		"extract-domain": "2.4.8",
