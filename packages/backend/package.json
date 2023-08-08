@@ -116,7 +116,7 @@
 		"uuid": "9.0.0",
 		"web-push": "3.5.0",
 		"websocket": "1.0.34",
-		"ws": "8.8.1",
+		"ws": "8.13.0",
 		"xev": "3.0.2"
 	},
 	"devDependencies": {
@@ -162,7 +162,7 @@
 		"@types/uuid": "9.0.2",
 		"@types/web-push": "3.3.2",
 		"@types/websocket": "1.0.5",
-		"@types/ws": "8.5.3",
+		"@types/ws": "8.5.5",
 		"@typescript-eslint/eslint-plugin": "5.36.2",
 		"@typescript-eslint/parser": "5.36.2",
 		"cross-env": "7.0.3",
