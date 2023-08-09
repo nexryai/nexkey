@@ -42,6 +42,7 @@ export default define(meta, paramDef, async (ps, me) => {
 
 	// Calculate drive usage
 	const usage = await DriveFiles.calcDriveUsageOf(ps.userId);
+	const capacity = await Users.isLocalUser(user) ? (1024 * 1024 * (user.driveCapacityOverrideMb || instance.localDriveCapacityMb)) : (1024 * 1024 * (instance.remoteDriveCapacityMb));
 
 	if (!_me.isAdmin) {
 		return {
@@ -49,7 +50,7 @@ export default define(meta, paramDef, async (ps, me) => {
 			isSilenced: user.isSilenced,
 			isSuspended: user.isSuspended,
 			emailVerified: profile.emailVerified,
-			capacity: 1024 * 1024 * (user.driveCapacityOverrideMb || instance.localDriveCapacityMb),
+			capacity: capacity,
 			usage: usage,
 		};
 	}
@@ -80,7 +81,7 @@ export default define(meta, paramDef, async (ps, me) => {
 		isSuspended: user.isSuspended,
 		lastActiveDate: user.lastActiveDate,
 		moderationNote: profile.moderationNote,
-		capacity: 1024 * 1024 * (user.driveCapacityOverrideMb || instance.localDriveCapacityMb),
+		capacity: capacity,
 		usage: usage,
 		signins,
 	};
