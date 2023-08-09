@@ -12,6 +12,7 @@
 				<MkInfo v-if="noBotProtection" warn class="info">{{ i18n.ts.noBotProtectionWarning }} <MkA to="/admin/security" class="_link">{{ i18n.ts.configure }}</MkA></MkInfo>
 				<MkInfo v-if="noEmailServer" warn class="info">{{ i18n.ts.noEmailServerWarning }} <MkA to="/admin/email-settings" class="_link">{{ i18n.ts.configure }}</MkA></MkInfo>
 
+				<FormSwitch v-model="moderator" class="_formBlock" @update:modelValue="toggleModerator">{{ i18n.ts.moderator }}</FormSwitch>
 				<MkSuperMenu :def="menuDef" :grid="currentPage?.route.name == null"></MkSuperMenu>
 			</div>
 		</MkSpacer>
@@ -34,6 +35,8 @@ import { lookupUser } from '@/scripts/lookup-user';
 import { useRouter } from '@/router';
 import { definePageMetadata, provideMetadataReceiver, setPageMetadata } from '@/scripts/page-metadata';
 import { defaultStore } from '@/store';
+import FormSwitch from '@/components/form/switch.vue';
+import { unisonReload } from '@/scripts/unison-reload';
 
 const isEmpty = (x: string | null) => x == null || x === '';
 
@@ -58,6 +61,9 @@ let noBotProtection = !instance.disableRegistration && !instance.enableHcaptcha 
 let noEmailServer = !instance.enableEmail;
 let thereIsUnresolvedAbuseReport = $ref(false);
 let currentPage = $computed(() => router.currentRef.value.child);
+let moderator = $ref(false);
+
+moderator = defaultStore.state.enableSudo;
 
 os.api('admin/abuse-user-reports', {
 	state: 'unresolved',
@@ -75,11 +81,6 @@ const ro = new ResizeObserver((entries, observer) => {
 const menuDef = $computed(() => [{
 	title: i18n.ts.quickAction,
 	items: [{
-		type: 'button',
-		icon: 'fas fa-bolt',
-		text: 'Sudo',
-		action: sudo,
-	},{
 		type: 'button',
 		icon: 'fas fa-search',
 		text: i18n.ts.lookup,
@@ -228,19 +229,29 @@ provideMetadataReceiver((info) => {
 	}
 });
 
-const sudo = () => {
-	if (!defaultStore.state.enableSudo) {
-		defaultStore.set('enableSudo', true);
-		os.alert({
-			text: 'You are Sudo now',
-		});
+async function toggleModerator(v) {
+	const confirm = await os.confirm({
+		type: 'warning',
+		text: v ? i18n.ts.sudoConfirm : i18n.ts.unsudoConfirm,
+	});
+	if (confirm.canceled) {
+		moderator = !v;
 	} else {
-		defaultStore.set('enableSudo', false);
-		os.alert({
-			text: 'You are NOT Sudo now',
-		});
+		if (v) {
+			await defaultStore.set('enableSudo', true);
+			await os.alert({
+				text: 'You are Sudo now',
+			});
+			await unisonReload();
+		} else {
+			await defaultStore.set('enableSudo', false);
+			await os.alert({
+				text: 'You are NOT Sudo now',
+			});
+			await unisonReload();
+		}
 	}
-};
+}
 
 const invite = () => {
 	os.api('admin/invite').then(x => {

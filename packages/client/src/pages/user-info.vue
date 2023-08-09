@@ -82,7 +82,7 @@
 						</MkKeyValue>
 					</div>
 
-					<FormButton v-if="user.host != null" class="_formBlock" @click="updateRemoteUser"><i class="fas fa-sync"></i> {{ i18n.ts.updateRemoteUser }}</FormButton>
+					<FormButton v-if="user.host != null && enableSudo" class="_formBlock" @click="updateRemoteUser"><i class="fas fa-sync"></i> {{ i18n.ts.updateRemoteUser }}</FormButton>
 
 					<FormFolder class="_formBlock">
 						<template #label>Raw</template>
