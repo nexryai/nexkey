@@ -37,6 +37,7 @@ import { definePageMetadata, provideMetadataReceiver, setPageMetadata } from '@/
 import { defaultStore } from '@/store';
 import FormSwitch from '@/components/form/switch.vue';
 import { unisonReload } from '@/scripts/unison-reload';
+import { iAmAdmin } from '@/account';
 
 const isEmpty = (x: string | null) => x == null || x === '';
 
@@ -141,7 +142,7 @@ const menuDef = $computed(() => [{
 	}],
 }, {
 	title: i18n.ts.settings,
-	items: [{
+	items: [(iAmAdmin ? [{
 		icon: 'fas fa-cog',
 		text: i18n.ts.general,
 		to: '/admin/settings',
@@ -161,12 +162,12 @@ const menuDef = $computed(() => [{
 		text: i18n.ts.security,
 		to: '/admin/security',
 		active: currentPage?.route.name === 'security',
-	}, {
+	}] : []), {
 		icon: 'fas fa-globe',
 		text: i18n.ts.relays,
 		to: '/admin/relays',
 		active: currentPage?.route.name === 'relays',
-	}, {
+	}, ...(iAmAdmin ? [{
 		icon: 'fas fa-share-alt',
 		text: i18n.ts.integration,
 		to: '/admin/integrations',
@@ -191,7 +192,7 @@ const menuDef = $computed(() => [{
 		text: i18n.ts.other,
 		to: '/admin/other-settings',
 		active: currentPage?.route.name === 'other-settings',
-	}],
+	}] : [])],
 }, {
 	title: i18n.ts.info,
 	items: [{

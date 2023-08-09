@@ -1,6 +1,6 @@
 import { AsyncComponentLoader, defineAsyncComponent, inject } from 'vue';
 import { Router } from '@/nirax';
-import { $i, iAmModerator } from '@/account';
+import { $i, iAmModerator, iAmAdmin } from '@/account';
 import MkLoading from '@/pages/_loading_.vue';
 import MkError from '@/pages/_error_.vue';
 import { ui } from '@/config';
@@ -347,19 +347,19 @@ export const routes = [{
 	}, {
 		path: '/settings',
 		name: 'settings',
-		component: page(() => import('./pages/admin/settings.vue')),
+		component: iAmAdmin ? page(() => import('./pages/admin/settings.vue')) : page(() => import('./pages/not-found.vue')),
 	}, {
 		path: '/email-settings',
 		name: 'email-settings',
-		component: page(() => import('./pages/admin/email-settings.vue')),
+		component: iAmAdmin ? page(() => import('./pages/admin/email-settings.vue')) : page(() => import('./pages/not-found.vue')),
 	}, {
 		path: '/object-storage',
 		name: 'object-storage',
-		component: page(() => import('./pages/admin/object-storage.vue')),
+		component: iAmAdmin ? page(() => import('./pages/admin/object-storage.vue')) : page(() => import('./pages/not-found.vue')),
 	}, {
 		path: '/security',
 		name: 'security',
-		component: page(() => import('./pages/admin/security.vue')),
+		component: iAmAdmin ? page(() => import('./pages/admin/security.vue')) : page(() => import('./pages/not-found.vue')),
 	}, {
 		path: '/relays',
 		name: 'relays',
@@ -367,23 +367,23 @@ export const routes = [{
 	}, {
 		path: '/integrations',
 		name: 'integrations',
-		component: page(() => import('./pages/admin/integrations.vue')),
+		component: iAmAdmin ? page(() => import('./pages/admin/integrations.vue')) : page(() => import('./pages/not-found.vue')),
 	}, {
 		path: '/instance-block',
 		name: 'instance-block',
-		component: page(() => import('./pages/admin/instance-block.vue')),
+		component: iAmAdmin ? page(() => import('./pages/admin/instance-block.vue')) : page(() => import('./pages/not-found.vue')),
 	}, {
 		path: '/email-block',
 		name: 'email-block',
-		component: page(() => import('./pages/admin/email-block.vue')),
+		component: iAmAdmin ? page(() => import('./pages/admin/email-block.vue')) : page(() => import('./pages/not-found.vue')),
 	}, {
 		path: '/proxy-account',
 		name: 'proxy-account',
-		component: page(() => import('./pages/admin/proxy-account.vue')),
+		component: iAmAdmin ? page(() => import('./pages/admin/proxy-account.vue')) : page(() => import('./pages/not-found.vue')),
 	}, {
 		path: '/other-settings',
 		name: 'other-settings',
-		component: page(() => import('./pages/admin/other-settings.vue')),
+		component: iAmAdmin ? page(() => import('./pages/admin/other-settings.vue')) : page(() => import('./pages/not-found.vue')),
 	}, {
 		path: '/',
 		component: page(() => import('./pages/_empty_.vue')),
