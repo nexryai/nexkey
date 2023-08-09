@@ -122,7 +122,7 @@
 
 					<MkFileListForAdmin :pagination="filesPagination" view-mode="grid"/>
 				</FormFolder>
-				<FormSection>
+				<FormSection v-if="user.host == null">
 					<template #label>Drive Capacity Override</template>
 
 					<FormInput v-if="user.host == null" v-model="driveCapacityOverrideMb" inline :manual-save="true" type="number" :placeholder="i18n.t('defaultValueIs', { value: instance.driveCapacityPerLocalUserMb })" @update:model-value="applyDriveCapacityOverride">
