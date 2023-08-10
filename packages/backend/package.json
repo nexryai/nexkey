@@ -16,7 +16,7 @@
 	"dependencies": {
 		"@bull-board/koa": "5.7.1",
 		"@discordapp/twemoji": "14.0.2",
-		"@elastic/elasticsearch": "7.11.0",
+		"@elastic/elasticsearch": "8.9.0",
 		"@koa/cors": "3.1.0",
 		"@koa/multer": "3.0.2",
 		"@koa/router": "9.0.1",
