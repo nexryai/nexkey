@@ -6,7 +6,7 @@ WORKDIR /misskey
 
 COPY . ./
 
-RUN apk add --no-cache ca-certificates git alpine-sdk g++ build-base cmake clang libressl-dev
+RUN apk add --no-cache ca-certificates git alpine-sdk g++ build-base cmake clang libressl-dev vips-dev
 RUN git submodule update --init
 RUN yarn install
 RUN yarn build
@@ -17,7 +17,7 @@ FROM node:18-alpine AS runner
 ARG UID="991"
 ARG GID="991"
 
-RUN apk add --no-cache ca-certificates tini curl
+RUN apk add --no-cache ca-certificates tini curl vips \
 	&& groupadd -g "${GID}" misskey \
 	&& useradd -u "${UID}" -G misskey -D -h /misskey misskey \
 	&& find / -type d -path /proc -prune -o -type f -perm /u+s -ignore_readdir_race -exec chmod u-s {} \; \
