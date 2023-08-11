@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - "main"
+      - "devel"
 jobs:
   build-image:
     runs-on: ubuntu-latest
@@ -20,4 +20,4 @@ jobs:
           context: .
           #platforms: linux/amd64,linux/arm64
           push: true
-          tags: nexryai/nexkey:latest
+          tags: nexryai/nexkey:devel

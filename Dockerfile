@@ -1,4 +1,4 @@
-FROM node:16.19.0-bullseye AS builder
+FROM node:18-alpine AS builder
 
 ARG NODE_ENV=production
 
@@ -6,28 +6,20 @@ WORKDIR /misskey
 
 COPY . ./
 
-RUN apt-get update
-RUN apt-get install -y build-essential
+RUN apk add --no-cache ca-certificates git alpine-sdk g++ build-base cmake clang libressl-dev vips-dev
 RUN git submodule update --init
 RUN yarn install
 RUN yarn build
 RUN rm -rf .git
 
-FROM node:16.19.0-bullseye-slim AS runner
+FROM node:18-alpine AS runner
 
 ARG UID="991"
 ARG GID="991"
 
-RUN apt-get update
-RUN apt-get update \
-	&& apt-get install -y --no-install-recommends \
-	tini curl \
-	&& groupadd -g "${GID}" misskey \
-	&& useradd -l -u "${UID}" -g "${GID}" -m -d /misskey misskey \
-	&& find / -type d -path /proc -prune -o -type f -perm /u+s -ignore_readdir_race -exec chmod u-s {} \; \
-	&& find / -type d -path /proc -prune -o -type f -perm /g+s -ignore_readdir_race -exec chmod g-s {} \; \
-	&& apt-get clean \
-	&& rm -rf /var/lib/apt/lists
+RUN apk add --no-cache ca-certificates tini curl vips \
+	&& addgroup -g "${GID}" misskey \
+	&& adduser -u "${UID}" -G misskey -D -h /misskey misskey
 
 USER misskey
 WORKDIR /misskey
