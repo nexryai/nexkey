@@ -18,8 +18,8 @@ ARG UID="991"
 ARG GID="991"
 
 RUN apk add --no-cache ca-certificates tini curl vips \
-	&& groupadd -g "${GID}" misskey \
-	&& useradd -u "${UID}" -G misskey -D -h /misskey misskey \
+	&& addgroup -g "${GID}" misskey \
+	&& adduser -u "${UID}" -G misskey -D -h /misskey misskey \
 	&& find / -type d -path /proc -prune -o -type f -perm /u+s -ignore_readdir_race -exec chmod u-s {} \; \
 	&& find / -type d -path /proc -prune -o -type f -perm /g+s -ignore_readdir_race -exec chmod g-s {} \;
 
