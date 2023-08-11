@@ -32,5 +32,5 @@ COPY --chown=misskey:misskey --from=builder /misskey/packages/client/node_module
 COPY --chown=misskey:misskey . ./
 
 ENV NODE_ENV=production
-ENTRYPOINT ["/usr/bin/tini", "--"]
+ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["npm", "run", "migrateandstart"]
