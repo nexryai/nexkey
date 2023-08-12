@@ -6,6 +6,7 @@ nexryaiによるMisskey v12フォーク
  - v13のデザインの改善を取り込み（cherry-picked from [taiyme frok](https://github.com/taiyme/misskey)）
  - Firefishの実装を~~パクって~~参考にSonicによる検索と過去投稿のインデックス機能を実装
  - 脆弱性のある依存関係の更新
+ - DockerコンテナをAlpineベースにしGlibcのメモリアロケータとの相性問題を緩和（要検証だけど多分かなりマシになってる）
  - v13で実装された一部機能の実装
    * RNミュート
    * Turnstile対応
