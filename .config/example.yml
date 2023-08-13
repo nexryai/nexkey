@@ -69,8 +69,8 @@ redis:
 #  host: localhost
 #  port: 9200
 #  ssl: false
-#  user: 
-#  pass: 
+#  user:
+#  pass:
 
 #   ┌───────────────┐
 #───┘ ID generation └───────────────────────────────────────────
@@ -92,6 +92,8 @@ id: 'aid'
 
 #   ┌─────────────────────┐
 #───┘ Other configuration └─────────────────────────────────────
+# Whether Disable Antenna
+#disableAntenna: true
 
 # Whether disable HSTS
 #disableHsts: true
