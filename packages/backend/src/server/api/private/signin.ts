@@ -69,6 +69,13 @@ export default async (ctx: Koa.Context) => {
 		return;
 	}
 
+	if (user.isSuspended && user.isDeleted) {
+		error(404, {
+			id: '6cc579cc-885d-43d8-95c2-b8c7fc963280',
+		});
+		return;
+	}
+
 	if (user.isSuspended) {
 		error(403, {
 			id: 'e03a5f46-d309-4865-9b69-56282d94e1eb',
