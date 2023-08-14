@@ -139,6 +139,11 @@ const menuDef = $computed(() => [{
 		text: i18n.ts.abuseReports,
 		to: '/admin/abuses',
 		active: currentPage?.route.name === 'abuses',
+	}, {
+		icon: 'fas fa-clock-rotate-left',
+		text: i18n.ts.moderationlogs,
+		to: '/admin/moderation-logs',
+		active: currentPage?.route.name === 'moderation-logs',
 	}],
 }, {
 	title: i18n.ts.settings,

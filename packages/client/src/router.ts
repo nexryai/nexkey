@@ -345,6 +345,10 @@ export const routes = [{
 		name: 'abuses',
 		component: page(() => import('./pages/admin/abuses.vue')),
 	}, {
+		path: '/moderation-logs',
+		name: 'moderation-logs',
+		component: page(() => import('./pages/admin/moderation-logs.vue')),
+	}, {
 		path: '/settings',
 		name: 'settings',
 		component: iAmAdmin ? page(() => import('./pages/admin/settings.vue')) : page(() => import('./pages/not-found.vue')),
