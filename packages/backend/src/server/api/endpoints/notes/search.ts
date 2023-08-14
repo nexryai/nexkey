@@ -49,6 +49,9 @@ export const paramDef = {
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, me) => {
+	if (config.disableSearch) {
+		return [];
+	}
 	if (es == null) {
 		const query = makePaginationQuery(Notes.createQueryBuilder('note'), ps.sinceId, ps.untilId);
 
