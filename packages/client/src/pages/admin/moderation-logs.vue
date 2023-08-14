@@ -3,6 +3,14 @@
 	<template #header><XHeader :actions="headerActions" :tabs="headerTabs"/></template>
 	<MkSpacer :content-max="900">
 		<div class="ztgjmzrw">
+			<div class="inputs" style="display: flex; gap: var(--margin); flex-wrap: wrap; padding-top: 1.2em;">
+				<MkInput v-model="userId" :debounce="true" type="search" style="margin: 0; flex: 1;">
+					<template #label>User ID</template>
+				</MkInput>
+				<MkInput v-model="type" :debounce="true" type="search" style="margin: 0; flex: 1;">
+					<template #label>Type</template>
+				</MkInput>
+			</div>
 			<MkPagination v-slot="{items : logs}" :pagination="pagination" class="ruryvtyk _content">
 			<section v-for="log in logs" class="_card _gap logs">
 				<div class="_content log">
@@ -25,7 +33,7 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
+import { computed } from 'vue';
 import XHeader from './_header_.vue';
 import MkButton from '@/components/MkButton.vue';
 import MkInput from '@/components/form/input.vue';
@@ -36,6 +44,8 @@ import { definePageMetadata } from '@/scripts/page-metadata';
 import MkPagination from '@/components/MkPagination.vue';
 
 let logs: any[] = $ref([]);
+let type = $ref(null);
+let userId = $ref('');
 
 os.api('admin/show-moderation-logs').then(logsResponse => {
 	logs = logsResponse;
@@ -48,6 +58,10 @@ const headerTabs = $computed(() => []);
 const pagination = {
 	endpoint: 'admin/show-moderation-logs' as const,
 	limit: 10,
+	params: computed(() => ({
+		type: (type && type !== '') ? type : null,
+		userId: (userId && userId !== '') ? userId : null,
+	})),
 };
 
 definePageMetadata({
