@@ -22,6 +22,7 @@ import * as os from '@/os';
 import { $i } from '@/account';
 import { useTooltip } from '@/scripts/use-tooltip';
 import { i18n } from '@/i18n';
+import { defaultStore } from "@/store";
 
 const props = defineProps<{
 	note: misskey.entities.Note;
@@ -52,12 +53,18 @@ useTooltip(buttonRef, async (showing) => {
 
 const renote = (viaKeyboard = false) => {
 	pleaseLogin();
+
+	const visibility = defaultStore.state.rememberNoteVisibility ? defaultStore.state.visibility : defaultStore.state.defaultNoteVisibility;
+	const localOnly = defaultStore.state.rememberNoteVisibility ? defaultStore.state.localOnly : defaultStore.state.defaultNoteLocalOnly;
+
 	os.popupMenu([{
 		text: i18n.ts.renote,
 		icon: 'fas fa-retweet',
 		action: () => {
 			os.api('notes/create', {
 				renoteId: props.note.id,
+				visibility: visibility as never,
+				localOnly,
 			});
 		},
 	}, {
