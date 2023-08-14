@@ -147,7 +147,7 @@ const menuDef = $computed(() => [{
 	}],
 }, {
 	title: i18n.ts.settings,
-	items: [(iAmAdmin ? [{
+	items: [...(iAmAdmin ? [{
 		icon: 'fas fa-cog',
 		text: i18n.ts.general,
 		to: '/admin/settings',
