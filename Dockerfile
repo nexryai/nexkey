@@ -17,7 +17,7 @@ FROM node:18-alpine AS runner
 ARG UID="991"
 ARG GID="991"
 
-RUN apk add --no-cache ca-certificates tini curl vips \
+RUN apk add --no-cache ca-certificates tini curl vips vips-cpp \
 	&& addgroup -g "${GID}" misskey \
 	&& adduser -u "${UID}" -G misskey -D -h /misskey misskey
 

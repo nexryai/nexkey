@@ -10,24 +10,24 @@
 		"lodash": "^4.17.21"
 	},
 	"dependencies": {
-		"@discordapp/twemoji": "14.0.2",
+		"@discordapp/twemoji": "14.1.2",
 		"@rollup/plugin-alias": "4.0.2",
 		"@rollup/plugin-json": "6.0.0",
 		"@rollup/pluginutils": "5.0.2",
 		"@syuilo/aiscript": "0.11.1",
-		"@tabler/icons": "^1.117.0",
+		"@tabler/icons": "^2.30.0",
 		"@vitejs/plugin-vue": "4.2.3",
 		"@vue/compiler-sfc": "3.3.4",
 		"autobind-decorator": "2.4.0",
 		"autosize": "6.0.1",
 		"blurhash": "2.0.5",
-		"broadcast-channel": "5.1.0",
+		"broadcast-channel": "5.2.0",
 		"browser-image-resizer": "git+https://github.com/misskey-dev/browser-image-resizer#v2.2.1-misskey.2",
 		"chart.js": "3.9.1",
 		"chartjs-adapter-date-fns": "2.0.0",
 		"chartjs-plugin-gradient": "0.5.1",
 		"chartjs-plugin-zoom": "2.0.1",
-		"compare-versions": "6.0.0",
+		"compare-versions": "6.1.0",
 		"cropperjs": "2.0.0-beta.3",
 		"date-fns": "2.29.2",
 		"escape-regexp": "0.0.1",
@@ -85,6 +85,6 @@
 		"eslint-plugin-import": "2.28.0",
 		"eslint-plugin-vue": "9.16.1",
 		"rollup": "3.28.0",
-		"start-server-and-test": "1.14.0"
+		"start-server-and-test": "2.0.0"
 	}
 }

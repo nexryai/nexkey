@@ -1,5 +1,5 @@
 import { promisify } from 'node:util';
-import * as cbor from 'cbor';
+import cbor from 'cbor';
 import define from '../../../define.js';
 import {
 	UserProfiles,
