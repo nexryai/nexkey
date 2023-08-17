@@ -35,6 +35,7 @@
 			<MkA to="/" class="link" active-class="active"><i class="fas fa-home icon"></i>{{ $ts.home }}</MkA>
 			<MkA to="/explore" class="link" active-class="active"><i class="fas fa-hashtag icon"></i>{{ $ts.explore }}</MkA>
 			<MkA to="/channels" class="link" active-class="active"><i class="fas fa-satellite-dish icon"></i>{{ $ts.channel }}</MkA>
+			<MkA to="/announcements" class="link" active-class="active"><i class="fas fa-broadcast-tower icon"></i>{{ $ts.announcements }}</MkA>
 			<div class="action">
 				<button class="_buttonPrimary" @click="signup()">{{ $ts.signup }}</button>
 				<button class="_button" @click="signin()">{{ $ts.login }}</button>
