@@ -69,8 +69,8 @@ redis:
 #  host: localhost
 #  port: 9200
 #  ssl: false
-#  user: 
-#  pass: 
+#  user:
+#  pass:
 
 #   ┌─────────────────────┐
 #───┘ Sonic configuration └─────────────────────────────────────
@@ -103,6 +103,11 @@ id: 'aid'
 
 #   ┌─────────────────────┐
 #───┘ Other configuration └─────────────────────────────────────
+# Whether Disable Antenna
+#disableAntenna: true
+
+# Whether Disable Search
+#disableSearch: true
 
 # Whether disable HSTS
 #disableHsts: true

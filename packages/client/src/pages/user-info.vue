@@ -82,7 +82,7 @@
 						</MkKeyValue>
 					</div>
 
-					<FormButton v-if="user.host != null" class="_formBlock" @click="updateRemoteUser"><i class="ti ti-refresh"></i> {{ i18n.ts.updateRemoteUser }}</FormButton>
+					<FormButton v-if="user.host != null && enableSudo" class="_formBlock" @click="updateRemoteUser"><i class="ti ti-refresh"></i> {{ i18n.ts.updateRemoteUser }}</FormButton>
 
 					<FormFolder class="_formBlock">
 						<template #label>Raw</template>
@@ -122,7 +122,7 @@
 
 					<MkFileListForAdmin :pagination="filesPagination" view-mode="grid"/>
 				</FormFolder>
-				<FormSection>
+				<FormSection v-if="user.host == null">
 					<template #label>Drive Capacity Override</template>
 
 					<FormInput v-if="user.host == null" v-model="driveCapacityOverrideMb" inline :manual-save="true" type="number" :placeholder="i18n.t('defaultValueIs', { value: instance.driveCapacityPerLocalUserMb })" @update:model-value="applyDriveCapacityOverride">
@@ -132,6 +132,22 @@
 							{{ i18n.ts.driveCapOverrideCaption }}
 						</template>
 					</FormInput>
+				</FormSection>
+				<FormSection v-if="iAmModerator">
+					<template #label>{{ i18n.ts.usageAmount }}</template>
+					<div class="_formBlock uawsfosz">
+						<div class="meter"><div :style="meterStyle"></div></div>
+					</div>
+					<FormSplit>
+						<MkKeyValue class="_formBlock">
+							<template #key>{{ i18n.ts.capacity }}</template>
+							<template #value>{{ bytes(capacity, 1) }}</template>
+						</MkKeyValue>
+						<MkKeyValue class="_formBlock">
+							<template #key>{{ i18n.ts.inUse }}</template>
+							<template #value>{{ bytes(usage, 1) }}</template>
+						</MkKeyValue>
+					</FormSplit>
 				</FormSection>
 			</div>
 			<div v-else-if="tab === 'chart'" class="_formRoot">
@@ -162,7 +178,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, watch } from 'vue';
+import { computed, watch, ref } from 'vue';
 import * as misskey from 'misskey-js';
 import MkChart from '@/components/MkChart.vue';
 import MkObjectView from '@/components/MkObjectView.vue';
@@ -189,6 +205,7 @@ import { i18n } from '@/i18n';
 import { iAmAdmin, iAmModerator } from '@/account';
 import { instance } from '@/instance';
 import { defaultStore } from '@/store';
+import tinycolor from 'tinycolor2';
 
 const props = defineProps<{
 	userId: string;
@@ -214,6 +231,19 @@ const filesPagination = {
 	})),
 };
 const enableSudo = defaultStore.state.enableSudo;
+const usage = ref<any>(null);
+const capacity = ref<any>(null);
+
+const meterStyle = computed(() => {
+	return {
+		width: `${usage.value / capacity.value * 100}%`,
+		background: tinycolor({
+			h: 180 - (usage.value / capacity.value * 180),
+			s: 0.7,
+			l: 0.5,
+		}),
+	};
+});
 
 function createFetcher() {
 	if (iAmModerator) {
@@ -232,6 +262,8 @@ function createFetcher() {
 			suspended = info.isSuspended;
 			driveCapacityOverrideMb = user.driveCapacityOverrideMb;
 			moderationNote = info.moderationNote;
+			capacity.value = info.capacity;
+			usage.value = info.usage;
 
 			watch($$(moderationNote), async () => {
 				await os.api('admin/update-user-note', { userId: user.id, text: moderationNote });
@@ -429,6 +461,7 @@ definePageMetadata(computed(() => ({
 </script>
 
 <style lang="scss" scoped>
+@use "sass:math";
 .aeakzknw {
 	display: flex;
 	align-items: center;
@@ -508,6 +541,21 @@ definePageMetadata(computed(() => ({
 		> .label {
 			margin-bottom: 12px;
 			font-weight: bold;
+		}
+	}
+}
+
+.uawsfosz {
+
+	> .meter {
+		$size: 12px;
+		background: rgba(0, 0, 0, 0.1);
+		border-radius: math.div($size, 2);
+		overflow: hidden;
+
+		> div {
+			height: $size;
+			border-radius: math.div($size, 2);
 		}
 	}
 }

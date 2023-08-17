@@ -12,7 +12,8 @@
 				<MkInfo v-if="noBotProtection" warn class="info">{{ i18n.ts.noBotProtectionWarning }} <MkA to="/admin/security" class="_link">{{ i18n.ts.configure }}</MkA></MkInfo>
 				<MkInfo v-if="noEmailServer" warn class="info">{{ i18n.ts.noEmailServerWarning }} <MkA to="/admin/email-settings" class="_link">{{ i18n.ts.configure }}</MkA></MkInfo>
 
-        <MkSuperMenu :def="menuDef" :grid="narrow"></MkSuperMenu>
+				<FormSwitch v-model="moderator" class="_formBlock" @update:modelValue="toggleModerator">{{ i18n.ts.moderator }}</FormSwitch>
+				<MkSuperMenu :def="menuDef" :grid="currentPage?.route.name == null"></MkSuperMenu>
 			</div>
 		</MkSpacer>
 	</div>
@@ -35,6 +36,9 @@ import { indexPosts } from "@/scripts/index-posts";
 import { useRouter } from '@/router';
 import { definePageMetadata, provideMetadataReceiver, setPageMetadata } from '@/scripts/page-metadata';
 import { defaultStore } from '@/store';
+import FormSwitch from '@/components/form/switch.vue';
+import { unisonReload } from '@/scripts/unison-reload';
+import { iAmAdmin } from '@/account';
 
 const isEmpty = (x: string | null) => x == null || x === '';
 
@@ -59,6 +63,9 @@ let noBotProtection = !instance.disableRegistration && !instance.enableHcaptcha 
 let noEmailServer = !instance.enableEmail;
 let thereIsUnresolvedAbuseReport = $ref(false);
 let currentPage = $computed(() => router.currentRef.value.child);
+let moderator = $ref(false);
+
+moderator = defaultStore.state.enableSudo;
 
 os.api('admin/abuse-user-reports', {
 	state: 'unresolved',
@@ -143,6 +150,11 @@ const menuDef = $computed(() => [{
 		text: i18n.ts.abuseReports,
 		to: '/admin/abuses',
 		active: currentPage?.route.name === 'abuses',
+	}, {
+		icon: 'fas fa-clock-rotate-left',
+		text: i18n.ts.moderationlogs,
+		to: '/admin/moderation-logs',
+		active: currentPage?.route.name === 'moderation-logs',
 	}],
 }, {
 	title: i18n.ts.settings,
@@ -196,7 +208,7 @@ const menuDef = $computed(() => [{
 		text: i18n.ts.other,
 		to: '/admin/other-settings',
 		active: currentPage?.route.name === 'other-settings',
-	}],
+	}] : [])],
 }, {
 	title: i18n.ts.info,
 	items: [{
@@ -240,19 +252,29 @@ provideMetadataReceiver((info) => {
 	}
 });
 
-const sudo = () => {
-	if (!defaultStore.state.enableSudo) {
-		defaultStore.set('enableSudo', true);
-		os.alert({
-			text: 'You are Sudo now',
-		});
+async function toggleModerator(v) {
+	const confirm = await os.confirm({
+		type: 'warning',
+		text: v ? i18n.ts.sudoConfirm : i18n.ts.unsudoConfirm,
+	});
+	if (confirm.canceled) {
+		moderator = !v;
 	} else {
-		defaultStore.set('enableSudo', false);
-		os.alert({
-			text: 'You are NOT Sudo now',
-		});
+		if (v) {
+			await defaultStore.set('enableSudo', true);
+			await os.alert({
+				text: 'You are Sudo now',
+			});
+			await unisonReload();
+		} else {
+			await defaultStore.set('enableSudo', false);
+			await os.alert({
+				text: 'You are NOT Sudo now',
+			});
+			await unisonReload();
+		}
 	}
-};
+}
 
 const invite = () => {
 	os.api('admin/invite').then(x => {

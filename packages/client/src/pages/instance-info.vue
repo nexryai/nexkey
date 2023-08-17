@@ -27,10 +27,10 @@
 			<FormSection v-if="iAmModerator && enableSudo">
 				<template #label>Moderation</template>
 				<FormSwitch v-model="suspended" class="_formBlock" @update:modelValue="toggleSuspend">{{ i18n.ts.stopActivityDelivery }}</FormSwitch>
-				<FormSwitch v-model="isBlocked" class="_formBlock" @update:modelValue="toggleBlock">{{ i18n.ts.blockThisInstance }}</FormSwitch>
+				<FormSwitch :disabled="!iAmAdmin" v-model="isBlocked" class="_formBlock" @update:modelValue="toggleBlock">{{ i18n.ts.blockThisInstance }}</FormSwitch>
 				<MkButton @click="refreshMetadata"><i class="ti ti-refresh"></i> Refresh metadata</MkButton>
-				<MkButton v-if="(!suspended && !isBlocked) && $i && $i.isAdmin" inline danger @click="deleteFollowing"><i class="fas fa-minus"></i> Unfollow All Instance Users</MkButton>
-				<MkButton v-if="(suspended || isBlocked) && $i && $i.isAdmin" inline danger @click="deleteInstanceUsers"><i class="fas fa-trash-alt"></i> Delete All Instance Users</MkButton>
+				<MkButton v-if="(!suspended && !isBlocked) && $i && $i.isAdmin" inline danger @click="deleteFollowing"><i class="ti ti-minus"></i> Unfollow All Instance Users</MkButton>
+				<MkButton v-if="(suspended || isBlocked) && $i && $i.isAdmin" inline danger @click="deleteInstanceUsers"><i class="ti ti-trash"></i> Delete All Instance Users</MkButton>
 			</FormSection>
 
 			<FormSection>
@@ -131,7 +131,7 @@ import FormSwitch from '@/components/form/switch.vue';
 import * as os from '@/os';
 import number from '@/filters/number';
 import bytes from '@/filters/bytes';
-import { iAmModerator } from '@/account';
+import { iAmModerator, iAmAdmin } from '@/account';
 import { definePageMetadata } from '@/scripts/page-metadata';
 import { i18n } from '@/i18n';
 import MkUserCardMini from '@/components/MkUserCardMini.vue';

@@ -283,12 +283,23 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 	});
 
 	// Antenna
-	for (const antenna of (await getAntennas())) {
-		checkHitAntenna(antenna, note, user).then(hit => {
-			if (hit) {
-				addNoteToAntenna(antenna, note, user);
-			}
-		});
+	 // TODO: キャッシュしたい
+	if (!config.disableAntenna) {
+		Followings.createQueryBuilder('following')
+			.andWhere(`following.followeeId = :userId`, { userId: note.userId })
+			.getMany()
+			.then(async followings => {
+				const blockings = await Blockings.find({ blockerId: user.id });
+				const followers = followings.map(f => f.followerId);
+				for (const antenna of (await getAntennas())) {
+					if (blockings.some(blocking => blocking.blockeeId === antenna.userId)) continue; // この処理は checkHitAntenna 内でやるようにしてもいいかも
+					checkHitAntenna(antenna, note, user, followers).then(hit => {
+						if (hit) {
+							addNoteToAntenna(antenna, note, user);
+						}
+					});
+				}
+			});
 	}
 
 	// Channel

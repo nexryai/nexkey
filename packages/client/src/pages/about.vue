@@ -80,6 +80,9 @@
 	<MkSpacer v-else-if="tab === 'charts'" :content-max="1000" :margin-min="20">
 		<MkInstanceStats :chart-limit="500" :detailed="true"/>
 	</MkSpacer>
+	<MkSpacer v-else-if="tab === 'ads'" :content-max="1000" :margin-min="20">
+		<MkAd v-for="ad in instance.ads" :key="ad.id" :specify="ad"/>
+	</MkSpacer>
 </MkStickyContainer>
 </template>
 
@@ -98,6 +101,8 @@ import * as os from '@/os';
 import number from '@/filters/number';
 import { i18n } from '@/i18n';
 import { definePageMetadata } from '@/scripts/page-metadata';
+import MkAd from '@/components/global/MkAd.vue';
+import { instance } from '@/instance';
 
 const props = withDefaults(defineProps<{
 	initialTab?: string;
