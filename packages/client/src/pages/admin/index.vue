@@ -94,7 +94,7 @@ const menuDef = $computed(() => [{
 		action: lookup,
 	},{
 		type: "button",
-	  icon: "ti ti-database",
+		icon: "ti ti-database",
 		text: i18n.ts.indexPosts,
 		action: indexPosts,
 	}, ...(instance.disableRegistration ? [{
@@ -150,11 +150,6 @@ const menuDef = $computed(() => [{
 		text: i18n.ts.abuseReports,
 		to: '/admin/abuses',
 		active: currentPage?.route.name === 'abuses',
-	}, {
-		icon: 'fas fa-clock-rotate-left',
-		text: i18n.ts.moderationlogs,
-		to: '/admin/moderation-logs',
-		active: currentPage?.route.name === 'moderation-logs',
 	}],
 }, {
 	title: i18n.ts.settings,
@@ -208,7 +203,7 @@ const menuDef = $computed(() => [{
 		text: i18n.ts.other,
 		to: '/admin/other-settings',
 		active: currentPage?.route.name === 'other-settings',
-	}] : [])],
+	}],
 }, {
 	title: i18n.ts.info,
 	items: [{
