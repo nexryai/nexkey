@@ -84,11 +84,6 @@ const menuDef = $computed(() => [{
 	title: i18n.ts.quickAction,
 	items: [{
 		type: 'button',
-		icon: 'ti ti-bolt',
-		text: 'Sudo',
-		action: sudo,
-	},{
-		type: 'button',
 		icon: 'ti ti-search',
 		text: i18n.ts.lookup,
 		action: lookup,
@@ -153,7 +148,7 @@ const menuDef = $computed(() => [{
 	}],
 }, {
 	title: i18n.ts.settings,
-	items: [{
+	items: [...(iAmAdmin ? [{
 		icon: 'ti ti-settings',
 		text: i18n.ts.general,
 		to: '/admin/settings',
@@ -173,12 +168,12 @@ const menuDef = $computed(() => [{
 		text: i18n.ts.security,
 		to: '/admin/security',
 		active: currentPage?.route.name === 'security',
-	}, {
+	}] : []), {
 		icon: 'ti ti-planet',
 		text: i18n.ts.relays,
 		to: '/admin/relays',
 		active: currentPage?.route.name === 'relays',
-	}, {
+	}, ...(iAmAdmin ? [{
 		icon: 'ti ti-share',
 		text: i18n.ts.integration,
 		to: '/admin/integrations',
@@ -203,7 +198,7 @@ const menuDef = $computed(() => [{
 		text: i18n.ts.other,
 		to: '/admin/other-settings',
 		active: currentPage?.route.name === 'other-settings',
-	}],
+  }] : [])],
 }, {
 	title: i18n.ts.info,
 	items: [{

@@ -45,11 +45,11 @@ const onUserRemoved = () => {
 	tlComponent.pagingComponent?.reload();
 };
 
-//const onChangeFollowing = () => {
-//	if (!tlComponent.pagingComponent?.backed) {
-//		tlComponent.pagingComponent?.reload();
-//	}
-//};
+const onChangeFollowing = () => {
+	if (!tlComponent.pagingComponent?.backed) {
+		tlComponent.pagingComponent?.reload();
+	}
+};
 
 let endpoint;
 let query;
