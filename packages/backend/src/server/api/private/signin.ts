@@ -1,5 +1,6 @@
 import Koa from 'koa';
 import bcrypt from 'bcryptjs';
+import { comparePassword } from '@/misc/password.js';
 import * as speakeasy from 'speakeasy';
 import signin from '../common/signin.js';
 import config from '@/config/index.js';
@@ -86,7 +87,8 @@ export default async (ctx: Koa.Context) => {
 	const profile = await UserProfiles.findOneByOrFail({ userId: user.id });
 
 	// Compare password
-	const same = await bcrypt.compare(password, profile.password!);
+	//const same = await bcrypt.compare(password, profile.password!);
+	const same = await comparePassword(password, profile.password!);
 
 	async function fail(status?: number, failure?: { id: string }) {
 		// Append signin history

@@ -4,6 +4,7 @@ import rndstr from 'rndstr';
 import config from '@/config/index.js';
 import ms from 'ms';
 import bcrypt from 'bcryptjs';
+import { comparePassword } from '@/misc/password.js';
 import { Users, UserProfiles } from '@/models/index.js';
 import { sendEmail } from '@/services/send-email.js';
 import { ApiError } from '../../error.js';
@@ -48,7 +49,8 @@ export default define(meta, paramDef, async (ps, user) => {
 	const profile = await UserProfiles.findOneByOrFail({ userId: user.id });
 
 	// Compare password
-	const same = await bcrypt.compare(ps.password, profile.password!);
+	//const same = await bcrypt.compare(ps.password, profile.password!);
+	const same = await comparePassword(ps.password, profile.password!);
 
 	if (!same) {
 		throw new ApiError(meta.errors.incorrectPassword);

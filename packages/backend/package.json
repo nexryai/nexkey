@@ -28,6 +28,7 @@
 		"@syuilo/aiscript": "0.11.1",
 		"ajv": "8.11.0",
 		"archiver": "5.3.1",
+		"argon2": "0.31.0",
 		"autobind-decorator": "2.4.0",
 		"autwh": "0.1.0",
 		"aws-sdk": "2.1213.0",
