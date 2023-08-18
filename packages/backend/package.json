@@ -78,7 +78,7 @@
 		"nodemailer": "6.7.8",
 		"os-utils": "0.0.14",
 		"parse5": "7.1.2",
-		"pg": "8.11.2",
+		"pg": "8.11.3",
 		"private-ip": "2.3.4",
 		"probe-image-size": "7.2.3",
 		"promise-limit": "2.7.0",
