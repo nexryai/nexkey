@@ -54,6 +54,8 @@ export const paramDef = {
 		limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
 		sinceId: { type: 'string', format: 'misskey:id' },
 		untilId: { type: 'string', format: 'misskey:id' },
+		userId: { type: 'string', format: 'misskey:id', nullable: true },
+		type: { type: 'string', nullable: true },
 	},
 	required: [],
 } as const;
@@ -61,6 +63,14 @@ export const paramDef = {
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps) => {
 	const query = makePaginationQuery(ModerationLogs.createQueryBuilder('report'), ps.sinceId, ps.untilId);
+
+	if (ps.userId) {
+		query.andWhere('report.userId = :userId', { userId: ps.userId });
+	}
+
+	if (ps.type) {
+		query.andWhere('report.type = :type', { type: ps.type });
+	}
 
 	const reports = await query.take(ps.limit).getMany();
 

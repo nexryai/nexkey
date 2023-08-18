@@ -1,12 +1,11 @@
 <template>
 <div class="hpaizdrt">
-	<img v-if="instance.faviconUrl" class="icon" :src="instance.faviconUrl"/>
+	<img v-if="faviconUrl" class="icon" :src="faviconUrl"/>
 </div>
 </template>
 
 <script lang="ts" setup>
 import { } from 'vue';
-import { instanceName } from '@/config';
 import { instance as Instance } from '@/instance';
 import { getProxiedImageUrlNullable } from '@/scripts/media-proxy';
 
@@ -19,11 +18,9 @@ const props = defineProps<{
 }>();
 
 // if no instance data is given, this is for the local instance
-const instance = props.instance ?? {
-	faviconUrl: getProxiedImageUrlNullable(Instance.iconUrl) ?? getProxiedImageUrlNullable(Instance.faviconUrl) ?? '/favicon.ico',
-	name: instanceName,
-	themeColor: (document.querySelector('meta[name="theme-color-orig"]') as HTMLMetaElement).content,
-};
+const faviconUrl = $computed(() => props.instance ? getProxiedImageUrlNullable(props.instance.faviconUrl) : getProxiedImageUrlNullable(Instance.iconUrl) ?? getProxiedImageUrlNullable(Instance.faviconUrl) ?? '/favicon.ico');
+
+// const themeColor = instance.themeColor ?? '#777777';
 </script>
 
 <style lang="scss" scoped>

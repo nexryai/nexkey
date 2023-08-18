@@ -23,7 +23,7 @@ export const paramDef = {
 		id: { type: 'string', format: 'misskey:id' },
 		title: { type: 'string', minLength: 1 },
 		text: { type: 'string', minLength: 1 },
-		imageUrl: { type: 'string', nullable: true, minLength: 1 },
+		imageUrl: { type: 'string', nullable: true, minLength: 0 },
 	},
 	required: ['id', 'title', 'text', 'imageUrl'],
 } as const;
@@ -38,6 +38,6 @@ export default define(meta, paramDef, async (ps, me) => {
 		updatedAt: new Date(),
 		title: ps.title,
 		text: ps.text,
-		imageUrl: ps.imageUrl,
+		imageUrl: ps.imageUrl || null,
 	});
 });

@@ -921,6 +921,9 @@ emailNotSupported: "このインスタンスではメール配信はサポート
 indexPosts: "投稿をインデックス"
 indexFrom: "この投稿ID以降をインデックスする（空白で全ての投稿を指定します）"
 indexNotice: "インデックスを開始しました。完了まで時間がかかる場合があります。"
+sudoConfirm: ”モデレータメニューを有効化されたいですか？"
+unsudoConfirm: "モデレータメニューを非表示にしてもいいですか？"
+moderationlogs: "モデレーションログ"
 
 _emailUnavailable:
   used: "既に使用されています"
