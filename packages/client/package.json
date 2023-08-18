@@ -31,7 +31,7 @@
 		"cropperjs": "2.0.0-beta.3",
 		"date-fns": "2.29.2",
 		"escape-regexp": "0.0.1",
-		"eventemitter3": "4.0.7",
+		"eventemitter3": "5.0.1",
 		"idb-keyval": "6.2.1",
 		"insert-text-at-cursor": "0.3.0",
 		"json5": "2.2.2",
