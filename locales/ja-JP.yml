@@ -914,7 +914,7 @@ loggedInAsAdmin: "管理者としてログインしています"
 enableAdminLoggedinWarning: "管理者アカウントとしてログインしていることを警告する"
 bot: "ボット"
 sendModNotification: "運営上の通知を送信する"
-sudoConfirm: ”モデレータメニューを有効化されたいですか？"
+sudoConfirm: "モデレータメニューを有効化されたいですか？"
 unsudoConfirm: "モデレータメニューを非表示にしてもいいですか？"
 moderationlogs: "モデレーションログ"
 
