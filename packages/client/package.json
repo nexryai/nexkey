@@ -13,7 +13,7 @@
 		"@discordapp/twemoji": "14.1.2",
 		"@rollup/plugin-alias": "4.0.2",
 		"@rollup/plugin-json": "6.0.0",
-		"@rollup/pluginutils": "5.0.2",
+		"@rollup/pluginutils": "5.0.3",
 		"@syuilo/aiscript": "0.11.1",
 		"@tabler/icons": "^1.117.0",
 		"@vitejs/plugin-vue": "4.2.3",
