@@ -924,6 +924,7 @@ indexNotice: "インデックスを開始しました。完了まで時間がか
 sudoConfirm: ”モデレータメニューを有効化されたいですか？"
 unsudoConfirm: "モデレータメニューを非表示にしてもいいですか？"
 moderationlogs: "モデレーションログ"
+enableStreamingMode: "配信モードを有効にする"
 
 _emailUnavailable:
   used: "既に使用されています"
@@ -1348,6 +1349,7 @@ _widgets:
   serverMetric: "サーバーメトリクス"
   aiscript: "AiScriptコンソール"
   aichan: "藍"
+  streamMode: "配信モードスイッチ"
 
 _cw:
   hide: "隠す"

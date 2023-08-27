@@ -72,6 +72,7 @@ import { useInterval } from '@/scripts/use-interval';
 import {unisonReload} from "@/scripts/unison-reload";
 
 const iconOnly = ref(false);
+const streamModeEnabled = computed(defaultStore.makeGetterSetter('streamModeEnabled'));
 
 const menu = computed(() => defaultStore.state.menu);
 const otherMenuItemIndicated = computed(() => {
@@ -120,6 +121,10 @@ function openInstanceMenu(ev: MouseEvent) {
 		icon: 'ti ti-whirl',
 		to: '/about#federation',
   }, null, {
+		text: i18n.ts.enableStreamingMode,
+		type: 'switch',
+		ref: streamModeEnabled,
+	}, null, {
       type: 'parent',
       text: i18n.ts.switchUi,
       icon: 'ti ti-devices',
