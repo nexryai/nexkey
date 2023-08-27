@@ -87,7 +87,7 @@ async function change() {
 
 function regenerateToken() {
 	os.inputText({
-		title: i18n.ts.password,
+		title: i18n.ts.currentPassword,
 		type: 'password',
 	}).then(({ canceled, result: password }) => {
 		if (canceled) return;

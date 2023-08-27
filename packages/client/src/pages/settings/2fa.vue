@@ -85,7 +85,7 @@ const token = ref(null);
 
 function register() {
 	os.inputText({
-		title: i18n.ts.password,
+		title: i18n.ts.currentPassword,
 		type: 'password',
 	}).then(({ canceled, result: password }) => {
 		if (canceled) return;
@@ -99,7 +99,7 @@ function register() {
 
 function unregister() {
 	os.inputText({
-		title: i18n.ts.password,
+		title: i18n.ts.currentPassword,
 		type: 'password',
 	}).then(({ canceled, result: password }) => {
 		if (canceled) return;
@@ -147,7 +147,7 @@ function registerKey() {
 
 function unregisterKey(key) {
 	os.inputText({
-		title: i18n.ts.password,
+		title: i18n.ts.currentPassword,
 		type: 'password',
 	}).then(({ canceled, result: password }) => {
 		if (canceled) return;
@@ -165,7 +165,7 @@ function unregisterKey(key) {
 
 function addSecurityKey() {
 	os.inputText({
-		title: i18n.ts.password,
+		title: i18n.ts.currentPassword,
 		type: 'password',
 	}).then(({ canceled, result: password }) => {
 		if (canceled) return;
