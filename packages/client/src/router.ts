@@ -122,6 +122,10 @@ export const routes = [{
 		name: 'instance-mute',
 		component: page(() => import('./pages/settings/instance-mute.vue')),
 	}, {
+		path: '/reaction-mute',
+		name: 'reaction-mute',
+		component: page(() => import('./pages/settings/reaction-mute.vue')),
+	}, {
 		path: '/mute-block',
 		name: 'mute-block',
 		component: page(() => import('./pages/settings/mute-block.vue')),

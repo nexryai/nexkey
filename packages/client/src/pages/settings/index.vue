@@ -145,6 +145,11 @@ const menuDef = computed(() => [{
 		active: currentPage?.route.name === 'instance-mute',
 	}, {
 		icon: 'ti ti-ban',
+		text: i18n.ts.reactionMute,
+		to: '/settings/reaction-mute',
+		active: currentPage?.route.name === 'reaction-mute',
+	}, {
+		icon: 'ti ti-ban',
 		text: i18n.ts.muteAndBlock,
 		to: '/settings/mute-block',
 		active: currentPage?.route.name === 'mute-block',

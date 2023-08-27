@@ -1,6 +1,6 @@
 <template>
 <button
-	v-if="count > 0"
+	v-if="count > 0 && !muted"
 	ref="buttonRef"
 	v-ripple="canToggle"
 	class="hkzvhatu _button"
@@ -20,6 +20,8 @@ import XReactionIcon from '@/components/MkReactionIcon.vue';
 import * as os from '@/os';
 import { useTooltip } from '@/scripts/use-tooltip';
 import { $i } from '@/account';
+import { defaultStore } from '@/store';
+import { checkReactionMute } from "@/scripts/check-reaction-mute";
 
 const props = defineProps<{
 	reaction: string;
@@ -27,6 +29,9 @@ const props = defineProps<{
 	isInitial: boolean;
 	note: misskey.entities.Note;
 }>();
+
+const muted = ref(checkReactionMute(props.reaction, defaultStore.state.mutedReactions));
+//console.log(muted)
 
 const buttonRef = ref<HTMLElement>();
 

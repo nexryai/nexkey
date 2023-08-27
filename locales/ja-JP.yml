@@ -925,6 +925,7 @@ sudoConfirm: ”モデレータメニューを有効化されたいですか？"
 unsudoConfirm: "モデレータメニューを非表示にしてもいいですか？"
 moderationlogs: "モデレーションログ"
 enableStreamingMode: "配信モードを有効にする"
+reactionMute: "リアクションミュート"
 
 _emailUnavailable:
   used: "既に使用されています"
@@ -1128,6 +1129,10 @@ _instanceMute:
   instanceMuteDescription2: "ただしフォローしているユーザーやメンションされた場合には適用されません。改行で区切って設定します。"
   title: "設定したインスタンスのノートを隠します。"
   heading: "ミュートするインスタンス"
+
+_reactionMute:
+  reactionMuteDescription: "指定してカスタム絵文字によるリアクションを非表示にします。:emojiname@example.com:のような形で改行で区切って設定します。このインスタンスのカスタム絵文字である場合、:emojiname@.:という形で設定してください。"
+  heading: "リアクション一覧に表示しない絵文字"
 
 _theme:
   explore: "テーマを探す"
