@@ -13,7 +13,7 @@
 				<MkInfo v-if="noEmailServer" warn class="info">{{ i18n.ts.noEmailServerWarning }} <MkA to="/admin/email-settings" class="_link">{{ i18n.ts.configure }}</MkA></MkInfo>
 
 				<FormSwitch v-model="moderator" class="_formBlock" @update:modelValue="toggleModerator">{{ i18n.ts.moderator }}</FormSwitch>
-				<MkSuperMenu :def="menuDef" :grid="currentPage?.route.name == null"></MkSuperMenu>
+				<MkSuperMenu :def="menuDef" :grid="narrow"></MkSuperMenu>
 			</div>
 		</MkSpacer>
 	</div>
