@@ -289,7 +289,7 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 			.andWhere(`following.followeeId = :userId`, { userId: note.userId })
 			.getMany()
 			.then(async followings => {
-				const blockings = await Blockings.find({ blockerId: user.id });
+				const blockings = await Blockings.findBy({ blockerId: user.id });
 				const followers = followings.map(f => f.followerId);
 				for (const antenna of (await getAntennas())) {
 					if (blockings.some(blocking => blocking.blockeeId === antenna.userId)) continue; // この処理は checkHitAntenna 内でやるようにしてもいいかも
