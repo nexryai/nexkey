@@ -229,20 +229,20 @@
     "@babel/helper-validator-identifier" "^7.22.5"
     to-fast-properties "^2.0.0"
 
-"@bull-board/api@5.7.1":
-  version "5.7.1"
-  resolved "https://registry.yarnpkg.com/@bull-board/api/-/api-5.7.1.tgz#a8afb6198eec7153f5f96250be1716693796e43c"
-  integrity sha512-OP89E4yWOo41CMt4PoDQ46yTq4aQhxwuenKB6uITmbXAkqnWWKtxmC1vcYoK0PHFLUbeban2lJYLhkEeLMBLJA==
+"@bull-board/api@5.8.0":
+  version "5.8.0"
+  resolved "https://registry.yarnpkg.com/@bull-board/api/-/api-5.8.0.tgz#621a0a6b0614ffa2522519f007d1aef325597d71"
+  integrity sha512-jHJ7Mw/CHixNgIsrbUihyYVxIdlM/lzii+ZUo7E8CFEsOCjE+Um5RDr9boYghWVHuJykkLy7b+wPvbnTwmX0SA==
   dependencies:
     redis-info "^3.0.8"
 
-"@bull-board/koa@5.7.1":
-  version "5.7.1"
-  resolved "https://registry.yarnpkg.com/@bull-board/koa/-/koa-5.7.1.tgz#86d3153d5ba6425bf0eab73ba6e6c2ef8c92796b"
-  integrity sha512-e/+Q4unMpmzSuoZQILqh7m4ELwHxwaPfqiVzI8fgdrntJP3TZxKBThdR1tCBrfibYNQ9Yz8eLCmh0Z0rl2/+lg==
+"@bull-board/koa@5.8.0":
+  version "5.8.0"
+  resolved "https://registry.yarnpkg.com/@bull-board/koa/-/koa-5.8.0.tgz#32302d0dad507e6c0cf82296150bce22ce5409f8"
+  integrity sha512-r7v+PxDklRoDhhTu+h0I1LElxgfd9QUqyD6auJNMMsxDKjvCCLFwDWgzAzav0m2bG0XX5MM3dsEiFJnY8a8bYA==
   dependencies:
-    "@bull-board/api" "5.7.1"
-    "@bull-board/ui" "5.7.1"
+    "@bull-board/api" "5.8.0"
+    "@bull-board/ui" "5.8.0"
     ejs "^3.1.7"
     koa "^2.13.1"
     koa-mount "^4.0.0"
@@ -250,12 +250,12 @@
     koa-static "^5.0.0"
     koa-views "^7.0.1"
 
-"@bull-board/ui@5.7.1":
-  version "5.7.1"
-  resolved "https://registry.yarnpkg.com/@bull-board/ui/-/ui-5.7.1.tgz#ee32719423cbc219ebbf69d74582b4993519adc8"
-  integrity sha512-J3hV10kY0GdqadoVB2I1hgyLcLX0N4AyU96hxb9Q9c/wSKVt5N8GAij5PLiQs2UE53eMrj1s/6m7qRSgw8EALA==
+"@bull-board/ui@5.8.0":
+  version "5.8.0"
+  resolved "https://registry.yarnpkg.com/@bull-board/ui/-/ui-5.8.0.tgz#04e11e618ea707ee2660cdc93efbe7087399e0bc"
+  integrity sha512-O2imjnV7KFictoy6FsrG2y5u10Z60BIuX+nghLbhdEkZL/B4B2VUM+655d9wMIpjXocXkr2DN5ELJkUXewl9wQ==
   dependencies:
-    "@bull-board/api" "5.7.1"
+    "@bull-board/api" "5.8.0"
 
 "@chainsafe/is-ip@^2.0.1":
   version "2.0.2"
