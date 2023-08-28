@@ -22,7 +22,7 @@
 		"@koa/router": "9.0.1",
 		"@peertube/http-signature": "1.7.0",
 		"@sinonjs/fake-timers": "11.1.0",
-		"@syuilo/aiscript": "0.11.1",
+		"@syuilo/aiscript": "0.15.0",
 		"abort-controller": "3.0.0",
 		"ajv": "8.11.0",
 		"archiver": "5.3.1",
