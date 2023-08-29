@@ -24,9 +24,7 @@ export const paramDef = {
 	type: 'object',
 	properties: {
 		host: { type: 'string', nullable: true, description: 'Omit or use `null` to not filter by host.' },
-		blocked: { type: 'boolean', nullable: true },
 		notResponding: { type: 'boolean', nullable: true },
-		suspended: { type: 'boolean', nullable: true },
 		federating: { type: 'boolean', nullable: true },
 		subscribing: { type: 'boolean', nullable: true },
 		publishing: { type: 'boolean', nullable: true },
@@ -60,15 +58,6 @@ export default define(meta, paramDef, async (ps, me) => {
 		default: query.orderBy('instance.id', 'DESC'); break;
 	}
 
-	if (typeof ps.blocked === 'boolean') {
-		const meta = await fetchMeta(true);
-		if (ps.blocked) {
-			query.andWhere(meta.blockedHosts.length === 0 ? '1=0': 'instance.host IN (:...blocks)', { blocks: meta.blockedHosts });
-		} else {
-			query.andWhere(meta.blockedHosts.length === 0 ? '1=1': 'instance.host NOT IN (:...blocks)', { blocks: meta.blockedHosts });
-		}
-	}
-
 	if (typeof ps.notResponding === 'boolean') {
 		if (ps.notResponding) {
 			query.andWhere('instance.isNotResponding = TRUE');
@@ -77,13 +66,10 @@ export default define(meta, paramDef, async (ps, me) => {
 		}
 	}
 
-	if (typeof ps.suspended === 'boolean') {
-		if (ps.suspended) {
-			query.andWhere('instance.isSuspended = TRUE');
-		} else {
-			query.andWhere('instance.isSuspended = FALSE');
-		}
-	}
+	// ブロックしてるインスタンスと配送停止してるインスタンスは存在しないことにする
+	query.andWhere('instance.isSuspended = FALSE');
+	const meta = await fetchMeta(true);
+	query.andWhere(meta.blockedHosts.length === 0 ? '1=1': 'instance.host NOT IN (:...blocks)', { blocks: meta.blockedHosts });
 
 	if (typeof ps.federating === 'boolean') {
 		if (ps.federating) {
