@@ -928,6 +928,10 @@ indexNotice: "Now indexing. This will probably take a while."
 sudoConfirm: "Are you sure want to enable Moderator Menu?"
 unsudoConfirm: "Are you ok to hide Moderator Menu?"
 moderationlogs: "Moderation logs"
+enableStreamingMode: "Enable streaming mode"
+reactionMute: "Reaction mute"
+showMessageOnMuted: "Display a message when a note is soft muted"
+
 _sensitiveMediaDetection:
   description: "Reduces the effort of server moderation through automatically recognizing NSFW media via Machine Learning. This will slightly increase the load on the server."
   sensitivity: "Detection sensitivity"
@@ -1119,6 +1123,9 @@ _instanceMute:
   instanceMuteDescription2: "However, it does not apply to users who are followed or menshoned. with newlines."
   title: "Hides notes from listed instances."
   heading: "List of instances to be muted"
+_reactionMute:
+  reactionMuteDescription: "Hides reactions with the specified custom emoji. Set them separated by a new line in the form of :emojiname@example.com:. If it is a custom emoji for this instance, use :emojiname@. : form."
+  heading: "Emoji not displayed in reaction list"
 _theme:
   explore: "Explore Themes"
   install: "Install a theme"
