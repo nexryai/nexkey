@@ -28,9 +28,9 @@
 				<template #label>Moderation</template>
 				<FormSwitch v-model="suspended" class="_formBlock" @update:modelValue="toggleSuspend">{{ i18n.ts.stopActivityDelivery }}</FormSwitch>
 				<FormSwitch :disabled="!iAmAdmin" v-model="isBlocked" class="_formBlock" @update:modelValue="toggleBlock">{{ i18n.ts.blockThisInstance }}</FormSwitch>
-				<MkButton @click="refreshMetadata"><i class="ti ti-refresh"></i> Refresh metadata</MkButton>
-				<MkButton v-if="(!suspended && !isBlocked) && $i && $i.isAdmin" inline danger @click="deleteFollowing"><i class="ti ti-minus"></i> Unfollow All Instance Users</MkButton>
-				<MkButton v-if="(suspended || isBlocked) && $i && $i.isAdmin" inline danger @click="deleteInstanceUsers"><i class="ti ti-trash"></i> Delete All Instance Users</MkButton>
+				<MkButton @click="refreshMetadata" class="mod-button"><i class="ti ti-refresh"></i> Refresh metadata</MkButton>
+				<MkButton v-if="(!suspended && !isBlocked) && $i && $i.isAdmin" inline danger @click="deleteFollowing" class="mod-button"><i class="ti ti-minus"></i> Unfollow All Instance Users</MkButton>
+				<MkButton v-if="(suspended || isBlocked) && $i && $i.isAdmin" inline danger @click="deleteInstanceUsers" class="mod-button"><i class="ti ti-trash"></i> Delete All Instance Users</MkButton>
 			</FormSection>
 
 			<FormSection>
@@ -277,6 +277,11 @@ definePageMetadata({
 </script>
 
 <style lang="scss" scoped>
+.mod-button {
+	margin-right: 8px;
+	margin-bottom: 8px;
+}
+
 .fnfelxur {
 	display: flex;
 	align-items: center;

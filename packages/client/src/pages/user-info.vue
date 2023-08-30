@@ -98,10 +98,10 @@
 				<FormSwitch v-model="suspended" class="_formBlock" @update:modelValue="toggleSuspend">{{ i18n.ts.suspend }}</FormSwitch>
 				{{ i18n.ts.reflectMayTakeTime }}
 				<div class="_formBlock">
-					<FormButton v-if="user.host == null && iAmModerator" inline style="margin-right: 8px;" @click="resetPassword"><i class="ti ti-key"></i> {{ i18n.ts.resetPassword }}</FormButton>
-					<FormButton v-if="$i.isAdmin" inline danger style="margin-right: 8px;" @click="deleteAccount"><i class="ti ti-trash"></i> {{ i18n.ts.deleteAccount }}</FormButton>
-					<FormButton v-if="$i.isAdmin" inline danger style="margin-right: 8px;" @click="deleteAllFiles"><i class="ti ti-trash"></i> {{ i18n.ts.deleteAllFiles }}</FormButton>
-					<FormButton v-if="user.host == null && iAmModerator && !suspended" inline style="margin-right: 8px;" @click="sendModNotification"><i class="ti ti-alert-circle"></i> {{ $ts.sendModNotification }}</FormButton>
+					<FormButton v-if="user.host == null && iAmModerator" inline @click="resetPassword" class="mod-button"><i class="ti ti-key"></i> {{ i18n.ts.resetPassword }}</FormButton>
+					<FormButton v-if="$i.isAdmin" inline danger @click="deleteAccount" class="mod-button"><i class="ti ti-trash"></i> {{ i18n.ts.deleteAccount }}</FormButton>
+					<FormButton v-if="$i.isAdmin" inline danger @click="deleteAllFiles" class="mod-button"><i class="ti ti-trash"></i> {{ i18n.ts.deleteAllFiles }}</FormButton>
+					<FormButton v-if="user.host == null && iAmModerator && !suspended" inline @click="sendModNotification" class="mod-button"><i class="ti ti-alert-circle"></i> {{ $ts.sendModNotification }}</FormButton>
 				</div>
 				<FormTextarea v-model="moderationNote" manual-save class="_formBlock">
 					<template #label>Moderation note</template>
@@ -462,6 +462,12 @@ definePageMetadata(computed(() => ({
 
 <style lang="scss" scoped>
 @use "sass:math";
+
+.mod-button {
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
 .aeakzknw {
 	display: flex;
 	align-items: center;
