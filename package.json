@@ -1,6 +1,6 @@
 {
 	"name": "misskey",
-	"version": "nexkey-12.121.6-b1",
+	"version": "nexkey-12.121.6-b2",
 	"codename": "agathos",
 	"repository": {
 		"type": "git",

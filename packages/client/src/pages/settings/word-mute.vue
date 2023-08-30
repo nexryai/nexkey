@@ -25,11 +25,13 @@
 		</div>
 	</div>
 	<MkButton primary inline :disabled="!changed" @click="save()"><i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}</MkButton>
+	<FormSwitch v-model="showMessageOnMuted" class="_formBlock">{{ i18n.ts.showMessageOnMuted }}</FormSwitch>
 </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
+import FormSwitch from '@/components/form/switch.vue';
 import FormTextarea from '@/components/form/textarea.vue';
 import MkKeyValue from '@/components/MkKeyValue.vue';
 import MkButton from '@/components/MkButton.vue';
@@ -53,6 +55,7 @@ const render = (mutedWords) => mutedWords.map(x => {
 const tab = ref('soft');
 const softMutedWords = ref(render(defaultStore.state.mutedWords));
 const hardMutedWords = ref(render($i!.mutedWords));
+const showMessageOnMuted = computed(defaultStore.makeGetterSetter('showMessageOnMuted'));
 const hardWordMutedNotesCount = ref(null);
 const changed = ref(false);
 

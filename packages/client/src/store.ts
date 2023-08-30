@@ -59,6 +59,10 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'account',
 		default: [],
 	},
+	showMessageOnMuted: {
+		where: 'account',
+		default: false
+	},
 	mutedReactions: {
 		where: 'account',
 		default: [],

@@ -89,7 +89,7 @@
 		</div>
 	</article>
 </div>
-<div v-else class="muted" @click="muted = false">
+<div v-else-if="showMessageOnMuted" class="muted" @click="muted = false">
 	<I18n :src="i18n.ts.userSaysSomething" tag="small">
 		<template #name>
 			<MkA v-user-preview="appearNote.userId" class="name" :to="userPage(appearNote.user)">
@@ -165,6 +165,7 @@ const isMyRenote = $i && ($i.id === note.userId);
 const showContent = ref(false);
 const urls = appearNote.text ? extractUrlFromMfm(mfm.parse(appearNote.text)) : null;
 const enableMfm = ref(defaultStore.state.enableMfm);
+const showMessageOnMuted = ref(defaultStore.state.showMessageOnMuted);
 const isLong = (appearNote.cw == null && appearNote.text != null && (
 	(appearNote.text.includes('$[x3') && enableMfm) ||
 	(appearNote.text.includes('$[x4') && enableMfm) ||

@@ -926,6 +926,7 @@ unsudoConfirm: "モデレータメニューを非表示にしてもいいです�
 moderationlogs: "モデレーションログ"
 enableStreamingMode: "配信モードを有効にする"
 reactionMute: "リアクションミュート"
+showMessageOnMuted: "ノートがソフトミュートされたときにメッセージを表示する"
 
 _emailUnavailable:
   used: "既に使用されています"
