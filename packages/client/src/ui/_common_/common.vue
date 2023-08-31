@@ -13,13 +13,14 @@
 
 <div v-if="pendingApiRequestsCount > 0" id="wait"></div>
 
-<div v-if="dev" id="devTicker"><span>DEV BUILD</span></div>
+<div v-if="dev" id="devTicker"><span>DEV BUILD -- DO NOT USE IN PRODUCTION</span></div> <div v-if="dev" id="versionInfo"><span>Nexkey build v{{version}}-devel</span></div>
 <div v-if="$i && $i.isBot && enableBotLoggedinWarning" id="botWarn"><span>{{ $ts.loggedInAsBot }}</span></div>
 <div v-if="$i && $i.isAdmin && enableAdminLoggedinWarning" id="adminWarn"><span>{{ $ts.loggedInAsAdmin }}</span></div>
 </template>
 
 <script lang="ts" setup>
 import { defineAsyncComponent } from 'vue';
+import { version } from '@/config';
 import { swInject } from './sw-inject';
 import { popup, popups, pendingApiRequestsCount } from '@/os';
 import { uploads } from '@/scripts/upload';
@@ -114,6 +115,19 @@ if ($i) {
 	> span {
 		animation: dev-ticker-blink 2s infinite;
 	}
+}
+
+#versionInfo {
+	position: fixed;
+	top: 0;
+	right: 0;
+	z-index: 2147483647;
+	color: #005dff;
+	background: rgba(0, 0, 0, 0.2);
+	padding: 4px 7px;
+	font-size: 14px;
+	pointer-events: none;
+	user-select: none;
 }
 
 #botWarn {
