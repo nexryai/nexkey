@@ -5,7 +5,7 @@
 			<div class="banner" :style="{ backgroundImage: `url(${ $instance.bannerUrl })` }"></div>
 			<button v-click-anime v-tooltip.noDelay.right="$instance.name ?? i18n.ts.instance" class="item _button instance" @click="openInstanceMenu">
 				<img :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" alt="" class="icon"/>
-        <div v-if="!iconOnly" class="instance_info">
+        <div v-if="!iconOnly && showOnlineUsersOnNavbar" class="instance_info">
           <div class="instance_info_text">
             <I18n v-if="onlineUsersCount" :src="i18n.ts.onlineUsersCountAlt" text-tag="span" class="text">
               <template #n><i class="ti ti-access-point" style="vertical-align: middle; padding-right: 4px;"></i><b>{{ onlineUsersCount }}</b></template>
@@ -73,6 +73,7 @@ import {unisonReload} from "@/scripts/unison-reload";
 
 const iconOnly = ref(false);
 const streamModeEnabled = computed(defaultStore.makeGetterSetter('streamModeEnabled'));
+const showOnlineUsersOnNavbar = ref(defaultStore.state.showOnlineUsersOnNavbar);
 
 const menu = computed(() => defaultStore.state.menu);
 const otherMenuItemIndicated = computed(() => {

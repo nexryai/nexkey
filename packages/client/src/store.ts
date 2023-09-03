@@ -313,6 +313,10 @@ export const defaultStore = markRaw(new Storage('base', {
 	streamModeEnabled: {
 		where: 'device',
 		default: false,
+	},
+	showOnlineUsersOnNavbar: {
+		where: 'account',
+		default: true,
 	}
 }));
 

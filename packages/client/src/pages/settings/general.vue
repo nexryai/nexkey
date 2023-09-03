@@ -22,6 +22,7 @@
 
   <MkButton @click="switchUi"><i class="ti ti-devices"></i> {{ i18n.ts.switchUi }}</MkButton>
 	<FormSwitch v-model="showFixedPostForm" class="_formBlock">{{ i18n.ts.showFixedPostForm }}</FormSwitch>
+  <FormSwitch v-model="showOnlineUsersOnNavbar" class="_formBlock">{{ i18n.ts.showOnlineUsersOnNavbar }}</FormSwitch>
 
 	<FormSection>
 		<template #label>{{ i18n.ts.behavior }}</template>
@@ -146,6 +147,7 @@ const aiChanMode = computed(defaultStore.makeGetterSetter('aiChanMode'));
 const enableMfm = computed(defaultStore.makeGetterSetter('enableMfm'));
 const enableBotLoggedinWarning = computed(defaultStore.makeGetterSetter('enableBotLoggedinWarning'));
 const enableAdminLoggedinWarning = computed(defaultStore.makeGetterSetter('enableAdminLoggedinWarning'));
+const showOnlineUsersOnNavbar = computed(defaultStore.makeGetterSetter('showOnlineUsersOnNavbar'));
 
 watch(lang, () => {
 	localStorage.setItem('lang', lang.value as string);

@@ -927,6 +927,7 @@ moderationlogs: "モデレーションログ"
 enableStreamingMode: "配信モードを有効にする"
 reactionMute: "リアクションミュート"
 showMessageOnMuted: "ノートがソフトミュートされたときにメッセージを表示する"
+showOnlineUsersOnNavbar: "ナビゲーションバーにオンラインユーザー数を表示する"
 
 _emailUnavailable:
   used: "既に使用されています"

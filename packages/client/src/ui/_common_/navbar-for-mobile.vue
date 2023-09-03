@@ -11,7 +11,7 @@
           <div class="instance_name">
             {{ instance.name || host }}
           </div>
-          <I18n v-if="onlineUsersCount" :src="i18n.ts.onlineUsersCount" text-tag="span" class="text">
+          <I18n v-if="onlineUsersCount && showOnlineUsersOnNavbar" :src="i18n.ts.onlineUsersCount" text-tag="span" class="text">
             <template #n><b>{{ onlineUsersCount }}</b></template>
           </I18n>
         </div>
@@ -65,6 +65,8 @@ import { defaultStore } from '@/store';
 import { instance } from '@/instance';
 import { i18n } from '@/i18n';
 import { useInterval } from '@/scripts/use-interval';
+
+const showOnlineUsersOnNavbar = ref(defaultStore.state.showOnlineUsersOnNavbar);
 
 const menu = toRef(defaultStore.state, 'menu');
 const otherMenuItemIndicated = computed(() => {
