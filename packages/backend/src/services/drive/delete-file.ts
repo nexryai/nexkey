@@ -8,18 +8,18 @@ import { getS3 } from './s3.js';
 import { v4 as uuid } from 'uuid';
 
 export async function deleteFile(file: DriveFile, isExpired = false) {
-	if (file.url != null) {
+	if (file.webpublicUrl != null) {
 		let emojis = await Emojis.findOneBy({
 			host: null,
-			publicUrl: file.url,
+			publicUrl: file.webpublicUrl,
 		});
 		if (emojis != null) {
 			return; // emojiのpublicUrlがfileに含まれている場合は処理をスキップ
 		}
-	} else if (file.webpublicUrl != null) {
+	} else if (file.url != null) {
 		let emojis = await Emojis.findOneBy({
 			host: null,
-			publicUrl: file.webpublicUrl,
+			publicUrl: file.url,
 		});
 		if (emojis != null) {
 			return; // emojiのpublicUrlがfileに含まれている場合は処理をスキップ
@@ -52,18 +52,18 @@ export async function deleteFile(file: DriveFile, isExpired = false) {
 }
 
 export async function deleteFileSync(file: DriveFile, isExpired = false) {
-	if (file.url != null) {
+	if (file.webpublicUrl != null) {
 		let emojis = await Emojis.findOneBy({
 			host: null,
-			publicUrl: file.url,
+			publicUrl: file.webpublicUrl,
 		});
 		if (emojis != null) {
 			return; // emojiのpublicUrlがfileに含まれている場合は処理をスキップ
 		}
-	} else if (file.webpublicUrl != null) {
+	} else if (file.url != null) {
 		let emojis = await Emojis.findOneBy({
 			host: null,
-			publicUrl: file.webpublicUrl,
+			publicUrl: file.url,
 		});
 		if (emojis != null) {
 			return; // emojiのpublicUrlがfileに含まれている場合は処理をスキップ
