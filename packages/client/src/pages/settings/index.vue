@@ -67,6 +67,11 @@ const menuDef = computed(() => [{
 		text: i18n.ts.privacy,
 		to: '/settings/privacy',
 		active: currentPage?.route.name === 'privacy',
+  }, {
+    icon: 'ti ti-ban',
+    text: i18n.ts.muteAndBlock,
+    to: '/settings/mute-block',
+    active: currentPage?.route.name === 'mute-block',
 	}, {
 		icon: 'ti ti-mood-happy',
 		text: i18n.ts.reaction,
@@ -138,26 +143,6 @@ const menuDef = computed(() => [{
 		text: i18n.ts.importAndExport,
 		to: '/settings/import-export',
 		active: currentPage?.route.name === 'import-export',
-	}, {
-		icon: 'ti ti-planet-off',
-		text: i18n.ts.instanceMute,
-		to: '/settings/instance-mute',
-		active: currentPage?.route.name === 'instance-mute',
-	}, {
-		icon: 'ti ti-ban',
-		text: i18n.ts.reactionMute,
-		to: '/settings/reaction-mute',
-		active: currentPage?.route.name === 'reaction-mute',
-	}, {
-		icon: 'ti ti-ban',
-		text: i18n.ts.muteAndBlock,
-		to: '/settings/mute-block',
-		active: currentPage?.route.name === 'mute-block',
-	}, {
-		icon: 'ti ti-message-off',
-		text: i18n.ts.wordMute,
-		to: '/settings/word-mute',
-		active: currentPage?.route.name === 'word-mute',
 	}, {
 		icon: 'ti ti-api',
 		text: 'API',
