@@ -10,6 +10,14 @@
 You should also include the user name that made the change.
 -->
 
+## 12.119.2-fix.5.7 (2023/09/03)
+### Improvements
+- 通知クライアント設定のリファクタ @atsu1125
+
+### Bugfixes
+- 絵文字のファイルがドライブから削除されないようにするコードの修正 @atsu1125
+- モバイル版の広告表示画面の移動 @atsu1125
+
 ## 12.119.2-fix.5.6 (2023/08/17)
 ### Improvements
 - アカウントの登録日を他のインスタンスが読めるように @atsu1125
