@@ -1,7 +1,10 @@
 <template>
 <MkStickyContainer>
 	<template #header><XHeader :actions="headerActions" :tabs="headerTabs"/></template>
-	<MkSpacer :content-max="700" :margin-min="16" :margin-max="32">
+  <MkSpacer v-if="streamModeEnabled">
+    <MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
+  </MkSpacer>
+	<MkSpacer :content-max="700" :margin-min="16" :margin-max="32" v-if="!streamModeEnabled">
 		<FormSuspense :p="init">
 			<div class="_formRoot">
 				<FormFolder class="_formBlock">
@@ -46,7 +49,7 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
+import {ref} from 'vue';
 import XBotProtection from './bot-protection.vue';
 import XHeader from './_header_.vue';
 import FormFolder from '@/components/form/folder.vue';
@@ -60,6 +63,10 @@ import * as os from '@/os';
 import { fetchInstance } from '@/instance';
 import { i18n } from '@/i18n';
 import { definePageMetadata } from '@/scripts/page-metadata';
+import {defaultStore} from "@/store";
+import MkInfo from "@/components/MkInfo.vue";
+
+const streamModeEnabled = ref(defaultStore.state.streamModeEnabled);
 
 let summalyProxy: string = $ref('');
 let enableHcaptcha: boolean = $ref(false);

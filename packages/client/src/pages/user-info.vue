@@ -109,8 +109,11 @@
 				<FormFolder class="_formBlock">
 					<template #label>IP</template>
 					<MkInfo v-if="!iAmAdmin" warn>{{ i18n.ts.requireAdminForView }}</MkInfo>
-					<MkInfo v-else>The date is the IP address was first acknowledged.</MkInfo>
-					<template v-if="iAmAdmin && ips">
+					<MkInfo v-else-if="!streamModeEnabled">The date is the IP address was first acknowledged.</MkInfo>
+          <div v-if="streamModeEnabled">
+            <MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
+          </div>
+					<template v-if="iAmAdmin && ips && !streamModeEnabled">
 						<div v-for="record in ips" :key="record.ip" class="_monospace" :class="$style.ip" style="margin: 1em 0;">
 							<span class="date">{{ record.createdAt }}</span>
 							<span class="ip">{{ record.ip }}</span>
@@ -210,6 +213,8 @@ import tinycolor from 'tinycolor2';
 const props = defineProps<{
 	userId: string;
 }>();
+
+const streamModeEnabled = ref(defaultStore.state.streamModeEnabled);
 
 let tab = $ref('overview');
 let chartSrc = $ref('per-user-notes');

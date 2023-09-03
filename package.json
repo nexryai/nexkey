@@ -1,6 +1,6 @@
 {
 	"name": "misskey",
-	"version": "12.121.6-b4",
+	"version": "12.121.6-b5",
 	"codename": "agathos",
 	"repository": {
 		"type": "git",

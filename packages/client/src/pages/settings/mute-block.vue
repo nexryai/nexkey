@@ -1,6 +1,8 @@
 <template>
-
-<div class="_formRoot">
+<div v-if="streamModeEnabled">
+	<MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
+</div>
+<div class="_formRoot" v-if="!streamModeEnabled">
   <FormSection>
     <template #label>{{ i18n.ts.wordMute }}</template>
     <MkTab v-model="wordsTab" class="_formBlock">
@@ -105,6 +107,8 @@ import {$i} from "@/account";
 
 let wordsTab = $ref('soft');
 let usersTab = $ref('mute');
+
+const streamModeEnabled = ref(defaultStore.state.streamModeEnabled);
 
 // ワードミュート
 const render = (mutedWords) => mutedWords.map(x => {

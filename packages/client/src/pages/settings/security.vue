@@ -1,5 +1,8 @@
 <template>
-<div class="_formRoot">
+<div v-if="streamModeEnabled">
+  <MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
+</div>
+<div v-if="!streamModeEnabled" class="_formRoot">
 	<FormSection>
 		<template #label>{{ i18n.ts.password }}</template>
 		<FormButton primary @click="change()">{{ i18n.ts.changePassword }}</FormButton>
@@ -46,6 +49,11 @@ import MkPagination from '@/components/MkPagination.vue';
 import * as os from '@/os';
 import { i18n } from '@/i18n';
 import { definePageMetadata } from '@/scripts/page-metadata';
+import MkInfo from "@/components/MkInfo.vue";
+import {ref} from "vue";
+import {defaultStore} from "@/store";
+
+const streamModeEnabled = ref(defaultStore.state.streamModeEnabled);
 
 const pagination = {
 	endpoint: 'i/signin-history' as const,
