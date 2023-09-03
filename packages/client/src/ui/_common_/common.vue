@@ -8,14 +8,12 @@
 />
 
 <XUpload v-if="uploads.length > 0"/>
-
 <XStreamIndicator/>
-
-<div v-if="pendingApiRequestsCount > 0" id="wait"></div>
-
-<div v-if="dev" id="devTicker"><span>DEV BUILD -- DO NOT USE IN PRODUCTION</span></div> <div v-if="dev" id="versionInfo"><span>Nexkey build v{{version}}-devel</span></div>
-<div v-if="$i && $i.isBot && enableBotLoggedinWarning" id="botWarn"><span>{{ $ts.loggedInAsBot }}</span></div>
-<div v-if="$i && $i.isAdmin && enableAdminLoggedinWarning" id="adminWarn"><span>{{ $ts.loggedInAsAdmin }}</span></div>
+  <div v-if="pendingApiRequestsCount > 0" id="wait"></div>
+  <div v-if="dev && !streamModeEnabled" id="devTicker"><span>DEV BUILD -- DO NOT USE IN PRODUCTION</span></div> <div v-if="dev" id="versionInfo"><span>Nexkey build v{{version}}-devel</span></div>
+  <div v-if="$i && $i.isBot && enableBotLoggedinWarning" id="botWarn"><span>{{ $ts.loggedInAsBot }}</span></div>
+  <div v-if="$i && $i.isAdmin && enableAdminLoggedinWarning" id="adminWarn"><span>{{ $ts.loggedInAsAdmin }}</span></div>
+  <div v-if="streamModeEnabled" id="devTicker"><span>Streaming mode is enabled</span></div>
 </template>
 
 <script lang="ts" setup>
@@ -33,6 +31,7 @@ const XStreamIndicator = defineAsyncComponent(() => import('./stream-indicator.v
 const XUpload = defineAsyncComponent(() => import('./upload.vue'));
 
 const dev = _DEV_;
+const streamModeEnabled = defaultStore.state.streamModeEnabled;
 const enableBotLoggedinWarning = defaultStore.state.enableBotLoggedinWarning;
 const enableAdminLoggedinWarning = defaultStore.state.enableAdminLoggedinWarning;
 
