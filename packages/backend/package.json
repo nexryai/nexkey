@@ -112,7 +112,7 @@
 		"twemoji-parser": "14.0.0",
 		"typeorm": "0.3.9",
 		"ulid": "2.3.0",
-		"unzipper": "0.10.11",
+		"unzipper": "0.10.14",
 		"uuid": "9.0.0",
 		"web-push": "3.5.0",
 		"websocket": "1.0.34",
