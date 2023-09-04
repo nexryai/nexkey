@@ -1,7 +1,10 @@
 <template>
 <MkStickyContainer>
 	<template #header><XHeader :actions="headerActions" :tabs="headerTabs"/></template>
-	<MkSpacer :content-max="700" :margin-min="16" :margin-max="32">
+  <MkSpacer v-if="streamModeEnabled">
+    <MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
+  </MkSpacer>
+	<MkSpacer :content-max="700" :margin-min="16" :margin-max="32" v-if="!streamModeEnabled">
 		<FormSuspense :p="init">
 			<div class="_formRoot">
 				<FormSwitch v-model="enableEmail" class="_formBlock">
@@ -46,7 +49,7 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
+import {ref} from 'vue';
 import XHeader from './_header_.vue';
 import FormSwitch from '@/components/form/switch.vue';
 import FormInput from '@/components/form/input.vue';
@@ -58,6 +61,10 @@ import * as os from '@/os';
 import { fetchInstance, instance } from '@/instance';
 import { i18n } from '@/i18n';
 import { definePageMetadata } from '@/scripts/page-metadata';
+import {defaultStore} from "@/store";
+import MkInfo from "@/components/MkInfo.vue";
+
+const streamModeEnabled = ref(defaultStore.state.streamModeEnabled);
 
 let enableEmail: boolean = $ref(false);
 let email: any = $ref(null);

@@ -3,7 +3,6 @@ import { Router } from '@/nirax';
 import { $i, iAmModerator, iAmAdmin } from '@/account';
 import MkLoading from '@/pages/_loading_.vue';
 import MkError from '@/pages/_error_.vue';
-import { ui } from '@/config';
 
 const page = (loader: AsyncComponentLoader<any>) => defineAsyncComponent({
 	loader: loader,
@@ -118,21 +117,9 @@ export const routes = [{
 		name: 'import-export',
 		component: page(() => import('./pages/settings/import-export.vue')),
 	}, {
-		path: '/instance-mute',
-		name: 'instance-mute',
-		component: page(() => import('./pages/settings/instance-mute.vue')),
-	}, {
-		path: '/reaction-mute',
-		name: 'reaction-mute',
-		component: page(() => import('./pages/settings/reaction-mute.vue')),
-	}, {
 		path: '/mute-block',
 		name: 'mute-block',
 		component: page(() => import('./pages/settings/mute-block.vue')),
-	}, {
-		path: '/word-mute',
-		name: 'word-mute',
-		component: page(() => import('./pages/settings/word-mute.vue')),
 	}, {
 		path: '/api',
 		name: 'api',

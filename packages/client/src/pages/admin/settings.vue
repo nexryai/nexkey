@@ -1,6 +1,9 @@
 <template>
 <div>
-	<MkStickyContainer>
+  <MkSpacer v-if="streamModeEnabled">
+    <MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
+  </MkSpacer>
+	<MkStickyContainer v-if="!streamModeEnabled">
 		<template #header><XHeader :actions="headerActions" :tabs="headerTabs"/></template>
 		<MkSpacer :content-max="700" :margin-min="16" :margin-max="32">
 			<FormSuspense :p="init">
@@ -148,7 +151,7 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
+import {ref} from 'vue';
 import XHeader from './_header_.vue';
 import FormSwitch from '@/components/form/switch.vue';
 import FormInput from '@/components/form/input.vue';
@@ -161,6 +164,10 @@ import * as os from '@/os';
 import { fetchInstance } from '@/instance';
 import { i18n } from '@/i18n';
 import { definePageMetadata } from '@/scripts/page-metadata';
+import MkInfo from "@/components/MkInfo.vue";
+import {defaultStore} from "@/store";
+
+const streamModeEnabled = ref(defaultStore.state.streamModeEnabled);
 
 let name: string | null = $ref(null);
 let description: string | null = $ref(null);

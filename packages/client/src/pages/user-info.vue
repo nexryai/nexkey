@@ -98,10 +98,10 @@
 				<FormSwitch v-model="suspended" class="_formBlock" @update:modelValue="toggleSuspend">{{ i18n.ts.suspend }}</FormSwitch>
 				{{ i18n.ts.reflectMayTakeTime }}
 				<div class="_formBlock">
-					<FormButton v-if="user.host == null && iAmModerator" inline style="margin-right: 8px;" @click="resetPassword"><i class="ti ti-key"></i> {{ i18n.ts.resetPassword }}</FormButton>
-					<FormButton v-if="$i.isAdmin" inline danger style="margin-right: 8px;" @click="deleteAccount"><i class="ti ti-trash"></i> {{ i18n.ts.deleteAccount }}</FormButton>
-					<FormButton v-if="$i.isAdmin" inline danger style="margin-right: 8px;" @click="deleteAllFiles"><i class="ti ti-trash"></i> {{ i18n.ts.deleteAllFiles }}</FormButton>
-					<FormButton v-if="user.host == null && iAmModerator && !suspended" inline style="margin-right: 8px;" @click="sendModNotification"><i class="ti ti-alert-circle"></i> {{ $ts.sendModNotification }}</FormButton>
+					<FormButton v-if="user.host == null && iAmModerator" inline @click="resetPassword" class="mod-button"><i class="ti ti-key"></i> {{ i18n.ts.resetPassword }}</FormButton>
+					<FormButton v-if="$i.isAdmin" inline danger @click="deleteAccount" class="mod-button"><i class="ti ti-trash"></i> {{ i18n.ts.deleteAccount }}</FormButton>
+					<FormButton v-if="$i.isAdmin" inline danger @click="deleteAllFiles" class="mod-button"><i class="ti ti-trash"></i> {{ i18n.ts.deleteAllFiles }}</FormButton>
+					<FormButton v-if="user.host == null && iAmModerator && !suspended" inline @click="sendModNotification" class="mod-button"><i class="ti ti-alert-circle"></i> {{ $ts.sendModNotification }}</FormButton>
 				</div>
 				<FormTextarea v-model="moderationNote" manual-save class="_formBlock">
 					<template #label>Moderation note</template>
@@ -109,8 +109,11 @@
 				<FormFolder class="_formBlock">
 					<template #label>IP</template>
 					<MkInfo v-if="!iAmAdmin" warn>{{ i18n.ts.requireAdminForView }}</MkInfo>
-					<MkInfo v-else>The date is the IP address was first acknowledged.</MkInfo>
-					<template v-if="iAmAdmin && ips">
+					<MkInfo v-else-if="!streamModeEnabled">The date is the IP address was first acknowledged.</MkInfo>
+          <div v-if="streamModeEnabled">
+            <MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
+          </div>
+					<template v-if="iAmAdmin && ips && !streamModeEnabled">
 						<div v-for="record in ips" :key="record.ip" class="_monospace" :class="$style.ip" style="margin: 1em 0;">
 							<span class="date">{{ record.createdAt }}</span>
 							<span class="ip">{{ record.ip }}</span>
@@ -210,6 +213,8 @@ import tinycolor from 'tinycolor2';
 const props = defineProps<{
 	userId: string;
 }>();
+
+const streamModeEnabled = ref(defaultStore.state.streamModeEnabled);
 
 let tab = $ref('overview');
 let chartSrc = $ref('per-user-notes');
@@ -462,6 +467,12 @@ definePageMetadata(computed(() => ({
 
 <style lang="scss" scoped>
 @use "sass:math";
+
+.mod-button {
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
 .aeakzknw {
 	display: flex;
 	align-items: center;

@@ -1,6 +1,9 @@
 <template>
 <div>
-	<MkStickyContainer>
+  <MkSpacer v-if="streamModeEnabled">
+    <MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
+  </MkSpacer>
+	<MkStickyContainer v-if="!streamModeEnabled">
 		<template #header><XHeader :actions="headerActions"/></template>
 		<MkSpacer :content-max="900">
 			<div class="xrmjdkdw">
@@ -33,7 +36,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineAsyncComponent } from 'vue';
+import {computed, defineAsyncComponent, ref} from 'vue';
 import * as Acct from 'misskey-js/built/acct';
 import XHeader from './_header_.vue';
 import MkButton from '@/components/MkButton.vue';
@@ -44,6 +47,10 @@ import bytes from '@/filters/bytes';
 import * as os from '@/os';
 import { i18n } from '@/i18n';
 import { definePageMetadata } from '@/scripts/page-metadata';
+import MkInfo from "@/components/MkInfo.vue";
+import {defaultStore} from "@/store";
+
+const streamModeEnabled = ref(defaultStore.state.streamModeEnabled);
 
 let origin = $ref('local');
 let type = $ref(null);

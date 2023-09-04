@@ -1,7 +1,10 @@
 <template>
 <MkStickyContainer>
 	<template #header><XHeader :actions="headerActions" :tabs="headerTabs"/></template>
-	<MkSpacer :content-max="900">
+  <MkSpacer v-if="streamModeEnabled">
+    <MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
+  </MkSpacer>
+	<MkSpacer :content-max="900" v-if="!streamModeEnabled">
 		<div class="lcixvhis">
 			<div class="_section reports">
 				<div class="_content">
@@ -57,6 +60,11 @@ import XAbuseReport from '@/components/MkAbuseReport.vue';
 import * as os from '@/os';
 import { i18n } from '@/i18n';
 import { definePageMetadata } from '@/scripts/page-metadata';
+import {ref} from "vue";
+import {defaultStore} from "@/store";
+import MkInfo from "@/components/MkInfo.vue";
+
+const streamModeEnabled = ref(defaultStore.state.streamModeEnabled);
 
 let reports = $ref<InstanceType<typeof MkPagination>>();
 
