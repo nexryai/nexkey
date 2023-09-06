@@ -1287,10 +1287,10 @@ csstype@^3.1.1:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.2.tgz#1d4bf9d572f11c14031f0436e1c10bc1f571f50b"
   integrity sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==
 
-cypress@13.0.0:
-  version "13.0.0"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-13.0.0.tgz#8fe8f13dbb46f76ad30fa2d47be1c3489de625d2"
-  integrity sha512-nWHU5dUxP2Wm/zrMd8SWTTl706aJex/l+H4vi/tbu2SWUr17BUcd/sIYeqyxeoSPW1JFV2pT1pf4JEImH/POMg==
+cypress@13.1.0:
+  version "13.1.0"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-13.1.0.tgz#18f268e66662cd91b1766db18bd1f63a66592205"
+  integrity sha512-LUKxCYlB973QBFls1Up4FAE9QIYobT+2I8NvvAwMfQS2YwsWbr6yx7y9hmsk97iqbHkKwZW3MRjoK1RToBFVdQ==
   dependencies:
     "@cypress/request" "^3.0.0"
     "@cypress/xvfb" "^1.2.4"
@@ -3536,10 +3536,10 @@ textarea-caret@3.1.0:
   resolved "https://registry.yarnpkg.com/textarea-caret/-/textarea-caret-3.1.0.tgz#5d5a35bb035fd06b2ff0e25d5359e97f2655087f"
   integrity sha512-cXAvzO9pP5CGa6NKx0WYHl+8CHKZs8byMkt3PCJBCmq2a34YA9pO1NrQET5pzeqnBjBdToF5No4rrmkDUgQC2Q==
 
-three@0.155.0:
-  version "0.155.0"
-  resolved "https://registry.yarnpkg.com/three/-/three-0.155.0.tgz#cca9b8ad817830c8b4fdd8f0d9a12a2e413a2672"
-  integrity sha512-sNgCYmDijnIqkD/bMfk+1pHg3YzsxW7V2ChpuP6HCQ8NiZr3RufsXQr8M3SSUMjW4hG+sUk7YbyuY0DncaDTJQ==
+three@0.156.1:
+  version "0.156.1"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.156.1.tgz#bab4fec121a5b3975eb4f4d227d9c912171eb399"
+  integrity sha512-kP7H0FK9d/k6t/XvQ9FO6i+QrePoDcNhwl0I02+wmUJRNSLCUIDMcfObnzQvxb37/0Uc9TDT0T1HgsRRrO6SYQ==
 
 throttle-debounce@5.0.0:
   version "5.0.0"
