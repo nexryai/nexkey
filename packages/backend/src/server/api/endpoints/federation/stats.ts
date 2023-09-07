@@ -6,7 +6,7 @@ import define from '../../define.js';
 export const meta = {
 	tags: ['federation'],
 
-	requireCredential: false,
+	requireCredential: true,
 
 	allowGet: true,
 	cacheSec: 60 * 60,
