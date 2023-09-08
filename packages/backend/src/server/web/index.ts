@@ -44,7 +44,9 @@ const bullBoardPath = '/queue';
 
 // Authenticate
 app.use(async (ctx, next) => {
-	if (ctx.path === bullBoardPath || ctx.path.startsWith(bullBoardPath + '/')) {
+	// %71ueueとかでリクエストされたら困るため
+	const url = decodeURI(ctx.path);
+	if (url === bullBoardPath || url.startsWith(bullBoardPath + '/')) {
 		const token = ctx.cookies.get('token');
 		if (token == null) {
 			ctx.status = 401;
