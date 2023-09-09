@@ -1,8 +1,7 @@
-import Bull from 'bull';
 import * as fs from 'node:fs';
-import unzipper from 'unzipper';
+import Bull from 'bull';
 
-import { queueLogger } from '../../logger.js';
+import { ZipReader } from 'slacc';
 import { createTempDir } from '@/misc/create-temp.js';
 import { downloadUrl } from '@/misc/download-url.js';
 import { DriveFiles, Emojis } from '@/models/index.js';
@@ -10,6 +9,7 @@ import { DbUserImportJobData } from '@/queue/types.js';
 import { addFile } from '@/services/drive/add-file.js';
 import { genId } from '@/misc/gen-id.js';
 import { db } from '@/db/postgre.js';
+import { queueLogger } from '../../logger.js';
 
 const logger = queueLogger.createSubLogger('import-custom-emojis');
 
@@ -42,9 +42,9 @@ export async function importCustomEmojis(job: Bull.Job<DbUserImportJobData>, don
 	}
 
 	const outputPath = path + '/emojis';
-	const unzipStream = fs.createReadStream(destPath);
-	const extractor = unzipper.Extract({ path: outputPath });
-	extractor.on('close', async () => {
+	try {
+		logger.succ(`Unzipping to ${outputPath}`);
+		ZipReader.withDestinationPath(outputPath).viaBuffer(await fs.promises.readFile(destPath));
 		const metaRaw = fs.readFileSync(outputPath + '/meta.json', 'utf-8');
 		const meta = JSON.parse(metaRaw);
 
@@ -73,13 +73,17 @@ export async function importCustomEmojis(job: Bull.Job<DbUserImportJobData>, don
 			}).then(x => Emojis.findOneByOrFail(x.identifiers[0]));
 		}
 
-		await db.queryResultCache!.remove(['meta_emojis']);
+		await db.queryResultCache?.remove(['meta_emojis']);
 
 		cleanup();
 	
 		logger.succ('Imported');
 		done();
-	});
-	unzipStream.pipe(extractor);
-	logger.succ(`Unzipping to ${outputPath}`);
+	} catch (e) {
+		if (e instanceof Error || typeof e === 'string') {
+			logger.error(e);
+		}
+		cleanup();
+		throw e;
+	}
 }
