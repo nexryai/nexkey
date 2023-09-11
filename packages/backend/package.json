@@ -36,7 +36,7 @@
 		"cacheable-lookup": "6.1.0",
 		"cbor": "9.0.1",
 		"chalk": "5.0.1",
-		"chalk-template": "0.4.0",
+		"chalk-template": "1.1.0",
 		"cli-highlight": "2.1.11",
 		"color-convert": "2.0.1",
 		"content-disposition": "0.5.4",
