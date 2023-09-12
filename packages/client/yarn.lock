@@ -3007,10 +3007,10 @@ performance-now@^2.1.0:
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
 
-photoswipe@5.3.8:
-  version "5.3.8"
-  resolved "https://registry.yarnpkg.com/photoswipe/-/photoswipe-5.3.8.tgz#bea7db18e79383833f85c005b833da2029f0daee"
-  integrity sha512-4vTzOQt8GP4Chsm0s+8j2xDtVHAEN252PxrU12A1zXauNn0zD5HRHgjALKO2GKTyBnTnOrJUOxbV8LTrFIMrYw==
+photoswipe@5.4.0:
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/photoswipe/-/photoswipe-5.4.0.tgz#c102843a48fa3487b4d8395a6682e02b60d3216c"
+  integrity sha512-PZvdK1D94TApU0MNWc9H6eXOolKJOMkgt7CJ9ZfIdkHR4CrEj47MOe4Vrlcv6ZpHslK+uKS6Ai3y3VIe7gsi+Q==
 
 picocolors@^1.0.0:
   version "1.0.0"
