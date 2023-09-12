@@ -463,10 +463,10 @@
     "@types/minimatch" "^5.1.2"
     "@types/node" "*"
 
-"@types/gulp-rename@2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@types/gulp-rename/-/gulp-rename-2.0.1.tgz#c8228fc2c5c4a7500346ea9ce18f27fa988caef5"
-  integrity sha512-9ZjeS2RHEnmBmTcyi2+oeye3BgCsWhvi4uv3qCnAg8i6plOuRdaeNxjOves0ELysEXYLBl7bCl5fbVs7AZtgTA==
+"@types/gulp-rename@2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@types/gulp-rename/-/gulp-rename-2.0.2.tgz#43e01976bc0fa7996b359bb83718fbd6cbec6b25"
+  integrity sha512-CQsXqTVtAXqrPd4IbrrlJEEzRkUR3RXsyZbrVoOVqjlchDDmnyRDatAUisjpQjjCg/wjJrSiNg8T1uAbJ/7Qqg==
   dependencies:
     "@types/node" "*"
     "@types/vinyl" "*"
