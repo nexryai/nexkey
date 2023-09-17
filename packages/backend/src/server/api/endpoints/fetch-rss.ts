@@ -8,7 +8,7 @@ const rssParser = new Parser();
 export const meta = {
 	tags: ['meta'],
 
-	requireCredential: true,
+	requireCredential: false,
 	allowGet: true,
 	cacheSec: 60 * 3,
 } as const;
