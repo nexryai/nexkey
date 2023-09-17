@@ -62,5 +62,6 @@ const faviconUrl = $computed(() => props.instance ? getProxiedImageUrlNullable(p
 .instance-icon {
 	position: relative;
 	vertical-align: -3px;
+	border-radius: 4px;
 }
 </style>
