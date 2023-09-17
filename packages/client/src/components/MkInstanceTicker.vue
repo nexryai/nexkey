@@ -52,10 +52,11 @@ const faviconUrl = $computed(() => props.instance ? getProxiedImageUrlNullable(p
 
 .distorted-circle {
 	position: absolute;
-	width: 34px;
-	height: 30px;
+	width: 35px;
+	height: 23px;
 	border-radius: 50% 70% 50% 80%;
-	filter: blur(3px);
+	filter: blur(3px) opacity(27%);
+	margin-left: -4px;
 }
 
 .instance-icon {
