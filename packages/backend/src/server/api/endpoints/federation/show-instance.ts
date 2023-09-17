@@ -5,7 +5,7 @@ import { toPuny } from '@/misc/convert-host.js';
 export const meta = {
 	tags: ['federation'],
 
-	requireCredential: false,
+	requireCredential: true,
 
 	res: {
 		oneOf: [{

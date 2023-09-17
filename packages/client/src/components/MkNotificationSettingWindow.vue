@@ -11,17 +11,17 @@
 >
 	<template #header>{{ i18n.ts.notificationSetting }}</template>
 	<div class="_monolithic_">
-		<div v-if="showGlobalToggle" class="_section">
+		<div v-if="showGlobalToggle" class="_section notification-setting-window-contents">
 			<MkSwitch v-model="useGlobalSetting">
 				{{ i18n.ts.useGlobalSetting }}
 				<template #caption>{{ i18n.ts.useGlobalSettingDesc }}</template>
 			</MkSwitch>
 		</div>
 		<div v-if="!useGlobalSetting" class="_section">
-			<MkInfo>{{ i18n.ts.notificationSettingDesc }}</MkInfo>
-			<MkButton inline @click="disableAll">{{ i18n.ts.disableAll }}</MkButton>
-			<MkButton inline @click="enableAll">{{ i18n.ts.enableAll }}</MkButton>
-			<MkSwitch v-for="ntype in notificationTypes" :key="ntype" v-model="typesMap[ntype]">{{ i18n.t(`_notification._types.${ntype}`) }}</MkSwitch>
+			<MkInfo class="notification-setting-window-contents">{{ i18n.ts.notificationSettingDesc }}</MkInfo>
+			<MkButton inline @click="disableAll" class="notification-setting-window-contents">{{ i18n.ts.disableAll }}</MkButton>
+			<MkButton inline @click="enableAll" class="notification-setting-window-contents">{{ i18n.ts.enableAll }}</MkButton>
+			<MkSwitch v-for="ntype in notificationTypes" :key="ntype" v-model="typesMap[ntype]" class="notification-setting-window-contents">{{ i18n.t(`_notification._types.${ntype}`) }}</MkSwitch>
 		</div>
 	</div>
 </XModalWindow>
@@ -85,3 +85,9 @@ function enableAll() {
 	}
 }
 </script>
+
+<style>
+.notification-setting-window-contents {
+  margin: 10px;
+}
+</style>

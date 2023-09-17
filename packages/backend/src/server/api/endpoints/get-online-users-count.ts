@@ -6,7 +6,7 @@ import define from '../define.js';
 export const meta = {
 	tags: ['meta'],
 
-	requireCredential: false,
+	requireCredential: true,
 } as const;
 
 export const paramDef = {
