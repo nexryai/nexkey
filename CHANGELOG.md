@@ -1,3 +1,7 @@
+## 12.121.8
+ - Backend: Add onlyQueueProcessor mode and disableQueueProcessor mode
+ - Tweak UI
+
 ## 12.121.7
  - 攻撃されやすそうなエンドポイントはログインしないと叩けないように
  - リードレプリカのサポート
