@@ -23,7 +23,7 @@
 		"blurhash": "2.0.5",
 		"broadcast-channel": "5.3.0",
 		"browser-image-resizer": "git+https://github.com/misskey-dev/browser-image-resizer#v2.2.1-misskey.2",
-		"chart.js": "3.9.1",
+		"chart.js": "4.4.0",
 		"chartjs-adapter-date-fns": "3.0.0",
 		"chartjs-plugin-gradient": "0.6.1",
 		"chartjs-plugin-zoom": "2.0.1",
