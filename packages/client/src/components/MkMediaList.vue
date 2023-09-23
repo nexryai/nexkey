@@ -181,6 +181,10 @@ const previewable = (file: misskey.entities.DriveFile): boolean => {
 </style>
 
 <style lang="scss">
+.pswp__container {
+	backdrop-filter: blur(5px);
+}
+
 .pswp {
 	// なぜか機能しない
   //z-index: v-bind(pswpZIndex);
