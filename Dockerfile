@@ -1,4 +1,4 @@
-FROM node:18-alpine AS builder
+FROM node:18-alpine3.17 AS builder
 
 ARG NODE_ENV=production
 
@@ -6,13 +6,13 @@ WORKDIR /misskey
 
 COPY . ./
 
-RUN apk add --no-cache ca-certificates git alpine-sdk g++ build-base cmake clang libressl-dev vips-dev
+RUN apk add --no-cache ca-certificates git alpine-sdk g++ build-base cmake clang libressl-dev vips-dev python3
 RUN git submodule update --init
 RUN yarn install
 RUN yarn build
 RUN rm -rf .git
 
-FROM node:18-alpine AS runner
+FROM node:18-alpine3.17 AS runner
 
 ARG UID="991"
 ARG GID="991"

@@ -24,6 +24,7 @@ nexryaiによるMisskey v12フォーク
  - パスワードハッシュをargon2に
  - お気に入りをクリップに統合
  - ナビゲーションバーとウィジェットの設定をデバイス間で同期するように
+ - onlyQueueProcessorモードとdisableQueueProcessorモード追加
  - 以下の機能を削除
 	 * NSFW自動検出（精度が低くメモリリークの原因なため）
 	 * チャンネル（連合しないため）

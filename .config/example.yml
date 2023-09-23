@@ -132,6 +132,12 @@ id: 'aid'
 # Number of worker processes
 #clusterLimit: 1
 
+# Worker only mode
+# onlyQueueProcessor: false
+
+# Disable Job queue processor
+# disableQueueProcessor: false
+
 # Job concurrency per worker
 # deliverJobConcurrency: 128
 # inboxJobConcurrency: 16

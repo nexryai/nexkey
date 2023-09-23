@@ -642,15 +642,14 @@
   resolved "https://registry.yarnpkg.com/@sqltools/formatter/-/formatter-1.2.5.tgz#3abc203c79b8c3e90fd6c156a0c62d5403520e12"
   integrity sha512-Uy0+khmZqUrUGm5dmMqVlnvufZRSK0FbYzVgp0UMstm+F5+W2/jnEEQyc9vo1ZR/E5ZI/B1WjjoTqBqwJL6Krw==
 
-"@syuilo/aiscript@0.15.0":
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/@syuilo/aiscript/-/aiscript-0.15.0.tgz#72ee0b06d4d78e59d1e7bd00db363a4d63816afc"
-  integrity sha512-vauMbqacuHufE4W7bAm5BDWlci3mWg1ZaerPNHKBMrRXDjEfvBkBGZNXKSWvi+zmhiYAbWyozPIlV6byttYpCw==
+"@syuilo/aiscript@0.16.0":
+  version "0.16.0"
+  resolved "https://registry.yarnpkg.com/@syuilo/aiscript/-/aiscript-0.16.0.tgz#237c0668a1455bd9ffd639bd9d1d3556bf2be3af"
+  integrity sha512-CXvoWOq6kmOSUQtKv0IEf7Ebfkk5PO1LxAgLqgRRPgssPvDvINCXu/gFNXKdapkFMkmX+Gj8qjemKR1vnUS4ZA==
   dependencies:
-    autobind-decorator "2.4.0"
     seedrandom "3.0.5"
     stringz "2.1.0"
-    uuid "9.0.0"
+    uuid "9.0.1"
 
 "@szmarczak/http-timer@^4.0.5":
   version "4.0.6"
@@ -703,10 +702,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/bcryptjs@2.4.3":
-  version "2.4.3"
-  resolved "https://registry.yarnpkg.com/@types/bcryptjs/-/bcryptjs-2.4.3.tgz#2302ab44f10912579a183c96eb0e3b951c929915"
-  integrity sha512-XTnH9E/rp51aKGsiMtQCHV/owDLW2E9QAxI7ItpWWm6Gi6XO1e4o3VuEYDma0lbitj1vNOBj05Qk8l2BYoiN4A==
+"@types/bcryptjs@2.4.4":
+  version "2.4.4"
+  resolved "https://registry.yarnpkg.com/@types/bcryptjs/-/bcryptjs-2.4.4.tgz#cd3c4c007f600f1d21db09c9bd4ced8b49d04670"
+  integrity sha512-9wlJI7k5gRyJEC4yrV7DubzNQFTPiykYxUA6lBtsk5NlOfW9oWLJ1HdIA4YtE+6C3i3mTpDQQEosJ2rVZfBWnw==
 
 "@types/body-parser@*":
   version "1.19.2"
@@ -4903,10 +4902,10 @@ methods@^1.1.2:
   resolved "https://registry.yarnpkg.com/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
   integrity sha512-iclAHeNqNm68zFtnZ0e+1L2yUIdvzNoauKU4WBA3VvH/vPFieF7qfRlwUZU+DA9P9bPXIS90ulxoUoCH23sV2w==
 
-mfm-js@0.23.0:
-  version "0.23.0"
-  resolved "https://registry.yarnpkg.com/mfm-js/-/mfm-js-0.23.0.tgz#1d1477761aa8259ddcac2e6882df53ed9ca5b82b"
-  integrity sha512-2Oe/YicoaP1EU2y9JB5729/PQLZK/7aAVomeJkp1h4XGP2//NMDC+DHkBbSO71U3GG086SAZM0JBB/hdPPSEXg==
+mfm-js@0.23.3:
+  version "0.23.3"
+  resolved "https://registry.yarnpkg.com/mfm-js/-/mfm-js-0.23.3.tgz#b487b809164cf26220b2c25456e1f77db7311379"
+  integrity sha512-o8scYmbey6rMUmWAlT3k3ntt6khaCLdxlmHhAWV5wTTMj2OK1atQvZfRUq0SIVm1Jig08qlZg/ps71xUqrScNA==
   dependencies:
     twemoji-parser "14.0.0"
 
@@ -6935,10 +6934,10 @@ syslog-pro@1.0.0:
   dependencies:
     moment "^2.22.2"
 
-systeminformation@5.18.10:
-  version "5.18.10"
-  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-5.18.10.tgz#ed9b8e204d6730eb98c71b04398bc1fec3c503fd"
-  integrity sha512-p7Su6y3MhKODBVOeQuJQG8jk3HvaU9dtSgVHT/pkRGj2g97n4fmYhYCJ2+djK0Ed5Zq4nSQ7zzEYFVlW71RbHg==
+systeminformation@5.21.7:
+  version "5.21.7"
+  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-5.21.7.tgz#53ef75daaf5d756d015f4bb02e059126ccac74f2"
+  integrity sha512-K3LjnajrazTLTD61+87DFg8IXFk5ljx6nSBqB8pQLtC1UPivAjDtTYGPZ8jaBFxcesPaCOkvLRtBq+RFscrsLw==
 
 tapable@^2.2.0:
   version "2.2.1"
@@ -7423,6 +7422,11 @@ uuid@9.0.0:
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-9.0.0.tgz#592f550650024a38ceb0c562f2f6aa435761efb5"
   integrity sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==
+
+uuid@9.0.1:
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-9.0.1.tgz#e188d4c8853cc722220392c424cd637f32293f30"
+  integrity sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==
 
 uuid@^8.3.0, uuid@^8.3.2:
   version "8.3.2"
