@@ -1,4 +1,4 @@
-FROM node:18-alpine AS builder
+FROM node:18-alpine3.17 AS builder
 
 ARG NODE_ENV=production
 
