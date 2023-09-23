@@ -12,7 +12,7 @@ RUN yarn install
 RUN yarn build
 RUN rm -rf .git
 
-FROM node:18-alpine AS runner
+FROM node:18-alpine3.17 AS runner
 
 ARG UID="991"
 ARG GID="991"
