@@ -6,7 +6,7 @@ WORKDIR /misskey
 
 COPY . ./
 
-RUN apk add --no-cache ca-certificates git alpine-sdk g++ build-base cmake clang libressl-dev vips-dev
+RUN apk add --no-cache ca-certificates git alpine-sdk g++ build-base cmake clang libressl-dev vips-dev python3
 RUN git submodule update --init
 RUN yarn install
 RUN yarn build
