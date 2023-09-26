@@ -25,9 +25,9 @@ export function initialize<T>(name: string, limitPerSec = -1) {
 
 // ref. https://github.com/misskey-dev/misskey/pull/7635#issue-971097019
 function apBackoff(attemptsMade: number, err: Error) {
-	const baseDelay = 60 * 1000;	// 1min
+	const baseDelay = 1 * 1000;	// 1sec
 	const maxBackoff = 8 * 60 * 60 * 1000;	// 8hours
-	let backoff = (Math.pow(2, attemptsMade) - 1) * baseDelay;
+	let backoff = (Math.pow(attemptsMade, 4) + 15) * baseDelay;
 	backoff = Math.min(backoff, maxBackoff);
 	backoff += Math.round(backoff * Math.random() * 0.2);
 	return backoff;
