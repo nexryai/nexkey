@@ -917,6 +917,7 @@ sendModNotification: "運営上の通知を送信する"
 sudoConfirm: "モデレータメニューを有効化されたいですか？"
 unsudoConfirm: "モデレータメニューを非表示にしてもいいですか？"
 moderationlogs: "モデレーションログ"
+deleted: "削除済み"
 
 _sensitiveMediaDetection:
   description: "機械学習を使って自動でセンシティブなメディアを検出し、モデレーションに役立てることができます。サーバーの負荷が少し増えます。"
