@@ -43,6 +43,13 @@ export type ObjectStorageFileJobData = {
 	key: string;
 };
 
+export type EmailJobData = {
+	to: string;
+	subject: string;
+	html: string;
+	text: string;
+};
+
 export type EndedPollNotificationJobData = {
 	noteId: Note['id'];
 };

@@ -7,6 +7,7 @@ import bcrypt from 'bcryptjs';
 import { comparePassword } from '@/misc/password.js';
 import { Users, UserProfiles } from '@/models/index.js';
 import { sendEmail } from '@/services/send-email.js';
+import { emailDeliver } from '@/queue/index.js';
 import { ApiError } from '../../error.js';
 import { validateEmailForAccount } from '@/services/validate-email-for-account.js';
 
@@ -86,7 +87,7 @@ export default define(meta, paramDef, async (ps, user) => {
 
 		const link = `${config.url}/verify-email/${code}`;
 
-		sendEmail(ps.email, 'Email verification',
+		emailDeliver(ps.email, 'Email verification',
 			`To verify email, please click this link:<br><a href="${link}">${link}</a>`,
 			`To verify email, please click this link: ${link}`);
 	}
