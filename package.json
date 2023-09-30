@@ -1,6 +1,6 @@
 {
 	"name": "misskey",
-	"version": "12.121.8",
+	"version": "12.121.9",
 	"codename": "agathos",
 	"repository": {
 		"type": "git",
@@ -45,9 +45,9 @@
 	"devDependencies": {
 		"@types/gulp": "4.0.14",
 		"@types/gulp-rename": "2.0.3",
-		"@typescript-eslint/parser": "6.7.2",
+		"@typescript-eslint/parser": "6.7.3",
 		"cross-env": "7.0.3",
-		"cypress": "13.2.0",
+		"cypress": "13.3.0",
 		"start-server-and-test": "2.0.1",
 		"typescript": "5.2.2"
 	}

@@ -1,3 +1,6 @@
+## 12.121.9
+ - SECURITY FIX: bullのダッシュボードの認証が回避できる問題の修正
+
 ## 12.121.8
  - Backend: Add onlyQueueProcessor mode and disableQueueProcessor mode
  - Tweak UI
