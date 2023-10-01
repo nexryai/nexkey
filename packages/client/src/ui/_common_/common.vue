@@ -14,8 +14,6 @@
 <div v-if="pendingApiRequestsCount > 0" id="wait"></div>
 
 <div v-if="dev" id="devTicker"><span>DEV BUILD</span></div>
-<div v-if="$i && $i.isBot && enableBotLoggedinWarning" id="botWarn"><span>{{ $ts.loggedInAsBot }}</span></div>
-<div v-if="$i && $i.isAdmin && enableAdminLoggedinWarning" id="adminWarn"><span>{{ $ts.loggedInAsAdmin }}</span></div>
 </template>
 
 <script lang="ts" setup>
@@ -26,14 +24,11 @@ import { uploads } from '@/scripts/upload';
 import * as sound from '@/scripts/sound';
 import { $i } from '@/account';
 import { stream } from '@/stream';
-import { defaultStore } from '@/store';
 
 const XStreamIndicator = defineAsyncComponent(() => import('./stream-indicator.vue'));
 const XUpload = defineAsyncComponent(() => import('./upload.vue'));
 
 const dev = _DEV_;
-const enableBotLoggedinWarning = defaultStore.state.enableBotLoggedinWarning;
-const enableAdminLoggedinWarning = defaultStore.state.enableAdminLoggedinWarning;
 
 const onNotification = notification => {
 	if ($i.mutingNotificationTypes.includes(notification.type)) return;
@@ -111,38 +106,6 @@ if ($i) {
 	pointer-events: none;
 	user-select: none;
 
-	> span {
-		animation: dev-ticker-blink 2s infinite;
-	}
-}
-
-#botWarn {
-	position: fixed;
-	top: 0;
-	right: 0;
-	z-index: 2147483647;
-	color: #ff00ff;
-	background: rgba(0, 0, 0, 0.2);
-	padding: 4px 7px;
-	font-size: 14px;
-	pointer-events: none;
-	user-select: none;
-	> span {
-		animation: dev-ticker-blink 2s infinite;
-	}
-}
-
-#adminWarn {
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	z-index: 2147483647;
-	color: #ffa500;
-	background: rgba(0, 0, 0, 0.2);
-	padding: 4px 7px;
-	font-size: 14px;
-	pointer-events: none;
-	user-select: none;
 	> span {
 		animation: dev-ticker-blink 2s infinite;
 	}
