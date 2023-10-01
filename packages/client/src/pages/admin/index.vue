@@ -246,13 +246,13 @@ async function toggleModerator(v) {
 		if (v) {
 			await defaultStore.set('enableSudo', true);
 			await os.alert({
-				text: 'You are Sudo now',
+				text: i18n.ts.sudoActivated,
 			});
 			await unisonReload();
 		} else {
 			await defaultStore.set('enableSudo', false);
 			await os.alert({
-				text: 'You are NOT Sudo now',
+				text: i18n.ts.sudoDeactivated,
 			});
 			await unisonReload();
 		}

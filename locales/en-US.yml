@@ -917,6 +917,8 @@ bot: "Bot"
 sendModNotification: "Send Moderation Notification"
 sudoConfirm: "Are you sure want to enable Moderator Menu?"
 unsudoConfirm: "Are you ok to hide Moderator Menu?"
+sudoActivated: "You got Moderator Menu"
+sudoDeactivated: "You deactivated Moderator Menu"
 moderationlogs: "Moderation logs"
 deleted: "Deleted"
 _sensitiveMediaDetection:

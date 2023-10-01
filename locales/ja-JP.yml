@@ -917,6 +917,8 @@ bot: "ボット"
 sendModNotification: "運営上の通知を送信する"
 sudoConfirm: "モデレータメニューを有効化されたいですか？"
 unsudoConfirm: "モデレータメニューを非表示にしてもいいですか？"
+sudoActivated: "モデレータメニューは有効になりました"
+sudoDeactivated: "モデレータメニューは無効になりました"
 moderationlogs: "モデレーションログ"
 deleted: "削除済み"
 
