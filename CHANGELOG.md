@@ -10,6 +10,29 @@
 You should also include the user name that made the change.
 -->
 
+## 12.119.2-fix.5.8 (2023/10/02)
+### Improvements
+- 配送を再施行してもよいHTTPステータスコードを見直し @atsu1125
+- ジョブキューのapBackoffの計算方法と再試行頻度を変更 @atsu1125
+- WebHookのSecretが空でも許容する @xtexChooser
+- メールで通知を受け取る機能を復旧 @atsu1125
+- メールを送るときは基本的にキューにする @atsu1125
+- Node v16.20.2 @atsu1125
+
+### Bugfixes
+- 凍結されているユーザーがusers/showのリクエストに含まれる場合に適当なユーザーを返すのを修正 @u1-liquid
+- BullBoardの認証をバイパスしてしまわないように @syuilo
+- 削除されているユーザーのレスポンスを改善 @atsu1125
+- 通報を解決するダイアログが削除するように見えるのを修正 @atsu125
+- AiScriptでMk:apiが外部と通信できる問題を修正 @FineArchs
+- '.well-known/host-meta.json' は 'application/json' で応答 @xtexChooser
+- WebHookは"'Content-Type': 'application/json'"で送出 @xtexChooser
+- プラグインの権限一覧が表示されないのを修正 @kakkokari-gtyih
+- モデレーション機能有効化のi18n @atsu1125
+- BotもしくはAdminとしてログインしていることの警告を削除 @atsu1125
+- クライアント設定バックアップ削除のi18n @taiyme
+- TagCloudウィジェットと管理画面でアイコンのないインスタンスがあると動作しなくなるのを修正 @atsu1125
+
 ## 12.119.2-fix.5.7 (2023/09/03)
 ### Improvements
 - 通知クライアント設定のリファクタ @atsu1125
