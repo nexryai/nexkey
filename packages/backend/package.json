@@ -108,7 +108,7 @@
 		"tmp": "0.2.1",
 		"ts-loader": "9.4.4",
 		"ts-node": "10.9.1",
-		"tsc-alias": "1.7.0",
+		"tsc-alias": "1.8.8",
 		"tsconfig-paths": "4.1.0",
 		"twemoji-parser": "14.0.0",
 		"typeorm": "0.3.17",
