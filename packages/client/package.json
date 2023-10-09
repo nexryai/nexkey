@@ -35,7 +35,7 @@
 		"idb-keyval": "6.2.1",
 		"insert-text-at-cursor": "0.3.0",
 		"json5": "2.2.3",
-		"katex": "0.16.8",
+		"katex": "0.16.9",
 		"matter-js": "0.19.0",
 		"mfm-js": "0.23.3",
 		"misskey-js": "0.0.14",
