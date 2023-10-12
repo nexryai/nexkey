@@ -32,7 +32,7 @@
 					<template #label>{{ i18n.ts.password }}</template>
 					<template #prefix><i class="fas fa-lock"></i></template>
 				</MkInput>
-				<MkInput v-model="token" type="text" pattern="^[0-9]{6}$" autocomplete="off" :spellcheck="false" required>
+				<MkInput v-model="token" type="text" pattern="^([0-9]{6}|[A-Z0-9]{32})$" autocomplete="off" :spellcheck="false" required>
 					<template #label>{{ i18n.ts.token }}</template>
 					<template #prefix><i class="fas fa-gavel"></i></template>
 				</MkInput>

@@ -917,6 +917,8 @@ sudoActivated: "You got Moderator Menu"
 sudoDeactivated: "You deactivated Moderator Menu"
 moderationlogs: "Moderation logs"
 deleted: "Deleted"
+reset2fa: "Reset two-factor authentification"
+reset2faConfirm: "Are you sure to reset two-factor authentification of this user?"
 _sensitiveMediaDetection:
   description: "Reduces the effort of server moderation through automatically recognizing NSFW media via Machine Learning. This will slightly increase the load on the server."
   sensitivity: "Detection sensitivity"
@@ -1238,6 +1240,8 @@ _2fa:
   step3: "Enter the token provided by your app to finish setup."
   step4: "From now on, any future login attempts will ask for such a login token."
   securityKeyInfo: "Besides fingerprint or PIN authentication, you can also setup authentication via hardware security keys that support FIDO2 to further secure your account."
+  backupCodeUsedWarning: "A backup code has been used. Please reconfigure two-factor authentification as soon as possible if you are no longer able to use it."
+  backupCodesExhaustedWarning: "All backup codes have been used. Should you lose access to your two-factor authentification app, you will be unable to access this account. Please reconfigure two-factor authentification."
 _permissions:
   "read:account": "View your account information"
   "write:account": "Edit your account information"

@@ -99,6 +99,7 @@
 				{{ i18n.ts.reflectMayTakeTime }}
 				<div class="_formBlock">
 					<FormButton v-if="user.host == null && iAmModerator" inline style="margin-right: 8px;" @click="resetPassword"><i class="fas fa-key"></i> {{ i18n.ts.resetPassword }}</FormButton>
+					<FormButton v-if="user.host == null && user.twoFactorEnabled && iAmModerator" inline style="margin-right: 8px;" @click="reset2fa"><i class="fas fa-key"></i> {{ i18n.ts.reset2fa }}</FormButton>
 					<FormButton v-if="$i.isAdmin" inline danger style="margin-right: 8px;" @click="deleteAccount"><i class="fas fa-trash-alt"></i> {{ i18n.ts.deleteAccount }}</FormButton>
 					<FormButton v-if="$i.isAdmin" inline danger style="margin-right: 8px;" @click="deleteAllFiles"><i class="fas fa-trash-alt"></i> {{ i18n.ts.deleteAllFiles }}</FormButton>
 					<FormButton v-if="user.host == null && iAmModerator && !suspended" inline style="margin-right: 8px;" @click="sendModNotification"><i class="fas fa-bell"></i> {{ $ts.sendModNotification }}</FormButton>
@@ -302,6 +303,23 @@ async function resetPassword() {
 		os.alert({
 			type: 'success',
 			text: i18n.t('newPasswordIs', { password }),
+		});
+	}
+}
+
+async function reset2fa() {
+	const confirm = await os.confirm({
+		type: 'warning',
+		text: i18n.ts.reset2faConfirm,
+	});
+	if (confirm.canceled) {
+		return;
+	} else {
+		await os.api('admin/reset-2fa', {
+			userId: user.id,
+		});
+		os.alert({
+			type: 'success',
 		});
 	}
 }

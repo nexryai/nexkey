@@ -96,6 +96,11 @@ export class UserProfile {
 	})
 	public twoFactorSecret: string | null;
 
+	@Column('varchar', {
+		nullable: true, array: true,
+	})
+	public twoFactorBackupSecret: string[] | null;
+
 	@Column('boolean', {
 		default: false,
 	})

@@ -409,6 +409,11 @@ export const packedMeDetailedOnlySchema = {
 				nullable: false, optional: false,
 			},
 		},
+		twoFactorBackupCodesStock: {
+			type: 'string',
+			enum: ['full', 'partial', 'none'],
+			nullable: false, optional: false,
+		},
 		//#endregion
 	},
 } as const;

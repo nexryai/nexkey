@@ -81,6 +81,7 @@
 		"nodemailer": "6.7.8",
 		"nsfwjs": "2.4.2",
 		"os-utils": "0.0.14",
+		"otpauth": "9.1.5",
 		"parse5": "7.1.1",
 		"pg": "8.8.0",
 		"private-ip": "2.3.4",
