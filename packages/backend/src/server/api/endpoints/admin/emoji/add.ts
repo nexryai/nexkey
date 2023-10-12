@@ -19,6 +19,11 @@ export const meta = {
 			code: 'MO_SUCH_FILE',
 			id: 'fc46b5a4-6b92-4c33-ac66-b806659bb5cf',
 		},
+		duplicateName: {
+			message: 'Duplicate name.',
+			code: 'DUPLICATE_NAME',
+			id: 'f7a3462c-4e6e-4069-8421-b9bd4f4c3975',
+		},
 	},
 } as const;
 
@@ -37,6 +42,15 @@ export default define(meta, paramDef, async (ps, me) => {
 	if (file == null) throw new ApiError(meta.errors.noSuchFile);
 
 	const name = file.name.split('.')[0].match(/^[a-z0-9_]+$/) ? file.name.split('.')[0] : `_${rndstr('a-z0-9', 8)}_`;
+
+	let existemojis = await Emojis.findOneBy({
+		host: null,
+		name: name,
+	});
+
+	if (existemojis != null) {
+		throw new ApiError(meta.errors.duplicateName);
+	}
 
 	const emoji = await Emojis.insert({
 		id: genId(),
