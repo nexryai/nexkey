@@ -438,6 +438,12 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 		if (Users.isLocalUser(user)) {
 			(async () => {
 				const noteActivity = await renderNoteOrRenoteActivity(data, note);
+
+				// Skip deliver if local only notes
+				if (noteActivity === null) {
+					return;
+				}
+
 				const dm = new DeliverManager(user, noteActivity);
 				const retryable = false;
 
