@@ -873,10 +873,10 @@
   dependencies:
     "@types/koa" "*"
 
-"@types/koa-cors@0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@types/koa-cors/-/koa-cors-0.0.2.tgz#369c753fb383640f225579c70a4f9a286b4931b7"
-  integrity sha512-uNaDY26HUVO+2C6arK8ZFODs9mBjYprD8mlvkVe2bYdX9wzEeKtycVXPafXpUkePhMh4sffIMkhRDyedokG/QA==
+"@types/koa-cors@0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@types/koa-cors/-/koa-cors-0.0.3.tgz#b0801fbecb22be6db9122fbe8ce24642984d2c87"
+  integrity sha512-hn/IlwjvstuAzeTIp79lWA2nbdoc/1qRonvv46r9j8uiB5a3BF4xFljzqOLbPTWLCBFWnC15vE89IJVbEQgi5g==
   dependencies:
     "@types/koa" "*"
 
@@ -1068,10 +1068,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/sanitize-html@2.9.0":
-  version "2.9.0"
-  resolved "https://registry.yarnpkg.com/@types/sanitize-html/-/sanitize-html-2.9.0.tgz#5b609f7592de22ef80a0930c39670329753dca1b"
-  integrity sha512-4fP/kEcKNj2u39IzrxWYuf/FnCCwwQCpif6wwY6ROUS1EPRIfWJjGkY3HIowY1EX/VbX5e86yq8AAE7UPMgATg==
+"@types/sanitize-html@2.9.2":
+  version "2.9.2"
+  resolved "https://registry.yarnpkg.com/@types/sanitize-html/-/sanitize-html-2.9.2.tgz#d7b7560b51d59ddd481d41ff28f09b62d7f24b57"
+  integrity sha512-7TAQFoXdwjSvebOl0oKh5QXGrI+uyTc8Here+WcR9vpLEE7wxpoK6Vuvw++dsmL+Yw8K91x76tLoWchD5pqpRg==
   dependencies:
     htmlparser2 "^8.0.0"
 
