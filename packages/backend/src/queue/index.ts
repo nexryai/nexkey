@@ -13,19 +13,11 @@ import processDb from './processors/db/index.js';
 import processObjectStorage from './processors/object-storage/index.js';
 import processSystemQueue from './processors/system/index.js';
 import processWebhookDeliver from './processors/webhook-deliver.js';
-<<<<<<< HEAD
 import processBackground from "./processors/background/index.js";
 import { endedPollNotification } from './processors/ended-poll-notification.js';
 import { queueLogger } from './logger.js';
 import { getJobInfo } from './get-job-info.js';
-import { systemQueue, dbQueue, deliverQueue, inboxQueue, objectStorageQueue, endedPollNotificationQueue, webhookDeliverQueue, backgroundQueue } from './queues.js';
-=======
-import processEmailDeliver from './processors/email-deliver.js';
-import { endedPollNotification } from './processors/ended-poll-notification.js';
-import { queueLogger } from './logger.js';
-import { getJobInfo } from './get-job-info.js';
-import { systemQueue, dbQueue, deliverQueue, inboxQueue, objectStorageQueue, endedPollNotificationQueue, webhookDeliverQueue, emailDeliverQueue } from './queues.js';
->>>>>>> c4cd06f9b9724a6255cb102dde38f8c8538de37f
+import { systemQueue, dbQueue, deliverQueue, inboxQueue, objectStorageQueue, endedPollNotificationQueue, webhookDeliverQueue, backgroundQueue, emailDeliverQueue } from './queues.js';
 import { ThinUser } from './types.js';
 
 function renderError(e: Error): any {

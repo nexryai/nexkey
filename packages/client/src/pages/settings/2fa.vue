@@ -173,7 +173,7 @@ function unregisterKey(key) {
 
 async function downloadBackupCodes() {
 	await os.alert({
-		text: i18n.ts.download,
+		text: i18n.ts.backupCodesDownloaded,
 	});
 	if (backupCodes.value !== undefined) {
 		const txtBlob = new Blob([backupCodes.value.join('\n')], { type: 'text/plain' });
