@@ -40,12 +40,6 @@ export const navbarItemDef = reactive({
 		indicated: computed(() => $i != null && $i.hasUnreadAnnouncement),
 		to: '/announcements',
 	},
-	groups: {
-		title: 'groups',
-		icon: 'ti ti-users',
-		show: computed(() => $i != null),
-		to: '/my/groups',
-	},
 	pages: {
 		title: 'pages',
 		icon: 'ti ti-news',

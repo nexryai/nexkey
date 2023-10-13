@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineAsyncComponent, defineComponent, inject, markRaw, onMounted, onUnmounted } from 'vue';
+import { markRaw, onMounted, onUnmounted } from 'vue';
 import * as Acct from 'misskey-js/built/acct';
 import MkButton from '@/components/MkButton.vue';
 import { acct } from '@/filters/user';
@@ -57,7 +57,6 @@ import { $i } from '@/account';
 const router = useRouter();
 
 let fetching = $ref(true);
-let moreFetching = $ref(false);
 let messages = $ref([]);
 let connection = $ref(null);
 
@@ -94,42 +93,13 @@ function onRead(ids) {
 }
 
 function start(ev) {
-	os.popupMenu([{
-		text: i18n.ts.messagingWithUser,
-		icon: 'ti ti-user',
-		action: () => { startUser(); },
-	}, {
-		text: i18n.ts.messagingWithGroup,
-		icon: 'ti ti-users',
-		action: () => { startGroup(); },
-	}], ev.currentTarget ?? ev.target);
+	startUser();
 }
 
 async function startUser() {
 	os.selectUser().then(user => {
 		router.push(`/my/messaging/${Acct.toString(user)}`);
 	});
-}
-
-async function startGroup() {
-	const groups1 = await os.api('users/groups/owned');
-	const groups2 = await os.api('users/groups/joined');
-	if (groups1.length === 0 && groups2.length === 0) {
-		os.alert({
-			type: 'warning',
-			title: i18n.ts.youHaveNoGroups,
-			text: i18n.ts.joinOrCreateGroup,
-		});
-		return;
-	}
-	const { canceled, result: group } = await os.select({
-		title: i18n.ts.group,
-		items: groups1.concat(groups2).map(group => ({
-			value: group, text: group.name,
-		})),
-	});
-	if (canceled) return;
-	router.push(`/my/messaging/group/${group.id}`);
 }
 
 onMounted(() => {

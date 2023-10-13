@@ -376,14 +376,6 @@ export const routes = [{
 	component: page(() => import('./pages/messaging/messaging-room.vue')),
 	loginRequired: true,
 }, {
-	path: '/my/groups/',
-	component: page(() => import('./pages/my-groups/index.vue')),
-	loginRequired: true,
-}, {
-	path: '/my/groups/:groupId',
-	component: page(() => import('./pages/my-groups/group.vue')),
-	loginRequired: true,
-}, {
 	path: '/my/drive/folder/:folder',
 	component: page(() => import('./pages/drive.vue')),
 	loginRequired: true,
