@@ -141,11 +141,6 @@ const menuDef = $computed(() => [{
 		to: '/admin/ads',
 		active: currentPage?.route.name === 'ads',
 	}, {
-		icon: 'ti ti-shield-lock',
-		text: i18n.ts.moderationlogs,
-		to: '/admin/moderation-logs',
-		active: currentPage?.route.name === 'moderation-logs',
-	}, {
 		icon: 'ti ti-exclamation-circle',
 		text: i18n.ts.abuseReports,
 		to: '/admin/abuses',
@@ -198,15 +193,15 @@ const menuDef = $computed(() => [{
 		text: i18n.ts.proxyAccount,
 		to: '/admin/proxy-account',
 		active: currentPage?.route.name === 'proxy-account',
-	}, {
-		icon: 'ti ti-adjustments',
-		text: i18n.ts.other,
-		to: '/admin/other-settings',
-		active: currentPage?.route.name === 'other-settings',
   }] : [])],
 }, {
 	title: i18n.ts.info,
 	items: [{
+	icon: 'ti ti-shield-lock',
+	text: i18n.ts.moderationlogs,
+	to: '/admin/moderation-logs',
+	active: currentPage?.route.name === 'moderation-logs',
+	}, {
 		icon: 'ti ti-database',
 		text: i18n.ts.database,
 		to: '/admin/database',
