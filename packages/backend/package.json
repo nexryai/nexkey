@@ -133,7 +133,7 @@
 		"@types/jsrsasign": "10.5.8",
 		"@types/koa": "2.13.5",
 		"@types/koa-bodyparser": "4.3.10",
-		"@types/koa-cors": "0.0.2",
+		"@types/koa-cors": "0.0.3",
 		"@types/koa-favicon": "2.0.22",
 		"@types/koa-logger": "3.1.2",
 		"@types/koa-mount": "4.0.2",
