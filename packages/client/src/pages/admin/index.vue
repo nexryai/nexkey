@@ -141,6 +141,11 @@ const menuDef = $computed(() => [{
 		to: '/admin/ads',
 		active: currentPage?.route.name === 'ads',
 	}, {
+		icon: 'ti ti-shield-lock',
+		text: i18n.ts.moderationlogs,
+		to: '/admin/moderation-logs',
+		active: currentPage?.route.name === 'moderation-logs',
+	}, {
 		icon: 'ti ti-exclamation-circle',
 		text: i18n.ts.abuseReports,
 		to: '/admin/abuses',
