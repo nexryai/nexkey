@@ -1,4 +1,5 @@
 import * as speakeasy from 'speakeasy';
+import * as OTPAuth from 'otpauth';
 import define from '../../../define.js';
 import { UserProfiles } from '@/models/index.js';
 
@@ -36,8 +37,15 @@ export default define(meta, paramDef, async (ps, user) => {
 		throw new Error('not verified');
 	}
 
+	const backupCodes = Array.from({ length: 5 }, () => new OTPAuth.Secret().base32);
+
 	await UserProfiles.update(user.id, {
 		twoFactorSecret: profile.twoFactorTempSecret,
+		twoFactorBackupSecret: backupCodes,
 		twoFactorEnabled: true,
 	});
+
+	return {
+		backupCodes: backupCodes,
+	};
 });

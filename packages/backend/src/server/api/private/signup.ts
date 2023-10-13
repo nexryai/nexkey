@@ -6,6 +6,7 @@ import { Users, RegistrationTickets, UserPendings } from '@/models/index.js';
 import { signup } from '../common/signup.js';
 import config from '@/config/index.js';
 import { sendEmail } from '@/services/send-email.js';
+import { emailDeliver } from '@/queue/index.js';
 import { genId } from '@/misc/gen-id.js';
 import { validateEmailForAccount } from '@/services/validate-email-for-account.js';
 import { hashPassword } from "@/misc/password.js";
@@ -90,7 +91,7 @@ export default async (ctx: Koa.Context) => {
 
 		const link = `${config.url}/signup-complete/${code}`;
 
-		sendEmail(emailAddress, 'Signup',
+		emailDeliver(emailAddress, 'Signup',
 			`To complete signup, please click this link:<br><a href="${link}">${link}</a>`,
 			`To complete signup, please click this link: ${link}`);
 

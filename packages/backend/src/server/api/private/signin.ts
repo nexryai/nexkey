@@ -1,5 +1,6 @@
 import Koa from 'koa';
 import * as speakeasy from 'speakeasy';
+import * as OTPAuth from 'otpauth';
 import signin from '../common/signin.js';
 import { comparePassword, hashPassword, isOldAlgorithm } from '@/misc/password.js';
 import config from '@/config/index.js';
@@ -125,6 +126,14 @@ export default async (ctx: Koa.Context) => {
 			await fail(403, {
 				id: '932c904e-9460-45b7-9ce6-7ed33be7eb2c',
 			});
+			return;
+		}
+
+		if (profile.twoFactorBackupSecret?.includes(token)) {
+			await UserProfiles.update({ userId: profile.userId }, {
+				twoFactorBackupSecret: profile.twoFactorBackupSecret.filter((secret) => secret !== token),
+			});
+			signin(ctx, user);
 			return;
 		}
 

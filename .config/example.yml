@@ -147,8 +147,8 @@ id: 'aid'
 # inboxJobPerSec: 16
 
 # Job attempts
-# deliverJobMaxAttempts: 12
-# inboxJobMaxAttempts: 8
+# deliverJobMaxAttempts: 17
+# inboxJobMaxAttempts: 10
 
 # IP address family used for outgoing request (ipv4, ipv6 or dual)
 #outgoingAddressFamily: ipv4

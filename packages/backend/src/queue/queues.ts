@@ -1,6 +1,6 @@
 import config from '@/config/index.js';
 import { initialize as initializeQueue } from './initialize.js';
-import { DeliverJobData, InboxJobData, DbJobData, ObjectStorageJobData, EndedPollNotificationJobData, WebhookDeliverJobData } from './types.js';
+import { DeliverJobData, InboxJobData, DbJobData, ObjectStorageJobData, EndedPollNotificationJobData, WebhookDeliverJobData, EmailJobData } from './types.js';
 
 export const systemQueue = initializeQueue<Record<string, unknown>>('system');
 export const endedPollNotificationQueue = initializeQueue<EndedPollNotificationJobData>('endedPollNotification');
@@ -9,7 +9,7 @@ export const inboxQueue = initializeQueue<InboxJobData>('inbox', config.inboxJob
 export const dbQueue = initializeQueue<DbJobData>('db');
 export const objectStorageQueue = initializeQueue<ObjectStorageJobData>('objectStorage');
 export const webhookDeliverQueue = initializeQueue<WebhookDeliverJobData>('webhookDeliver', 64);
-export const backgroundQueue = initializeQueue<Record<string, unknown>>("bg");
+export const emailDeliverQueue = initializeQueue<EmailJobData>('emailDeliver');
 
 export const queues = [
 	systemQueue,
@@ -19,5 +19,5 @@ export const queues = [
 	dbQueue,
 	objectStorageQueue,
 	webhookDeliverQueue,
-	backgroundQueue,
+	emailDeliverQueue,
 ];

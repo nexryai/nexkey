@@ -66,7 +66,7 @@
 					<div class="_formBlock">
 						<MkKeyValue v-if="user.host" oneline style="margin: 1em 0;">
 							<template #key>{{ i18n.ts.instanceInfo }}</template>
-							<template #value><MkA :to="`/instance-info/${user.host}`" class="_link">{{ user.host }} <i class="ti ti-chevron-right"></i></MkA></template>
+							<template #value><MkA :to="`/instance-info/${user.host}`" class="_link">{{ user.host }} <i class="fas fa-angle-right"></i></MkA></template>
 						</MkKeyValue>
 						<MkKeyValue v-else oneline style="margin: 1em 0;">
 							<template #key>{{ i18n.ts.instanceInfo }}</template>
@@ -82,7 +82,7 @@
 						</MkKeyValue>
 					</div>
 
-					<FormButton v-if="user.host != null && enableSudo" class="_formBlock" @click="updateRemoteUser"><i class="ti ti-refresh"></i> {{ i18n.ts.updateRemoteUser }}</FormButton>
+					<FormButton v-if="user.host != null && enableSudo" class="_formBlock" @click="updateRemoteUser"><i class="fas fa-sync"></i> {{ i18n.ts.updateRemoteUser }}</FormButton>
 
 					<FormFolder class="_formBlock">
 						<template #label>Raw</template>
@@ -98,10 +98,11 @@
 				<FormSwitch v-model="suspended" class="_formBlock" @update:modelValue="toggleSuspend">{{ i18n.ts.suspend }}</FormSwitch>
 				{{ i18n.ts.reflectMayTakeTime }}
 				<div class="_formBlock">
-					<FormButton v-if="user.host == null && iAmModerator" inline @click="resetPassword" class="mod-button"><i class="ti ti-key"></i> {{ i18n.ts.resetPassword }}</FormButton>
-					<FormButton v-if="$i.isAdmin" inline danger @click="deleteAccount" class="mod-button"><i class="ti ti-trash"></i> {{ i18n.ts.deleteAccount }}</FormButton>
-					<FormButton v-if="$i.isAdmin" inline danger @click="deleteAllFiles" class="mod-button"><i class="ti ti-trash"></i> {{ i18n.ts.deleteAllFiles }}</FormButton>
-					<FormButton v-if="user.host == null && iAmModerator && !suspended" inline @click="sendModNotification" class="mod-button"><i class="ti ti-alert-circle"></i> {{ $ts.sendModNotification }}</FormButton>
+					<FormButton v-if="user.host == null && iAmModerator" inline style="margin-right: 8px;" @click="resetPassword"><i class="fas fa-key"></i> {{ i18n.ts.resetPassword }}</FormButton>
+					<FormButton v-if="user.host == null && user.twoFactorEnabled && iAmModerator" inline style="margin-right: 8px;" @click="reset2fa"><i class="fas fa-key"></i> {{ i18n.ts.reset2fa }}</FormButton>
+					<FormButton v-if="$i.isAdmin" inline danger style="margin-right: 8px;" @click="deleteAccount"><i class="fas fa-trash-alt"></i> {{ i18n.ts.deleteAccount }}</FormButton>
+					<FormButton v-if="$i.isAdmin" inline danger style="margin-right: 8px;" @click="deleteAllFiles"><i class="fas fa-trash-alt"></i> {{ i18n.ts.deleteAllFiles }}</FormButton>
+					<FormButton v-if="user.host == null && iAmModerator && !suspended" inline style="margin-right: 8px;" @click="sendModNotification"><i class="fas fa-bell"></i> {{ $ts.sendModNotification }}</FormButton>
 				</div>
 				<FormTextarea v-model="moderationNote" manual-save class="_formBlock">
 					<template #label>Moderation note</template>
@@ -109,11 +110,8 @@
 				<FormFolder class="_formBlock">
 					<template #label>IP</template>
 					<MkInfo v-if="!iAmAdmin" warn>{{ i18n.ts.requireAdminForView }}</MkInfo>
-					<MkInfo v-else-if="!streamModeEnabled">The date is the IP address was first acknowledged.</MkInfo>
-          <div v-if="streamModeEnabled">
-            <MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
-          </div>
-					<template v-if="iAmAdmin && ips && !streamModeEnabled">
+					<MkInfo v-else>The date is the IP address was first acknowledged.</MkInfo>
+					<template v-if="iAmAdmin && ips">
 						<div v-for="record in ips" :key="record.ip" class="_monospace" :class="$style.ip" style="margin: 1em 0;">
 							<span class="date">{{ record.createdAt }}</span>
 							<span class="ip">{{ record.ip }}</span>
@@ -214,8 +212,6 @@ const props = defineProps<{
 	userId: string;
 }>();
 
-const streamModeEnabled = ref(defaultStore.state.streamModeEnabled);
-
 let tab = $ref('overview');
 let chartSrc = $ref('per-user-notes');
 let user = $ref<null | misskey.entities.UserDetailed>();
@@ -307,6 +303,23 @@ async function resetPassword() {
 		os.alert({
 			type: 'success',
 			text: i18n.t('newPasswordIs', { password }),
+		});
+	}
+}
+
+async function reset2fa() {
+	const confirm = await os.confirm({
+		type: 'warning',
+		text: i18n.ts.reset2faConfirm,
+	});
+	if (confirm.canceled) {
+		return;
+	} else {
+		await os.api('admin/reset-2fa', {
+			userId: user.id,
+		});
+		os.alert({
+			type: 'success',
 		});
 	}
 }
@@ -444,35 +457,29 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => [{
 	key: 'overview',
 	title: i18n.ts.overview,
-	icon: 'ti ti-info-circle',
+	icon: 'fas fa-info-circle',
 }, (iAmModerator && enableSudo) ? {
 	key: 'moderation',
 	title: i18n.ts.moderation,
-	icon: 'ti ti-user-exclamation',
+	icon: 'fas fa-shield-halved',
 } : null, {
 	key: 'chart',
 	title: i18n.ts.charts,
-	icon: 'ti ti-chart-line',
+	icon: 'fas fa-chart-simple',
 }, {
 	key: 'raw',
 	title: 'Raw',
-	icon: 'ti ti-code',
+	icon: 'fas fa-code',
 }].filter(x => x != null));
 
 definePageMetadata(computed(() => ({
 	title: user ? acct(user) : i18n.ts.userInfo,
-	icon: 'ti ti-info-circle',
+	icon: 'fas fa-info-circle',
 })));
 </script>
 
 <style lang="scss" scoped>
 @use "sass:math";
-
-.mod-button {
-  margin-right: 8px;
-  margin-bottom: 8px;
-}
-
 .aeakzknw {
 	display: flex;
 	align-items: center;

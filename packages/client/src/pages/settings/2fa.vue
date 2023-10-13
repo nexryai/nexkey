@@ -6,6 +6,12 @@
 	</template>
 	<MkButton v-if="!twoFactorData && !$i.twoFactorEnabled" @click="register">{{ i18n.ts._2fa.registerDevice }}</MkButton>
 	<template v-if="$i.twoFactorEnabled">
+		<MkInfo v-if="$i.twoFactorEnabled && $i.twoFactorBackupCodesStock === 'partial'" warn>
+			{{ i18n.ts._2fa.backupCodeUsedWarning }}
+		</MkInfo>
+		<MkInfo v-if="$i.twoFactorEnabled && $i.twoFactorBackupCodesStock === 'none'" warn>
+			{{ i18n.ts._2fa.backupCodesExhaustedWarning }}
+		</MkInfo>
 		<p>{{ i18n.ts._2fa.alreadyRegistered }}</p>
 		<MkButton @click="unregister">{{ i18n.ts.unregister }}</MkButton>
 
@@ -88,6 +94,7 @@ const usePasswordLessLogin = ref($i!.usePasswordLessLogin);
 const registration = ref<any>(null);
 const keyName = ref('');
 const token = ref(null);
+const backupCodes = ref<string[]>();
 
 function register() {
 	os.inputText({
@@ -121,18 +128,13 @@ function unregister() {
 	});
 }
 
-function submit() {
-	os.api('i/2fa/done', {
-		token: token.value,
-	}).then(() => {
-		os.success();
-		$i!.twoFactorEnabled = true;
-	}).catch(err => {
-		os.alert({
-			type: 'error',
-			text: err,
-		});
+async function submit() {
+	const res = await os.apiWithDialog('i/2fa/done', {
+		token: token.value.toString(),
 	});
+	backupCodes.value = res.backupCodes;
+	downloadBackupCodes();
+	$i!.twoFactorEnabled = true;
 }
 
 function registerKey() {
@@ -167,6 +169,19 @@ function unregisterKey(key) {
 			os.success();
 		});
 	});
+}
+
+async function downloadBackupCodes() {
+	await os.alert({
+		text: i18n.ts.download,
+	});
+	if (backupCodes.value !== undefined) {
+		const txtBlob = new Blob([backupCodes.value.join('\n')], { type: 'text/plain' });
+		const dummya = document.createElement('a');
+		dummya.href = URL.createObjectURL(txtBlob);
+		dummya.download = `${$i?.username}-2fa-backup-codes.txt`;
+		dummya.click();
+	}
 }
 
 function addSecurityKey() {

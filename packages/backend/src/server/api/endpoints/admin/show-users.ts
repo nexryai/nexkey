@@ -25,7 +25,7 @@ export const paramDef = {
 		limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
 		offset: { type: 'integer', default: 0 },
 		sort: { type: 'string', enum: ['+follower', '-follower', '+createdAt', '-createdAt', '+updatedAt', '-updatedAt'] },
-		state: { type: 'string', enum: ['all', 'alive', 'available', 'admin', 'moderator', 'adminOrModerator', 'silenced', 'suspended', 'bot'], default: 'all' },
+		state: { type: 'string', enum: ['all', 'alive', 'available', 'admin', 'moderator', 'adminOrModerator', 'silenced', 'suspended', 'bot', 'deleted'], default: 'all' },
 		origin: { type: 'string', enum: ['combined', 'local', 'remote'], default: 'combined' },
 		username: { type: 'string', nullable: true, default: null },
 		hostname: {
@@ -44,14 +44,15 @@ export default define(meta, paramDef, async (ps, me) => {
 	query.andWhere('user.isDeleted = FALSE');
 
 	switch (ps.state) {
-		case 'available': query.where('user.isSuspended = FALSE'); break;
-		case 'admin': query.where('user.isAdmin = TRUE'); break;
-		case 'moderator': query.where('user.isModerator = TRUE'); break;
-		case 'adminOrModerator': query.where('user.isAdmin = TRUE OR user.isModerator = TRUE'); break;
-		case 'alive': query.where('user.updatedAt > :date', { date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 5) }); break;
-		case 'silenced': query.where('user.isSilenced = TRUE'); break;
-		case 'suspended': query.where('user.isSuspended = TRUE'); break;
-		case 'bot': query.where('user.isBot = TRUE'); break;
+		case 'available': query.andWhere('user.isSuspended = FALSE'); break;
+		case 'admin': query.andWhere('user.isAdmin = TRUE'); break;
+		case 'moderator': query.andWhere('user.isModerator = TRUE'); break;
+		case 'adminOrModerator': query.andWhere('user.isAdmin = TRUE OR user.isModerator = TRUE'); break;
+		case 'alive': query.andWhere('user.updatedAt > :date', { date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 5) }); break;
+		case 'silenced': query.andWhere('user.isSilenced = TRUE'); break;
+		case 'suspended': query.andWhere('user.isSuspended = TRUE'); break;
+		case 'bot': query.andWhere('user.isBot = TRUE'); break;
+		case 'deleted': query.where('user.isDeleted = TRUE'); break;
 	}
 
 	switch (ps.origin) {

@@ -48,7 +48,7 @@ router.get('/.well-known/host-meta', async ctx => {
 });
 
 router.get('/.well-known/host-meta.json', async ctx => {
-	ctx.set('Content-Type', jrd);
+	ctx.set('Content-Type', 'application/json');
 	ctx.body = {
 		links: [{
 			rel: 'lrdd',
