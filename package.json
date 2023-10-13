@@ -1,7 +1,7 @@
 {
 	"name": "misskey",
-	"version": "12.121.9",
-	"codename": "agathos",
+	"version": "12.122.0",
+	"codename": "chirigiku",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/nexryai/nexkey"
