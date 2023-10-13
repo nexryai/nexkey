@@ -227,7 +227,7 @@ instanceUsers: "インスタンスのユーザー"
 changePassword: "パスワードを変更"
 security: "セキュリティ"
 retypedNotMatch: "入力が一致しません。"
-currentPassword: "現在のパスワード"
+currentPassword: "この操作を続行するには、現在のパスワードを入力してください。"
 newPassword: "新しいパスワード"
 newPasswordRetype: "新しいパスワード(再入力)"
 attachFile: "ファイルを添付"
@@ -929,6 +929,7 @@ streamingModeWarning: "機密情報を含むページは、配信モード有効
 reactionMute: "リアクションミュート"
 showMessageOnMuted: "ノートがソフトミュートされたときにメッセージを表示する"
 showOnlineUsersOnNavbar: "ナビゲーションバーにオンラインユーザー数を表示する"
+no2faWarning: "二段階認証が有効になっていません。セキュリティ強化のために二段階認証の設定をおすすめします。"
 
 _emailUnavailable:
   used: "既に使用されています"
@@ -1272,7 +1273,7 @@ _2fa:
   step2Url: "デスクトップアプリでは次のURLを入力します:"
   step3: "アプリに表示されているトークンを入力して完了です。"
   step4: "これからログインするときも、同じようにトークンを入力します。"
-  securityKeyInfo: "FIDO2をサポートするハードウェアセキュリティキーもしくは端末の指紋認証やPINを使用してログインするように設定できます。"
+  securityKeyInfo: "FIDO2をサポートするハードウェアセキュリティキーもしくはパスキーを使用してログインするように設定できます。"
 
 _permissions:
   "read:account": "アカウントの情報を見る"

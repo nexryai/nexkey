@@ -1,5 +1,9 @@
 <template>
 <div>
+	<template v-if="!twoFactorData && !$i.twoFactorEnabled">
+		<MkInfo warn>{{ i18n.ts.no2faWarning }}</MkInfo>
+		<br>
+	</template>
 	<MkButton v-if="!twoFactorData && !$i.twoFactorEnabled" @click="register">{{ i18n.ts._2fa.registerDevice }}</MkButton>
 	<template v-if="$i.twoFactorEnabled">
 		<p>{{ i18n.ts._2fa.alreadyRegistered }}</p>
@@ -8,7 +12,7 @@
 		<template v-if="supportsCredentials">
 			<hr class="totp-method-sep">
 
-			<h2 class="heading">{{ i18n.ts.securityKey }}</h2>
+			<h4>{{ i18n.ts.securityKey }}</h4>
 			<p>{{ i18n.ts._2fa.securityKeyInfo }}</p>
 			<div class="key-list">
 				<div v-for="key in $i.securityKeysList" class="key">
@@ -56,9 +60,11 @@
 			<li>
 				{{ i18n.ts._2fa.step3 }}<br>
 				<MkInput v-model="token" type="text" pattern="^[0-9]{6}$" autocomplete="off" :spellcheck="false"><template #label>{{ i18n.ts.token }}</template></MkInput>
+				<br>
 				<MkButton primary @click="submit">{{ i18n.ts.done }}</MkButton>
 			</li>
 		</ol>
+		<br>
 		<MkInfo>{{ i18n.ts._2fa.step4 }}</MkInfo>
 	</div>
 </div>
@@ -85,7 +91,7 @@ const token = ref(null);
 
 function register() {
 	os.inputText({
-		title: i18n.ts.password,
+		title: i18n.ts.currentPassword,
 		type: 'password',
 	}).then(({ canceled, result: password }) => {
 		if (canceled) return;
@@ -99,7 +105,7 @@ function register() {
 
 function unregister() {
 	os.inputText({
-		title: i18n.ts.password,
+		title: i18n.ts.currentPassword,
 		type: 'password',
 	}).then(({ canceled, result: password }) => {
 		if (canceled) return;
@@ -147,7 +153,7 @@ function registerKey() {
 
 function unregisterKey(key) {
 	os.inputText({
-		title: i18n.ts.password,
+		title: i18n.ts.currentPassword,
 		type: 'password',
 	}).then(({ canceled, result: password }) => {
 		if (canceled) return;
@@ -165,7 +171,7 @@ function unregisterKey(key) {
 
 function addSecurityKey() {
 	os.inputText({
-		title: i18n.ts.password,
+		title: i18n.ts.currentPassword,
 		type: 'password',
 	}).then(({ canceled, result: password }) => {
 		if (canceled) return;

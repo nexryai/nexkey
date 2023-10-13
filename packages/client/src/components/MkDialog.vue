@@ -4,8 +4,10 @@
 		<div v-if="icon" class="icon">
 			<i :class="icon"></i>
 		</div>
-		<div v-else-if="!input && !select" class="icon" :class="type">
-			<i v-if="type === 'success'" class="ti ti-check"></i>
+		<div v-else-if="!select" class="icon" :class="type">
+			<i v-if="title==i18n.ts.currentPassword" class="ti ti-shield-lock security"></i>
+			<i v-else-if="input" class="ti ti-question-circle"></i>
+			<i v-else-if="type === 'success'" class="ti ti-check"></i>
 			<i v-else-if="type === 'error'" class="ti ti-circle-x"></i>
 			<i v-else-if="type === 'warning'" class="ti ti-alert-triangle"></i>
 			<i v-else-if="type === 'info'" class="ti ti-info-circle"></i>
@@ -157,6 +159,10 @@ onBeforeUnmount(() => {
 	> .icon {
 		font-size: 24px;
 
+		> .security {
+			color: #eabb02;
+		}
+
 		&.info {
 			color: #55c4dd;
 		}
@@ -184,9 +190,9 @@ onBeforeUnmount(() => {
 	}
 
 	> header {
-		margin: 0 0 8px 0;
+		margin: 0 0 39px 0;
 		font-weight: bold;
-		font-size: 20px;
+		font-size: 16px;
 
 		& + .body {
 			margin-top: 8px;
@@ -198,7 +204,7 @@ onBeforeUnmount(() => {
 	}
 
 	> .buttons {
-		margin-top: 16px;
+		margin-top: 32px;
 
 		> * {
 			margin: 0 8px;
