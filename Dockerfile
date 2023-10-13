@@ -1,4 +1,4 @@
-FROM node:18-alpine3.17 AS builder
+FROM node:20-alpine3.17 AS builder
 
 ARG NODE_ENV=production
 
@@ -12,7 +12,7 @@ RUN yarn install
 RUN yarn build
 RUN rm -rf .git
 
-FROM node:18-alpine3.17 AS runner
+FROM node:20-alpine3.17 AS runner
 
 ARG UID="991"
 ARG GID="991"
