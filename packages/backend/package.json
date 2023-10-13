@@ -19,7 +19,7 @@
 		"@elastic/elasticsearch": "8.9.0",
 		"@koa/cors": "4.0.0",
 		"@koa/multer": "3.0.2",
-		"@koa/router": "9.0.1",
+		"@koa/router": "11.0.2",
 		"@peertube/http-signature": "1.7.0",
 		"@sinonjs/fake-timers": "11.1.0",
 		"@syuilo/aiscript": "0.16.0",
