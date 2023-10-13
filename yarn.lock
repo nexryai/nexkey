@@ -156,10 +156,10 @@
     "@types/node" "*"
     "@types/vinyl" "*"
 
-"@types/gulp@4.0.14":
-  version "4.0.14"
-  resolved "https://registry.yarnpkg.com/@types/gulp/-/gulp-4.0.14.tgz#e077ec7a76c730c340f98dc17f0678df585a8814"
-  integrity sha512-zjhBRyGTIPnJ/gByJpjtFyRPKej7zkNFct+QgDhAwpOEoJ2MQjajhU69vrcHIffKcnt3Dik2JHzgMj0C1q9WOg==
+"@types/gulp@4.0.15":
+  version "4.0.15"
+  resolved "https://registry.yarnpkg.com/@types/gulp/-/gulp-4.0.15.tgz#5134f9b9e232307468455da4c09567d6698e26b3"
+  integrity sha512-szoYxzzEjyhhvx/pf1TxB0Hu348pgK0tr2Zm+guCh5HFiz7Ix+2N89Qsctk0qBpAp2fbIjmT96coHWxm69+u6Q==
   dependencies:
     "@types/undertaker" ">=1.2.6"
     "@types/vinyl-fs" "*"
