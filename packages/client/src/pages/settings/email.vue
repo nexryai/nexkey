@@ -35,6 +35,9 @@
 		<FormSwitch v-model="emailNotification_groupInvited" class="_formBlock">
 			{{ i18n.ts._notification._types.groupInvited }}
 		</FormSwitch>
+		<FormSwitch v-model="emailNotification_app" class="_formBlock">
+			{{ i18n.ts._notification._types.app }}
+		</FormSwitch>
 	</FormSection>
 </div>
 <div v-if="!instance.enableEmail" class="_gaps_m">
@@ -81,6 +84,7 @@ const emailNotification_quote = ref($i!.emailNotificationTypes.includes('quote')
 const emailNotification_follow = ref($i!.emailNotificationTypes.includes('follow'));
 const emailNotification_receiveFollowRequest = ref($i!.emailNotificationTypes.includes('receiveFollowRequest'));
 const emailNotification_groupInvited = ref($i!.emailNotificationTypes.includes('groupInvited'));
+const emailNotification_app = ref($i!.emailNotificationTypes.includes('app'));
 
 const saveNotificationSettings = () => {
 	os.api('i/update', {
@@ -91,11 +95,12 @@ const saveNotificationSettings = () => {
 			...[emailNotification_follow.value ? 'follow' : null],
 			...[emailNotification_receiveFollowRequest.value ? 'receiveFollowRequest' : null],
 			...[emailNotification_groupInvited.value ? 'groupInvited' : null],
+			...[emailNotification_app.value ? 'app' : null],
 		].filter(x => x != null),
 	});
 };
 
-watch([emailNotification_mention, emailNotification_reply, emailNotification_quote, emailNotification_follow, emailNotification_receiveFollowRequest, emailNotification_groupInvited], () => {
+watch([emailNotification_mention, emailNotification_reply, emailNotification_quote, emailNotification_follow, emailNotification_receiveFollowRequest, emailNotification_groupInvited, emailNotification_app], () => {
 	saveNotificationSettings();
 });
 

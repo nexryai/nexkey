@@ -20,6 +20,7 @@ export default async (job: Bull.Job<WebhookDeliverJobData>) => {
 				'X-Misskey-Host': config.host,
 				'X-Misskey-Hook-Id': job.data.webhookId,
 				'X-Misskey-Hook-Secret': job.data.secret,
+				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({
 				hookId: job.data.webhookId,

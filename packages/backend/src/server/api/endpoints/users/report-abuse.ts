@@ -3,6 +3,7 @@ import { publishAdminStream } from '@/services/stream.js';
 import { AbuseUserReports, Users } from '@/models/index.js';
 import { genId } from '@/misc/gen-id.js';
 import { sendEmail } from '@/services/send-email.js';
+import { emailDeliver } from '@/queue/index.js';
 import { fetchMeta } from '@/misc/fetch-meta.js';
 import { getUser } from '../../common/getters.js';
 import { ApiError } from '../../error.js';
@@ -92,7 +93,7 @@ export default define(meta, paramDef, async (ps, me) => {
 
 		const meta = await fetchMeta();
 		if (meta.email) {
-			sendEmail(meta.email, 'New abuse report',
+			emailDeliver(meta.email, 'New abuse report',
 				sanitizeHtml(ps.comment),
 				sanitizeHtml(ps.comment));
 		}

@@ -174,11 +174,6 @@ const menuDef = $computed(() => [{
 		to: '/admin/relays',
 		active: currentPage?.route.name === 'relays',
 	}, ...(iAmAdmin ? [{
-		icon: 'ti ti-share',
-		text: i18n.ts.integration,
-		to: '/admin/integrations',
-		active: currentPage?.route.name === 'integrations',
-	}, {
 		icon: 'ti ti-ban',
 		text: i18n.ts.instanceBlocking,
 		to: '/admin/instance-block',
@@ -193,15 +188,15 @@ const menuDef = $computed(() => [{
 		text: i18n.ts.proxyAccount,
 		to: '/admin/proxy-account',
 		active: currentPage?.route.name === 'proxy-account',
-	}, {
-		icon: 'ti ti-adjustments',
-		text: i18n.ts.other,
-		to: '/admin/other-settings',
-		active: currentPage?.route.name === 'other-settings',
   }] : [])],
 }, {
 	title: i18n.ts.info,
 	items: [{
+	icon: 'ti ti-shield-lock',
+	text: i18n.ts.moderationlogs,
+	to: '/admin/moderation-logs',
+	active: currentPage?.route.name === 'moderation-logs',
+	}, {
 		icon: 'ti ti-database',
 		text: i18n.ts.database,
 		to: '/admin/database',
@@ -253,13 +248,13 @@ async function toggleModerator(v) {
 		if (v) {
 			await defaultStore.set('enableSudo', true);
 			await os.alert({
-				text: 'You are Sudo now',
+				text: i18n.ts.sudoActivated,
 			});
 			await unisonReload();
 		} else {
 			await defaultStore.set('enableSudo', false);
 			await os.alert({
-				text: 'You are NOT Sudo now',
+				text: i18n.ts.sudoDeactivated,
 			});
 			await unisonReload();
 		}

@@ -24,6 +24,8 @@ export function createAiScriptEnv(opts) {
 			return confirm.canceled ? values.FALSE : values.TRUE;
 		}),
 		'Mk:api': values.FN_NATIVE(async ([ep, param, token]) => {
+			utils.assertString(ep);
+			if (ep.value.includes('://')) throw new Error('invalid endpoint');
 			if (token) {
 				utils.assertString(token);
 				// バグがあればundefinedもあり得るため念のため
@@ -31,7 +33,8 @@ export function createAiScriptEnv(opts) {
 			}
 			apiRequests++;
 			if (apiRequests > 16) return values.NULL;
-			const res = await os.api(ep.value, utils.valToJs(param), token ? token.value : (opts.token || null));
+			const actualToken: string|null = token?.value ?? opts.token ?? null;
+			const res = await os.api(ep.value, utils.valToJs(param), actualToken);
 			return utils.jsToVal(res);
 		}),
 		'Mk:save': values.FN_NATIVE(([key, value]) => {

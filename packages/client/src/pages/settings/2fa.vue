@@ -1,14 +1,24 @@
 <template>
 <div>
+	<template v-if="!twoFactorData && !$i.twoFactorEnabled">
+		<MkInfo warn>{{ i18n.ts.no2faWarning }}</MkInfo>
+		<br>
+	</template>
 	<MkButton v-if="!twoFactorData && !$i.twoFactorEnabled" @click="register">{{ i18n.ts._2fa.registerDevice }}</MkButton>
 	<template v-if="$i.twoFactorEnabled">
+		<MkInfo v-if="$i.twoFactorEnabled && $i.twoFactorBackupCodesStock === 'partial'" warn>
+			{{ i18n.ts._2fa.backupCodeUsedWarning }}
+		</MkInfo>
+		<MkInfo v-if="$i.twoFactorEnabled && $i.twoFactorBackupCodesStock === 'none'" warn>
+			{{ i18n.ts._2fa.backupCodesExhaustedWarning }}
+		</MkInfo>
 		<p>{{ i18n.ts._2fa.alreadyRegistered }}</p>
 		<MkButton @click="unregister">{{ i18n.ts.unregister }}</MkButton>
 
 		<template v-if="supportsCredentials">
 			<hr class="totp-method-sep">
 
-			<h2 class="heading">{{ i18n.ts.securityKey }}</h2>
+			<h4>{{ i18n.ts.securityKey }}</h4>
 			<p>{{ i18n.ts._2fa.securityKeyInfo }}</p>
 			<div class="key-list">
 				<div v-for="key in $i.securityKeysList" class="key">
@@ -56,9 +66,11 @@
 			<li>
 				{{ i18n.ts._2fa.step3 }}<br>
 				<MkInput v-model="token" type="text" pattern="^[0-9]{6}$" autocomplete="off" :spellcheck="false"><template #label>{{ i18n.ts.token }}</template></MkInput>
+				<br>
 				<MkButton primary @click="submit">{{ i18n.ts.done }}</MkButton>
 			</li>
 		</ol>
+		<br>
 		<MkInfo>{{ i18n.ts._2fa.step4 }}</MkInfo>
 	</div>
 </div>
@@ -82,6 +94,7 @@ const usePasswordLessLogin = ref($i!.usePasswordLessLogin);
 const registration = ref<any>(null);
 const keyName = ref('');
 const token = ref(null);
+const backupCodes = ref<string[]>();
 
 function register() {
 	os.inputText({
@@ -115,18 +128,13 @@ function unregister() {
 	});
 }
 
-function submit() {
-	os.api('i/2fa/done', {
-		token: token.value,
-	}).then(() => {
-		os.success();
-		$i!.twoFactorEnabled = true;
-	}).catch(err => {
-		os.alert({
-			type: 'error',
-			text: err,
-		});
+async function submit() {
+	const res = await os.apiWithDialog('i/2fa/done', {
+		token: token.value.toString(),
 	});
+	backupCodes.value = res.backupCodes;
+	downloadBackupCodes();
+	$i!.twoFactorEnabled = true;
 }
 
 function registerKey() {
@@ -161,6 +169,19 @@ function unregisterKey(key) {
 			os.success();
 		});
 	});
+}
+
+async function downloadBackupCodes() {
+	await os.alert({
+		text: i18n.ts.backupCodesDownloaded,
+	});
+	if (backupCodes.value !== undefined) {
+		const txtBlob = new Blob([backupCodes.value.join('\n')], { type: 'text/plain' });
+		const dummya = document.createElement('a');
+		dummya.href = URL.createObjectURL(txtBlob);
+		dummya.download = `${$i?.username}-2fa-backup-codes.txt`;
+		dummya.click();
+	}
 }
 
 function addSecurityKey() {

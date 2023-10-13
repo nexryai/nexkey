@@ -69,10 +69,6 @@ export const routes = [{
 		name: 'email',
 		component: page(() => import('./pages/settings/email.vue')),
 	}, {
-		path: '/integration',
-		name: 'integration',
-		component: page(() => import('./pages/settings/integration.vue')),
-	}, {
 		path: '/security',
 		name: 'security',
 		component: page(() => import('./pages/settings/security.vue')),
@@ -335,10 +331,6 @@ export const routes = [{
 		name: 'relays',
 		component: page(() => import('./pages/admin/relays.vue')),
 	}, {
-		path: '/integrations',
-		name: 'integrations',
-		component: iAmAdmin ? page(() => import('./pages/admin/integrations.vue')) : page(() => import('./pages/not-found.vue')),
-	}, {
 		path: '/instance-block',
 		name: 'instance-block',
 		component: iAmAdmin ? page(() => import('./pages/admin/instance-block.vue')) : page(() => import('./pages/not-found.vue')),
@@ -374,14 +366,6 @@ export const routes = [{
 }, {
 	path: '/my/messaging/group/:groupId',
 	component: page(() => import('./pages/messaging/messaging-room.vue')),
-	loginRequired: true,
-}, {
-	path: '/my/groups/',
-	component: page(() => import('./pages/my-groups/index.vue')),
-	loginRequired: true,
-}, {
-	path: '/my/groups/:groupId',
-	component: page(() => import('./pages/my-groups/group.vue')),
 	loginRequired: true,
 }, {
 	path: '/my/drive/folder/:folder',

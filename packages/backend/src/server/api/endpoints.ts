@@ -48,6 +48,7 @@ import * as ep___admin_queue_stats from './endpoints/admin/queue/stats.js';
 import * as ep___admin_relays_add from './endpoints/admin/relays/add.js';
 import * as ep___admin_relays_list from './endpoints/admin/relays/list.js';
 import * as ep___admin_relays_remove from './endpoints/admin/relays/remove.js';
+import * as ep___admin_reset2fa from './endpoints/admin/reset-2fa.js';
 import * as ep___admin_resetPassword from './endpoints/admin/reset-password.js';
 import * as ep___admin_resolveAbuseUserReport from './endpoints/admin/resolve-abuse-user-report.js';
 import * as ep___admin_search_indexAll from "./endpoints/admin/search/index-all.js";
@@ -189,7 +190,6 @@ import * as ep___i_signinHistory from './endpoints/i/signin-history.js';
 import * as ep___i_unpin from './endpoints/i/unpin.js';
 import * as ep___i_updateEmail from './endpoints/i/update-email.js';
 import * as ep___i_update from './endpoints/i/update.js';
-import * as ep___i_userGroupInvites from './endpoints/i/user-group-invites.js';
 import * as ep___i_webhooks_create from './endpoints/i/webhooks/create.js';
 import * as ep___i_webhooks_show from './endpoints/i/webhooks/show.js';
 import * as ep___i_webhooks_list from './endpoints/i/webhooks/list.js';
@@ -268,18 +268,6 @@ import * as ep___users_clips from './endpoints/users/clips.js';
 import * as ep___users_followers from './endpoints/users/followers.js';
 import * as ep___users_following from './endpoints/users/following.js';
 import * as ep___users_getFrequentlyRepliedUsers from './endpoints/users/get-frequently-replied-users.js';
-import * as ep___users_groups_create from './endpoints/users/groups/create.js';
-import * as ep___users_groups_delete from './endpoints/users/groups/delete.js';
-import * as ep___users_groups_invitations_accept from './endpoints/users/groups/invitations/accept.js';
-import * as ep___users_groups_invitations_reject from './endpoints/users/groups/invitations/reject.js';
-import * as ep___users_groups_invite from './endpoints/users/groups/invite.js';
-import * as ep___users_groups_joined from './endpoints/users/groups/joined.js';
-import * as ep___users_groups_leave from './endpoints/users/groups/leave.js';
-import * as ep___users_groups_owned from './endpoints/users/groups/owned.js';
-import * as ep___users_groups_pull from './endpoints/users/groups/pull.js';
-import * as ep___users_groups_show from './endpoints/users/groups/show.js';
-import * as ep___users_groups_transfer from './endpoints/users/groups/transfer.js';
-import * as ep___users_groups_update from './endpoints/users/groups/update.js';
 import * as ep___users_lists_create from './endpoints/users/lists/create.js';
 import * as ep___users_lists_delete from './endpoints/users/lists/delete.js';
 import * as ep___users_lists_list from './endpoints/users/lists/list.js';
@@ -349,6 +337,7 @@ const eps = [
 	['admin/relays/add', ep___admin_relays_add],
 	['admin/relays/list', ep___admin_relays_list],
 	['admin/relays/remove', ep___admin_relays_remove],
+	['admin/reset-2fa', ep___admin_reset2fa],
 	['admin/reset-password', ep___admin_resetPassword],
 	['admin/resolve-abuse-user-report', ep___admin_resolveAbuseUserReport],
 	["admin/search/index-all", ep___admin_search_indexAll],
@@ -490,7 +479,6 @@ const eps = [
 	['i/unpin', ep___i_unpin],
 	['i/update-email', ep___i_updateEmail],
 	['i/update', ep___i_update],
-	['i/user-group-invites', ep___i_userGroupInvites],
 	['i/webhooks/create', ep___i_webhooks_create],
 	['i/webhooks/list', ep___i_webhooks_list],
 	['i/webhooks/show', ep___i_webhooks_show],
@@ -569,18 +557,6 @@ const eps = [
 	['users/followers', ep___users_followers],
 	['users/following', ep___users_following],
 	['users/get-frequently-replied-users', ep___users_getFrequentlyRepliedUsers],
-	['users/groups/create', ep___users_groups_create],
-	['users/groups/delete', ep___users_groups_delete],
-	['users/groups/invitations/accept', ep___users_groups_invitations_accept],
-	['users/groups/invitations/reject', ep___users_groups_invitations_reject],
-	['users/groups/invite', ep___users_groups_invite],
-	['users/groups/joined', ep___users_groups_joined],
-	['users/groups/leave', ep___users_groups_leave],
-	['users/groups/owned', ep___users_groups_owned],
-	['users/groups/pull', ep___users_groups_pull],
-	['users/groups/show', ep___users_groups_show],
-	['users/groups/transfer', ep___users_groups_transfer],
-	['users/groups/update', ep___users_groups_update],
 	['users/lists/create', ep___users_lists_create],
 	['users/lists/delete', ep___users_lists_delete],
 	['users/lists/list', ep___users_lists_list],

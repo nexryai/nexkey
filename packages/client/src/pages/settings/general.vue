@@ -56,8 +56,6 @@
 			<div><Mfm :key="useOsNativeEmojis" text="🍮🍦🍭🍩🍰🍫🍬🥞🍪"/></div>
 		</FormSwitch>
 		<FormSwitch v-model="disableDrawer" class="_formBlock">{{ i18n.ts.disableDrawer }}</FormSwitch>
-		<FormSwitch v-if="$i.isBot" v-model="enableBotLoggedinWarning" class="_formBlock">{{ i18n.ts.enableBotLoggedinWarning }}</FormSwitch>
-		<FormSwitch v-if="$i.isAdmin" v-model="enableAdminLoggedinWarning" class="_formBlock">{{ i18n.ts.enableAdminLoggedinWarning }}</FormSwitch>
 
 		<FormRadios v-model="fontSize" class="_formBlock">
 			<template #label>{{ i18n.ts.fontSize }}</template>
@@ -145,8 +143,6 @@ const useReactionPickerForContextMenu = computed(defaultStore.makeGetterSetter('
 const squareAvatars = computed(defaultStore.makeGetterSetter('squareAvatars'));
 const aiChanMode = computed(defaultStore.makeGetterSetter('aiChanMode'));
 const enableMfm = computed(defaultStore.makeGetterSetter('enableMfm'));
-const enableBotLoggedinWarning = computed(defaultStore.makeGetterSetter('enableBotLoggedinWarning'));
-const enableAdminLoggedinWarning = computed(defaultStore.makeGetterSetter('enableAdminLoggedinWarning'));
 const showOnlineUsersOnNavbar = computed(defaultStore.makeGetterSetter('showOnlineUsersOnNavbar'));
 
 watch(lang, () => {

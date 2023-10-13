@@ -7,6 +7,7 @@ import { DriveFile } from '@/models/entities/drive-file.js';
 import { MoreThan } from 'typeorm';
 import { deleteFileSync } from '@/services/drive/delete-file.js';
 import { sendEmail } from '@/services/send-email.js';
+import { emailDeliver } from '@/queue/index.js';
 
 const logger = queueLogger.createSubLogger('delete-account');
 
@@ -80,7 +81,7 @@ export async function deleteAccount(job: Bull.Job<DbUserDeleteJobData>): Promise
 	{ // Send email notification
 		const profile = await UserProfiles.findOneByOrFail({ userId: user.id });
 		if (profile.email && profile.emailVerified) {
-			sendEmail(profile.email, 'Account deleted',
+			emailDeliver(profile.email, 'Account deleted',
 				`Your account has been deleted.`,
 				`Your account has been deleted.`);
 		}

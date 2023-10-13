@@ -1,5 +1,5 @@
 <template>
-<MkModalAlt ref="modal" :prefer-type="'dialog'" :z-priority="'high'" @click="done(true)" @closed="emit('closed')">
+<MkModal ref="modal" :prefer-type="'dialog'" :z-priority="'high'" @click="done(true)" @closed="emit('closed')">
 	<div class="mk-dialog">
 		<div v-if="icon" class="icon">
 			<i :class="icon"></i>
@@ -14,9 +14,7 @@
 			<i v-else-if="type === 'question'" class="ti ti-question-circle"></i>
 			<MkLoading v-else-if="type === 'waiting'" :em="true"/>
 		</div>
-		<header v-if="title">
-			<Mfm :text="title"/>
-		</header>
+		<header v-if="title"><Mfm :text="title"/></header>
 		<div v-if="text" class="body"><Mfm :text="text"/></div>
 		<MkInput v-if="input" v-model="inputValue" autofocus :type="input.type || 'text'" :placeholder="input.placeholder || undefined" @keydown="onInputKeydown">
 			<template v-if="input.type === 'password'" #prefix><i class="ti ti-lock"></i></template>
@@ -32,24 +30,23 @@
 			</template>
 		</MkSelect>
 		<div v-if="(showOkButton || showCancelButton) && !actions" class="buttons">
-			<MkButton v-if="showOkButton" inline primary :autofocus="!input && !select" @click="ok">{{ (showCancelButton || input || select) ? i18n.ts.ok : i18n.ts.gotIt }}</MkButton>
-			<MkButton v-if="showCancelButton || input || select" inline @click="cancel">{{ i18n.ts.cancel }}</MkButton>
+			<MkButton rounded v-if="showOkButton" inline primary :autofocus="!input && !select" @click="ok">{{ (showCancelButton || input || select) ? i18n.ts.ok : i18n.ts.gotIt }}</MkButton>
+			<MkButton rounded v-if="showCancelButton || input || select" inline @click="cancel">{{ i18n.ts.cancel }}</MkButton>
 		</div>
 		<div v-if="actions" class="buttons">
-			<MkButton v-for="action in actions" :key="action.text" inline :primary="action.primary" @click="() => { action.callback(); close(); }">{{ action.text }}</MkButton>
+			<MkButton rounded v-for="action in actions" :key="action.text" inline :primary="action.primary" @click="() => { action.callback(); close(); }">{{ action.text }}</MkButton>
 		</div>
 	</div>
-</MkModalAlt>
+</MkModal>
 </template>
 
 <script lang="ts" setup>
 import { onBeforeUnmount, onMounted, ref } from 'vue';
-import MkModalAlt from '@/components/MkModalAlt.vue';
+import MkModal from '@/components/MkModal.vue';
 import MkButton from '@/components/MkButton.vue';
-import MkInput from '@/components/form/inputBlur.vue';
+import MkInput from '@/components/form/input.vue';
 import MkSelect from '@/components/form/select.vue';
 import { i18n } from '@/i18n';
-import Security from "@/pages/settings/security.vue";
 
 type Input = {
 	type: HTMLInputElement['type'];
@@ -156,7 +153,7 @@ onBeforeUnmount(() => {
 	max-width: 480px;
 	box-sizing: border-box;
 	text-align: center;
-	background: rgba(253, 253, 253, 0);
+	background: var(--panel);
 	border-radius: var(--radius);
 
 	> .icon {
@@ -203,11 +200,11 @@ onBeforeUnmount(() => {
 	}
 
 	> .body {
-		margin: 16px 0 16px 0;
+		margin: 16px 0 0 0;
 	}
 
 	> .buttons {
-		margin-top: 40px;
+		margin-top: 32px;
 
 		> * {
 			margin: 0 8px;

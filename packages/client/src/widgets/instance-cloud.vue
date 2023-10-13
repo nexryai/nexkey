@@ -3,7 +3,7 @@
 	<div class="">
 		<MkTagCloud v-if="activeInstances">
 			<li v-for="instance in activeInstances" :key="instance.id">
-				<a @click.prevent="onInstanceClick(instance)">
+				<a v-if="instance.iconUrl" @click.prevent="onInstanceClick(instance)">
 					<img style="width: 32px;" :src="instance.iconUrl">
 				</a>
 			</li>
@@ -44,7 +44,7 @@ const { widgetProps, configure } = useWidgetPropsManager(name,
 	emit,
 );
 
-let cloud = $ref<InstanceType<typeof MkTagCloud> | null>();
+let cloud = $shallowRef<InstanceType<typeof MkTagCloud> | null>();
 let activeInstances = $shallowRef(null);
 
 function onInstanceClick(i) {

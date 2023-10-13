@@ -28,6 +28,7 @@ export default define(meta, paramDef, async (ps, user) => {
 
 	await UserProfiles.update(user.id, {
 		twoFactorSecret: null,
+		twoFactorBackupSecret: null,
 		twoFactorEnabled: false,
 	});
 });

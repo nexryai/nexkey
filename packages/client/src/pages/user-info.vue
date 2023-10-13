@@ -82,7 +82,7 @@
 						</MkKeyValue>
 					</div>
 
-					<FormButton v-if="user.host != null && enableSudo" class="_formBlock" @click="updateRemoteUser"><i class="ti ti-refresh"></i> {{ i18n.ts.updateRemoteUser }}</FormButton>
+					<FormButton v-if="user.host != null && enableSudo" class="_formBlock" @click="updateRemoteUser"><i class="fas fa-sync"></i> {{ i18n.ts.updateRemoteUser }}</FormButton>
 
 					<FormFolder class="_formBlock">
 						<template #label>Raw</template>
@@ -109,11 +109,8 @@
 				<FormFolder class="_formBlock">
 					<template #label>IP</template>
 					<MkInfo v-if="!iAmAdmin" warn>{{ i18n.ts.requireAdminForView }}</MkInfo>
-					<MkInfo v-else-if="!streamModeEnabled">The date is the IP address was first acknowledged.</MkInfo>
-          <div v-if="streamModeEnabled">
-            <MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
-          </div>
-					<template v-if="iAmAdmin && ips && !streamModeEnabled">
+					<MkInfo v-else>The date is the IP address was first acknowledged.</MkInfo>
+					<template v-if="iAmAdmin && ips">
 						<div v-for="record in ips" :key="record.ip" class="_monospace" :class="$style.ip" style="margin: 1em 0;">
 							<span class="date">{{ record.createdAt }}</span>
 							<span class="ip">{{ record.ip }}</span>
@@ -214,8 +211,6 @@ const props = defineProps<{
 	userId: string;
 }>();
 
-const streamModeEnabled = ref(defaultStore.state.streamModeEnabled);
-
 let tab = $ref('overview');
 let chartSrc = $ref('per-user-notes');
 let user = $ref<null | misskey.entities.UserDetailed>();
@@ -307,6 +302,23 @@ async function resetPassword() {
 		os.alert({
 			type: 'success',
 			text: i18n.t('newPasswordIs', { password }),
+		});
+	}
+}
+
+async function reset2fa() {
+	const confirm = await os.confirm({
+		type: 'warning',
+		text: i18n.ts.reset2faConfirm,
+	});
+	if (confirm.canceled) {
+		return;
+	} else {
+		await os.api('admin/reset-2fa', {
+			userId: user.id,
+		});
+		os.alert({
+			type: 'success',
 		});
 	}
 }
@@ -469,8 +481,8 @@ definePageMetadata(computed(() => ({
 @use "sass:math";
 
 .mod-button {
-  margin-right: 8px;
-  margin-bottom: 8px;
+	margin-right: 8px;
+	margin-bottom: 8px;
 }
 
 .aeakzknw {

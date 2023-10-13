@@ -2,15 +2,7 @@
 <MkStickyContainer>
 	<template #header><MkPageHeader v-model:tab="tab" :actions="headerActions" :tabs="headerTabs"/></template>
 	<div class="lznhrdub">
-		<div v-if="tab === 'featured'">
-			<XFeatured/>
-		</div>
-
-		<div v-else-if="tab === 'users'">
-			<XUsers/>
-		</div>
-
-		<div v-else-if="tab === 'search'">
+		<div v-if="tab === 'notes'">
 			<MkSpacer :content-max="1200">
 				<div>
 					<MkInput v-model="searchQuery" :debounce="true" type="search" class="_formBlock">
@@ -20,10 +12,14 @@
 				</div>
 
 				<XNotes v-if="searchQuery" ref="notes" :pagination="searchPagination"/>
+				<div v-if="!searchQuery" class="no_search">
+					<h4>{{ i18n.ts.featured }}</h4>
+					<XFeatured/>
+				</div>
 			</MkSpacer>
 		</div>
 
-		<div v-else-if="tab === 'search-user'">
+		<div v-else-if="tab === 'users'">
 			<MkSpacer :content-max="1200">
 				<div>
 					<MkInput v-model="userSearchQuery" :debounce="true" type="search" class="_formBlock">
@@ -38,6 +34,10 @@
 				</div>
 
 				<XUserList v-if="userSearchQuery" ref="searchEl" class="_gap" :pagination="userSearchPagination"/>
+				<div v-if="!userSearchQuery" class="no_search">
+					<h4>{{ i18n.ts.pinnedUsers }}</h4>
+					<XUsers />
+				</div>
 			</MkSpacer>
 		</div>
 	</div>
@@ -60,7 +60,7 @@ const props = defineProps<{
 	tag?: string;
 }>();
 
-let tab = $ref('featured');
+let tab = $ref('notes');
 let tagsEl = $ref<InstanceType<typeof MkFolder>>();
 let searchQuery = $ref(null);
 let userSearchQuery = $ref(null);
@@ -90,21 +90,13 @@ const userSearchPagination = {
 const headerActions = $computed(() => []);
 
 const headerTabs = $computed(() => [{
-	key: 'featured',
+	key: 'notes',
 	icon: 'ti ti-bolt',
-	title: i18n.ts.featured,
+	title: i18n.ts.notes,
 }, {
 	key: 'users',
 	icon: 'ti ti-users',
 	title: i18n.ts.users,
-}, {
-	key: 'search',
-	icon: 'ti ti-search',
-	title: i18n.ts.search,
-}, {
-	key: 'search-user',
-	icon: 'ti ti-user-plus',
-	title: i18n.ts.searchUser,
 }]);
 
 definePageMetadata(computed(() => ({
@@ -112,3 +104,9 @@ definePageMetadata(computed(() => ({
 	icon: 'ti ti-hash',
 })));
 </script>
+
+<style>
+.no_search {
+	margin-top: 60px;
+}
+</style>
