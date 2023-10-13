@@ -89,7 +89,6 @@
 				<div v-if="user.pinnedNotes.length > 0" class="_gap">
 					<XNote v-for="note in user.pinnedNotes" :key="note.id" class="note _block" :note="note" :pinned="true"/>
 				</div>
-				<MkInfo v-else-if="$i && $i.id === user.id">{{ i18n.ts.userPagePinTip }}</MkInfo>
 				<template v-if="narrow">
 					<XPhotos :key="user.id" :user="user"/>
 					<XActivity :key="user.id" :user="user" style="margin-top: var(--margin);"/>
