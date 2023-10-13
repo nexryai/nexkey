@@ -1,22 +1,18 @@
 <template>
-<MkModalAlt ref="modal" :prefer-type="'dialog'" :z-priority="'high'" @click="done(true)" @closed="emit('closed')">
+<MkModal ref="modal" :prefer-type="'dialog'" :z-priority="'high'" @click="done(true)" @closed="emit('closed')">
 	<div class="mk-dialog">
 		<div v-if="icon" class="icon">
 			<i :class="icon"></i>
 		</div>
-		<div v-else-if="!select" class="icon" :class="type">
-			<i v-if="title==i18n.ts.currentPassword" class="ti ti-shield-lock security"></i>
-			<i v-else-if="input" class="ti ti-question-circle"></i>
-			<i v-else-if="type === 'success'" class="ti ti-check"></i>
+		<div v-else-if="!input && !select" class="icon" :class="type">
+			<i v-if="type === 'success'" class="ti ti-check"></i>
 			<i v-else-if="type === 'error'" class="ti ti-circle-x"></i>
 			<i v-else-if="type === 'warning'" class="ti ti-alert-triangle"></i>
 			<i v-else-if="type === 'info'" class="ti ti-info-circle"></i>
 			<i v-else-if="type === 'question'" class="ti ti-question-circle"></i>
 			<MkLoading v-else-if="type === 'waiting'" :em="true"/>
 		</div>
-		<header v-if="title">
-			<Mfm :text="title"/>
-		</header>
+		<header v-if="title"><Mfm :text="title"/></header>
 		<div v-if="text" class="body"><Mfm :text="text"/></div>
 		<MkInput v-if="input" v-model="inputValue" autofocus :type="input.type || 'text'" :placeholder="input.placeholder || undefined" @keydown="onInputKeydown">
 			<template v-if="input.type === 'password'" #prefix><i class="ti ti-lock"></i></template>
@@ -39,17 +35,16 @@
 			<MkButton v-for="action in actions" :key="action.text" inline :primary="action.primary" @click="() => { action.callback(); close(); }">{{ action.text }}</MkButton>
 		</div>
 	</div>
-</MkModalAlt>
+</MkModal>
 </template>
 
 <script lang="ts" setup>
 import { onBeforeUnmount, onMounted, ref } from 'vue';
-import MkModalAlt from '@/components/MkModalAlt.vue';
+import MkModal from '@/components/MkModal.vue';
 import MkButton from '@/components/MkButton.vue';
-import MkInput from '@/components/form/inputBlur.vue';
+import MkInput from '@/components/form/input.vue';
 import MkSelect from '@/components/form/select.vue';
 import { i18n } from '@/i18n';
-import Security from "@/pages/settings/security.vue";
 
 type Input = {
 	type: HTMLInputElement['type'];
@@ -156,15 +151,11 @@ onBeforeUnmount(() => {
 	max-width: 480px;
 	box-sizing: border-box;
 	text-align: center;
-	background: rgba(253, 253, 253, 0);
+	background: var(--panel);
 	border-radius: var(--radius);
 
 	> .icon {
 		font-size: 24px;
-
-		> .security {
-			color: #eabb02;
-		}
 
 		&.info {
 			color: #55c4dd;
@@ -193,9 +184,9 @@ onBeforeUnmount(() => {
 	}
 
 	> header {
-		margin: 0 0 39px 0;
+		margin: 0 0 8px 0;
 		font-weight: bold;
-		font-size: 16px;
+		font-size: 20px;
 
 		& + .body {
 			margin-top: 8px;
@@ -207,7 +198,7 @@ onBeforeUnmount(() => {
 	}
 
 	> .buttons {
-		margin-top: 40px;
+		margin-top: 16px;
 
 		> * {
 			margin: 0 8px;
