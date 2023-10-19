@@ -268,6 +268,7 @@ export function createImportCustomEmojisJob(user: ThinUser, fileId: DriveFile['i
 		user: user,
 		fileId: fileId,
 	}, {
+		attempts: 3,
 		removeOnComplete: true,
 		removeOnFail: true,
 	});
