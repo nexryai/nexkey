@@ -148,10 +148,10 @@
     "@types/picomatch" "*"
     "@types/streamx" "*"
 
-"@types/gulp-rename@2.0.3":
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/@types/gulp-rename/-/gulp-rename-2.0.3.tgz#ce069bd2838d98fc9f27f4011c3be66f8eb8c514"
-  integrity sha512-fmoJ8cVC+p3/6Ez173OYiAipsND++xgc6mpbFEPoL2iehbMrBGR/gW9L67Wo/OZh7tMvw+MqavR7hOpuRRnLQQ==
+"@types/gulp-rename@2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@types/gulp-rename/-/gulp-rename-2.0.4.tgz#35fcbf6a54df3ba7afd7d25e3ffea714f09ff9da"
+  integrity sha512-dhhbD+PlIGmxpYiSsLsTgMsyfqmwemlM6gnM2hXzDh68knKocRDBq/CNRhbGlAZkUH/7zCbEvadxQXQJtanMPw==
   dependencies:
     "@types/node" "*"
     "@types/vinyl" "*"
