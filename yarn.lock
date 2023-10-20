@@ -156,11 +156,12 @@
     "@types/node" "*"
     "@types/vinyl" "*"
 
-"@types/gulp@4.0.15":
-  version "4.0.15"
-  resolved "https://registry.yarnpkg.com/@types/gulp/-/gulp-4.0.15.tgz#5134f9b9e232307468455da4c09567d6698e26b3"
-  integrity sha512-szoYxzzEjyhhvx/pf1TxB0Hu348pgK0tr2Zm+guCh5HFiz7Ix+2N89Qsctk0qBpAp2fbIjmT96coHWxm69+u6Q==
+"@types/gulp@4.0.16":
+  version "4.0.16"
+  resolved "https://registry.yarnpkg.com/@types/gulp/-/gulp-4.0.16.tgz#c6ec178b6aa461556be43f9699487871b987e872"
+  integrity sha512-yY3XJjYejEzIQqLt6ZXaOZ/jynVxUe7Km33XA1/sU2zfZ2AeFDragIcT+i53a+j7eoWPgVeikhFvtC0gCteBdA==
   dependencies:
+    "@types/node" "*"
     "@types/undertaker" ">=1.2.6"
     "@types/vinyl-fs" "*"
     chokidar "^3.3.1"
