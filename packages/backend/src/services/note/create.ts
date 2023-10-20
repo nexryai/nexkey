@@ -185,7 +185,7 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 		}
 
 		// Check blocking
-		if (data.renote.userHost === null) {
+		if (data.renote && data.text == null && data.poll == null && (data.files == null || data.files.length === 0)) {
 			if (data.renote.userId !== user.id) {
 				const block = await Blockings.findOneBy({
 					blockerId: data.renote.userId,
