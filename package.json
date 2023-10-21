@@ -45,7 +45,7 @@
 	"devDependencies": {
 		"@types/gulp": "4.0.15",
 		"@types/gulp-rename": "2.0.4",
-		"@typescript-eslint/parser": "6.7.5",
+		"@typescript-eslint/parser": "6.8.0",
 		"cross-env": "7.0.3",
 		"cypress": "13.3.2",
 		"start-server-and-test": "2.0.1",
