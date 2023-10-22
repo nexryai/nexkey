@@ -13,7 +13,11 @@ async function follow(userId: User['id'], follower: User) {
 	const userDetailed = await Users.findOneByOrFail({ id: userId });
 	if (!userProfile.email || !userProfile.emailVerified || !userProfile.emailNotificationTypes.includes('follow')) return;
 	if (userDetailed.isSuspended) throw new Error ('User is not active.');
-	emailDeliver(userProfile.email, `New Follower`, `${follower.name} (@${Acct.toString(follower)})`, `${follower.name} (@${Acct.toString(follower)})`);
+	if (follower.name !== null) {
+		emailDeliver(userProfile.email, `New Follower`, `${follower.name} (@${Acct.toString(follower)})`, `${follower.name} (@${Acct.toString(follower)})`);
+	} else {
+		emailDeliver(userProfile.email, `New Follower`, `@${Acct.toString(follower)}`, `@${Acct.toString(follower)}`);
+	}
 }
 
 async function receiveFollowRequest(userId: User['id'], follower: User) {
@@ -21,7 +25,11 @@ async function receiveFollowRequest(userId: User['id'], follower: User) {
 	const userDetailed = await Users.findOneByOrFail({ id: userId });
 	if (!userProfile.email || !userProfile.emailVerified || !userProfile.emailNotificationTypes.includes('receiveFollowRequest')) return;
 	if (userDetailed.isSuspended) throw new Error ('User is not active.');
-	emailDeliver(userProfile.email, `New Follow Request`, `${follower.name} (@${Acct.toString(follower)})`, `${follower.name} (@${Acct.toString(follower)})`);
+	if (follower.name !== null) {
+		emailDeliver(userProfile.email, `New Follow Request`, `${follower.name} (@${Acct.toString(follower)})`, `${follower.name} (@${Acct.toString(follower)})`);
+	} else {
+		emailDeliver(userProfile.email, `New Follow Request`, `@${Acct.toString(follower)}`, `@${Acct.toString(follower)}`);
+	}
 }
 
 async function reply(userId: User['id'], follower: User, customBody: string) {
@@ -29,7 +37,11 @@ async function reply(userId: User['id'], follower: User, customBody: string) {
 	const userDetailed = await Users.findOneByOrFail({ id: userId });
 	if (!userProfile.email || !userProfile.emailVerified || !userProfile.emailNotificationTypes.includes('reply')) return;
 	if (userDetailed.isSuspended) throw new Error ('User is not active.');
-	emailDeliver(userProfile.email, `New Reply`, `${follower.name} (@${Acct.toString(follower)}) <br> ${customBody}`, `${follower.name} (@${Acct.toString(follower)}) ${customBody}`);
+	if (follower.name !== null) {
+		emailDeliver(userProfile.email, `New Reply`, `${follower.name} (@${Acct.toString(follower)}) <br> ${customBody}`, `${follower.name} (@${Acct.toString(follower)}) ${customBody}`);
+	} else {
+		emailDeliver(userProfile.email, `New Reply`, `@${Acct.toString(follower)} <br> ${customBody}`, `@${Acct.toString(follower)} ${customBody}`);
+	}
 }
 
 async function mention(userId: User['id'], follower: User, customBody: string) {
@@ -37,7 +49,11 @@ async function mention(userId: User['id'], follower: User, customBody: string) {
 	const userDetailed = await Users.findOneByOrFail({ id: userId });
 	if (!userProfile.email || !userProfile.emailVerified || !userProfile.emailNotificationTypes.includes('mention')) return;
 	if (userDetailed.isSuspended) throw new Error ('User is not active.');
-	emailDeliver(userProfile.email, `New Mention`, `${follower.name} (@${Acct.toString(follower)}) <br> ${customBody}`, `${follower.name} (@${Acct.toString(follower)}) ${customBody}`);
+	if (follower.name !== null) {
+		emailDeliver(userProfile.email, `New Mention`, `${follower.name} (@${Acct.toString(follower)}) <br> ${customBody}`, `${follower.name} (@${Acct.toString(follower)}) ${customBody}`);
+	} else {
+		emailDeliver(userProfile.email, `New Mention`, `@${Acct.toString(follower)} <br> ${customBody}`, `@${Acct.toString(follower)} ${customBody}`);
+	}
 }
 
 async function quote(userId: User['id'], follower: User, customBody: string, url: string) {
@@ -45,7 +61,11 @@ async function quote(userId: User['id'], follower: User, customBody: string, url
 	const userDetailed = await Users.findOneByOrFail({ id: userId });
 	if (!userProfile.email || !userProfile.emailVerified || !userProfile.emailNotificationTypes.includes('quote')) return;
 	if (userDetailed.isSuspended) throw new Error ('User is not active.');
-	emailDeliver(userProfile.email, `New Quote`, `${follower.name} (@${Acct.toString(follower)}) <br> ${customBody} <br> ${url}`, `${follower.name} (@${Acct.toString(follower)}) ${customBody} ${url}`);
+	if (follower.name !== null) {
+		emailDeliver(userProfile.email, `New Quote`, `${follower.name} (@${Acct.toString(follower)}) <br> ${customBody} <br> ${url}`, `${follower.name} (@${Acct.toString(follower)}) ${customBody} ${url}`);
+	} else {
+		emailDeliver(userProfile.email, `New Quote`, `@${Acct.toString(follower)} <br> ${customBody} <br> ${url}`, `@${Acct.toString(follower)} ${customBody} ${url}`);
+	}
 }
 
 async function groupInvited(userId: User['id'], customBody: string) {
