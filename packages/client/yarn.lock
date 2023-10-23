@@ -12,10 +12,10 @@
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.22.7.tgz#df8cf085ce92ddbdbf668a7f186ce848c9036cae"
   integrity sha512-7NF8pOkHP5o2vpmGgNGcfAeCvOYhGLyA3Z4eBQkT1RJlWu47n63bCs93QfJ2hIAFCil7L5P2IWhs1oToVgrL0Q==
 
-"@babel/runtime@7.23.1", "@babel/runtime@^7.21.0":
-  version "7.23.1"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.23.1.tgz#72741dc4d413338a91dcb044a86f3c0bc402646d"
-  integrity sha512-hC2v6p8ZSI/W0HUzh3V8C5g+NwSKzKPtJwSpTjwl0o297GP9+ZLQSkdvHz46CM3LqyoXxq+5G9komY+eSqSO0g==
+"@babel/runtime@7.23.2", "@babel/runtime@^7.21.0":
+  version "7.23.2"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.23.2.tgz#062b0ac103261d68a966c4c7baf2ae3e62ec3885"
+  integrity sha512-mM8eg4yl5D6i3lu2QKPuPH4FArvJ8KhTofbE7jwMUv9KX5mBvwPAqnV3MlyBNqdp9RyRKP6Yck8TrfYrPvX3bg==
   dependencies:
     regenerator-runtime "^0.14.0"
 
@@ -1040,12 +1040,12 @@ braces@^3.0.2, braces@~3.0.2:
   dependencies:
     fill-range "^7.0.1"
 
-broadcast-channel@5.4.0:
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/broadcast-channel/-/broadcast-channel-5.4.0.tgz#43deaa6b42a811f112770652e4c45ff13a20100c"
-  integrity sha512-mHr7IwCHv9DF+d39wpazXOuusJJOKWckZI4uZ4bp6VQr/VIgx5cvYbsyn2uuWfWuCINvLNtPGY107JyXQ0fkAg==
+broadcast-channel@5.5.0:
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/broadcast-channel/-/broadcast-channel-5.5.0.tgz#25301f6aa23280b48f637ac45729db1731321f5c"
+  integrity sha512-boNO+pUV0LzTlUV9AVhgJnOG43dJ0X/H4H4b5mrEduy1PoGMris1oNFgywzHCyXNe7UPdXiN21sp/hFyImvJ0A==
   dependencies:
-    "@babel/runtime" "7.23.1"
+    "@babel/runtime" "7.23.2"
     oblivious-set "1.1.1"
     p-queue "6.6.2"
     unload "2.4.1"
