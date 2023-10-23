@@ -229,20 +229,20 @@
     "@babel/helper-validator-identifier" "^7.22.5"
     to-fast-properties "^2.0.0"
 
-"@bull-board/api@5.8.0":
-  version "5.8.0"
-  resolved "https://registry.yarnpkg.com/@bull-board/api/-/api-5.8.0.tgz#621a0a6b0614ffa2522519f007d1aef325597d71"
-  integrity sha512-jHJ7Mw/CHixNgIsrbUihyYVxIdlM/lzii+ZUo7E8CFEsOCjE+Um5RDr9boYghWVHuJykkLy7b+wPvbnTwmX0SA==
+"@bull-board/api@5.9.1":
+  version "5.9.1"
+  resolved "https://registry.yarnpkg.com/@bull-board/api/-/api-5.9.1.tgz#c75768b50d08f6e6b16b935e12af7f774398db30"
+  integrity sha512-xZzPYNw9Dp46It4vvZv3tmFScmUu/UT/jWQxYK9cvbkJRXh15rsZrbbR+/phUqou0NxRQGiHoFSZ1y5D107dIA==
   dependencies:
     redis-info "^3.0.8"
 
-"@bull-board/koa@5.8.0":
-  version "5.8.0"
-  resolved "https://registry.yarnpkg.com/@bull-board/koa/-/koa-5.8.0.tgz#32302d0dad507e6c0cf82296150bce22ce5409f8"
-  integrity sha512-r7v+PxDklRoDhhTu+h0I1LElxgfd9QUqyD6auJNMMsxDKjvCCLFwDWgzAzav0m2bG0XX5MM3dsEiFJnY8a8bYA==
+"@bull-board/koa@5.9.1":
+  version "5.9.1"
+  resolved "https://registry.yarnpkg.com/@bull-board/koa/-/koa-5.9.1.tgz#dbff383428bdec8a77d9157f9e4098b07a614365"
+  integrity sha512-PV2b6SQYu5/QSh65+QxbNsBmCP406qXrjUIp09cG7A+/aaTpdThDju5EgXIoe9VGPPG1CZMZ4eVOR8UT5D7H5A==
   dependencies:
-    "@bull-board/api" "5.8.0"
-    "@bull-board/ui" "5.8.0"
+    "@bull-board/api" "5.9.1"
+    "@bull-board/ui" "5.9.1"
     ejs "^3.1.7"
     koa "^2.13.1"
     koa-mount "^4.0.0"
@@ -250,12 +250,12 @@
     koa-static "^5.0.0"
     koa-views "^7.0.1"
 
-"@bull-board/ui@5.8.0":
-  version "5.8.0"
-  resolved "https://registry.yarnpkg.com/@bull-board/ui/-/ui-5.8.0.tgz#04e11e618ea707ee2660cdc93efbe7087399e0bc"
-  integrity sha512-O2imjnV7KFictoy6FsrG2y5u10Z60BIuX+nghLbhdEkZL/B4B2VUM+655d9wMIpjXocXkr2DN5ELJkUXewl9wQ==
+"@bull-board/ui@5.9.1":
+  version "5.9.1"
+  resolved "https://registry.yarnpkg.com/@bull-board/ui/-/ui-5.9.1.tgz#46b00abc551f6f04e611b698d209bfbc6ed0bad2"
+  integrity sha512-lL93KVRTpLSl73KUFBw7sXOcCrqddGBbpiMKWEbViXxObIq68yFuhRrcfR7JeTSocLF5GsnqSVdSiNCZHmdNpw==
   dependencies:
-    "@bull-board/api" "5.8.0"
+    "@bull-board/api" "5.9.1"
 
 "@chainsafe/is-ip@^2.0.1":
   version "2.0.2"
@@ -901,10 +901,10 @@
   dependencies:
     "@types/koa" "*"
 
-"@types/koa-send@4.1.4":
-  version "4.1.4"
-  resolved "https://registry.yarnpkg.com/@types/koa-send/-/koa-send-4.1.4.tgz#c11fd792bbcf55d2c0117f975316c3f47ef2546e"
-  integrity sha512-+ttyO5T1T1cLRUtk9etg/4E7ZIplJJUANkuzYptCPysWX5LRfGHsv9YOCiB7+gkAuedjEgZrl4K02RWJ2gaJ6Q==
+"@types/koa-send@4.1.5":
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/@types/koa-send/-/koa-send-4.1.5.tgz#c88362b07f0c12fd94ec9d61590a307be3f81a37"
+  integrity sha512-O2qnxAKr7MoAxHHUitJejMWw45b9QtgTra0pnVDl/XoNdYTdZOgwj8wSVDon0qXg/lrcYHye4LFbAaSfSWwnrg==
   dependencies:
     "@types/koa" "*"
 
@@ -974,10 +974,10 @@
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-1.3.2.tgz#93e25bf9ee75fe0fd80b594bc4feb0e862111b5a"
   integrity sha512-YATxVxgRqNH6nHEIsvg6k2Boc1JHI9ZbH5iWFFv/MTkchz3b1ieGDa5T0a9RznNdI0KhVbdbWSN+KWWrQZRxTw==
 
-"@types/mocha@10.0.1":
-  version "10.0.1"
-  resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-10.0.1.tgz#2f4f65bb08bc368ac39c96da7b2f09140b26851b"
-  integrity sha512-/fvYntiO1GeICvqbQ3doGDIP97vWmvFt83GKguJ6prmQM2iXZfFcq6YE8KteFyRtX2/h5Hf91BYvPodJKFYv5Q==
+"@types/mocha@10.0.3":
+  version "10.0.3"
+  resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-10.0.3.tgz#4804fe9cd39da26eb62fa65c15ea77615a187812"
+  integrity sha512-RsOPImTriV/OE4A9qKjMtk2MnXiuLLbcO3nCXK+kvq4nr0iMfFgpjaX3MPLb6f7+EL1FGSelYvuJMV6REH+ZPQ==
 
 "@types/node-fetch@3.0.3":
   version "3.0.3"
@@ -1005,10 +1005,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/oauth@0.9.1":
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/@types/oauth/-/oauth-0.9.1.tgz#e17221e7f7936b0459ae7d006255dff61adca305"
-  integrity sha512-a1iY62/a3yhZ7qH7cNUsxoI3U/0Fe9+RnuFrpTKr+0WVOzbKlSLojShCKe20aOD1Sppv+i8Zlq0pLDuTJnwS4A==
+"@types/oauth@0.9.3":
+  version "0.9.3"
+  resolved "https://registry.yarnpkg.com/@types/oauth/-/oauth-0.9.3.tgz#4be90beb6c4a23e1a1614c966a165af1ef5e5e0d"
+  integrity sha512-avZiwxSz/WS6EaEjhchzXKgWtlGGYGnEVJoHuQuDLHf7gIW1Gmm9eIxOMuJ6umQNNKZkJ3Uy+C/rLzEvL3I8Sw==
   dependencies:
     "@types/node" "*"
 
@@ -1109,10 +1109,10 @@
   resolved "https://registry.yarnpkg.com/@types/sinonjs__fake-timers/-/sinonjs__fake-timers-8.1.2.tgz#bf2e02a3dbd4aecaf95942ecd99b7402e03fad5e"
   integrity sha512-9GcLXF0/v3t80caGs5p2rRfkB+a8VBGLJZVih6CNFkx8IZ994wiKKLSRs9nuFwk1HevWs/1mnUmkApGrSGsShA==
 
-"@types/speakeasy@2.0.7":
-  version "2.0.7"
-  resolved "https://registry.yarnpkg.com/@types/speakeasy/-/speakeasy-2.0.7.tgz#cb087c501b3eef744a1ae620c19812dd1c3b2f3f"
-  integrity sha512-JEcOhN2SQCoX86ZfiZEe8px84sVJtivBXMZfOVyARTYEj0hrwwbj1nF0FwEL3nJSoEV6uTbcdLllMKBgAYHWCQ==
+"@types/speakeasy@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.yarnpkg.com/@types/speakeasy/-/speakeasy-2.0.9.tgz#621fff385854dac3c09c98e0f7e465b1e15a3971"
+  integrity sha512-7x3cymisAaN7JhNWB1z0C7qeAmHTK3jnhJJtGZmNxmXbWucLn7l5bofKZEYXfF7N6yPWDB/gc3jcw/uMYeB+ng==
   dependencies:
     "@types/node" "*"
 
@@ -1961,10 +1961,10 @@ chalk-template@1.1.0:
   dependencies:
     chalk "^5.2.0"
 
-chalk@5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/chalk/-/chalk-5.0.1.tgz#ca57d71e82bb534a296df63bbacc4a1c22b2a4b6"
-  integrity sha512-Fo07WOYGqMfCWHOzSXOt2CxDbC6skS/jO9ynEcmpANMoPrD+W1r1K6Vx7iNm+AQmETU1Xr2t+n8nzkV9t6xh3w==
+chalk@5.3.0, chalk@^5.2.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/chalk/-/chalk-5.3.0.tgz#67c20a7ebef70e7f3970a01f90fa210cb6860385"
+  integrity sha512-dLitG79d+GV1Nb/VYcCDFivJeK1hiukt9QjRNVOsUtTy1rR1YJsmpGGTZ3qJos+uw7WmWF4wUwBd9jxjocFC2w==
 
 chalk@^2.0.0, chalk@^2.4.2:
   version "2.4.2"
@@ -1982,11 +1982,6 @@ chalk@^4.0.0, chalk@^4.0.2, chalk@^4.1.0, chalk@^4.1.2:
   dependencies:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
-
-chalk@^5.2.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/chalk/-/chalk-5.3.0.tgz#67c20a7ebef70e7f3970a01f90fa210cb6860385"
-  integrity sha512-dLitG79d+GV1Nb/VYcCDFivJeK1hiukt9QjRNVOsUtTy1rR1YJsmpGGTZ3qJos+uw7WmWF4wUwBd9jxjocFC2w==
 
 char-regex@^1.0.2:
   version "1.0.2"
