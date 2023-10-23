@@ -7,7 +7,7 @@
 	@closed="emit('closed')"
 >
 	<template #header>{{ i18n.ts.login }}</template>
-
+	<MkAnimBg style="position: absolute; top: 0; left: 0;" :scale="1.5"/>
 	<MkSignin :auto-set="autoSet" :message="message" @login="onLogin"/>
 </XModalWindow>
 </template>
@@ -17,6 +17,7 @@ import { } from 'vue';
 import MkSignin from '@/components/MkSignin.vue';
 import XModalWindow from '@/components/MkModalWindow.vue';
 import { i18n } from '@/i18n';
+import MkAnimBg from "@/components/MkAnimBg.vue";
 
 const props = withDefaults(defineProps<{
 	autoSet?: boolean;
