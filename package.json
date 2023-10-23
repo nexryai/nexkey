@@ -18,6 +18,7 @@
 		"init": "npm run migrate",
 		"migrate": "cd packages/backend && npx typeorm migration:run -d ormconfig.js",
 		"migrateandstart": "npm run migrate && npm run start",
+		"revert": "cd packages/backend && npx typeorm migration:revert -d ormconfig.js",
 		"gulp": "gulp build",
 		"watch": "npm run dev",
 		"dev": "node ./scripts/dev.js",
