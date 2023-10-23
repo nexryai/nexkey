@@ -901,10 +901,10 @@
   dependencies:
     "@types/koa" "*"
 
-"@types/koa-send@4.1.4":
-  version "4.1.4"
-  resolved "https://registry.yarnpkg.com/@types/koa-send/-/koa-send-4.1.4.tgz#c11fd792bbcf55d2c0117f975316c3f47ef2546e"
-  integrity sha512-+ttyO5T1T1cLRUtk9etg/4E7ZIplJJUANkuzYptCPysWX5LRfGHsv9YOCiB7+gkAuedjEgZrl4K02RWJ2gaJ6Q==
+"@types/koa-send@4.1.5":
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/@types/koa-send/-/koa-send-4.1.5.tgz#c88362b07f0c12fd94ec9d61590a307be3f81a37"
+  integrity sha512-O2qnxAKr7MoAxHHUitJejMWw45b9QtgTra0pnVDl/XoNdYTdZOgwj8wSVDon0qXg/lrcYHye4LFbAaSfSWwnrg==
   dependencies:
     "@types/koa" "*"
 
