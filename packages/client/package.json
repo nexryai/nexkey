@@ -84,7 +84,7 @@
 		"eslint": "8.52.0",
 		"eslint-plugin-import": "2.28.1",
 		"eslint-plugin-vue": "9.17.0",
-		"rollup": "3.29.3",
+		"rollup": "4.1.4",
 		"start-server-and-test": "2.0.1"
 	}
 }
