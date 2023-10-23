@@ -146,7 +146,7 @@
 		"@types/node": "20.8.4",
 		"@types/node-fetch": "3.0.3",
 		"@types/nodemailer": "6.4.9",
-		"@types/oauth": "0.9.1",
+		"@types/oauth": "0.9.3",
 		"@types/pug": "2.0.7",
 		"@types/punycode": "2.1.0",
 		"@types/qrcode": "1.5.2",
