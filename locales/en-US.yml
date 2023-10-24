@@ -941,6 +941,7 @@ showMessageOnMuted: "Display a message when a note is soft muted"
 showOnlineUsersOnNavbar: "Display the number of online users in the navigation bar"
 no2faWarning: "Two-step verification is not enabled. We recommend setting up two-step verification for enhanced security."
 backupCodesDownloaded: "Download the backup code. Keep the downloaded backup code in a safe place."
+searchEngine: "Search engine used to search for MFM"
 
 _sensitiveMediaDetection:
   description: "Reduces the effort of server moderation through automatically recognizing NSFW media via Machine Learning. This will slightly increase the load on the server."
