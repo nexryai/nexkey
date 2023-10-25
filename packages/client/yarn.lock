@@ -1045,10 +1045,10 @@ braces@^3.0.2, braces@~3.0.2:
   dependencies:
     fill-range "^7.0.1"
 
-broadcast-channel@5.5.0:
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/broadcast-channel/-/broadcast-channel-5.5.0.tgz#25301f6aa23280b48f637ac45729db1731321f5c"
-  integrity sha512-boNO+pUV0LzTlUV9AVhgJnOG43dJ0X/H4H4b5mrEduy1PoGMris1oNFgywzHCyXNe7UPdXiN21sp/hFyImvJ0A==
+broadcast-channel@5.5.1:
+  version "5.5.1"
+  resolved "https://registry.yarnpkg.com/broadcast-channel/-/broadcast-channel-5.5.1.tgz#cffb81bfa5fb14015023eedde83ee9a8aa03322d"
+  integrity sha512-C7LtMmJCIIU07xtJngYE2OxaGTGBsG+wOa0mBSPRpbTF36kqtsXQhpxtCVDTkpe8gpZMn9C6PhH+mZ/js4IabA==
   dependencies:
     "@babel/runtime" "7.23.2"
     oblivious-set "1.1.1"
