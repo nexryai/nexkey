@@ -32,7 +32,7 @@
 		"aws-sdk": "2.1471.0",
 		"bcryptjs": "2.4.3",
 		"blurhash": "2.0.5",
-		"bull": "4.11.3",
+		"bull": "4.11.4",
 		"cacheable-lookup": "6.1.0",
 		"cbor": "9.0.1",
 		"chalk": "5.3.0",
