@@ -195,7 +195,7 @@ export default define(meta, paramDef, async (ps, user) => {
 
 		if (renote == null) {
 			throw new ApiError(meta.errors.noSuchRenoteTarget);
-		} else if (renote.renoteId && !renote.text && !renote.fileIds && !renote.hasPoll) {
+		} else if (renote.renoteId && !renote.text && renote.fileIds.length === 0 && !renote.hasPoll) {
 			throw new ApiError(meta.errors.cannotReRenote);
 		}
 
@@ -227,7 +227,7 @@ export default define(meta, paramDef, async (ps, user) => {
 
 		if (reply == null) {
 			throw new ApiError(meta.errors.noSuchReplyTarget);
-		} else if (reply.renoteId && !reply.text && !reply.fileIds && !reply.hasPoll) {
+		} else if (reply.renoteId && !reply.text && reply.fileIds.length === 0 && !reply.hasPoll) {
 			throw new ApiError(meta.errors.cannotReplyToPureRenote);
 		}
 
