@@ -943,10 +943,10 @@
     "@types/koa-compose" "*"
     "@types/node" "*"
 
-"@types/koa__cors@4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@types/koa__cors/-/koa__cors-4.0.0.tgz#36ee90bc2e0e3f0abc3af20d18ba1ebb132d4603"
-  integrity sha512-qpwswNgQ2GxiDGNnKbDSBY5XmQTVJ6fspNvInLsAJ+jSwINxihvVzblj5anujNBg2BtL0xpUrcIt3UYwGzu05A==
+"@types/koa__cors@4.0.2":
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/@types/koa__cors/-/koa__cors-4.0.2.tgz#9a866628aa57653e130e731d6c19c6372779ca1c"
+  integrity sha512-EV1S9t1PbauzUlKyI4KKrw1E/JWHI15OtdVXkaBm6sI+vXvvSW6JoKcsmAiIqY0PYvt94fycvdrWMTtM15uZmw==
   dependencies:
     "@types/koa" "*"
 
