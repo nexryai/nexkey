@@ -74,7 +74,7 @@
 		"@types/matter-js": "0.19.2",
 		"@types/punycode": "2.1.0",
 		"@types/seedrandom": "3.0.7",
-		"@types/throttle-debounce": "5.0.0",
+		"@types/throttle-debounce": "5.0.1",
 		"@types/tinycolor2": "1.4.5",
 		"@types/uuid": "9.0.5",
 		"@typescript-eslint/eslint-plugin": "5.62.0",
