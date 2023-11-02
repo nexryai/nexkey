@@ -33,7 +33,7 @@
 		"bcryptjs": "2.4.3",
 		"blurhash": "2.0.5",
 		"bull": "4.11.4",
-		"cacheable-lookup": "6.1.0",
+		"cacheable-lookup": "7.0.0",
 		"cbor": "9.0.1",
 		"chalk": "5.3.0",
 		"chalk-template": "1.1.0",
