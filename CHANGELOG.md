@@ -4,15 +4,35 @@
 ### Improvements
 
 ### Bugfixes
-- Client: インスタンスティッカーのfaviconを読み込む際に偽サイト警告が出ることがあるのを修正 @syuilo
--
 
 You should also include the user name that made the change.
 -->
 
+## 12.119.2-fix.5.9 (2023/11/04)
+### Improvements
+- ブロックしているユーザーからのリノートは受信しないように @atsu1125
+- マイグレーションを簡単にロールバックできるように @MomentQYC
+- NodejsとDockerのDebianのOSをバージョンアップ @atsu1125
+- 2段階認証のバックアップコードを利用できるように @syuilo @CyberRex0
+
+## Bugfixes
+- 連合なしのアンケートが配送されないように @mei23
+- ノート作成時のローカルのみチェックを追加 @atsu1125
+- 絵文字を重複して追加できないように @nenohi @atsu1125
+- リノートの公開範囲をチェックするように @anatawa12
+- アカウント削除ジョブが止まらないように @atsu1125
+- リノート解除がストリーミングに流れてこないのを修正 @atsu1125
+- フォロワーのみのリノートが連合しないのを修正 @saschanaz
+- フォロワー解除の応答に含まれるユーザーが逆なのを改善 @atsu1125
+- 凍結されたユーザーにメール通知を送らないように @atsu1125
+- メール通知のユーザーネームがnullである可能性を考慮する @atsu1125
+- リノートをリノートできてしまわないように修正 @mei23
+- MkGoogleのクエリを正しくエンコードできるように修正 @kakkokari-gtyih @syuilo
+- 標準テーマと同じIDを使用してインストールできてしまう問題を修正 @syuilo
+
 ## 12.119.2-fix.5.8 (2023/10/02)
 ### Improvements
-- 配送を再施行してもよいHTTPステータスコードを見直し @atsu1125
+- 配送を再試行してもよいHTTPステータスコードを見直し @atsu1125
 - ジョブキューのapBackoffの計算方法と再試行頻度を変更 @atsu1125
 - WebHookのSecretが空でも許容する @xtexChooser
 - メールで通知を受け取る機能を復旧 @atsu1125
@@ -23,7 +43,7 @@ You should also include the user name that made the change.
 - 凍結されているユーザーがusers/showのリクエストに含まれる場合に適当なユーザーを返すのを修正 @u1-liquid
 - BullBoardの認証をバイパスしてしまわないように @syuilo
 - 削除されているユーザーのレスポンスを改善 @atsu1125
-- 通報を解決するダイアログが削除するように見えるのを修正 @atsu125
+- 通報を解決するダイアログが削除するように見えるのを修正 @atsu1125
 - AiScriptでMk:apiが外部と通信できる問題を修正 @FineArchs
 - '.well-known/host-meta.json' は 'application/json' で応答 @xtexChooser
 - WebHookは"'Content-Type': 'application/json'"で送出 @xtexChooser
