@@ -1,6 +1,6 @@
 import { api } from '@/os';
 import { $i } from '@/account';
-import { Theme } from './scripts/theme';
+import { Theme, getBuiltinThemes } from './scripts/theme';
 
 const lsCacheKey = $i ? `themes:${$i.id}` : '';
 
@@ -21,6 +21,10 @@ export async function fetchThemes(): Promise<void> {
 }
 
 export async function addTheme(theme: Theme): Promise<void> {
+	const builtinThemes = await getBuiltinThemes();
+	if (builtinThemes.some(t => t.id === theme.id)) {
+		throw new Error('builtin theme');
+	}
 	await fetchThemes();
 	const themes = getThemes().concat(theme);
 	await api('i/registry/set', { scope: ['client'], key: 'themes', value: themes });
