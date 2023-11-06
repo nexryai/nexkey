@@ -1068,10 +1068,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/sanitize-html@2.9.2":
-  version "2.9.2"
-  resolved "https://registry.yarnpkg.com/@types/sanitize-html/-/sanitize-html-2.9.2.tgz#d7b7560b51d59ddd481d41ff28f09b62d7f24b57"
-  integrity sha512-7TAQFoXdwjSvebOl0oKh5QXGrI+uyTc8Here+WcR9vpLEE7wxpoK6Vuvw++dsmL+Yw8K91x76tLoWchD5pqpRg==
+"@types/sanitize-html@2.9.3":
+  version "2.9.3"
+  resolved "https://registry.yarnpkg.com/@types/sanitize-html/-/sanitize-html-2.9.3.tgz#eb31abeb496838719014b094b9e647dd7937ce7d"
+  integrity sha512-1rsSdEJLV7utAG+Fms2uP+nSmmYmOhUUSSZvUz4wF2wlA0M5/A/gVgnpWZ7EKaPWsrrxWiSuNJqSBW8dh2isBA==
   dependencies:
     htmlparser2 "^8.0.0"
 
