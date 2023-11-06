@@ -47,11 +47,12 @@ export default define(meta, paramDef, async (ps) => {
 	if (emoji == null) throw new ApiError(meta.errors.noSuchEmoji);
 
 	let existemojis = await Emojis.findOneBy({
-		host: null,
+		// host: null,
 		name: ps.name,
 	});
 
-	if (existemojis != null) {
+	// なぜかhostがnullじゃないのも引っかかるのでここでチェック
+	if (existemojis != null && existemojis.host == null) {
 		throw new ApiError(meta.errors.duplicateName);
 	}
 
