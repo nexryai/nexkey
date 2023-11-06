@@ -311,7 +311,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	searchEngine: {
 		where: 'device',
-		default: 'https://google.com/search?q=',
+		default: 'https://google.com/search?',
 	}
 }));
 

@@ -26,19 +26,19 @@
 
 	<FormSelect v-model="searchEngine" class="_formBlock">
 		<template #label>{{ i18n.ts.searchEngine }}</template>
-		<option value="https://google.com/search?q=">
+		<option value="https://google.com/search?">
 			Google Search (google.com)
 		</option>
-		<option value="https://duckduckgo.com/?q=">
+		<option value="https://duckduckgo.com/?">
 			DuckDuckGo (duckduckgo.com)
 		</option>
-		<option value="https://search.yahoo.com/search?q=">
+		<option value="https://search.yahoo.com/search?">
 			Yahoo! Search (search.yahoo.com)
 		</option>
-		<option value="https://www.ecosia.org/search?q=">
+		<option value="https://www.ecosia.org/search?">
 			Ecosia (ecosia.org)
 		</option>
-		<option value="https://www.startpage.com/do/search?q=">
+		<option value="https://www.startpage.com/do/search?">
 			Startpage (startpage.com)
 		</option>
 	</FormSelect>
