@@ -1056,10 +1056,10 @@
   dependencies:
     redis "*"
 
-"@types/rename@1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@types/rename/-/rename-1.0.4.tgz#30c6f0306042591a560361ea02639e89647dd173"
-  integrity sha512-eV81+6bVv2mdCBahkMefjEUwAjKDAP3AuyhqWCWRxcRaeVdUeHUBaoq2zSz+5HNHF2jzTajMcfLvJsy4K3cbwA==
+"@types/rename@1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@types/rename/-/rename-1.0.6.tgz#cdf05d05e406f498ff62f15936bee39f3f1de286"
+  integrity sha512-uLznlquGwzyFMxjBGcR3mY+k/zWv+9kk3yEzsldIU5OzjRw0i6EdZ1ydVCjTEYQ4HkWGBY+bXn62lrGKS+G1iw==
 
 "@types/responselike@^1.0.0":
   version "1.0.0"

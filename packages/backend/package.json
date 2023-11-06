@@ -153,7 +153,7 @@
 		"@types/random-seed": "0.3.3",
 		"@types/ratelimiter": "3.4.4",
 		"@types/redis": "4.0.11",
-		"@types/rename": "1.0.4",
+		"@types/rename": "1.0.6",
 		"@types/sanitize-html": "2.9.3",
 		"@types/sharp": "0.32.0",
 		"@types/sinonjs__fake-timers": "8.1.2",
