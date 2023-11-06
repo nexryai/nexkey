@@ -308,6 +308,10 @@ export const defaultStore = markRaw(new Storage('base', {
 	showOnlineUsersOnNavbar: {
 		where: 'account',
 		default: true,
+	},
+	searchEngine: {
+		where: 'device',
+		default: 'https://google.com/search?q=',
 	}
 }));
 
