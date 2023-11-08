@@ -93,7 +93,7 @@ export default define(meta, paramDef, async (ps, me) => {
 async function fetchAny(uri: string, me: CacheableLocalUser | null | undefined): Promise<SchemaType<typeof meta['res']> | null> {
 	// ブロックしてたら中断
 	const fetchedMeta = await fetchMeta();
-	if (fetchedMeta.blockedHosts.some(x => x.endsWith(extractDbHost(uri)))) return null;
+	if (fetchedMeta.blockedHosts.some(x => extractDbHost(uri).endsWith(x))) return null;
 
 	const dbResolver = new DbResolver();
 

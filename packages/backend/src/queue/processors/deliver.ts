@@ -24,7 +24,7 @@ export default async (job: Bull.Job<DeliverJobData>) => {
 
 	// ブロックしてたら中断
 	const meta = await fetchMeta();
-	if (meta.blockedHosts.some(x => x.endsWith(toPuny(host)))) {
+	if (meta.blockedHosts.some(x => toPuny(host).endsWith(x))) {
 		return 'skip (blocked)';
 	}
 

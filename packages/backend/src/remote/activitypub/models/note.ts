@@ -276,7 +276,7 @@ export async function resolveNote(value: string | IObject, resolver?: Resolver):
 
 	// ブロックしてたら中断
 	const meta = await fetchMeta();
-	if (meta.blockedHosts.some(x => x.endsWith(extractDbHost(uri)))) throw { statusCode: 451 };
+	if (meta.blockedHosts.some(x => extractDbHost(uri).endsWith(x))) throw { statusCode: 451 };
 
 	const unlock = await getApLock(uri);
 
