@@ -1026,9 +1026,12 @@ _registry:
   domain: "ドメイン"
   createKey: "キーを作成"
 
+_aboutNexkey:
+  contributors: "Nexkeyの主なコントリビューター"
+
 _aboutMisskey:
   about: "Misskeyはsyuiloによって2014年から開発されている、オープンソースのソフトウェアです。"
-  contributors: "主なコントリビューター"
+  contributors: "フォーク元であるMisskeyの主なコントリビューター"
   allContributors: "全てのコントリビューター"
   source: "ソースコード"
   translation: "Misskeyを翻訳"
