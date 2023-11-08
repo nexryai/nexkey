@@ -1020,13 +1020,15 @@ _registry:
   createKey: "Create key"
 _aboutMisskey:
   about: "Misskey is open-source software being developed by syuilo since 2014."
-  contributors: "Main contributors"
+  contributors: "Main contributors of Misskey"
   allContributors: "All contributors"
   source: "Source code"
   translation: "Translate Misskey"
   donate: "Donate to Misskey"
   morePatrons: "We also appreciate the support of many other helpers not listed here. Thank you! 🥰"
   patrons: "Patrons"
+_aboutNexkey:
+  contributors: "Main contributors of Nexkey"
 _nsfw:
   respect: "Hide NSFW media"
   ignore: "Don't hide NSFW media"

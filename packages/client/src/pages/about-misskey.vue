@@ -27,6 +27,12 @@
 					</div>
 				</FormSection>
 				<FormSection>
+					<template #label>{{ i18n.ts._aboutNexkey.contributors }}</template>
+					<div class="_formLinks">
+						<FormLink to="https://github.com/nexryai">@nexryai</FormLink>
+					</div>
+				</FormSection>
+				<FormSection>
 					<template #label>{{ i18n.ts._aboutMisskey.contributors }}</template>
 					<div class="_formLinks">
 						<FormLink to="https://github.com/syuilo" external>@syuilo</FormLink>
