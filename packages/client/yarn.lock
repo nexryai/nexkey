@@ -514,10 +514,10 @@
   resolved "https://registry.yarnpkg.com/@types/punycode/-/punycode-2.1.0.tgz#89e4f3d09b3f92e87a80505af19be7e0c31d4e83"
   integrity sha512-PG5aLpW6PJOeV2fHRslP4IOMWn+G+Uq8CfnyJ+PDS8ndCbU+soO+fB3NKCKo0p/Jh2Y4aPaiQZsrOXFdzpcA6g==
 
-"@types/seedrandom@3.0.7":
-  version "3.0.7"
-  resolved "https://registry.yarnpkg.com/@types/seedrandom/-/seedrandom-3.0.7.tgz#679f6bc26bb59245662398a3770bcbf9d29c5af4"
-  integrity sha512-2kwVU6ijXQblfsC8uqhBxslJC2wJfgTE1hINNkj29TL37fc8Uli5Ew43xTv2tShH3FeoKv8jkH2WgeVLd5QWzA==
+"@types/seedrandom@3.0.8":
+  version "3.0.8"
+  resolved "https://registry.yarnpkg.com/@types/seedrandom/-/seedrandom-3.0.8.tgz#61cc8ed88f93a3c31289c295e6df8ca40be42bdf"
+  integrity sha512-TY1eezMU2zH2ozQoAFAQFOPpvP15g+ZgSfTZt31AUUH/Rxtnz3H+A/Sv1Snw2/amp//omibc+AEkTaA8KUeOLQ==
 
 "@types/semver@^7.3.12":
   version "7.5.0"
