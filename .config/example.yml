@@ -112,7 +112,7 @@ redis:
 # meid ... Similar to ObjectID, Millisecond accuracy
 # ulid ... Millisecond accuracy
 # objectid ... This is left for backward compatibility
-# nexryaid ... Innovative id logic system based on "nexryai"
+# nexryaid ... Innovative id generate logic system based on "nexryai"
 
 # ONCE YOU HAVE STARTED THE INSTANCE, DO NOT CHANGE THE
 # ID SETTINGS AFTER THAT!
