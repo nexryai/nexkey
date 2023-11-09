@@ -4,6 +4,7 @@ import { genAid } from './id/aid.js';
 import { genMeid } from './id/meid.js';
 import { genMeidg } from './id/meidg.js';
 import { genObjectId } from './id/object-id.js';
+import { genNexryaid } from './id/nexryaid.js';
 
 const metohd = config.id.toLowerCase();
 
@@ -16,6 +17,7 @@ export function genId(date?: Date): string {
 		case 'meidg': return genMeidg(date);
 		case 'ulid': return ulid(date.getTime());
 		case 'objectid': return genObjectId(date);
+		case 'nexryaid': return genNexryaid(date);
 		default: throw new Error('unrecognized id generation method');
 	}
 }
