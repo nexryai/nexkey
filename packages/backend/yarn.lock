@@ -3061,12 +3061,12 @@ extend-shallow@^2.0.1:
   dependencies:
     is-extendable "^0.1.0"
 
-extract-domain@2.4.8:
-  version "2.4.8"
-  resolved "https://registry.yarnpkg.com/extract-domain/-/extract-domain-2.4.8.tgz#7430cdc7a50d1630983f669c76bff530031e65b8"
-  integrity sha512-a8iBD5igEYApP22uMSkRy02s4IaUaJ54phxHWRxbQXgTkzXfhOMoXN0kWzo8hqfZRZRebuLyKecXZSlMvHOLNg==
-  optionalDependencies:
-    psl "^1.8.0"
+extract-domain@4.1.3:
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/extract-domain/-/extract-domain-4.1.3.tgz#0dd843a2ffca3df47ee0aa12572978336be8d179"
+  integrity sha512-IZoEUaA9431/HVnxSU9fhOSuuKW2GVLIfTLBvK6xtkxHR3dtd4lYqU6DKJcKOtrr6Wn3WlFSAzMufW/XA+blDQ==
+  dependencies:
+    psl "^1.9.0"
 
 extsprintf@1.3.0:
   version "1.3.0"
@@ -5804,7 +5804,7 @@ proto-list@~1.2.1:
   resolved "https://registry.yarnpkg.com/proto-list/-/proto-list-1.2.4.tgz#212d5bfe1318306a420f6402b8e26ff39647a849"
   integrity sha512-vtK/94akxsTMhe0/cbfpR+syPuszcuwhqVjJq26CuNDgFGj682oRBXOP5MJpv2r7JtE8MsiepGIqvvOTBwn2vA==
 
-psl@^1.1.33, psl@^1.8.0:
+psl@^1.1.33, psl@^1.9.0:
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/psl/-/psl-1.9.0.tgz#d0df2a137f00794565fcaf3b2c00cd09f8d5a5a7"
   integrity sha512-E/ZsdU4HLs/68gYzgGTkMicWTLPdAftJLfJFlLUAAKZGkStNU72sZjT66SnMDVOfOWY/YAoiD7Jxa9iHvngcag==
