@@ -163,6 +163,9 @@ const usersPagination = {
 };
 
 async function fetch() {
+	if (iAmAdmin) {
+		meta = await os.api('admin/meta');
+	}
 	instance = await os.api('federation/show-instance', {
 		host: props.host,
 	});
@@ -172,22 +175,35 @@ async function fetch() {
 }
 
 async function toggleBlock(ev) {
-	if (meta == null) return;
+	if (!meta) {
+		fetch();
+		throw new Error('No meta?');
+	}
+	if (!instance) {
+		fetch();
+		throw new Error('No instance?');
+	}
 	if (!isBlocked && !isExactlyBlocked) {
 		isBlocked = true;
 		return;
 	}
+	const { host } = instance;
 	await os.api('admin/update-meta', {
-		blockedHosts: isBlocked ? meta.blockedHosts.concat([instance.host]) : meta.blockedHosts.filter(x => x !== instance.host),
+		blockedHosts: isBlocked ? meta.blockedHosts.concat([host]) : meta.blockedHosts.filter(x => x !== host),
 	});
 	fetch();
 }
 
 async function toggleSuspend(v) {
+	if (!instance) {
+		fetch();
+		throw new Error('No instance?');
+	}
 	await os.api('admin/federation/update-instance', {
 		host: instance.host,
 		isSuspended: suspended,
 	});
+	fetch();
 }
 
 function refreshMetadata() {
