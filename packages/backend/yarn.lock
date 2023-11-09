@@ -842,10 +842,10 @@
   resolved "https://registry.yarnpkg.com/@types/jsonld/-/jsonld-1.5.11.tgz#71b4122f307ecc35bc8e4fa21405cbd6ebc972c8"
   integrity sha512-/B5yjthc6MEJMR4+TUtaj5LgE3bByVSNIXvPcUxiecj5F7GZKQJS5oery5rbOni7T9QBpjDF0RufCcVVlCe4hw==
 
-"@types/jsrsasign@10.5.8":
-  version "10.5.8"
-  resolved "https://registry.yarnpkg.com/@types/jsrsasign/-/jsrsasign-10.5.8.tgz#0d6c638505454b5e95c684d6f604d57641417336"
-  integrity sha512-1oZ3TbarAhKtKUpyrCIqXpbx3ZAfoSulleJs6/UzzyYty0ut+kjRX7zHLAaHwVIuw8CBjIymwW4J2LK944HoHQ==
+"@types/jsrsasign@10.5.12":
+  version "10.5.12"
+  resolved "https://registry.yarnpkg.com/@types/jsrsasign/-/jsrsasign-10.5.12.tgz#39ca12e576249f1a5494943d1c0c49c9087bf13d"
+  integrity sha512-sOA+eVnHU+FziThpMhuqs/tjFKe5gHVJKIS7g1BzhXP+e2FS8OvtzM0K3IzFxVksDOr98Gz5FJiZVxZ9uFoHhw==
 
 "@types/keygrip@*":
   version "1.0.2"
