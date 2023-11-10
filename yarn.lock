@@ -148,10 +148,10 @@
     "@types/picomatch" "*"
     "@types/streamx" "*"
 
-"@types/gulp-rename@2.0.4":
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/@types/gulp-rename/-/gulp-rename-2.0.4.tgz#35fcbf6a54df3ba7afd7d25e3ffea714f09ff9da"
-  integrity sha512-dhhbD+PlIGmxpYiSsLsTgMsyfqmwemlM6gnM2hXzDh68knKocRDBq/CNRhbGlAZkUH/7zCbEvadxQXQJtanMPw==
+"@types/gulp-rename@2.0.5":
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/@types/gulp-rename/-/gulp-rename-2.0.5.tgz#10e135478b232c7aa8a95525b2ce3779b3f4e922"
+  integrity sha512-rD03kpi7CXZ5pTza4AtWqM3Btbte9y5yAPmqWGgHLNSMPbDCJVUGjQ2Ul6P48X7Sw9JDZlPtW6cXHntTmKeywA==
   dependencies:
     "@types/node" "*"
     "@types/vinyl" "*"
@@ -1143,10 +1143,10 @@ csso@~2.3.1:
     clap "^1.0.9"
     source-map "^0.5.3"
 
-cypress@13.4.0:
-  version "13.4.0"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-13.4.0.tgz#7d91069983ba7c664c505abde84d3e3e20484344"
-  integrity sha512-KeWNC9xSHG/ewZURVbaQsBQg2mOKw4XhjJZFKjWbEjgZCdxpPXLpJnfq5Jns1Gvnjp6AlnIfpZfWFlDgVKXdWQ==
+cypress@13.5.0:
+  version "13.5.0"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-13.5.0.tgz#8c149074186130972f08b2cdce6ded41f014bacd"
+  integrity sha512-oh6U7h9w8wwHfzNDJQ6wVcAeXu31DlIYlNOBvfd6U4CcB8oe4akawQmH+QJVOMZlM42eBoCne015+svVqdwdRQ==
   dependencies:
     "@cypress/request" "^3.0.0"
     "@cypress/xvfb" "^1.2.4"

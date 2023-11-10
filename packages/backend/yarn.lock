@@ -766,10 +766,10 @@
   resolved "https://registry.yarnpkg.com/@types/disposable-email-domains/-/disposable-email-domains-1.0.4.tgz#2d28452e2d3a97069217c7398932aa0cb4f32b62"
   integrity sha512-AmKPD8vBZzvey/jeg+YAIH/xJE3D6edOXz+YUooSCcHesGzFyzke83kj1j4d0LUR9nkSHIRklUVdcAMleuWLpg==
 
-"@types/escape-regexp@0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@types/escape-regexp/-/escape-regexp-0.0.1.tgz#f1a977ccdf2ef059e9862bd3af5e92cbbe723e0e"
-  integrity sha512-ogj/ZTIdeFkiuxDwawYuZSIgC6suFGgBeZPr6Xs5lHEcvIXTjXGtH+/n8f1XhZhespaUwJ5LIGRICPji972FLw==
+"@types/escape-regexp@0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@types/escape-regexp/-/escape-regexp-0.0.3.tgz#670ae8d6a38ba2530d5b55238ff70aba1596d20a"
+  integrity sha512-FQMYUxaf1dVeWLUzJFSvfdDugfOpDyM13p67QfyMdagxSkBa689opkr/q9uR/VWyrWrl0jAyQaSPKxX9MpAXFw==
 
 "@types/express-serve-static-core@^4.17.33":
   version "4.17.35"
@@ -842,10 +842,10 @@
   resolved "https://registry.yarnpkg.com/@types/jsonld/-/jsonld-1.5.11.tgz#71b4122f307ecc35bc8e4fa21405cbd6ebc972c8"
   integrity sha512-/B5yjthc6MEJMR4+TUtaj5LgE3bByVSNIXvPcUxiecj5F7GZKQJS5oery5rbOni7T9QBpjDF0RufCcVVlCe4hw==
 
-"@types/jsrsasign@10.5.8":
-  version "10.5.8"
-  resolved "https://registry.yarnpkg.com/@types/jsrsasign/-/jsrsasign-10.5.8.tgz#0d6c638505454b5e95c684d6f604d57641417336"
-  integrity sha512-1oZ3TbarAhKtKUpyrCIqXpbx3ZAfoSulleJs6/UzzyYty0ut+kjRX7zHLAaHwVIuw8CBjIymwW4J2LK944HoHQ==
+"@types/jsrsasign@10.5.12":
+  version "10.5.12"
+  resolved "https://registry.yarnpkg.com/@types/jsrsasign/-/jsrsasign-10.5.12.tgz#39ca12e576249f1a5494943d1c0c49c9087bf13d"
+  integrity sha512-sOA+eVnHU+FziThpMhuqs/tjFKe5gHVJKIS7g1BzhXP+e2FS8OvtzM0K3IzFxVksDOr98Gz5FJiZVxZ9uFoHhw==
 
 "@types/keygrip@*":
   version "1.0.2"
@@ -1131,10 +1131,10 @@
   resolved "https://registry.yarnpkg.com/@types/tough-cookie/-/tough-cookie-4.0.2.tgz#6286b4c7228d58ab7866d19716f3696e03a09397"
   integrity sha512-Q5vtl1W5ue16D+nIaW8JWebSSraJVlK+EthKn7e7UcD4KWsaSJ8BqGPXNaPghgtcn/fhvrN17Tv8ksUsQpiplw==
 
-"@types/uuid@9.0.6":
-  version "9.0.6"
-  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-9.0.6.tgz#c91ae743d8344a54b2b0c691195f5ff5265f6dfb"
-  integrity sha512-BT2Krtx4xaO6iwzwMFUYvWBWkV2pr37zD68Vmp1CDV196MzczBRxuEpD6Pr395HAgebC/co7hOphs53r8V7jew==
+"@types/uuid@9.0.7":
+  version "9.0.7"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-9.0.7.tgz#b14cebc75455eeeb160d5fe23c2fcc0c64f724d8"
+  integrity sha512-WUtIVRUZ9i5dYXefDEAI7sh9/O7jGvHg7Df/5O/gtH3Yabe5odI3UWopVR1qbPXQtvOxWu3mM4XxlYeZtMWF4g==
 
 "@types/web-push@3.6.2":
   version "3.6.2"
@@ -3061,12 +3061,12 @@ extend-shallow@^2.0.1:
   dependencies:
     is-extendable "^0.1.0"
 
-extract-domain@2.4.8:
-  version "2.4.8"
-  resolved "https://registry.yarnpkg.com/extract-domain/-/extract-domain-2.4.8.tgz#7430cdc7a50d1630983f669c76bff530031e65b8"
-  integrity sha512-a8iBD5igEYApP22uMSkRy02s4IaUaJ54phxHWRxbQXgTkzXfhOMoXN0kWzo8hqfZRZRebuLyKecXZSlMvHOLNg==
-  optionalDependencies:
-    psl "^1.8.0"
+extract-domain@4.1.3:
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/extract-domain/-/extract-domain-4.1.3.tgz#0dd843a2ffca3df47ee0aa12572978336be8d179"
+  integrity sha512-IZoEUaA9431/HVnxSU9fhOSuuKW2GVLIfTLBvK6xtkxHR3dtd4lYqU6DKJcKOtrr6Wn3WlFSAzMufW/XA+blDQ==
+  dependencies:
+    psl "^1.9.0"
 
 extsprintf@1.3.0:
   version "1.3.0"
@@ -5804,7 +5804,7 @@ proto-list@~1.2.1:
   resolved "https://registry.yarnpkg.com/proto-list/-/proto-list-1.2.4.tgz#212d5bfe1318306a420f6402b8e26ff39647a849"
   integrity sha512-vtK/94akxsTMhe0/cbfpR+syPuszcuwhqVjJq26CuNDgFGj682oRBXOP5MJpv2r7JtE8MsiepGIqvvOTBwn2vA==
 
-psl@^1.1.33, psl@^1.8.0:
+psl@^1.1.33, psl@^1.9.0:
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/psl/-/psl-1.9.0.tgz#d0df2a137f00794565fcaf3b2c00cd09f8d5a5a7"
   integrity sha512-E/ZsdU4HLs/68gYzgGTkMicWTLPdAftJLfJFlLUAAKZGkStNU72sZjT66SnMDVOfOWY/YAoiD7Jxa9iHvngcag==
