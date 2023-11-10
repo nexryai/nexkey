@@ -160,7 +160,7 @@
 		"@types/speakeasy": "2.0.9",
 		"@types/tinycolor2": "1.4.5",
 		"@types/tmp": "0.2.3",
-		"@types/uuid": "9.0.6",
+		"@types/uuid": "9.0.7",
 		"@types/web-push": "3.6.2",
 		"@types/websocket": "1.0.8",
 		"@types/ws": "8.5.8",
