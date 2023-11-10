@@ -125,7 +125,7 @@
 		"@types/bcryptjs": "2.4.4",
 		"@types/bull": "4.10.0",
 		"@types/cbor": "6.0.0",
-		"@types/escape-regexp": "0.0.1",
+		"@types/escape-regexp": "0.0.3",
 		"@types/fluent-ffmpeg": "2.1.24",
 		"@types/js-yaml": "4.0.5",
 		"@types/jsdom": "20.0.0",

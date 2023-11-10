@@ -766,10 +766,10 @@
   resolved "https://registry.yarnpkg.com/@types/disposable-email-domains/-/disposable-email-domains-1.0.4.tgz#2d28452e2d3a97069217c7398932aa0cb4f32b62"
   integrity sha512-AmKPD8vBZzvey/jeg+YAIH/xJE3D6edOXz+YUooSCcHesGzFyzke83kj1j4d0LUR9nkSHIRklUVdcAMleuWLpg==
 
-"@types/escape-regexp@0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@types/escape-regexp/-/escape-regexp-0.0.1.tgz#f1a977ccdf2ef059e9862bd3af5e92cbbe723e0e"
-  integrity sha512-ogj/ZTIdeFkiuxDwawYuZSIgC6suFGgBeZPr6Xs5lHEcvIXTjXGtH+/n8f1XhZhespaUwJ5LIGRICPji972FLw==
+"@types/escape-regexp@0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@types/escape-regexp/-/escape-regexp-0.0.3.tgz#670ae8d6a38ba2530d5b55238ff70aba1596d20a"
+  integrity sha512-FQMYUxaf1dVeWLUzJFSvfdDugfOpDyM13p67QfyMdagxSkBa689opkr/q9uR/VWyrWrl0jAyQaSPKxX9MpAXFw==
 
 "@types/express-serve-static-core@^4.17.33":
   version "4.17.35"
