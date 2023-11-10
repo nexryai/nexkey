@@ -1,4 +1,4 @@
-const address = new URL(location.href);
+const address = new URL(document.querySelector<HTMLMetaElement>('meta[property="instance_url"]')?.content || location.href);
 const siteName = (document.querySelector('meta[property="og:site_name"]') as HTMLMetaElement)?.content;
 
 export const host = address.host;

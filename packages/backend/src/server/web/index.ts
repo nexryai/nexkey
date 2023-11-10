@@ -513,6 +513,7 @@ router.get('(.*)', async ctx => {
 		desc: meta.description,
 		icon: meta.iconUrl,
 		themeColor: meta.themeColor,
+		instanceUrl: config.url,
 	});
 	ctx.set('Cache-Control', 'public, max-age=15');
 });
