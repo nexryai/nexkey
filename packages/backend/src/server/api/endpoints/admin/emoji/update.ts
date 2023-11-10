@@ -2,6 +2,7 @@ import define from '../../../define.js';
 import { Emojis } from '@/models/index.js';
 import { ApiError } from '../../../error.js';
 import { db } from '@/db/postgre.js';
+import { IsNull } from 'typeorm';
 
 export const meta = {
 	tags: ['admin'],
@@ -46,13 +47,15 @@ export default define(meta, paramDef, async (ps) => {
 
 	if (emoji == null) throw new ApiError(meta.errors.noSuchEmoji);
 
-	let existemojis = await Emojis.findOneBy({
-		host: null,
-		name: ps.name,
-	});
+	if (emoji.name != ps.name) {
+		let existemojis = await Emojis.findOneBy({
+			host: IsNull(),
+			name: ps.name,
+		});
 
-	if (existemojis != null) {
-		throw new ApiError(meta.errors.duplicateName);
+		if (existemojis != null) {
+			throw new ApiError(meta.errors.duplicateName);
+		}
 	}
 
 	await Emojis.update(emoji.id, {

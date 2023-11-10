@@ -1,6 +1,6 @@
 {
 	"name": "misskey",
-	"version": "12.122.0",
+	"version": "12.122.1",
 	"codename": "chirigiku",
 	"repository": {
 		"type": "git",
@@ -43,12 +43,12 @@
 		"sonic-channel": "1.3.1"
 	},
 	"devDependencies": {
-		"@types/gulp": "4.0.15",
-		"@types/gulp-rename": "2.0.3",
-		"@typescript-eslint/parser": "6.7.5",
+		"@types/gulp": "4.0.17",
+		"@types/gulp-rename": "2.0.5",
+		"@typescript-eslint/parser": "6.9.1",
 		"cross-env": "7.0.3",
-		"cypress": "13.3.1",
-		"start-server-and-test": "2.0.1",
+		"cypress": "13.5.0",
+		"start-server-and-test": "2.0.2",
 		"typescript": "5.2.2"
 	}
 }

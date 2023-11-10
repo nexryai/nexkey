@@ -63,9 +63,9 @@ export default define(meta, paramDef, async (ps, me) => {
 	if (typeof ps.blocked === 'boolean') {
 		const meta = await fetchMeta(true);
 		if (ps.blocked) {
-			query.andWhere(meta.blockedHosts.length === 0 ? '1=0': 'instance.host IN (:...blocks)', { blocks: meta.blockedHosts });
+			query.andWhere(meta.blockedHosts.length === 0 ? '1=0': 'instance.host ILIKE ANY(ARRAY[:...blocked])', { blocked: meta.blockedHosts.flatMap(x => [x, `%.${x}`]) });
 		} else {
-			query.andWhere(meta.blockedHosts.length === 0 ? '1=1': 'instance.host NOT IN (:...blocks)', { blocks: meta.blockedHosts });
+			query.andWhere(meta.blockedHosts.length === 0 ? '1=1': 'instance.host NOT ILIKE ANY(ARRAY[:...blocked])', { blocked: meta.blockedHosts.flatMap(x => [x, `%.${x}`]) });
 		}
 	}
 

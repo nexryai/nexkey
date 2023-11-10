@@ -24,6 +24,25 @@
 	<FormSwitch v-model="showFixedPostForm" class="_formBlock">{{ i18n.ts.showFixedPostForm }}</FormSwitch>
   <FormSwitch v-model="showOnlineUsersOnNavbar" class="_formBlock">{{ i18n.ts.showOnlineUsersOnNavbar }}</FormSwitch>
 
+	<FormSelect v-model="searchEngine" class="_formBlock">
+		<template #label>{{ i18n.ts.searchEngine }}</template>
+		<option value="https://google.com/search?">
+			Google Search (google.com)
+		</option>
+		<option value="https://duckduckgo.com/?">
+			DuckDuckGo (duckduckgo.com)
+		</option>
+		<option value="https://search.yahoo.com/search?">
+			Yahoo! Search (search.yahoo.com)
+		</option>
+		<option value="https://www.ecosia.org/search?">
+			Ecosia (ecosia.org)
+		</option>
+		<option value="https://www.startpage.com/do/search?">
+			Startpage (startpage.com)
+		</option>
+	</FormSelect>
+
 	<FormSection>
 		<template #label>{{ i18n.ts.behavior }}</template>
 		<FormSwitch v-model="imageNewTab" class="_formBlock">{{ i18n.ts.openImageInNewTab }}</FormSwitch>
@@ -144,6 +163,7 @@ const squareAvatars = computed(defaultStore.makeGetterSetter('squareAvatars'));
 const aiChanMode = computed(defaultStore.makeGetterSetter('aiChanMode'));
 const enableMfm = computed(defaultStore.makeGetterSetter('enableMfm'));
 const showOnlineUsersOnNavbar = computed(defaultStore.makeGetterSetter('showOnlineUsersOnNavbar'));
+const searchEngine = computed(defaultStore.makeGetterSetter('searchEngine'));
 
 watch(lang, () => {
 	localStorage.setItem('lang', lang.value as string);

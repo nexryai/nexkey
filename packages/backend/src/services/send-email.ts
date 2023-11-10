@@ -17,7 +17,7 @@ export async function sendEmail(to: string, subject: string, html: string, text:
 	// メールドメインブロックしてたら中断
 	const domain = extractDomain(to).toLowerCase();
 
-	if (meta.blockedEmailDomains.some(x => x.endsWith(domain))) {
+	if (meta.blockedEmailDomains.some(x => domain.endsWith(x))) {
 		logger.error(`Blocked Email Domain: ${domain}`);
 		throw err;
 	}

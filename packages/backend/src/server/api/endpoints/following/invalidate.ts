@@ -79,5 +79,5 @@ export default define(meta, paramDef, async (ps, user) => {
 
 	await deleteFollowing(follower, followee);
 
-	return await Users.pack(followee.id, user);
+	return await Users.pack(follower.id, user);
 });

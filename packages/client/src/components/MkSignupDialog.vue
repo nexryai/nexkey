@@ -10,6 +10,7 @@
 
 	<div class="_monolithic_">
 		<div class="_section">
+			<MkAnimBg style="position: absolute; top: 0; left: 0;" :scale="1.5"/>
 			<XSignup :auto-set="autoSet" @signup="onSignup" @signupEmailPending="onSignupEmailPending"/>
 		</div>
 	</div>
@@ -21,6 +22,7 @@ import { } from 'vue';
 import XSignup from '@/components/MkSignup.vue';
 import XModalWindow from '@/components/MkModalWindow.vue';
 import { i18n } from '@/i18n';
+import MkAnimBg from "@/components/MkAnimBg.vue";
 
 const props = withDefaults(defineProps<{
 	autoSet?: boolean;

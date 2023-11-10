@@ -35,7 +35,7 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 
 	// ブロックしてたら中断
 	const meta = await fetchMeta();
-	if (meta.blockedHosts.some(x => x.endsWith(host))) {
+	if (meta.blockedHosts.some(x => host.endsWith(x))) {
 		return `Blocked request: ${host}`;
 	}
 
@@ -119,7 +119,7 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 
 			// ブロックしてたら中断
 			const ldHost = extractDbHost(authUser.user.uri);
-			if (meta.blockedHosts.some(x => x.endsWith(ldHost))) {
+			if (meta.blockedHosts.some(x => ldHost.endsWith(x))) {
 				return `Blocked request: ${ldHost}`;
 			}
 		} else {

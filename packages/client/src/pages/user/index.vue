@@ -64,23 +64,42 @@ watch(() => props.acct, fetchUser, {
 
 const headerActions = $computed(() => []);
 
-const headerTabs = $computed(() => user ? [{
-	key: 'home',
-	title: i18n.ts.overview,
-	icon: 'ti ti-home',
-}, ...($i && ($i.id === user.id)) || user.publicReactions ? [{
-	key: 'reactions',
-	title: i18n.ts.reaction,
-	icon: 'ti ti-mood-happy',
-}] : [], {
-	key: 'clips',
-	title: i18n.ts.clips,
-	icon: 'ti ti-paperclip',
-}, {
-	key: 'pages',
-	title: i18n.ts.pages,
-	icon: 'ti ti-news',
-}] : null);
+const headerTabs = computed(() =>
+	user
+		? [
+			{
+				key: "home",
+				title: i18n.ts.overview,
+				icon: "ti ti-home",
+			},
+			...(($i && $i.id === user.id) ||
+			user.publicReactions
+				? [
+					{
+						key: "reactions",
+						title: i18n.ts.reaction,
+						icon: "ti ti-mood-happy",
+					},
+				]
+				: []),
+			...(user.instance == null
+				? [
+					{
+						key: "clips",
+						title: i18n.ts.clips,
+						icon: "ti ti-paperclip",
+					},
+					{
+						key: "pages",
+						title: i18n.ts.pages,
+						icon: "ti ti-news",
+					},
+				]
+				: []),
+		]
+		: null,
+);
+
 
 definePageMetadata(computed(() => user ? {
 	icon: 'ti ti-user',

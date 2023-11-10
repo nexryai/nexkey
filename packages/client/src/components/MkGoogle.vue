@@ -7,6 +7,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+import { defaultStore } from '@/store';
 
 const props = defineProps<{
 	q: string;
@@ -15,7 +16,9 @@ const props = defineProps<{
 const query = ref(props.q);
 
 const search = () => {
-	window.open(`https://www.google.com/search?q=${query.value}`, '_blank');
+	const sp = new URLSearchParams();
+	sp.append('q', query.value);
+	window.open(`${defaultStore.state.searchEngine}${sp.toString()}`, '_blank');
 };
 </script>
 

@@ -27,7 +27,7 @@
 			<FormSection v-if="iAmModerator && enableSudo">
 				<template #label>Moderation</template>
 				<FormSwitch v-model="suspended" class="_formBlock" @update:modelValue="toggleSuspend">{{ i18n.ts.stopActivityDelivery }}</FormSwitch>
-				<FormSwitch :disabled="!iAmAdmin" v-model="isBlocked" class="_formBlock" @update:modelValue="toggleBlock">{{ i18n.ts.blockThisInstance }}</FormSwitch>
+				<FormSwitch :disabled="!iAmAdmin || (isBlocked && !isExactlyBlocked)" v-model="isBlocked" class="_formBlock" @update:modelValue="toggleBlock">{{ i18n.ts.blockThisInstance }}</FormSwitch>
 				<MkButton @click="refreshMetadata" class="mod-button"><i class="ti ti-refresh"></i> Refresh metadata</MkButton>
 				<MkButton v-if="(!suspended && !isBlocked) && $i && $i.isAdmin" inline danger @click="deleteFollowing" class="mod-button"><i class="ti ti-minus"></i> Unfollow All Instance Users</MkButton>
 				<MkButton v-if="(suspended || isBlocked) && $i && $i.isAdmin" inline danger @click="deleteInstanceUsers" class="mod-button"><i class="ti ti-trash"></i> Delete All Instance Users</MkButton>
@@ -148,6 +148,7 @@ let meta = $ref<misskey.entities.DetailedInstanceMetadata | null>(null);
 let instance = $ref<misskey.entities.Instance | null>(null);
 let suspended = $ref(false);
 let isBlocked = $ref(false);
+let isExactlyBlocked = $ref(false);
 const enableSudo = defaultStore.state.enableSudo;
 
 const usersPagination = {
@@ -162,25 +163,47 @@ const usersPagination = {
 };
 
 async function fetch() {
+	if (iAmAdmin) {
+		meta = await os.api('admin/meta');
+	}
 	instance = await os.api('federation/show-instance', {
 		host: props.host,
 	});
 	suspended = instance.isSuspended;
 	isBlocked = instance.isBlocked;
+	isExactlyBlocked = meta.blockedHosts.includes(instance.host);
 }
 
 async function toggleBlock(ev) {
-	if (meta == null) return;
+	if (!meta) {
+		fetch();
+		throw new Error('No meta?');
+	}
+	if (!instance) {
+		fetch();
+		throw new Error('No instance?');
+	}
+	if (!isBlocked && !isExactlyBlocked) {
+		isBlocked = true;
+		return;
+	}
+	const { host } = instance;
 	await os.api('admin/update-meta', {
-		blockedHosts: isBlocked ? meta.blockedHosts.concat([instance.host]) : meta.blockedHosts.filter(x => x !== instance.host),
+		blockedHosts: isBlocked ? meta.blockedHosts.concat([host]) : meta.blockedHosts.filter(x => x !== host),
 	});
+	fetch();
 }
 
 async function toggleSuspend(v) {
+	if (!instance) {
+		fetch();
+		throw new Error('No instance?');
+	}
 	await os.api('admin/federation/update-instance', {
 		host: instance.host,
 		isSuspended: suspended,
 	});
+	fetch();
 }
 
 function refreshMetadata() {

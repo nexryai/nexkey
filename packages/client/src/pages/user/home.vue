@@ -90,7 +90,7 @@
 					<XNote v-for="note in user.pinnedNotes" :key="note.id" class="note _block" :note="note" :pinned="true"/>
 				</div>
 				<template v-if="narrow">
-					<XPhotos :key="user.id" :user="user"/>
+					<XPhotos :key="user.id" :user="user" style="margin-top: var(--margin);"/>
 					<XActivity :key="user.id" :user="user" style="margin-top: var(--margin);"/>
 				</template>
 			</div>
@@ -99,7 +99,7 @@
 			</div>
 		</div>
 		<div v-if="!narrow" class="sub">
-			<XPhotos :key="user.id" :user="user"/>
+			<XPhotos :key="user.id" :user="user" style="margin-top: var(--margin);"/>
 			<XActivity :key="user.id" :user="user" style="margin-top: var(--margin);"/>
 		</div>
 	</div>

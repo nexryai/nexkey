@@ -6,11 +6,12 @@ import { createDeleteObjectStorageFileJob } from '@/queue/index.js';
 import { fetchMeta } from '@/misc/fetch-meta.js';
 import { getS3 } from './s3.js';
 import { v4 as uuid } from 'uuid';
+import { IsNull } from 'typeorm';
 
 export async function deleteFile(file: DriveFile, isExpired = false) {
 	if (file.webpublicUrl != null) {
 		let emojis = await Emojis.findOneBy({
-			host: null,
+			host: IsNull(),
 			publicUrl: file.webpublicUrl,
 		});
 		if (emojis != null) {
@@ -18,7 +19,7 @@ export async function deleteFile(file: DriveFile, isExpired = false) {
 		}
 	} else if (file.url != null) {
 		let emojis = await Emojis.findOneBy({
-			host: null,
+			host: IsNull(),
 			publicUrl: file.url,
 		});
 		if (emojis != null) {
@@ -54,7 +55,7 @@ export async function deleteFile(file: DriveFile, isExpired = false) {
 export async function deleteFileSync(file: DriveFile, isExpired = false) {
 	if (file.webpublicUrl != null) {
 		let emojis = await Emojis.findOneBy({
-			host: null,
+			host: IsNull(),
 			publicUrl: file.webpublicUrl,
 		});
 		if (emojis != null) {
@@ -62,7 +63,7 @@ export async function deleteFileSync(file: DriveFile, isExpired = false) {
 		}
 	} else if (file.url != null) {
 		let emojis = await Emojis.findOneBy({
-			host: null,
+			host: IsNull(),
 			publicUrl: file.url,
 		});
 		if (emojis != null) {

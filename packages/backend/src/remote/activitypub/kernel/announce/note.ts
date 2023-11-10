@@ -25,7 +25,7 @@ export default async function(resolver: Resolver, actor: CacheableRemoteUser, ac
 
 	// アナウンス先をブロックしてたら中断
 	const meta = await fetchMeta();
-	if (meta.blockedHosts.some(x => x.endsWith(extractDbHost(uri)))) return;
+	if (meta.blockedHosts.some(x => extractDbHost(uri).endsWith(x))) return;
 
 	const unlock = await getApLock(uri);
 
