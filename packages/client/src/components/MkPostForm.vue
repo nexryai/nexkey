@@ -259,6 +259,10 @@ if (props.channel) {
 	localOnly = true; // TODO: チャンネルが連合するようになった折には消す
 }
 
+if ($i && $i.isSilenced && visibility === 'public') {
+	visibility = 'home';
+}
+
 // 公開以外へのリプライ時は元の公開範囲を引き継ぐ
 if (props.reply && ['home', 'followers', 'specified'].includes(props.reply.visibility)) {
 	visibility = props.reply.visibility;
@@ -387,12 +391,16 @@ function setVisibility() {
 	os.popup(defineAsyncComponent(() => import('@/components/MkVisibilityPicker.vue')), {
 		currentVisibility: visibility,
 		currentLocalOnly: localOnly,
+		isSilenced: $i?.isSilenced,
 		src: visibilityButton,
 	}, {
 		changeVisibility: v => {
 			visibility = v;
 			if (defaultStore.state.rememberNoteVisibility) {
 				defaultStore.set('visibility', visibility);
+			}
+			if ($i && $i.isSilenced && visibility === 'public') {
+				visibility = 'home';
 			}
 		},
 		changeLocalOnly: v => {
@@ -482,9 +490,9 @@ function onDragover(ev) {
 		switch (ev.dataTransfer.effectAllowed) {
 			case 'all':
 			case 'uninitialized':
-			case 'copy': 
-			case 'copyLink': 
-			case 'copyMove': 
+			case 'copy':
+			case 'copyLink':
+			case 'copyMove':
 				ev.dataTransfer.dropEffect = 'copy';
 				break;
 			case 'linkMove':
@@ -761,7 +769,7 @@ onMounted(() => {
 					margin-left: 0 !important;
 				}
 			}
-			
+
 			> .local-only {
 				margin: 0 0 0 12px;
 				opacity: 0.7;

@@ -1,7 +1,7 @@
 <template>
 <MkModal ref="modal" :z-priority="'high'" :src="src" @click="modal.close()" @closed="emit('closed')">
 	<div class="gqyayizv _popup">
-		<button key="public" class="_button" :class="{ active: v === 'public' }" data-index="1" @click="choose('public')">
+		<button key="public" :disabled="isSilenced" class="_button" :class="{ active: v === 'public' }" data-index="1" @click="choose('public')">
 			<div><i class="fas fa-globe"></i></div>
 			<div>
 				<span>{{ i18n.ts._visibility.public }}</span>
@@ -22,7 +22,7 @@
 				<span>{{ i18n.ts._visibility.followersDescription }}</span>
 			</div>
 		</button>
-		<button key="specified" :disabled="localOnly" class="_button" :class="{ active: v === 'specified' }" data-index="4" @click="choose('specified')">
+		<button key="specified" class="_button" :class="{ active: v === 'specified' }" data-index="4" @click="choose('specified')">
 			<div><i class="fas fa-envelope"></i></div>
 			<div>
 				<span>{{ i18n.ts._visibility.specified }}</span>
@@ -53,6 +53,7 @@ const modal = $ref<InstanceType<typeof MkModal>>();
 const props = withDefaults(defineProps<{
 	currentVisibility: typeof misskey.noteVisibilities[number];
 	currentLocalOnly: boolean;
+	isSilenced: boolean;
 	src?: HTMLElement;
 }>(), {
 });
