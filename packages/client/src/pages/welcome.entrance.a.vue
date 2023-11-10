@@ -169,6 +169,7 @@ function showMenu(ev) {
 			left: 28px;
 			width: 50px;
       height: auto;
+			border-radius: 4px;
 		}
 
 		> .emojis {

@@ -106,7 +106,6 @@ export default defineComponent({
 
 	> .wide {
 		> .content {
-			max-width: 1400px;
 			margin: 0 auto;
 			display: flex;
 			align-items: center;
