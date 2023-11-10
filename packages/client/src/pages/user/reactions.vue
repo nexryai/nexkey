@@ -35,6 +35,8 @@ const pagination = {
 
 <style lang="scss" scoped>
 .afdcfbfb {
+	margin: 32px;
+
 	> .header {
 		display: flex;
 		align-items: center;

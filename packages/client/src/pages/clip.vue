@@ -117,7 +117,6 @@ definePageMetadata(computed(() => clip ? {
 	> .user {
 		$height: 32px;
 		padding: 16px;
-		border-top: solid 0.5px var(--divider);
 		line-height: $height;
 
 		> .avatar {
