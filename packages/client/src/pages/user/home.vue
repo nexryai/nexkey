@@ -99,7 +99,7 @@
 			</div>
 		</div>
 		<div v-if="!narrow" class="sub">
-			<XPhotos :key="user.id" :user="user"/>
+			<XPhotos :key="user.id" :user="user" style="margin-top: var(--margin);"/>
 			<XActivity :key="user.id" :user="user" style="margin-top: var(--margin);"/>
 		</div>
 	</div>

@@ -35,6 +35,7 @@ const pagination = {
 
 <style lang="scss" scoped>
 .afdcfbfb {
+
 	margin: 32px;
 
 	> .header {
