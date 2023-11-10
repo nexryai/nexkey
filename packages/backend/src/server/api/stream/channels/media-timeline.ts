@@ -7,7 +7,7 @@ import { isInstanceMuted } from '@/misc/is-instance-muted.js';
 import { Packed } from '@/misc/schema.js';
 
 export default class extends Channel {
-	public readonly chName = 'hybridTimeline';
+	public readonly chName = 'mediaTimeline';
 	public static shouldShare = true;
 	public static requireCredential = true;
 
