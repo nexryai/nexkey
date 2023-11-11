@@ -29,7 +29,14 @@
 				<FormSection>
 					<template #label>{{ i18n.ts._aboutNexkey.contributors }}</template>
 					<div class="_formLinks">
-						<FormLink to="https://github.com/nexryai">@nexryai</FormLink>
+						<FormLink to="https://github.com/nexryai" external>@nexryai</FormLink>
+						<FormLink to="https://github.com/scil-t" external>@scil-t</FormLink>
+					</div>
+				</FormSection>
+				<FormSection>
+					<template #label>Special thanks</template>
+					<div class="_formLinks">
+						<FormLink to="https://github.com/atsu1125/misskey-v12/" external>@atsu1125 (Misskey v12 LTS)</FormLink>
 					</div>
 				</FormSection>
 				<FormSection>
@@ -46,6 +53,23 @@
 						<FormLink to="https://github.com/marihachi" external>@marihachi</FormLink>
 					</div>
 					<template #caption><MkLink url="https://github.com/misskey-dev/misskey/graphs/contributors">{{ i18n.ts._aboutMisskey.allContributors }}</MkLink></template>
+				</FormSection>
+				<FormSection>
+					<template #label>Referenced forks</template>
+					<div class="_formLinks">
+						<FormLink to="https://git.joinfirefish.org/firefish/firefish" external>
+							<template #icon><i class="ti ti-code"></i></template>
+							Firefish
+						</FormLink>
+						<FormLink to="https://github.com/taiyme/misskey" external>
+							<template #icon><i class="ti ti-code"></i></template>
+							taiyme/misskey
+						</FormLink>
+						<FormLink to="https://github.com/rca-fedi/yoiyami/" external>
+							<template #icon><i class="ti ti-code"></i></template>
+							yoiyami
+						</FormLink>
+					</div>
 				</FormSection>
 			</div>
 		</MkSpacer>
