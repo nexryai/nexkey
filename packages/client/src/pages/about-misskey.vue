@@ -55,7 +55,7 @@
 					<template #caption><MkLink url="https://github.com/misskey-dev/misskey/graphs/contributors">{{ i18n.ts._aboutMisskey.allContributors }}</MkLink></template>
 				</FormSection>
 				<FormSection>
-					<template #label>Referenced forks</template>
+					<template #label>Referenced other forks</template>
 					<div class="_formLinks">
 						<FormLink to="https://git.joinfirefish.org/firefish/firefish" external>
 							<template #icon><i class="ti ti-code"></i></template>
