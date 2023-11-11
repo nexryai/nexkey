@@ -134,6 +134,7 @@ defineExpose({
 
 <style lang="scss" scoped>
 .yrolvcoq {
+	overscroll-behavior: none;
 	min-height: 100%;
 	background: var(--bg);
 }

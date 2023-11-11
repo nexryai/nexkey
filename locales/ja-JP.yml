@@ -938,6 +938,9 @@ reset2fa: "２段階認証をリセット"
 reset2faConfirm: "このユーザーの２段階認証をリセットしてもいいですか？"
 backupCodesDownloaded: "バックアップコードをダウンロードします。ダウンロードしたバックアップコードは大切に保管してください。"
 searchEngine: "MFMの検索で利用する検索エンジン"
+releaseToRefresh: "離してリロード"
+refreshing: "リロード中"
+pullDownToRefresh: "引っ張ってリロード"
 
 _sensitiveMediaDetection:
   description: "機械学習を使って自動でセンシティブなメディアを検出し、モデレーションに役立てることができます。サーバーの負荷が少し増えます。"

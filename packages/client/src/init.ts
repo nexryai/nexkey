@@ -3,6 +3,7 @@
  */
 
 import '@/style.scss';
+import { isReloading } from '@/stream.js';
 
 //#region account indexedDB migration
 import { set } from '@/scripts/idb-proxy';
@@ -302,6 +303,7 @@ import { getAccountFromId } from '@/scripts/get-account-from-id';
 
 	let reloadDialogShowing = false;
 	stream.on('_disconnected_', async () => {
+		// if (isReloading) return;
 		if (defaultStore.state.serverDisconnectedBehavior === 'reload') {
 			location.reload();
 		} else if (defaultStore.state.serverDisconnectedBehavior === 'dialog') {

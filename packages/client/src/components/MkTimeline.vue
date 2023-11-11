@@ -1,12 +1,14 @@
 <template>
-<XNotes ref="tlComponent" :no-gap="!$store.state.showGapBetweenNotesInTimeline" :pagination="pagination" @queue="emit('queue', $event)"/>
+	<MkPullToRefresh ref="prComponent" @refresh="() => reloadTimeline(true)">
+		<XNotes ref="tlComponent" :no-gap="!$store.state.showGapBetweenNotesInTimeline" :pagination="pagination" @queue="emit('queue', $event)"/>
+	</MkPullToRefresh>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, provide, onUnmounted } from 'vue';
+import { computed, provide, onUnmounted } from 'vue';
+import MkPullToRefresh from '@/components/MkPullToRefresh.vue';
 import XNotes from '@/components/MkNotes.vue';
-import * as os from '@/os';
-import { stream } from '@/stream';
+import { stream, reloadStream } from '@/stream';
 import * as sound from '@/scripts/sound';
 import { $i } from '@/account';
 
@@ -25,6 +27,7 @@ const emit = defineEmits<{
 
 provide('inChannel', computed(() => props.src === 'channel'));
 
+const prComponent: InstanceType<typeof MkPullToRefresh> = $ref();
 const tlComponent: InstanceType<typeof XNotes> = $ref();
 
 const prepend = note => {
@@ -133,6 +136,13 @@ onUnmounted(() => {
 	connection.dispose();
 	if (connection2) connection2.dispose();
 });
+
+const reloadTimeline = (fromPR = false) => {
+	if (fromPR) prComponent.refreshFinished();
+	tlComponent.pagingComponent?.reload().then(() => {
+		reloadStream();
+	});
+};
 
 /* TODO
 const timetravel = (date?: Date) => {

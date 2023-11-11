@@ -70,6 +70,7 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits<{
 	(ev: 'queue', count: number): void;
+	(ev: 'status', error: boolean): void;
 }>();
 
 type Item = { id: string; [another: string]: unknown; };
@@ -275,6 +276,11 @@ watch(queue, (a, b) => {
 	if (a.length === 0 && b.length === 0) return;
 	emit('queue', queue.value.length);
 }, { deep: true });
+
+watch(error, (n, o) => {
+	if (n === o) return;
+	emit('status', n);
+});
 
 init();
 

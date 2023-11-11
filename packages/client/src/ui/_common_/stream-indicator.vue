@@ -10,7 +10,7 @@
 
 <script lang="ts" setup>
 import { onUnmounted } from 'vue';
-import { stream } from '@/stream';
+import { stream, isReloading } from '@/stream';
 import { i18n } from '@/i18n';
 import MkButton from '@/components/MkButton.vue';
 import * as os from '@/os';
@@ -19,6 +19,7 @@ const zIndex = os.claimZIndex('high');
 let hasDisconnected = $ref(false);
 
 function onDisconnected() {
+	if (isReloading) return;
 	hasDisconnected = true;
 }
 
