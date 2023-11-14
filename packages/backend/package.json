@@ -163,7 +163,7 @@
 		"@types/uuid": "9.0.7",
 		"@types/web-push": "3.6.2",
 		"@types/websocket": "1.0.8",
-		"@types/ws": "8.5.8",
+		"@types/ws": "8.5.9",
 		"@typescript-eslint/eslint-plugin": "5.62.0",
 		"@typescript-eslint/parser": "5.62.0",
 		"cross-env": "7.0.3",
