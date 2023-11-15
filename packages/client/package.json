@@ -61,7 +61,7 @@
 		"uuid": "9.0.1",
 		"vanilla-tilt": "1.8.1",
 		"vite": "4.5.0",
-		"vue": "3.3.7",
+		"vue": "3.3.8",
 		"vue-prism-editor": "2.0.0-alpha.2",
 		"vuedraggable": "4.1.0"
 	},
