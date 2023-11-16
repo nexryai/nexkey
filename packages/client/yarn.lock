@@ -489,10 +489,10 @@
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
 
-"@types/katex@0.16.5":
-  version "0.16.5"
-  resolved "https://registry.yarnpkg.com/@types/katex/-/katex-0.16.5.tgz#76adc073ce58e860cb8c34b5673e1aea9a0172b0"
-  integrity sha512-DD2Y3xMlTQvAnN6d8803xdgnOeYZ+HwMglb7/9YCf49J9RkJL53azf9qKa40MkEYhqVwxZ1GS2+VlShnz4Z1Bw==
+"@types/katex@0.16.6":
+  version "0.16.6"
+  resolved "https://registry.yarnpkg.com/@types/katex/-/katex-0.16.6.tgz#6dd82f78a1a1d2eceeff6bb97ba98d7c062454cb"
+  integrity sha512-rZYO1HInM99rAFYNwGqbYPxHZHxu2IwZYKj4bJ4oh6edVrm1UId8mmbHIZLBtG253qU6y3piag0XYe/joNnwzQ==
 
 "@types/matter-js@0.19.3":
   version "0.19.3"
