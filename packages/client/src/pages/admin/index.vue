@@ -31,7 +31,7 @@ import MkInfo from '@/components/MkInfo.vue';
 import { scroll } from '@/scripts/scroll';
 import { instance } from '@/instance';
 import * as os from '@/os';
-import { lookupUser } from '@/scripts/lookup-user';
+import { lookupUser, lookupUserByEmail } from '@/scripts/lookup-user';
 import { useRouter } from '@/router';
 import { definePageMetadata, provideMetadataReceiver, setPageMetadata } from '@/scripts/page-metadata';
 import { defaultStore } from '@/store';
@@ -279,7 +279,13 @@ const lookup = (ev) => {
 		icon: 'fas fa-user',
 		action: () => {
 			lookupUser();
-		}
+		},
+	}, {
+		text: `${i18n.ts.user} (${i18n.ts.email})`,
+		icon: 'fas fa-user',
+		action: () => {
+			lookupUserByEmail();
+		},
 	}], ev.currentTarget ?? ev.target);
 };
 

@@ -34,3 +34,19 @@ export async function lookupUser() {
 		notFound();
 	});
 }
+
+export async function lookupUserByEmail() {
+	const { canceled, result } = await os.inputText({
+		title: i18n.ts.emailAddress,
+		type: 'email',
+	});
+	if (canceled) return;
+
+	try {
+		const user = await os.apiWithDialog('admin/accounts/find-by-email', { email: result });
+
+		os.pageWindow(`/user-info/${user.id}`);
+	} catch (err) {
+		throw err;
+	}
+}
