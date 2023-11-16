@@ -1,16 +1,21 @@
 import { ColdDeviceStorage } from '@/store';
 
-const cache = new Map<string, HTMLAudioElement>();
+const ctx = new AudioContext();
+const cache = new Map<string, AudioBuffer>();
 
-export function getAudio(file: string, useCache = true): HTMLAudioElement {
-	let audio: HTMLAudioElement;
+export async function getAudio(file: string, useCache = true) {
 	if (useCache && cache.has(file)) {
-		audio = cache.get(file);
-	} else {
-		audio = new Audio(`/client-assets/sounds/${file}.mp3`);
-		if (useCache) cache.set(file, audio);
+		return cache.get(file)!;
 	}
-	return audio;
+	const response = await fetch(`/client-assets/sounds/${file}.mp3`);
+	const arrayBuffer = await response.arrayBuffer();
+	const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
+
+	if (useCache) {
+		cache.set(file, audioBuffer);
+	}
+
+	return audioBuffer;
 }
 
 export function setVolume(audio: HTMLAudioElement, volume: number): HTMLAudioElement {
@@ -25,10 +30,17 @@ export function play(type: string) {
 	playFile(sound.type, sound.volume);
 }
 
-export function playFile(file: string, volume: number) {
+export async function playFile(file: string, volume: number) {
 	const masterVolume = ColdDeviceStorage.get('sound_masterVolume');
-	if (masterVolume === 0) return;
+	if (masterVolume === 0 || volume === 0) {
+		return;
+	}
 
-	const audio = setVolume(getAudio(file), volume);
-	audio.play();
+	const gainNode = ctx.createGain();
+	gainNode.gain.value = masterVolume * volume;
+
+	const soundSource = ctx.createBufferSource();
+	soundSource.buffer = await getAudio(file);
+	soundSource.connect(gainNode).connect(ctx.destination);
+	soundSource.start();
 }
