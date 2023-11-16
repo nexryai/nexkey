@@ -1122,10 +1122,10 @@
   resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-9.0.7.tgz#b14cebc75455eeeb160d5fe23c2fcc0c64f724d8"
   integrity sha512-WUtIVRUZ9i5dYXefDEAI7sh9/O7jGvHg7Df/5O/gtH3Yabe5odI3UWopVR1qbPXQtvOxWu3mM4XxlYeZtMWF4g==
 
-"@types/web-push@3.6.2":
-  version "3.6.2"
-  resolved "https://registry.yarnpkg.com/@types/web-push/-/web-push-3.6.2.tgz#bce102ea82e0e8a0ffd204ed810b1c5f8cad5bf9"
-  integrity sha512-v6Wdk1eIVbAJQjEAa1ZxuG3cfOYTd6nSv55BVJMtLQUvQ07v80MPt2Voq/z71WKhy4CORu4L3aH+8SXKX4BD5g==
+"@types/web-push@3.6.3":
+  version "3.6.3"
+  resolved "https://registry.yarnpkg.com/@types/web-push/-/web-push-3.6.3.tgz#7698cdeeabd70d1129a6e02bd58af1e985cdfa03"
+  integrity sha512-v3oT4mMJsHeJ/rraliZ+7TbZtr5bQQuxcgD7C3/1q/zkAj29c8RE0F9lVZVu3hiQe5Z9fYcBreV7TLnfKR+4mg==
   dependencies:
     "@types/node" "*"
 
