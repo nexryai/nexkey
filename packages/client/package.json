@@ -71,7 +71,7 @@
 		"@types/gulp": "4.0.16",
 		"@types/gulp-rename": "2.0.5",
 		"@types/katex": "0.16.6",
-		"@types/matter-js": "0.19.3",
+		"@types/matter-js": "0.19.5",
 		"@types/punycode": "2.1.2",
 		"@types/seedrandom": "3.0.8",
 		"@types/throttle-debounce": "5.0.2",
