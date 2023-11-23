@@ -6,6 +6,7 @@ import * as querystring from 'querystring';
 export async function proxyMedia(ctx: Koa.Context) {
 	let redirectUrl: string;
 
+	// 本家仕様にするの面倒なのでとりあえず未設定でもどっかのプロキシに投げる
 	if (config.mediaProxy == null) {
 		redirectUrl = 'https://proxy.sda1.net/';
 	} else {

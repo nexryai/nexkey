@@ -53,7 +53,7 @@ export const DriveFileRepository = db.getRepository(DriveFile).extend({
 		}
 
 		// リモートかつ期限切れはローカルプロキシを試みる
-		if (file.uri != null && file.isLink && config.proxyRemoteFiles) {
+		if (file.uri != null && file.isLink) {
 			const key = thumbnail ? file.thumbnailAccessKey : file.webpublicAccessKey;
 
 			if (key && !key.match('/')) {	// 古いものはここにオブジェクトストレージキーが入ってるので除外

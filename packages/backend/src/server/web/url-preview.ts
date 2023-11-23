@@ -14,10 +14,8 @@ interface Summary {
 	thumbnail?: string;
 	player?: {
 		url: string;
-		// 他のプレイヤーに関連するプロパティを追加する場合はここに追加
 	};
 	url: string;
-	// 他のサマリーに関連するプロパティを追加する場合はここに追加
 }
 
 export const urlPreviewHandler = async (ctx: Koa.Context) => {
@@ -40,6 +38,7 @@ export const urlPreviewHandler = async (ctx: Koa.Context) => {
 		: `Getting preview of ${url}@${lang} ...`);
 
 	try {
+		// DDoS状態になるのはアレなので強制的にどっかしらのプロキシを使うようにする
 		let summalyProxy = meta.summalyProxy;
 		if (summalyProxy == null) {
 			summalyProxy = "https://summaly.sda1.net"
