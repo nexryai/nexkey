@@ -83,9 +83,7 @@ export type Source = {
 	};
 
 	mediaProxy?: string;
-
-	signToActivityPubGet?: boolean;
-
+	
 	disableAntenna?: boolean;
 	disableSearch?: boolean;
 };
