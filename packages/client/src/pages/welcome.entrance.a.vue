@@ -13,8 +13,6 @@
 		<div class="main">
 			<div class="fg">
 				<h1>
-					<!-- 背景色によってはロゴが見えなくなるのでとりあえず無効に -->
-					<!-- <img class="logo" v-if="meta.logoImageUrl" :src="meta.logoImageUrl"><span v-else class="text">{{ instanceName }}</span> -->
 					<span class="text">{{ instanceName }}</span>
 				</h1>
 				<div class="about">
@@ -47,27 +45,9 @@ import { i18n } from '@/i18n';
 import MkInfo from '@/components/MkInfo.vue';
 
 let meta = $ref();
-let stats = $ref();
-let tags = $ref();
-let onlineUsersCount = $ref();
 
 os.api('meta', { detail: true }).then(_meta => {
 	meta = _meta;
-});
-
-os.api('stats').then(_stats => {
-	stats = _stats;
-});
-
-os.api('get-online-users-count').then(res => {
-	onlineUsersCount = res.count;
-});
-
-os.api('hashtags/list', {
-	sort: '+mentionedLocalUsers',
-	limit: 8,
-}).then(_tags => {
-	tags = _tags;
 });
 
 function signin() {
@@ -119,11 +99,12 @@ function showMenu(ev) {
 		padding: 16px;
 
 		> .bg {
-			position: absolute;
+			position: fixed;
 			top: 0;
 			right: 0;
-			width: 100%;
-			height: 100%;
+			width: calc(100% + 20px);
+			height: calc(100% + 20px);
+			margin: -10px;
 		}
 
 		> .tl {
@@ -189,7 +170,7 @@ function showMenu(ev) {
 		> .main {
 			position: relative;
 			width: min(480px, 100%);
-			margin: auto auto auto 128px;
+			margin: auto auto auto auto;
 			background: var(--panel);
 			border-radius: var(--radius);
 			box-shadow: 0 12px 32px rgb(0 0 0 / 25%);

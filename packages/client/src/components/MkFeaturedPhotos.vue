@@ -18,5 +18,6 @@ os.api('meta', { detail: true }).then(gotMeta => {
 .xfbouadm {
 	background-position: center;
 	background-size: cover;
+	filter: blur(6px);
 }
 </style>
