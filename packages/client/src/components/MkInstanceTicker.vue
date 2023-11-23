@@ -30,7 +30,9 @@ const bg = {
 	background: `linear-gradient(90deg, ${themeColor}, ${themeColor}00)`,
 };
 
-const faviconUrl = $computed(() => props.instance ? getProxiedImageUrlNullable(props.instance.faviconUrl) : getProxiedImageUrlNullable(Instance.iconUrl) ?? getProxiedImageUrlNullable(Instance.faviconUrl) ?? '/favicon.ico');
+const faviconUrl = $computed(() => props.instance ? getProxiedImageUrlNullable(props.instance.faviconUrl, 'ticker')
+	: getProxiedImageUrlNullable(Instance.iconUrl, 'ticker')
+	?? getProxiedImageUrlNullable(Instance.faviconUrl, 'ticker') ?? '/favicon.ico');
 
 // const themeColor = instance.themeColor ?? '#777777';
 </script>
