@@ -1,5 +1,4 @@
 import Koa from 'koa';
-import summaly from 'summaly';
 import { fetchMeta } from '@/misc/fetch-meta.js';
 import Logger from '@/services/logger.js';
 import config from '@/config/index.js';
@@ -8,6 +7,18 @@ import { getJson } from '@/misc/fetch.js';
 import { sanitizeUrl } from '@/misc/sanitize-url.js';
 
 const logger = new Logger('url-preview');
+
+interface Summary {
+	title: string;
+	icon?: string;
+	thumbnail?: string;
+	player?: {
+		url: string;
+		// 他のプレイヤーに関連するプロパティを追加する場合はここに追加
+	};
+	url: string;
+	// 他のサマリーに関連するプロパティを追加する場合はここに追加
+}
 
 export const urlPreviewHandler = async (ctx: Koa.Context) => {
 	const url = ctx.query.url;
@@ -29,13 +40,15 @@ export const urlPreviewHandler = async (ctx: Koa.Context) => {
 		: `Getting preview of ${url}@${lang} ...`);
 
 	try {
-		const summary = meta.summalyProxy ? await getJson(`${meta.summalyProxy}?${query({
+		let summalyProxy = meta.summalyProxy;
+		if (summalyProxy == null) {
+			summalyProxy = "https://summaly.sda1.net"
+		}
+
+		const summary: Summary = await getJson(`${summalyProxy}?${query({
 			url: url,
 			lang: lang ?? 'ja-JP',
-		})}`) : await summaly.default(url, {
-			followRedirects: false,
-			lang: lang ?? 'ja-JP',
-		});
+		})}`) as Summary;
 
 		logger.succ(`Got preview of ${url}: ${summary.title}`);
 
