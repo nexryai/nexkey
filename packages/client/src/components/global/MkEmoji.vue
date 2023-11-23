@@ -33,7 +33,7 @@ const url = computed(() => {
 	} else {
 		return defaultStore.state.disableShowingAnimatedImages
 			? getStaticImageUrl(customEmoji.value.url)
-			: getProxiedImageUrlNullable(customEmoji.value.url);
+			: getProxiedImageUrlNullable(customEmoji.value.url, 'emoji');
 	}
 });
 const alt = computed(() => customEmoji.value ? `:${customEmoji.value.name}:` : char.value);
