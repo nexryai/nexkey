@@ -40,11 +40,13 @@ function inbox(ctx: Router.RouterContext) {
 	if (signature.params.headers.indexOf("host") === -1
 		|| ctx.headers.host !== config.host) {
 		// Host not specified or not match.
+		console.log("Host not specified or not match.")
 		ctx.status = 401;
 		return;
 	}
 
 	if (signature.params.headers.indexOf("digest") === -1) {
+		console.log("Digest not found.")
 		// Digest not found.
 		ctx.status = 401;
 	} else {
@@ -52,6 +54,7 @@ function inbox(ctx: Router.RouterContext) {
 
 		if (typeof digest !== "string") {
 			// Huh?
+			console.log("Not string")
 			ctx.status = 401;
 			return;
 		}
@@ -61,6 +64,7 @@ function inbox(ctx: Router.RouterContext) {
 
 		if (match == null) {
 			// Invalid digest
+			console.log("No digest")
 			ctx.status = 401;
 			return;
 		}
@@ -70,12 +74,14 @@ function inbox(ctx: Router.RouterContext) {
 
 		if (algo !== "SHA-256") {
 			// Unsupported digest algorithm
+			console.log("Unsupported digest algorithm")
 			ctx.status = 401;
 			return;
 		}
 
 		if (ctx.request.rawBody == null) {
 			// Bad request
+			console.log("RawBody is Null")
 			ctx.status = 400;
 			return;
 		}
@@ -84,6 +90,7 @@ function inbox(ctx: Router.RouterContext) {
 
 		if (hash !== digestValue) {
 			// Invalid digest
+			console.log("Invalid digest")
 			ctx.status = 401;
 			return;
 		}
