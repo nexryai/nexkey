@@ -1,9 +1,9 @@
-import { refs, Schema } from '@/misc/schema.js';
+import { refs, Schema } from "@/misc/schema.js";
 
 export function convertSchemaToOpenApiSchema(schema: Schema) {
 	const res: any = schema;
 
-	if (schema.type === 'object' && schema.properties) {
+	if (schema.type === "object" && schema.properties) {
 		res.required = Object.entries(schema.properties).filter(([k, v]) => !v.optional).map(([k]) => k);
 
 		for (const k of Object.keys(schema.properties)) {
@@ -11,7 +11,7 @@ export function convertSchemaToOpenApiSchema(schema: Schema) {
 		}
 	}
 
-	if (schema.type === 'array' && schema.items) {
+	if (schema.type === "array" && schema.items) {
 		res.items = convertSchemaToOpenApiSchema(schema.items);
 	}
 
@@ -28,33 +28,33 @@ export function convertSchemaToOpenApiSchema(schema: Schema) {
 
 export const schemas = {
 	Error: {
-		type: 'object',
+		type: "object",
 		properties: {
 			error: {
-				type: 'object',
-				description: 'An error object.',
+				type: "object",
+				description: "An error object.",
 				properties: {
 					code: {
-						type: 'string',
-						description: 'An error code. Unique within the endpoint.',
+						type: "string",
+						description: "An error code. Unique within the endpoint.",
 					},
 					message: {
-						type: 'string',
-						description: 'An error message.',
+						type: "string",
+						description: "An error message.",
 					},
 					id: {
-						type: 'string',
-						format: 'uuid',
-						description: 'An error ID. This ID is static.',
+						type: "string",
+						format: "uuid",
+						description: "An error ID. This ID is static.",
 					},
 				},
-				required: ['code', 'id', 'message'],
+				required: ["code", "id", "message"],
 			},
 		},
-		required: ['error'],
+		required: ["error"],
 	},
 
 	...Object.fromEntries(
-		Object.entries(refs).map(([key, schema]) => [key, convertSchemaToOpenApiSchema(schema)])
+		Object.entries(refs).map(([key, schema]) => [key, convertSchemaToOpenApiSchema(schema)]),
 	),
 };

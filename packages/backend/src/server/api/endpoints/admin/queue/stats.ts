@@ -1,31 +1,31 @@
-import { deliverQueue, inboxQueue, dbQueue, objectStorageQueue, backgroundQueue } from '@/queue/queues.js';
-import define from '../../../define.js';
+import { deliverQueue, inboxQueue, dbQueue, objectStorageQueue, backgroundQueue } from "@/queue/queues.js";
+import define from "../../../define.js";
 
 export const meta = {
-	tags: ['admin'],
+	tags: ["admin"],
 
 	requireCredential: true,
 	requireModerator: true,
 
 	res: {
-		type: 'object',
+		type: "object",
 		optional: false, nullable: false,
 		properties: {
 			deliver: {
 				optional: false, nullable: false,
-				ref: 'QueueCount',
+				ref: "QueueCount",
 			},
 			inbox: {
 				optional: false, nullable: false,
-				ref: 'QueueCount',
+				ref: "QueueCount",
 			},
 			db: {
 				optional: false, nullable: false,
-				ref: 'QueueCount',
+				ref: "QueueCount",
 			},
 			objectStorage: {
 				optional: false, nullable: false,
-				ref: 'QueueCount',
+				ref: "QueueCount",
 			},
 			backgroundQueue: {
 				optional: false,
@@ -37,7 +37,7 @@ export const meta = {
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {},
 	required: [],
 } as const;

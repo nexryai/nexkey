@@ -1,6 +1,6 @@
-import { onUnmounted, onDeactivated, ref } from 'vue';
-import * as os from '@/os';
-import MkChartTooltip from '@/components/MkChartTooltip.vue';
+import { onUnmounted, onDeactivated, ref } from "vue";
+import * as os from "@/os";
+import MkChartTooltip from "@/components/MkChartTooltip.vue";
 
 export function useChartTooltip() {
 	const tooltipShowing = ref(false);

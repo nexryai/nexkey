@@ -1,9 +1,9 @@
-import { DriveFile } from '@/models/entities/drive-file.js';
-import { Note } from '@/models/entities/note';
-import { User } from '@/models/entities/user.js';
-import { Webhook } from '@/models/entities/webhook';
-import { IActivity } from '@/remote/activitypub/type.js';
-import httpSignature from '@peertube/http-signature';
+import httpSignature from "@peertube/http-signature";
+import { DriveFile } from "@/models/entities/drive-file.js";
+import { Note } from "@/models/entities/note";
+import { User } from "@/models/entities/user.js";
+import { Webhook } from "@/models/entities/webhook";
+import { IActivity } from "@/remote/activitypub/type.js";
 
 export type DeliverJobData = {
 	/** Actor */
@@ -34,7 +34,7 @@ export type DbUserDeleteJobData = {
 
 export type DbUserImportJobData = {
 	user: ThinUser;
-	fileId: DriveFile['id'];
+	fileId: DriveFile["id"];
 };
 
 export type ObjectStorageJobData = ObjectStorageFileJobData | Record<string, unknown>;
@@ -51,14 +51,14 @@ export type EmailJobData = {
 };
 
 export type EndedPollNotificationJobData = {
-	noteId: Note['id'];
+	noteId: Note["id"];
 };
 
 export type WebhookDeliverJobData = {
 	type: string;
 	content: unknown;
-	webhookId: Webhook['id'];
-	userId: User['id'];
+	webhookId: Webhook["id"];
+	userId: User["id"];
 	to: string;
 	secret: string;
 	createdAt: number;
@@ -66,5 +66,5 @@ export type WebhookDeliverJobData = {
 };
 
 export type ThinUser = {
-	id: User['id'];
+	id: User["id"];
 };

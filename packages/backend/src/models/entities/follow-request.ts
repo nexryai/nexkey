@@ -1,27 +1,27 @@
-import { PrimaryColumn, Entity, Index, JoinColumn, Column, ManyToOne } from 'typeorm';
-import { User } from './user.js';
-import { id } from '../id.js';
+import { PrimaryColumn, Entity, Index, JoinColumn, Column, ManyToOne } from "typeorm";
+import { id } from "../id.js";
+import { User } from "./user.js";
 
 @Entity()
-@Index(['followerId', 'followeeId'], { unique: true })
+@Index(["followerId", "followeeId"], { unique: true })
 export class FollowRequest {
 	@PrimaryColumn(id())
 	public id: string;
 
-	@Column('timestamp with time zone', {
-		comment: 'The created date of the FollowRequest.',
+	@Column("timestamp with time zone", {
+		comment: "The created date of the FollowRequest.",
 	})
 	public createdAt: Date;
 
 	@Index()
 	@Column({
 		...id(),
-		comment: 'The followee user ID.',
+		comment: "The followee user ID.",
 	})
-	public followeeId: User['id'];
+	public followeeId: User["id"];
 
 	@ManyToOne(type => User, {
-		onDelete: 'CASCADE',
+		onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public followee: User | null;
@@ -29,56 +29,56 @@ export class FollowRequest {
 	@Index()
 	@Column({
 		...id(),
-		comment: 'The follower user ID.',
+		comment: "The follower user ID.",
 	})
-	public followerId: User['id'];
+	public followerId: User["id"];
 
 	@ManyToOne(type => User, {
-		onDelete: 'CASCADE',
+		onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public follower: User | null;
 
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 128, nullable: true,
-		comment: 'id of Follow Activity.',
+		comment: "id of Follow Activity.",
 	})
 	public requestId: string | null;
 
 	//#region Denormalized fields
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 128, nullable: true,
-		comment: '[Denormalized]',
+		comment: "[Denormalized]",
 	})
 	public followerHost: string | null;
 
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 512, nullable: true,
-		comment: '[Denormalized]',
+		comment: "[Denormalized]",
 	})
 	public followerInbox: string | null;
 
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 512, nullable: true,
-		comment: '[Denormalized]',
+		comment: "[Denormalized]",
 	})
 	public followerSharedInbox: string | null;
 
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 128, nullable: true,
-		comment: '[Denormalized]',
+		comment: "[Denormalized]",
 	})
 	public followeeHost: string | null;
 
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 512, nullable: true,
-		comment: '[Denormalized]',
+		comment: "[Denormalized]",
 	})
 	public followeeInbox: string | null;
 
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 512, nullable: true,
-		comment: '[Denormalized]',
+		comment: "[Denormalized]",
 	})
 	public followeeSharedInbox: string | null;
 	//#endregion

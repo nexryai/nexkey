@@ -9,10 +9,10 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import * as os from '@/os';
-import copyToClipboard from '@/scripts/copy-to-clipboard';
-import { i18n } from '@/i18n';
+import { } from "vue";
+import * as os from "@/os";
+import copyToClipboard from "@/scripts/copy-to-clipboard";
+import { i18n } from "@/i18n";
 
 const props = defineProps<{
 	emoji: Record<string, unknown>; // TODO
@@ -20,15 +20,15 @@ const props = defineProps<{
 
 function menu(ev) {
 	os.popupMenu([{
-		type: 'label',
-		text: ':' + props.emoji.name + ':',
+		type: "label",
+		text: ":" + props.emoji.name + ":",
 	}, {
 		text: i18n.ts.copy,
-		icon: 'ti ti-copy',
+		icon: "ti ti-copy",
 		action: () => {
 			copyToClipboard(`:${props.emoji.name}:`);
 			os.success();
-		}
+		},
 	}], ev.currentTarget ?? ev.target);
 }
 </script>

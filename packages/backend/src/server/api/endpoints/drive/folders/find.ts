@@ -1,32 +1,32 @@
-import define from '../../../define.js';
-import { DriveFolders } from '@/models/index.js';
-import { IsNull } from 'typeorm';
+import { IsNull } from "typeorm";
+import { DriveFolders } from "@/models/index.js";
+import define from "../../../define.js";
 
 export const meta = {
-	tags: ['drive'],
+	tags: ["drive"],
 
 	requireCredential: true,
 
-	kind: 'read:drive',
+	kind: "read:drive",
 
 	res: {
-		type: 'array',
+		type: "array",
 		optional: false, nullable: false,
 		items: {
-			type: 'object',
+			type: "object",
 			optional: false, nullable: false,
-			ref: 'DriveFolder',
+			ref: "DriveFolder",
 		},
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		name: { type: 'string' },
-		parentId: { type: 'string', format: 'misskey:id', nullable: true, default: null },
+		name: { type: "string" },
+		parentId: { type: "string", format: "misskey:id", nullable: true, default: null },
 	},
-	required: ['name'],
+	required: ["name"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export

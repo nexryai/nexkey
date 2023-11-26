@@ -81,16 +81,16 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, reactive, ref, watch } from 'vue';
-import FormSelect from '@/components/form/select.vue';
-import MkInput from '@/components/form/input.vue';
-import MkSwitch from '@/components/form/switch.vue';
-import FormRadios from '@/components/form/radios.vue';
-import FormButton from '@/components/MkButton.vue';
-import FormRange from '@/components/form/range.vue';
-import * as os from '@/os';
-import { defaultStore } from '@/store';
-import { i18n } from '@/i18n';
+import { computed, reactive, ref, watch } from "vue";
+import FormSelect from "@/components/form/select.vue";
+import MkInput from "@/components/form/input.vue";
+import MkSwitch from "@/components/form/switch.vue";
+import FormRadios from "@/components/form/radios.vue";
+import FormButton from "@/components/MkButton.vue";
+import FormRange from "@/components/form/range.vue";
+import * as os from "@/os";
+import { defaultStore } from "@/store";
+import { i18n } from "@/i18n";
 
 const props = defineProps<{
 	_id: string;
@@ -100,25 +100,25 @@ const props = defineProps<{
 const statusbar = reactive(JSON.parse(JSON.stringify(defaultStore.state.statusbars.find(x => x.id === props._id))));
 
 watch(() => statusbar.type, () => {
-	if (statusbar.type === 'rss') {
-		statusbar.name = 'NEWS';
-		statusbar.props.url = 'http://feeds.afpbb.com/rss/afpbb/afpbbnews';
+	if (statusbar.type === "rss") {
+		statusbar.name = "NEWS";
+		statusbar.props.url = "http://feeds.afpbb.com/rss/afpbb/afpbbnews";
 		statusbar.props.shuffle = true;
 		statusbar.props.refreshIntervalSec = 120;
-		statusbar.props.display = 'marquee';
+		statusbar.props.display = "marquee";
 		statusbar.props.marqueeDuration = 100;
 		statusbar.props.marqueeReverse = false;
-	} else if (statusbar.type === 'federation') {
-		statusbar.name = 'FEDERATION';
+	} else if (statusbar.type === "federation") {
+		statusbar.name = "FEDERATION";
 		statusbar.props.refreshIntervalSec = 120;
-		statusbar.props.display = 'marquee';
+		statusbar.props.display = "marquee";
 		statusbar.props.marqueeDuration = 100;
 		statusbar.props.marqueeReverse = false;
 		statusbar.props.colored = false;
-	} else if (statusbar.type === 'userList') {
-		statusbar.name = 'LIST TL';
+	} else if (statusbar.type === "userList") {
+		statusbar.name = "LIST TL";
 		statusbar.props.refreshIntervalSec = 120;
-		statusbar.props.display = 'marquee';
+		statusbar.props.display = "marquee";
 		statusbar.props.marqueeDuration = 100;
 		statusbar.props.marqueeReverse = false;
 	}
@@ -130,10 +130,10 @@ async function save() {
 	const i = defaultStore.state.statusbars.findIndex(x => x.id === props._id);
 	const statusbars = JSON.parse(JSON.stringify(defaultStore.state.statusbars));
 	statusbars[i] = JSON.parse(JSON.stringify(statusbar));
-	defaultStore.set('statusbars', statusbars);
+	defaultStore.set("statusbars", statusbars);
 }
 
 function del() {
-	defaultStore.set('statusbars', defaultStore.state.statusbars.filter(x => x.id !== props._id));
+	defaultStore.set("statusbars", defaultStore.state.statusbars.filter(x => x.id !== props._id));
 }
 </script>

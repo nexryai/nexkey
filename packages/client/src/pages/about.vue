@@ -87,64 +87,64 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
-import XEmojis from './about.emojis.vue';
-import XFederation from './about.federation.vue';
-import { version, instanceName , host } from '@/config';
-import FormLink from '@/components/form/link.vue';
-import FormSection from '@/components/form/section.vue';
-import FormSuspense from '@/components/form/suspense.vue';
-import FormSplit from '@/components/form/split.vue';
-import MkKeyValue from '@/components/MkKeyValue.vue';
-import MkInstanceStats from '@/components/MkInstanceStats.vue';
-import * as os from '@/os';
-import number from '@/filters/number';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
-import MkAd from '@/components/global/MkAd.vue';
-import { instance } from '@/instance';
+import { ref, computed } from "vue";
+import XEmojis from "./about.emojis.vue";
+import XFederation from "./about.federation.vue";
+import { version, instanceName , host } from "@/config";
+import FormLink from "@/components/form/link.vue";
+import FormSection from "@/components/form/section.vue";
+import FormSuspense from "@/components/form/suspense.vue";
+import FormSplit from "@/components/form/split.vue";
+import MkKeyValue from "@/components/MkKeyValue.vue";
+import MkInstanceStats from "@/components/MkInstanceStats.vue";
+import * as os from "@/os";
+import number from "@/filters/number";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
+import MkAd from "@/components/global/MkAd.vue";
+import { instance } from "@/instance";
 
 const props = withDefaults(defineProps<{
 	initialTab?: string;
 }>(), {
-	initialTab: 'overview',
+	initialTab: "overview",
 });
 
 let stats = $ref(null);
 let tab = $ref(props.initialTab);
 let onlineUsersCount = $ref();
 
-const initStats = () => os.api('stats', {
+const initStats = () => os.api("stats", {
 }).then((res) => {
 	stats = res;
 });
 
-os.api('get-online-users-count').then(res => {
+os.api("get-online-users-count").then(res => {
 	onlineUsersCount = res.count;
 });
 
 const headerActions = $computed(() => []);
 
 const headerTabs = $computed(() => [{
-	key: 'overview',
+	key: "overview",
 	title: i18n.ts.overview,
 }, {
-	key: 'emojis',
+	key: "emojis",
 	title: i18n.ts.customEmojis,
-	icon: 'ti ti-mood-happy',
+	icon: "ti ti-mood-happy",
 }, {
-	key: 'federation',
+	key: "federation",
 	title: i18n.ts.federation,
-	icon: 'ti ti-whirl',
+	icon: "ti ti-whirl",
 }, {
-	key: 'charts',
+	key: "charts",
 	title: i18n.ts.charts,
-	icon: 'ti ti-chart-line',
+	icon: "ti ti-chart-line",
 }]);
 
 definePageMetadata(computed(() => ({
 	title: i18n.ts.instanceInfo,
-	icon: 'ti ti-info-circle',
+	icon: "ti ti-info-circle",
 })));
 </script>
 

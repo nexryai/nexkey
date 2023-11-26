@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
+import { defineComponent, onMounted, onUnmounted, ref } from "vue";
 import {
 	Chart,
 	ArcElement,
@@ -20,11 +20,11 @@ import {
 	Tooltip,
 	SubTitle,
 	Filler,
-} from 'chart.js';
-import number from '@/filters/number';
-import * as os from '@/os';
-import { defaultStore } from '@/store';
-import { useChartTooltip } from '@/scripts/use-chart-tooltip';
+} from "chart.js";
+import number from "@/filters/number";
+import * as os from "@/os";
+import { defaultStore } from "@/store";
+import { useChartTooltip } from "@/scripts/use-chart-tooltip";
 
 Chart.register(
 	ArcElement,
@@ -58,17 +58,17 @@ const alpha = (hex, a) => {
 
 const chartEl = ref<HTMLCanvasElement>(null);
 
-const gridColor = defaultStore.state.darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+const gridColor = defaultStore.state.darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)";
 
 // フォントカラー
-Chart.defaults.color = getComputedStyle(document.documentElement).getPropertyValue('--fg');
+Chart.defaults.color = getComputedStyle(document.documentElement).getPropertyValue("--fg");
 
 const { handler: externalTooltipHandler } = useChartTooltip();
 
 let chartInstance: Chart;
 
 const onStats = (stats) => {
-	chartInstance.data.labels.push('');
+	chartInstance.data.labels.push("");
 	chartInstance.data.datasets[0].data.push(stats[props.domain].activeSincePrevTick);
 	chartInstance.data.datasets[1].data.push(stats[props.domain].active);
 	chartInstance.data.datasets[2].data.push(stats[props.domain].waiting);
@@ -85,7 +85,7 @@ const onStats = (stats) => {
 
 const onStatsLog = (statsLog) => {
 	for (const stats of [...statsLog].reverse()) {
-		chartInstance.data.labels.push('');
+		chartInstance.data.labels.push("");
 		chartInstance.data.datasets[0].data.push(stats[props.domain].activeSincePrevTick);
 		chartInstance.data.datasets[1].data.push(stats[props.domain].active);
 		chartInstance.data.datasets[2].data.push(stats[props.domain].waiting);
@@ -103,43 +103,43 @@ const onStatsLog = (statsLog) => {
 
 onMounted(() => {
 	chartInstance = new Chart(chartEl.value, {
-		type: 'line',
+		type: "line",
 		data: {
 			labels: [],
 			datasets: [{
-				label: 'Process',
+				label: "Process",
 				pointRadius: 0,
 				tension: 0.3,
 				borderWidth: 2,
-				borderJoinStyle: 'round',
-				borderColor: '#00E396',
-				backgroundColor: alpha('#00E396', 0.1),
+				borderJoinStyle: "round",
+				borderColor: "#00E396",
+				backgroundColor: alpha("#00E396", 0.1),
 				data: [],
 			}, {
-				label: 'Active',
+				label: "Active",
 				pointRadius: 0,
 				tension: 0.3,
 				borderWidth: 2,
-				borderJoinStyle: 'round',
-				borderColor: '#00BCD4',
-				backgroundColor: alpha('#00BCD4', 0.1),
+				borderJoinStyle: "round",
+				borderColor: "#00BCD4",
+				backgroundColor: alpha("#00BCD4", 0.1),
 				data: [],
 			}, {
-				label: 'Waiting',
+				label: "Waiting",
 				pointRadius: 0,
 				tension: 0.3,
 				borderWidth: 2,
-				borderJoinStyle: 'round',
-				borderColor: '#FFB300',
-				backgroundColor: alpha('#FFB300', 0.1),
+				borderJoinStyle: "round",
+				borderColor: "#FFB300",
+				backgroundColor: alpha("#FFB300", 0.1),
 				data: [],
 			}, {
-				label: 'Delayed',
+				label: "Delayed",
 				pointRadius: 0,
 				tension: 0.3,
 				borderWidth: 2,
-				borderJoinStyle: 'round',
-				borderColor: '#E53935',
+				borderJoinStyle: "round",
+				borderColor: "#E53935",
 				borderDash: [5, 5],
 				fill: false,
 				data: [],
@@ -186,7 +186,7 @@ onMounted(() => {
 				},
 				tooltip: {
 					enabled: false,
-					mode: 'index',
+					mode: "index",
 					animation: {
 						duration: 0,
 					},
@@ -196,13 +196,13 @@ onMounted(() => {
 		},
 	});
 
-	props.connection.on('stats', onStats);
-	props.connection.on('statsLog', onStatsLog);
+	props.connection.on("stats", onStats);
+	props.connection.on("statsLog", onStatsLog);
 });
 
 onUnmounted(() => {
-	props.connection.off('stats', onStats);
-	props.connection.off('statsLog', onStatsLog);
+	props.connection.off("stats", onStats);
+	props.connection.off("statsLog", onStatsLog);
 });
 </script>
 

@@ -7,18 +7,18 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, ref } from 'vue';
-import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from './widget';
-import { GetFormResultType } from '@/scripts/form';
-import * as os from '@/os';
-import { useInterval } from '@/scripts/use-interval';
-import { i18n } from '@/i18n';
+import { onMounted, onUnmounted, ref } from "vue";
+import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from "./widget";
+import { GetFormResultType } from "@/scripts/form";
+import * as os from "@/os";
+import { useInterval } from "@/scripts/use-interval";
+import { i18n } from "@/i18n";
 
-const name = 'onlineUsers';
+const name = "onlineUsers";
 
 const widgetPropsDef = {
 	transparent: {
-		type: 'boolean' as const,
+		type: "boolean" as const,
 		default: true,
 	},
 };
@@ -29,7 +29,7 @@ type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
 //const props = defineProps<WidgetComponentProps<WidgetProps>>();
 //const emit = defineEmits<WidgetComponentEmits<WidgetProps>>();
 const props = defineProps<{ widget?: Widget<WidgetProps>; }>();
-const emit = defineEmits<{ (ev: 'updateProps', props: WidgetProps); }>();
+const emit = defineEmits<{ (ev: "updateProps", props: WidgetProps); }>();
 
 const { widgetProps, configure } = useWidgetPropsManager(name,
 	widgetPropsDef,
@@ -40,7 +40,7 @@ const { widgetProps, configure } = useWidgetPropsManager(name,
 const onlineUsersCount = ref(0);
 
 const tick = () => {
-	os.api('get-online-users-count').then(res => {
+	os.api("get-online-users-count").then(res => {
 		onlineUsersCount.value = res.count;
 	});
 };

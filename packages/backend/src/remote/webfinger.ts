@@ -1,6 +1,6 @@
-import { URL } from 'node:url';
-import { getJson } from '@/misc/fetch.js';
-import { query as urlQuery } from '@/prelude/url.js';
+import { URL } from "node:url";
+import { getJson } from "@/misc/fetch.js";
+import { query as urlQuery } from "@/prelude/url.js";
 
 type ILink = {
 	href: string;
@@ -15,7 +15,7 @@ type IWebFinger = {
 export default async function(query: string): Promise<IWebFinger> {
 	const url = genUrl(query);
 
-	return await getJson(url, 'application/jrd+json, application/json') as IWebFinger;
+	return await getJson(url, "application/jrd+json, application/json") as IWebFinger;
 }
 
 function genUrl(query: string) {

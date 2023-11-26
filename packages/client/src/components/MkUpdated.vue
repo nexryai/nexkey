@@ -10,18 +10,18 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import MkModal from '@/components/MkModal.vue';
-import MkButton from '@/components/MkButton.vue';
-import MkSparkle from '@/components/MkSparkle.vue';
-import { version } from '@/config';
-import { i18n } from '@/i18n';
+import { ref } from "vue";
+import MkModal from "@/components/MkModal.vue";
+import MkButton from "@/components/MkButton.vue";
+import MkSparkle from "@/components/MkSparkle.vue";
+import { version } from "@/config";
+import { i18n } from "@/i18n";
 
 const modal = ref<InstanceType<typeof MkModal>>();
 
 const whatIsNew = () => {
 	modal.value.close();
-	window.open(`https://github.com/nexryai/misskey-agathos/blob/main/CHANGELOG.md`, '_blank');
+	window.open("https://github.com/nexryai/misskey-agathos/blob/main/CHANGELOG.md", "_blank");
 };
 </script>
 

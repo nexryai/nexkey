@@ -6,25 +6,25 @@
 </template>
 
 <script lang="ts">
-import { TextBlock } from '@/scripts/hpml/block';
-import { Hpml } from '@/scripts/hpml/evaluator';
-import { defineAsyncComponent, defineComponent, PropType } from 'vue';
-import * as mfm from 'mfm-js';
-import { extractUrlFromMfm } from '@/scripts/extract-url-from-mfm';
+import { defineAsyncComponent, defineComponent, PropType } from "vue";
+import * as mfm from "mfm-js";
+import { TextBlock } from "@/scripts/hpml/block";
+import { Hpml } from "@/scripts/hpml/evaluator";
+import { extractUrlFromMfm } from "@/scripts/extract-url-from-mfm";
 
 export default defineComponent({
 	components: {
-		MkUrlPreview: defineAsyncComponent(() => import('@/components/MkUrlPreview.vue')),
+		MkUrlPreview: defineAsyncComponent(() => import("@/components/MkUrlPreview.vue")),
 	},
 	props: {
 		block: {
 			type: Object as PropType<TextBlock>,
-			required: true
+			required: true,
 		},
 		hpml: {
 			type: Object as PropType<Hpml>,
-			required: true
-		}
+			required: true,
+		},
 	},
 	data() {
 		return {
@@ -38,15 +38,15 @@ export default defineComponent({
 			} else {
 				return [];
 			}
-		}
+		},
 	},
 	watch: {
-		'hpml.vars': {
+		"hpml.vars": {
 			handler() {
 				this.text = this.hpml.interpolate(this.block.text);
 			},
-			deep: true
-		}
+			deep: true,
+		},
 	},
 });
 </script>

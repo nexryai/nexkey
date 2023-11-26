@@ -1,25 +1,25 @@
 <template>
-	<div ref="rootEl">
-		<div v-if="isPullStart" :class="$style.frame" :style="`--frame-min-height: ${currentHeight / 3}px;`">
-			<div :class="$style.frameContent">
-				<MkLoading v-if="isRefreshing" :class="$style.loader" :em="true"/>
-				<i v-else class="ti ti-arrow-bar-to-down" :class="[$style.icon, { [$style.refresh]: isPullEnd }]"></i>
-				<div :class="$style.text">
-					<template v-if="isPullEnd">{{ i18n.ts.releaseToRefresh }}</template>
-					<template v-else-if="isRefreshing">{{ i18n.ts.refreshing }}</template>
-					<template v-else>{{ i18n.ts.pullDownToRefresh }}</template>
-				</div>
+<div ref="rootEl">
+	<div v-if="isPullStart" :class="$style.frame" :style="`--frame-min-height: ${currentHeight / 3}px;`">
+		<div :class="$style.frameContent">
+			<MkLoading v-if="isRefreshing" :class="$style.loader" :em="true"/>
+			<i v-else class="ti ti-arrow-bar-to-down" :class="[$style.icon, { [$style.refresh]: isPullEnd }]"></i>
+			<div :class="$style.text">
+				<template v-if="isPullEnd">{{ i18n.ts.releaseToRefresh }}</template>
+				<template v-else-if="isRefreshing">{{ i18n.ts.refreshing }}</template>
+				<template v-else>{{ i18n.ts.pullDownToRefresh }}</template>
 			</div>
 		</div>
-		<div :class="{ [$style.slotClip]: isPullStart }">
-			<slot/>
-		</div>
 	</div>
+	<div :class="{ [$style.slotClip]: isPullStart }">
+		<slot/>
+	</div>
+</div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted } from 'vue';
-import { i18n } from '@/i18n.js';
+import { onMounted, onUnmounted } from "vue";
+import { i18n } from "@/i18n.js";
 
 const SCROLL_STOP = 10;
 const MAX_PULL_DISTANCE = Infinity;
@@ -40,7 +40,7 @@ let scrollEl: HTMLElement | null = null;
 let disabled = false;
 
 const emits = defineEmits<{
-	(ev: 'refresh'): void;
+	(ev: "refresh"): void;
 }>();
 
 function getScrollableParentElement(node) {
@@ -112,7 +112,7 @@ function moveEnd() {
 		if (isPullEnd) {
 			isPullEnd = false;
 			isRefreshing = true;
-			fixOverContent().then(() => emits('refresh'));
+			fixOverContent().then(() => emits("refresh"));
 		} else {
 			closeContent().then(() => isPullStart = false);
 		}
@@ -164,19 +164,19 @@ onMounted(() => {
 	//supportPointerDesktop = !!window.PointerEvent && deviceKind === 'desktop';
 
 	if (supportPointerDesktop) {
-		rootEl.addEventListener('pointerdown', moveStart);
+		rootEl.addEventListener("pointerdown", moveStart);
 		// ポインターの場合、ポップアップ系の動作をするとdownだけ発火されてupが発火されないため
-		window.addEventListener('pointerup', moveEnd);
-		rootEl.addEventListener('pointermove', moving, { passive: true });
+		window.addEventListener("pointerup", moveEnd);
+		rootEl.addEventListener("pointermove", moving, { passive: true });
 	} else {
-		rootEl.addEventListener('touchstart', moveStart);
-		rootEl.addEventListener('touchend', moveEnd);
-		rootEl.addEventListener('touchmove', moving, { passive: true });
+		rootEl.addEventListener("touchstart", moveStart);
+		rootEl.addEventListener("touchend", moveEnd);
+		rootEl.addEventListener("touchmove", moving, { passive: true });
 	}
 });
 
 onUnmounted(() => {
-	if (supportPointerDesktop) window.removeEventListener('pointerup', moveEnd);
+	if (supportPointerDesktop) window.removeEventListener("pointerup", moveEnd);
 });
 
 defineExpose({

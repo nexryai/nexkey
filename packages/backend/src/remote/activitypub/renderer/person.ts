@@ -1,16 +1,16 @@
-import { URL } from 'node:url';
-import * as mfm from 'mfm-js';
-import renderImage from './image.js';
-import renderKey from './key.js';
-import config from '@/config/index.js';
-import { ILocalUser } from '@/models/entities/user.js';
-import { toHtml } from '../../../mfm/to-html.js';
-import { getEmojis } from './note.js';
-import renderEmoji from './emoji.js';
-import { IIdentifier } from '../models/identifier.js';
-import renderHashtag from './hashtag.js';
-import { DriveFiles, UserProfiles } from '@/models/index.js';
-import { getUserKeypair } from '@/misc/keypair-store.js';
+import { URL } from "node:url";
+import * as mfm from "mfm-js";
+import config from "@/config/index.js";
+import { ILocalUser } from "@/models/entities/user.js";
+import { DriveFiles, UserProfiles } from "@/models/index.js";
+import { getUserKeypair } from "@/misc/keypair-store.js";
+import { toHtml } from "../../../mfm/to-html.js";
+import { IIdentifier } from "../models/identifier.js";
+import renderImage from "./image.js";
+import renderKey from "./key.js";
+import { getEmojis } from "./note.js";
+import renderEmoji from "./emoji.js";
+import renderHashtag from "./hashtag.js";
 
 export async function renderPerson(user: ILocalUser) {
 	const id = `${config.url}/users/${user.id}`;
@@ -23,7 +23,7 @@ export async function renderPerson(user: ILocalUser) {
 	]);
 
 	const attachment: {
-		type: 'PropertyValue',
+		type: "PropertyValue",
 		name: string,
 		value: string,
 		identifier?: IIdentifier
@@ -32,7 +32,7 @@ export async function renderPerson(user: ILocalUser) {
 	if (profile.fields) {
 		for (const field of profile.fields) {
 			attachment.push({
-				type: 'PropertyValue',
+				type: "PropertyValue",
 				name: field.name,
 				value: (field.value != null && field.value.match(/^https?:/))
 					? `<a href="${new URL(field.value).href}" rel="me nofollow noopener" target="_blank">${new URL(field.value).href}</a>`
@@ -54,7 +54,7 @@ export async function renderPerson(user: ILocalUser) {
 	const keypair = await getUserKeypair(user.id);
 
 	const person = {
-		type: isSystem ? 'Application' : user.isBot ? 'Service' : 'Person',
+		type: isSystem ? "Application" : user.isBot ? "Service" : "Person",
 		id,
 		inbox: `${id}/inbox`,
 		outbox: `${id}/outbox`,
@@ -73,17 +73,17 @@ export async function renderPerson(user: ILocalUser) {
 		manuallyApprovesFollowers: user.isLocked,
 		discoverable: !!user.isExplorable,
 		published: user.createdAt.toISOString(),
-		publicKey: renderKey(user, keypair, `#main-key`),
+		publicKey: renderKey(user, keypair, "#main-key"),
 		isCat: user.isCat,
 		attachment: attachment.length ? attachment : undefined,
 	} as any;
 
-	if (profile?.birthday) {
-		person['vcard:bday'] = profile.birthday;
+	if (profile.birthday) {
+		person["vcard:bday"] = profile.birthday;
 	}
 
-	if (profile?.location) {
-		person['vcard:Address'] = profile.location;
+	if (profile.location) {
+		person["vcard:Address"] = profile.location;
 	}
 
 	return person;

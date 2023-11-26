@@ -1,51 +1,51 @@
-import { Announcements, AnnouncementReads } from '@/models/index.js';
-import { Announcement } from '@/models/entities/announcement.js';
-import define from '../../../define.js';
-import { makePaginationQuery } from '../../../common/make-pagination-query.js';
+import { Announcements, AnnouncementReads } from "@/models/index.js";
+import { Announcement } from "@/models/entities/announcement.js";
+import define from "../../../define.js";
+import { makePaginationQuery } from "../../../common/make-pagination-query.js";
 
 export const meta = {
-	tags: ['admin'],
+	tags: ["admin"],
 
 	requireCredential: true,
 	requireModerator: true,
 
 	res: {
-		type: 'array',
+		type: "array",
 		optional: false, nullable: false,
 		items: {
-			type: 'object',
+			type: "object",
 			optional: false, nullable: false,
 			properties: {
 				id: {
-					type: 'string',
+					type: "string",
 					optional: false, nullable: false,
-					format: 'id',
-					example: 'xxxxxxxxxx',
+					format: "id",
+					example: "xxxxxxxxxx",
 				},
 				createdAt: {
-					type: 'string',
+					type: "string",
 					optional: false, nullable: false,
-					format: 'date-time',
+					format: "date-time",
 				},
 				updatedAt: {
-					type: 'string',
+					type: "string",
 					optional: false, nullable: true,
-					format: 'date-time',
+					format: "date-time",
 				},
 				text: {
-					type: 'string',
+					type: "string",
 					optional: false, nullable: false,
 				},
 				title: {
-					type: 'string',
+					type: "string",
 					optional: false, nullable: false,
 				},
 				imageUrl: {
-					type: 'string',
+					type: "string",
 					optional: false, nullable: true,
 				},
 				reads: {
-					type: 'number',
+					type: "number",
 					optional: false, nullable: false,
 				},
 			},
@@ -54,18 +54,18 @@ export const meta = {
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
-		sinceId: { type: 'string', format: 'misskey:id' },
-		untilId: { type: 'string', format: 'misskey:id' },
+		limit: { type: "integer", minimum: 1, maximum: 100, default: 10 },
+		sinceId: { type: "string", format: "misskey:id" },
+		untilId: { type: "string", format: "misskey:id" },
 	},
 	required: [],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps) => {
-	const query = makePaginationQuery(Announcements.createQueryBuilder('announcement'), ps.sinceId, ps.untilId);
+	const query = makePaginationQuery(Announcements.createQueryBuilder("announcement"), ps.sinceId, ps.untilId);
 
 	const announcements = await query.take(ps.limit).getMany();
 

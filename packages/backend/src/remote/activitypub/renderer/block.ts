@@ -1,5 +1,5 @@
-import config from '@/config/index.js';
-import { Blocking } from '@/models/entities/blocking.js';
+import config from "@/config/index.js";
+import { Blocking } from "@/models/entities/blocking.js";
 
 /**
  * Renders a block into its ActivityPub representation.
@@ -8,11 +8,11 @@ import { Blocking } from '@/models/entities/blocking.js';
  */
 export function renderBlock(block: Blocking) {
 	if (block.blockee?.uri == null) {
-		throw new Error('renderBlock: missing blockee uri');
+		throw new Error("renderBlock: missing blockee uri");
 	}
 
 	return {
-		type: 'Block',
+		type: "Block",
 		id: `${config.url}/blocks/${block.id}`,
 		actor: `${config.url}/users/${block.blockerId}`,
 		object: block.blockee.uri,

@@ -34,18 +34,18 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import * as misskey from 'misskey-js';
-import XNoteHeader from '@/components/MkNoteHeader.vue';
-import MkSubNoteContent from '@/components/MkSubNoteContent.vue';
-import XCwButton from '@/components/MkCwButton.vue';
-import { notePage } from '@/filters/note';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
+import { ref } from "vue";
+import * as misskey from "misskey-js";
+import XNoteHeader from "@/components/MkNoteHeader.vue";
+import MkSubNoteContent from "@/components/MkSubNoteContent.vue";
+import XCwButton from "@/components/MkCwButton.vue";
+import { notePage } from "@/filters/note";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
 import { userPage } from "@/filters/user";
 import { checkWordMute } from "@/scripts/check-word-mute";
 import { defaultStore } from "@/store";
-import { $i } from '@/account';
+import { $i } from "@/account";
 
 const props = withDefaults(defineProps<{
 	note: misskey.entities.Note;
@@ -61,7 +61,7 @@ let showContent = $ref(false);
 let replies: misskey.entities.Note[] = $ref([]);
 
 if (props.detail) {
-	os.api('notes/children', {
+	os.api("notes/children", {
 		noteId: props.note.id,
 		limit: 5,
 	}).then(res => {

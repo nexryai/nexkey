@@ -27,11 +27,11 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, nextTick, ref, watch, computed, toRefs, VNode, useSlots } from 'vue';
-import MkButton from '@/components/MkButton.vue';
-import * as os from '@/os';
-import { useInterval } from '@/scripts/use-interval';
-import { i18n } from '@/i18n';
+import { onMounted, onUnmounted, nextTick, ref, watch, computed, toRefs, VNode, useSlots } from "vue";
+import MkButton from "@/components/MkButton.vue";
+import * as os from "@/os";
+import { useInterval } from "@/scripts/use-interval";
+import { i18n } from "@/i18n";
 
 const props = defineProps<{
 	modelValue: string;
@@ -47,8 +47,8 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-	(ev: 'change', _ev: KeyboardEvent): void;
-	(ev: 'update:modelValue', value: string): void;
+	(ev: "change", _ev: KeyboardEvent): void;
+	(ev: "update:modelValue", value: string): void;
 }>();
 
 const slots = useSlots();
@@ -58,7 +58,7 @@ const v = ref(modelValue.value);
 const focused = ref(false);
 const changed = ref(false);
 const invalid = ref(false);
-const filled = computed(() => v.value !== '' && v.value != null);
+const filled = computed(() => v.value !== "" && v.value != null);
 const inputEl = ref(null);
 const prefixEl = ref(null);
 const suffixEl = ref(null);
@@ -71,12 +71,12 @@ const height =
 const focus = () => inputEl.value.focus();
 const onInput = (ev) => {
 	changed.value = true;
-	emit('change', ev);
+	emit("change", ev);
 };
 
 const updated = () => {
 	changed.value = false;
-	emit('update:modelValue', v.value);
+	emit("update:modelValue", v.value);
 };
 
 watch(modelValue, newValue => {
@@ -96,12 +96,12 @@ watch(v, newValue => {
 useInterval(() => {
 	if (prefixEl.value) {
 		if (prefixEl.value.offsetWidth) {
-			inputEl.value.style.paddingLeft = prefixEl.value.offsetWidth + 'px';
+			inputEl.value.style.paddingLeft = prefixEl.value.offsetWidth + "px";
 		}
 	}
 	if (suffixEl.value) {
 		if (suffixEl.value.offsetWidth) {
-			inputEl.value.style.paddingRight = suffixEl.value.offsetWidth + 'px';
+			inputEl.value.style.paddingRight = suffixEl.value.offsetWidth + "px";
 		}
 	}
 }, 100, {
@@ -135,10 +135,10 @@ const onClick = (ev: MouseEvent) => {
 
 	const scanOptions = (options: VNode[]) => {
 		for (const vnode of options) {
-			if (vnode.type === 'optgroup') {
+			if (vnode.type === "optgroup") {
 				const optgroup = vnode;
 				menu.push({
-					type: 'label',
+					type: "label",
 					text: optgroup.props.label,
 				});
 				scanOptions(optgroup.children);

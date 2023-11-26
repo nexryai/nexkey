@@ -9,12 +9,12 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
-import XColumn from './column.vue';
-import { updateColumn, Column } from './deck-store';
-import XTimeline from '@/components/MkTimeline.vue';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
+import { onMounted } from "vue";
+import XColumn from "./column.vue";
+import { updateColumn, Column } from "./deck-store";
+import XTimeline from "@/components/MkTimeline.vue";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
 
 const props = defineProps<{
 	column: Column;
@@ -22,8 +22,8 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-	(ev: 'loaded'): void;
-	(ev: 'parent-focus', direction: 'up' | 'down' | 'left' | 'right'): void;
+	(ev: "loaded"): void;
+	(ev: "parent-focus", direction: "up" | "down" | "left" | "right"): void;
 }>();
 
 let timeline = $ref<InstanceType<typeof XTimeline>>();
@@ -35,7 +35,7 @@ onMounted(() => {
 });
 
 async function setAntenna() {
-	const antennas = await os.api('antennas/list');
+	const antennas = await os.api("antennas/list");
 	const { canceled, result: antenna } = await os.select({
 		title: i18n.ts.selectAntenna,
 		items: antennas.map(x => ({
@@ -50,7 +50,7 @@ async function setAntenna() {
 }
 
 const menu = [{
-	icon: 'ti ti-pencil',
+	icon: "ti ti-pencil",
 	text: i18n.ts.selectAntenna,
 	action: setAntenna,
 }];

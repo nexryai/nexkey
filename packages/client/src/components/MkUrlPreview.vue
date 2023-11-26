@@ -25,9 +25,9 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted } from 'vue';
-import { url as local, lang } from '@/config';
-import { i18n } from '@/i18n';
+import { onMounted, onUnmounted } from "vue";
+import { url as local, lang } from "@/config";
+import { i18n } from "@/i18n";
 
 const props = withDefaults(defineProps<{
 	url: string;
@@ -39,8 +39,8 @@ const props = withDefaults(defineProps<{
 });
 
 const self = props.url.startsWith(local);
-const attr = self ? 'to' : 'href';
-const target = self ? null : '_blank';
+const attr = self ? "to" : "href";
+const target = self ? null : "_blank";
 let fetching = $ref(true);
 let title = $ref<string | null>(null);
 let description = $ref<string | null>(null);
@@ -55,23 +55,23 @@ let player = $ref({
 let playerEnabled = $ref(false);
 let tweetId = $ref<string | null>(null);
 let tweetExpanded = $ref(props.detail);
-const embedId = `embed${Math.random().toString().replace(/\D/,'')}`;
+const embedId = `embed${Math.random().toString().replace(/\D/,"")}`;
 let tweetHeight = $ref(150);
 
 const requestUrl = new URL(props.url);
 
-if (requestUrl.hostname === 'twitter.com' || requestUrl.hostname === 'mobile.twitter.com') {
+if (requestUrl.hostname === "twitter.com" || requestUrl.hostname === "mobile.twitter.com") {
 	const m = requestUrl.pathname.match(/^\/.+\/status(?:es)?\/(\d+)/);
 	if (m) tweetId = m[1];
 }
 
-if (requestUrl.hostname === 'music.youtube.com' && requestUrl.pathname.match('^/(?:watch|channel)')) {
-	requestUrl.hostname = 'www.youtube.com';
+if (requestUrl.hostname === "music.youtube.com" && requestUrl.pathname.match("^/(?:watch|channel)")) {
+	requestUrl.hostname = "www.youtube.com";
 }
 
-const requestLang = (lang || 'ja-JP').replace('ja-KS', 'ja-JP');
+const requestLang = (lang || "ja-JP").replace("ja-KS", "ja-JP");
 
-requestUrl.hash = '';
+requestUrl.hash = "";
 
 fetch(`/url?url=${encodeURIComponent(requestUrl.href)}&lang=${requestLang}`).then(res => {
 	res.json().then(info => {
@@ -87,18 +87,18 @@ fetch(`/url?url=${encodeURIComponent(requestUrl.href)}&lang=${requestLang}`).the
 });
 
 function adjustTweetHeight(message: any) {
-	if (message.origin !== 'https://platform.twitter.com') return;
-	const embed = message.data?.['twttr.embed'];
-	if (embed?.method !== 'twttr.private.resize') return;
+	if (message.origin !== "https://platform.twitter.com") return;
+	const embed = message.data?.["twttr.embed"];
+	if (embed?.method !== "twttr.private.resize") return;
 	if (embed?.id !== embedId) return;
 	const height = embed?.params[0]?.height;
 	if (height) tweetHeight = height;
 }
 
-(window as any).addEventListener('message', adjustTweetHeight);
+(window as any).addEventListener("message", adjustTweetHeight);
 
 onUnmounted(() => {
-	(window as any).removeEventListener('message', adjustTweetHeight);
+	(window as any).removeEventListener("message", adjustTweetHeight);
 });
 </script>
 

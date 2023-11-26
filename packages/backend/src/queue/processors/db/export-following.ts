@@ -1,17 +1,17 @@
-import Bull from 'bull';
-import * as fs from 'node:fs';
+import * as fs from "node:fs";
+import Bull from "bull";
 
-import { queueLogger } from '../../logger.js';
-import { addFile } from '@/services/drive/add-file.js';
-import { format as dateFormat } from 'date-fns';
-import { getFullApAccount } from '@/misc/convert-host.js';
-import { createTemp } from '@/misc/create-temp.js';
-import { Users, Followings, Mutings } from '@/models/index.js';
-import { In, MoreThan, Not } from 'typeorm';
-import { DbUserJobData } from '@/queue/types.js';
-import { Following } from '@/models/entities/following.js';
+import { format as dateFormat } from "date-fns";
+import { In, MoreThan, Not } from "typeorm";
+import { addFile } from "@/services/drive/add-file.js";
+import { getFullApAccount } from "@/misc/convert-host.js";
+import { createTemp } from "@/misc/create-temp.js";
+import { Users, Followings, Mutings } from "@/models/index.js";
+import { DbUserJobData } from "@/queue/types.js";
+import { Following } from "@/models/entities/following.js";
+import { queueLogger } from "../../logger.js";
 
-const logger = queueLogger.createSubLogger('export-following');
+const logger = queueLogger.createSubLogger("export-following");
 
 export async function exportFollowing(job: Bull.Job<DbUserJobData>, done: () => void): Promise<void> {
 	logger.info(`Exporting following of ${job.data.user.id} ...`);
@@ -28,9 +28,9 @@ export async function exportFollowing(job: Bull.Job<DbUserJobData>, done: () => 
 	logger.info(`Temp file is ${path}`);
 
 	try {
-		const stream = fs.createWriteStream(path, { flags: 'a' });
+		const stream = fs.createWriteStream(path, { flags: "a" });
 
-		let cursor: Following['id'] | null = null;
+		let cursor: Following["id"] | null = null;
 
 		const mutings = job.data.excludeMuting ? await Mutings.findBy({
 			muterId: user.id,
@@ -67,7 +67,7 @@ export async function exportFollowing(job: Bull.Job<DbUserJobData>, done: () => 
 
 				const content = getFullApAccount(u.username, u.host);
 				await new Promise<void>((res, rej) => {
-					stream.write(content + '\n', err => {
+					stream.write(content + "\n", err => {
 						if (err) {
 							logger.error(err);
 							rej(err);
@@ -82,7 +82,7 @@ export async function exportFollowing(job: Bull.Job<DbUserJobData>, done: () => 
 		stream.end();
 		logger.succ(`Exported to: ${path}`);
 
-		const fileName = 'following-' + dateFormat(new Date(), 'yyyy-MM-dd-HH-mm-ss') + '.csv';
+		const fileName = "following-" + dateFormat(new Date(), "yyyy-MM-dd-HH-mm-ss") + ".csv";
 		const driveFile = await addFile({ user, path, name: fileName, force: true });
 
 		logger.succ(`Exported to: ${driveFile.id}`);

@@ -78,18 +78,18 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch, onMounted } from 'vue';
-import * as Misskey from 'misskey-js';
-import XSection from '@/components/MkEmojiPicker.section.vue';
-import { emojilist, UnicodeEmojiDef, unicodeEmojiCategories as categories } from '@/scripts/emojilist';
-import { getStaticImageUrl } from '@/scripts/get-static-image-url';
-import Ripple from '@/components/MkRipple.vue';
-import * as os from '@/os';
-import { isTouchUsing } from '@/scripts/touch';
-import { deviceKind } from '@/scripts/device-kind';
-import { emojiCategories, instance } from '@/instance';
-import { i18n } from '@/i18n';
-import { defaultStore } from '@/store';
+import { ref, computed, watch, onMounted } from "vue";
+import * as Misskey from "misskey-js";
+import XSection from "@/components/MkEmojiPicker.section.vue";
+import { emojilist, UnicodeEmojiDef, unicodeEmojiCategories as categories } from "@/scripts/emojilist";
+import { getStaticImageUrl } from "@/scripts/get-static-image-url";
+import Ripple from "@/components/MkRipple.vue";
+import * as os from "@/os";
+import { isTouchUsing } from "@/scripts/touch";
+import { deviceKind } from "@/scripts/device-kind";
+import { emojiCategories, instance } from "@/instance";
+import { i18n } from "@/i18n";
+import { defaultStore } from "@/store";
 
 const props = withDefaults(defineProps<{
 	showPinned?: boolean;
@@ -101,7 +101,7 @@ const props = withDefaults(defineProps<{
 });
 
 const emit = defineEmits<{
-	(ev: 'chosen', v: string): void;
+	(ev: "chosen", v: string): void;
 }>();
 
 const search = ref<HTMLInputElement>();
@@ -124,18 +124,18 @@ const customEmojis = instance.emojis;
 const q = ref<string | null>(null);
 const searchResultCustom = ref<Misskey.entities.CustomEmoji[]>([]);
 const searchResultUnicode = ref<UnicodeEmojiDef[]>([]);
-const tab = ref<'index' | 'custom' | 'unicode' | 'tags'>('index');
+const tab = ref<"index" | "custom" | "unicode" | "tags">("index");
 
 watch(q, () => {
 	if (emojis.value) emojis.value.scrollTop = 0;
 
-	if (q.value == null || q.value === '') {
+	if (q.value == null || q.value === "") {
 		searchResultCustom.value = [];
 		searchResultUnicode.value = [];
 		return;
 	}
 
-	const newQ = q.value.replace(/:/g, '');
+	const newQ = q.value.replace(/:/g, "");
 
 	const searchCustom = () => {
 		const max = 8;
@@ -145,8 +145,8 @@ watch(q, () => {
 		const exactMatch = emojis.find(emoji => emoji.name === newQ);
 		if (exactMatch) matches.add(exactMatch);
 
-		if (newQ.includes(' ')) { // AND検索
-			const keywords = newQ.split(' ');
+		if (newQ.includes(" ")) { // AND検索
+			const keywords = newQ.split(" ");
 
 			// 名前にキーワードが含まれている
 			for (const emoji of emojis) {
@@ -208,8 +208,8 @@ watch(q, () => {
 		const exactMatch = emojis.find(emoji => emoji.name === newQ);
 		if (exactMatch) matches.add(exactMatch);
 
-		if (newQ.includes(' ')) { // AND検索
-			const keywords = newQ.split(' ');
+		if (newQ.includes(" ")) { // AND検索
+			const keywords = newQ.split(" ");
 
 			// 名前にキーワードが含まれている
 			for (const emoji of emojis) {
@@ -268,7 +268,7 @@ watch(q, () => {
 });
 
 function focus() {
-	if (!['smartphone', 'tablet'].includes(deviceKind) && !isTouchUsing) {
+	if (!["smartphone", "tablet"].includes(deviceKind) && !isTouchUsing) {
 		search.value?.focus({
 			preventScroll: true,
 		});
@@ -277,11 +277,11 @@ function focus() {
 
 function reset() {
 	if (emojis.value) emojis.value.scrollTop = 0;
-	q.value = '';
+	q.value = "";
 }
 
 function getKey(emoji: string | Misskey.entities.CustomEmoji | UnicodeEmojiDef): string {
-	return typeof emoji === 'string' ? emoji : (emoji.char || `:${emoji.name}:`);
+	return typeof emoji === "string" ? emoji : (emoji.char || `:${emoji.name}:`);
 }
 
 function chosen(emoji: any, ev?: MouseEvent) {
@@ -290,23 +290,23 @@ function chosen(emoji: any, ev?: MouseEvent) {
 		const rect = el.getBoundingClientRect();
 		const x = rect.left + (el.offsetWidth / 2);
 		const y = rect.top + (el.offsetHeight / 2);
-		os.popup(Ripple, { x, y }, {}, 'end');
+		os.popup(Ripple, { x, y }, {}, "end");
 	}
 
 	const key = getKey(emoji);
-	emit('chosen', key);
+	emit("chosen", key);
 
 	// 最近使った絵文字更新
 	if (!pinned.value.includes(key)) {
 		let recents = defaultStore.state.recentlyUsedEmojis;
 		recents = recents.filter((emoji: any) => emoji !== key);
 		recents.unshift(key);
-		defaultStore.set('recentlyUsedEmojis', recents.splice(0, 32));
+		defaultStore.set("recentlyUsedEmojis", recents.splice(0, 32));
 	}
 }
 
 function paste(event: ClipboardEvent) {
-	const paste = (event.clipboardData || window.clipboardData).getData('text');
+	const paste = (event.clipboardData || window.clipboardData).getData("text");
 	if (done(paste)) {
 		event.preventDefault();
 	}
@@ -314,9 +314,9 @@ function paste(event: ClipboardEvent) {
 
 function done(query?: any): boolean | void {
 	if (query == null) query = q.value;
-	if (query == null || typeof query !== 'string') return;
+	if (query == null || typeof query !== "string") return;
 
-	const q2 = query.replace(/:/g, '');
+	const q2 = query.replace(/:/g, "");
 	const exactMatchCustom = customEmojis.find(emoji => emoji.name === q2);
 	if (exactMatchCustom) {
 		chosen(exactMatchCustom);

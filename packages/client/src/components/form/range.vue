@@ -17,8 +17,8 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineAsyncComponent, onMounted, onUnmounted, ref, watch } from 'vue';
-import * as os from '@/os';
+import { computed, defineAsyncComponent, onMounted, onUnmounted, ref, watch } from "vue";
+import * as os from "@/os";
 
 const props = withDefaults(defineProps<{
 	modelValue: number;
@@ -36,7 +36,7 @@ const props = withDefaults(defineProps<{
 });
 
 const emit = defineEmits<{
-	(ev: 'update:modelValue', value: number): void;
+	(ev: "update:modelValue", value: number): void;
 }>();
 
 const containerEl = ref<HTMLElement>();
@@ -98,16 +98,16 @@ const onMousedown = (ev: MouseEvent | TouchEvent) => {
 	ev.preventDefault();
 
 	const tooltipShowing = ref(true);
-	os.popup(defineAsyncComponent(() => import('@/components/MkTooltip.vue')), {
+	os.popup(defineAsyncComponent(() => import("@/components/MkTooltip.vue")), {
 		showing: tooltipShowing,
 		text: computed(() => {
 			return props.textConverter(finalValue.value);
 		}),
 		targetElement: thumbEl,
-	}, {}, 'closed');
+	}, {}, "closed");
 
-	const style = document.createElement('style');
-	style.appendChild(document.createTextNode('* { cursor: grabbing !important; } body * { pointer-events: none !important; }'));
+	const style = document.createElement("style");
+	style.appendChild(document.createTextNode("* { cursor: grabbing !important; } body * { pointer-events: none !important; }"));
 	document.head.appendChild(style);
 
 	const onDrag = (ev: MouseEvent | TouchEvent) => {
@@ -123,21 +123,21 @@ const onMousedown = (ev: MouseEvent | TouchEvent) => {
 	const onMouseup = () => {
 		document.head.removeChild(style);
 		tooltipShowing.value = false;
-		window.removeEventListener('mousemove', onDrag);
-		window.removeEventListener('touchmove', onDrag);
-		window.removeEventListener('mouseup', onMouseup);
-		window.removeEventListener('touchend', onMouseup);
+		window.removeEventListener("mousemove", onDrag);
+		window.removeEventListener("touchmove", onDrag);
+		window.removeEventListener("mouseup", onMouseup);
+		window.removeEventListener("touchend", onMouseup);
 
 		// 値が変わってたら通知
 		if (beforeValue !== finalValue.value) {
-			emit('update:modelValue', finalValue.value);
+			emit("update:modelValue", finalValue.value);
 		}
 	};
 
-	window.addEventListener('mousemove', onDrag);
-	window.addEventListener('touchmove', onDrag);
-	window.addEventListener('mouseup', onMouseup, { once: true });
-	window.addEventListener('touchend', onMouseup, { once: true });
+	window.addEventListener("mousemove", onDrag);
+	window.addEventListener("touchmove", onDrag);
+	window.addEventListener("mouseup", onMouseup, { once: true });
+	window.addEventListener("touchend", onMouseup, { once: true });
 };
 </script>
 

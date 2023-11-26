@@ -127,20 +127,20 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
-import FormSection from '@/components/form/section.vue';
-import MkKeyValue from '@/components/MkKeyValue.vue';
-import * as os from '@/os';
-import number from '@/filters/number';
-import bytes from '@/filters/bytes';
-import { $i } from '@/account';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { onMounted, ref } from "vue";
+import FormSection from "@/components/form/section.vue";
+import MkKeyValue from "@/components/MkKeyValue.vue";
+import * as os from "@/os";
+import number from "@/filters/number";
+import bytes from "@/filters/bytes";
+import { $i } from "@/account";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 const stats = ref<any>({});
 
 onMounted(() => {
-	os.api('users/stats', {
+	os.api("users/stats", {
 		userId: $i!.id,
 	}).then(response => {
 		stats.value = response;
@@ -153,6 +153,6 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.accountInfo,
-	icon: 'ti ti-info-circle',
+	icon: "ti ti-info-circle",
 });
 </script>

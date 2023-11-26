@@ -6,8 +6,8 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
-import { decode } from 'blurhash';
+import { onMounted } from "vue";
+import { decode } from "blurhash";
 
 const props = withDefaults(defineProps<{
 	src?: string | null;
@@ -18,7 +18,7 @@ const props = withDefaults(defineProps<{
 	cover?: boolean;
 }>(), {
 	src: null,
-	alt: '',
+	alt: "",
 	title: null,
 	size: 64,
 	cover: true,
@@ -30,7 +30,7 @@ let loaded = $ref(false);
 function draw() {
 	if (props.hash == null) return;
 	const pixels = decode(props.hash, props.size, props.size);
-	const ctx = canvas.getContext('2d');
+	const ctx = canvas.getContext("2d");
 	const imageData = ctx!.createImageData(props.size, props.size);
 	imageData.data.set(pixels);
 	ctx!.putImageData(imageData, 0, 0);

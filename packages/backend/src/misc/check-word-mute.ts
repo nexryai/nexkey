@@ -1,17 +1,17 @@
-import RE2 from 're2';
-import { Note } from '@/models/entities/note.js';
-import { User } from '@/models/entities/user.js';
+import RE2 from "re2";
+import { Note } from "@/models/entities/note.js";
+import { User } from "@/models/entities/user.js";
 
 type NoteLike = {
-	userId: Note['userId'];
-	cw: Note['cw'];
-	text: Note['text'];
+	userId: Note["userId"];
+	cw: Note["cw"];
+	text: Note["text"];
 	reply: NoteLike | null;
 	renote: NoteLike | null;
 };
 
 type UserLike = {
-	id: User['id'];
+	id: User["id"];
 };
 
 // ワードミュート (ハード)
@@ -23,20 +23,20 @@ export async function checkWordMute(note: NoteLike, me: UserLike | null | undefi
 		const text = [
 			// 自分自身を除く返信
 			...(note.reply && note.reply.userId !== me?.id) ? [
-				note.reply?.cw ?? '',
-				note.reply?.text ?? '',
+				note.reply.cw ?? "",
+				note.reply.text ?? "",
 			] : [],
 			// 自分自身を除く投稿
-			note.cw ?? '',
-			note.text ?? '',
+			note.cw ?? "",
+			note.text ?? "",
 			// 自分自身を除くRN
 			...(note.renote && note.renote.userId !== me?.id) ? [
-				note.renote?.cw ?? '',
-				note.renote?.text ?? '',
+				note.renote.cw ?? "",
+				note.renote.text ?? "",
 			] : [],
-		].filter(x => x).join('\n').trim();
+		].filter(x => x).join("\n").trim();
 
-		if (text === '') return false;
+		if (text === "") return false;
 
 		const matched = mutedWords.some(filter => {
 			if (Array.isArray(filter)) {

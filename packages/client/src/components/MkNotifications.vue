@@ -17,16 +17,16 @@
 </template>
 
 <script lang="ts" setup>
-import { defineComponent, markRaw, onUnmounted, onMounted, computed, ref } from 'vue';
-import { notificationTypes } from '@/const';
-import MkPagination, { Paging } from '@/components/MkPagination.vue';
-import XNotification from '@/components/MkNotification.vue';
-import XList from '@/components/MkDateSeparatedList.vue';
-import XNote from '@/components/MkNote.vue';
-import * as os from '@/os';
-import { stream } from '@/stream';
-import { $i } from '@/account';
-import { i18n } from '@/i18n';
+import { defineComponent, markRaw, onUnmounted, onMounted, computed, ref } from "vue";
+import { notificationTypes } from "@/const";
+import MkPagination, { Paging } from "@/components/MkPagination.vue";
+import XNotification from "@/components/MkNotification.vue";
+import XList from "@/components/MkDateSeparatedList.vue";
+import XNote from "@/components/MkNote.vue";
+import * as os from "@/os";
+import { stream } from "@/stream";
+import { $i } from "@/account";
+import { i18n } from "@/i18n";
 
 const props = defineProps<{
 	includeTypes?: typeof notificationTypes[number][];
@@ -36,7 +36,7 @@ const props = defineProps<{
 const pagingComponent = ref<InstanceType<typeof MkPagination>>();
 
 const pagination: Paging = {
-	endpoint: 'i/notifications' as const,
+	endpoint: "i/notifications" as const,
 	limit: 10,
 	params: computed(() => ({
 		includeTypes: props.includeTypes ?? undefined,
@@ -47,8 +47,8 @@ const pagination: Paging = {
 
 const onNotification = (notification) => {
 	const isMuted = props.includeTypes ? !props.includeTypes.includes(notification.type) : $i.mutingNotificationTypes.includes(notification.type);
-	if (isMuted || document.visibilityState === 'visible') {
-		stream.send('readNotification', {
+	if (isMuted || document.visibilityState === "visible") {
+		stream.send("readNotification", {
 			id: notification.id,
 		});
 	}
@@ -56,7 +56,7 @@ const onNotification = (notification) => {
 	if (!isMuted) {
 		pagingComponent.value.prepend({
 			...notification,
-			isRead: document.visibilityState === 'visible',
+			isRead: document.visibilityState === "visible",
 		});
 	}
 };
@@ -64,9 +64,9 @@ const onNotification = (notification) => {
 let connection;
 
 onMounted(() => {
-	connection = stream.useChannel('main');
-	connection.on('notification', onNotification);
-	connection.on('readAllNotifications', () => {
+	connection = stream.useChannel("main");
+	connection.on("notification", onNotification);
+	connection.on("readAllNotifications", () => {
 		if (pagingComponent.value) {
 			for (const item of pagingComponent.value.queue) {
 				item.isRead = true;
@@ -76,7 +76,7 @@ onMounted(() => {
 			}
 		}
 	});
-	connection.on('readNotifications', notificationIds => {
+	connection.on("readNotifications", notificationIds => {
 		if (pagingComponent.value) {
 			for (let i = 0; i < pagingComponent.value.queue.length; i++) {
 				if (notificationIds.includes(pagingComponent.value.queue[i].id)) {

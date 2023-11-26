@@ -1,34 +1,34 @@
-import define from '../../define.js';
-import config from '@/config/index.js';
-import { createPerson } from '@/remote/activitypub/models/person.js';
-import { createNote } from '@/remote/activitypub/models/note.js';
-import DbResolver from '@/remote/activitypub/db-resolver.js';
-import Resolver from '@/remote/activitypub/resolver.js';
-import { ApiError } from '../../error.js';
-import { extractDbHost } from '@/misc/convert-host.js';
-import { Users, Notes } from '@/models/index.js';
-import { Note } from '@/models/entities/note.js';
-import { CacheableLocalUser, User } from '@/models/entities/user.js';
-import { fetchMeta } from '@/misc/fetch-meta.js';
-import { isActor, isPost, getApId } from '@/remote/activitypub/type.js';
-import ms from 'ms';
-import { SchemaType } from '@/misc/schema.js';
+import ms from "ms";
+import config from "@/config/index.js";
+import { createPerson } from "@/remote/activitypub/models/person.js";
+import { createNote } from "@/remote/activitypub/models/note.js";
+import DbResolver from "@/remote/activitypub/db-resolver.js";
+import Resolver from "@/remote/activitypub/resolver.js";
+import { extractDbHost } from "@/misc/convert-host.js";
+import { Users, Notes } from "@/models/index.js";
+import { Note } from "@/models/entities/note.js";
+import { CacheableLocalUser, User } from "@/models/entities/user.js";
+import { fetchMeta } from "@/misc/fetch-meta.js";
+import { isActor, isPost, getApId } from "@/remote/activitypub/type.js";
+import { SchemaType } from "@/misc/schema.js";
+import { ApiError } from "../../error.js";
+import define from "../../define.js";
 
 export const meta = {
-	tags: ['federation'],
+	tags: ["federation"],
 
 	requireCredential: true,
 
 	limit: {
-		duration: ms('1hour'),
+		duration: ms("1hour"),
 		max: 30,
 	},
 
 	errors: {
 		noSuchObject: {
-			message: 'No such object.',
-			code: 'NO_SUCH_OBJECT',
-			id: 'dc94d745-1262-4e63-a17d-fecaa57efc82',
+			message: "No such object.",
+			code: "NO_SUCH_OBJECT",
+			id: "dc94d745-1262-4e63-a17d-fecaa57efc82",
 		},
 	},
 
@@ -36,45 +36,45 @@ export const meta = {
 		optional: false, nullable: false,
 		oneOf: [
 			{
-				type: 'object',
+				type: "object",
 				properties: {
 					type: {
-						type: 'string',
+						type: "string",
 						optional: false, nullable: false,
-						enum: ['User'],
+						enum: ["User"],
 					},
 					object: {
-						type: 'object',
+						type: "object",
 						optional: false, nullable: false,
-						ref: 'UserDetailedNotMe',
-					}
-				}
+						ref: "UserDetailedNotMe",
+					},
+				},
 			},
 			{
-				type: 'object',
+				type: "object",
 				properties: {
 					type: {
-						type: 'string',
+						type: "string",
 						optional: false, nullable: false,
-						enum: ['Note'],
+						enum: ["Note"],
 					},
 					object: {
-						type: 'object',
+						type: "object",
 						optional: false, nullable: false,
-						ref: 'Note',
-					}
-				}
-			}
+						ref: "Note",
+					},
+				},
+			},
 		],
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		uri: { type: 'string' },
+		uri: { type: "string" },
 	},
-	required: ['uri'],
+	required: ["uri"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
@@ -90,7 +90,7 @@ export default define(meta, paramDef, async (ps, me) => {
 /***
  * URIからUserかNoteを解決する
  */
-async function fetchAny(uri: string, me: CacheableLocalUser | null | undefined): Promise<SchemaType<typeof meta['res']> | null> {
+async function fetchAny(uri: string, me: CacheableLocalUser | null | undefined): Promise<SchemaType<typeof meta["res"]> | null> {
 	// ブロックしてたら中断
 	const fetchedMeta = await fetchMeta();
 	if (fetchedMeta.blockedHosts.some(x => extractDbHost(uri).endsWith(x))) return null;
@@ -127,7 +127,7 @@ async function fetchAny(uri: string, me: CacheableLocalUser | null | undefined):
 async function mergePack(me: CacheableLocalUser | null | undefined, user: User | null | undefined, note: Note | null | undefined): Promise<SchemaType<typeof meta.res> | null> {
 	if (user != null) {
 		return {
-			type: 'User',
+			type: "User",
 			object: await Users.pack(user, me, { detail: true }),
 		};
 	} else if (note != null) {
@@ -135,7 +135,7 @@ async function mergePack(me: CacheableLocalUser | null | undefined, user: User |
 			const object = await Notes.pack(note, me, { detail: true });
 
 			return {
-				type: 'Note',
+				type: "Note",
 				object,
 			};
 		} catch (e) {

@@ -6,9 +6,9 @@
 </template>
 
 <script lang="ts" setup>
-import * as misskey from 'misskey-js';
-import { toUnicode } from 'punycode/';
-import { host as hostRaw } from '@/config';
+import * as misskey from "misskey-js";
+import { toUnicode } from "punycode/";
+import { host as hostRaw } from "@/config";
 
 defineProps<{
 	user: misskey.entities.UserDetailed;

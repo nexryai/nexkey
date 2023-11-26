@@ -56,26 +56,26 @@
 </template>
 
 <script lang="ts" setup>
-import { defineAsyncComponent, nextTick, onBeforeUnmount, onMounted, onUnmounted, Ref, ref, watch } from 'vue';
-import { focusPrev, focusNext } from '@/scripts/focus';
-import FormSwitch from '@/components/form/switch.vue';
-import { MenuItem, InnerMenuItem, MenuPending, MenuAction } from '@/types/menu';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
+import { defineAsyncComponent, nextTick, onBeforeUnmount, onMounted, onUnmounted, Ref, ref, watch } from "vue";
+import { focusPrev, focusNext } from "@/scripts/focus";
+import FormSwitch from "@/components/form/switch.vue";
+import { MenuItem, InnerMenuItem, MenuPending, MenuAction } from "@/types/menu";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
 
-const XChild = defineAsyncComponent(() => import('./MkMenu.child.vue'));
+const XChild = defineAsyncComponent(() => import("./MkMenu.child.vue"));
 
 const props = defineProps<{
 	items: MenuItem[];
 	viaKeyboard?: boolean;
 	asDrawer?: boolean;
-	align?: 'center' | string;
+	align?: "center" | string;
 	width?: number;
 	maxHeight?: number;
 }>();
 
 const emit = defineEmits<{
-	(ev: 'close', actioned?: boolean): void;
+	(ev: "close", actioned?: boolean): void;
 }>();
 
 let itemsEl = $ref<HTMLDivElement>();
@@ -85,9 +85,9 @@ let items2: InnerMenuItem[] = $ref([]);
 let child = $ref<InstanceType<typeof XChild>>();
 
 let keymap = $computed(() => ({
-	'up|k|shift+tab': focusUp,
-	'down|j|tab': focusDown,
-	'esc': close,
+	"up|k|shift+tab": focusUp,
+	"down|j|tab": focusDown,
+	"esc": close,
 }));
 
 let childShowingItem = $ref<MenuItem | null>();
@@ -98,8 +98,8 @@ watch(() => props.items, () => {
 	for (let i = 0; i < items.length; i++) {
 		const item = items[i];
 
-		if (item && 'then' in item) { // if item is Promise
-			items[i] = { type: 'pending' };
+		if (item && "then" in item) { // if item is Promise
+			items[i] = { type: "pending" };
 			item.then(actualItem => {
 				items2[i] = actualItem;
 			});
@@ -157,7 +157,7 @@ function clicked(fn: MenuAction, ev: MouseEvent) {
 }
 
 function close(actioned = false) {
-	emit('close', actioned);
+	emit("close", actioned);
 }
 
 function focusUp() {
@@ -175,11 +175,11 @@ onMounted(() => {
 		});
 	}
 
-	document.addEventListener('mousedown', onGlobalMousedown, { passive: true });
+	document.addEventListener("mousedown", onGlobalMousedown, { passive: true });
 });
 
 onBeforeUnmount(() => {
-	document.removeEventListener('mousedown', onGlobalMousedown);
+	document.removeEventListener("mousedown", onGlobalMousedown);
 });
 </script>
 

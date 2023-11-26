@@ -7,15 +7,15 @@
 </template>
 
 <script lang="ts" setup>
-import { provide, ComputedRef } from 'vue';
-import XCommon from './_common_/common.vue';
-import { mainRouter } from '@/router';
-import { PageMetadata, provideMetadataReceiver, setPageMetadata } from '@/scripts/page-metadata';
-import { instanceName } from '@/config';
+import { provide, ComputedRef } from "vue";
+import XCommon from "./_common_/common.vue";
+import { mainRouter } from "@/router";
+import { PageMetadata, provideMetadataReceiver, setPageMetadata } from "@/scripts/page-metadata";
+import { instanceName } from "@/config";
 
 let pageMetadata = $ref<null | ComputedRef<PageMetadata>>();
 
-provide('router', mainRouter);
+provide("router", mainRouter);
 provideMetadataReceiver((info) => {
 	pageMetadata = info;
 	if (pageMetadata.value) {
@@ -23,7 +23,7 @@ provideMetadataReceiver((info) => {
 	}
 });
 
-document.documentElement.style.overflowY = 'scroll';
+document.documentElement.style.overflowY = "scroll";
 </script>
 
 <style lang="scss" scoped>

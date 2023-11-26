@@ -55,26 +55,26 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
-import XHeader from './_header_.vue';
-import MkInput from '@/components/form/input.vue';
-import MkSelect from '@/components/form/select.vue';
-import MkPagination from '@/components/MkPagination.vue';
-import * as os from '@/os';
-import { lookupUser } from '@/scripts/lookup-user';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
-import MkUserCardMini from '@/components/MkUserCardMini.vue';
+import { computed } from "vue";
+import XHeader from "./_header_.vue";
+import MkInput from "@/components/form/input.vue";
+import MkSelect from "@/components/form/select.vue";
+import MkPagination from "@/components/MkPagination.vue";
+import * as os from "@/os";
+import { lookupUser } from "@/scripts/lookup-user";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
+import MkUserCardMini from "@/components/MkUserCardMini.vue";
 
 let paginationComponent = $ref<InstanceType<typeof MkPagination>>();
 
-let sort = $ref('+createdAt');
-let state = $ref('all');
-let origin = $ref('local');
-let searchUsername = $ref('');
-let searchHost = $ref('');
+let sort = $ref("+createdAt");
+let state = $ref("all");
+let origin = $ref("local");
+let searchUsername = $ref("");
+let searchHost = $ref("");
 const pagination = {
-	endpoint: 'admin/show-users' as const,
+	endpoint: "admin/show-users" as const,
 	limit: 10,
 	params: computed(() => ({
 		sort: sort,
@@ -100,11 +100,11 @@ async function addUser() {
 
 	const { canceled: canceled2, result: password } = await os.inputText({
 		title: i18n.ts.password,
-		type: 'password',
+		type: "password",
 	});
 	if (canceled2) return;
 
-	os.apiWithDialog('admin/accounts/create', {
+	os.apiWithDialog("admin/accounts/create", {
 		username: username,
 		password: password,
 	}).then(res => {
@@ -117,17 +117,17 @@ function show(user) {
 }
 
 const headerActions = $computed(() => [{
-	icon: 'ti ti-search',
+	icon: "ti ti-search",
 	text: i18n.ts.search,
 	handler: searchUser,
 }, {
 	asFullButton: true,
-	icon: 'ti ti-plus',
+	icon: "ti ti-plus",
 	text: i18n.ts.addUser,
 	handler: addUser,
 }, {
 	asFullButton: true,
-	icon: 'ti ti-search',
+	icon: "ti ti-search",
 	text: i18n.ts.lookup,
 	handler: lookupUser,
 }]);
@@ -136,7 +136,7 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata(computed(() => ({
 	title: i18n.ts.users,
-	icon: 'ti ti-users',
+	icon: "ti ti-users",
 })));
 </script>
 

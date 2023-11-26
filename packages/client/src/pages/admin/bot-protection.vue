@@ -59,17 +59,17 @@
 </template>
 
 <script lang="ts" setup>
-import { defineAsyncComponent } from 'vue';
-import FormRadios from '@/components/form/radios.vue';
-import FormInput from '@/components/form/input.vue';
-import FormButton from '@/components/MkButton.vue';
-import FormSuspense from '@/components/form/suspense.vue';
-import FormSlot from '@/components/form/slot.vue';
-import * as os from '@/os';
-import { fetchInstance } from '@/instance';
-import { i18n } from '@/i18n';
+import { defineAsyncComponent } from "vue";
+import FormRadios from "@/components/form/radios.vue";
+import FormInput from "@/components/form/input.vue";
+import FormButton from "@/components/MkButton.vue";
+import FormSuspense from "@/components/form/suspense.vue";
+import FormSlot from "@/components/form/slot.vue";
+import * as os from "@/os";
+import { fetchInstance } from "@/instance";
+import { i18n } from "@/i18n";
 
-const MkCaptcha = defineAsyncComponent(() => import('@/components/MkCaptcha.vue'));
+const MkCaptcha = defineAsyncComponent(() => import("@/components/MkCaptcha.vue"));
 
 let provider = $ref(null);
 let hcaptchaSiteKey: string | null = $ref(null);
@@ -80,7 +80,7 @@ let turnstileSiteKey: string | null = $ref(null);
 let turnstileSecretKey: string | null = $ref(null);
 
 async function init() {
-	const meta = await os.api('admin/meta');
+	const meta = await os.api("admin/meta");
 	hcaptchaSiteKey = meta.hcaptchaSiteKey;
 	hcaptchaSecretKey = meta.hcaptchaSecretKey;
 	recaptchaSiteKey = meta.recaptchaSiteKey;
@@ -88,18 +88,18 @@ async function init() {
 	turnstileSiteKey = meta.turnstileSiteKey;
 	turnstileSecretKey = meta.turnstileSecretKey;
 
-	provider = meta.enableHcaptcha ? 'hcaptcha' : meta.enableRecaptcha ? 'recaptcha' : meta.enableTurnstile ? 'turnstile' : null;
+	provider = meta.enableHcaptcha ? "hcaptcha" : meta.enableRecaptcha ? "recaptcha" : meta.enableTurnstile ? "turnstile" : null;
 }
 
 function save() {
-	os.apiWithDialog('admin/update-meta', {
-		enableHcaptcha: provider === 'hcaptcha',
+	os.apiWithDialog("admin/update-meta", {
+		enableHcaptcha: provider === "hcaptcha",
 		hcaptchaSiteKey,
 		hcaptchaSecretKey,
-		enableRecaptcha: provider === 'recaptcha',
+		enableRecaptcha: provider === "recaptcha",
 		recaptchaSiteKey,
 		recaptchaSecretKey,
-		enableTurnstile: provider === 'turnstile',
+		enableTurnstile: provider === "turnstile",
 		turnstileSiteKey,
 		turnstileSecretKey,
 	}).then(() => {

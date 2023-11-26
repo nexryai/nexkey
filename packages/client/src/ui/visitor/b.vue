@@ -39,22 +39,22 @@
 </template>
 
 <script lang="ts" setup>
-import { ComputedRef, onMounted, provide } from 'vue';
-import XHeader from './header.vue';
-import { host, instanceName } from '@/config';
-import { search } from '@/scripts/search';
-import * as os from '@/os';
-import XSigninDialog from '@/components/MkSigninDialog.vue';
-import XSignupDialog from '@/components/MkSignupDialog.vue';
-import { ColdDeviceStorage, defaultStore } from '@/store';
-import { mainRouter } from '@/router';
-import { PageMetadata, provideMetadataReceiver, setPageMetadata } from '@/scripts/page-metadata';
+import { ComputedRef, onMounted, provide } from "vue";
+import XHeader from "./header.vue";
+import { host, instanceName } from "@/config";
+import { search } from "@/scripts/search";
+import * as os from "@/os";
+import XSigninDialog from "@/components/MkSigninDialog.vue";
+import XSignupDialog from "@/components/MkSignupDialog.vue";
+import { ColdDeviceStorage, defaultStore } from "@/store";
+import { mainRouter } from "@/router";
+import { PageMetadata, provideMetadataReceiver, setPageMetadata } from "@/scripts/page-metadata";
 
 const DESKTOP_THRESHOLD = 1100;
 
 let pageMetadata = $ref<null | ComputedRef<PageMetadata>>();
 
-provide('router', mainRouter);
+provide("router", mainRouter);
 provideMetadataReceiver((info) => {
 	pageMetadata = info;
 	if (pageMetadata.value) {
@@ -63,7 +63,7 @@ provideMetadataReceiver((info) => {
 });
 
 const announcements = {
-	endpoint: 'announcements',
+	endpoint: "announcements",
 	limit: 10,
 };
 let showMenu = $ref(false);
@@ -73,35 +73,35 @@ let meta = $ref();
 
 const keymap = $computed(() => {
 	return {
-		'd': () => {
-			if (ColdDeviceStorage.get('syncDeviceDarkMode')) return;
-			defaultStore.set('darkMode', !defaultStore.state.darkMode);
+		"d": () => {
+			if (ColdDeviceStorage.get("syncDeviceDarkMode")) return;
+			defaultStore.set("darkMode", !defaultStore.state.darkMode);
 		},
-		's': search,
+		"s": search,
 	};
 });
 
-const root = $computed(() => mainRouter.currentRoute.value.name === 'index');
+const root = $computed(() => mainRouter.currentRoute.value.name === "index");
 
-os.api('meta', { detail: true }).then(res => {
+os.api("meta", { detail: true }).then(res => {
 	meta = res;
 });
 
 function signin() {
 	os.popup(XSigninDialog, {
 		autoSet: true,
-	}, {}, 'closed');
+	}, {}, "closed");
 }
 
 function signup() {
 	os.popup(XSignupDialog, {
 		autoSet: true,
-	}, {}, 'closed');
+	}, {}, "closed");
 }
 
 onMounted(() => {
 	if (!isDesktop) {
-		window.addEventListener('resize', () => {
+		window.addEventListener("resize", () => {
 			if (window.innerWidth >= DESKTOP_THRESHOLD) isDesktop = true;
 		}, { passive: true });
 	}

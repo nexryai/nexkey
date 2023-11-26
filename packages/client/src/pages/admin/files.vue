@@ -1,8 +1,8 @@
 <template>
 <div>
-  <MkSpacer v-if="streamModeEnabled">
-    <MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
-  </MkSpacer>
+	<MkSpacer v-if="streamModeEnabled">
+		<MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
+	</MkSpacer>
 	<MkStickyContainer v-if="!streamModeEnabled">
 		<template #header><XHeader :actions="headerActions"/></template>
 		<MkSpacer :content-max="900">
@@ -36,46 +36,46 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, defineAsyncComponent, ref} from 'vue';
-import * as Acct from 'misskey-js/built/acct';
-import XHeader from './_header_.vue';
-import MkButton from '@/components/MkButton.vue';
-import MkInput from '@/components/form/input.vue';
-import MkSelect from '@/components/form/select.vue';
-import MkFileListForAdmin from '@/components/MkFileListForAdmin.vue';
-import bytes from '@/filters/bytes';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { computed, defineAsyncComponent, ref } from "vue";
+import * as Acct from "misskey-js/built/acct";
+import XHeader from "./_header_.vue";
+import MkButton from "@/components/MkButton.vue";
+import MkInput from "@/components/form/input.vue";
+import MkSelect from "@/components/form/select.vue";
+import MkFileListForAdmin from "@/components/MkFileListForAdmin.vue";
+import bytes from "@/filters/bytes";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 import MkInfo from "@/components/MkInfo.vue";
-import {defaultStore} from "@/store";
+import { defaultStore } from "@/store";
 
 const streamModeEnabled = ref(defaultStore.state.streamModeEnabled);
 
-let origin = $ref('local');
+let origin = $ref("local");
 let type = $ref(null);
-let searchHost = $ref('');
-let userId = $ref('');
-let viewMode = $ref('grid');
+let searchHost = $ref("");
+let userId = $ref("");
+let viewMode = $ref("grid");
 const pagination = {
-	endpoint: 'admin/drive/files' as const,
+	endpoint: "admin/drive/files" as const,
 	limit: 10,
 	params: computed(() => ({
-		type: (type && type !== '') ? type : null,
-		userId: (userId && userId !== '') ? userId : null,
+		type: (type && type !== "") ? type : null,
+		userId: (userId && userId !== "") ? userId : null,
 		origin: origin,
-		hostname: (searchHost && searchHost !== '') ? searchHost : null,
+		hostname: (searchHost && searchHost !== "") ? searchHost : null,
 	})),
 };
 
 function clear() {
 	os.confirm({
-		type: 'warning',
+		type: "warning",
 		text: i18n.ts.clearCachedFilesConfirm,
 	}).then(({ canceled }) => {
 		if (canceled) return;
 
-		os.apiWithDialog('admin/drive/clean-remote-files', {});
+		os.apiWithDialog("admin/drive/clean-remote-files", {});
 	});
 }
 
@@ -90,12 +90,12 @@ async function find() {
 	});
 	if (canceled) return;
 
-	os.api('admin/drive/show-file', q.startsWith('http://') || q.startsWith('https://') ? { url: q.trim() } : { fileId: q.trim() }).then(file => {
+	os.api("admin/drive/show-file", q.startsWith("http://") || q.startsWith("https://") ? { url: q.trim() } : { fileId: q.trim() }).then(file => {
 		show(file);
 	}).catch(err => {
-		if (err.code === 'NO_SUCH_FILE') {
+		if (err.code === "NO_SUCH_FILE") {
 			os.alert({
-				type: 'error',
+				type: "error",
 				text: i18n.ts.notFound,
 			});
 		}
@@ -104,11 +104,11 @@ async function find() {
 
 const headerActions = $computed(() => [{
 	text: i18n.ts.lookup,
-	icon: 'ti ti-search',
+	icon: "ti ti-search",
 	handler: find,
 }, {
 	text: i18n.ts.clearCachedFiles,
-	icon: 'ti ti-trash',
+	icon: "ti ti-trash",
 	handler: clear,
 }]);
 
@@ -116,7 +116,7 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata(computed(() => ({
 	title: i18n.ts.files,
-	icon: 'ti ti-cloud',
+	icon: "ti ti-cloud",
 })));
 </script>
 

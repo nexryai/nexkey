@@ -1,14 +1,4 @@
-import * as mfm from 'mfm-js';
-import es from '../../db/elasticsearch.js';
-import sonic from "../../db/sonic.js";
-import { publishMainStream, publishNotesStream } from '@/services/stream.js';
-import DeliverManager from '@/remote/activitypub/deliver-manager.js';
-import renderNote from '@/remote/activitypub/renderer/note.js';
-import renderCreate from '@/remote/activitypub/renderer/create.js';
-import renderAnnounce from '@/remote/activitypub/renderer/announce.js';
-import { renderActivity } from '@/remote/activitypub/renderer/index.js';
-import { resolveUser } from '@/remote/resolve-user.js';
-import config from '@/config/index.js';
+import * as mfm from "mfm-js";
 import { updateHashtags } from '../update-hashtag.js';
 import { concat } from '@/prelude/array.js';
 import { insertNoteUnread } from '@/services/note/unread.js';
@@ -21,46 +11,56 @@ import { Mutings, Users, NoteWatchings, Notes, Instances, UserProfiles, Antennas
 import { DriveFile } from '@/models/entities/drive-file.js';
 import { App } from '@/models/entities/app.js';
 import { Not, In } from 'typeorm';
-import { User, ILocalUser, IRemoteUser } from '@/models/entities/user.js';
-import { genId } from '@/misc/gen-id.js';
-import { notesChart, perUserNotesChart, activeUsersChart, instanceChart } from '@/services/chart/index.js';
-import { Poll, IPoll } from '@/models/entities/poll.js';
-import { createNotification } from '../create-notification.js';
-import { isDuplicateKeyValueError } from '@/misc/is-duplicate-key-value-error.js';
-import { checkHitAntenna } from '@/misc/check-hit-antenna.js';
-import { checkWordMute } from '@/misc/check-word-mute.js';
-import { addNoteToAntenna } from '../add-note-to-antenna.js';
-import { countSameRenotes } from '@/misc/count-same-renotes.js';
-import { deliverToRelays } from '../relay.js';
-import { Channel } from '@/models/entities/channel.js';
-import { normalizeForSearch } from '@/misc/normalize-for-search.js';
-import { getAntennas } from '@/misc/antenna-cache.js';
-import { endedPollNotificationQueue } from '@/queue/queues.js';
-import { webhookDeliver } from '@/queue/index.js';
-import { Cache } from '@/misc/cache.js';
-import { UserProfile } from '@/models/entities/user-profile.js';
-import { db } from '@/db/postgre.js';
-import { getActiveWebhooks } from '@/misc/webhook-cache.js';
+import config from '@/config/index.js';
+import { resolveUser } from "@/remote/resolve-user.js";
+import { renderActivity } from "@/remote/activitypub/renderer/index.js";
+import renderAnnounce from "@/remote/activitypub/renderer/announce.js";
+import renderCreate from "@/remote/activitypub/renderer/create.js";
+import renderNote from "@/remote/activitypub/renderer/note.js";
+import DeliverManager from "@/remote/activitypub/deliver-manager.js";
+import { publishMainStream, publishNotesStream } from "@/services/stream.js";
+import { User, ILocalUser, IRemoteUser } from "@/models/entities/user.js";
+import { genId } from "@/misc/gen-id.js";
+import { notesChart, perUserNotesChart, activeUsersChart, instanceChart } from "@/services/chart/index.js";
+import { Poll, IPoll } from "@/models/entities/poll.js";
+import { isDuplicateKeyValueError } from "@/misc/is-duplicate-key-value-error.js";
+import { checkHitAntenna } from "@/misc/check-hit-antenna.js";
+import { checkWordMute } from "@/misc/check-word-mute.js";
+import { countSameRenotes } from "@/misc/count-same-renotes.js";
+import { Channel } from "@/models/entities/channel.js";
+import { normalizeForSearch } from "@/misc/normalize-for-search.js";
+import { getAntennas } from "@/misc/antenna-cache.js";
+import { endedPollNotificationQueue } from "@/queue/queues.js";
+import { webhookDeliver } from "@/queue/index.js";
+import { Cache } from "@/misc/cache.js";
+import { UserProfile } from "@/models/entities/user-profile.js";
+import { db } from "@/db/postgre.js";
+import { getActiveWebhooks } from "@/misc/webhook-cache.js";
+import { deliverToRelays } from "../relay.js";
+import { addNoteToAntenna } from "../add-note-to-antenna.js";
+import { createNotification } from "../create-notification.js";
+import sonic from "../../db/sonic.js";
+import es from "../../db/elasticsearch.js";
 
-const mutedWordsCache = new Cache<{ userId: UserProfile['userId']; mutedWords: UserProfile['mutedWords']; }[]>(1000 * 60 * 5);
+const mutedWordsCache = new Cache<{ userId: UserProfile["userId"]; mutedWords: UserProfile["mutedWords"]; }[]>(1000 * 60 * 5);
 
-type NotificationType = 'reply' | 'renote' | 'quote' | 'mention';
+type NotificationType = "reply" | "renote" | "quote" | "mention";
 
 class NotificationManager {
-	private notifier: { id: User['id']; };
+	private notifier: { id: User["id"]; };
 	private note: Note;
 	private queue: {
-		target: ILocalUser['id'];
+		target: ILocalUser["id"];
 		reason: NotificationType;
 	}[];
 
-	constructor(notifier: { id: User['id']; }, note: Note) {
+	constructor(notifier: { id: User["id"]; }, note: Note) {
 		this.notifier = notifier;
 		this.note = note;
 		this.queue = [];
 	}
 
-	public push(notifiee: ILocalUser['id'], reason: NotificationType) {
+	public push(notifiee: ILocalUser["id"], reason: NotificationType) {
 		// 自分自身へは通知しない
 		if (this.notifier.id === notifiee) return;
 
@@ -68,7 +68,7 @@ class NotificationManager {
 
 		if (exist) {
 			// 「メンションされているかつ返信されている」場合は、メンションとしての通知ではなく返信としての通知にする
-			if (reason !== 'mention') {
+			if (reason !== "mention") {
 				exist.reason = reason;
 			}
 		} else {
@@ -104,10 +104,10 @@ class NotificationManager {
 }
 
 type MinimumUser = {
-	id: User['id'];
-	host: User['host'];
-	username: User['username'];
-	uri: User['uri'];
+	id: User["id"];
+	host: User["host"];
+	username: User["username"];
+	uri: User["uri"];
 };
 
 type Option = {
@@ -131,7 +131,7 @@ type Option = {
 	app?: App | null;
 };
 
-export default async (user: { id: User['id']; username: User['username']; host: User['host']; isSilenced: User['isSilenced']; createdAt: User['createdAt']; }, data: Option, silent = false) => new Promise<Note>(async (res, rej) => {
+export default async (user: { id: User["id"]; username: User["username"]; host: User["host"]; isSilenced: User["isSilenced"]; createdAt: User["createdAt"]; }, data: Option, silent = false) => new Promise<Note>(async (res, rej) => {
 	// チャンネル外にリプライしたら対象のスコープに合わせる
 	// (クライアントサイドでやっても良い処理だと思うけどとりあえずサーバーサイドで)
 	if (data.reply && data.channel && data.reply.channelId !== data.channel.id) {
@@ -149,40 +149,40 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 	}
 
 	if (data.createdAt == null) data.createdAt = new Date();
-	if (data.visibility == null) data.visibility = 'public';
+	if (data.visibility == null) data.visibility = "public";
 	if (data.localOnly == null) data.localOnly = false;
-	if (data.channel != null) data.visibility = 'public';
+	if (data.channel != null) data.visibility = "public";
 	if (data.channel != null) data.visibleUsers = [];
 	if (data.channel != null) data.localOnly = true;
 
 	// サイレンス
-	if (user.isSilenced && data.visibility === 'public' && data.channel == null) {
-		data.visibility = 'home';
+	if (user.isSilenced && data.visibility === "public" && data.channel == null) {
+		data.visibility = "home";
 	}
 
 	// Renote Visibility Check
 	if (data.renote) {
 		switch (data.renote.visibility) {
-			case 'public':
+			case "public":
 				// public noteは無条件にrenote可能
 				break;
-			case 'home':
+			case "home":
 				// home noteはhome以下にrenote可能
-				if (data.visibility === 'public') {
-					data.visibility = 'home';
+				if (data.visibility === "public") {
+					data.visibility = "home";
 				}
 				break;
-			case 'followers':
+			case "followers":
 				// 他人のfollowers noteはreject
 				if (data.renote.userId !== user.id) {
-					throw new Error('Renote target is not public or home');
+					throw new Error("Renote target is not public or home");
 				}
 				// Renote対象がfollowersならfollowersにする
-				data.visibility = 'followers';
+				data.visibility = "followers";
 				break;
-			case 'specified':
+			case "specified":
 				// specified / direct noteはreject
-				throw new Error('Renote target is not public or home');
+				throw new Error("Renote target is not public or home");
 		}
 
 		// Check blocking
@@ -193,15 +193,15 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 					blockeeId: user.id,
 				});
 				if (block) {
-					throw new Error('blocked');
+					throw new Error("blocked");
 				}
 			}
 		}
 	}
 
 	// 返信対象がpublicではないならhomeにする
-	if (data.reply && data.reply.visibility !== 'public' && data.visibility === 'public') {
-		data.visibility = 'home';
+	if (data.reply && data.reply.visibility !== "public" && data.visibility === "public") {
+		data.visibility = "home";
 	}
 
 	// ローカルのみをRenoteしたらローカルのみにする
@@ -241,14 +241,14 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 		mentionedUsers = data.apMentions || await extractMentionedUsers(user, combinedTokens);
 	}
 
-	tags = tags.filter(tag => Array.from(tag || '').length <= 128).splice(0, 32);
+	tags = tags.filter(tag => Array.from(tag || "").length <= 128).splice(0, 32);
 
 	if (data.reply && (user.id !== data.reply.userId) && !mentionedUsers.some(u => u.id === data.reply!.userId)) {
 		mentionedUsers.push(await Users.findOneByOrFail({ id: data.reply!.userId }));
 	}
 
-	if (data.visibility === 'specified') {
-		if (data.visibleUsers == null) throw new Error('invalid param');
+	if (data.visibility === "specified") {
+		if (data.visibleUsers == null) throw new Error("invalid param");
 
 		for (const u of data.visibleUsers) {
 			if (!mentionedUsers.some(x => x.id === u.id)) {
@@ -275,13 +275,13 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 	// Register host
 	if (Users.isRemoteUser(user)) {
 		registerOrFetchInstanceDoc(user.host).then(i => {
-			Instances.increment({ id: i.id }, 'notesCount', 1);
+			Instances.increment({ id: i.id }, "notesCount", 1);
 			instanceChart.updateNote(i.host, note, true);
 		});
 	}
 
 	// ハッシュタグ更新
-	if (data.visibility === 'public' || data.visibility === 'home') {
+	if (data.visibility === "public" || data.visibility === "home") {
 		updateHashtags(user, tags);
 	}
 
@@ -293,7 +293,7 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 		where: {
 			enableWordMute: true,
 		},
-		select: ['userId', 'mutedWords'],
+		select: ["userId", "mutedWords"],
 	})).then(us => {
 		for (const u of us) {
 			checkWordMute(note, { id: u.userId }, u.mutedWords).then(shouldMute => {
@@ -302,7 +302,7 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 						id: genId(),
 						userId: u.userId,
 						noteId: note.id,
-						reason: 'word',
+						reason: "word",
 					});
 				}
 			});
@@ -312,8 +312,8 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 	// Antenna
 	 // TODO: キャッシュしたい
 	if (!config.disableAntenna) {
-		Followings.createQueryBuilder('following')
-			.andWhere(`following.followeeId = :userId`, { userId: note.userId })
+		Followings.createQueryBuilder("following")
+			.andWhere("following.followeeId = :userId", { userId: note.userId })
 			.getMany()
 			.then(async followings => {
 				const blockings = await Blockings.findBy({ blockerId: user.id });
@@ -364,8 +364,8 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 		if (Users.isLocalUser(user)) activeUsersChart.write(user);
 
 		// 未読通知を作成
-		if (data.visibility === 'specified') {
-			if (data.visibleUsers == null) throw new Error('invalid param');
+		if (data.visibility === "specified") {
+			if (data.visibleUsers == null) throw new Error("invalid param");
 
 			for (const u of data.visibleUsers) {
 				// ローカルユーザーのみ
@@ -394,9 +394,9 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 		publishNotesStream(noteObj);
 
 		getActiveWebhooks().then(webhooks => {
-			webhooks = webhooks.filter(x => x.userId === user.id && x.on.includes('note'));
+			webhooks = webhooks.filter(x => x.userId === user.id && x.on.includes("note"));
 			for (const webhook of webhooks) {
-				webhookDeliver(webhook, 'note', {
+				webhookDeliver(webhook, "note", {
 					note: noteObj,
 				});
 			}
@@ -420,12 +420,12 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 				});
 
 				if (!threadMuted) {
-					nm.push(data.reply.userId, 'reply');
-					publishMainStream(data.reply.userId, 'reply', noteObj);
+					nm.push(data.reply.userId, "reply");
+					publishMainStream(data.reply.userId, "reply", noteObj);
 
-					const webhooks = (await getActiveWebhooks()).filter(x => x.userId === data.reply!.userId && x.on.includes('reply'));
+					const webhooks = (await getActiveWebhooks()).filter(x => x.userId === data.reply!.userId && x.on.includes("reply"));
 					for (const webhook of webhooks) {
-						webhookDeliver(webhook, 'reply', {
+						webhookDeliver(webhook, "reply", {
 							note: noteObj,
 						});
 					}
@@ -435,7 +435,7 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 
 		// If it is renote
 		if (data.renote) {
-			const type = data.text ? 'quote' : 'renote';
+			const type = data.text ? "quote" : "renote";
 
 			// Notify
 			if (data.renote.userHost === null) {
@@ -447,11 +447,11 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 
 			// Publish event
 			if ((user.id !== data.renote.userId) && data.renote.userHost === null) {
-				publishMainStream(data.renote.userId, 'renote', noteObj);
+				publishMainStream(data.renote.userId, "renote", noteObj);
 
-				const webhooks = (await getActiveWebhooks()).filter(x => x.userId === data.renote!.userId && x.on.includes('renote'));
+				const webhooks = (await getActiveWebhooks()).filter(x => x.userId === data.renote!.userId && x.on.includes("renote"));
 				for (const webhook of webhooks) {
-					webhookDeliver(webhook, 'renote', {
+					webhookDeliver(webhook, "renote", {
 						note: noteObj,
 					});
 				}
@@ -493,11 +493,11 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 				}
 
 				// フォロワーに配送
-				if (['public', 'home', 'followers'].includes(note.visibility)) {
+				if (["public", "home", "followers"].includes(note.visibility)) {
 					dm.addFollowersRecipe();
 				}
 
-				if (['public'].includes(note.visibility)) {
+				if (["public"].includes(note.visibility)) {
 					deliverToRelays(user, noteActivity, retryable);
 				}
 
@@ -508,7 +508,7 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 	}
 
 	if (data.channel) {
-		Channels.increment({ id: data.channel.id }, 'notesCount', 1);
+		Channels.increment({ id: data.channel.id }, "notesCount", 1);
 		Channels.update(data.channel.id, {
 			lastNotedAt: new Date(),
 		});
@@ -520,13 +520,12 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 			// この処理が行われるのはノート作成後なので、ノートが一つしかなかったら最初の投稿だと判断できる
 			// TODO: とはいえノートを削除して何回も投稿すればその分だけインクリメントされる雑さもあるのでどうにかしたい
 			if (count === 1) {
-				Channels.increment({ id: data.channel!.id }, 'usersCount', 1);
+				Channels.increment({ id: data.channel!.id }, "usersCount", 1);
 			}
 		});
 
 		// Register to search database
 		await index(note);
-
 	}
 
 	// Register to search database
@@ -546,14 +545,14 @@ async function renderNoteOrRenoteActivity(data: Option, note: Note) {
 function incRenoteCount(renote: Note) {
 	Notes.createQueryBuilder().update()
 		.set({
-			renoteCount: () => '"renoteCount" + 1',
-			score: () => '"score" + 1',
+			renoteCount: () => "\"renoteCount\" + 1",
+			score: () => "\"score\" + 1",
 		})
-		.where('id = :id', { id: renote.id })
+		.where("id = :id", { id: renote.id })
 		.execute();
 }
 
-async function insertNote(user: { id: User['id']; host: User['host']; }, data: Option, tags: string[], emojis: string[], mentionedUsers: MinimumUser[]) {
+async function insertNote(user: { id: User["id"]; host: User["host"]; }, data: Option, tags: string[], emojis: string[], mentionedUsers: MinimumUser[]) {
 	const insert = new Note({
 		id: genId(data.createdAt!),
 		createdAt: data.createdAt!,
@@ -575,7 +574,7 @@ async function insertNote(user: { id: User['id']; host: User['host']; }, data: O
 		userId: user.id,
 		localOnly: data.localOnly!,
 		visibility: data.visibility as any,
-		visibleUserIds: data.visibility === 'specified'
+		visibleUserIds: data.visibility === "specified"
 			? data.visibleUsers
 				? data.visibleUsers.map(u => u.id)
 				: []
@@ -638,8 +637,8 @@ async function insertNote(user: { id: User['id']; host: User['host']; }, data: O
 	} catch (e) {
 		// duplicate key error
 		if (isDuplicateKeyValueError(e)) {
-			const err = new Error('Duplicated note');
-			err.name = 'duplicated';
+			const err = new Error("Duplicated note");
+			err.name = "duplicated";
 			throw err;
 		}
 
@@ -679,7 +678,7 @@ export async function index(note: Note): Promise<void> {
 	}
 }
 
-async function notifyToWatchersOfRenotee(renote: Note, user: { id: User['id']; }, nm: NotificationManager, type: NotificationType) {
+async function notifyToWatchersOfRenotee(renote: Note, user: { id: User["id"]; }, nm: NotificationManager, type: NotificationType) {
 	const watchers = await NoteWatchings.findBy({
 		noteId: renote.id,
 		userId: Not(user.id),
@@ -690,14 +689,14 @@ async function notifyToWatchersOfRenotee(renote: Note, user: { id: User['id']; }
 	}
 }
 
-async function notifyToWatchersOfReplyee(reply: Note, user: { id: User['id']; }, nm: NotificationManager) {
+async function notifyToWatchersOfReplyee(reply: Note, user: { id: User["id"]; }, nm: NotificationManager) {
 	const watchers = await NoteWatchings.findBy({
 		noteId: reply.id,
 		userId: Not(user.id),
 	});
 
 	for (const watcher of watchers) {
-		nm.push(watcher.userId, 'reply');
+		nm.push(watcher.userId, "reply");
 	}
 }
 
@@ -716,46 +715,46 @@ async function createMentionedEvents(mentionedUsers: MinimumUser[], note: Note, 
 			detail: true,
 		});
 
-		publishMainStream(u.id, 'mention', detailPackedNote);
+		publishMainStream(u.id, "mention", detailPackedNote);
 
-		const webhooks = (await getActiveWebhooks()).filter(x => x.userId === u.id && x.on.includes('mention'));
+		const webhooks = (await getActiveWebhooks()).filter(x => x.userId === u.id && x.on.includes("mention"));
 		for (const webhook of webhooks) {
-			webhookDeliver(webhook, 'mention', {
+			webhookDeliver(webhook, "mention", {
 				note: detailPackedNote,
 			});
 		}
 
 		// Create notification
-		nm.push(u.id, 'mention');
+		nm.push(u.id, "mention");
 	}
 }
 
 function saveReply(reply: Note, note: Note) {
-	Notes.increment({ id: reply.id }, 'repliesCount', 1);
+	Notes.increment({ id: reply.id }, "repliesCount", 1);
 }
 
-function incNotesCountOfUser(user: { id: User['id']; }) {
+function incNotesCountOfUser(user: { id: User["id"]; }) {
 	Users.createQueryBuilder().update()
 		.set({
 			updatedAt: new Date(),
-			notesCount: () => '"notesCount" + 1',
+			notesCount: () => "\"notesCount\" + 1",
 		})
-		.where('id = :id', { id: user.id })
+		.where("id = :id", { id: user.id })
 		.execute();
 }
 
-async function extractMentionedUsers(user: { host: User['host']; }, tokens: mfm.MfmNode[]): Promise<User[]> {
+async function extractMentionedUsers(user: { host: User["host"]; }, tokens: mfm.MfmNode[]): Promise<User[]> {
 	if (tokens == null) return [];
 
 	const mentions = extractMentions(tokens);
 
 	let mentionedUsers = (await Promise.all(mentions.map(m =>
-		resolveUser(m.username, m.host || user.host).catch(() => null)
+		resolveUser(m.username, m.host || user.host).catch(() => null),
 	))).filter(x => x != null) as User[];
 
 	// Drop duplicate users
 	mentionedUsers = mentionedUsers.filter((u, i, self) =>
-		i === self.findIndex(u2 => u.id === u2.id)
+		i === self.findIndex(u2 => u.id === u2.id),
 	);
 
 	return mentionedUsers;

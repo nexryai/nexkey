@@ -1,3 +1,3 @@
-import Logger from '@/services/logger.js';
+import Logger from "@/services/logger.js";
 
-export const apiLogger = new Logger('api');
+export const apiLogger = new Logger("api");

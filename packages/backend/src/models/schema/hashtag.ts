@@ -1,33 +1,33 @@
 export const packedHashtagSchema = {
-	type: 'object',
+	type: "object",
 	properties: {
 		tag: {
-			type: 'string',
+			type: "string",
 			optional: false, nullable: false,
-			example: 'misskey',
+			example: "misskey",
 		},
 		mentionedUsersCount: {
-			type: 'number',
+			type: "number",
 			optional: false, nullable: false,
 		},
 		mentionedLocalUsersCount: {
-			type: 'number',
+			type: "number",
 			optional: false, nullable: false,
 		},
 		mentionedRemoteUsersCount: {
-			type: 'number',
+			type: "number",
 			optional: false, nullable: false,
 		},
 		attachedUsersCount: {
-			type: 'number',
+			type: "number",
 			optional: false, nullable: false,
 		},
 		attachedLocalUsersCount: {
-			type: 'number',
+			type: "number",
 			optional: false, nullable: false,
 		},
 		attachedRemoteUsersCount: {
-			type: 'number',
+			type: "number",
 			optional: false, nullable: false,
 		},
 	},

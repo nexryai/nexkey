@@ -3,24 +3,24 @@
 </template>
 
 <script lang="ts">
-import { TextBlock } from '@/scripts/hpml/block';
-import { Hpml } from '@/scripts/hpml/evaluator';
-import { defineComponent, PropType } from 'vue';
-import MkTextarea from '../form/textarea.vue';
+import { defineComponent, PropType } from "vue";
+import MkTextarea from "../form/textarea.vue";
+import { TextBlock } from "@/scripts/hpml/block";
+import { Hpml } from "@/scripts/hpml/evaluator";
 
 export default defineComponent({
 	components: {
-		MkTextarea
+		MkTextarea,
 	},
 	props: {
 		block: {
 			type: Object as PropType<TextBlock>,
-			required: true
+			required: true,
 		},
 		hpml: {
 			type: Object as PropType<Hpml>,
-			required: true
-		}
+			required: true,
+		},
 	},
 	data() {
 		return {
@@ -28,12 +28,12 @@ export default defineComponent({
 		};
 	},
 	watch: {
-		'hpml.vars': {
+		"hpml.vars": {
 			handler() {
 				this.text = this.hpml.interpolate(this.block.text);
 			},
-			deep: true
-		}
-	}
+			deep: true,
+		},
+	},
 });
 </script>

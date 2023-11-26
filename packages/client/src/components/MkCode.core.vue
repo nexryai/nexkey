@@ -5,9 +5,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
-import Prism from 'prismjs';
-import 'prismjs/themes/prism-okaidia.css';
+import { computed } from "vue";
+import Prism from "prismjs";
+import "prismjs/themes/prism-okaidia.css";
 
 const props = defineProps<{
 	code: string;
@@ -15,6 +15,6 @@ const props = defineProps<{
 	inline?: boolean;
 }>();
 
-const prismLang = computed(() => Prism.languages[props.lang] ? props.lang : 'js');
+const prismLang = computed(() => Prism.languages[props.lang] ? props.lang : "js");
 const html = computed(() => Prism.highlight(props.code, Prism.languages[prismLang.value], prismLang.value));
 </script>

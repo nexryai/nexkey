@@ -14,26 +14,26 @@
 
 <script lang="ts" setup>
 /* eslint-disable vue/no-mutating-props */
-import { watch } from 'vue';
-import XContainer from '../page-editor.container.vue';
-import MkTextarea from '@/components/form/textarea.vue';
-import MkInput from '@/components/form/input.vue';
+import { watch } from "vue";
+import XContainer from "../page-editor.container.vue";
+import MkTextarea from "@/components/form/textarea.vue";
+import MkInput from "@/components/form/input.vue";
 
 const props = withDefaults(defineProps<{
 	value: any
 }>(), {
 	value: {
-		name: '',
-		title: '',
-		values: []
-	}
+		name: "",
+		title: "",
+		values: [],
+	},
 });
 
-let values: string = $ref(props.value.values.join('\n'));
+let values: string = $ref(props.value.values.join("\n"));
 
 watch(values, () => {
-	props.value.values = values.split('\n');
+	props.value.values = values.split("\n");
 }, {
-	deep: true
+	deep: true,
 });
 </script>

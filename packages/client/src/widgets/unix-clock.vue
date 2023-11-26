@@ -11,28 +11,28 @@
 </template>
 
 <script lang="ts" setup>
-import { onUnmounted, ref, watch } from 'vue';
-import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from './widget';
-import { GetFormResultType } from '@/scripts/form';
+import { onUnmounted, ref, watch } from "vue";
+import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from "./widget";
+import { GetFormResultType } from "@/scripts/form";
 
-const name = 'unixClock';
+const name = "unixClock";
 
 const widgetPropsDef = {
 	transparent: {
-		type: 'boolean' as const,
+		type: "boolean" as const,
 		default: false,
 	},
 	fontSize: {
-		type: 'number' as const,
+		type: "number" as const,
 		default: 1.5,
 		step: 0.1,
 	},
 	showMs: {
-		type: 'boolean' as const,
+		type: "boolean" as const,
 		default: true,
 	},
 	showLabel: {
-		type: 'boolean' as const,
+		type: "boolean" as const,
 		default: true,
 	},
 };
@@ -43,7 +43,7 @@ type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
 //const props = defineProps<WidgetComponentProps<WidgetProps>>();
 //const emit = defineEmits<WidgetComponentEmits<WidgetProps>>();
 const props = defineProps<{ widget?: Widget<WidgetProps>; }>();
-const emit = defineEmits<{ (ev: 'updateProps', props: WidgetProps); }>();
+const emit = defineEmits<{ (ev: "updateProps", props: WidgetProps); }>();
 
 const { widgetProps, configure } = useWidgetPropsManager(name,
 	widgetPropsDef,
@@ -52,8 +52,8 @@ const { widgetProps, configure } = useWidgetPropsManager(name,
 );
 
 let intervalId;
-const ss = ref('');
-const ms = ref('');
+const ss = ref("");
+const ms = ref("");
 const showColon = ref(false);
 let prevSec: string | null = null;
 
@@ -68,7 +68,7 @@ watch(showColon, (v) => {
 const tick = () => {
 	const now = new Date();
 	ss.value = Math.floor(now.getTime() / 1000).toString();
-	ms.value = Math.floor(now.getTime() % 1000 / 10).toString().padStart(2, '0');
+	ms.value = Math.floor(now.getTime() % 1000 / 10).toString().padStart(2, "0");
 	if (ss.value !== prevSec) showColon.value = true;
 	prevSec = ss.value;
 };

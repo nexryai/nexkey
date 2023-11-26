@@ -1,15 +1,15 @@
-import { URL } from 'node:url';
-import webFinger from './webfinger.js';
-import config from '@/config/index.js';
-import { createPerson, updatePerson } from './activitypub/models/person.js';
-import { remoteLogger } from './logger.js';
-import chalk from 'chalk';
-import { User, IRemoteUser } from '@/models/entities/user.js';
-import { Users } from '@/models/index.js';
-import { toPuny } from '@/misc/convert-host.js';
-import { IsNull } from 'typeorm';
+import { URL } from "node:url";
+import chalk from "chalk";
+import { IsNull } from "typeorm";
+import config from "@/config/index.js";
+import { User, IRemoteUser } from "@/models/entities/user.js";
+import { Users } from "@/models/index.js";
+import { toPuny } from "@/misc/convert-host.js";
+import webFinger from "./webfinger.js";
+import { createPerson, updatePerson } from "./activitypub/models/person.js";
+import { remoteLogger } from "./logger.js";
 
-const logger = remoteLogger.createSubLogger('resolve-user');
+const logger = remoteLogger.createSubLogger("resolve-user");
 
 export async function resolveUser(username: string, host: string | null): Promise<User> {
 	const usernameLower = username.toLowerCase();
@@ -18,7 +18,7 @@ export async function resolveUser(username: string, host: string | null): Promis
 		logger.info(`return local user: ${usernameLower}`);
 		return await Users.findOneBy({ usernameLower, host: IsNull() }).then(u => {
 			if (u == null) {
-				throw new Error('user not found');
+				throw new Error("user not found");
 			} else {
 				return u;
 			}
@@ -31,7 +31,7 @@ export async function resolveUser(username: string, host: string | null): Promis
 		logger.info(`return local user: ${usernameLower}`);
 		return await Users.findOneBy({ usernameLower, host: IsNull() }).then(u => {
 			if (u == null) {
-				throw new Error('user not found');
+				throw new Error("user not found");
 			} else {
 				return u;
 			}
@@ -67,7 +67,7 @@ export async function resolveUser(username: string, host: string | null): Promis
 			// validate uri
 			const uri = new URL(self.href);
 			if (uri.hostname !== host) {
-				throw new Error(`Invalid uri`);
+				throw new Error("Invalid uri");
 			}
 
 			await Users.update({
@@ -85,7 +85,7 @@ export async function resolveUser(username: string, host: string | null): Promis
 		logger.info(`return resynced remote user: ${acctLower}`);
 		return await Users.findOneBy({ uri: self.href }).then(u => {
 			if (u == null) {
-				throw new Error('user not found');
+				throw new Error("user not found");
 			} else {
 				return u;
 			}
@@ -102,10 +102,10 @@ async function resolveSelf(acctLower: string) {
 		logger.error(`Failed to WebFinger for ${chalk.yellow(acctLower)}: ${ e.statusCode || e.message }`);
 		throw new Error(`Failed to WebFinger for ${acctLower}: ${ e.statusCode || e.message }`);
 	});
-	const self = finger.links.find(link => link.rel != null && link.rel.toLowerCase() === 'self');
+	const self = finger.links.find(link => link.rel != null && link.rel.toLowerCase() === "self");
 	if (!self) {
 		logger.error(`Failed to WebFinger for ${chalk.yellow(acctLower)}: self link not found`);
-		throw new Error('self link not found');
+		throw new Error("self link not found");
 	}
 	return self;
 }

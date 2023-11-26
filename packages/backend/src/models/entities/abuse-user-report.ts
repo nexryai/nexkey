@@ -1,6 +1,6 @@
-import { PrimaryColumn, Entity, Index, JoinColumn, Column, ManyToOne } from 'typeorm';
-import { User } from './user.js';
-import { id } from '../id.js';
+import { PrimaryColumn, Entity, Index, JoinColumn, Column, ManyToOne } from "typeorm";
+import { id } from "../id.js";
+import { User } from "./user.js";
 
 @Entity()
 export class AbuseUserReport {
@@ -8,27 +8,27 @@ export class AbuseUserReport {
 	public id: string;
 
 	@Index()
-	@Column('timestamp with time zone', {
-		comment: 'The created date of the AbuseUserReport.',
+	@Column("timestamp with time zone", {
+		comment: "The created date of the AbuseUserReport.",
 	})
 	public createdAt: Date;
 
 	@Index()
 	@Column(id())
-	public targetUserId: User['id'];
+	public targetUserId: User["id"];
 
 	@ManyToOne(type => User, {
-		onDelete: 'CASCADE',
+		onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public targetUser: User | null;
 
 	@Index()
 	@Column(id())
-	public reporterId: User['id'];
+	public reporterId: User["id"];
 
 	@ManyToOne(type => User, {
-		onDelete: 'CASCADE',
+		onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public reporter: User | null;
@@ -37,42 +37,42 @@ export class AbuseUserReport {
 		...id(),
 		nullable: true,
 	})
-	public assigneeId: User['id'] | null;
+	public assigneeId: User["id"] | null;
 
 	@ManyToOne(type => User, {
-		onDelete: 'SET NULL',
+		onDelete: "SET NULL",
 	})
 	@JoinColumn()
 	public assignee: User | null;
 
 	@Index()
-	@Column('boolean', {
+	@Column("boolean", {
 		default: false,
 	})
 	public resolved: boolean;
 
-	@Column('boolean', {
-		default: false
+	@Column("boolean", {
+		default: false,
 	})
 	public forwarded: boolean;
 
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 2048,
 	})
 	public comment: string;
 
 	//#region Denormalized fields
 	@Index()
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 128, nullable: true,
-		comment: '[Denormalized]',
+		comment: "[Denormalized]",
 	})
 	public targetUserHost: string | null;
 
 	@Index()
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 128, nullable: true,
-		comment: '[Denormalized]',
+		comment: "[Denormalized]",
 	})
 	public reporterHost: string | null;
 	//#endregion

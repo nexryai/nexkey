@@ -35,29 +35,29 @@
 </template>
 
 <script lang="ts" setup>
-import { onBeforeUnmount, onMounted, provide } from 'vue';
-import contains from '@/scripts/contains';
-import * as os from '@/os';
-import { MenuItem } from '@/types/menu';
-import { i18n } from '@/i18n';
+import { onBeforeUnmount, onMounted, provide } from "vue";
+import contains from "@/scripts/contains";
+import * as os from "@/os";
+import { MenuItem } from "@/types/menu";
+import { i18n } from "@/i18n";
 
 const minHeight = 50;
 const minWidth = 250;
 
 function dragListen(fn: (ev: MouseEvent) => void) {
-	window.addEventListener('mousemove', fn);
-	window.addEventListener('touchmove', fn);
-	window.addEventListener('mouseleave', dragClear.bind(null, fn));
-	window.addEventListener('mouseup', dragClear.bind(null, fn));
-	window.addEventListener('touchend', dragClear.bind(null, fn));
+	window.addEventListener("mousemove", fn);
+	window.addEventListener("touchmove", fn);
+	window.addEventListener("mouseleave", dragClear.bind(null, fn));
+	window.addEventListener("mouseup", dragClear.bind(null, fn));
+	window.addEventListener("touchend", dragClear.bind(null, fn));
 }
 
 function dragClear(fn) {
-	window.removeEventListener('mousemove', fn);
-	window.removeEventListener('touchmove', fn);
-	window.removeEventListener('mouseleave', dragClear);
-	window.removeEventListener('mouseup', dragClear);
-	window.removeEventListener('touchend', dragClear);
+	window.removeEventListener("mousemove", fn);
+	window.removeEventListener("touchmove", fn);
+	window.removeEventListener("mouseleave", dragClear);
+	window.removeEventListener("mouseup", dragClear);
+	window.removeEventListener("touchend", dragClear);
 }
 
 const props = withDefaults(defineProps<{
@@ -83,19 +83,19 @@ const props = withDefaults(defineProps<{
 });
 
 const emit = defineEmits<{
-	(ev: 'closed'): void;
+	(ev: "closed"): void;
 }>();
 
-provide('inWindow', true);
+provide("inWindow", true);
 
 let rootEl = $ref<HTMLElement | null>();
 let showing = $ref(true);
 let beforeClickedAt = 0;
 let maximized = $ref(false);
-let unMaximizedTop = '';
-let unMaximizedLeft = '';
-let unMaximizedWidth = '';
-let unMaximizedHeight = '';
+let unMaximizedTop = "";
+let unMaximizedLeft = "";
+let unMaximizedWidth = "";
+let unMaximizedHeight = "";
 
 function close() {
 	showing = false;
@@ -118,7 +118,7 @@ function onContextmenu(ev: MouseEvent) {
 // 最前面へ移動
 function top() {
 	if (rootEl) {
-		rootEl.style.zIndex = os.claimZIndex(props.front ? 'middle' : 'low');
+		rootEl.style.zIndex = os.claimZIndex(props.front ? "middle" : "low");
 	}
 }
 
@@ -128,10 +128,10 @@ function maximize() {
 	unMaximizedLeft = rootEl.style.left;
 	unMaximizedWidth = rootEl.style.width;
 	unMaximizedHeight = rootEl.style.height;
-	rootEl.style.top = '0';
-	rootEl.style.left = '0';
-	rootEl.style.width = '100%';
-	rootEl.style.height = '100%';
+	rootEl.style.top = "0";
+	rootEl.style.left = "0";
+	rootEl.style.width = "100%";
+	rootEl.style.height = "100%";
 }
 
 function unMaximize() {
@@ -202,8 +202,8 @@ function onHeaderMousedown(evt: MouseEvent) {
 		// 右はみ出し
 		if (moveLeft + windowWidth > browserWidth) moveLeft = browserWidth - windowWidth;
 
-		rootEl.style.left = moveLeft + 'px';
-		rootEl.style.top = moveTop + 'px';
+		rootEl.style.left = moveLeft + "px";
+		rootEl.style.top = moveTop + "px";
 	}
 
 	if (beforeMaximized) {
@@ -224,8 +224,8 @@ function onTopHandleMousedown(evt) {
 	const main = rootEl;
 
 	const base = evt.clientY;
-	const height = parseInt(getComputedStyle(main, '').height, 10);
-	const top = parseInt(getComputedStyle(main, '').top, 10);
+	const height = parseInt(getComputedStyle(main, "").height, 10);
+	const top = parseInt(getComputedStyle(main, "").top, 10);
 
 	// 動かした時
 	dragListen(me => {
@@ -250,8 +250,8 @@ function onRightHandleMousedown(evt) {
 	const main = rootEl;
 
 	const base = evt.clientX;
-	const width = parseInt(getComputedStyle(main, '').width, 10);
-	const left = parseInt(getComputedStyle(main, '').left, 10);
+	const width = parseInt(getComputedStyle(main, "").width, 10);
+	const left = parseInt(getComputedStyle(main, "").left, 10);
 	const browserWidth = window.innerWidth;
 
 	// 動かした時
@@ -274,8 +274,8 @@ function onBottomHandleMousedown(evt) {
 	const main = rootEl;
 
 	const base = evt.clientY;
-	const height = parseInt(getComputedStyle(main, '').height, 10);
-	const top = parseInt(getComputedStyle(main, '').top, 10);
+	const height = parseInt(getComputedStyle(main, "").height, 10);
+	const top = parseInt(getComputedStyle(main, "").top, 10);
 	const browserHeight = window.innerHeight;
 
 	// 動かした時
@@ -298,8 +298,8 @@ function onLeftHandleMousedown(evt) {
 	const main = rootEl;
 
 	const base = evt.clientX;
-	const width = parseInt(getComputedStyle(main, '').width, 10);
-	const left = parseInt(getComputedStyle(main, '').left, 10);
+	const width = parseInt(getComputedStyle(main, "").width, 10);
+	const left = parseInt(getComputedStyle(main, "").left, 10);
 
 	// 動かした時
 	dragListen(me => {
@@ -346,23 +346,23 @@ function onBottomLeftHandleMousedown(evt) {
 // 高さを適用
 function applyTransformHeight(height) {
 	if (height > window.innerHeight) height = window.innerHeight;
-	rootEl.style.height = height + 'px';
+	rootEl.style.height = height + "px";
 }
 
 // 幅を適用
 function applyTransformWidth(width) {
 	if (width > window.innerWidth) width = window.innerWidth;
-	rootEl.style.width = width + 'px';
+	rootEl.style.width = width + "px";
 }
 
 // Y座標を適用
 function applyTransformTop(top) {
-	rootEl.style.top = top + 'px';
+	rootEl.style.top = top + "px";
 }
 
 // X座標を適用
 function applyTransformLeft(left) {
-	rootEl.style.left = left + 'px';
+	rootEl.style.left = left + "px";
 }
 
 function onBrowserResize() {
@@ -372,10 +372,10 @@ function onBrowserResize() {
 	const browserHeight = window.innerHeight;
 	const windowWidth = main.offsetWidth;
 	const windowHeight = main.offsetHeight;
-	if (position.left < 0) main.style.left = '0'; // 左はみ出し
-	if (position.top + windowHeight > browserHeight) main.style.top = browserHeight - windowHeight + 'px'; // 下はみ出し
-	if (position.left + windowWidth > browserWidth) main.style.left = browserWidth - windowWidth + 'px'; // 右はみ出し
-	if (position.top < 0) main.style.top = '0'; // 上はみ出し
+	if (position.left < 0) main.style.left = "0"; // 左はみ出し
+	if (position.top + windowHeight > browserHeight) main.style.top = browserHeight - windowHeight + "px"; // 下はみ出し
+	if (position.left + windowWidth > browserWidth) main.style.left = browserWidth - windowWidth + "px"; // 右はみ出し
+	if (position.top < 0) main.style.top = "0"; // 上はみ出し
 }
 
 onMounted(() => {
@@ -388,11 +388,11 @@ onMounted(() => {
 	// 他のウィンドウ内のボタンなどを押してこのウィンドウが開かれた場合、親が最前面になろうとするのでそれに隠されないようにする
 	top();
 
-	window.addEventListener('resize', onBrowserResize);
+	window.addEventListener("resize", onBrowserResize);
 });
 
 onBeforeUnmount(() => {
-	window.removeEventListener('resize', onBrowserResize);
+	window.removeEventListener("resize", onBrowserResize);
 });
 
 defineExpose({

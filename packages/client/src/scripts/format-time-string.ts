@@ -1,18 +1,18 @@
 const defaultLocaleStringFormats: {[index: string]: string} = {
-	'weekday': 'narrow',
-	'era': 'narrow',
-	'year': 'numeric',
-	'month': 'numeric',
-	'day': 'numeric',
-	'hour': 'numeric',
-	'minute': 'numeric',
-	'second': 'numeric',
-	'timeZoneName': 'short'
+	"weekday": "narrow",
+	"era": "narrow",
+	"year": "numeric",
+	"month": "numeric",
+	"day": "numeric",
+	"hour": "numeric",
+	"minute": "numeric",
+	"second": "numeric",
+	"timeZoneName": "short",
 };
 
 function formatLocaleString(date: Date, format: string): string {
 	return format.replace(/\{\{(\w+)(:(\w+))?\}\}/g, (match: string, kind: string, unused?, option?: string) => {
-		if (['weekday', 'era', 'year', 'month', 'day', 'hour', 'minute', 'second', 'timeZoneName'].includes(kind)) {
+		if (["weekday", "era", "year", "month", "day", "hour", "minute", "second", "timeZoneName"].includes(kind)) {
 			return date.toLocaleString(window.navigator.language, { [kind]: option ? option : defaultLocaleStringFormats[kind] });
 		} else {
 			return match;
@@ -24,8 +24,8 @@ export function formatDateTimeString(date: Date, format: string): string {
 	return format
 		.replace(/yyyy/g, date.getFullYear().toString())
 		.replace(/yy/g, date.getFullYear().toString().slice(-2))
-		.replace(/MMMM/g, date.toLocaleString(window.navigator.language, { month: 'long' }))
-		.replace(/MMM/g, date.toLocaleString(window.navigator.language, { month: 'short' }))
+		.replace(/MMMM/g, date.toLocaleString(window.navigator.language, { month: "long" }))
+		.replace(/MMM/g, date.toLocaleString(window.navigator.language, { month: "short" }))
 		.replace(/MM/g, (`0${date.getMonth() + 1}`).slice(-2))
 		.replace(/M/g, (date.getMonth() + 1).toString())
 		.replace(/dd/g, (`0${date.getDate()}`).slice(-2))
@@ -38,7 +38,7 @@ export function formatDateTimeString(date: Date, format: string): string {
 		.replace(/m/g, date.getMinutes().toString())
 		.replace(/ss/g, (`0${date.getSeconds()}`).slice(-2))
 		.replace(/s/g, date.getSeconds().toString())
-		.replace(/tt/g, date.getHours() >= 12 ? 'PM' : 'AM');
+		.replace(/tt/g, date.getHours() >= 12 ? "PM" : "AM");
 }
 
 export function formatTimeString(date: Date, format: string): string {

@@ -1,27 +1,27 @@
 /* eslint-disable key-spacing */
-import { emojiRegex } from './emoji-regex.js';
-import { fetchMeta } from './fetch-meta.js';
-import { Emojis } from '@/models/index.js';
-import { toPunyNullable } from './convert-host.js';
-import { IsNull } from 'typeorm';
+import { IsNull } from "typeorm";
+import { Emojis } from "@/models/index.js";
+import { emojiRegex } from "./emoji-regex.js";
+import { fetchMeta } from "./fetch-meta.js";
+import { toPunyNullable } from "./convert-host.js";
 
 const legacies: Record<string, string> = {
-	'like':     '👍',
-	'love':     '❤', // ここに記述する場合は異体字セレクタを入れない
-	'laugh':    '😆',
-	'hmm':      '🤔',
-	'surprise': '😮',
-	'congrats': '🎉',
-	'angry':    '💢',
-	'confused': '😥',
-	'rip':      '😇',
-	'pudding':  '🍮',
-	'star':     '⭐',
+	"like":     "👍",
+	"love":     "❤", // ここに記述する場合は異体字セレクタを入れない
+	"laugh":    "😆",
+	"hmm":      "🤔",
+	"surprise": "😮",
+	"congrats": "🎉",
+	"angry":    "💢",
+	"confused": "😥",
+	"rip":      "😇",
+	"pudding":  "🍮",
+	"star":     "⭐",
 };
 
 export async function getFallbackReaction(): Promise<string> {
 	const meta = await fetchMeta();
-	return meta.useStarForReactionFallback ? '⭐' : '👍';
+	return meta.useStarForReactionFallback ? "⭐" : "👍";
 }
 
 export function convertLegacyReactions(reactions: Record<string, number>) {
@@ -69,7 +69,7 @@ export async function toDbReaction(reaction?: string | null, reacterHost?: strin
 		const unicode = match[0];
 
 		// 異体字セレクタ除去
-		return unicode.match('\u200d') ? unicode : unicode.replace(/\ufe0f/g, '');
+		return unicode.match("\u200d") ? unicode : unicode.replace(/\ufe0f/g, "");
 	}
 
 	const custom = reaction.match(/^:([\w+-]+)(?:@\.)?:$/);
@@ -111,7 +111,7 @@ export function decodeReaction(str: string): DecodedReaction {
 		const host = custom[2] || null;
 
 		return {
-			reaction: `:${name}@${host || '.'}:`,	// ローカル分は@以降を省略するのではなく.にする
+			reaction: `:${name}@${host || "."}:`,	// ローカル分は@以降を省略するのではなく.にする
 			name,
 			host,
 		};

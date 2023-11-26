@@ -19,8 +19,8 @@
 		</div>
 		<div v-if="!useGlobalSetting" class="_section">
 			<MkInfo class="notification-setting-window-contents">{{ i18n.ts.notificationSettingDesc }}</MkInfo>
-			<MkButton inline @click="disableAll" class="notification-setting-window-contents">{{ i18n.ts.disableAll }}</MkButton>
-			<MkButton inline @click="enableAll" class="notification-setting-window-contents">{{ i18n.ts.enableAll }}</MkButton>
+			<MkButton inline class="notification-setting-window-contents" @click="disableAll">{{ i18n.ts.disableAll }}</MkButton>
+			<MkButton inline class="notification-setting-window-contents" @click="enableAll">{{ i18n.ts.enableAll }}</MkButton>
 			<MkSwitch v-for="ntype in notificationTypes" :key="ntype" v-model="typesMap[ntype]" class="notification-setting-window-contents">{{ i18n.t(`_notification._types.${ntype}`) }}</MkSwitch>
 		</div>
 	</div>
@@ -28,17 +28,17 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import { notificationTypes } from '@/const';
-import MkSwitch from './form/switch.vue';
-import MkInfo from './MkInfo.vue';
-import MkButton from './MkButton.vue';
-import XModalWindow from '@/components/MkModalWindow.vue';
-import { i18n } from '@/i18n';
+import { } from "vue";
+import MkSwitch from "./form/switch.vue";
+import MkInfo from "./MkInfo.vue";
+import MkButton from "./MkButton.vue";
+import { notificationTypes } from "@/const";
+import XModalWindow from "@/components/MkModalWindow.vue";
+import { i18n } from "@/i18n";
 
 const emit = defineEmits<{
-	(ev: 'done', v: { includingTypes: string[] | null }): void,
-	(ev: 'closed'): void,
+	(ev: "done", v: { includingTypes: string[] | null }): void,
+	(ev: "closed"): void,
 }>();
 
 const props = withDefaults(defineProps<{
@@ -62,9 +62,9 @@ for (const ntype of notificationTypes) {
 
 function ok() {
 	if (useGlobalSetting) {
-		emit('done', { includingTypes: null });
+		emit("done", { includingTypes: null });
 	} else {
-		emit('done', {
+		emit("done", {
 			includingTypes: (Object.keys(typesMap) as typeof notificationTypes[number][])
 				.filter(type => typesMap[type]),
 		});

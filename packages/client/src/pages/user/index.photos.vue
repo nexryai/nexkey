@@ -19,14 +19,14 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
-import * as misskey from 'misskey-js';
-import { getStaticImageUrl } from '@/scripts/get-static-image-url';
-import { notePage } from '@/filters/note';
-import * as os from '@/os';
-import MkContainer from '@/components/MkContainer.vue';
-import ImgWithBlurhash from '@/components/MkImgWithBlurhash.vue';
-import { defaultStore } from '@/store';
+import { onMounted } from "vue";
+import * as misskey from "misskey-js";
+import { getStaticImageUrl } from "@/scripts/get-static-image-url";
+import { notePage } from "@/filters/note";
+import * as os from "@/os";
+import MkContainer from "@/components/MkContainer.vue";
+import ImgWithBlurhash from "@/components/MkImgWithBlurhash.vue";
+import { defaultStore } from "@/store";
 
 const props = defineProps<{
 	user: misskey.entities.UserDetailed;
@@ -46,16 +46,16 @@ function thumbnail(image: misskey.entities.DriveFile): string {
 
 onMounted(() => {
 	const image = [
-		'image/jpeg',
-		'image/png',
-		'image/gif',
-		'image/apng',
-		'image/vnd.mozilla.apng',
+		"image/jpeg",
+		"image/png",
+		"image/gif",
+		"image/apng",
+		"image/vnd.mozilla.apng",
 	];
-	os.api('users/notes', {
+	os.api("users/notes", {
 		userId: props.user.id,
 		fileType: image,
-		excludeNsfw: defaultStore.state.nsfw !== 'ignore',
+		excludeNsfw: defaultStore.state.nsfw !== "ignore",
 		limit: 10,
 	}).then(notes => {
 		for (const note of notes) {

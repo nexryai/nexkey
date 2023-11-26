@@ -1,17 +1,17 @@
-import { fetchMeta } from '@/misc/fetch-meta.js';
-import { Notes } from '@/models/index.js';
-import { checkWordMute } from '@/misc/check-word-mute.js';
-import { isInstanceMuted } from '@/misc/is-instance-muted.js';
-import { isUserRelated } from '@/misc/is-user-related.js';
-import { Packed } from '@/misc/schema.js';
-import Channel from '../channel.js';
+import { fetchMeta } from "@/misc/fetch-meta.js";
+import { Notes } from "@/models/index.js";
+import { checkWordMute } from "@/misc/check-word-mute.js";
+import { isInstanceMuted } from "@/misc/is-instance-muted.js";
+import { isUserRelated } from "@/misc/is-user-related.js";
+import { Packed } from "@/misc/schema.js";
+import Channel from "../channel.js";
 
 export default class extends Channel {
-	public readonly chName = 'globalTimeline';
+	public readonly chName = "globalTimeline";
 	public static shouldShare = true;
 	public static requireCredential = false;
 
-	constructor(id: string, connection: Channel['connection']) {
+	constructor(id: string, connection: Channel["connection"]) {
 		super(id, connection);
 		this.onNote = this.onNote.bind(this);
 	}
@@ -23,11 +23,11 @@ export default class extends Channel {
 		}
 
 		// Subscribe events
-		this.subscriber.on('notesStream', this.onNote);
+		this.subscriber.on("notesStream", this.onNote);
 	}
 
-	private async onNote(note: Packed<'Note'>) {
-		if (note.visibility !== 'public') return;
+	private async onNote(note: Packed<"Note">) {
+		if (note.visibility !== "public") return;
 		if (note.channelId != null) return;
 
 		// リプライなら再pack
@@ -70,11 +70,11 @@ export default class extends Channel {
 
 		this.connection.cacheNote(note);
 
-		this.send('note', note);
+		this.send("note", note);
 	}
 
 	public dispose() {
 		// Unsubscribe events
-		this.subscriber.off('notesStream', this.onNote);
+		this.subscriber.off("notesStream", this.onNote);
 	}
 }

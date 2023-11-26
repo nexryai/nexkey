@@ -1,26 +1,25 @@
-import { publishMainStream, publishUserEvent } from '@/services/stream.js';
-import { renderActivity } from '@/remote/activitypub/renderer/index.js';
-import renderFollow from '@/remote/activitypub/renderer/follow.js';
-import renderAccept from '@/remote/activitypub/renderer/accept.js';
-import renderReject from '@/remote/activitypub/renderer/reject.js';
-import { deliver } from '@/queue/index.js';
-import createFollowRequest from './requests/create.js';
-import { registerOrFetchInstanceDoc } from '../register-or-fetch-instance-doc.js';
-import Logger from '../logger.js';
-import { IdentifiableError } from '@/misc/identifiable-error.js';
-import { User } from '@/models/entities/user.js';
-import { Followings, Users, FollowRequests, Blockings, Instances, UserProfiles } from '@/models/index.js';
-import { instanceChart } from '@/services/chart/index.js';
-import { genId } from '@/misc/gen-id.js';
-import { createNotification } from '../create-notification.js';
-import { isDuplicateKeyValueError } from '@/misc/is-duplicate-key-value-error.js';
-import { Packed } from '@/misc/schema.js';
-import { getActiveWebhooks } from '@/misc/webhook-cache.js';
-import { webhookDeliver } from '@/queue/index.js';
+import { publishMainStream, publishUserEvent } from "@/services/stream.js";
+import { renderActivity } from "@/remote/activitypub/renderer/index.js";
+import renderFollow from "@/remote/activitypub/renderer/follow.js";
+import renderAccept from "@/remote/activitypub/renderer/accept.js";
+import renderReject from "@/remote/activitypub/renderer/reject.js";
+import { deliver , webhookDeliver } from "@/queue/index.js";
+import { IdentifiableError } from "@/misc/identifiable-error.js";
+import { User } from "@/models/entities/user.js";
+import { Followings, Users, FollowRequests, Blockings, Instances, UserProfiles } from "@/models/index.js";
+import { instanceChart } from "@/services/chart/index.js";
+import { genId } from "@/misc/gen-id.js";
+import { isDuplicateKeyValueError } from "@/misc/is-duplicate-key-value-error.js";
+import { Packed } from "@/misc/schema.js";
+import { getActiveWebhooks } from "@/misc/webhook-cache.js";
+import { createNotification } from "../create-notification.js";
+import Logger from "../logger.js";
+import { registerOrFetchInstanceDoc } from "../register-or-fetch-instance-doc.js";
+import createFollowRequest from "./requests/create.js";
 
-const logger = new Logger('following/create');
+const logger = new Logger("following/create");
 
-export async function insertFollowingDoc(followee: { id: User['id']; host: User['host']; uri: User['host']; inbox: User['inbox']; sharedInbox: User['sharedInbox'] }, follower: { id: User['id']; host: User['host']; uri: User['host']; inbox: User['inbox']; sharedInbox: User['sharedInbox'] }) {
+export async function insertFollowingDoc(followee: { id: User["id"]; host: User["host"]; uri: User["host"]; inbox: User["inbox"]; sharedInbox: User["sharedInbox"] }, follower: { id: User["id"]; host: User["host"]; uri: User["host"]; inbox: User["inbox"]; sharedInbox: User["sharedInbox"] }) {
 	if (follower.id === followee.id) return;
 
 	let alreadyFollowed = false;
@@ -59,7 +58,7 @@ export async function insertFollowingDoc(followee: { id: User['id']; host: User[
 		});
 
 		// 通知を作成
-		createNotification(follower.id, 'followRequestAccepted', {
+		createNotification(follower.id, "followRequestAccepted", {
 			notifierId: followee.id,
 		});
 	}
@@ -68,20 +67,20 @@ export async function insertFollowingDoc(followee: { id: User['id']; host: User[
 
 	//#region Increment counts
 	await Promise.all([
-		Users.increment({ id: follower.id }, 'followingCount', 1),
-		Users.increment({ id: followee.id }, 'followersCount', 1),
+		Users.increment({ id: follower.id }, "followingCount", 1),
+		Users.increment({ id: followee.id }, "followersCount", 1),
 	]);
 	//#endregion
 
 	//#region Update instance stats
 	if (Users.isRemoteUser(follower) && Users.isLocalUser(followee)) {
 		registerOrFetchInstanceDoc(follower.host).then(i => {
-			Instances.increment({ id: i.id }, 'followingCount', 1);
+			Instances.increment({ id: i.id }, "followingCount", 1);
 			instanceChart.updateFollowing(i.host, true);
 		});
 	} else if (Users.isLocalUser(follower) && Users.isRemoteUser(followee)) {
 		registerOrFetchInstanceDoc(followee.host).then(i => {
-			Instances.increment({ id: i.id }, 'followersCount', 1);
+			Instances.increment({ id: i.id }, "followersCount", 1);
 			instanceChart.updateFollowers(i.host, true);
 		});
 	}
@@ -92,12 +91,12 @@ export async function insertFollowingDoc(followee: { id: User['id']; host: User[
 		Users.pack(followee.id, follower, {
 			detail: true,
 		}).then(async packed => {
-			publishUserEvent(follower.id, 'follow', packed as Packed<"UserDetailedNotMe">);
-			publishMainStream(follower.id, 'follow', packed as Packed<"UserDetailedNotMe">);
+			publishUserEvent(follower.id, "follow", packed as Packed<"UserDetailedNotMe">);
+			publishMainStream(follower.id, "follow", packed as Packed<"UserDetailedNotMe">);
 
-			const webhooks = (await getActiveWebhooks()).filter(x => x.userId === follower.id && x.on.includes('follow'));
+			const webhooks = (await getActiveWebhooks()).filter(x => x.userId === follower.id && x.on.includes("follow"));
 			for (const webhook of webhooks) {
-				webhookDeliver(webhook, 'follow', {
+				webhookDeliver(webhook, "follow", {
 					user: packed,
 				});
 			}
@@ -107,24 +106,24 @@ export async function insertFollowingDoc(followee: { id: User['id']; host: User[
 	// Publish followed event
 	if (Users.isLocalUser(followee)) {
 		Users.pack(follower.id, followee).then(async packed => {
-			publishMainStream(followee.id, 'followed', packed);
+			publishMainStream(followee.id, "followed", packed);
 
-			const webhooks = (await getActiveWebhooks()).filter(x => x.userId === followee.id && x.on.includes('followed'));
+			const webhooks = (await getActiveWebhooks()).filter(x => x.userId === followee.id && x.on.includes("followed"));
 			for (const webhook of webhooks) {
-				webhookDeliver(webhook, 'followed', {
+				webhookDeliver(webhook, "followed", {
 					user: packed,
 				});
 			}
 		});
 
 		// 通知を作成
-		createNotification(followee.id, 'follow', {
+		createNotification(followee.id, "follow", {
 			notifierId: follower.id,
 		});
 	}
 }
 
-export default async function(_follower: { id: User['id'] }, _followee: { id: User['id'] }, requestId?: string) {
+export default async function(_follower: { id: User["id"] }, _followee: { id: User["id"] }, requestId?: string) {
 	const [follower, followee] = await Promise.all([
 		Users.findOneByOrFail({ id: _follower.id }),
 		Users.findOneByOrFail({ id: _followee.id }),
@@ -152,8 +151,8 @@ export default async function(_follower: { id: User['id'] }, _followee: { id: Us
 		await Blockings.delete(blocking.id);
 	} else {
 		// それ以外は単純に例外
-		if (blocking) throw new IdentifiableError('710e8fb0-b8c3-4922-be49-d5d93d8e6a6e', 'blocking');
-		if (blocked) throw new IdentifiableError('3338392a-f764-498d-8855-db939dcf8c48', 'blocked');
+		if (blocking) throw new IdentifiableError("710e8fb0-b8c3-4922-be49-d5d93d8e6a6e", "blocking");
+		if (blocked) throw new IdentifiableError("3338392a-f764-498d-8855-db939dcf8c48", "blocked");
 	}
 
 	if (Users.isRemoteUser(follower) && ((follower.isSuspended) || (follower.isDeleted))) {

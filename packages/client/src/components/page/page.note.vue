@@ -6,11 +6,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, PropType, Ref, ref } from 'vue';
-import XNote from '@/components/MkNote.vue';
-import XNoteDetailed from '@/components/MkNoteDetailed.vue';
-import * as os from '@/os';
-import { NoteBlock } from '@/scripts/hpml/block';
+import { defineComponent, onMounted, PropType, Ref, ref } from "vue";
+import XNote from "@/components/MkNote.vue";
+import XNoteDetailed from "@/components/MkNoteDetailed.vue";
+import * as os from "@/os";
+import { NoteBlock } from "@/scripts/hpml/block";
 
 export default defineComponent({
 	components: {
@@ -20,23 +20,23 @@ export default defineComponent({
 	props: {
 		block: {
 			type: Object as PropType<NoteBlock>,
-			required: true
-		}
+			required: true,
+		},
 	},
 	setup(props, ctx) {
 		const note: Ref<Record<string, any> | null> = ref(null);
 
 		onMounted(() => {
-			os.api('notes/show', { noteId: props.block.note })
+			os.api("notes/show", { noteId: props.block.note })
 			.then(result => {
 				note.value = result;
 			});
 		});
 
 		return {
-			note
+			note,
 		};
-	}
+	},
 });
 </script>
 

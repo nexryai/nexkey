@@ -1,12 +1,12 @@
-import Bull from 'bull';
+import Bull from "bull";
 
-import { queueLogger } from '../../logger.js';
-import { activeUsersChart, federationChart, instanceChart, notesChart, perUserNotesChart, usersChart, apRequestChart } from '@/services/chart/index.js';
+import { activeUsersChart, federationChart, instanceChart, notesChart, perUserNotesChart, usersChart, apRequestChart } from "@/services/chart/index.js";
+import { queueLogger } from "../../logger.js";
 
-const logger = queueLogger.createSubLogger('clean-charts');
+const logger = queueLogger.createSubLogger("clean-charts");
 
 export async function cleanCharts(job: Bull.Job<Record<string, unknown>>, done: any): Promise<void> {
-	logger.info(`Clean charts...`);
+	logger.info("Clean charts...");
 
 	await Promise.all([
 		federationChart.clean(),
@@ -18,6 +18,6 @@ export async function cleanCharts(job: Bull.Job<Record<string, unknown>>, done: 
 		apRequestChart.clean(),
 	]);
 
-	logger.succ(`All charts successfully cleaned.`);
+	logger.succ("All charts successfully cleaned.");
 	done();
 }

@@ -5,9 +5,9 @@ export function query(obj: Record<string, any>): string {
 
 	return Object.entries(params)
 		.map((p) => `${p[0]}=${encodeURIComponent(p[1])}`)
-		.join('&');
+		.join("&");
 }
 
 export function appendQuery(url: string, query: string): string {
-	return `${url}${/\?/.test(url) ? url.endsWith('?') ? '' : '&' : '?'}${query}`;
+	return `${url}${/\?/.test(url) ? url.endsWith("?") ? "" : "&" : "?"}${query}`;
 }

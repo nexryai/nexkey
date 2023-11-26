@@ -6,30 +6,30 @@ import {
 	packedMeDetailedSchema,
 	packedUserDetailedSchema,
 	packedUserSchema,
-} from '@/models/schema/user.js';
-import { packedNoteSchema } from '@/models/schema/note.js';
-import { packedUserListSchema } from '@/models/schema/user-list.js';
-import { packedAppSchema } from '@/models/schema/app.js';
-import { packedMessagingMessageSchema } from '@/models/schema/messaging-message.js';
-import { packedNotificationSchema } from '@/models/schema/notification.js';
-import { packedDriveFileSchema } from '@/models/schema/drive-file.js';
-import { packedDriveFolderSchema } from '@/models/schema/drive-folder.js';
-import { packedFollowingSchema } from '@/models/schema/following.js';
-import { packedMutingSchema } from '@/models/schema/muting.js';
-import { packedRenoteMutingSchema } from '@/models/schema/renote-muting.js';
-import { packedBlockingSchema } from '@/models/schema/blocking.js';
-import { packedNoteReactionSchema } from '@/models/schema/note-reaction.js';
-import { packedHashtagSchema } from '@/models/schema/hashtag.js';
-import { packedPageSchema } from '@/models/schema/page.js';
-import { packedUserGroupSchema } from '@/models/schema/user-group.js';
-import { packedNoteFavoriteSchema } from '@/models/schema/note-favorite.js';
-import { packedChannelSchema } from '@/models/schema/channel.js';
-import { packedAntennaSchema } from '@/models/schema/antenna.js';
-import { packedClipSchema } from '@/models/schema/clip.js';
-import { packedFederationInstanceSchema } from '@/models/schema/federation-instance.js';
-import { packedQueueCountSchema } from '@/models/schema/queue.js';
-import { packedGalleryPostSchema } from '@/models/schema/gallery-post.js';
-import { packedEmojiSchema } from '@/models/schema/emoji.js';
+} from "@/models/schema/user.js";
+import { packedNoteSchema } from "@/models/schema/note.js";
+import { packedUserListSchema } from "@/models/schema/user-list.js";
+import { packedAppSchema } from "@/models/schema/app.js";
+import { packedMessagingMessageSchema } from "@/models/schema/messaging-message.js";
+import { packedNotificationSchema } from "@/models/schema/notification.js";
+import { packedDriveFileSchema } from "@/models/schema/drive-file.js";
+import { packedDriveFolderSchema } from "@/models/schema/drive-folder.js";
+import { packedFollowingSchema } from "@/models/schema/following.js";
+import { packedMutingSchema } from "@/models/schema/muting.js";
+import { packedRenoteMutingSchema } from "@/models/schema/renote-muting.js";
+import { packedBlockingSchema } from "@/models/schema/blocking.js";
+import { packedNoteReactionSchema } from "@/models/schema/note-reaction.js";
+import { packedHashtagSchema } from "@/models/schema/hashtag.js";
+import { packedPageSchema } from "@/models/schema/page.js";
+import { packedUserGroupSchema } from "@/models/schema/user-group.js";
+import { packedNoteFavoriteSchema } from "@/models/schema/note-favorite.js";
+import { packedChannelSchema } from "@/models/schema/channel.js";
+import { packedAntennaSchema } from "@/models/schema/antenna.js";
+import { packedClipSchema } from "@/models/schema/clip.js";
+import { packedFederationInstanceSchema } from "@/models/schema/federation-instance.js";
+import { packedQueueCountSchema } from "@/models/schema/queue.js";
+import { packedGalleryPostSchema } from "@/models/schema/gallery-post.js";
+import { packedEmojiSchema } from "@/models/schema/emoji.js";
 
 export const refs = {
 	UserLite: packedUserLiteSchema,
@@ -67,15 +67,15 @@ export const refs = {
 
 export type Packed<x extends keyof typeof refs> = SchemaType<typeof refs[x]>;
 
-type TypeStringef = 'null' | 'boolean' | 'integer' | 'number' | 'string' | 'array' | 'object' | 'any';
+type TypeStringef = "null" | "boolean" | "integer" | "number" | "string" | "array" | "object" | "any";
 type StringDefToType<T extends TypeStringef> =
-	T extends 'null' ? null :
-	T extends 'boolean' ? boolean :
-	T extends 'integer' ? number :
-	T extends 'number' ? number :
-	T extends 'string' ? string | Date :
-	T extends 'array' ? ReadonlyArray<any> :
-	T extends 'object' ? Record<string, any> :
+	T extends "null" ? null :
+	T extends "boolean" ? boolean :
+	T extends "integer" ? number :
+	T extends "number" ? number :
+	T extends "string" ? string | Date :
+	T extends "array" ? ReadonlyArray<any> :
+	T extends "object" ? Record<string, any> :
 	any;
 
 // https://swagger.io/specification/?sbsearch=optional#schema-object
@@ -91,13 +91,13 @@ export interface Schema extends OfSchema {
 	readonly optional?: boolean;
 	readonly items?: Schema;
 	readonly properties?: Obj;
-	readonly required?: ReadonlyArray<Extract<keyof NonNullable<this['properties']>, string>>;
+	readonly required?: ReadonlyArray<Extract<keyof NonNullable<this["properties"]>, string>>;
 	readonly description?: string;
 	readonly example?: any;
 	readonly format?: string;
 	readonly ref?: keyof typeof refs;
 	readonly enum?: ReadonlyArray<string>;
-	readonly default?: (this['type'] extends TypeStringef ? StringDefToType<this['type']> : any) | null;
+	readonly default?: (this["type"] extends TypeStringef ? StringDefToType<this["type"]> : any) | null;
 	readonly maxLength?: number;
 	readonly minLength?: number;
 	readonly maximum?: number;
@@ -108,9 +108,9 @@ export interface Schema extends OfSchema {
 type RequiredPropertyNames<s extends Obj> = {
 	[K in keyof s]:
 		// K is not optional
-		s[K]['optional'] extends false ? K :
+		s[K]["optional"] extends false ? K :
 		// K has default value
-		s[K]['default'] extends null | string | number | boolean | Record<string, unknown> ? K :
+		s[K]["default"] extends null | string | number | boolean | Record<string, unknown> ? K :
 		never
 }[keyof s];
 
@@ -127,8 +127,8 @@ export type ObjType<s extends Obj, RequiredProps extends keyof s> =
 	>;
 
 type NullOrUndefined<p extends Schema, T> =
-	| (p['nullable'] extends true ? null : never)
-	| (p['optional'] extends true ? undefined : never)
+	| (p["nullable"] extends true ? null : never)
+	| (p["optional"] extends true ? undefined : never)
 	| T;
 
 // https://stackoverflow.com/questions/54938141/typescript-convert-union-to-intersection
@@ -141,34 +141,34 @@ type UnionSchemaType<a extends readonly any[], X extends Schema = a[number]> = X
 type ArrayUnion<T> = T extends any ? Array<T> : never; 
 
 export type SchemaTypeDef<p extends Schema> =
-	p['type'] extends 'null' ? null :
-	p['type'] extends 'integer' ? number :
-	p['type'] extends 'number' ? number :
-	p['type'] extends 'string' ? (
-		p['enum'] extends readonly string[] ?
-		p['enum'][number] :
-		p['format'] extends 'date-time' ? string : // Dateにする？？
+	p["type"] extends "null" ? null :
+	p["type"] extends "integer" ? number :
+	p["type"] extends "number" ? number :
+	p["type"] extends "string" ? (
+		p["enum"] extends readonly string[] ?
+		p["enum"][number] :
+		p["format"] extends "date-time" ? string : // Dateにする？？
 		string
 	) :
-	p['type'] extends 'boolean' ? boolean :
-	p['type'] extends 'object' ? (
-		p['ref'] extends keyof typeof refs ? Packed<p['ref']> :
-		p['properties'] extends NonNullable<Obj> ? ObjType<p['properties'], NonNullable<p['required']>[number]> :
-		p['anyOf'] extends ReadonlyArray<Schema> ? UnionSchemaType<p['anyOf']> & Partial<UnionToIntersection<UnionSchemaType<p['anyOf']>>> :
-		p['allOf'] extends ReadonlyArray<Schema> ? UnionToIntersection<UnionSchemaType<p['allOf']>> :
+	p["type"] extends "boolean" ? boolean :
+	p["type"] extends "object" ? (
+		p["ref"] extends keyof typeof refs ? Packed<p["ref"]> :
+		p["properties"] extends NonNullable<Obj> ? ObjType<p["properties"], NonNullable<p["required"]>[number]> :
+		p["anyOf"] extends ReadonlyArray<Schema> ? UnionSchemaType<p["anyOf"]> & Partial<UnionToIntersection<UnionSchemaType<p["anyOf"]>>> :
+		p["allOf"] extends ReadonlyArray<Schema> ? UnionToIntersection<UnionSchemaType<p["allOf"]>> :
 		any
 	) :
-	p['type'] extends 'array' ? (
-		p['items'] extends OfSchema ? (
-			p['items']['anyOf'] extends ReadonlyArray<Schema> ? UnionSchemaType<NonNullable<p['items']['anyOf']>>[] :
-			p['items']['oneOf'] extends ReadonlyArray<Schema> ? ArrayUnion<UnionSchemaType<NonNullable<p['items']['oneOf']>>> :
-			p['items']['allOf'] extends ReadonlyArray<Schema> ? UnionToIntersection<UnionSchemaType<NonNullable<p['items']['allOf']>>>[] :
+	p["type"] extends "array" ? (
+		p["items"] extends OfSchema ? (
+			p["items"]["anyOf"] extends ReadonlyArray<Schema> ? UnionSchemaType<NonNullable<p["items"]["anyOf"]>>[] :
+			p["items"]["oneOf"] extends ReadonlyArray<Schema> ? ArrayUnion<UnionSchemaType<NonNullable<p["items"]["oneOf"]>>> :
+			p["items"]["allOf"] extends ReadonlyArray<Schema> ? UnionToIntersection<UnionSchemaType<NonNullable<p["items"]["allOf"]>>>[] :
 			never
 		) :
-		p['items'] extends NonNullable<Schema> ? SchemaTypeDef<p['items']>[] :
+		p["items"] extends NonNullable<Schema> ? SchemaTypeDef<p["items"]>[] :
 		any[]
 	) :
-	p['oneOf'] extends ReadonlyArray<Schema> ? UnionSchemaType<p['oneOf']> :
+	p["oneOf"] extends ReadonlyArray<Schema> ? UnionSchemaType<p["oneOf"]> :
 	any;
 
 export type SchemaType<p extends Schema> = NullOrUndefined<p, SchemaTypeDef<p>>;

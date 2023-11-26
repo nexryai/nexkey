@@ -1,25 +1,25 @@
-import Router from '@koa/router';
-import { LessThan, IsNull, FindOptionsWhere } from 'typeorm';
-import config from '@/config/index.js';
-import * as url from '@/prelude/url.js';
-import { renderActivity } from '@/remote/activitypub/renderer/index.js';
-import renderOrderedCollection from '@/remote/activitypub/renderer/ordered-collection.js';
-import renderOrderedCollectionPage from '@/remote/activitypub/renderer/ordered-collection-page.js';
-import renderFollowUser from '@/remote/activitypub/renderer/follow-user.js';
-import { Users, Followings, UserProfiles } from '@/models/index.js';
-import { Following } from '@/models/entities/following.js';
-import { setResponseType } from '../activitypub.js';
+import Router from "@koa/router";
+import { LessThan, IsNull, FindOptionsWhere } from "typeorm";
+import config from "@/config/index.js";
+import * as url from "@/prelude/url.js";
+import { renderActivity } from "@/remote/activitypub/renderer/index.js";
+import renderOrderedCollection from "@/remote/activitypub/renderer/ordered-collection.js";
+import renderOrderedCollectionPage from "@/remote/activitypub/renderer/ordered-collection-page.js";
+import renderFollowUser from "@/remote/activitypub/renderer/follow-user.js";
+import { Users, Followings, UserProfiles } from "@/models/index.js";
+import { Following } from "@/models/entities/following.js";
+import { setResponseType } from "../activitypub.js";
 
 export default async (ctx: Router.RouterContext) => {
 	const userId = ctx.params.user;
 
 	const cursor = ctx.request.query.cursor;
-	if (cursor != null && typeof cursor !== 'string') {
+	if (cursor != null && typeof cursor !== "string") {
 		ctx.status = 400;
 		return;
 	}
 
-	const page = ctx.request.query.page === 'true';
+	const page = ctx.request.query.page === "true";
 
 	const user = await Users.findOneBy({
 		id: userId,
@@ -45,7 +45,7 @@ export default async (ctx: Router.RouterContext) => {
 	//}
 
 	const followingCount = profile == null ? 0 :
-		(profile.ffVisibility === 'public') ? user.followingCount :
+		(profile.ffVisibility === "public") ? user.followingCount :
 		0;
 
 	//#endregion
@@ -54,9 +54,9 @@ export default async (ctx: Router.RouterContext) => {
 	const partOf = `${config.url}/users/${userId}/following`;
 
 	if (page) {
-		if (profile.ffVisibility !== 'public') {
+		if (profile.ffVisibility !== "public") {
 			ctx.status = 403;
-			ctx.set('Cache-Control', 'public, max-age=30');
+			ctx.set("Cache-Control", "public, max-age=30");
 			return;
 		}
 
@@ -83,13 +83,13 @@ export default async (ctx: Router.RouterContext) => {
 		const renderedFollowees = await Promise.all(followings.map(following => renderFollowUser(following.followeeId)));
 		const rendered = renderOrderedCollectionPage(
 			`${partOf}?${url.query({
-				page: 'true',
+				page: "true",
 				cursor,
 			})}`,
 			followingCount, renderedFollowees, partOf,
 			undefined,
 			inStock ? `${partOf}?${url.query({
-				page: 'true',
+				page: "true",
 				cursor: followings[followings.length - 1].id,
 			})}` : undefined,
 		);
@@ -98,9 +98,9 @@ export default async (ctx: Router.RouterContext) => {
 		setResponseType(ctx);
 	} else {
 		// index page
-		const rendered = renderOrderedCollection(partOf, followingCount, (profile.ffVisibility === 'public') ? `${partOf}?page=true` : undefined);
+		const rendered = renderOrderedCollection(partOf, followingCount, (profile.ffVisibility === "public") ? `${partOf}?page=true` : undefined);
 		ctx.body = renderActivity(rendered);
-		ctx.set('Cache-Control', 'public, max-age=180');
+		ctx.set("Cache-Control", "public, max-age=180");
 		setResponseType(ctx);
 	}
 };

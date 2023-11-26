@@ -112,37 +112,37 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, onMounted, onUnmounted, reactive, ref } from 'vue';
-import * as mfm from 'mfm-js';
-import * as misskey from 'misskey-js';
-import MkNoteSub from '@/components/MkNoteSub.vue';
-import XNoteSimple from '@/components/MkNoteSimple.vue';
-import XReactionsViewer from '@/components/MkReactionsViewer.vue';
-import XMediaList from '@/components/MkMediaList.vue';
-import XCwButton from '@/components/MkCwButton.vue';
-import XPoll from '@/components/MkPoll.vue';
-import XRenoteButton from '@/components/MkRenoteButton.vue';
-import MkUrlPreview from '@/components/MkUrlPreview.vue';
-import MkVisibility from '@/components/MkVisibility.vue';
-import { pleaseLogin } from '@/scripts/please-login';
-import { checkWordMute } from '@/scripts/check-word-mute';
-import { userPage } from '@/filters/user';
-import { notePage } from '@/filters/note';
-import * as os from '@/os';
-import { defaultStore, noteViewInterruptors } from '@/store';
-import { reactionPicker } from '@/scripts/reaction-picker';
-import { extractUrlFromMfm } from '@/scripts/extract-url-from-mfm';
-import { $i } from '@/account';
-import { i18n } from '@/i18n';
-import { getNoteMenu } from '@/scripts/get-note-menu';
-import { useNoteCapture } from '@/scripts/use-note-capture';
+import { computed, inject, onMounted, onUnmounted, reactive, ref } from "vue";
+import * as mfm from "mfm-js";
+import * as misskey from "misskey-js";
+import MkNoteSub from "@/components/MkNoteSub.vue";
+import XNoteSimple from "@/components/MkNoteSimple.vue";
+import XReactionsViewer from "@/components/MkReactionsViewer.vue";
+import XMediaList from "@/components/MkMediaList.vue";
+import XCwButton from "@/components/MkCwButton.vue";
+import XPoll from "@/components/MkPoll.vue";
+import XRenoteButton from "@/components/MkRenoteButton.vue";
+import MkUrlPreview from "@/components/MkUrlPreview.vue";
+import MkVisibility from "@/components/MkVisibility.vue";
+import { pleaseLogin } from "@/scripts/please-login";
+import { checkWordMute } from "@/scripts/check-word-mute";
+import { userPage } from "@/filters/user";
+import { notePage } from "@/filters/note";
+import * as os from "@/os";
+import { defaultStore, noteViewInterruptors } from "@/store";
+import { reactionPicker } from "@/scripts/reaction-picker";
+import { extractUrlFromMfm } from "@/scripts/extract-url-from-mfm";
+import { $i } from "@/account";
+import { i18n } from "@/i18n";
+import { getNoteMenu } from "@/scripts/get-note-menu";
+import { useNoteCapture } from "@/scripts/use-note-capture";
 
 const props = defineProps<{
 	note: misskey.entities.Note;
 	pinned?: boolean;
 }>();
 
-const inChannel = inject('inChannel', null);
+const inChannel = inject("inChannel", null);
 
 let note = $ref(JSON.parse(JSON.stringify(props.note)));
 
@@ -177,18 +177,18 @@ const muted = ref(checkWordMute(appearNote, $i, defaultStore.state.mutedWords));
 const translation = ref(null);
 const translating = ref(false);
 const urls = appearNote.text ? extractUrlFromMfm(mfm.parse(appearNote.text)) : null;
-const showTicker = (defaultStore.state.instanceTicker === 'always') || (defaultStore.state.instanceTicker === 'remote' && appearNote.user.instance);
+const showTicker = (defaultStore.state.instanceTicker === "always") || (defaultStore.state.instanceTicker === "remote" && appearNote.user.instance);
 const conversation = ref<misskey.entities.Note[]>([]);
 const replies = ref<misskey.entities.Note[]>([]);
 const enableSudo = defaultStore.state.enableSudo;
 
 const keymap = {
-	'r': () => reply(true),
-	'e|a|plus': () => react(true),
-	'q': () => renoteButton.value.renote(true),
-	'esc': blur,
-	'm|o': () => menu(true),
-	's': () => showContent.value !== showContent.value,
+	"r": () => reply(true),
+	"e|a|plus": () => react(true),
+	"q": () => renoteButton.value.renote(true),
+	"esc": blur,
+	"m|o": () => menu(true),
+	"s": () => showContent.value !== showContent.value,
 };
 
 useNoteCapture({
@@ -212,7 +212,7 @@ function react(viaKeyboard = false): void {
 	pleaseLogin();
 	blur();
 	reactionPicker.show(reactButton.value, reaction => {
-		os.api('notes/reactions/create', {
+		os.api("notes/reactions/create", {
 			noteId: appearNote.id,
 			reaction: reaction,
 		});
@@ -224,20 +224,20 @@ function react(viaKeyboard = false): void {
 function undoReact(note): void {
 	const oldReaction = note.myReaction;
 	if (!oldReaction) return;
-	os.api('notes/reactions/delete', {
+	os.api("notes/reactions/delete", {
 		noteId: note.id,
 	});
 }
 
 function onContextmenu(ev: MouseEvent): void {
 	const isLink = (el: HTMLElement) => {
-		if (el.tagName === 'A') return true;
+		if (el.tagName === "A") return true;
 		if (el.parentElement) {
 			return isLink(el.parentElement);
 		}
 	};
 	if (isLink(ev.target)) return;
-	if (window.getSelection().toString() !== '') return;
+	if (window.getSelection().toString() !== "") return;
 
 	if (defaultStore.state.useReactionPickerForContextMenu) {
 		ev.preventDefault();
@@ -257,10 +257,10 @@ function showRenoteMenu(viaKeyboard = false): void {
 	if (!isMyRenote && !($i && ($i.isModerator || $i.isAdmin) && enableSudo)) return;
 	os.popupMenu([{
 		text: (isMyRenote) ? i18n.ts.unrenote : i18n.ts.unrenoteAsAdmin,
-		icon: 'ti ti-trash',
+		icon: "ti ti-trash",
 		danger: true,
 		action: () => {
-			os.api('notes/delete', {
+			os.api("notes/delete", {
 				noteId: note.id,
 			});
 			isDeleted.value = true;
@@ -278,7 +278,7 @@ function blur() {
 	el.value.blur();
 }
 
-os.api('notes/children', {
+os.api("notes/children", {
 	noteId: appearNote.id,
 	limit: 30,
 }).then(res => {
@@ -286,7 +286,7 @@ os.api('notes/children', {
 });
 
 if (appearNote.replyId) {
-	os.api('notes/conversation', {
+	os.api("notes/conversation", {
 		noteId: appearNote.replyId,
 	}).then(res => {
 		conversation.value = res.reverse();

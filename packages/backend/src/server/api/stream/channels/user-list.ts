@@ -1,18 +1,18 @@
-import Channel from '../channel.js';
-import { Notes, UserListJoinings, UserLists } from '@/models/index.js';
-import { User } from '@/models/entities/user.js';
-import { isUserRelated } from '@/misc/is-user-related.js';
-import { Packed } from '@/misc/schema.js';
+import { Notes, UserListJoinings, UserLists } from "@/models/index.js";
+import { User } from "@/models/entities/user.js";
+import { isUserRelated } from "@/misc/is-user-related.js";
+import { Packed } from "@/misc/schema.js";
+import Channel from "../channel.js";
 
 export default class extends Channel {
-	public readonly chName = 'userList';
+	public readonly chName = "userList";
 	public static shouldShare = false;
 	public static requireCredential = false;
 	private listId: string;
-	public listUsers: User['id'][] = [];
+	public listUsers: User["id"][] = [];
 	private listUsersClock: NodeJS.Timer;
 
-	constructor(id: string, connection: Channel['connection']) {
+	constructor(id: string, connection: Channel["connection"]) {
 		super(id, connection);
 		this.updateListUsers = this.updateListUsers.bind(this);
 		this.onNote = this.onNote.bind(this);
@@ -31,7 +31,7 @@ export default class extends Channel {
 		// Subscribe stream
 		this.subscriber.on(`userListStream:${this.listId}`, this.send);
 
-		this.subscriber.on('notesStream', this.onNote);
+		this.subscriber.on("notesStream", this.onNote);
 
 		this.updateListUsers();
 		this.listUsersClock = setInterval(this.updateListUsers, 5000);
@@ -42,16 +42,16 @@ export default class extends Channel {
 			where: {
 				userListId: this.listId,
 			},
-			select: ['userId'],
+			select: ["userId"],
 		});
 
 		this.listUsers = users.map(x => x.userId);
 	}
 
-	private async onNote(note: Packed<'Note'>) {
+	private async onNote(note: Packed<"Note">) {
 		if (!this.listUsers.includes(note.userId)) return;
 
-		if (['followers', 'specified'].includes(note.visibility)) {
+		if (["followers", "specified"].includes(note.visibility)) {
 			note = await Notes.pack(note.id, this.user, {
 				detail: true,
 			});
@@ -81,13 +81,13 @@ export default class extends Channel {
 		// リノートミュートだったら無視
 		if (note.renote && !note.text && isUserRelated(note, this.renoteMuting)) return;
 
-		this.send('note', note);
+		this.send("note", note);
 	}
 
 	public dispose() {
 		// Unsubscribe events
 		this.subscriber.off(`userListStream:${this.listId}`, this.send);
-		this.subscriber.off('notesStream', this.onNote);
+		this.subscriber.off("notesStream", this.onNote);
 
 		clearInterval(this.listUsersClock);
 	}

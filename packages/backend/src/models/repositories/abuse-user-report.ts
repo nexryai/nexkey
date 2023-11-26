@@ -1,13 +1,13 @@
-import { db } from '@/db/postgre.js';
-import { Users } from '../index.js';
-import { AbuseUserReport } from '@/models/entities/abuse-user-report.js';
-import { awaitAll } from '@/prelude/await-all.js';
+import { db } from "@/db/postgre.js";
+import { AbuseUserReport } from "@/models/entities/abuse-user-report.js";
+import { awaitAll } from "@/prelude/await-all.js";
+import { Users } from "../index.js";
 
 export const AbuseUserReportRepository = db.getRepository(AbuseUserReport).extend({
 	async pack(
-		src: AbuseUserReport['id'] | AbuseUserReport,
+		src: AbuseUserReport["id"] | AbuseUserReport,
 	) {
-		const report = typeof src === 'object' ? src : await this.findOneByOrFail({ id: src });
+		const report = typeof src === "object" ? src : await this.findOneByOrFail({ id: src });
 
 		return await awaitAll({
 			id: report.id,

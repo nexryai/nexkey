@@ -1,28 +1,28 @@
-import { UserLists } from '@/models/index.js';
-import define from '../../../define.js';
+import { UserLists } from "@/models/index.js";
+import define from "../../../define.js";
 
 export const meta = {
-	tags: ['lists', 'account'],
+	tags: ["lists", "account"],
 
 	requireCredential: true,
 
-	kind: 'read:account',
+	kind: "read:account",
 
-	description: 'Show all lists that the authenticated user has created.',
+	description: "Show all lists that the authenticated user has created.",
 
 	res: {
-		type: 'array',
+		type: "array",
 		optional: false, nullable: false,
 		items: {
-			type: 'object',
+			type: "object",
 			optional: false, nullable: false,
-			ref: 'UserList',
+			ref: "UserList",
 		},
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {},
 	required: [],
 } as const;

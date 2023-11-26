@@ -5,15 +5,15 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, reactive, ref } from 'vue';
-import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from './widget';
-import { GetFormResultType } from '@/scripts/form';
+import { onMounted, onUnmounted, reactive, ref } from "vue";
+import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from "./widget";
+import { GetFormResultType } from "@/scripts/form";
 
-const name = 'ai';
+const name = "ai";
 
 const widgetPropsDef = {
 	transparent: {
-		type: 'boolean' as const,
+		type: "boolean" as const,
 		default: false,
 	},
 };
@@ -24,7 +24,7 @@ type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
 //const props = defineProps<WidgetComponentProps<WidgetProps>>();
 //const emit = defineEmits<WidgetComponentEmits<WidgetProps>>();
 const props = defineProps<{ widget?: Widget<WidgetProps>; }>();
-const emit = defineEmits<{ (ev: 'updateProps', props: WidgetProps); }>();
+const emit = defineEmits<{ (ev: "updateProps", props: WidgetProps); }>();
 
 const { widgetProps, configure } = useWidgetPropsManager(name,
 	widgetPropsDef,
@@ -41,20 +41,20 @@ const touched = () => {
 const onMousemove = (ev: MouseEvent) => {
 	const iframeRect = live2d.value.getBoundingClientRect();
 	live2d.value.contentWindow.postMessage({
-		type: 'moveCursor',
+		type: "moveCursor",
 		body: {
 			x: ev.clientX - iframeRect.left,
 			y: ev.clientY - iframeRect.top,
 		},
-	}, '*');
+	}, "*");
 };
 
 onMounted(() => {
-	window.addEventListener('mousemove', onMousemove, { passive: true });
+	window.addEventListener("mousemove", onMousemove, { passive: true });
 });
 
 onUnmounted(() => {
-	window.removeEventListener('mousemove', onMousemove);
+	window.removeEventListener("mousemove", onMousemove);
 });
 
 defineExpose<WidgetComponentExpose>({

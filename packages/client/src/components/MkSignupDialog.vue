@@ -18,10 +18,10 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import XSignup from '@/components/MkSignup.vue';
-import XModalWindow from '@/components/MkModalWindow.vue';
-import { i18n } from '@/i18n';
+import { } from "vue";
+import XSignup from "@/components/MkSignup.vue";
+import XModalWindow from "@/components/MkModalWindow.vue";
+import { i18n } from "@/i18n";
 import MkAnimBg from "@/components/MkAnimBg.vue";
 
 const props = withDefaults(defineProps<{
@@ -31,14 +31,14 @@ const props = withDefaults(defineProps<{
 });
 
 const emit = defineEmits<{
-	(ev: 'done'): void;
-	(ev: 'closed'): void;
+	(ev: "done"): void;
+	(ev: "closed"): void;
 }>();
 
 const dialog = $ref<InstanceType<typeof XModalWindow>>();
 
 function onSignup(res) {
-	emit('done', res);
+	emit("done", res);
 	dialog.close();
 }
 

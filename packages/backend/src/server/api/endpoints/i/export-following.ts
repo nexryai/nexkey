@@ -1,21 +1,21 @@
-import define from '../../define.js';
-import { createExportFollowingJob } from '@/queue/index.js';
-import ms from 'ms';
+import ms from "ms";
+import { createExportFollowingJob } from "@/queue/index.js";
+import define from "../../define.js";
 
 export const meta = {
 	secure: true,
 	requireCredential: true,
 	limit: {
-		duration: ms('1hour'),
+		duration: ms("1hour"),
 		max: 1,
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		excludeMuting: { type: 'boolean', default: false },
-		excludeInactive: { type: 'boolean', default: false },
+		excludeMuting: { type: "boolean", default: false },
+		excludeInactive: { type: "boolean", default: false },
 	},
 	required: [],
 } as const;

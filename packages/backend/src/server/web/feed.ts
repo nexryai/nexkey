@@ -1,8 +1,8 @@
-import { Feed } from 'feed';
-import { In, IsNull } from 'typeorm';
-import config from '@/config/index.js';
-import { User } from '@/models/entities/user.js';
-import { Notes, DriveFiles, UserProfiles, Users } from '@/models/index.js';
+import { Feed } from "feed";
+import { In, IsNull } from "typeorm";
+import config from "@/config/index.js";
+import { User } from "@/models/entities/user.js";
+import { Notes, DriveFiles, UserProfiles, Users } from "@/models/index.js";
 
 export default async function(user: User) {
 	const author = {
@@ -16,7 +16,7 @@ export default async function(user: User) {
 		where: {
 			userId: user.id,
 			renoteId: IsNull(),
-			visibility: In(['public', 'home']),
+			visibility: In(["public", "home"]),
 		},
 		order: { createdAt: -1 },
 		take: 20,
@@ -26,8 +26,8 @@ export default async function(user: User) {
 		id: author.link,
 		title: `${author.name} (@${user.username}@${config.host})`,
 		updated: notes[0].createdAt,
-		generator: 'Misskey',
-		description: `${user.notesCount} Notes, ${profile.ffVisibility === 'public' ? user.followingCount : '?'} Following, ${profile.ffVisibility === 'public' ? user.followersCount : '?'} Followers${profile.description ? ` · ${profile.description}` : ''}`,
+		generator: "Misskey",
+		description: `${user.notesCount} Notes, ${profile.ffVisibility === "public" ? user.followingCount : "?"} Following, ${profile.ffVisibility === "public" ? user.followersCount : "?"} Followers${profile.description ? ` · ${profile.description}` : ""}`,
 		link: author.link,
 		image: await Users.getAvatarUrl(user),
 		feedLinks: {
@@ -42,7 +42,7 @@ export default async function(user: User) {
 		const files = note.fileIds.length > 0 ? await DriveFiles.findBy({
 			id: In(note.fileIds),
 		}) : [];
-		const file = files.find(file => file.type.startsWith('image/'));
+		const file = files.find(file => file.type.startsWith("image/"));
 
 		feed.addItem({
 			title: `New note by ${author.name}`,

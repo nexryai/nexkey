@@ -1,13 +1,13 @@
-import { db } from '@/db/postgre.js';
-import { UserGroup } from '@/models/entities/user-group.js';
-import { UserGroupJoinings } from '../index.js';
-import { Packed } from '@/misc/schema.js';
+import { db } from "@/db/postgre.js";
+import { UserGroup } from "@/models/entities/user-group.js";
+import { Packed } from "@/misc/schema.js";
+import { UserGroupJoinings } from "../index.js";
 
 export const UserGroupRepository = db.getRepository(UserGroup).extend({
 	async pack(
-		src: UserGroup['id'] | UserGroup,
-	): Promise<Packed<'UserGroup'>> {
-		const userGroup = typeof src === 'object' ? src : await this.findOneByOrFail({ id: src });
+		src: UserGroup["id"] | UserGroup,
+	): Promise<Packed<"UserGroup">> {
+		const userGroup = typeof src === "object" ? src : await this.findOneByOrFail({ id: src });
 
 		const users = await UserGroupJoinings.findBy({
 			userGroupId: userGroup.id,

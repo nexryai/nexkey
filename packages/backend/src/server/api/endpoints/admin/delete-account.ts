@@ -1,9 +1,9 @@
-import { Users } from '@/models/index.js';
-import { deleteAccount } from '@/services/delete-account.js';
-import define from '../../define.js';
+import { Users } from "@/models/index.js";
+import { deleteAccount } from "@/services/delete-account.js";
+import define from "../../define.js";
 
 export const meta = {
-	tags: ['admin'],
+	tags: ["admin"],
 
 	requireCredential: true,
 	requireAdmin: true,
@@ -13,11 +13,11 @@ export const meta = {
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		userId: { type: 'string', format: 'misskey:id' },
+		userId: { type: "string", format: "misskey:id" },
 	},
-	required: ['userId'],
+	required: ["userId"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export

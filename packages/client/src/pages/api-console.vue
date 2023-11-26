@@ -29,24 +29,24 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import JSON5 from 'json5';
-import { Endpoints } from 'misskey-js';
-import MkButton from '@/components/MkButton.vue';
-import MkInput from '@/components/form/input.vue';
-import MkTextarea from '@/components/form/textarea.vue';
-import MkSwitch from '@/components/form/switch.vue';
-import * as os from '@/os';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { ref } from "vue";
+import JSON5 from "json5";
+import { Endpoints } from "misskey-js";
+import MkButton from "@/components/MkButton.vue";
+import MkInput from "@/components/form/input.vue";
+import MkTextarea from "@/components/form/textarea.vue";
+import MkSwitch from "@/components/form/switch.vue";
+import * as os from "@/os";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
-const body = ref('{}');
-const endpoint = ref('');
+const body = ref("{}");
+const endpoint = ref("");
 const endpoints = ref<any[]>([]);
 const sending = ref(false);
-const res = ref('');
+const res = ref("");
 const withCredential = ref(true);
 
-os.api('endpoints').then(endpointResponse => {
+os.api("endpoints").then(endpointResponse => {
 	endpoints.value = endpointResponse;
 });
 
@@ -63,15 +63,15 @@ function send() {
 }
 
 function onEndpointChange() {
-	os.api('endpoint', { endpoint: endpoint.value }, withCredential.value ? undefined : null).then(resp => {
+	os.api("endpoint", { endpoint: endpoint.value }, withCredential.value ? undefined : null).then(resp => {
 		const endpointBody = {};
 		for (const p of resp.params) {
 			endpointBody[p.name] =
-				p.type === 'String' ? '' :
-				p.type === 'Number' ? 0 :
-				p.type === 'Boolean' ? false :
-				p.type === 'Array' ? [] :
-				p.type === 'Object' ? {} :
+				p.type === "String" ? "" :
+				p.type === "Number" ? 0 :
+				p.type === "Boolean" ? false :
+				p.type === "Array" ? [] :
+				p.type === "Object" ? {} :
 				null;
 		}
 		body.value = JSON5.stringify(endpointBody, null, 2);
@@ -83,7 +83,7 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
 
 definePageMetadata({
-	title: 'API console',
-	icon: 'ti ti-terminal-2',
+	title: "API console",
+	icon: "ti ti-terminal-2",
 });
 </script>

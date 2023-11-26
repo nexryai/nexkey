@@ -1,28 +1,28 @@
-import { IsNull } from 'typeorm';
-import { Users } from '@/models/index.js';
-import { fetchMeta } from '@/misc/fetch-meta.js';
-import * as Acct from '@/misc/acct.js';
-import { User } from '@/models/entities/user.js';
-import define from '../define.js';
+import { IsNull } from "typeorm";
+import { Users } from "@/models/index.js";
+import { fetchMeta } from "@/misc/fetch-meta.js";
+import * as Acct from "@/misc/acct.js";
+import { User } from "@/models/entities/user.js";
+import define from "../define.js";
 
 export const meta = {
-	tags: ['users'],
+	tags: ["users"],
 
 	requireCredential: false,
 
 	res: {
-		type: 'array',
+		type: "array",
 		optional: false, nullable: false,
 		items: {
-			type: 'object',
+			type: "object",
 			optional: false, nullable: false,
-			ref: 'UserDetailed',
+			ref: "UserDetailed",
 		},
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {},
 	required: [],
 } as const;

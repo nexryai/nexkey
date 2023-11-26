@@ -29,14 +29,14 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import XModalWindow from '@/components/MkModalWindow.vue';
-import MkButton from '@/components/MkButton.vue';
-import MkInput from '@/components/form/input.vue';
-import * as os from '@/os';
-import { unique } from '@/scripts/array';
-import { i18n } from '@/i18n';
-import { emojiCategories } from '@/instance';
+import { } from "vue";
+import XModalWindow from "@/components/MkModalWindow.vue";
+import MkButton from "@/components/MkButton.vue";
+import MkInput from "@/components/form/input.vue";
+import * as os from "@/os";
+import { unique } from "@/scripts/array";
+import { i18n } from "@/i18n";
+import { emojiCategories } from "@/instance";
 
 const props = defineProps<{
 	emoji: any,
@@ -45,12 +45,12 @@ const props = defineProps<{
 let dialog = $ref(null);
 let name: string = $ref(props.emoji.name);
 let category: string = $ref(props.emoji.category);
-let aliases: string = $ref(props.emoji.aliases.join(' '));
+let aliases: string = $ref(props.emoji.aliases.join(" "));
 let categories: string[] = $ref(emojiCategories);
 
 const emit = defineEmits<{
-	(ev: 'done', v: { deleted?: boolean, updated?: any }): void,
-	(ev: 'closed'): void
+	(ev: "done", v: { deleted?: boolean, updated?: any }): void,
+	(ev: "closed"): void
 }>();
 
 function ok() {
@@ -58,19 +58,19 @@ function ok() {
 }
 
 async function update() {
-	await os.apiWithDialog('admin/emoji/update', {
+	await os.apiWithDialog("admin/emoji/update", {
 		id: props.emoji.id,
 		name,
 		category,
-		aliases: aliases.split(' '),
+		aliases: aliases.split(" "),
 	});
 
-	emit('done', {
+	emit("done", {
 		updated: {
 			id: props.emoji.id,
 			name,
 			category,
-			aliases: aliases.split(' '),
+			aliases: aliases.split(" "),
 		},
 	});
 
@@ -79,15 +79,15 @@ async function update() {
 
 async function del() {
 	const { canceled } = await os.confirm({
-		type: 'warning',
-		text: i18n.t('removeAreYouSure', { x: name }),
+		type: "warning",
+		text: i18n.t("removeAreYouSure", { x: name }),
 	});
 	if (canceled) return;
 
-	os.api('admin/emoji/delete', {
+	os.api("admin/emoji/delete", {
 		id: props.emoji.id,
 	}).then(() => {
-		emit('done', {
+		emit("done", {
 			deleted: true,
 		});
 		dialog.close();

@@ -20,9 +20,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
+import { ref } from "vue";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
 
 const props = withDefaults(defineProps<{
 	channel: Record<string, any>;
@@ -39,12 +39,12 @@ async function onClick() {
 
 	try {
 		if (isFollowing.value) {
-			await os.api('channels/unfollow', {
+			await os.api("channels/unfollow", {
 				channelId: props.channel.id,
 			});
 			isFollowing.value = false;
 		} else {
-			await os.api('channels/follow', {
+			await os.api("channels/follow", {
 				channelId: props.channel.id,
 			});
 			isFollowing.value = true;

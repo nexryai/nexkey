@@ -1,45 +1,45 @@
-import { URLSearchParams } from 'node:url';
-import fetch from 'node-fetch';
-import config from '@/config/index.js';
-import { getAgentByUrl } from '@/misc/fetch.js';
-import { fetchMeta } from '@/misc/fetch-meta.js';
-import { Notes } from '@/models/index.js';
-import { ApiError } from '../../error.js';
-import { getNote } from '../../common/getters.js';
-import define from '../../define.js';
+import { URLSearchParams } from "node:url";
+import fetch from "node-fetch";
+import config from "@/config/index.js";
+import { getAgentByUrl } from "@/misc/fetch.js";
+import { fetchMeta } from "@/misc/fetch-meta.js";
+import { Notes } from "@/models/index.js";
+import { ApiError } from "../../error.js";
+import { getNote } from "../../common/getters.js";
+import define from "../../define.js";
 
 export const meta = {
-	tags: ['notes'],
+	tags: ["notes"],
 
 	requireCredential: false,
 
 	res: {
-		type: 'object',
+		type: "object",
 		optional: false, nullable: false,
 	},
 
 	errors: {
 		noSuchNote: {
-			message: 'No such note.',
-			code: 'NO_SUCH_NOTE',
-			id: 'bea9b03f-36e0-49c5-a4db-627a029f8971',
+			message: "No such note.",
+			code: "NO_SUCH_NOTE",
+			id: "bea9b03f-36e0-49c5-a4db-627a029f8971",
 		},
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		noteId: { type: 'string', format: 'misskey:id' },
-		targetLang: { type: 'string' },
+		noteId: { type: "string", format: "misskey:id" },
+		targetLang: { type: "string" },
 	},
-	required: ['noteId', 'targetLang'],
+	required: ["noteId", "targetLang"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
 	const note = await getNote(ps.noteId).catch(e => {
-		if (e.id === '9725d0ce-ba28-4dde-95a7-2cbb2c15de24') throw new ApiError(meta.errors.noSuchNote);
+		if (e.id === "9725d0ce-ba28-4dde-95a7-2cbb2c15de24") throw new ApiError(meta.errors.noSuchNote);
 		throw e;
 	});
 
@@ -58,21 +58,21 @@ export default define(meta, paramDef, async (ps, user) => {
 	}
 
 	let targetLang = ps.targetLang;
-	if (targetLang.includes('-')) targetLang = targetLang.split('-')[0];
+	if (targetLang.includes("-")) targetLang = targetLang.split("-")[0];
 
 	const params = new URLSearchParams();
-	params.append('auth_key', instance.deeplAuthKey);
-	params.append('text', note.text);
-	params.append('target_lang', targetLang);
+	params.append("auth_key", instance.deeplAuthKey);
+	params.append("text", note.text);
+	params.append("target_lang", targetLang);
 
-	const endpoint = instance.deeplIsPro ? 'https://api.deepl.com/v2/translate' : 'https://api-free.deepl.com/v2/translate';
+	const endpoint = instance.deeplIsPro ? "https://api.deepl.com/v2/translate" : "https://api-free.deepl.com/v2/translate";
 
 	const res = await fetch(endpoint, {
-		method: 'POST',
+		method: "POST",
 		headers: {
-			'Content-Type': 'application/x-www-form-urlencoded',
-			'User-Agent': config.userAgent,
-			Accept: 'application/json, */*',
+			"Content-Type": "application/x-www-form-urlencoded",
+			"User-Agent": config.userAgent,
+			Accept: "application/json, */*",
 		},
 		body: params,
 		// TODO

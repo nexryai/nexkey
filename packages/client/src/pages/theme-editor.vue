@@ -68,59 +68,59 @@
 </template>
 
 <script lang="ts" setup>
-import { watch } from 'vue';
-import { toUnicode } from 'punycode/';
-import tinycolor from 'tinycolor2';
-import { v4 as uuid } from 'uuid';
-import JSON5 from 'json5';
+import { watch } from "vue";
+import { toUnicode } from "punycode/";
+import tinycolor from "tinycolor2";
+import { v4 as uuid } from "uuid";
+import JSON5 from "json5";
 
-import FormButton from '@/components/MkButton.vue';
-import FormTextarea from '@/components/form/textarea.vue';
-import FormFolder from '@/components/form/folder.vue';
+import FormButton from "@/components/MkButton.vue";
+import FormTextarea from "@/components/form/textarea.vue";
+import FormFolder from "@/components/form/folder.vue";
 
-import { $i } from '@/account';
-import { Theme, applyTheme } from '@/scripts/theme';
-import lightTheme from '@/themes/_light.json5';
-import darkTheme from '@/themes/_dark.json5';
-import { host } from '@/config';
-import * as os from '@/os';
-import { ColdDeviceStorage, defaultStore } from '@/store';
-import { addTheme } from '@/theme-store';
-import { i18n } from '@/i18n';
-import { useLeaveGuard } from '@/scripts/use-leave-guard';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { $i } from "@/account";
+import { Theme, applyTheme } from "@/scripts/theme";
+import lightTheme from "@/themes/_light.json5";
+import darkTheme from "@/themes/_dark.json5";
+import { host } from "@/config";
+import * as os from "@/os";
+import { ColdDeviceStorage, defaultStore } from "@/store";
+import { addTheme } from "@/theme-store";
+import { i18n } from "@/i18n";
+import { useLeaveGuard } from "@/scripts/use-leave-guard";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 const bgColors = [
-	{ color: '#f5f5f5', kind: 'light', forPreview: '#f5f5f5' },
-	{ color: '#f0eee9', kind: 'light', forPreview: '#f3e2b9' },
-	{ color: '#e9eff0', kind: 'light', forPreview: '#bfe3e8' },
-	{ color: '#f0e9ee', kind: 'light', forPreview: '#f1d1e8' },
-	{ color: '#dce2e0', kind: 'light', forPreview: '#a4dccc' },
-	{ color: '#e2e0dc', kind: 'light', forPreview: '#d8c7a5' },
-	{ color: '#d5dbe0', kind: 'light', forPreview: '#b0cae0' },
-	{ color: '#dad5d5', kind: 'light', forPreview: '#d6afaf' },
-	{ color: '#2b2b2b', kind: 'dark', forPreview: '#444444' },
-	{ color: '#362e29', kind: 'dark', forPreview: '#735c4d' },
-	{ color: '#303629', kind: 'dark', forPreview: '#506d2f' },
-	{ color: '#293436', kind: 'dark', forPreview: '#258192' },
-	{ color: '#2e2936', kind: 'dark', forPreview: '#504069' },
-	{ color: '#252722', kind: 'dark', forPreview: '#3c462f' },
-	{ color: '#212525', kind: 'dark', forPreview: '#303e3e' },
-	{ color: '#191919', kind: 'dark', forPreview: '#272727' },
+	{ color: "#f5f5f5", kind: "light", forPreview: "#f5f5f5" },
+	{ color: "#f0eee9", kind: "light", forPreview: "#f3e2b9" },
+	{ color: "#e9eff0", kind: "light", forPreview: "#bfe3e8" },
+	{ color: "#f0e9ee", kind: "light", forPreview: "#f1d1e8" },
+	{ color: "#dce2e0", kind: "light", forPreview: "#a4dccc" },
+	{ color: "#e2e0dc", kind: "light", forPreview: "#d8c7a5" },
+	{ color: "#d5dbe0", kind: "light", forPreview: "#b0cae0" },
+	{ color: "#dad5d5", kind: "light", forPreview: "#d6afaf" },
+	{ color: "#2b2b2b", kind: "dark", forPreview: "#444444" },
+	{ color: "#362e29", kind: "dark", forPreview: "#735c4d" },
+	{ color: "#303629", kind: "dark", forPreview: "#506d2f" },
+	{ color: "#293436", kind: "dark", forPreview: "#258192" },
+	{ color: "#2e2936", kind: "dark", forPreview: "#504069" },
+	{ color: "#252722", kind: "dark", forPreview: "#3c462f" },
+	{ color: "#212525", kind: "dark", forPreview: "#303e3e" },
+	{ color: "#191919", kind: "dark", forPreview: "#272727" },
 ] as const;
-const accentColors = ['#e36749', '#f29924', '#98c934', '#34c9a9', '#34a1c9', '#606df7', '#8d34c9', '#e84d83'];
+const accentColors = ["#e36749", "#f29924", "#98c934", "#34c9a9", "#34a1c9", "#606df7", "#8d34c9", "#e84d83"];
 const fgColors = [
-	{ color: 'none', forLight: '#5f5f5f', forDark: '#dadada', forPreview: null },
-	{ color: 'red', forLight: '#7f6666', forDark: '#e4d1d1', forPreview: '#ca4343' },
-	{ color: 'yellow', forLight: '#736955', forDark: '#e0d5c0', forPreview: '#d49923' },
-	{ color: 'green', forLight: '#586d5b', forDark: '#d1e4d4', forPreview: '#4cbd5c' },
-	{ color: 'cyan', forLight: '#5d7475', forDark: '#d1e3e4', forPreview: '#2abdc3' },
-	{ color: 'blue', forLight: '#676880', forDark: '#d1d2e4', forPreview: '#7275d8' },
-	{ color: 'pink', forLight: '#84667d', forDark: '#e4d1e0', forPreview: '#b12390' },
+	{ color: "none", forLight: "#5f5f5f", forDark: "#dadada", forPreview: null },
+	{ color: "red", forLight: "#7f6666", forDark: "#e4d1d1", forPreview: "#ca4343" },
+	{ color: "yellow", forLight: "#736955", forDark: "#e0d5c0", forPreview: "#d49923" },
+	{ color: "green", forLight: "#586d5b", forDark: "#d1e4d4", forPreview: "#4cbd5c" },
+	{ color: "cyan", forLight: "#5d7475", forDark: "#d1e3e4", forPreview: "#2abdc3" },
+	{ color: "blue", forLight: "#676880", forDark: "#d1d2e4", forPreview: "#7275d8" },
+	{ color: "pink", forLight: "#84667d", forDark: "#e4d1e0", forPreview: "#b12390" },
 ];
 
 let theme = $ref<Partial<Theme>>({
-	base: 'light',
+	base: "light",
 	props: lightTheme.props,
 });
 let description = $ref<string | null>(null);
@@ -130,15 +130,15 @@ let changed = $ref(false);
 useLeaveGuard($$(changed));
 
 function showPreview() {
-	os.pageWindow('/preview');
+	os.pageWindow("/preview");
 }
 
 function setBgColor(color: typeof bgColors[number]) {
 	if (theme.base !== color.kind) {
-		const base = color.kind === 'dark' ? darkTheme : lightTheme;
+		const base = color.kind === "dark" ? darkTheme : lightTheme;
 		for (const prop of Object.keys(base.props)) {
-			if (prop === 'accent') continue;
-			if (prop === 'fg') continue;
+			if (prop === "accent") continue;
+			if (prop === "fg") continue;
 			theme.props[prop] = base.props[prop];
 		}
 	}
@@ -156,11 +156,11 @@ function setAccentColor(color) {
 }
 
 function setFgColor(color) {
-	theme.props.fg = theme.base === 'light' ? color.forLight : color.forDark;
+	theme.props.fg = theme.base === "light" ? color.forLight : color.forDark;
 }
 
 function apply() {
-	themeCode = JSON5.stringify(theme, null, '\t');
+	themeCode = JSON5.stringify(theme, null, "\t");
 	applyTheme(theme, false);
 	changed = true;
 }
@@ -172,7 +172,7 @@ function applyThemeCode() {
 		parsed = JSON5.parse(themeCode);
 	} catch (err) {
 		os.alert({
-			type: 'error',
+			type: "error",
 			text: i18n.ts._theme.invalid,
 		});
 		return;
@@ -195,14 +195,14 @@ async function saveAs() {
 	await addTheme(theme);
 	applyTheme(theme);
 	if (defaultStore.state.darkMode) {
-		ColdDeviceStorage.set('darkTheme', theme);
+		ColdDeviceStorage.set("darkTheme", theme);
 	} else {
-		ColdDeviceStorage.set('lightTheme', theme);
+		ColdDeviceStorage.set("lightTheme", theme);
 	}
 	changed = false;
 	os.alert({
-		type: 'success',
-		text: i18n.t('_theme.installed', { name: theme.name }),
+		type: "success",
+		text: i18n.t("_theme.installed", { name: theme.name }),
 	});
 }
 
@@ -210,12 +210,12 @@ watch($$(theme), apply, { deep: true });
 
 const headerActions = $computed(() => [{
 	asFullButton: true,
-	icon: 'ti ti-eye',
+	icon: "ti ti-eye",
 	text: i18n.ts.preview,
 	handler: showPreview,
 }, {
 	asFullButton: true,
-	icon: 'ti ti-check',
+	icon: "ti ti-check",
 	text: i18n.ts.saveAs,
 	handler: saveAs,
 }]);
@@ -224,7 +224,7 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.themeEditor,
-	icon: 'ti ti-palette',
+	icon: "ti ti-palette",
 });
 </script>
 

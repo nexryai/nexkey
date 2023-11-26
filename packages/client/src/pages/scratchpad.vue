@@ -19,39 +19,39 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
-import 'prismjs';
-import { highlight, languages } from 'prismjs/components/prism-core';
-import 'prismjs/components/prism-clike';
-import 'prismjs/components/prism-javascript';
-import 'prismjs/themes/prism-okaidia.css';
-import { PrismEditor } from 'vue-prism-editor';
-import 'vue-prism-editor/dist/prismeditor.min.css';
-import { AiScript, parse, utils } from '@syuilo/aiscript';
-import MkContainer from '@/components/MkContainer.vue';
-import MkButton from '@/components/MkButton.vue';
-import { createAiScriptEnv } from '@/scripts/aiscript/api';
-import * as os from '@/os';
-import { $i } from '@/account';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { ref, watch } from "vue";
+import "prismjs";
+import { highlight, languages } from "prismjs/components/prism-core";
+import "prismjs/components/prism-clike";
+import "prismjs/components/prism-javascript";
+import "prismjs/themes/prism-okaidia.css";
+import { PrismEditor } from "vue-prism-editor";
+import "vue-prism-editor/dist/prismeditor.min.css";
+import { AiScript, parse, utils } from "@syuilo/aiscript";
+import MkContainer from "@/components/MkContainer.vue";
+import MkButton from "@/components/MkButton.vue";
+import { createAiScriptEnv } from "@/scripts/aiscript/api";
+import * as os from "@/os";
+import { $i } from "@/account";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
-const code = ref('');
+const code = ref("");
 const logs = ref<any[]>([]);
 
-const saved = localStorage.getItem('scratchpad');
+const saved = localStorage.getItem("scratchpad");
 if (saved) {
 	code.value = saved;
 }
 
 watch(code, () => {
-	localStorage.setItem('scratchpad', code.value);
+	localStorage.setItem("scratchpad", code.value);
 });
 
 async function run() {
 	logs.value = [];
 	const aiscript = new AiScript(createAiScriptEnv({
-		storageKey: 'scratchpad',
+		storageKey: "scratchpad",
 		token: $i?.token,
 	}), {
 		in: (q) => {
@@ -66,13 +66,13 @@ async function run() {
 		out: (value) => {
 			logs.value.push({
 				id: Math.random(),
-				text: value.type === 'str' ? value.value : utils.valToString(value),
+				text: value.type === "str" ? value.value : utils.valToString(value),
 				print: true,
 			});
 		},
 		log: (type, params) => {
 			switch (type) {
-				case 'end': logs.value.push({
+				case "end": logs.value.push({
 					id: Math.random(),
 					text: utils.valToString(params.val, true),
 					print: false,
@@ -87,8 +87,8 @@ async function run() {
 		ast = parse(code.value);
 	} catch (error) {
 		os.alert({
-			type: 'error',
-			text: 'Syntax error :(',
+			type: "error",
+			text: "Syntax error :(",
 		});
 		return;
 	}
@@ -96,14 +96,14 @@ async function run() {
 		await aiscript.exec(ast);
 	} catch (error: any) {
 		os.alert({
-			type: 'error',
+			type: "error",
 			text: error.message,
 		});
 	}
 }
 
 function highlighter(code) {
-	return highlight(code, languages.js, 'javascript');
+	return highlight(code, languages.js, "javascript");
 }
 
 const headerActions = $computed(() => []);
@@ -112,7 +112,7 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.scratchpad,
-	icon: 'ti ti-terminal-2',
+	icon: "ti ti-terminal-2",
 });
 </script>
 

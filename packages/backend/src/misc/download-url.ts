@@ -1,18 +1,18 @@
-import * as fs from 'node:fs';
-import * as stream from 'node:stream';
-import * as util from 'node:util';
-import got, * as Got from 'got';
-import { httpAgent, httpsAgent, StatusError } from './fetch.js';
-import config from '@/config/index.js';
-import chalk from 'chalk';
-import Logger from '@/services/logger.js';
-import IPCIDR from 'ip-cidr';
-import PrivateIp from 'private-ip';
+import * as fs from "node:fs";
+import * as stream from "node:stream";
+import * as util from "node:util";
+import got, * as Got from "got";
+import chalk from "chalk";
+import IPCIDR from "ip-cidr";
+import PrivateIp from "private-ip";
+import Logger from "@/services/logger.js";
+import config from "@/config/index.js";
+import { httpAgent, httpsAgent, StatusError } from "./fetch.js";
 
 const pipeline = util.promisify(stream.pipeline);
 
 export async function downloadUrl(url: string, path: string): Promise<void> {
-	const logger = new Logger('download');
+	const logger = new Logger("download");
 
 	logger.info(`Downloading ${chalk.cyan(url)} ...`);
 
@@ -22,7 +22,7 @@ export async function downloadUrl(url: string, path: string): Promise<void> {
 
 	const req = got.stream(url, {
 		headers: {
-			'User-Agent': config.userAgent,
+			"User-Agent": config.userAgent,
 		},
 		timeout: {
 			lookup: timeout,
@@ -41,15 +41,15 @@ export async function downloadUrl(url: string, path: string): Promise<void> {
 		retry: {
 			limit: 0,
 		},
-	}).on('response', (res: Got.Response) => {
-		if ((process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') && !config.proxy && res.ip) {
+	}).on("response", (res: Got.Response) => {
+		if ((process.env.NODE_ENV === "production" || process.env.NODE_ENV === "test") && !config.proxy && res.ip) {
 			if (isPrivateIp(res.ip)) {
 				logger.warn(`Blocked address: ${res.ip}`);
 				req.destroy();
 			}
 		}
 
-		const contentLength = res.headers['content-length'];
+		const contentLength = res.headers["content-length"];
 		if (contentLength != null) {
 			const size = Number(contentLength);
 			if (size > maxSize) {
@@ -57,7 +57,7 @@ export async function downloadUrl(url: string, path: string): Promise<void> {
 				req.destroy();
 			}
 		}
-	}).on('downloadProgress', (progress: Got.Progress) => {
+	}).on("downloadProgress", (progress: Got.Progress) => {
 		if (progress.transferred > maxSize) {
 			logger.warn(`maxSize exceeded (${progress.transferred} > ${maxSize}) on downloadProgress`);
 			req.destroy();

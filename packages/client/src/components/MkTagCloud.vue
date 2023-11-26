@@ -10,14 +10,14 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, watch, PropType, onBeforeUnmount } from 'vue';
-import tinycolor from 'tinycolor2';
+import { onMounted, ref, watch, PropType, onBeforeUnmount } from "vue";
+import tinycolor from "tinycolor2";
 
 const loaded = !!window.TagCanvas;
-const SAFE_FOR_HTML_ID = 'abcdefghijklmnopqrstuvwxyz';
+const SAFE_FOR_HTML_ID = "abcdefghijklmnopqrstuvwxyz";
 const computedStyle = getComputedStyle(document.documentElement);
-const idForCanvas = Array.from({ length: 16 }, () => SAFE_FOR_HTML_ID[Math.floor(Math.random() * SAFE_FOR_HTML_ID.length)]).join('');
-const idForTags = Array.from({ length: 16 }, () => SAFE_FOR_HTML_ID[Math.floor(Math.random() * SAFE_FOR_HTML_ID.length)]).join('');
+const idForCanvas = Array.from({ length: 16 }, () => SAFE_FOR_HTML_ID[Math.floor(Math.random() * SAFE_FOR_HTML_ID.length)]).join("");
+const idForTags = Array.from({ length: 16 }, () => SAFE_FOR_HTML_ID[Math.floor(Math.random() * SAFE_FOR_HTML_ID.length)]).join("");
 let available = $ref(false);
 let rootEl = $shallowRef<HTMLElement | null>(null);
 let canvasEl = $shallowRef<HTMLCanvasElement | null>(null);
@@ -27,8 +27,8 @@ let width = $ref(300);
 watch($$(available), () => {
 	try {
 		window.TagCanvas.Start(idForCanvas, idForTags, {
-			textColour: '#ffffff',
-			outlineColour: tinycolor(computedStyle.getPropertyValue('--accent')).toHexString(),
+			textColour: "#ffffff",
+			outlineColour: tinycolor(computedStyle.getPropertyValue("--accent")).toHexString(),
 			outlineRadius: 10,
 			initial: [-0.030, -0.010],
 			frontSelect: true,
@@ -52,10 +52,10 @@ onMounted(() => {
 	if (loaded) {
 		available = true;
 	} else {
-		document.head.appendChild(Object.assign(document.createElement('script'), {
+		document.head.appendChild(Object.assign(document.createElement("script"), {
 			async: true,
-			src: '/client-assets/tagcanvas.min.js',
-		})).addEventListener('load', () => available = true);
+			src: "/client-assets/tagcanvas.min.js",
+		})).addEventListener("load", () => available = true);
 	}
 });
 

@@ -1,13 +1,13 @@
-import * as config from '@/config';
-import { appendQuery } from './url';
+import { appendQuery } from "./url";
+import * as config from "@/config";
 
 export function popout(path: string, w?: HTMLElement) {
-	let url = path.startsWith('http://') || path.startsWith('https://') ? path : config.url + path;
-	url = appendQuery(url, 'zen');
+	let url = path.startsWith("http://") || path.startsWith("https://") ? path : config.url + path;
+	url = appendQuery(url, "zen");
 	if (w) {
 		const position = w.getBoundingClientRect();
-		const width = parseInt(getComputedStyle(w, '').width, 10);
-		const height = parseInt(getComputedStyle(w, '').height, 10);
+		const width = parseInt(getComputedStyle(w, "").width, 10);
+		const height = parseInt(getComputedStyle(w, "").height, 10);
 		const x = window.screenX + position.left;
 		const y = window.screenY + position.top;
 		window.open(url, url,

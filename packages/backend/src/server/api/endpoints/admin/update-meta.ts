@@ -1,109 +1,109 @@
-import { Meta } from '@/models/entities/meta.js';
-import { insertModerationLog } from '@/services/insert-moderation-log.js';
-import { DB_MAX_NOTE_TEXT_LENGTH } from '@/misc/hard-limits.js';
-import { db } from '@/db/postgre.js';
-import define from '../../define.js';
+import { Meta } from "@/models/entities/meta.js";
+import { insertModerationLog } from "@/services/insert-moderation-log.js";
+import { DB_MAX_NOTE_TEXT_LENGTH } from "@/misc/hard-limits.js";
+import { db } from "@/db/postgre.js";
+import define from "../../define.js";
 
 export const meta = {
-	tags: ['admin'],
+	tags: ["admin"],
 
 	requireCredential: true,
 	requireAdmin: true,
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		disableRegistration: { type: 'boolean', nullable: true },
-		disableLocalTimeline: { type: 'boolean', nullable: true },
-		disableGlobalTimeline: { type: 'boolean', nullable: true },
-		useStarForReactionFallback: { type: 'boolean', nullable: true },
-		pinnedUsers: { type: 'array', nullable: true, items: {
-			type: 'string',
+		disableRegistration: { type: "boolean", nullable: true },
+		disableLocalTimeline: { type: "boolean", nullable: true },
+		disableGlobalTimeline: { type: "boolean", nullable: true },
+		useStarForReactionFallback: { type: "boolean", nullable: true },
+		pinnedUsers: { type: "array", nullable: true, items: {
+			type: "string",
 		} },
-		hiddenTags: { type: 'array', nullable: true, items: {
-			type: 'string',
+		hiddenTags: { type: "array", nullable: true, items: {
+			type: "string",
 		} },
-		blockedHosts: { type: 'array', nullable: true, items: {
-			type: 'string',
+		blockedHosts: { type: "array", nullable: true, items: {
+			type: "string",
 		} },
-		blockedEmailDomains: { type: 'array', nullable: true, items: {
-			type: 'string',
+		blockedEmailDomains: { type: "array", nullable: true, items: {
+			type: "string",
 		} },
-		themeColor: { type: 'string', nullable: true, pattern: '^#[0-9a-fA-F]{6}$' },
-		mascotImageUrl: { type: 'string', nullable: true },
-		bannerUrl: { type: 'string', nullable: true },
-		errorImageUrl: { type: 'string', nullable: true },
-		iconUrl: { type: 'string', nullable: true },
-		backgroundImageUrl: { type: 'string', nullable: true },
-		logoImageUrl: { type: 'string', nullable: true },
-		name: { type: 'string', nullable: true },
-		description: { type: 'string', nullable: true },
-		defaultLightTheme: { type: 'string', nullable: true },
-		defaultDarkTheme: { type: 'string', nullable: true },
-		localDriveCapacityMb: { type: 'integer' },
-		remoteDriveCapacityMb: { type: 'integer' },
-		cacheRemoteFiles: { type: 'boolean' },
-		emailRequiredForSignup: { type: 'boolean' },
-		enableHcaptcha: { type: 'boolean' },
-		hcaptchaSiteKey: { type: 'string', nullable: true },
-		hcaptchaSecretKey: { type: 'string', nullable: true },
-		enableRecaptcha: { type: 'boolean' },
-		recaptchaSiteKey: { type: 'string', nullable: true },
-		recaptchaSecretKey: { type: 'string', nullable: true },
-		enableTurnstile: { type: 'boolean' },
-		turnstileSiteKey: { type: 'string', nullable: true },
-		turnstileSecretKey: { type: 'string', nullable: true },
-		proxyAccountId: { type: 'string', format: 'misskey:id', nullable: true },
-		maintainerName: { type: 'string', nullable: true },
-		maintainerEmail: { type: 'string', nullable: true },
-		pinnedPages: { type: 'array', items: {
-			type: 'string',
+		themeColor: { type: "string", nullable: true, pattern: "^#[0-9a-fA-F]{6}$" },
+		mascotImageUrl: { type: "string", nullable: true },
+		bannerUrl: { type: "string", nullable: true },
+		errorImageUrl: { type: "string", nullable: true },
+		iconUrl: { type: "string", nullable: true },
+		backgroundImageUrl: { type: "string", nullable: true },
+		logoImageUrl: { type: "string", nullable: true },
+		name: { type: "string", nullable: true },
+		description: { type: "string", nullable: true },
+		defaultLightTheme: { type: "string", nullable: true },
+		defaultDarkTheme: { type: "string", nullable: true },
+		localDriveCapacityMb: { type: "integer" },
+		remoteDriveCapacityMb: { type: "integer" },
+		cacheRemoteFiles: { type: "boolean" },
+		emailRequiredForSignup: { type: "boolean" },
+		enableHcaptcha: { type: "boolean" },
+		hcaptchaSiteKey: { type: "string", nullable: true },
+		hcaptchaSecretKey: { type: "string", nullable: true },
+		enableRecaptcha: { type: "boolean" },
+		recaptchaSiteKey: { type: "string", nullable: true },
+		recaptchaSecretKey: { type: "string", nullable: true },
+		enableTurnstile: { type: "boolean" },
+		turnstileSiteKey: { type: "string", nullable: true },
+		turnstileSecretKey: { type: "string", nullable: true },
+		proxyAccountId: { type: "string", format: "misskey:id", nullable: true },
+		maintainerName: { type: "string", nullable: true },
+		maintainerEmail: { type: "string", nullable: true },
+		pinnedPages: { type: "array", items: {
+			type: "string",
 		} },
-		pinnedClipId: { type: 'string', format: 'misskey:id', nullable: true },
-		langs: { type: 'array', items: {
-			type: 'string',
+		pinnedClipId: { type: "string", format: "misskey:id", nullable: true },
+		langs: { type: "array", items: {
+			type: "string",
 		} },
-		summalyProxy: { type: 'string', nullable: true },
-		deeplAuthKey: { type: 'string', nullable: true },
-		deeplIsPro: { type: 'boolean' },
-		enableTwitterIntegration: { type: 'boolean' },
-		twitterConsumerKey: { type: 'string', nullable: true },
-		twitterConsumerSecret: { type: 'string', nullable: true },
-		enableGithubIntegration: { type: 'boolean' },
-		githubClientId: { type: 'string', nullable: true },
-		githubClientSecret: { type: 'string', nullable: true },
-		enableDiscordIntegration: { type: 'boolean' },
-		discordClientId: { type: 'string', nullable: true },
-		discordClientSecret: { type: 'string', nullable: true },
-		enableEmail: { type: 'boolean' },
-		email: { type: 'string', nullable: true },
-		smtpSecure: { type: 'boolean' },
-		smtpHost: { type: 'string', nullable: true },
-		smtpPort: { type: 'integer', nullable: true },
-		smtpUser: { type: 'string', nullable: true },
-		smtpPass: { type: 'string', nullable: true },
-		enableServiceWorker: { type: 'boolean' },
-		swPublicKey: { type: 'string', nullable: true },
-		swPrivateKey: { type: 'string', nullable: true },
-		tosUrl: { type: 'string', nullable: true },
-		repositoryUrl: { type: 'string' },
-		feedbackUrl: { type: 'string' },
-		useObjectStorage: { type: 'boolean' },
-		objectStorageBaseUrl: { type: 'string', nullable: true },
-		objectStorageBucket: { type: 'string', nullable: true },
-		objectStoragePrefix: { type: 'string', nullable: true },
-		objectStorageEndpoint: { type: 'string', nullable: true },
-		objectStorageRegion: { type: 'string', nullable: true },
-		objectStoragePort: { type: 'integer', nullable: true },
-		objectStorageAccessKey: { type: 'string', nullable: true },
-		objectStorageSecretKey: { type: 'string', nullable: true },
-		objectStorageUseSSL: { type: 'boolean' },
-		objectStorageUseProxy: { type: 'boolean' },
-		objectStorageSetPublicRead: { type: 'boolean' },
-		objectStorageS3ForcePathStyle: { type: 'boolean' },
-		enableIpLogging: { type: 'boolean' },
-		enableActiveEmailValidation: { type: 'boolean' },
+		summalyProxy: { type: "string", nullable: true },
+		deeplAuthKey: { type: "string", nullable: true },
+		deeplIsPro: { type: "boolean" },
+		enableTwitterIntegration: { type: "boolean" },
+		twitterConsumerKey: { type: "string", nullable: true },
+		twitterConsumerSecret: { type: "string", nullable: true },
+		enableGithubIntegration: { type: "boolean" },
+		githubClientId: { type: "string", nullable: true },
+		githubClientSecret: { type: "string", nullable: true },
+		enableDiscordIntegration: { type: "boolean" },
+		discordClientId: { type: "string", nullable: true },
+		discordClientSecret: { type: "string", nullable: true },
+		enableEmail: { type: "boolean" },
+		email: { type: "string", nullable: true },
+		smtpSecure: { type: "boolean" },
+		smtpHost: { type: "string", nullable: true },
+		smtpPort: { type: "integer", nullable: true },
+		smtpUser: { type: "string", nullable: true },
+		smtpPass: { type: "string", nullable: true },
+		enableServiceWorker: { type: "boolean" },
+		swPublicKey: { type: "string", nullable: true },
+		swPrivateKey: { type: "string", nullable: true },
+		tosUrl: { type: "string", nullable: true },
+		repositoryUrl: { type: "string" },
+		feedbackUrl: { type: "string" },
+		useObjectStorage: { type: "boolean" },
+		objectStorageBaseUrl: { type: "string", nullable: true },
+		objectStorageBucket: { type: "string", nullable: true },
+		objectStoragePrefix: { type: "string", nullable: true },
+		objectStorageEndpoint: { type: "string", nullable: true },
+		objectStorageRegion: { type: "string", nullable: true },
+		objectStoragePort: { type: "integer", nullable: true },
+		objectStorageAccessKey: { type: "string", nullable: true },
+		objectStorageSecretKey: { type: "string", nullable: true },
+		objectStorageUseSSL: { type: "boolean" },
+		objectStorageUseProxy: { type: "boolean" },
+		objectStorageSetPublicRead: { type: "boolean" },
+		objectStorageS3ForcePathStyle: { type: "boolean" },
+		enableIpLogging: { type: "boolean" },
+		enableActiveEmailValidation: { type: "boolean" },
 	},
 	required: [],
 } as const;
@@ -112,19 +112,19 @@ export const paramDef = {
 export default define(meta, paramDef, async (ps, me) => {
 	const set = {} as Partial<Meta>;
 
-	if (typeof ps.disableRegistration === 'boolean') {
+	if (typeof ps.disableRegistration === "boolean") {
 		set.disableRegistration = ps.disableRegistration;
 	}
 
-	if (typeof ps.disableLocalTimeline === 'boolean') {
+	if (typeof ps.disableLocalTimeline === "boolean") {
 		set.disableLocalTimeline = ps.disableLocalTimeline;
 	}
 
-	if (typeof ps.disableGlobalTimeline === 'boolean') {
+	if (typeof ps.disableGlobalTimeline === "boolean") {
 		set.disableGlobalTimeline = ps.disableGlobalTimeline;
 	}
 
-	if (typeof ps.useStarForReactionFallback === 'boolean') {
+	if (typeof ps.useStarForReactionFallback === "boolean") {
 		set.useStarForReactionFallback = ps.useStarForReactionFallback;
 	}
 
@@ -409,7 +409,7 @@ export default define(meta, paramDef, async (ps, me) => {
 	}
 
 	if (ps.deeplAuthKey !== undefined) {
-		if (ps.deeplAuthKey === '') {
+		if (ps.deeplAuthKey === "") {
 			set.deeplAuthKey = null;
 		} else {
 			set.deeplAuthKey = ps.deeplAuthKey;
@@ -431,7 +431,7 @@ export default define(meta, paramDef, async (ps, me) => {
 	await db.transaction(async transactionalEntityManager => {
 		const metas = await transactionalEntityManager.find(Meta, {
 			order: {
-				id: 'DESC',
+				id: "DESC",
 			},
 		});
 
@@ -444,5 +444,5 @@ export default define(meta, paramDef, async (ps, me) => {
 		}
 	});
 
-	insertModerationLog(me, 'updateMeta');
+	insertModerationLog(me, "updateMeta");
 });

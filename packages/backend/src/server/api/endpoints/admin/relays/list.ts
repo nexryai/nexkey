@@ -1,37 +1,37 @@
-import define from '../../../define.js';
-import { listRelay } from '@/services/relay.js';
+import { listRelay } from "@/services/relay.js";
+import define from "../../../define.js";
 
 export const meta = {
-	tags: ['admin'],
+	tags: ["admin"],
 
 	requireCredential: true,
 	requireModerator: true,
 
 	res: {
-		type: 'array',
+		type: "array",
 		optional: false, nullable: false,
 		items: {
-			type: 'object',
+			type: "object",
 			optional: false, nullable: false,
 			properties: {
 				id: {
-					type: 'string',
+					type: "string",
 					optional: false, nullable: false,
-					format: 'id',
+					format: "id",
 				},
 				inbox: {
-					type: 'string',
+					type: "string",
 					optional: false, nullable: false,
-					format: 'url',
+					format: "url",
 				},
 				status: {
-					type: 'string',
+					type: "string",
 					optional: false, nullable: false,
-					default: 'requesting',
+					default: "requesting",
 					enum: [
-						'requesting',
-						'accepted',
-						'rejected',
+						"requesting",
+						"accepted",
+						"rejected",
 					],
 				},
 			},
@@ -40,7 +40,7 @@ export const meta = {
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {},
 	required: [],
 } as const;

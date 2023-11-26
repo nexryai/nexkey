@@ -14,18 +14,18 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
-import * as misskey from 'misskey-js';
-import MkPagination from '@/components/MkPagination.vue';
-import MkNote from '@/components/MkNote.vue';
-import MkReactionIcon from '@/components/MkReactionIcon.vue';
+import { computed } from "vue";
+import * as misskey from "misskey-js";
+import MkPagination from "@/components/MkPagination.vue";
+import MkNote from "@/components/MkNote.vue";
+import MkReactionIcon from "@/components/MkReactionIcon.vue";
 
 const props = defineProps<{
 	user: misskey.entities.User;
 }>();
 
 const pagination = {
-	endpoint: 'users/reactions' as const,
+	endpoint: "users/reactions" as const,
 	limit: 20,
 	params: computed(() => ({
 		userId: props.user.id,

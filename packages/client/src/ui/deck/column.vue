@@ -32,15 +32,15 @@
 </template>
 
 <script lang="ts" setup>
-import { onBeforeUnmount, onMounted, provide, Ref, watch } from 'vue';
-import { updateColumn, swapLeftColumn, swapRightColumn, swapUpColumn, swapDownColumn, stackLeftColumn, popRightColumn, removeColumn, swapColumn, Column , deckStore } from './deck-store';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
-import { MenuItem } from '@/types/menu';
+import { onBeforeUnmount, onMounted, provide, Ref, watch } from "vue";
+import { updateColumn, swapLeftColumn, swapRightColumn, swapUpColumn, swapDownColumn, stackLeftColumn, popRightColumn, removeColumn, swapColumn, Column , deckStore } from "./deck-store";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
+import { MenuItem } from "@/types/menu";
 
-provide('shouldHeaderThin', true);
-provide('shouldOmitHeaderTitle', true);
-provide('shouldSpacerMin', true);
+provide("shouldHeaderThin", true);
+provide("shouldOmitHeaderTitle", true);
+provide("shouldSpacerMin", true);
 
 const props = withDefaults(defineProps<{
 	column: Column;
@@ -55,37 +55,37 @@ const props = withDefaults(defineProps<{
 });
 
 const emit = defineEmits<{
-	(ev: 'parent-focus', direction: 'up' | 'down' | 'left' | 'right'): void;
-	(ev: 'change-active-state', v: boolean): void;
+	(ev: "parent-focus", direction: "up" | "down" | "left" | "right"): void;
+	(ev: "change-active-state", v: boolean): void;
 }>();
 
 let body = $ref<HTMLDivElement>();
 
 let dragging = $ref(false);
-watch($$(dragging), v => os.deckGlobalEvents.emit(v ? 'column.dragStart' : 'column.dragEnd'));
+watch($$(dragging), v => os.deckGlobalEvents.emit(v ? "column.dragStart" : "column.dragEnd"));
 
 let draghover = $ref(false);
 let dropready = $ref(false);
 
-const isMainColumn = $computed(() => props.column.type === 'main');
+const isMainColumn = $computed(() => props.column.type === "main");
 const active = $computed(() => props.column.active !== false);
-watch($$(active), v => emit('change-active-state', v));
+watch($$(active), v => emit("change-active-state", v));
 
 const keymap = $computed(() => ({
-	'shift+up': () => emit('parent-focus', 'up'),
-	'shift+down': () => emit('parent-focus', 'down'),
-	'shift+left': () => emit('parent-focus', 'left'),
-	'shift+right': () => emit('parent-focus', 'right'),
+	"shift+up": () => emit("parent-focus", "up"),
+	"shift+down": () => emit("parent-focus", "down"),
+	"shift+left": () => emit("parent-focus", "left"),
+	"shift+right": () => emit("parent-focus", "right"),
 }));
 
 onMounted(() => {
-	os.deckGlobalEvents.on('column.dragStart', onOtherDragStart);
-	os.deckGlobalEvents.on('column.dragEnd', onOtherDragEnd);
+	os.deckGlobalEvents.on("column.dragStart", onOtherDragStart);
+	os.deckGlobalEvents.on("column.dragEnd", onOtherDragEnd);
 });
 
 onBeforeUnmount(() => {
-	os.deckGlobalEvents.off('column.dragStart', onOtherDragStart);
-	os.deckGlobalEvents.off('column.dragEnd', onOtherDragEnd);
+	os.deckGlobalEvents.off("column.dragStart", onOtherDragStart);
+	os.deckGlobalEvents.off("column.dragEnd", onOtherDragEnd);
 });
 
 function onOtherDragStart() {
@@ -105,22 +105,22 @@ function toggleActive() {
 
 function getMenu() {
 	let items = [{
-		icon: 'ti ti-settings',
+		icon: "ti ti-settings",
 		text: i18n.ts._deck.configureColumn,
 		action: async () => {
 			const { canceled, result } = await os.form(props.column.name, {
 				name: {
-					type: 'string',
+					type: "string",
 					label: i18n.ts.name,
 					default: props.column.name,
 				},
 				width: {
-					type: 'number',
+					type: "number",
 					label: i18n.ts.width,
 					default: props.column.width,
 				},
 				flexible: {
-					type: 'boolean',
+					type: "boolean",
 					label: i18n.ts.flexible,
 					default: props.column.flexible,
 				},
@@ -129,48 +129,48 @@ function getMenu() {
 			updateColumn(props.column.id, result);
 		},
 	}, {
-		type: 'parent',
-		text: i18n.ts.move + '...',
-		icon: 'ti ti-arrows-move',
+		type: "parent",
+		text: i18n.ts.move + "...",
+		icon: "ti ti-arrows-move",
 		children: [{
-			icon: 'ti ti-arrow-left',
+			icon: "ti ti-arrow-left",
 			text: i18n.ts._deck.swapLeft,
 			action: () => {
 				swapLeftColumn(props.column.id);
 			},
 		}, {
-			icon: 'ti ti-arrow-right',
+			icon: "ti ti-arrow-right",
 			text: i18n.ts._deck.swapRight,
 			action: () => {
 				swapRightColumn(props.column.id);
 			},
 		}, props.isStacked ? {
-			icon: 'ti ti-arrow-up',
+			icon: "ti ti-arrow-up",
 			text: i18n.ts._deck.swapUp,
 			action: () => {
 				swapUpColumn(props.column.id);
 			},
 		} : undefined, props.isStacked ? {
-			icon: 'ti ti-arrow-down',
+			icon: "ti ti-arrow-down",
 			text: i18n.ts._deck.swapDown,
 			action: () => {
 				swapDownColumn(props.column.id);
 			},
 		} : undefined],
 	}, {
-		icon: 'ti ti-stack-2',
+		icon: "ti ti-stack-2",
 		text: i18n.ts._deck.stackLeft,
 		action: () => {
 			stackLeftColumn(props.column.id);
 		},
 	}, props.isStacked ? {
-		icon: 'ti ti-window-maximize',
+		icon: "ti ti-window-maximize",
 		text: i18n.ts._deck.popRight,
 		action: () => {
 			popRightColumn(props.column.id);
 		},
 	} : undefined, null, {
-		icon: 'ti ti-trash',
+		icon: "ti ti-trash",
 		text: i18n.ts.remove,
 		danger: true,
 		action: () => {
@@ -197,12 +197,12 @@ function onContextmenu(ev: MouseEvent) {
 function goTop() {
 	body.scrollTo({
 		top: 0,
-		behavior: 'smooth',
+		behavior: "smooth",
 	});
 }
 
 function onDragstart(ev) {
-	ev.dataTransfer.effectAllowed = 'move';
+	ev.dataTransfer.effectAllowed = "move";
 	ev.dataTransfer.setData(_DATA_TRANSFER_DECK_COLUMN_, props.column.id);
 
 	// Chromeのバグで、Dragstartハンドラ内ですぐにDOMを変更する(=リアクティブなプロパティを変更する)とDragが終了してしまう
@@ -220,11 +220,11 @@ function onDragover(ev) {
 	// 自分自身がドラッグされている場合
 	if (dragging) {
 		// 自分自身にはドロップさせない
-		ev.dataTransfer.dropEffect = 'none';
+		ev.dataTransfer.dropEffect = "none";
 	} else {
 		const isDeckColumn = ev.dataTransfer.types[0] === _DATA_TRANSFER_DECK_COLUMN_;
 
-		ev.dataTransfer.dropEffect = isDeckColumn ? 'move' : 'none';
+		ev.dataTransfer.dropEffect = isDeckColumn ? "move" : "none";
 
 		if (isDeckColumn) draghover = true;
 	}
@@ -236,10 +236,10 @@ function onDragleave() {
 
 function onDrop(ev) {
 	draghover = false;
-	os.deckGlobalEvents.emit('column.dragEnd');
+	os.deckGlobalEvents.emit("column.dragEnd");
 
 	const id = ev.dataTransfer.getData(_DATA_TRANSFER_DECK_COLUMN_);
-	if (id != null && id !== '') {
+	if (id != null && id !== "") {
 		swapColumn(props.column.id, id);
 	}
 }

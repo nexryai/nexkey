@@ -1,21 +1,21 @@
-export function byteify(string: string, encoding: 'ascii' | 'base64' | 'hex') {
+export function byteify(string: string, encoding: "ascii" | "base64" | "hex") {
 	switch (encoding) {
-		case 'ascii':
+		case "ascii":
 			return Uint8Array.from(string, c => c.charCodeAt(0));
-		case 'base64':
+		case "base64":
 			return Uint8Array.from(
 				atob(
 					string
-						.replace(/-/g, '+')
-						.replace(/_/g, '/')
+						.replace(/-/g, "+")
+						.replace(/_/g, "/"),
 				),
-				c => c.charCodeAt(0)
+				c => c.charCodeAt(0),
 			);
-		case 'hex':
+		case "hex":
 			return new Uint8Array(
 				string
 					.match(/.{1,2}/g)
-					.map(byte => parseInt(byte, 16))
+					.map(byte => parseInt(byte, 16)),
 			);
 	}
 }
@@ -23,8 +23,8 @@ export function byteify(string: string, encoding: 'ascii' | 'base64' | 'hex') {
 export function hexify(buffer: ArrayBuffer) {
 	return Array.from(new Uint8Array(buffer))
 		.reduce(
-			(str, byte) => str + byte.toString(16).padStart(2, '0'),
-			''
+			(str, byte) => str + byte.toString(16).padStart(2, "0"),
+			"",
 		);
 }
 

@@ -6,13 +6,13 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue';
-import { CustomEmoji } from 'misskey-js/built/entities';
-import { getProxiedImageUrlNullable } from '@/scripts/media-proxy';
-import { getStaticImageUrl } from '@/scripts/get-static-image-url';
-import { char2filePath } from '@/scripts/twemoji-base';
-import { defaultStore } from '@/store';
-import { instance } from '@/instance';
+import { computed, ref, watch } from "vue";
+import { CustomEmoji } from "misskey-js/built/entities";
+import { getProxiedImageUrlNullable } from "@/scripts/media-proxy";
+import { getStaticImageUrl } from "@/scripts/get-static-image-url";
+import { char2filePath } from "@/scripts/twemoji-base";
+import { defaultStore } from "@/store";
+import { instance } from "@/instance";
 
 const props = defineProps<{
 	emoji: string;
@@ -22,7 +22,7 @@ const props = defineProps<{
 	isReaction?: boolean;
 }>();
 
-const isCustom = computed(() => props.emoji.startsWith(':'));
+const isCustom = computed(() => props.emoji.startsWith(":"));
 const char = computed(() => isCustom.value ? null : props.emoji);
 const useOsNativeEmojis = computed(() => defaultStore.state.useOsNativeEmojis && !props.isReaction);
 const ce = computed(() => props.customEmojis ?? instance.emojis ?? []);
@@ -33,7 +33,7 @@ const url = computed(() => {
 	} else {
 		return defaultStore.state.disableShowingAnimatedImages
 			? getStaticImageUrl(customEmoji.value.url)
-			: getProxiedImageUrlNullable(customEmoji.value.url, 'emoji');
+			: getProxiedImageUrlNullable(customEmoji.value.url, "emoji");
 	}
 });
 const alt = computed(() => customEmoji.value ? `:${customEmoji.value.name}:` : char.value);

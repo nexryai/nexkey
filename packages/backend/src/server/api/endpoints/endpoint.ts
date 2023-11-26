@@ -1,18 +1,18 @@
-import define from '../define.js';
-import endpoints from '../endpoints.js';
+import define from "../define.js";
+import endpoints from "../endpoints.js";
 
 export const meta = {
 	requireCredential: false,
 
-	tags: ['meta'],
+	tags: ["meta"],
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		endpoint: { type: 'string' },
+		endpoint: { type: "string" },
 	},
-	required: ['endpoint'],
+	required: ["endpoint"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export

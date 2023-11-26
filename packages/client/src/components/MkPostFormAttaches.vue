@@ -15,13 +15,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, defineAsyncComponent } from 'vue';
-import MkDriveFileThumbnail from '@/components/MkDriveFileThumbnail.vue';
-import * as os from '@/os';
+import { defineComponent, defineAsyncComponent } from "vue";
+import MkDriveFileThumbnail from "@/components/MkDriveFileThumbnail.vue";
+import * as os from "@/os";
 
 export default defineComponent({
 	components: {
-		XDraggable: defineAsyncComponent(() => import('vuedraggable').then(x => x.default)),
+		XDraggable: defineAsyncComponent(() => import("vuedraggable").then(x => x.default)),
 		MkDriveFileThumbnail,
 	},
 
@@ -36,7 +36,7 @@ export default defineComponent({
 		},
 	},
 
-	emits: ['updated', 'detach', 'changeSensitive', 'changeName'],
+	emits: ["updated", "detach", "changeSensitive", "changeName"],
 
 	data() {
 		return {
@@ -50,7 +50,7 @@ export default defineComponent({
 				return this.files;
 			},
 			set(value) {
-				this.$emit('updated', value);
+				this.$emit("updated", value);
 			},
 		},
 	},
@@ -60,15 +60,15 @@ export default defineComponent({
 			if (this.detachMediaFn) {
 				this.detachMediaFn(id);
 			} else {
-				this.$emit('detach', id);
+				this.$emit("detach", id);
 			}
 		},
 		toggleSensitive(file) {
-			os.api('drive/files/update', {
+			os.api("drive/files/update", {
 				fileId: file.id,
 				isSensitive: !file.isSensitive,
 			}).then(() => {
-				this.$emit('changeSensitive', file, !file.isSensitive);
+				this.$emit("changeSensitive", file, !file.isSensitive);
 			});
 		},
 		async rename(file) {
@@ -78,54 +78,54 @@ export default defineComponent({
 				allowEmpty: false,
 			});
 			if (canceled) return;
-			os.api('drive/files/update', {
+			os.api("drive/files/update", {
 				fileId: file.id,
 				name: result,
 			}).then(() => {
-				this.$emit('changeName', file, result);
+				this.$emit("changeName", file, result);
 				file.name = result;
 			});
 		},
 
 		async describe(file) {
-			os.popup(defineAsyncComponent(() => import('@/components/MkMediaCaption.vue')), {
+			os.popup(defineAsyncComponent(() => import("@/components/MkMediaCaption.vue")), {
 				title: this.$ts.describeFile,
 				input: {
 					placeholder: this.$ts.inputNewDescription,
-					default: file.comment !== null ? file.comment : '',
+					default: file.comment !== null ? file.comment : "",
 				},
 				image: file,
 			}, {
 				done: result => {
 					if (!result || result.canceled) return;
 					let comment = result.result.length === 0 ? null : result.result;
-					os.api('drive/files/update', {
+					os.api("drive/files/update", {
 						fileId: file.id,
 						comment: comment,
 					}).then(() => {
 						file.comment = comment;
 					});
 				},
-			}, 'closed');
+			}, "closed");
 		},
 
 		showFileMenu(file, ev: MouseEvent) {
 			if (this.menu) return;
 			this.menu = os.popupMenu([{
 				text: this.$ts.renameFile,
-				icon: 'ti ti-forms',
+				icon: "ti ti-forms",
 				action: () => { this.rename(file); },
 			}, {
 				text: file.isSensitive ? this.$ts.unmarkAsSensitive : this.$ts.markAsSensitive,
-				icon: file.isSensitive ? 'ti ti-eye-off' : 'ti ti-eye',
+				icon: file.isSensitive ? "ti ti-eye-off" : "ti ti-eye",
 				action: () => { this.toggleSensitive(file); },
 			}, {
 				text: this.$ts.describeFile,
-				icon: 'ti ti-forms',
+				icon: "ti ti-forms",
 				action: () => { this.describe(file); },
 			}, {
 				text: this.$ts.attachCancel,
-				icon: 'ti ti-circle-x',
+				icon: "ti ti-circle-x",
 				action: () => { this.detachMedia(file.id); },
 			}], ev.currentTarget ?? ev.target).then(() => this.menu = null);
 		},

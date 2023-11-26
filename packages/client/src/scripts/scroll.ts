@@ -1,9 +1,9 @@
-type ScrollBehavior = 'auto' | 'smooth' | 'instant';
+type ScrollBehavior = "auto" | "smooth" | "instant";
 
 export function getScrollContainer(el: HTMLElement | null): HTMLElement | null {
-	if (el == null || el.tagName === 'HTML') return null;
-	const overflow = window.getComputedStyle(el).getPropertyValue('overflow-y');
-	if (overflow === 'scroll' || overflow === 'auto') {
+	if (el == null || el.tagName === "HTML") return null;
+	const overflow = window.getComputedStyle(el).getPropertyValue("overflow-y");
+	if (overflow === "scroll" || overflow === "auto") {
 		return el;
 	} else {
 		return getScrollContainer(el.parentElement);
@@ -33,10 +33,10 @@ export function onScrollTop(el: Element, cb) {
 		if (!document.body.contains(el)) return;
 		if (isTopVisible(el)) {
 			cb();
-			container.removeEventListener('scroll', onScroll);
+			container.removeEventListener("scroll", onScroll);
 		}
 	};
-	container.addEventListener('scroll', onScroll, { passive: true });
+	container.addEventListener("scroll", onScroll, { passive: true });
 }
 
 export function onScrollBottom(el: Element, cb) {
@@ -46,10 +46,10 @@ export function onScrollBottom(el: Element, cb) {
 		const pos = getScrollPosition(el);
 		if (pos + el.clientHeight > el.scrollHeight - 1) {
 			cb();
-			container.removeEventListener('scroll', onScroll);
+			container.removeEventListener("scroll", onScroll);
 		}
 	};
-	container.addEventListener('scroll', onScroll, { passive: true });
+	container.addEventListener("scroll", onScroll, { passive: true });
 }
 
 export function scroll(el: Element, options: {

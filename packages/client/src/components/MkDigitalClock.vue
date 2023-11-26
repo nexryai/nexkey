@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onUnmounted, ref, watch } from 'vue';
+import { onUnmounted, ref, watch } from "vue";
 
 const props = withDefaults(defineProps<{
 	showS?: boolean;
@@ -24,10 +24,10 @@ const props = withDefaults(defineProps<{
 });
 
 let intervalId;
-const hh = ref('');
-const mm = ref('');
-const ss = ref('');
-const ms = ref('');
+const hh = ref("");
+const mm = ref("");
+const ss = ref("");
+const ms = ref("");
 const showColon = ref(false);
 let prevSec: number | null = null;
 
@@ -42,10 +42,10 @@ watch(showColon, (v) => {
 const tick = () => {
 	const now = new Date();
 	now.setMinutes(now.getMinutes() + (new Date().getTimezoneOffset() + props.offset));
-	hh.value = now.getHours().toString().padStart(2, '0');
-	mm.value = now.getMinutes().toString().padStart(2, '0');
-	ss.value = now.getSeconds().toString().padStart(2, '0');
-	ms.value = Math.floor(now.getMilliseconds() / 10).toString().padStart(2, '0');
+	hh.value = now.getHours().toString().padStart(2, "0");
+	mm.value = now.getMinutes().toString().padStart(2, "0");
+	ss.value = now.getSeconds().toString().padStart(2, "0");
+	ms.value = Math.floor(now.getMilliseconds() / 10).toString().padStart(2, "0");
 	if (now.getSeconds() !== prevSec) showColon.value = true;
 	prevSec = now.getSeconds();
 };

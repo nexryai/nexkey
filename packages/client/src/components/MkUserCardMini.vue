@@ -10,10 +10,10 @@
 </template>
 
 <script lang="ts" setup>
-import * as misskey from 'misskey-js';
-import MkMiniChart from '@/components/MkMiniChart.vue';
-import * as os from '@/os';
-import { acct } from '@/filters/user';
+import * as misskey from "misskey-js";
+import MkMiniChart from "@/components/MkMiniChart.vue";
+import * as os from "@/os";
+import { acct } from "@/filters/user";
 
 const props = defineProps<{
 	user: misskey.entities.User;
@@ -21,7 +21,7 @@ const props = defineProps<{
 
 let chartValues = $ref<number[] | null>(null);
 
-os.apiGet('charts/user/notes', { userId: props.user.id, limit: 16 + 1, span: 'day' }).then(res => {
+os.apiGet("charts/user/notes", { userId: props.user.id, limit: 16 + 1, span: "day" }).then(res => {
 	// 今日のぶんの値はまだ途中の値であり、それも含めると大抵の場合前日よりも下降しているようなグラフになってしまうため今日は弾く
 	res.inc.splice(0, 1);
 	chartValues = res.inc;

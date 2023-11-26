@@ -1,18 +1,18 @@
-import { ref } from 'vue';
-import * as os from '@/os';
-import { stream } from '@/stream';
-import { i18n } from '@/i18n';
-import { defaultStore } from '@/store';
-import { DriveFile } from 'misskey-js/built/entities';
-import { uploadFile } from '@/scripts/upload';
+import { ref } from "vue";
+import { DriveFile } from "misskey-js/built/entities";
+import * as os from "@/os";
+import { stream } from "@/stream";
+import { i18n } from "@/i18n";
+import { defaultStore } from "@/store";
+import { uploadFile } from "@/scripts/upload";
 
 function select(src: any, label: string | null, multiple: boolean): Promise<DriveFile | DriveFile[]> {
 	return new Promise((res, rej) => {
 		const keepOriginal = ref(defaultStore.state.keepOriginalUploading);
 
 		const chooseFileFromPc = () => {
-			const input = document.createElement('input');
-			input.type = 'file';
+			const input = document.createElement("input");
+			input.type = "file";
 			input.multiple = multiple;
 			input.onchange = () => {
 				const promises = Array.from(input.files).map(file => uploadFile(file, defaultStore.state.uploadFolder, undefined, keepOriginal.value));
@@ -21,8 +21,8 @@ function select(src: any, label: string | null, multiple: boolean): Promise<Driv
 					res(multiple ? driveFiles : driveFiles[0]);
 				}).catch(err => {
 					os.alert({
-						type: 'error',
-						text: err
+						type: "error",
+						text: err,
 					});
 				});
 
@@ -46,52 +46,52 @@ function select(src: any, label: string | null, multiple: boolean): Promise<Driv
 		const chooseFileFromUrl = () => {
 			os.inputText({
 				title: i18n.ts.uploadFromUrl,
-				type: 'url',
-				placeholder: i18n.ts.uploadFromUrlDescription
+				type: "url",
+				placeholder: i18n.ts.uploadFromUrlDescription,
 			}).then(({ canceled, result: url }) => {
 				if (canceled) return;
 
 				const marker = Math.random().toString(); // TODO: UUIDとか使う
 
-				const connection = stream.useChannel('main');
-				connection.on('urlUploadFinished', urlResponse => {
+				const connection = stream.useChannel("main");
+				connection.on("urlUploadFinished", urlResponse => {
 					if (urlResponse.marker === marker) {
 						res(multiple ? [urlResponse.file] : urlResponse.file);
 						connection.dispose();
 					}
 				});
 
-				os.api('drive/files/upload-from-url', {
+				os.api("drive/files/upload-from-url", {
 					url: url,
 					folderId: defaultStore.state.uploadFolder,
-					marker
+					marker,
 				});
 
 				os.alert({
 					title: i18n.ts.uploadFromUrlRequested,
-					text: i18n.ts.uploadFromUrlMayTakeTime
+					text: i18n.ts.uploadFromUrlMayTakeTime,
 				});
 			});
 		};
 
 		os.popupMenu([label ? {
 			text: label,
-			type: 'label'
+			type: "label",
 		} : undefined, {
-			type: 'switch',
+			type: "switch",
 			text: i18n.ts.keepOriginalUploading,
-			ref: keepOriginal
+			ref: keepOriginal,
 		}, {
 			text: i18n.ts.upload,
-			icon: 'ti ti-upload',
+			icon: "ti ti-upload",
 			action: chooseFileFromPc,
 		}, {
 			text: i18n.ts.fromDrive,
-			icon: 'ti ti-cloud',
+			icon: "ti ti-cloud",
 			action: chooseFileFromDrive,
 		}, {
 			text: i18n.ts.fromUrl,
-			icon: 'ti ti-link',
+			icon: "ti ti-link",
 			action: chooseFileFromUrl,
 		}], src);
 	});

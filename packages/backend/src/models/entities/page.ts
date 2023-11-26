@@ -1,51 +1,51 @@
-import { Entity, Index, JoinColumn, Column, PrimaryColumn, ManyToOne } from 'typeorm';
-import { User } from './user.js';
-import { id } from '../id.js';
-import { DriveFile } from './drive-file.js';
+import { Entity, Index, JoinColumn, Column, PrimaryColumn, ManyToOne } from "typeorm";
+import { id } from "../id.js";
+import { User } from "./user.js";
+import { DriveFile } from "./drive-file.js";
 
 @Entity()
-@Index(['userId', 'name'], { unique: true })
+@Index(["userId", "name"], { unique: true })
 export class Page {
 	@PrimaryColumn(id())
 	public id: string;
 
 	@Index()
-	@Column('timestamp with time zone', {
-		comment: 'The created date of the Page.',
+	@Column("timestamp with time zone", {
+		comment: "The created date of the Page.",
 	})
 	public createdAt: Date;
 
 	@Index()
-	@Column('timestamp with time zone', {
-		comment: 'The updated date of the Page.',
+	@Column("timestamp with time zone", {
+		comment: "The updated date of the Page.",
 	})
 	public updatedAt: Date;
 
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 256,
 	})
 	public title: string;
 
 	@Index()
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 256,
 	})
 	public name: string;
 
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 256, nullable: true,
 	})
 	public summary: string | null;
 
-	@Column('boolean')
+	@Column("boolean")
 	public alignCenter: boolean;
 
-	@Column('boolean', {
+	@Column("boolean", {
 		default: false,
 	})
 	public hideTitleWhenPinned: boolean;
 
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 32,
 	})
 	public font: string;
@@ -53,12 +53,12 @@ export class Page {
 	@Index()
 	@Column({
 		...id(),
-		comment: 'The ID of author.',
+		comment: "The ID of author.",
 	})
-	public userId: User['id'];
+	public userId: User["id"];
 
 	@ManyToOne(type => User, {
-		onDelete: 'CASCADE',
+		onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public user: User | null;
@@ -67,27 +67,27 @@ export class Page {
 		...id(),
 		nullable: true,
 	})
-	public eyeCatchingImageId: DriveFile['id'] | null;
+	public eyeCatchingImageId: DriveFile["id"] | null;
 
 	@ManyToOne(type => DriveFile, {
-		onDelete: 'CASCADE',
+		onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public eyeCatchingImage: DriveFile | null;
 
-	@Column('jsonb', {
+	@Column("jsonb", {
 		default: [],
 	})
 	public content: Record<string, any>[];
 
-	@Column('jsonb', {
+	@Column("jsonb", {
 		default: [],
 	})
 	public variables: Record<string, any>[];
 
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 16384,
-		default: '',
+		default: "",
 	})
 	public script: string;
 
@@ -96,17 +96,17 @@ export class Page {
 	 * followers ... フォロワーのみ
 	 * specified ... visibleUserIds で指定したユーザーのみ
 	 */
-	@Column('enum', { enum: ['public', 'followers', 'specified'] })
-	public visibility: 'public' | 'followers' | 'specified';
+	@Column("enum", { enum: ["public", "followers", "specified"] })
+	public visibility: "public" | "followers" | "specified";
 
 	@Index()
 	@Column({
 		...id(),
-		array: true, default: '{}',
+		array: true, default: "{}",
 	})
-	public visibleUserIds: User['id'][];
+	public visibleUserIds: User["id"][];
 
-	@Column('integer', {
+	@Column("integer", {
 		default: 0,
 	})
 	public likedCount: number;

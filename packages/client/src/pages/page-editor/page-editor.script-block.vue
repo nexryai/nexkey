@@ -58,37 +58,37 @@
 
 <script lang="ts">
 /* eslint-disable vue/no-mutating-props */
-import { defineAsyncComponent, defineComponent } from 'vue';
-import { v4 as uuid } from 'uuid';
-import XContainer from './page-editor.container.vue';
-import MkTextarea from '@/components/form/textarea.vue';
-import { blockDefs } from '@/scripts/hpml/index';
-import * as os from '@/os';
-import { isLiteralValue } from '@/scripts/hpml/expr';
-import { funcDefs } from '@/scripts/hpml/lib';
+import { defineAsyncComponent, defineComponent } from "vue";
+import { v4 as uuid } from "uuid";
+import XContainer from "./page-editor.container.vue";
+import MkTextarea from "@/components/form/textarea.vue";
+import { blockDefs } from "@/scripts/hpml/index";
+import * as os from "@/os";
+import { isLiteralValue } from "@/scripts/hpml/expr";
+import { funcDefs } from "@/scripts/hpml/lib";
 
 export default defineComponent({
 	components: {
 		XContainer, MkTextarea,
-		XV: defineAsyncComponent(() => import('./page-editor.script-block.vue')),
+		XV: defineAsyncComponent(() => import("./page-editor.script-block.vue")),
 	},
 
-	inject: ['getScriptBlockList'],
+	inject: ["getScriptBlockList"],
 
 	props: {
 		getExpectedType: {
 			required: false,
-			default: null
+			default: null,
 		},
 		modelValue: {
-			required: true
+			required: true,
 		},
 		title: {
-			required: false
+			required: false,
 		},
 		removable: {
 			required: false,
-			default: false
+			default: false,
 		},
 		hpml: {
 			required: true,
@@ -101,27 +101,27 @@ export default defineComponent({
 		},
 		draggable: {
 			required: false,
-			default: false
-		}
+			default: false,
+		},
 	},
 
 	data() {
 		return {
 			error: null,
 			warn: null,
-			slots: '',
+			slots: "",
 		};
 	},
 
 	computed: {
 		icon(): any {
 			if (this.modelValue.type === null) return null;
-			if (this.modelValue.type.startsWith('fn:')) return 'ti ti-plug';
+			if (this.modelValue.type.startsWith("fn:")) return "ti ti-plug";
 			return blockDefs.find(x => x.type === this.modelValue.type).icon;
 		},
 		typeText(): any {
 			if (this.modelValue.type === null) return null;
-			if (this.modelValue.type.startsWith('fn:')) return this.modelValue.type.split(':')[1];
+			if (this.modelValue.type.startsWith("fn:")) return this.modelValue.type.split(":")[1];
 			return this.$t(`_pages.script.blocks.${this.modelValue.type}`);
 		},
 	},
@@ -129,34 +129,34 @@ export default defineComponent({
 	watch: {
 		slots: {
 			handler() {
-				this.modelValue.value.slots = this.slots.split('\n').map(x => ({
+				this.modelValue.value.slots = this.slots.split("\n").map(x => ({
 					name: x,
-					type: null
+					type: null,
 				}));
 			},
-			deep: true
-		}
+			deep: true,
+		},
 	},
 
 	created() {
 		if (this.modelValue.value == null) this.modelValue.value = null;
 
-		if (this.modelValue.value && this.modelValue.value.slots) this.slots = this.modelValue.value.slots.map(x => x.name).join('\n');
+		if (this.modelValue.value && this.modelValue.value.slots) this.slots = this.modelValue.value.slots.map(x => x.name).join("\n");
 
 		this.$watch(() => this.modelValue.type, (t) => {
 			this.warn = null;
 
-			if (this.modelValue.type === 'fn') {
+			if (this.modelValue.type === "fn") {
 				const id = uuid();
 				this.modelValue.value = {
 					slots: [],
-					expression: { id, type: null }
+					expression: { id, type: null },
 				};
 				return;
 			}
 
-			if (this.modelValue.type && this.modelValue.type.startsWith('fn:')) {
-				const fnName = this.modelValue.type.split(':')[1];
+			if (this.modelValue.type && this.modelValue.type.startsWith("fn:")) {
+				const fnName = this.modelValue.type.split(":")[1];
 				const fn = this.hpml.getVarByName(fnName);
 
 				const empties = [];
@@ -179,9 +179,9 @@ export default defineComponent({
 
 			for (let i = 0; i < funcDefs[this.modelValue.type].in.length; i++) {
 				const inType = funcDefs[this.modelValue.type].in[i];
-				if (typeof inType !== 'number') {
-					if (inType === 'number') this.modelValue.args[i].type = 'number';
-					if (inType === 'string') this.modelValue.args[i].type = 'text';
+				if (typeof inType !== "number") {
+					if (inType === "number") this.modelValue.args[i].type = "number";
+					if (inType === "string") this.modelValue.args[i].type = "text";
 				}
 			}
 		});
@@ -194,13 +194,13 @@ export default defineComponent({
 			const emptySlotIndex = args.findIndex(x => x.type === null);
 			if (emptySlotIndex !== -1 && emptySlotIndex < args.length) {
 				this.warn = {
-					slot: emptySlotIndex
+					slot: emptySlotIndex,
 				};
 			} else {
 				this.warn = null;
 			}
 		}, {
-			deep: true
+			deep: true,
 		});
 
 		this.$watch(() => this.hpml.variables, () => {
@@ -208,7 +208,7 @@ export default defineComponent({
 				this.error = this.hpml.typeCheck(this.modelValue);
 			}
 		}, {
-			deep: true
+			deep: true,
 		});
 	},
 
@@ -216,7 +216,7 @@ export default defineComponent({
 		async changeType() {
 			const { canceled, result: type } = await os.select({
 				title: this.$ts._pages.selectType,
-				groupedItems: this.getScriptBlockList(this.getExpectedType ? this.getExpectedType() : null)
+				groupedItems: this.getScriptBlockList(this.getExpectedType ? this.getExpectedType() : null),
 			});
 			if (canceled) return;
 			this.modelValue.type = type;
@@ -224,8 +224,8 @@ export default defineComponent({
 
 		_getExpectedType(slot: number) {
 			return this.hpml.getExpectedType(this.modelValue, slot);
-		}
-	}
+		},
+	},
 });
 </script>
 

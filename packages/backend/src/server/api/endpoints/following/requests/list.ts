@@ -1,34 +1,34 @@
-import define from '../../../define.js';
-import { FollowRequests } from '@/models/index.js';
+import { FollowRequests } from "@/models/index.js";
+import define from "../../../define.js";
 
 export const meta = {
-	tags: ['following', 'account'],
+	tags: ["following", "account"],
 
 	requireCredential: true,
 
-	kind: 'read:following',
+	kind: "read:following",
 
 	res: {
-		type: 'array',
+		type: "array",
 		optional: false, nullable: false,
 		items: {
-			type: 'object',
+			type: "object",
 			optional: false, nullable: false,
 			properties: {
 				id: {
-					type: 'string',
+					type: "string",
 					optional: false, nullable: false,
-					format: 'id',
+					format: "id",
 				},
 				follower: {
-					type: 'object',
+					type: "object",
 					optional: false, nullable: false,
-					ref: 'UserLite',
+					ref: "UserLite",
 				},
 				followee: {
-					type: 'object',
+					type: "object",
 					optional: false, nullable: false,
-					ref: 'UserLite',
+					ref: "UserLite",
 				},
 			},
 		},
@@ -36,7 +36,7 @@ export const meta = {
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {},
 	required: [],
 } as const;

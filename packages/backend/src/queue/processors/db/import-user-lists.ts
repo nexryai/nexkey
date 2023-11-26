@@ -1,17 +1,17 @@
-import Bull from 'bull';
+import Bull from "bull";
 
-import { queueLogger } from '../../logger.js';
-import * as Acct from '@/misc/acct.js';
-import { resolveUser } from '@/remote/resolve-user.js';
-import { pushUserToUserList } from '@/services/user-list/push.js';
-import { downloadTextFile } from '@/misc/download-text-file.js';
-import { isSelfHost, toPuny } from '@/misc/convert-host.js';
-import { DriveFiles, Users, UserLists, UserListJoinings } from '@/models/index.js';
-import { genId } from '@/misc/gen-id.js';
-import { DbUserImportJobData } from '@/queue/types.js';
-import { IsNull } from 'typeorm';
+import { IsNull } from "typeorm";
+import * as Acct from "@/misc/acct.js";
+import { resolveUser } from "@/remote/resolve-user.js";
+import { pushUserToUserList } from "@/services/user-list/push.js";
+import { downloadTextFile } from "@/misc/download-text-file.js";
+import { isSelfHost, toPuny } from "@/misc/convert-host.js";
+import { DriveFiles, Users, UserLists, UserListJoinings } from "@/models/index.js";
+import { genId } from "@/misc/gen-id.js";
+import { DbUserImportJobData } from "@/queue/types.js";
+import { queueLogger } from "../../logger.js";
 
-const logger = queueLogger.createSubLogger('import-user-lists');
+const logger = queueLogger.createSubLogger("import-user-lists");
 
 export async function importUserLists(job: Bull.Job<DbUserImportJobData>, done: any): Promise<void> {
 	logger.info(`Importing user lists of ${job.data.user.id} ...`);
@@ -34,12 +34,12 @@ export async function importUserLists(job: Bull.Job<DbUserImportJobData>, done: 
 
 	let linenum = 0;
 
-	for (const line of csv.trim().split('\n')) {
+	for (const line of csv.trim().split("\n")) {
 		linenum++;
 
 		try {
-			const listName = line.split(',')[0].trim();
-			const { username, host } = Acct.parse(line.split(',')[1].trim());
+			const listName = line.split(",")[0].trim();
+			const { username, host } = Acct.parse(line.split(",")[1].trim());
 
 			let list = await UserLists.findOneBy({
 				userId: user.id,
@@ -75,6 +75,6 @@ export async function importUserLists(job: Bull.Job<DbUserImportJobData>, done: 
 		}
 	}
 
-	logger.succ('Imported');
+	logger.succ("Imported");
 	done();
 }

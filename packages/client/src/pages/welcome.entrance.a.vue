@@ -2,7 +2,7 @@
 <div v-if="meta" class="rsqzvsbo">
 	<div class="top">
 		<MkFeaturedPhotos class="bg"/>
-		<img @click="showMenu" :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" class="misskey"/>
+		<img :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" class="misskey" @click="showMenu"/>
 		<div class="emojis">
 			<MkEmoji :normal="true" :no-style="true" emoji="👍"/>
 			<MkEmoji :normal="true" :no-style="true" emoji="❤"/>
@@ -25,7 +25,7 @@
 				<div class="action">
 					<MkButton inline rounded gradate data-cy-signup style="margin-right: 12px;" @click="signup()">{{ i18n.ts.signup }}</MkButton>
 					<MkButton inline rounded data-cy-signin @click="signin()">{{ i18n.ts.login }}</MkButton>
-          <MkButton inline rounded data-cy-signin style="margin-left: 12px;" @click="jumpToExplore()">{{ i18n.ts.explore }}</MkButton>
+					<MkButton inline rounded data-cy-signin style="margin-left: 12px;" @click="jumpToExplore()">{{ i18n.ts.explore }}</MkButton>
 				</div>
 			</div>
 		</div>
@@ -34,56 +34,56 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import XSigninDialog from '@/components/MkSigninDialog.vue';
-import XSignupDialog from '@/components/MkSignupDialog.vue';
-import MkButton from '@/components/MkButton.vue';
-import MkFeaturedPhotos from '@/components/MkFeaturedPhotos.vue';
-import { instanceName } from '@/config';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
-import MkInfo from '@/components/MkInfo.vue';
+import { } from "vue";
+import XSigninDialog from "@/components/MkSigninDialog.vue";
+import XSignupDialog from "@/components/MkSignupDialog.vue";
+import MkButton from "@/components/MkButton.vue";
+import MkFeaturedPhotos from "@/components/MkFeaturedPhotos.vue";
+import { instanceName } from "@/config";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
+import MkInfo from "@/components/MkInfo.vue";
 
 let meta = $ref();
 
-os.api('meta', { detail: true }).then(_meta => {
+os.api("meta", { detail: true }).then(_meta => {
 	meta = _meta;
 });
 
 function signin() {
 	os.popup(XSigninDialog, {
 		autoSet: true,
-	}, {}, 'closed');
+	}, {}, "closed");
 }
 
 function signup() {
 	os.popup(XSignupDialog, {
 		autoSet: true,
-	}, {}, 'closed');
+	}, {}, "closed");
 }
 
 function jumpToExplore() {
-  window.location.href = '/explore';
+	window.location.href = "/explore";
 }
 
 function showMenu(ev) {
 	os.popupMenu([{
 		text: i18n.ts.instanceInfo,
-		icon: 'ti ti-info-circle',
+		icon: "ti ti-info-circle",
 		action: () => {
-			os.pageWindow('/about');
+			os.pageWindow("/about");
 		},
 	}, {
 		text: i18n.ts.aboutMisskey,
-		icon: 'ti ti-info-circle',
+		icon: "ti ti-info-circle",
 		action: () => {
-			os.pageWindow('/about-misskey');
+			os.pageWindow("/about-misskey");
 		},
 	}, null, {
 		text: i18n.ts.help,
-		icon: 'ti ti-question-circle',
+		icon: "ti ti-question-circle",
 		action: () => {
-			window.open('https://misskey-hub.net/help.md', '_blank');
+			window.open("https://misskey-hub.net/help.md", "_blank");
 		},
 	}], ev.currentTarget ?? ev.target);
 }

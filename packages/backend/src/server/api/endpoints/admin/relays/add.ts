@@ -1,44 +1,44 @@
-import { URL } from 'node:url';
-import define from '../../../define.js';
-import { addRelay } from '@/services/relay.js';
-import { ApiError } from '../../../error.js';
+import { URL } from "node:url";
+import { addRelay } from "@/services/relay.js";
+import define from "../../../define.js";
+import { ApiError } from "../../../error.js";
 
 export const meta = {
-	tags: ['admin'],
+	tags: ["admin"],
 
 	requireCredential: true,
 	requireModerator: true,
 
 	errors: {
 		invalidUrl: {
-			message: 'Invalid URL',
-			code: 'INVALID_URL',
-			id: 'fb8c92d3-d4e5-44e7-b3d4-800d5cef8b2c',
+			message: "Invalid URL",
+			code: "INVALID_URL",
+			id: "fb8c92d3-d4e5-44e7-b3d4-800d5cef8b2c",
 		},
 	},
 
 	res: {
-		type: 'object',
+		type: "object",
 		optional: false, nullable: false,
 		properties: {
 			id: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: false,
-				format: 'id',
+				format: "id",
 			},
 			inbox: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: false,
-				format: 'url',
+				format: "url",
 			},
 			status: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: false,
-				default: 'requesting',
+				default: "requesting",
 				enum: [
-					'requesting',
-					'accepted',
-					'rejected',
+					"requesting",
+					"accepted",
+					"rejected",
 				],
 			},
 		},
@@ -46,17 +46,17 @@ export const meta = {
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		inbox: { type: 'string' },
+		inbox: { type: "string" },
 	},
-	required: ['inbox'],
+	required: ["inbox"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
 	try {
-		if (new URL(ps.inbox).protocol !== 'https:') throw 'https only';
+		if (new URL(ps.inbox).protocol !== "https:") throw "https only";
 	} catch {
 		throw new ApiError(meta.errors.invalidUrl);
 	}

@@ -1,8 +1,8 @@
-import Resolver from '../../resolver.js';
-import { CacheableRemoteUser } from '@/models/entities/user.js';
-import announceNote from './note.js';
-import { IAnnounce, getApId } from '../../type.js';
-import { apLogger } from '../../logger.js';
+import { CacheableRemoteUser } from "@/models/entities/user.js";
+import Resolver from "../../resolver.js";
+import { IAnnounce, getApId } from "../../type.js";
+import { apLogger } from "../../logger.js";
+import announceNote from "./note.js";
 
 const logger = apLogger;
 

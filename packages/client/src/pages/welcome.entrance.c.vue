@@ -55,16 +55,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { toUnicode } from 'punycode/';
-import XSigninDialog from '@/components/MkSigninDialog.vue';
-import XSignupDialog from '@/components/MkSignupDialog.vue';
-import MkButton from '@/components/MkButton.vue';
-import XNote from '@/components/MkNote.vue';
-import MkFeaturedPhotos from '@/components/MkFeaturedPhotos.vue';
-import { host, instanceName } from '@/config';
-import * as os from '@/os';
-import number from '@/filters/number';
+import { defineComponent } from "vue";
+import { toUnicode } from "punycode/";
+import XSigninDialog from "@/components/MkSigninDialog.vue";
+import XSignupDialog from "@/components/MkSignupDialog.vue";
+import MkButton from "@/components/MkButton.vue";
+import XNote from "@/components/MkNote.vue";
+import MkFeaturedPhotos from "@/components/MkFeaturedPhotos.vue";
+import { host, instanceName } from "@/config";
+import * as os from "@/os";
+import number from "@/filters/number";
 
 export default defineComponent({
 	components: {
@@ -85,21 +85,21 @@ export default defineComponent({
 	},
 
 	created() {
-		os.api('meta', { detail: true }).then(meta => {
+		os.api("meta", { detail: true }).then(meta => {
 			this.meta = meta;
 		});
 
-		os.api('stats').then(stats => {
+		os.api("stats").then(stats => {
 			this.stats = stats;
 		});
 
-		os.api('get-online-users-count').then(res => {
+		os.api("get-online-users-count").then(res => {
 			this.onlineUsersCount = res.count;
 		});
 
-		os.api('hashtags/list', {
-			sort: '+mentionedLocalUsers',
-			limit: 8
+		os.api("hashtags/list", {
+			sort: "+mentionedLocalUsers",
+			limit: 8,
 		}).then(tags => {
 			this.tags = tags;
 		});
@@ -108,40 +108,40 @@ export default defineComponent({
 	methods: {
 		signin() {
 			os.popup(XSigninDialog, {
-				autoSet: true
-			}, {}, 'closed');
+				autoSet: true,
+			}, {}, "closed");
 		},
 
 		signup() {
 			os.popup(XSignupDialog, {
-				autoSet: true
-			}, {}, 'closed');
+				autoSet: true,
+			}, {}, "closed");
 		},
 
 		showMenu(ev) {
 			os.popupMenu([{
-				text: this.$t('aboutX', { x: instanceName }),
-				icon: 'ti ti-info-circle',
+				text: this.$t("aboutX", { x: instanceName }),
+				icon: "ti ti-info-circle",
 				action: () => {
-					os.pageWindow('/about');
-				}
+					os.pageWindow("/about");
+				},
 			}, {
 				text: this.$ts.aboutMisskey,
-				icon: 'ti ti-info-circle',
+				icon: "ti ti-info-circle",
 				action: () => {
-					os.pageWindow('/about-misskey');
-				}
+					os.pageWindow("/about-misskey");
+				},
 			}, null, {
 				text: this.$ts.help,
-				icon: 'ti ti-question-circle',
+				icon: "ti ti-question-circle",
 				action: () => {
-					window.open(`https://misskey-hub.net/help.md`, '_blank');
-				}
+					window.open("https://misskey-hub.net/help.md", "_blank");
+				},
 			}], ev.currentTarget ?? ev.target);
 		},
 
-		number
-	}
+		number,
+	},
 });
 </script>
 

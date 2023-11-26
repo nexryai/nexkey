@@ -1,10 +1,10 @@
 <template>
-<MfmCore :text="text" :plain="plain" :nowrap="nowrap" :author="author" :customEmojis="customEmojis" :isNote="isNote" class="havbbuyv" :class="{ nowrap }"/>
+<MfmCore :text="text" :plain="plain" :nowrap="nowrap" :author="author" :custom-emojis="customEmojis" :is-note="isNote" class="havbbuyv" :class="{ nowrap }"/>
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import MfmCore from '@/components/mfm';
+import { } from "vue";
+import MfmCore from "@/components/mfm";
 
 const props = withDefaults(defineProps<{
 	text: string;

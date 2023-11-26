@@ -1,4 +1,4 @@
-import keyCode from './keycode';
+import keyCode from "./keycode";
 
 type Callback = (ev: KeyboardEvent) => void;
 
@@ -21,7 +21,7 @@ const parseKeymap = (keymap: Keymap) => Object.entries(keymap).map(([patterns, c
 	const result = {
 		patterns: [],
 		callback,
-		allowRepeat: true
+		allowRepeat: true,
 	} as Action;
 
 	if (patterns.match(/^\(.*\)$/) !== null) {
@@ -29,20 +29,20 @@ const parseKeymap = (keymap: Keymap) => Object.entries(keymap).map(([patterns, c
 		patterns = patterns.slice(1, -1);
 	}
 
-	result.patterns = patterns.split('|').map(part => {
+	result.patterns = patterns.split("|").map(part => {
 		const pattern = {
 			which: [],
 			ctrl: false,
 			alt: false,
-			shift: false
+			shift: false,
 		} as Pattern;
 
-		const keys = part.trim().split('+').map(x => x.trim().toLowerCase());
+		const keys = part.trim().split("+").map(x => x.trim().toLowerCase());
 		for (const key of keys) {
 			switch (key) {
-				case 'ctrl': pattern.ctrl = true; break;
-				case 'alt': pattern.alt = true; break;
-				case 'shift': pattern.shift = true; break;
+				case "ctrl": pattern.ctrl = true; break;
+				case "alt": pattern.alt = true; break;
+				case "shift": pattern.shift = true; break;
 				default: pattern.which = keyCode(key).map(k => k.toLowerCase());
 			}
 		}
@@ -53,15 +53,15 @@ const parseKeymap = (keymap: Keymap) => Object.entries(keymap).map(([patterns, c
 	return result;
 });
 
-const ignoreElemens = ['input', 'textarea'];
+const ignoreElemens = ["input", "textarea"];
 
-function match(ev: KeyboardEvent, patterns: Action['patterns']): boolean {
+function match(ev: KeyboardEvent, patterns: Action["patterns"]): boolean {
 	const key = ev.code.toLowerCase();
 	return patterns.some(pattern => pattern.which.includes(key) &&
 		pattern.ctrl === ev.ctrlKey &&
 		pattern.shift === ev.shiftKey &&
 		pattern.alt === ev.altKey &&
-		!ev.metaKey
+		!ev.metaKey,
 	);
 }
 
@@ -71,7 +71,7 @@ export const makeHotkey = (keymap: Keymap) => {
 	return (ev: KeyboardEvent) => {
 		if (document.activeElement) {
 			if (ignoreElemens.some(el => document.activeElement!.matches(el))) return;
-			if (document.activeElement.attributes['contenteditable']) return;
+			if (document.activeElement.attributes["contenteditable"]) return;
 		}
 
 		for (const action of actions) {

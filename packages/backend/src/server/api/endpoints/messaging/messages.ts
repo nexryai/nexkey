@@ -1,69 +1,69 @@
-import define from '../../define.js';
-import { ApiError } from '../../error.js';
-import { getUser } from '../../common/getters.js';
-import { MessagingMessages, UserGroups, UserGroupJoinings, Users } from '@/models/index.js';
-import { makePaginationQuery } from '../../common/make-pagination-query.js';
-import { Brackets } from 'typeorm';
-import { readUserMessagingMessage, readGroupMessagingMessage, deliverReadActivity } from '../../common/read-messaging-message.js';
+import { Brackets } from "typeorm";
+import { MessagingMessages, UserGroups, UserGroupJoinings, Users } from "@/models/index.js";
+import define from "../../define.js";
+import { ApiError } from "../../error.js";
+import { getUser } from "../../common/getters.js";
+import { makePaginationQuery } from "../../common/make-pagination-query.js";
+import { readUserMessagingMessage, readGroupMessagingMessage, deliverReadActivity } from "../../common/read-messaging-message.js";
 
 export const meta = {
-	tags: ['messaging'],
+	tags: ["messaging"],
 
 	requireCredential: true,
 
-	kind: 'read:messaging',
+	kind: "read:messaging",
 
 	res: {
-		type: 'array',
+		type: "array",
 		optional: false, nullable: false,
 		items: {
-			type: 'object',
+			type: "object",
 			optional: false, nullable: false,
-			ref: 'MessagingMessage',
+			ref: "MessagingMessage",
 		},
 	},
 
 	errors: {
 		noSuchUser: {
-			message: 'No such user.',
-			code: 'NO_SUCH_USER',
-			id: '11795c64-40ea-4198-b06e-3c873ed9039d',
+			message: "No such user.",
+			code: "NO_SUCH_USER",
+			id: "11795c64-40ea-4198-b06e-3c873ed9039d",
 		},
 
 		noSuchGroup: {
-			message: 'No such group.',
-			code: 'NO_SUCH_GROUP',
-			id: 'c4d9f88c-9270-4632-b032-6ed8cee36f7f',
+			message: "No such group.",
+			code: "NO_SUCH_GROUP",
+			id: "c4d9f88c-9270-4632-b032-6ed8cee36f7f",
 		},
 
 		groupAccessDenied: {
-			message: 'You can not read messages of groups that you have not joined.',
-			code: 'GROUP_ACCESS_DENIED',
-			id: 'a053a8dd-a491-4718-8f87-50775aad9284',
+			message: "You can not read messages of groups that you have not joined.",
+			code: "GROUP_ACCESS_DENIED",
+			id: "a053a8dd-a491-4718-8f87-50775aad9284",
 		},
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
-		sinceId: { type: 'string', format: 'misskey:id' },
-		untilId: { type: 'string', format: 'misskey:id' },
-		markAsRead: { type: 'boolean', default: true },
+		limit: { type: "integer", minimum: 1, maximum: 100, default: 10 },
+		sinceId: { type: "string", format: "misskey:id" },
+		untilId: { type: "string", format: "misskey:id" },
+		markAsRead: { type: "boolean", default: true },
 	},
 	anyOf: [
 		{
 			properties: {
-				userId: { type: 'string', format: 'misskey:id' },
+				userId: { type: "string", format: "misskey:id" },
 			},
-			required: ['userId'],
+			required: ["userId"],
 		},
 		{
 			properties: {
-				groupId: { type: 'string', format: 'misskey:id' },
+				groupId: { type: "string", format: "misskey:id" },
 			},
-			required: ['groupId'],
+			required: ["groupId"],
 		},
 	],
 } as const;
@@ -73,23 +73,23 @@ export default define(meta, paramDef, async (ps, user) => {
 	if (ps.userId != null) {
 		// Fetch recipient (user)
 		const recipient = await getUser(ps.userId).catch(e => {
-			if (e.id === '15348ddd-432d-49c2-8a5a-8069753becff') throw new ApiError(meta.errors.noSuchUser);
+			if (e.id === "15348ddd-432d-49c2-8a5a-8069753becff") throw new ApiError(meta.errors.noSuchUser);
 			throw e;
 		});
 
-		const query = makePaginationQuery(MessagingMessages.createQueryBuilder('message'), ps.sinceId, ps.untilId)
+		const query = makePaginationQuery(MessagingMessages.createQueryBuilder("message"), ps.sinceId, ps.untilId)
 			.andWhere(new Brackets(qb => { qb
 				.where(new Brackets(qb => { qb
-					.where('message.userId = :meId')
-					.andWhere('message.recipientId = :recipientId');
+					.where("message.userId = :meId")
+					.andWhere("message.recipientId = :recipientId");
 				}))
 				.orWhere(new Brackets(qb => { qb
-					.where('message.userId = :recipientId')
-					.andWhere('message.recipientId = :meId');
+					.where("message.userId = :recipientId")
+					.andWhere("message.recipientId = :meId");
 				}));
 			}))
-			.setParameter('meId', user.id)
-			.setParameter('recipientId', recipient.id);
+			.setParameter("meId", user.id)
+			.setParameter("recipientId", recipient.id);
 
 		const messages = await query.take(ps.limit).getMany();
 
@@ -124,8 +124,8 @@ export default define(meta, paramDef, async (ps, user) => {
 			throw new ApiError(meta.errors.groupAccessDenied);
 		}
 
-		const query = makePaginationQuery(MessagingMessages.createQueryBuilder('message'), ps.sinceId, ps.untilId)
-			.andWhere(`message.groupId = :groupId`, { groupId: recipientGroup.id });
+		const query = makePaginationQuery(MessagingMessages.createQueryBuilder("message"), ps.sinceId, ps.untilId)
+			.andWhere("message.groupId = :groupId", { groupId: recipientGroup.id });
 
 		const messages = await query.take(ps.limit).getMany();
 

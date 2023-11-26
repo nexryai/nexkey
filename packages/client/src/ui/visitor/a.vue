@@ -37,15 +37,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, defineAsyncComponent } from 'vue';
-import XHeader from './header.vue';
-import { host, instanceName } from '@/config';
-import { search } from '@/scripts/search';
-import * as os from '@/os';
-import MkPagination from '@/components/MkPagination.vue';
-import MkButton from '@/components/MkButton.vue';
-import { ColdDeviceStorage } from '@/store';
-import { mainRouter } from '@/router';
+import { defineComponent, defineAsyncComponent } from "vue";
+import XHeader from "./header.vue";
+import { host, instanceName } from "@/config";
+import { search } from "@/scripts/search";
+import * as os from "@/os";
+import MkPagination from "@/components/MkPagination.vue";
+import MkButton from "@/components/MkButton.vue";
+import { ColdDeviceStorage } from "@/store";
+import { mainRouter } from "@/router";
 
 const DESKTOP_THRESHOLD = 1100;
 
@@ -64,7 +64,7 @@ export default defineComponent({
 			meta: null,
 			narrow: window.innerWidth < 1280,
 			announcements: {
-				endpoint: 'announcements',
+				endpoint: "announcements",
 				limit: 10,
 			},
 			mainRouter,
@@ -75,27 +75,27 @@ export default defineComponent({
 	computed: {
 		keymap(): any {
 			return {
-				'd': () => {
-					if (ColdDeviceStorage.get('syncDeviceDarkMode')) return;
-					this.$store.set('darkMode', !this.$store.state.darkMode);
+				"d": () => {
+					if (ColdDeviceStorage.get("syncDeviceDarkMode")) return;
+					this.$store.set("darkMode", !this.$store.state.darkMode);
 				},
-				's': search,
-				'h|/': this.help,
+				"s": search,
+				"h|/": this.help,
 			};
 		},
 	},
 
 	created() {
-		document.documentElement.style.overflowY = 'scroll';
+		document.documentElement.style.overflowY = "scroll";
 
-		os.api('meta', { detail: true }).then(meta => {
+		os.api("meta", { detail: true }).then(meta => {
 			this.meta = meta;
 		});
 	},
 
 	mounted() {
 		if (!this.isDesktop) {
-			window.addEventListener('resize', () => {
+			window.addEventListener("resize", () => {
 				if (window.innerWidth >= DESKTOP_THRESHOLD) this.isDesktop = true;
 			}, { passive: true });
 		}
@@ -119,11 +119,11 @@ export default defineComponent({
 		},
 
 		top() {
-			window.scroll({ top: 0, behavior: 'smooth' });
+			window.scroll({ top: 0, behavior: "smooth" });
 		},
 
 		help() {
-			window.open('https://misskey-hub.net/docs/keyboard-shortcut.md', '_blank');
+			window.open("https://misskey-hub.net/docs/keyboard-shortcut.md", "_blank");
 		},
 	},
 });

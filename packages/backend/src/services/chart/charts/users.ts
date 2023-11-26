@@ -1,8 +1,8 @@
-import Chart, { KVs } from '../core.js';
-import { Users } from '@/models/index.js';
-import { Not, IsNull } from 'typeorm';
-import { User } from '@/models/entities/user.js';
-import { name, schema } from './entities/users.js';
+import { Not, IsNull } from "typeorm";
+import { Users } from "@/models/index.js";
+import { User } from "@/models/entities/user.js";
+import Chart, { KVs } from "../core.js";
+import { name, schema } from "./entities/users.js";
 
 /**
  * ユーザー数に関するチャート
@@ -20,8 +20,8 @@ export default class UsersChart extends Chart<typeof schema> {
 		]);
 
 		return {
-			'local.total': localCount,
-			'remote.total': remoteCount,
+			"local.total": localCount,
+			"remote.total": remoteCount,
 		};
 	}
 
@@ -29,8 +29,8 @@ export default class UsersChart extends Chart<typeof schema> {
 		return {};
 	}
 
-	public async update(user: { id: User['id'], host: User['host'] }, isAdditional: boolean): Promise<void> {
-		const prefix = Users.isLocalUser(user) ? 'local' : 'remote';
+	public async update(user: { id: User["id"], host: User["host"] }, isAdditional: boolean): Promise<void> {
+		const prefix = Users.isLocalUser(user) ? "local" : "remote";
 
 		await this.commit({
 			[`${prefix}.total`]: isAdditional ? 1 : -1,

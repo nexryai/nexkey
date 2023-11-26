@@ -1,10 +1,10 @@
-import * as nodemailer from 'nodemailer';
-import { fetchMeta } from '@/misc/fetch-meta.js';
-import Logger from './logger.js';
-import config from '@/config/index.js';
-import extractDomain from 'extract-domain';
+import * as nodemailer from "nodemailer";
+import extractDomain from "extract-domain";
+import { fetchMeta } from "@/misc/fetch-meta.js";
+import config from "@/config/index.js";
+import Logger from "./logger.js";
 
-export const logger = new Logger('email');
+export const logger = new Logger("email");
 
 export async function sendEmail(to: string, subject: string, html: string, text: string) {
 	const meta = await fetchMeta(true);
@@ -12,7 +12,7 @@ export async function sendEmail(to: string, subject: string, html: string, text:
 	const iconUrl = `${config.url}/static-assets/mi-white.png`;
 	const emailSettingUrl = `${config.url}/settings/email`;
 
-	const enableAuth = meta.smtpUser != null && meta.smtpUser !== '';
+	const enableAuth = meta.smtpUser != null && meta.smtpUser !== "";
 
 	// メールドメインブロックしてたら中断
 	const domain = extractDomain(to).toLowerCase();
@@ -113,7 +113,7 @@ export async function sendEmail(to: string, subject: string, html: string, text:
 				<div>${ html }</div>
 			</article>
 			<footer>
-				<a href="${ emailSettingUrl }">${ 'Email setting' }</a>
+				<a href="${ emailSettingUrl }">${ "Email setting" }</a>
 			</footer>
 		</main>
 		<nav>

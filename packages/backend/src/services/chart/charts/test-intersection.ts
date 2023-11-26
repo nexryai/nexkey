@@ -1,5 +1,5 @@
-import Chart, { KVs } from '../core.js';
-import { name, schema } from './entities/test-intersection.js';
+import Chart, { KVs } from "../core.js";
+import { name, schema } from "./entities/test-intersection.js";
 
 /**
  * For testing

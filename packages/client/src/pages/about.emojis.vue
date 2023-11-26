@@ -29,15 +29,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
-import XEmoji from './emojis.emoji.vue';
-import MkButton from '@/components/MkButton.vue';
-import MkInput from '@/components/form/input.vue';
-import MkSelect from '@/components/form/select.vue';
-import MkFolder from '@/components/MkFolder.vue';
-import MkTab from '@/components/MkTab.vue';
-import * as os from '@/os';
-import { emojiCategories, emojiTags } from '@/instance';
+import { defineComponent, computed } from "vue";
+import XEmoji from "./emojis.emoji.vue";
+import MkButton from "@/components/MkButton.vue";
+import MkInput from "@/components/form/input.vue";
+import MkSelect from "@/components/form/select.vue";
+import MkFolder from "@/components/MkFolder.vue";
+import MkTab from "@/components/MkTab.vue";
+import * as os from "@/os";
+import { emojiCategories, emojiTags } from "@/instance";
 
 export default defineComponent({
 	components: {
@@ -51,7 +51,7 @@ export default defineComponent({
 
 	data() {
 		return {
-			q: '',
+			q: "",
 			customEmojiCategories: emojiCategories,
 			customEmojis: this.$instance.emojis,
 			tags: emojiTags,
@@ -72,7 +72,7 @@ export default defineComponent({
 
 	methods: {
 		search() {
-			if ((this.q === '' || this.q == null) && this.selectedTags.size === 0) {
+			if ((this.q === "" || this.q == null) && this.selectedTags.size === 0) {
 				this.searchEmojis = null;
 				return;
 			}

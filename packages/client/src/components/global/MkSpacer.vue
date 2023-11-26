@@ -7,8 +7,8 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, onMounted, onUnmounted, ref } from 'vue';
-import { deviceKind } from '@/scripts/device-kind';
+import { inject, onMounted, onUnmounted, ref } from "vue";
+import { deviceKind } from "@/scripts/device-kind";
 
 const props = withDefaults(defineProps<{
 	contentMax?: number | null;
@@ -24,10 +24,10 @@ let ro: ResizeObserver;
 let root = $ref<HTMLElement>();
 let content = $ref<HTMLElement>();
 let margin = $ref(0);
-const shouldSpacerMin = inject('shouldSpacerMin', false);
+const shouldSpacerMin = inject("shouldSpacerMin", false);
 
 const adjust = (rect: { width: number; height: number; }) => {
-	if (shouldSpacerMin || deviceKind === 'smartphone') {
+	if (shouldSpacerMin || deviceKind === "smartphone") {
 		margin = props.marginMin;
 		return;
 	}

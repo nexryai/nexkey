@@ -9,8 +9,8 @@
 </template>
 
 <script lang="ts" setup>
-import { watch, ref } from 'vue';
-import MkModal from '@/components/MkModal.vue';
+import { watch, ref } from "vue";
+import MkModal from "@/components/MkModal.vue";
 
 const modal = ref<InstanceType<typeof MkModal>>();
 
@@ -21,12 +21,12 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-	(ev: 'done');
-	(ev: 'closed');
+	(ev: "done");
+	(ev: "closed");
 }>();
 
 function done() {
-	emit('done');
+	emit("done");
 	modal.value.close();
 }
 

@@ -25,32 +25,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 export default defineComponent({
 	props: {
 		expanded: {
 			type: Boolean,
-			default: true
+			default: true,
 		},
 		removable: {
 			type: Boolean,
-			default: true
+			default: true,
 		},
 		draggable: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		error: {
 			required: false,
-			default: null
+			default: null,
 		},
 		warn: {
 			required: false,
-			default: null
-		}
+			default: null,
+		},
 	},
-	emits: ['toggle', 'remove'],
+	emits: ["toggle", "remove"],
 	data() {
 		return {
 			showBody: this.expanded,
@@ -59,12 +59,12 @@ export default defineComponent({
 	methods: {
 		toggleContent(show: boolean) {
 			this.showBody = show;
-			this.$emit('toggle', show);
+			this.$emit("toggle", show);
 		},
 		remove() {
-			this.$emit('remove');
-		}
-	}
+			this.$emit("remove");
+		},
+	},
 });
 </script>
 

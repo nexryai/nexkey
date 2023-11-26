@@ -4,23 +4,27 @@
 		:points="pointsNote"
 		fill="none"
 		stroke-width="1"
-		stroke="#41ddde"/>
+		stroke="#41ddde"
+	/>
 	<polyline
 		:points="pointsReply"
 		fill="none"
 		stroke-width="1"
-		stroke="#f7796c"/>
+		stroke="#f7796c"
+	/>
 	<polyline
 		:points="pointsRenote"
 		fill="none"
 		stroke-width="1"
-		stroke="#a1de41"/>
+		stroke="#a1de41"
+	/>
 	<polyline
 		:points="pointsTotal"
 		fill="none"
 		stroke-width="1"
 		stroke="#555"
-		stroke-dasharray="2 2"/>
+		stroke-dasharray="2 2"
+	/>
 </svg>
 </template>
 
@@ -39,15 +43,15 @@ let pointsRenote: any = $ref(null);
 let pointsTotal: any = $ref(null);
 
 function dragListen(fn) {
-	window.addEventListener('mousemove', fn);
-	window.addEventListener('mouseleave', dragClear.bind(null, fn));
-	window.addEventListener('mouseup', dragClear.bind(null, fn));
+	window.addEventListener("mousemove", fn);
+	window.addEventListener("mouseleave", dragClear.bind(null, fn));
+	window.addEventListener("mouseup", dragClear.bind(null, fn));
 }
 
 function dragClear(fn) {
-	window.removeEventListener('mousemove', fn);
-	window.removeEventListener('mouseleave', dragClear);
-	window.removeEventListener('mouseup', dragClear);
+	window.removeEventListener("mousemove", fn);
+	window.removeEventListener("mouseleave", dragClear);
+	window.removeEventListener("mouseup", dragClear);
 }
 
 function onMousedown(ev) {
@@ -73,10 +77,10 @@ function render() {
 	const peak = Math.max(...props.activity.map(d => d.total));
 	if (peak !== 0) {
 		const activity = props.activity.slice().reverse();
-		pointsNote = activity.map((d, i) => `${(i * zoom) + pos},${(1 - (d.notes / peak)) * viewBoxY}`).join(' ');
-		pointsReply = activity.map((d, i) => `${(i * zoom) + pos},${(1 - (d.replies / peak)) * viewBoxY}`).join(' ');
-		pointsRenote = activity.map((d, i) => `${(i * zoom) + pos},${(1 - (d.renotes / peak)) * viewBoxY}`).join(' ');
-		pointsTotal = activity.map((d, i) => `${(i * zoom) + pos},${(1 - (d.total / peak)) * viewBoxY}`).join(' ');
+		pointsNote = activity.map((d, i) => `${(i * zoom) + pos},${(1 - (d.notes / peak)) * viewBoxY}`).join(" ");
+		pointsReply = activity.map((d, i) => `${(i * zoom) + pos},${(1 - (d.replies / peak)) * viewBoxY}`).join(" ");
+		pointsRenote = activity.map((d, i) => `${(i * zoom) + pos},${(1 - (d.renotes / peak)) * viewBoxY}`).join(" ");
+		pointsTotal = activity.map((d, i) => `${(i * zoom) + pos},${(1 - (d.total / peak)) * viewBoxY}`).join(" ");
 	}
 }
 </script>

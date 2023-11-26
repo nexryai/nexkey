@@ -1,7 +1,7 @@
 <template>
 <MkStickyContainer>
 	<template #header><MkPageHeader :actions="headerActions"/></template>
-		<MkSpacer :content-max="800">
+	<MkSpacer :content-max="800">
 		<div v-if="clip">
 			<div class="okzinsic _panel">
 				<div v-if="clip.description" class="description">
@@ -19,13 +19,13 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, watch, provide } from 'vue';
-import * as misskey from 'misskey-js';
-import XNotes from '@/components/MkNotes.vue';
-import { $i } from '@/account';
-import { i18n } from '@/i18n';
-import * as os from '@/os';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { computed, watch, provide } from "vue";
+import * as misskey from "misskey-js";
+import XNotes from "@/components/MkNotes.vue";
+import { $i } from "@/account";
+import { i18n } from "@/i18n";
+import * as os from "@/os";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 const props = defineProps<{
 	clipId: string,
@@ -33,7 +33,7 @@ const props = defineProps<{
 
 let clip: misskey.entities.Clip = $ref<misskey.entities.Clip>();
 const pagination = {
-	endpoint: 'clips/notes' as const,
+	endpoint: "clips/notes" as const,
 	limit: 10,
 	params: computed(() => ({
 		clipId: props.clipId,
@@ -43,57 +43,57 @@ const pagination = {
 const isOwned: boolean | null = $computed<boolean | null>(() => $i && clip && ($i.id === clip.userId));
 
 watch(() => props.clipId, async () => {
-	clip = await os.api('clips/show', {
+	clip = await os.api("clips/show", {
 		clipId: props.clipId,
 	});
 }, {
 	immediate: true,
 }); 
 
-provide('currentClipPage', $$(clip));
+provide("currentClipPage", $$(clip));
 
 const headerActions = $computed(() => clip && isOwned ? [{
-	icon: 'ti ti-pencil',
+	icon: "ti ti-pencil",
 	text: i18n.ts.edit,
 	handler: async (): Promise<void> => {
 		const { canceled, result } = await os.form(clip.name, {
 			name: {
-				type: 'string',
+				type: "string",
 				label: i18n.ts.name,
 				default: clip.name,
 			},
 			description: {
-				type: 'string',
+				type: "string",
 				required: false,
 				multiline: true,
 				label: i18n.ts.description,
 				default: clip.description,
 			},
 			isPublic: {
-				type: 'boolean',
+				type: "boolean",
 				label: i18n.ts.public,
 				default: clip.isPublic,
 			},
 		});
 		if (canceled) return;
 
-		os.apiWithDialog('clips/update', {
+		os.apiWithDialog("clips/update", {
 			clipId: clip.id,
 			...result,
 		});
 	},
 }, {
-	icon: 'ti ti-trash',
+	icon: "ti ti-trash",
 	text: i18n.ts.delete,
 	danger: true,
 	handler: async (): Promise<void> => {
 		const { canceled } = await os.confirm({
-			type: 'warning',
-			text: i18n.t('deleteAreYouSure', { x: clip.name }),
+			type: "warning",
+			text: i18n.t("deleteAreYouSure", { x: clip.name }),
 		});
 		if (canceled) return;
 
-		await os.apiWithDialog('clips/delete', {
+		await os.apiWithDialog("clips/delete", {
 			clipId: clip.id,
 		});
 	},
@@ -101,7 +101,7 @@ const headerActions = $computed(() => clip && isOwned ? [{
 
 definePageMetadata(computed(() => clip ? {
 	title: clip.name,
-	icon: 'ti ti-paperclip',
+	icon: "ti ti-paperclip",
 } : null));
 </script>
 

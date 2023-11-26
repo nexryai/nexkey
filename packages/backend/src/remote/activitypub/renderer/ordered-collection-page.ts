@@ -11,7 +11,7 @@ export default function(id: string, totalItems: any, orderedItems: any, partOf: 
 	const page = {
 		id,
 		partOf,
-		type: 'OrderedCollectionPage',
+		type: "OrderedCollectionPage",
 		totalItems,
 		orderedItems,
 	} as any;

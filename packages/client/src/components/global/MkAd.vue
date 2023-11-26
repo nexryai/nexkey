@@ -19,14 +19,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import { instance } from '@/instance';
-import { host } from '@/config';
-import MkButton from '@/components/MkButton.vue';
-import { defaultStore } from '@/store';
-import * as os from '@/os';
+import { ref } from "vue";
+import { instance } from "@/instance";
+import { host } from "@/config";
+import MkButton from "@/components/MkButton.vue";
+import { defaultStore } from "@/store";
+import * as os from "@/os";
 
-type Ad = (typeof instance)['ads'][number];
+type Ad = (typeof instance)["ads"][number];
 
 const props = defineProps<{
 	prefer: string[];
@@ -51,7 +51,7 @@ const choseAd = (): Ad | null => {
 	let ads = allAds.filter(ad => props.prefer.includes(ad.place));
 
 	if (ads.length === 0) {
-		ads = allAds.filter(ad => ad.place === 'square');
+		ads = allAds.filter(ad => ad.place === "square");
 	}
 
 	const lowPriorityAds = ads.filter(ad => ad.ratio === 0);
@@ -85,7 +85,7 @@ const chosen = ref(choseAd());
 function reduceFrequency(): void {
 	if (chosen.value == null) return;
 	if (defaultStore.state.mutedAds.includes(chosen.value.id)) return;
-	defaultStore.push('mutedAds', chosen.value.id);
+	defaultStore.push("mutedAds", chosen.value.id);
 	os.success();
 	chosen.value = choseAd();
 	showMenu.value = false;

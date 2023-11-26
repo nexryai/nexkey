@@ -7,11 +7,11 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onBeforeUnmount } from 'vue';
-import MkMenu from './MkMenu.vue';
-import { MenuItem } from './types/menu.vue';
-import contains from '@/scripts/contains';
-import * as os from '@/os';
+import { onMounted, onBeforeUnmount } from "vue";
+import MkMenu from "./MkMenu.vue";
+import { MenuItem } from "./types/menu.vue";
+import contains from "@/scripts/contains";
+import * as os from "@/os";
 
 const props = defineProps<{
 	items: MenuItem[];
@@ -19,12 +19,12 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-	(ev: 'closed'): void;
+	(ev: "closed"): void;
 }>();
 
 let rootEl = $ref<HTMLDivElement>();
 
-let zIndex = $ref<number>(os.claimZIndex('high'));
+let zIndex = $ref<number>(os.claimZIndex("high"));
 
 onMounted(() => {
 	let left = props.ev.pageX + 1; // 間違って右ダブルクリックした場合に意図せずアイテムがクリックされるのを防ぐため + 1
@@ -52,19 +52,19 @@ onMounted(() => {
 	rootEl.style.top = `${top}px`;
 	rootEl.style.left = `${left}px`;
 
-	for (const el of Array.from(document.querySelectorAll('body *'))) {
-		el.addEventListener('mousedown', onMousedown);
+	for (const el of Array.from(document.querySelectorAll("body *"))) {
+		el.addEventListener("mousedown", onMousedown);
 	}
 });
 
 onBeforeUnmount(() => {
-	for (const el of Array.from(document.querySelectorAll('body *'))) {
-		el.removeEventListener('mousedown', onMousedown);
+	for (const el of Array.from(document.querySelectorAll("body *"))) {
+		el.removeEventListener("mousedown", onMousedown);
 	}
 });
 
 function onMousedown(evt: Event) {
-	if (!contains(rootEl, evt.target) && (rootEl !== evt.target)) emit('closed');
+	if (!contains(rootEl, evt.target) && (rootEl !== evt.target)) emit("closed");
 }
 </script>
 

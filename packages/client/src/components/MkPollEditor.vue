@@ -48,14 +48,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
-import MkInput from './form/input.vue';
-import MkSelect from './form/select.vue';
-import MkSwitch from './form/switch.vue';
-import MkButton from './MkButton.vue';
-import { formatDateTimeString } from '@/scripts/format-time-string';
-import { addTime } from '@/scripts/time';
-import { i18n } from '@/i18n';
+import { ref, watch } from "vue";
+import MkInput from "./form/input.vue";
+import MkSelect from "./form/select.vue";
+import MkSwitch from "./form/switch.vue";
+import MkButton from "./MkButton.vue";
+import { formatDateTimeString } from "@/scripts/format-time-string";
+import { addTime } from "@/scripts/time";
+import { i18n } from "@/i18n";
 
 const props = defineProps<{
 	modelValue: {
@@ -66,7 +66,7 @@ const props = defineProps<{
 	};
 }>();
 const emit = defineEmits<{
-	(ev: 'update:modelValue', v: {
+	(ev: "update:modelValue", v: {
 		expiresAt: string;
 		expiredAfter: number;
 		choices: string[];
@@ -76,20 +76,20 @@ const emit = defineEmits<{
 
 const choices = ref(props.modelValue.choices);
 const multiple = ref(props.modelValue.multiple);
-const expiration = ref('infinite');
-const atDate = ref(formatDateTimeString(addTime(new Date(), 1, 'day'), 'yyyy-MM-dd'));
-const atTime = ref('00:00');
+const expiration = ref("infinite");
+const atDate = ref(formatDateTimeString(addTime(new Date(), 1, "day"), "yyyy-MM-dd"));
+const atTime = ref("00:00");
 const after = ref(0);
-const unit = ref('second');
+const unit = ref("second");
 
 if (props.modelValue.expiresAt) {
-	expiration.value = 'at';
+	expiration.value = "at";
 	atDate.value = atTime.value = props.modelValue.expiresAt;
-} else if (typeof props.modelValue.expiredAfter === 'number') {
-	expiration.value = 'after';
+} else if (typeof props.modelValue.expiredAfter === "number") {
+	expiration.value = "after";
 	after.value = props.modelValue.expiredAfter / 1000;
 } else {
-	expiration.value = 'infinite';
+	expiration.value = "infinite";
 }
 
 function onInput(i, value) {
@@ -97,7 +97,7 @@ function onInput(i, value) {
 }
 
 function add() {
-	choices.value.push('');
+	choices.value.push("");
 	// TODO
 	// nextTick(() => {
 	//   (this.$refs.choices as any).childNodes[this.choices.length - 1].childNodes[0].focus();
@@ -116,13 +116,13 @@ function get() {
 	const calcAfter = () => {
 		let base = parseInt(after.value);
 		switch (unit.value) {
-			case 'day': base *= 24;
+			case "day": base *= 24;
 				// fallthrough
-			case 'hour': base *= 60;
+			case "hour": base *= 60;
 				// fallthrough
-			case 'minute': base *= 60;
+			case "minute": base *= 60;
 				// fallthrough
-			case 'second': return base *= 1000;
+			case "second": return base *= 1000;
 			default: return null;
 		}
 	};
@@ -131,13 +131,13 @@ function get() {
 		choices: choices.value,
 		multiple: multiple.value,
 		...(
-			expiration.value === 'at' ? { expiresAt: calcAt() } :
-			expiration.value === 'after' ? { expiredAfter: calcAfter() } : {}
+			expiration.value === "at" ? { expiresAt: calcAt() } :
+			expiration.value === "after" ? { expiredAfter: calcAfter() } : {}
 		),
 	};
 }
 
-watch([choices, multiple, expiration, atDate, atTime, after, unit], () => emit('update:modelValue', get()), {
+watch([choices, multiple, expiration, atDate, atTime, after, unit], () => emit("update:modelValue", get()), {
 	deep: true,
 });
 </script>

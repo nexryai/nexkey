@@ -41,13 +41,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, defineAsyncComponent } from 'vue';
-import { host, instanceName } from '@/config';
-import * as os from '@/os';
-import MkPagination from '@/components/MkPagination.vue';
-import XSigninDialog from '@/components/MkSigninDialog.vue';
-import XSignupDialog from '@/components/MkSignupDialog.vue';
-import MkButton from '@/components/MkButton.vue';
+import { defineComponent, defineAsyncComponent } from "vue";
+import { host, instanceName } from "@/config";
+import * as os from "@/os";
+import MkPagination from "@/components/MkPagination.vue";
+import XSigninDialog from "@/components/MkSigninDialog.vue";
+import XSignupDialog from "@/components/MkSignupDialog.vue";
+import MkButton from "@/components/MkButton.vue";
 
 export default defineComponent({
 	components: {
@@ -81,14 +81,14 @@ export default defineComponent({
 			meta: null,
 			narrow: window.innerWidth < 1280,
 			announcements: {
-				endpoint: 'announcements',
+				endpoint: "announcements",
 				limit: 10,
 			},
 		};
 	},
 
 	created() {
-		os.api('meta', { detail: true }).then(meta => {
+		os.api("meta", { detail: true }).then(meta => {
 			this.meta = meta;
 		});
 	},
@@ -97,13 +97,13 @@ export default defineComponent({
 		signin() {
 			os.popup(XSigninDialog, {
 				autoSet: true,
-			}, {}, 'closed');
+			}, {}, "closed");
 		},
 
 		signup() {
 			os.popup(XSignupDialog, {
 				autoSet: true,
-			}, {}, 'closed');
+			}, {}, "closed");
 		},
 	},
 });

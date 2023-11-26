@@ -1,8 +1,8 @@
-import Resolver from '../../resolver.js';
-import { CacheableRemoteUser } from '@/models/entities/user.js';
-import acceptFollow from './follow.js';
-import { IAccept, isFollow, getApType } from '../../type.js';
-import { apLogger } from '../../logger.js';
+import { CacheableRemoteUser } from "@/models/entities/user.js";
+import Resolver from "../../resolver.js";
+import { IAccept, isFollow, getApType } from "../../type.js";
+import { apLogger } from "../../logger.js";
+import acceptFollow from "./follow.js";
 
 const logger = apLogger;
 

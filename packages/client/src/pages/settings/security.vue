@@ -1,6 +1,6 @@
 <template>
 <div v-if="streamModeEnabled">
-  <MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
+	<MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
 </div>
 <div v-if="!streamModeEnabled" class="_formRoot">
 	<FormSection>
@@ -41,53 +41,53 @@
 </template>
 
 <script lang="ts" setup>
-import X2fa from './2fa.vue';
-import FormSection from '@/components/form/section.vue';
-import FormSlot from '@/components/form/slot.vue';
-import FormButton from '@/components/MkButton.vue';
-import MkPagination from '@/components/MkPagination.vue';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { ref } from "vue";
+import X2fa from "./2fa.vue";
+import FormSection from "@/components/form/section.vue";
+import FormSlot from "@/components/form/slot.vue";
+import FormButton from "@/components/MkButton.vue";
+import MkPagination from "@/components/MkPagination.vue";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 import MkInfo from "@/components/MkInfo.vue";
-import {ref} from "vue";
-import {defaultStore} from "@/store";
+import { defaultStore } from "@/store";
 
 const streamModeEnabled = ref(defaultStore.state.streamModeEnabled);
 
 const pagination = {
-	endpoint: 'i/signin-history' as const,
+	endpoint: "i/signin-history" as const,
 	limit: 5,
 };
 
 async function change() {
 	const { canceled: canceled1, result: currentPassword } = await os.inputText({
 		title: i18n.ts.currentPassword,
-		type: 'password',
+		type: "password",
 	});
 	if (canceled1) return;
 
 	const { canceled: canceled2, result: newPassword } = await os.inputText({
 		title: i18n.ts.newPassword,
-		type: 'password',
+		type: "password",
 	});
 	if (canceled2) return;
 
 	const { canceled: canceled3, result: newPassword2 } = await os.inputText({
 		title: i18n.ts.newPasswordRetype,
-		type: 'password',
+		type: "password",
 	});
 	if (canceled3) return;
 
 	if (newPassword !== newPassword2) {
 		os.alert({
-			type: 'error',
+			type: "error",
 			text: i18n.ts.retypedNotMatch,
 		});
 		return;
 	}
 	
-	os.apiWithDialog('i/change-password', {
+	os.apiWithDialog("i/change-password", {
 		currentPassword,
 		newPassword,
 	});
@@ -96,10 +96,10 @@ async function change() {
 function regenerateToken() {
 	os.inputText({
 		title: i18n.ts.password,
-		type: 'password',
+		type: "password",
 	}).then(({ canceled, result: password }) => {
 		if (canceled) return;
-		os.api('i/regenerate_token', {
+		os.api("i/regenerate_token", {
 			password: password,
 		});
 	});
@@ -111,7 +111,7 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.security,
-	icon: 'ti ti-lock',
+	icon: "ti ti-lock",
 });
 </script>
 

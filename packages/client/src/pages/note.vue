@@ -41,16 +41,16 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineComponent, watch } from 'vue';
-import * as misskey from 'misskey-js';
-import XNote from '@/components/MkNote.vue';
-import XNoteDetailed from '@/components/MkNoteDetailed.vue';
-import XNotes from '@/components/MkNotes.vue';
-import MkRemoteCaution from '@/components/MkRemoteCaution.vue';
-import MkButton from '@/components/MkButton.vue';
-import * as os from '@/os';
-import { definePageMetadata } from '@/scripts/page-metadata';
-import { i18n } from '@/i18n';
+import { computed, defineComponent, watch } from "vue";
+import * as misskey from "misskey-js";
+import XNote from "@/components/MkNote.vue";
+import XNoteDetailed from "@/components/MkNoteDetailed.vue";
+import XNotes from "@/components/MkNotes.vue";
+import MkRemoteCaution from "@/components/MkRemoteCaution.vue";
+import MkButton from "@/components/MkButton.vue";
+import * as os from "@/os";
+import { definePageMetadata } from "@/scripts/page-metadata";
+import { i18n } from "@/i18n";
 
 const props = defineProps<{
 	noteId: string;
@@ -65,7 +65,7 @@ let showNext = $ref(false);
 let error = $ref();
 
 const prevPagination = {
-	endpoint: 'users/notes' as const,
+	endpoint: "users/notes" as const,
 	limit: 10,
 	params: computed(() => note ? ({
 		userId: note.userId,
@@ -75,7 +75,7 @@ const prevPagination = {
 
 const nextPagination = {
 	reversed: true,
-	endpoint: 'users/notes' as const,
+	endpoint: "users/notes" as const,
 	limit: 10,
 	params: computed(() => note ? ({
 		userId: note.userId,
@@ -89,20 +89,20 @@ function fetchNote() {
 	showPrev = false;
 	showNext = false;
 	note = null;
-	os.api('notes/show', {
+	os.api("notes/show", {
 		noteId: props.noteId,
 	}).then(res => {
 		note = res;
 		Promise.all([
-			os.api('notes/clips', {
+			os.api("notes/clips", {
 				noteId: note.id,
 			}),
-			os.api('users/notes', {
+			os.api("users/notes", {
 				userId: note.userId,
 				untilId: note.id,
 				limit: 1,
 			}),
-			os.api('users/notes', {
+			os.api("users/notes", {
 				userId: note.userId,
 				sinceId: note.id,
 				limit: 1,
@@ -131,7 +131,7 @@ definePageMetadata(computed(() => note ? {
 	avatar: note.user,
 	path: `/notes/${note.id}`,
 	share: {
-		title: i18n.t('noteOf', { user: note.user.name }),
+		title: i18n.t("noteOf", { user: note.user.name }),
 		text: note.text,
 	},
 } : null));

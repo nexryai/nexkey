@@ -1,30 +1,30 @@
-import Koa from 'koa';
+import Koa from "koa";
 
-import { User } from '@/models/entities/user.js';
-import { UserIps } from '@/models/index.js';
-import { fetchMeta } from '@/misc/fetch-meta.js';
-import { IEndpoint } from './endpoints.js';
-import authenticate, { AuthenticationError } from './authenticate.js';
-import call from './call.js';
-import { ApiError } from './error.js';
+import { User } from "@/models/entities/user.js";
+import { UserIps } from "@/models/index.js";
+import { fetchMeta } from "@/misc/fetch-meta.js";
+import { IEndpoint } from "./endpoints.js";
+import authenticate, { AuthenticationError } from "./authenticate.js";
+import call from "./call.js";
+import { ApiError } from "./error.js";
 
-const userIpHistories = new Map<User['id'], Set<string>>();
+const userIpHistories = new Map<User["id"], Set<string>>();
 
 setInterval(() => {
 	userIpHistories.clear();
 }, 1000 * 60 * 60);
 
 export default (endpoint: IEndpoint, ctx: Koa.Context) => new Promise<void>((res) => {
-	const body = ctx.is('multipart/form-data')
+	const body = ctx.is("multipart/form-data")
 		? (ctx.request as any).body
-		: ctx.method === 'GET'
+		: ctx.method === "GET"
 			? ctx.query
 			: ctx.request.body;
 
 	const reply = (x?: any, y?: ApiError) => {
 		if (x == null) {
 			ctx.status = 204;
-		} else if (typeof x === 'number' && y) {
+		} else if (typeof x === "number" && y) {
 			ctx.status = x;
 			ctx.body = {
 				error: {
@@ -37,21 +37,21 @@ export default (endpoint: IEndpoint, ctx: Koa.Context) => new Promise<void>((res
 			};
 		} else {
 			// 文字列を返す場合は、JSON.stringify通さないとJSONと認識されない
-			ctx.body = typeof x === 'string' ? JSON.stringify(x) : x;
+			ctx.body = typeof x === "string" ? JSON.stringify(x) : x;
 		}
 		res();
 	};
 
 	// Authentication
-	authenticate(body['i']).then(([user, app]) => {
+	authenticate(body["i"]).then(([user, app]) => {
 		// API invoking
 		call(endpoint.name, user, app, body, ctx).then((res: any) => {
-			if (ctx.method === 'GET' && endpoint.meta.cacheSec && !body['i'] && !user) {
-				ctx.set('Cache-Control', `public, max-age=${endpoint.meta.cacheSec}`);
+			if (ctx.method === "GET" && endpoint.meta.cacheSec && !body["i"] && !user) {
+				ctx.set("Cache-Control", `public, max-age=${endpoint.meta.cacheSec}`);
 			}
 			reply(res);
 		}).catch((e: ApiError) => {
-			reply(e.httpStatusCode ? e.httpStatusCode : e.kind === 'client' ? 400 : 500, e);
+			reply(e.httpStatusCode ? e.httpStatusCode : e.kind === "client" ? 400 : 500, e);
 		});
 
 		// Log IP
@@ -81,9 +81,9 @@ export default (endpoint: IEndpoint, ctx: Koa.Context) => new Promise<void>((res
 	}).catch(e => {
 		if (e instanceof AuthenticationError) {
 			reply(403, new ApiError({
-				message: 'Authentication failed. Please ensure your token is correct.',
-				code: 'AUTHENTICATION_FAILED',
-				id: 'b0a7f5f8-dc2f-4171-b91f-de88ad238e14',
+				message: "Authentication failed. Please ensure your token is correct.",
+				code: "AUTHENTICATION_FAILED",
+				id: "b0a7f5f8-dc2f-4171-b91f-de88ad238e14",
 			}));
 		} else {
 			reply(500, new ApiError());

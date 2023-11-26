@@ -1,21 +1,21 @@
-import define from '../../define.js';
-import { validateEmailForAccount } from '@/services/validate-email-for-account.js';
+import { validateEmailForAccount } from "@/services/validate-email-for-account.js";
+import define from "../../define.js";
 
 export const meta = {
-	tags: ['users'],
+	tags: ["users"],
 
 	requireCredential: false,
 
 	res: {
-		type: 'object',
+		type: "object",
 		optional: false, nullable: false,
 		properties: {
 			available: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 			reason: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: true,
 			},
 		},
@@ -23,11 +23,11 @@ export const meta = {
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		emailAddress: { type: 'string' },
+		emailAddress: { type: "string" },
 	},
-	required: ['emailAddress'],
+	required: ["emailAddress"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export

@@ -1,12 +1,12 @@
-import { uploadFromUrl } from '@/services/drive/upload-from-url.js';
-import { CacheableRemoteUser, IRemoteUser } from '@/models/entities/user.js';
-import Resolver from '../resolver.js';
-import { fetchMeta } from '@/misc/fetch-meta.js';
-import { apLogger } from '../logger.js';
-import { DriveFile } from '@/models/entities/drive-file.js';
-import { DriveFiles, Users } from '@/models/index.js';
-import { truncate } from '@/misc/truncate.js';
-import { DB_MAX_IMAGE_COMMENT_LENGTH } from '@/misc/hard-limits.js';
+import { uploadFromUrl } from "@/services/drive/upload-from-url.js";
+import { CacheableRemoteUser, IRemoteUser } from "@/models/entities/user.js";
+import { fetchMeta } from "@/misc/fetch-meta.js";
+import { DriveFile } from "@/models/entities/drive-file.js";
+import { DriveFiles, Users } from "@/models/index.js";
+import { truncate } from "@/misc/truncate.js";
+import { DB_MAX_IMAGE_COMMENT_LENGTH } from "@/misc/hard-limits.js";
+import { apLogger } from "../logger.js";
+import Resolver from "../resolver.js";
 
 const logger = apLogger;
 
@@ -16,13 +16,13 @@ const logger = apLogger;
 export async function createImage(actor: CacheableRemoteUser, value: any): Promise<DriveFile> {
 	// 投稿者が凍結されていたらスキップ
 	if (actor.isSuspended) {
-		throw new Error('actor has been suspended');
+		throw new Error("actor has been suspended");
 	}
 
 	const image = await new Resolver().resolve(value) as any;
 
 	if (image.url == null) {
-		throw new Error('invalid image: url not privided');
+		throw new Error("invalid image: url not privided");
 	}
 
 	logger.info(`Creating the Image: ${image.url}`);
@@ -35,7 +35,7 @@ export async function createImage(actor: CacheableRemoteUser, value: any): Promi
 		uri: image.url,
 		sensitive: image.sensitive,
 		isLink: !instance.cacheRemoteFiles,
-		comment: truncate(image.name, DB_MAX_IMAGE_COMMENT_LENGTH)
+		comment: truncate(image.name, DB_MAX_IMAGE_COMMENT_LENGTH),
 	});
 
 	if (file.isLink) {

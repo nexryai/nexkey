@@ -1,14 +1,14 @@
-import Bull from 'bull';
+import Bull from "bull";
 
-import { queueLogger } from '../../logger.js';
-import { deleteFileSync } from '@/services/drive/delete-file.js';
-import { DriveFiles } from '@/models/index.js';
-import { MoreThan, Not, IsNull } from 'typeorm';
+import { MoreThan, Not, IsNull } from "typeorm";
+import { deleteFileSync } from "@/services/drive/delete-file.js";
+import { DriveFiles } from "@/models/index.js";
+import { queueLogger } from "../../logger.js";
 
-const logger = queueLogger.createSubLogger('clean-remote-files');
+const logger = queueLogger.createSubLogger("clean-remote-files");
 
 export default async function cleanRemoteFiles(job: Bull.Job<Record<string, unknown>>, done: any): Promise<void> {
-	logger.info(`Deleting cached remote files...`);
+	logger.info("Deleting cached remote files...");
 
 	let deletedCount = 0;
 	let cursor: any = null;
@@ -45,6 +45,6 @@ export default async function cleanRemoteFiles(job: Bull.Job<Record<string, unkn
 		job.progress(deletedCount / total);
 	}
 
-	logger.succ(`All cahced remote files has been deleted.`);
+	logger.succ("All cahced remote files has been deleted.");
 	done();
 }

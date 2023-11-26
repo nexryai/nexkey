@@ -25,58 +25,58 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject } from 'vue';
-import MkPagePreview from '@/components/MkPagePreview.vue';
-import MkPagination from '@/components/MkPagination.vue';
-import MkButton from '@/components/MkButton.vue';
-import { useRouter } from '@/router';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { computed, inject } from "vue";
+import MkPagePreview from "@/components/MkPagePreview.vue";
+import MkPagination from "@/components/MkPagination.vue";
+import MkButton from "@/components/MkButton.vue";
+import { useRouter } from "@/router";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 const router = useRouter();
 
-let tab = $ref('featured');
+let tab = $ref("featured");
 
 const featuredPagesPagination = {
-	endpoint: 'pages/featured' as const,
+	endpoint: "pages/featured" as const,
 	noPaging: true,
 };
 const myPagesPagination = {
-	endpoint: 'i/pages' as const,
+	endpoint: "i/pages" as const,
 	limit: 5,
 };
 const likedPagesPagination = {
-	endpoint: 'i/page-likes' as const,
+	endpoint: "i/page-likes" as const,
 	limit: 5,
 };
 
 function create() {
-	router.push('/pages/new');
+	router.push("/pages/new");
 }
 
 const headerActions = $computed(() => [{
-	icon: 'ti ti-plus',
+	icon: "ti ti-plus",
 	text: i18n.ts.create,
 	handler: create,
 }]);
 
 const headerTabs = $computed(() => [{
-	key: 'featured',
+	key: "featured",
 	title: i18n.ts._pages.featured,
-	icon: 'ti ti-flare',
+	icon: "ti ti-flare",
 }, {
-	key: 'my',
+	key: "my",
 	title: i18n.ts._pages.my,
-	icon: 'ti ti-edit',
+	icon: "ti ti-edit",
 }, {
-	key: 'liked',
+	key: "liked",
 	title: i18n.ts._pages.liked,
-	icon: 'ti ti-heart',
+	icon: "ti ti-heart",
 }]);
 
 definePageMetadata(computed(() => ({
 	title: i18n.ts.pages,
-	icon: 'ti ti-note',
+	icon: "ti ti-note",
 })));
 </script>
 

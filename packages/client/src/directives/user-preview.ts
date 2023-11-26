@@ -1,6 +1,6 @@
-import { defineAsyncComponent, Directive, ref } from 'vue';
-import autobind from 'autobind-decorator';
-import { popup } from '@/os';
+import { defineAsyncComponent, Directive, ref } from "vue";
+import autobind from "autobind-decorator";
+import { popup } from "@/os";
 
 export class UserPreview {
 	private el;
@@ -24,10 +24,10 @@ export class UserPreview {
 
 		const showing = ref(true);
 
-		popup(defineAsyncComponent(() => import('@/components/MkUserPreview.vue')), {
+		popup(defineAsyncComponent(() => import("@/components/MkUserPreview.vue")), {
 			showing,
 			q: this.user,
-			source: this.el
+			source: this.el,
 		}, {
 			mouseover: () => {
 				window.clearTimeout(this.hideTimer);
@@ -36,12 +36,12 @@ export class UserPreview {
 				window.clearTimeout(this.showTimer);
 				this.hideTimer = window.setTimeout(this.close, 500);
 			},
-		}, 'closed');
+		}, "closed");
 
 		this.promise = {
 			cancel: () => {
 				showing.value = false;
-			}
+			},
 		};
 
 		this.checkTimer = window.setInterval(() => {
@@ -84,16 +84,16 @@ export class UserPreview {
 
 	@autobind
 	public attach() {
-		this.el.addEventListener('mouseover', this.onMouseover);
-		this.el.addEventListener('mouseleave', this.onMouseleave);
-		this.el.addEventListener('click', this.onClick);
+		this.el.addEventListener("mouseover", this.onMouseover);
+		this.el.addEventListener("mouseleave", this.onMouseleave);
+		this.el.addEventListener("click", this.onClick);
 	}
 
 	@autobind
 	public detach() {
-		this.el.removeEventListener('mouseover', this.onMouseover);
-		this.el.removeEventListener('mouseleave', this.onMouseleave);
-		this.el.removeEventListener('click', this.onClick);
+		this.el.removeEventListener("mouseover", this.onMouseover);
+		this.el.removeEventListener("mouseleave", this.onMouseleave);
+		this.el.removeEventListener("click", this.onClick);
 		window.clearInterval(this.checkTimer);
 	}
 }
@@ -114,5 +114,5 @@ export default {
 
 		const self = el._userPreviewDirective_;
 		self.preview.detach();
-	}
+	},
 } as Directive;

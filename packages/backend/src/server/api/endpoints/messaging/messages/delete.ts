@@ -1,37 +1,37 @@
-import define from '../../../define.js';
-import ms from 'ms';
-import { ApiError } from '../../../error.js';
-import { MessagingMessages } from '@/models/index.js';
-import { deleteMessage } from '@/services/messages/delete.js';
+import ms from "ms";
+import { MessagingMessages } from "@/models/index.js";
+import { deleteMessage } from "@/services/messages/delete.js";
+import { ApiError } from "../../../error.js";
+import define from "../../../define.js";
 
 export const meta = {
-	tags: ['messaging'],
+	tags: ["messaging"],
 
 	requireCredential: true,
 
-	kind: 'write:messaging',
+	kind: "write:messaging",
 
 	limit: {
-		duration: ms('1hour'),
+		duration: ms("1hour"),
 		max: 300,
-		minInterval: ms('1sec'),
+		minInterval: ms("1sec"),
 	},
 
 	errors: {
 		noSuchMessage: {
-			message: 'No such message.',
-			code: 'NO_SUCH_MESSAGE',
-			id: '54b5b326-7925-42cf-8019-130fda8b56af',
+			message: "No such message.",
+			code: "NO_SUCH_MESSAGE",
+			id: "54b5b326-7925-42cf-8019-130fda8b56af",
 		},
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		messageId: { type: 'string', format: 'misskey:id' },
+		messageId: { type: "string", format: "misskey:id" },
 	},
-	required: ['messageId'],
+	required: ["messageId"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export

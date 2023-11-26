@@ -1,19 +1,19 @@
-import { URL } from 'node:url';
-import Bull from 'bull';
-import request from '@/remote/activitypub/request.js';
-import { registerOrFetchInstanceDoc } from '@/services/register-or-fetch-instance-doc.js';
-import Logger from '@/services/logger.js';
-import { Instances } from '@/models/index.js';
-import { apRequestChart, federationChart, instanceChart } from '@/services/chart/index.js';
-import { fetchInstanceMetadata } from '@/services/fetch-instance-metadata.js';
-import { fetchMeta } from '@/misc/fetch-meta.js';
-import { toPuny } from '@/misc/convert-host.js';
-import { Cache } from '@/misc/cache.js';
-import { Instance } from '@/models/entities/instance.js';
-import { DeliverJobData } from '../types.js';
-import { StatusError } from '@/misc/fetch.js';
+import { URL } from "node:url";
+import Bull from "bull";
+import request from "@/remote/activitypub/request.js";
+import { registerOrFetchInstanceDoc } from "@/services/register-or-fetch-instance-doc.js";
+import Logger from "@/services/logger.js";
+import { Instances } from "@/models/index.js";
+import { apRequestChart, federationChart, instanceChart } from "@/services/chart/index.js";
+import { fetchInstanceMetadata } from "@/services/fetch-instance-metadata.js";
+import { fetchMeta } from "@/misc/fetch-meta.js";
+import { toPuny } from "@/misc/convert-host.js";
+import { Cache } from "@/misc/cache.js";
+import { Instance } from "@/models/entities/instance.js";
+import { StatusError } from "@/misc/fetch.js";
+import { DeliverJobData } from "../types.js";
 
-const logger = new Logger('deliver');
+const logger = new Logger("deliver");
 
 let latest: string | null = null;
 
@@ -25,7 +25,7 @@ export default async (job: Bull.Job<DeliverJobData>) => {
 	// ブロックしてたら中断
 	const meta = await fetchMeta();
 	if (meta.blockedHosts.some(x => toPuny(host).endsWith(x))) {
-		return 'skip (blocked)';
+		return "skip (blocked)";
 	}
 
 	// isSuspendedなら中断
@@ -39,7 +39,7 @@ export default async (job: Bull.Job<DeliverJobData>) => {
 		suspendedHostsCache.set(null, suspendedHosts);
 	}
 	if (suspendedHosts.map(x => x.host).includes(toPuny(host))) {
-		return 'skip (suspended)';
+		return "skip (suspended)";
 	}
 
 	try {
@@ -65,7 +65,7 @@ export default async (job: Bull.Job<DeliverJobData>) => {
 			federationChart.deliverd(i.host, true);
 		});
 
-		return 'Success';
+		return "Success";
 	} catch (res) {
 		// Update stats
 		registerOrFetchInstanceDoc(host).then(i => {

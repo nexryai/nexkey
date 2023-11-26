@@ -1,24 +1,24 @@
-import { URL } from 'node:url';
-import Bull from 'bull';
-import httpSignature from '@peertube/http-signature';
-import perform from '@/remote/activitypub/perform.js';
-import Logger from '@/services/logger.js';
-import { registerOrFetchInstanceDoc } from '@/services/register-or-fetch-instance-doc.js';
-import { Instances } from '@/models/index.js';
-import { apRequestChart, federationChart, instanceChart } from '@/services/chart/index.js';
-import { fetchMeta } from '@/misc/fetch-meta.js';
-import { toPuny, extractDbHost } from '@/misc/convert-host.js';
-import { getApId } from '@/remote/activitypub/type.js';
-import { fetchInstanceMetadata } from '@/services/fetch-instance-metadata.js';
-import { InboxJobData } from '../types.js';
-import DbResolver from '@/remote/activitypub/db-resolver.js';
-import { resolvePerson } from '@/remote/activitypub/models/person.js';
-import { LdSignature } from '@/remote/activitypub/misc/ld-signature.js';
-import { StatusError } from '@/misc/fetch.js';
-import { CacheableRemoteUser } from '@/models/entities/user.js';
-import { UserPublickey } from '@/models/entities/user-publickey.js';
+import { URL } from "node:url";
+import Bull from "bull";
+import httpSignature from "@peertube/http-signature";
+import perform from "@/remote/activitypub/perform.js";
+import Logger from "@/services/logger.js";
+import { registerOrFetchInstanceDoc } from "@/services/register-or-fetch-instance-doc.js";
+import { Instances } from "@/models/index.js";
+import { apRequestChart, federationChart, instanceChart } from "@/services/chart/index.js";
+import { fetchMeta } from "@/misc/fetch-meta.js";
+import { toPuny, extractDbHost } from "@/misc/convert-host.js";
+import { getApId } from "@/remote/activitypub/type.js";
+import { fetchInstanceMetadata } from "@/services/fetch-instance-metadata.js";
+import DbResolver from "@/remote/activitypub/db-resolver.js";
+import { resolvePerson } from "@/remote/activitypub/models/person.js";
+import { LdSignature } from "@/remote/activitypub/misc/ld-signature.js";
+import { StatusError } from "@/misc/fetch.js";
+import { CacheableRemoteUser } from "@/models/entities/user.js";
+import { UserPublickey } from "@/models/entities/user-publickey.js";
+import { InboxJobData } from "../types.js";
 
-const logger = new Logger('inbox');
+const logger = new Logger("inbox");
 
 // ユーザーのinboxにアクティビティが届いた時の処理
 export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
@@ -27,7 +27,7 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 
 	//#region Log
 	const info = Object.assign({}, activity) as any;
-	delete info['@context'];
+	delete info["@context"];
 	logger.debug(JSON.stringify(info, null, 2));
 	//#endregion
 
@@ -40,7 +40,7 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 	}
 
 	const keyIdLower = signature.keyId.toLowerCase();
-	if (keyIdLower.startsWith('acct:')) {
+	if (keyIdLower.startsWith("acct:")) {
 		return `Old keyId is no longer supported. ${keyIdLower}`;
 	}
 
@@ -69,12 +69,12 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 
 	// それでもわからなければ終了
 	if (authUser == null) {
-		return `skip: failed to resolve user`;
+		return "skip: failed to resolve user";
 	}
 
 	// publicKey がなくても終了
 	if (authUser.key == null) {
-		return `skip: failed to resolve user publicKey`;
+		return "skip: failed to resolve user publicKey";
 	}
 
 	// HTTP-Signatureの検証
@@ -84,32 +84,32 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 	if (!httpSignatureValidated || authUser.user.uri !== activity.actor) {
 		// 一致しなくても、でもLD-Signatureがありそうならそっちも見る
 		if (activity.signature) {
-			if (activity.signature.type !== 'RsaSignature2017') {
+			if (activity.signature.type !== "RsaSignature2017") {
 				return `skip: unsupported LD-signature type ${activity.signature.type}`;
 			}
 
 			// activity.signature.creator: https://example.oom/users/user#main-key
 			// みたいになっててUserを引っ張れば公開キーも入ることを期待する
 			if (activity.signature.creator) {
-				const candicate = activity.signature.creator.replace(/#.*/, '');
+				const candicate = activity.signature.creator.replace(/#.*/, "");
 				await resolvePerson(candicate).catch(() => null);
 			}
 
 			// keyIdからLD-Signatureのユーザーを取得
 			authUser = await dbResolver.getAuthUserFromKeyId(activity.signature.creator);
 			if (authUser == null) {
-				return `skip: LD-Signatureのユーザーが取得できませんでした`;
+				return "skip: LD-Signatureのユーザーが取得できませんでした";
 			}
 
 			if (authUser.key == null) {
-				return `skip: LD-SignatureのユーザーはpublicKeyを持っていませんでした`;
+				return "skip: LD-SignatureのユーザーはpublicKeyを持っていませんでした";
 			}
 
 			// LD-Signature検証
 			const ldSignature = new LdSignature();
 			const verified = await ldSignature.verifyRsaSignature2017(activity, authUser.key.keyPem).catch(() => false);
 			if (!verified) {
-				return `skip: LD-Signatureの検証に失敗しました`;
+				return "skip: LD-Signatureの検証に失敗しました";
 			}
 
 			// もう一度actorチェック
@@ -128,7 +128,7 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 	}
 
 	// activity.idがあればホストが署名者のホストであることを確認する
-	if (typeof activity.id === 'string') {
+	if (typeof activity.id === "string") {
 		const signerHost = extractDbHost(authUser.user.uri!);
 		const activityIdHost = extractDbHost(activity.id);
 		if (signerHost !== activityIdHost) {
@@ -156,5 +156,5 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 
 	// アクティビティを処理
 	await perform(authUser.user, activity);
-	return `ok`;
+	return "ok";
 };

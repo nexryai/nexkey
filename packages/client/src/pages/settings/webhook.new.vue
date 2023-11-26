@@ -32,18 +32,18 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import FormInput from '@/components/form/input.vue';
-import FormSection from '@/components/form/section.vue';
-import FormSwitch from '@/components/form/switch.vue';
-import FormButton from '@/components/MkButton.vue';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { } from "vue";
+import FormInput from "@/components/form/input.vue";
+import FormSection from "@/components/form/section.vue";
+import FormSwitch from "@/components/form/switch.vue";
+import FormButton from "@/components/MkButton.vue";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
-let name = $ref('');
-let url = $ref('');
-let secret = $ref('');
+let name = $ref("");
+let url = $ref("");
+let secret = $ref("");
 
 let event_follow = $ref(true);
 let event_followed = $ref(true);
@@ -55,15 +55,15 @@ let event_mention = $ref(true);
 
 async function create(): Promise<void> {
 	const events = [];
-	if (event_follow) events.push('follow');
-	if (event_followed) events.push('followed');
-	if (event_note) events.push('note');
-	if (event_reply) events.push('reply');
-	if (event_renote) events.push('renote');
-	if (event_reaction) events.push('reaction');
-	if (event_mention) events.push('mention');
+	if (event_follow) events.push("follow");
+	if (event_followed) events.push("followed");
+	if (event_note) events.push("note");
+	if (event_reply) events.push("reply");
+	if (event_renote) events.push("renote");
+	if (event_reaction) events.push("reaction");
+	if (event_mention) events.push("mention");
 
-	os.apiWithDialog('i/webhooks/create', {
+	os.apiWithDialog("i/webhooks/create", {
 		name,
 		url,
 		secret,
@@ -76,7 +76,7 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
 
 definePageMetadata({
-	title: 'Create new webhook',
-	icon: 'ti ti-webhook',
+	title: "Create new webhook",
+	icon: "ti ti-webhook",
 });
 </script>

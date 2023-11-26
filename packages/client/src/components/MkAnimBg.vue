@@ -1,9 +1,9 @@
 <template>
-	<canvas ref="canvasEl" style="width: 100%; height: 100%; pointer-events: none;"></canvas>
+<canvas ref="canvasEl" style="width: 100%; height: 100%; pointer-events: none;"></canvas>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, shallowRef } from 'vue';
+import { onMounted, onUnmounted, shallowRef } from "vue";
 
 const canvasEl = shallowRef<HTMLCanvasElement>();
 
@@ -53,14 +53,14 @@ function initShaderProgram(gl, vsSource, fsSource) {
 	return shaderProgram;
 }
 
-let handle: ReturnType<typeof window['requestAnimationFrame']> | null = null;
+let handle: ReturnType<typeof window["requestAnimationFrame"]> | null = null;
 
 onMounted(() => {
 	const canvas = canvasEl.value!;
 	canvas.width = canvas.offsetWidth;
 	canvas.height = canvas.offsetHeight;
 
-	const gl = canvas.getContext('webgl', { premultipliedAlpha: true });
+	const gl = canvas.getContext("webgl", { premultipliedAlpha: true });
 	if (gl == null) return;
 
 	gl.clearColor(0.0, 0.0, 0.0, 0.0);
@@ -193,14 +193,14 @@ onMounted(() => {
 	`);
 
 	gl.useProgram(shaderProgram);
-	const u_resolution = gl.getUniformLocation(shaderProgram, 'u_resolution');
-	const u_time = gl.getUniformLocation(shaderProgram, 'u_time');
-	const u_spread = gl.getUniformLocation(shaderProgram, 'u_spread');
-	const u_speed = gl.getUniformLocation(shaderProgram, 'u_speed');
-	const u_warp = gl.getUniformLocation(shaderProgram, 'u_warp');
-	const u_focus = gl.getUniformLocation(shaderProgram, 'u_focus');
-	const u_itensity = gl.getUniformLocation(shaderProgram, 'u_itensity');
-	const u_scale = gl.getUniformLocation(shaderProgram, 'u_scale');
+	const u_resolution = gl.getUniformLocation(shaderProgram, "u_resolution");
+	const u_time = gl.getUniformLocation(shaderProgram, "u_time");
+	const u_spread = gl.getUniformLocation(shaderProgram, "u_spread");
+	const u_speed = gl.getUniformLocation(shaderProgram, "u_speed");
+	const u_warp = gl.getUniformLocation(shaderProgram, "u_warp");
+	const u_focus = gl.getUniformLocation(shaderProgram, "u_focus");
+	const u_itensity = gl.getUniformLocation(shaderProgram, "u_itensity");
+	const u_scale = gl.getUniformLocation(shaderProgram, "u_scale");
 	gl.uniform2fv(u_resolution, [canvas.width, canvas.height]);
 	gl.uniform1f(u_spread, 1.0);
 	gl.uniform1f(u_speed, 1.0);
@@ -209,13 +209,12 @@ onMounted(() => {
 	gl.uniform1f(u_itensity, 0.5);
 	gl.uniform2fv(u_scale, [props.scale, props.scale]);
 
-	const vertex = gl.getAttribLocation(shaderProgram, 'vertex');
+	const vertex = gl.getAttribLocation(shaderProgram, "vertex");
 	gl.enableVertexAttribArray(vertex);
 	gl.vertexAttribPointer(vertex, 2, gl.FLOAT, false, 0, 0);
 
 	const vertices = [1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, -1.0];
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.DYNAMIC_DRAW);
-
 
 	function render(timeStamp) {
 		gl!.uniform1f(u_time, timeStamp);

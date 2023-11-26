@@ -1,23 +1,23 @@
-import Router from '@koa/router';
-import config from '@/config/index.js';
-import { fetchMeta } from '@/misc/fetch-meta.js';
-import { Users, Notes } from '@/models/index.js';
-import { IsNull, MoreThan } from 'typeorm';
-import { MAX_NOTE_TEXT_LENGTH } from '@/const.js';
-import { Cache } from '@/misc/cache.js';
+import Router from "@koa/router";
+import { IsNull, MoreThan } from "typeorm";
+import config from "@/config/index.js";
+import { fetchMeta } from "@/misc/fetch-meta.js";
+import { Users, Notes } from "@/models/index.js";
+import { MAX_NOTE_TEXT_LENGTH } from "@/const.js";
+import { Cache } from "@/misc/cache.js";
 
 const router = new Router();
 
-const nodeinfo2_1path = '/nodeinfo/2.1';
-const nodeinfo2_0path = '/nodeinfo/2.0';
+const nodeinfo2_1path = "/nodeinfo/2.1";
+const nodeinfo2_0path = "/nodeinfo/2.0";
 
 export const links = [/* (awaiting release) {
 	rel: 'http://nodeinfo.diaspora.software/ns/schema/2.1',
 	href: config.url + nodeinfo2_1path
 }, */{
-	rel: 'http://nodeinfo.diaspora.software/ns/schema/2.0',
-	href: config.url + nodeinfo2_0path,
-}];
+		rel: "http://nodeinfo.diaspora.software/ns/schema/2.0",
+		href: config.url + nodeinfo2_0path,
+	}];
 
 const nodeinfo2 = async () => {
 	const now = Date.now();
@@ -39,14 +39,14 @@ const nodeinfo2 = async () => {
 
 	return {
 		software: {
-			name: 'nexkey',
+			name: "nexkey",
 			version: config.version,
 			repository: meta.repositoryUrl,
 		},
-		protocols: ['activitypub'],
+		protocols: ["activitypub"],
 		services: {
 			inbound: [] as string[],
-			outbound: ['atom1.0', 'rss2.0'],
+			outbound: ["atom1.0", "rss2.0"],
 		},
 		openRegistrations: !meta.disableRegistration,
 		usage: {
@@ -78,7 +78,7 @@ const nodeinfo2 = async () => {
 			enableEmail: meta.enableEmail,
 			enableServiceWorker: meta.enableServiceWorker,
 			proxyAccountName: proxyAccount ? proxyAccount.username : null,
-			themeColor: meta.themeColor || '#86b300',
+			themeColor: meta.themeColor || "#86b300",
 		},
 	};
 };
@@ -88,8 +88,8 @@ const cache = new Cache<Awaited<ReturnType<typeof nodeinfo2>>>(1000 * 60 * 10);
 router.get(nodeinfo2_1path, async ctx => {
 	const base = await cache.fetch(null, () => nodeinfo2());
 
-	ctx.body = { version: '2.1', ...base };
-	ctx.set('Cache-Control', 'public, max-age=600');
+	ctx.body = { version: "2.1", ...base };
+	ctx.set("Cache-Control", "public, max-age=600");
 });
 
 router.get(nodeinfo2_0path, async ctx => {
@@ -97,8 +97,8 @@ router.get(nodeinfo2_0path, async ctx => {
 
 	delete base.software.repository;
 
-	ctx.body = { version: '2.0', ...base };
-	ctx.set('Cache-Control', 'public, max-age=600');
+	ctx.body = { version: "2.0", ...base };
+	ctx.set("Cache-Control", "public, max-age=600");
 });
 
 export default router;

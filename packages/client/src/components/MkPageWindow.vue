@@ -24,24 +24,24 @@
 </template>
 
 <script lang="ts" setup>
-import { ComputedRef, inject, provide } from 'vue';
-import RouterView from '@/components/global/RouterView.vue';
-import XWindow from '@/components/MkWindow.vue';
-import { popout as _popout } from '@/scripts/popout';
-import copyToClipboard from '@/scripts/copy-to-clipboard';
-import { url } from '@/config';
-import * as os from '@/os';
-import { mainRouter, routes } from '@/router';
-import { Router } from '@/nirax';
-import { i18n } from '@/i18n';
-import { PageMetadata, provideMetadataReceiver, setPageMetadata } from '@/scripts/page-metadata';
+import { ComputedRef, inject, provide } from "vue";
+import RouterView from "@/components/global/RouterView.vue";
+import XWindow from "@/components/MkWindow.vue";
+import { popout as _popout } from "@/scripts/popout";
+import copyToClipboard from "@/scripts/copy-to-clipboard";
+import { url } from "@/config";
+import * as os from "@/os";
+import { mainRouter, routes } from "@/router";
+import { Router } from "@/nirax";
+import { i18n } from "@/i18n";
+import { PageMetadata, provideMetadataReceiver, setPageMetadata } from "@/scripts/page-metadata";
 
 const props = defineProps<{
 	initialPath: string;
 }>();
 
 defineEmits<{
-	(ev: 'closed'): void;
+	(ev: "closed"): void;
 }>();
 
 const router = new Router(routes, props.initialPath);
@@ -57,7 +57,7 @@ const buttonsLeft = $computed(() => {
 
 	if (history.length > 1) {
 		buttons.push({
-			icon: 'ti ti-arrow-left',
+			icon: "ti ti-arrow-left",
 			onClick: back,
 		});
 	}
@@ -66,7 +66,7 @@ const buttonsLeft = $computed(() => {
 });
 const buttonsRight = $computed(() => {
 	const buttons = [{
-		icon: 'ti ti-player-eject',
+		icon: "ti ti-player-eject",
 		title: i18n.ts.showInPage,
 		onClick: expand,
 	}];
@@ -74,34 +74,34 @@ const buttonsRight = $computed(() => {
 	return buttons;
 });
 
-router.addListener('push', ctx => {
+router.addListener("push", ctx => {
 	history.push({ path: ctx.path, key: ctx.key });
 });
 
-provide('router', router);
+provide("router", router);
 provideMetadataReceiver((info) => {
 	pageMetadata = info;
 });
-provide('shouldOmitHeaderTitle', true);
-provide('shouldHeaderThin', true);
+provide("shouldOmitHeaderTitle", true);
+provide("shouldHeaderThin", true);
 
 const contextmenu = $computed(() => ([{
-	icon: 'ti ti-player-eject',
+	icon: "ti ti-player-eject",
 	text: i18n.ts.showInPage,
 	action: expand,
 }, {
-	icon: 'ti ti-window-maximize',
+	icon: "ti ti-window-maximize",
 	text: i18n.ts.popout,
 	action: popout,
 }, {
-	icon: 'ti ti-external-link',
+	icon: "ti ti-external-link",
 	text: i18n.ts.openInNewTab,
 	action: () => {
-		window.open(url + router.getCurrentPath(), '_blank');
+		window.open(url + router.getCurrentPath(), "_blank");
 		windowEl.close();
 	},
 }, {
-	icon: 'ti ti-link',
+	icon: "ti ti-link",
 	text: i18n.ts.copyLink,
 	action: () => {
 		copyToClipboard(url + router.getCurrentPath());
@@ -118,7 +118,7 @@ function close() {
 }
 
 function expand() {
-	mainRouter.push(router.getCurrentPath(), 'forcePage');
+	mainRouter.push(router.getCurrentPath(), "forcePage");
 	windowEl.close();
 }
 

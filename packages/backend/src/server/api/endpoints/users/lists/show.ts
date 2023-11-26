@@ -1,37 +1,37 @@
-import { UserLists } from '@/models/index.js';
-import define from '../../../define.js';
-import { ApiError } from '../../../error.js';
+import { UserLists } from "@/models/index.js";
+import define from "../../../define.js";
+import { ApiError } from "../../../error.js";
 
 export const meta = {
-	tags: ['lists', 'account'],
+	tags: ["lists", "account"],
 
 	requireCredential: true,
 
-	kind: 'read:account',
+	kind: "read:account",
 
-	description: 'Show the properties of a list.',
+	description: "Show the properties of a list.",
 
 	res: {
-		type: 'object',
+		type: "object",
 		optional: false, nullable: false,
-		ref: 'UserList',
+		ref: "UserList",
 	},
 
 	errors: {
 		noSuchList: {
-			message: 'No such list.',
-			code: 'NO_SUCH_LIST',
-			id: '7bc05c21-1d7a-41ae-88f1-66820f4dc686',
+			message: "No such list.",
+			code: "NO_SUCH_LIST",
+			id: "7bc05c21-1d7a-41ae-88f1-66820f4dc686",
 		},
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		listId: { type: 'string', format: 'misskey:id' },
+		listId: { type: "string", format: "misskey:id" },
 	},
-	required: ['listId'],
+	required: ["listId"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export

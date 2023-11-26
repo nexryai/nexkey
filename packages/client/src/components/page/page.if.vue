@@ -5,27 +5,27 @@
 </template>
 
 <script lang="ts">
-import { IfBlock } from '@/scripts/hpml/block';
-import { Hpml } from '@/scripts/hpml/evaluator';
-import { defineComponent, defineAsyncComponent, PropType } from 'vue';
+import { defineComponent, defineAsyncComponent, PropType } from "vue";
+import { IfBlock } from "@/scripts/hpml/block";
+import { Hpml } from "@/scripts/hpml/evaluator";
 
 export default defineComponent({
 	components: {
-		XBlock: defineAsyncComponent(() => import('./page.block.vue'))
+		XBlock: defineAsyncComponent(() => import("./page.block.vue")),
 	},
 	props: {
 		block: {
 			type: Object as PropType<IfBlock>,
-			required: true
+			required: true,
 		},
 		hpml: {
 			type: Object as PropType<Hpml>,
-			required: true
+			required: true,
 		},
 		h: {
 			type: Number,
-			required: true
-		}
+			required: true,
+		},
 	},
 });
 </script>

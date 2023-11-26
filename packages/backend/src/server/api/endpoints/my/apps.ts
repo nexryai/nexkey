@@ -1,27 +1,27 @@
-import define from '../../define.js';
-import { Apps } from '@/models/index.js';
+import { Apps } from "@/models/index.js";
+import define from "../../define.js";
 
 export const meta = {
-	tags: ['account', 'app'],
+	tags: ["account", "app"],
 
 	requireCredential: true,
 
 	res: {
-		type: 'array',
+		type: "array",
 		optional: false, nullable: false,
 		items: {
-			type: 'object',
+			type: "object",
 			optional: false, nullable: false,
-			ref: 'App',
+			ref: "App",
 		},
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
-		offset: { type: 'integer', default: 0 },
+		limit: { type: "integer", minimum: 1, maximum: 100, default: 10 },
+		offset: { type: "integer", default: 0 },
 	},
 	required: [],
 } as const;

@@ -5,21 +5,21 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import MkModal from './MkModal.vue';
-import MkMenu from './MkMenu.vue';
-import { MenuItem } from '@/types/menu';
+import { } from "vue";
+import MkModal from "./MkModal.vue";
+import MkMenu from "./MkMenu.vue";
+import { MenuItem } from "@/types/menu";
 
 defineProps<{
 	items: MenuItem[];
-	align?: 'center' | string;
+	align?: "center" | string;
 	width?: number;
 	viaKeyboard?: boolean;
 	src?: any;
 }>();
 
 const emit = defineEmits<{
-	(ev: 'closed'): void;
+	(ev: "closed"): void;
 }>();
 
 let modal = $ref<InstanceType<typeof MkModal>>();

@@ -1,51 +1,51 @@
-import ms from 'ms';
-import { addFile } from '@/services/drive/add-file.js';
-import { DriveFiles } from '@/models/index.js';
-import { DB_MAX_IMAGE_COMMENT_LENGTH } from '@/misc/hard-limits.js';
-import { fetchMeta } from '@/misc/fetch-meta.js';
-import define from '../../../define.js';
-import { apiLogger } from '../../../logger.js';
-import { ApiError } from '../../../error.js';
+import ms from "ms";
+import { addFile } from "@/services/drive/add-file.js";
+import { DriveFiles } from "@/models/index.js";
+import { DB_MAX_IMAGE_COMMENT_LENGTH } from "@/misc/hard-limits.js";
+import { fetchMeta } from "@/misc/fetch-meta.js";
+import define from "../../../define.js";
+import { apiLogger } from "../../../logger.js";
+import { ApiError } from "../../../error.js";
 
 export const meta = {
-	tags: ['drive'],
+	tags: ["drive"],
 
 	requireCredential: true,
 
 	limit: {
-		duration: ms('1hour'),
+		duration: ms("1hour"),
 		max: 120,
 	},
 
 	requireFile: true,
 
-	kind: 'write:drive',
+	kind: "write:drive",
 
-	description: 'Upload a new drive file.',
+	description: "Upload a new drive file.",
 
 	res: {
-		type: 'object',
+		type: "object",
 		optional: false, nullable: false,
-		ref: 'DriveFile',
+		ref: "DriveFile",
 	},
 
 	errors: {
 		invalidFileName: {
-			message: 'Invalid file name.',
-			code: 'INVALID_FILE_NAME',
-			id: 'f449b209-0c60-4e51-84d5-29486263bfd4',
+			message: "Invalid file name.",
+			code: "INVALID_FILE_NAME",
+			id: "f449b209-0c60-4e51-84d5-29486263bfd4",
 		},
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		folderId: { type: 'string', format: 'misskey:id', nullable: true, default: null },
-		name: { type: 'string', nullable: true, default: null },
-		comment: { type: 'string', nullable: true, maxLength: DB_MAX_IMAGE_COMMENT_LENGTH, default: null },
-		isSensitive: { type: 'boolean', default: false },
-		force: { type: 'boolean', default: false },
+		folderId: { type: "string", format: "misskey:id", nullable: true, default: null },
+		name: { type: "string", nullable: true, default: null },
+		comment: { type: "string", nullable: true, maxLength: DB_MAX_IMAGE_COMMENT_LENGTH, default: null },
+		isSensitive: { type: "boolean", default: false },
+		force: { type: "boolean", default: false },
 	},
 	required: [],
 } as const;
@@ -58,7 +58,7 @@ export default define(meta, paramDef, async (ps, user, _, file, cleanup, ip, hea
 		name = name.trim();
 		if (name.length === 0) {
 			name = null;
-		} else if (name === 'blob') {
+		} else if (name === "blob") {
 			name = null;
 		} else if (!DriveFiles.validateFileName(name)) {
 			throw new ApiError(meta.errors.invalidFileName);
@@ -84,7 +84,7 @@ export default define(meta, paramDef, async (ps, user, _, file, cleanup, ip, hea
 		});
 		return await DriveFiles.pack(driveFile, { self: true });
 	} catch (e) {
-		if (e instanceof Error || typeof e === 'string') {
+		if (e instanceof Error || typeof e === "string") {
 			apiLogger.error(e);
 		}
 		throw new ApiError();

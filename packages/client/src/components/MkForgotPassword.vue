@@ -1,5 +1,6 @@
 <template>
-<XModalWindow ref="dialog"
+<XModalWindow
+	ref="dialog"
 	:width="370"
 	:height="400"
 	@close="dialog.close()"
@@ -32,32 +33,32 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import XModalWindow from '@/components/MkModalWindow.vue';
-import MkButton from '@/components/MkButton.vue';
-import MkInput from '@/components/form/input.vue';
-import * as os from '@/os';
-import { instance } from '@/instance';
-import { i18n } from '@/i18n';
+import { } from "vue";
+import XModalWindow from "@/components/MkModalWindow.vue";
+import MkButton from "@/components/MkButton.vue";
+import MkInput from "@/components/form/input.vue";
+import * as os from "@/os";
+import { instance } from "@/instance";
+import { i18n } from "@/i18n";
 
 const emit = defineEmits<{
-	(ev: 'done'): void;
-	(ev: 'closed'): void;
+	(ev: "done"): void;
+	(ev: "closed"): void;
 }>();
 
 let dialog: InstanceType<typeof XModalWindow> = $ref();
 
-let username = $ref('');
-let email = $ref('');
+let username = $ref("");
+let email = $ref("");
 let processing = $ref(false);
 
 async function onSubmit() {
 	processing = true;
-	await os.apiWithDialog('request-reset-password', {
+	await os.apiWithDialog("request-reset-password", {
 		username,
 		email,
 	});
-	emit('done');
+	emit("done");
 	dialog.close();
 }
 </script>

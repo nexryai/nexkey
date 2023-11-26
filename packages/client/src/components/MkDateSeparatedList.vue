@@ -1,8 +1,8 @@
 <script lang="ts">
-import { defineComponent, h, PropType, TransitionGroup } from 'vue';
-import MkAd from '@/components/global/MkAd.vue';
-import { i18n } from '@/i18n';
-import { defaultStore } from '@/store';
+import { defineComponent, h, PropType, TransitionGroup } from "vue";
+import MkAd from "@/components/global/MkAd.vue";
+import { i18n } from "@/i18n";
+import { defaultStore } from "@/store";
 
 export default defineComponent({
 	props: {
@@ -13,7 +13,7 @@ export default defineComponent({
 		direction: {
 			type: String,
 			required: false,
-			default: 'down',
+			default: "down",
 		},
 		reversed: {
 			type: Boolean,
@@ -36,7 +36,7 @@ export default defineComponent({
 		function getDateText(time: string) {
 			const date = new Date(time).getDate();
 			const month = new Date(time).getMonth() + 1;
-			return i18n.t('monthAndDay', {
+			return i18n.t("monthAndDay", {
 				month: month.toString(),
 				day: date.toString(),
 			});
@@ -56,22 +56,22 @@ export default defineComponent({
 				i !== props.items.length - 1 &&
 				new Date(item.createdAt).getDate() !== new Date(props.items[i + 1].createdAt).getDate()
 			) {
-				const separator = h('div', {
-					class: 'separator',
-					key: item.id + ':separator',
-				}, h('p', {
-					class: 'date',
+				const separator = h("div", {
+					class: "separator",
+					key: item.id + ":separator",
+				}, h("p", {
+					class: "date",
 				}, [
-					h('span', [
-						h('i', {
-							class: 'ti ti-chevron-up icon',
+					h("span", [
+						h("i", {
+							class: "ti ti-chevron-up icon",
 						}),
 						getDateText(item.createdAt),
 					]),
-					h('span', [
+					h("span", [
 						getDateText(props.items[i + 1].createdAt),
-						h('i', {
-							class: 'ti ti-chevron-down icon',
+						h("i", {
+							class: "ti ti-chevron-down icon",
 						}),
 					]),
 				]));
@@ -80,9 +80,9 @@ export default defineComponent({
 			} else {
 				if (props.ad && item._shouldInsertAd_) {
 					return [h(MkAd, {
-						class: 'a', // advertiseの意(ブロッカー対策)
-						key: item.id + ':ad',
-						prefer: ['horizontal', 'horizontal-big'],
+						class: "a", // advertiseの意(ブロッカー対策)
+						key: item.id + ":ad",
+						prefer: ["horizontal", "horizontal-big"],
 					}), el];
 				} else {
 					return el;
@@ -91,15 +91,15 @@ export default defineComponent({
 		});
 
 		return () => h(
-			defaultStore.state.animation ? TransitionGroup : 'div',
+			defaultStore.state.animation ? TransitionGroup : "div",
 			defaultStore.state.animation ? {
-				class: 'sqadhkmv' + (props.noGap ? ' noGap' : ''),
-				name: 'list',
-				tag: 'div',
-				'data-direction': props.direction,
-				'data-reversed': props.reversed ? 'true' : 'false',
+				class: "sqadhkmv" + (props.noGap ? " noGap" : ""),
+				name: "list",
+				tag: "div",
+				"data-direction": props.direction,
+				"data-reversed": props.reversed ? "true" : "false",
 			} : {
-				class: 'sqadhkmv' + (props.noGap ? ' noGap' : ''),
+				class: "sqadhkmv" + (props.noGap ? " noGap" : ""),
 			},
 			{ default: renderChildren });
 	},

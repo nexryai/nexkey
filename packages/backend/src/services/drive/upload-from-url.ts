@@ -1,19 +1,19 @@
-import { URL } from 'node:url';
-import { User } from '@/models/entities/user.js';
-import { createTemp } from '@/misc/create-temp.js';
-import { downloadUrl } from '@/misc/download-url.js';
-import { DriveFolder } from '@/models/entities/drive-folder.js';
-import { DriveFile } from '@/models/entities/drive-file.js';
-import { DriveFiles } from '@/models/index.js';
-import { driveLogger } from './logger.js';
-import { addFile } from './add-file.js';
+import { URL } from "node:url";
+import { User } from "@/models/entities/user.js";
+import { createTemp } from "@/misc/create-temp.js";
+import { downloadUrl } from "@/misc/download-url.js";
+import { DriveFolder } from "@/models/entities/drive-folder.js";
+import { DriveFile } from "@/models/entities/drive-file.js";
+import { DriveFiles } from "@/models/index.js";
+import { driveLogger } from "./logger.js";
+import { addFile } from "./add-file.js";
 
-const logger = driveLogger.createSubLogger('downloader');
+const logger = driveLogger.createSubLogger("downloader");
 
 type Args = {
 	url: string;
-	user: { id: User['id']; host: User['host'] } | null;
-	folderId?: DriveFolder['id'] | null;
+	user: { id: User["id"]; host: User["host"] } | null;
+	folderId?: DriveFolder["id"] | null;
 	uri?: string | null;
 	sensitive?: boolean;
 	force?: boolean;
@@ -35,7 +35,7 @@ export async function uploadFromUrl({
 	requestIp = null,
 	requestHeaders = null,
 }: Args): Promise<DriveFile> {
-	let name = new URL(url).pathname.split('/').pop() || null;
+	let name = new URL(url).pathname.split("/").pop() || null;
 	if (name == null || !DriveFiles.validateFileName(name)) {
 		name = null;
 	}

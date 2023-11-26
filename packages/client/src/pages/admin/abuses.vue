@@ -1,10 +1,10 @@
 <template>
 <MkStickyContainer>
 	<template #header><XHeader :actions="headerActions" :tabs="headerTabs"/></template>
-  <MkSpacer v-if="streamModeEnabled">
-    <MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
-  </MkSpacer>
-	<MkSpacer :content-max="900" v-if="!streamModeEnabled">
+	<MkSpacer v-if="streamModeEnabled">
+		<MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
+	</MkSpacer>
+	<MkSpacer v-if="!streamModeEnabled" :content-max="900">
 		<div class="lcixvhis">
 			<div class="_section reports">
 				<div class="_content">
@@ -50,32 +50,31 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed ,ref } from "vue";
 
-import XHeader from './_header_.vue';
-import MkInput from '@/components/form/input.vue';
-import MkSelect from '@/components/form/select.vue';
-import MkPagination from '@/components/MkPagination.vue';
-import XAbuseReport from '@/components/MkAbuseReport.vue';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
-import {ref} from "vue";
-import {defaultStore} from "@/store";
+import XHeader from "./_header_.vue";
+import MkInput from "@/components/form/input.vue";
+import MkSelect from "@/components/form/select.vue";
+import MkPagination from "@/components/MkPagination.vue";
+import XAbuseReport from "@/components/MkAbuseReport.vue";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
+import { defaultStore } from "@/store";
 import MkInfo from "@/components/MkInfo.vue";
 
 const streamModeEnabled = ref(defaultStore.state.streamModeEnabled);
 
 let reports = $ref<InstanceType<typeof MkPagination>>();
 
-let state = $ref('unresolved');
-let reporterOrigin = $ref('combined');
-let targetUserOrigin = $ref('combined');
-let searchUsername = $ref('');
-let searchHost = $ref('');
+let state = $ref("unresolved");
+let reporterOrigin = $ref("combined");
+let targetUserOrigin = $ref("combined");
+let searchUsername = $ref("");
+let searchHost = $ref("");
 
 const pagination = {
-	endpoint: 'admin/abuse-user-reports' as const,
+	endpoint: "admin/abuse-user-reports" as const,
 	limit: 10,
 	params: computed(() => ({
 		state,
@@ -94,7 +93,7 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.abuseReports,
-	icon: 'ti ti-exclamation-circle',
+	icon: "ti ti-exclamation-circle",
 });
 </script>
 

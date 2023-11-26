@@ -1,16 +1,16 @@
-import { db } from '@/db/postgre.js';
-import { Users } from '../index.js';
-import { Muting } from '@/models/entities/muting.js';
-import { awaitAll } from '@/prelude/await-all.js';
-import { Packed } from '@/misc/schema.js';
-import { User } from '@/models/entities/user.js';
+import { db } from "@/db/postgre.js";
+import { Muting } from "@/models/entities/muting.js";
+import { awaitAll } from "@/prelude/await-all.js";
+import { Packed } from "@/misc/schema.js";
+import { User } from "@/models/entities/user.js";
+import { Users } from "../index.js";
 
 export const MutingRepository = db.getRepository(Muting).extend({
 	async pack(
-		src: Muting['id'] | Muting,
-		me?: { id: User['id'] } | null | undefined
-	): Promise<Packed<'Muting'>> {
-		const muting = typeof src === 'object' ? src : await this.findOneByOrFail({ id: src });
+		src: Muting["id"] | Muting,
+		me?: { id: User["id"] } | null | undefined,
+	): Promise<Packed<"Muting">> {
+		const muting = typeof src === "object" ? src : await this.findOneByOrFail({ id: src });
 
 		return await awaitAll({
 			id: muting.id,
@@ -25,7 +25,7 @@ export const MutingRepository = db.getRepository(Muting).extend({
 
 	packMany(
 		mutings: any[],
-		me: { id: User['id'] }
+		me: { id: User["id"] },
 	) {
 		return Promise.all(mutings.map(x => this.pack(x, me)));
 	},

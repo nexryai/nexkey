@@ -1,46 +1,46 @@
-import { URL } from 'node:url';
-import define from '../../../define.js';
-import { inboxQueue } from '@/queue/queues.js';
+import { URL } from "node:url";
+import { inboxQueue } from "@/queue/queues.js";
+import define from "../../../define.js";
 
 export const meta = {
-	tags: ['admin'],
+	tags: ["admin"],
 
 	requireCredential: true,
 	requireModerator: true,
 
 	res: {
-		type: 'array',
+		type: "array",
 		optional: false, nullable: false,
 		items: {
-			type: 'array',
+			type: "array",
 			optional: false, nullable: false,
 			items: {
 				anyOf: [
 					{
-						type: 'string',
+						type: "string",
 					},
 					{
-						type: 'number',
+						type: "number",
 					},
 				],
 			},
 		},
 		example: [[
-			'example.com',
+			"example.com",
 			12,
 		]],
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {},
 	required: [],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps) => {
-	const jobs = await inboxQueue.getJobs(['delayed']);
+	const jobs = await inboxQueue.getJobs(["delayed"]);
 
 	const res = [] as [string, number][];
 

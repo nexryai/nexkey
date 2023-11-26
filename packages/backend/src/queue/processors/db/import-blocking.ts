@@ -1,16 +1,16 @@
-import Bull from 'bull';
+import Bull from "bull";
 
-import { queueLogger } from '../../logger.js';
-import * as Acct from '@/misc/acct.js';
-import { resolveUser } from '@/remote/resolve-user.js';
-import { downloadTextFile } from '@/misc/download-text-file.js';
-import { isSelfHost, toPuny } from '@/misc/convert-host.js';
-import { Users, DriveFiles, Blockings } from '@/models/index.js';
-import { DbUserImportJobData } from '@/queue/types.js';
-import block from '@/services/blocking/create.js';
-import { IsNull } from 'typeorm';
+import { IsNull } from "typeorm";
+import * as Acct from "@/misc/acct.js";
+import { resolveUser } from "@/remote/resolve-user.js";
+import { downloadTextFile } from "@/misc/download-text-file.js";
+import { isSelfHost, toPuny } from "@/misc/convert-host.js";
+import { Users, DriveFiles, Blockings } from "@/models/index.js";
+import { DbUserImportJobData } from "@/queue/types.js";
+import block from "@/services/blocking/create.js";
+import { queueLogger } from "../../logger.js";
 
-const logger = queueLogger.createSubLogger('import-blocking');
+const logger = queueLogger.createSubLogger("import-blocking");
 
 export async function importBlocking(job: Bull.Job<DbUserImportJobData>, done: any): Promise<void> {
 	logger.info(`Importing blocking of ${job.data.user.id} ...`);
@@ -33,11 +33,11 @@ export async function importBlocking(job: Bull.Job<DbUserImportJobData>, done: a
 
 	let linenum = 0;
 
-	for (const line of csv.trim().split('\n')) {
+	for (const line of csv.trim().split("\n")) {
 		linenum++;
 
 		try {
-			const acct = line.split(',')[0].trim();
+			const acct = line.split(",")[0].trim();
 			const { username, host } = Acct.parse(acct);
 
 			let target = isSelfHost(host!) ? await Users.findOneBy({
@@ -69,7 +69,7 @@ export async function importBlocking(job: Bull.Job<DbUserImportJobData>, done: a
 		}
 	}
 
-	logger.succ('Imported');
+	logger.succ("Imported");
 	done();
 }
 

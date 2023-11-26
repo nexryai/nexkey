@@ -1,26 +1,26 @@
-import { Notes } from '@/models/index.js';
-import { checkWordMute } from '@/misc/check-word-mute.js';
-import { isUserRelated } from '@/misc/is-user-related.js';
-import { isInstanceMuted } from '@/misc/is-instance-muted.js';
-import { Packed } from '@/misc/schema.js';
-import Channel from '../channel.js';
+import { Notes } from "@/models/index.js";
+import { checkWordMute } from "@/misc/check-word-mute.js";
+import { isUserRelated } from "@/misc/is-user-related.js";
+import { isInstanceMuted } from "@/misc/is-instance-muted.js";
+import { Packed } from "@/misc/schema.js";
+import Channel from "../channel.js";
 
 export default class extends Channel {
-	public readonly chName = 'homeTimeline';
+	public readonly chName = "homeTimeline";
 	public static shouldShare = true;
 	public static requireCredential = true;
 
-	constructor(id: string, connection: Channel['connection']) {
+	constructor(id: string, connection: Channel["connection"]) {
 		super(id, connection);
 		this.onNote = this.onNote.bind(this);
 	}
 
 	public async init(params: any) {
 		// Subscribe events
-		this.subscriber.on('notesStream', this.onNote);
+		this.subscriber.on("notesStream", this.onNote);
 	}
 
-	private async onNote(note: Packed<'Note'>) {
+	private async onNote(note: Packed<"Note">) {
 		if (note.channelId) {
 			if (!this.followingChannels.has(note.channelId)) return;
 		} else {
@@ -32,7 +32,7 @@ export default class extends Channel {
 		// フォローしているなら対象から除外する
 		if (isInstanceMuted(note, new Set<string>(this.userProfile?.mutedInstances ?? [])) && !this.following.has(note.userId)) return;
 
-		if (['followers', 'specified'].includes(note.visibility)) {
+		if (["followers", "specified"].includes(note.visibility)) {
 			note = await Notes.pack(note.id, this.user!, {
 				detail: true,
 			});
@@ -78,11 +78,11 @@ export default class extends Channel {
 
 		this.connection.cacheNote(note);
 
-		this.send('note', note);
+		this.send("note", note);
 	}
 
 	public dispose() {
 		// Unsubscribe events
-		this.subscriber.off('notesStream', this.onNote);
+		this.subscriber.off("notesStream", this.onNote);
 	}
 }

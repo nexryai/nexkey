@@ -1,7 +1,7 @@
 <template>
-	<div v-if="$i && fetching" class="">
-		<MkLoading/>
-	</div>
+<div v-if="$i && fetching" class="">
+	<MkLoading/>
+</div>
 <div v-else-if="$i" style="margin: 32px;">
 	<XForm
 		v-if="state == 'waiting'"
@@ -29,18 +29,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import XForm from './auth.form.vue';
-import MkSignin from '@/components/MkSignin.vue';
-import * as os from '@/os';
-import { login } from '@/account';
+import { defineComponent } from "vue";
+import XForm from "./auth.form.vue";
+import MkSignin from "@/components/MkSignin.vue";
+import * as os from "@/os";
+import { login } from "@/account";
 
 export default defineComponent({
 	components: {
 		XForm,
 		MkSignin,
 	},
-	props: ['token'],
+	props: ["token"],
 	data() {
 		return {
 			state: null,
@@ -52,7 +52,7 @@ export default defineComponent({
 		if (!this.$i) return;
 
 		// Fetch session
-		os.api('auth/session/show', {
+		os.api("auth/session/show", {
 			token: this.token,
 		}).then(session => {
 			this.session = session;
@@ -60,25 +60,25 @@ export default defineComponent({
 
 			// 既に連携していた場合
 			if (this.session.app.isAuthorized) {
-				os.api('auth/accept', {
+				os.api("auth/accept", {
 					token: this.session.token,
 				}).then(() => {
 					this.accepted();
 				});
 			} else {
-				this.state = 'waiting';
+				this.state = "waiting";
 			}
 		}).catch(error => {
-			this.state = 'fetch-session-error';
+			this.state = "fetch-session-error";
 			this.fetching = false;
 		});
 	},
 	methods: {
 		accepted() {
-			this.state = 'accepted';
+			this.state = "accepted";
 			if (this.session.app.callbackUrl) {
 				const url = new URL(this.session.app.callbackUrl);
-				if (['javascript:', 'file:', 'data:', 'mailto:', 'tel:'].includes(url.protocol)) throw new Error('invalid url');
+				if (["javascript:", "file:", "data:", "mailto:", "tel:"].includes(url.protocol)) throw new Error("invalid url");
 				location.href = `${this.session.app.callbackUrl}?token=${this.session.token}`;
 			}
 		}, onLogin(res) {

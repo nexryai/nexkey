@@ -1,12 +1,12 @@
-import { beforeShutdown } from '@/misc/before-shutdown.js';
+import { beforeShutdown } from "@/misc/before-shutdown.js";
 
-import FederationChart from './charts/federation.js';
-import NotesChart from './charts/notes.js';
-import UsersChart from './charts/users.js';
-import ActiveUsersChart from './charts/active-users.js';
-import InstanceChart from './charts/instance.js';
-import PerUserNotesChart from './charts/per-user-notes.js';
-import ApRequestChart from './charts/ap-request.js';
+import FederationChart from "./charts/federation.js";
+import NotesChart from "./charts/notes.js";
+import UsersChart from "./charts/users.js";
+import ActiveUsersChart from "./charts/active-users.js";
+import InstanceChart from "./charts/instance.js";
+import PerUserNotesChart from "./charts/per-user-notes.js";
+import ApRequestChart from "./charts/ap-request.js";
 
 export const federationChart = new FederationChart();
 export const notesChart = new NotesChart();

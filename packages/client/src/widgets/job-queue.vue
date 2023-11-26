@@ -46,23 +46,23 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, reactive, ref } from 'vue';
-import { GetFormResultType } from '@/scripts/form';
-import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from './widget';
-import { stream } from '@/stream';
-import number from '@/filters/number';
-import * as sound from '@/scripts/sound';
-import * as os from '@/os';
+import { onMounted, onUnmounted, reactive, ref } from "vue";
+import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from "./widget";
+import { GetFormResultType } from "@/scripts/form";
+import { stream } from "@/stream";
+import number from "@/filters/number";
+import * as sound from "@/scripts/sound";
+import * as os from "@/os";
 
-const name = 'jobQueue';
+const name = "jobQueue";
 
 const widgetPropsDef = {
 	transparent: {
-		type: 'boolean' as const,
+		type: "boolean" as const,
 		default: false,
 	},
 	sound: {
-		type: 'boolean' as const,
+		type: "boolean" as const,
 		default: false,
 	},
 };
@@ -73,7 +73,7 @@ type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
 //const props = defineProps<WidgetComponentProps<WidgetProps>>();
 //const emit = defineEmits<WidgetComponentEmits<WidgetProps>>();
 const props = defineProps<{ widget?: Widget<WidgetProps>; }>();
-const emit = defineEmits<{ (ev: 'updateProps', props: WidgetProps); }>();
+const emit = defineEmits<{ (ev: "updateProps", props: WidgetProps); }>();
 
 const { widgetProps, configure } = useWidgetPropsManager(name,
 	widgetPropsDef,
@@ -81,7 +81,7 @@ const { widgetProps, configure } = useWidgetPropsManager(name,
 	emit,
 );
 
-const connection = stream.useChannel('queueStats');
+const connection = stream.useChannel("queueStats");
 const current = reactive({
 	inbox: {
 		activeSincePrevTick: 0,
@@ -97,14 +97,14 @@ const current = reactive({
 	},
 });
 const prev = reactive({} as typeof current);
-const jammedSound = sound.setVolume(sound.getAudio('syuilo/queue-jammed'), 1);
+const jammedSound = sound.setVolume(sound.getAudio("syuilo/queue-jammed"), 1);
 
-for (const domain of ['inbox', 'deliver']) {
+for (const domain of ["inbox", "deliver"]) {
 	prev[domain] = JSON.parse(JSON.stringify(current[domain]));
 }
 
 const onStats = (stats) => {
-	for (const domain of ['inbox', 'deliver']) {
+	for (const domain of ["inbox", "deliver"]) {
 		prev[domain] = JSON.parse(JSON.stringify(current[domain]));
 		current[domain].activeSincePrevTick = stats[domain].activeSincePrevTick;
 		current[domain].active = stats[domain].active;
@@ -123,17 +123,17 @@ const onStatsLog = (statsLog) => {
 	}
 };
 
-connection.on('stats', onStats);
-connection.on('statsLog', onStatsLog);
+connection.on("stats", onStats);
+connection.on("statsLog", onStatsLog);
 
-connection.send('requestLog', {
+connection.send("requestLog", {
 	id: Math.random().toString().substr(2, 8),
 	length: 1,
 });
 
 onUnmounted(() => {
-	connection.off('stats', onStats);
-	connection.off('statsLog', onStatsLog);
+	connection.off("stats", onStats);
+	connection.off("statsLog", onStatsLog);
 	connection.dispose();
 });
 

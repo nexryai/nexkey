@@ -1,40 +1,40 @@
-import { Brackets, In } from 'typeorm';
-import { publishNoteStream } from '@/services/stream.js';
-import renderDelete from '@/remote/activitypub/renderer/delete.js';
-import renderAnnounce from '@/remote/activitypub/renderer/announce.js';
-import renderUndo from '@/remote/activitypub/renderer/undo.js';
-import { renderActivity } from '@/remote/activitypub/renderer/index.js';
-import renderTombstone from '@/remote/activitypub/renderer/tombstone.js';
-import config from '@/config/index.js';
-import { User, ILocalUser, IRemoteUser } from '@/models/entities/user.js';
-import { Note, IMentionedRemoteUsers } from '@/models/entities/note.js';
-import { Notes, Users, Instances } from '@/models/index.js';
-import { notesChart, perUserNotesChart, instanceChart } from '@/services/chart/index.js';
-import { deliverToFollowers, deliverToUser } from '@/remote/activitypub/deliver-manager.js';
-import { countSameRenotes } from '@/misc/count-same-renotes.js';
-import { registerOrFetchInstanceDoc } from '../register-or-fetch-instance-doc.js';
-import { deliverToRelays } from '../relay.js';
+import { Brackets, In } from "typeorm";
+import { publishNoteStream } from "@/services/stream.js";
+import renderDelete from "@/remote/activitypub/renderer/delete.js";
+import renderAnnounce from "@/remote/activitypub/renderer/announce.js";
+import renderUndo from "@/remote/activitypub/renderer/undo.js";
+import { renderActivity } from "@/remote/activitypub/renderer/index.js";
+import renderTombstone from "@/remote/activitypub/renderer/tombstone.js";
+import config from "@/config/index.js";
+import { User, ILocalUser, IRemoteUser } from "@/models/entities/user.js";
+import { Note, IMentionedRemoteUsers } from "@/models/entities/note.js";
+import { Notes, Users, Instances } from "@/models/index.js";
+import { notesChart, perUserNotesChart, instanceChart } from "@/services/chart/index.js";
+import { deliverToFollowers, deliverToUser } from "@/remote/activitypub/deliver-manager.js";
+import { countSameRenotes } from "@/misc/count-same-renotes.js";
+import { registerOrFetchInstanceDoc } from "../register-or-fetch-instance-doc.js";
+import { deliverToRelays } from "../relay.js";
 
 /**
  * 投稿を削除します。
  * @param user 投稿者
  * @param note 投稿
  */
-export default async function(user: { id: User['id']; uri: User['uri']; host: User['host']; }, note: Note, quiet = false) {
+export default async function(user: { id: User["id"]; uri: User["uri"]; host: User["host"]; }, note: Note, quiet = false) {
 	const deletedAt = new Date();
 
 	// この投稿を除く指定したユーザーによる指定したノートのリノートが存在しないとき
 	if (note.renoteId && (await countSameRenotes(user.id, note.renoteId, note.id)) === 0) {
-		Notes.decrement({ id: note.renoteId }, 'renoteCount', 1);
-		Notes.decrement({ id: note.renoteId }, 'score', 1);
+		Notes.decrement({ id: note.renoteId }, "renoteCount", 1);
+		Notes.decrement({ id: note.renoteId }, "score", 1);
 	}
 
 	if (note.replyId) {
-		await Notes.decrement({ id: note.replyId }, 'repliesCount', 1);
+		await Notes.decrement({ id: note.replyId }, "repliesCount", 1);
 	}
 
 	if (!quiet) {
-		publishNoteStream(note.id, 'deleted', {
+		publishNoteStream(note.id, "deleted", {
 			deletedAt: deletedAt,
 		});
 
@@ -75,7 +75,7 @@ export default async function(user: { id: User['id']; uri: User['uri']; host: Us
 
 		if (Users.isRemoteUser(user)) {
 			registerOrFetchInstanceDoc(user.host).then(i => {
-				Instances.decrement({ id: i.id }, 'notesCount', 1);
+				Instances.decrement({ id: i.id }, "notesCount", 1);
 				instanceChart.updateNote(i.host, note, false);
 			});
 		}
@@ -91,13 +91,13 @@ async function findCascadingNotes(note: Note) {
 	const cascadingNotes: Note[] = [];
 
 	const recursive = async (noteId: string) => {
-		const query = Notes.createQueryBuilder('note')
-			.where('note.replyId = :noteId', { noteId })
+		const query = Notes.createQueryBuilder("note")
+			.where("note.replyId = :noteId", { noteId })
 			.orWhere(new Brackets(q => {
-				q.where('note.renoteId = :noteId', { noteId })
-				.andWhere('note.text IS NOT NULL');
+				q.where("note.renoteId = :noteId", { noteId })
+				.andWhere("note.text IS NOT NULL");
 			}))
-			.leftJoinAndSelect('note.user', 'user');
+			.leftJoinAndSelect("note.user", "user");
 		const replies = await query.getMany();
 		for (const reply of replies) {
 			cascadingNotes.push(reply);
@@ -134,7 +134,7 @@ async function getMentionedRemoteUsers(note: Note) {
 	}) as IRemoteUser[];
 }
 
-async function deliverToConcerned(user: { id: ILocalUser['id']; host: null; }, note: Note, content: any) {
+async function deliverToConcerned(user: { id: ILocalUser["id"]; host: null; }, note: Note, content: any) {
 	const retryable = true;
 	deliverToFollowers(user, content);
 	deliverToRelays(user, content, retryable);

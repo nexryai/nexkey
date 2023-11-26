@@ -1,299 +1,299 @@
-import { IsNull, MoreThan } from 'typeorm';
-import config from '@/config/index.js';
-import { fetchMeta } from '@/misc/fetch-meta.js';
-import { Ads, Emojis, Users } from '@/models/index.js';
-import { DB_MAX_NOTE_TEXT_LENGTH } from '@/misc/hard-limits.js';
-import { MAX_NOTE_TEXT_LENGTH } from '@/const.js';
-import define from '../define.js';
+import { IsNull, MoreThan } from "typeorm";
+import config from "@/config/index.js";
+import { fetchMeta } from "@/misc/fetch-meta.js";
+import { Ads, Emojis, Users } from "@/models/index.js";
+import { DB_MAX_NOTE_TEXT_LENGTH } from "@/misc/hard-limits.js";
+import { MAX_NOTE_TEXT_LENGTH } from "@/const.js";
+import define from "../define.js";
 
 export const meta = {
-	tags: ['meta'],
+	tags: ["meta"],
 
 	requireCredential: false,
 
 	res: {
-		type: 'object',
+		type: "object",
 		optional: false, nullable: false,
 		properties: {
 			maintainerName: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: true,
 			},
 			maintainerEmail: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: true,
 			},
 			version: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: false,
 				example: config.version,
 			},
 			name: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: false,
 			},
 			uri: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: false,
-				format: 'url',
-				example: 'https://misskey.example.com',
+				format: "url",
+				example: "https://misskey.example.com",
 			},
 			description: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: true,
 			},
 			langs: {
-				type: 'array',
+				type: "array",
 				optional: false, nullable: false,
 				items: {
-					type: 'string',
+					type: "string",
 					optional: false, nullable: false,
 				},
 			},
 			tosUrl: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: true,
 			},
 			repositoryUrl: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: false,
-				default: 'https://github.com/misskey-dev/misskey',
+				default: "https://github.com/misskey-dev/misskey",
 			},
 			feedbackUrl: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: false,
-				default: 'https://github.com/misskey-dev/misskey/issues/new',
+				default: "https://github.com/misskey-dev/misskey/issues/new",
 			},
 			defaultDarkTheme: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: true,
 			},
 			defaultLightTheme: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: true,
 			},
 			disableRegistration: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 			disableLocalTimeline: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 			disableGlobalTimeline: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 			driveCapacityPerLocalUserMb: {
-				type: 'number',
+				type: "number",
 				optional: false, nullable: false,
 			},
 			driveCapacityPerRemoteUserMb: {
-				type: 'number',
+				type: "number",
 				optional: false, nullable: false,
 			},
 			cacheRemoteFiles: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 			emailRequiredForSignup: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 			enableHcaptcha: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 			hcaptchaSiteKey: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: true,
 			},
 			enableRecaptcha: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 			recaptchaSiteKey: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: true,
 			},
 			enableTurnstile: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 			turnstileSiteKey: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: true,
 			},
 			swPublickey: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: true,
 			},
 			mascotImageUrl: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: false,
-				default: '/assets/ai.png',
+				default: "/assets/ai.png",
 			},
 			bannerUrl: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: false,
 			},
 			errorImageUrl: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: false,
-				default: 'https://xn--931a.moe/aiart/yubitun.png',
+				default: "https://xn--931a.moe/aiart/yubitun.png",
 			},
 			iconUrl: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: true,
 			},
 			maxNoteTextLength: {
-				type: 'number',
+				type: "number",
 				optional: false, nullable: false,
 			},
 			emojis: {
-				type: 'array',
+				type: "array",
 				optional: false, nullable: false,
 				items: {
-					type: 'object',
+					type: "object",
 					optional: false, nullable: false,
 					properties: {
 						id: {
-							type: 'string',
+							type: "string",
 							optional: false, nullable: false,
-							format: 'id',
+							format: "id",
 						},
 						aliases: {
-							type: 'array',
+							type: "array",
 							optional: false, nullable: false,
 							items: {
-								type: 'string',
+								type: "string",
 								optional: false, nullable: false,
 							},
 						},
 						category: {
-							type: 'string',
+							type: "string",
 							optional: false, nullable: true,
 						},
 						host: {
-							type: 'string',
+							type: "string",
 							optional: false, nullable: true,
-							description: 'The local host is represented with `null`.',
+							description: "The local host is represented with `null`.",
 						},
 						url: {
-							type: 'string',
+							type: "string",
 							optional: false, nullable: false,
-							format: 'url',
+							format: "url",
 						},
 					},
 				},
 			},
 			ads: {
-				type: 'array',
+				type: "array",
 				optional: false, nullable: false,
 				items: {
-					type: 'object',
+					type: "object",
 					optional: false, nullable: false,
 					properties: {
 						place: {
-							type: 'string',
+							type: "string",
 							optional: false, nullable: false,
 						},
 						url: {
-							type: 'string',
+							type: "string",
 							optional: false, nullable: false,
-							format: 'url',
+							format: "url",
 						},
 						imageUrl: {
-							type: 'string',
+							type: "string",
 							optional: false, nullable: false,
-							format: 'url',
+							format: "url",
 						},
 					},
 				},
 			},
 			requireSetup: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 				example: false,
 			},
 			enableEmail: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 			enableTwitterIntegration: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 			enableGithubIntegration: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 			enableDiscordIntegration: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 			enableServiceWorker: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 			translatorAvailable: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 			proxyAccountName: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: true,
 			},
 			features: {
-				type: 'object',
+				type: "object",
 				optional: true, nullable: false,
 				properties: {
 					registration: {
-						type: 'boolean',
+						type: "boolean",
 						optional: false, nullable: false,
 					},
 					localTimeLine: {
-						type: 'boolean',
+						type: "boolean",
 						optional: false, nullable: false,
 					},
 					globalTimeLine: {
-						type: 'boolean',
+						type: "boolean",
 						optional: false, nullable: false,
 					},
 					elasticsearch: {
-						type: 'boolean',
+						type: "boolean",
 						optional: false, nullable: false,
 					},
 					hcaptcha: {
-						type: 'boolean',
+						type: "boolean",
 						optional: false, nullable: false,
 					},
 					recaptcha: {
-						type: 'boolean',
+						type: "boolean",
 						optional: false, nullable: false,
 					},
 					objectStorage: {
-						type: 'boolean',
+						type: "boolean",
 						optional: false, nullable: false,
 					},
 					twitter: {
-						type: 'boolean',
+						type: "boolean",
 						optional: false, nullable: false,
 					},
 					github: {
-						type: 'boolean',
+						type: "boolean",
 						optional: false, nullable: false,
 					},
 					discord: {
-						type: 'boolean',
+						type: "boolean",
 						optional: false, nullable: false,
 					},
 					serviceWorker: {
-						type: 'boolean',
+						type: "boolean",
 						optional: false, nullable: false,
 					},
 					miauth: {
-						type: 'boolean',
+						type: "boolean",
 						optional: true, nullable: false,
 						default: true,
 					},
@@ -304,9 +304,9 @@ export const meta = {
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		detail: { type: 'boolean', default: true },
+		detail: { type: "boolean", default: true },
 	},
 	required: [],
 } as const;
@@ -320,11 +320,11 @@ export default define(meta, paramDef, async (ps, me) => {
 			host: IsNull(),
 		},
 		order: {
-			category: 'ASC',
-			name: 'ASC',
+			category: "ASC",
+			name: "ASC",
 		},
 		cache: {
-			id: 'meta_emojis',
+			id: "meta_emojis",
 			milliseconds: 3600000,	// 1 hour
 		},
 	});

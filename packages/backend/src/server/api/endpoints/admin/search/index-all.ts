@@ -1,5 +1,5 @@
-import define from "../../../define.js";
 import { createIndexAllNotesJob } from "@/queue/index.js";
+import define from "../../../define.js";
 
 export const meta = {
 	tags: ["admin"],

@@ -18,20 +18,20 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, ref } from 'vue';
-import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from './widget';
-import { GetFormResultType } from '@/scripts/form';
-import MkContainer from '@/components/MkContainer.vue';
-import MkMiniChart from '@/components/MkMiniChart.vue';
-import * as os from '@/os';
-import { useInterval } from '@/scripts/use-interval';
-import { i18n } from '@/i18n';
+import { onMounted, onUnmounted, ref } from "vue";
+import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from "./widget";
+import { GetFormResultType } from "@/scripts/form";
+import MkContainer from "@/components/MkContainer.vue";
+import MkMiniChart from "@/components/MkMiniChart.vue";
+import * as os from "@/os";
+import { useInterval } from "@/scripts/use-interval";
+import { i18n } from "@/i18n";
 
-const name = 'hashtags';
+const name = "hashtags";
 
 const widgetPropsDef = {
 	showHeader: {
-		type: 'boolean' as const,
+		type: "boolean" as const,
 		default: true,
 	},
 };
@@ -42,7 +42,7 @@ type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
 //const props = defineProps<WidgetComponentProps<WidgetProps>>();
 //const emit = defineEmits<WidgetComponentEmits<WidgetProps>>();
 const props = defineProps<{ widget?: Widget<WidgetProps>; }>();
-const emit = defineEmits<{ (ev: 'updateProps', props: WidgetProps); }>();
+const emit = defineEmits<{ (ev: "updateProps", props: WidgetProps); }>();
 
 const { widgetProps, configure } = useWidgetPropsManager(name,
 	widgetPropsDef,
@@ -54,7 +54,7 @@ const stats = ref([]);
 const fetching = ref(true);
 
 const fetch = () => {
-	os.api('hashtags/trend').then(res => {
+	os.api("hashtags/trend").then(res => {
 		stats.value = res;
 		fetching.value = false;
 	});

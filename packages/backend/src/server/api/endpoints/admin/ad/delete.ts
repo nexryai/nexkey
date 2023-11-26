@@ -1,28 +1,28 @@
-import define from '../../../define.js';
-import { Ads } from '@/models/index.js';
-import { ApiError } from '../../../error.js';
+import { Ads } from "@/models/index.js";
+import define from "../../../define.js";
+import { ApiError } from "../../../error.js";
 
 export const meta = {
-	tags: ['admin'],
+	tags: ["admin"],
 
 	requireCredential: true,
 	requireModerator: true,
 
 	errors: {
 		noSuchAd: {
-			message: 'No such ad.',
-			code: 'NO_SUCH_AD',
-			id: 'ccac9863-3a03-416e-b899-8a64041118b1',
+			message: "No such ad.",
+			code: "NO_SUCH_AD",
+			id: "ccac9863-3a03-416e-b899-8a64041118b1",
 		},
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		id: { type: 'string', format: 'misskey:id' },
+		id: { type: "string", format: "misskey:id" },
 	},
-	required: ['id'],
+	required: ["id"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export

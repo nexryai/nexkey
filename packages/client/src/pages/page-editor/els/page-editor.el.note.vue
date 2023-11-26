@@ -18,35 +18,35 @@
 
 <script lang="ts" setup>
 /* eslint-disable vue/no-mutating-props */
-import { watch } from 'vue';
-import XContainer from '../page-editor.container.vue';
-import MkInput from '@/components/form/input.vue';
-import MkSwitch from '@/components/form/switch.vue';
-import XNote from '@/components/MkNote.vue';
-import XNoteDetailed from '@/components/MkNoteDetailed.vue';
-import * as os from '@/os';
+import { watch } from "vue";
+import XContainer from "../page-editor.container.vue";
+import MkInput from "@/components/form/input.vue";
+import MkSwitch from "@/components/form/switch.vue";
+import XNote from "@/components/MkNote.vue";
+import XNoteDetailed from "@/components/MkNoteDetailed.vue";
+import * as os from "@/os";
 
 const props = withDefaults(defineProps<{
 	value: any
 }>(), {
 	value: {
 		note: null,
-		detailed: false
-	}
+		detailed: false,
+	},
 });
 
 let id: any = $ref(props.value.note);
 let note: any = $ref(null);
 
 watch(id, async () => {
-	if (id && (id.startsWith('http://') || id.startsWith('https://'))) {
-		props.value.note = (id.endsWith('/') ? id.slice(0, -1) : id).split('/').pop();
+	if (id && (id.startsWith("http://") || id.startsWith("https://"))) {
+		props.value.note = (id.endsWith("/") ? id.slice(0, -1) : id).split("/").pop();
 	} else {
 		props.value.note = id;
 	}
 
-	note = await os.api('notes/show', { noteId: props.value.note });
+	note = await os.api("notes/show", { noteId: props.value.note });
 }, {
-	immediate: true
+	immediate: true,
 });
 </script>

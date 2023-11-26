@@ -16,17 +16,17 @@
 
 <script lang="ts" setup>
 /* eslint-disable vue/no-mutating-props */
-import { onMounted } from 'vue';
-import XContainer from '../page-editor.container.vue';
-import MkDriveFileThumbnail from '@/components/MkDriveFileThumbnail.vue';
-import * as os from '@/os';
+import { onMounted } from "vue";
+import XContainer from "../page-editor.container.vue";
+import MkDriveFileThumbnail from "@/components/MkDriveFileThumbnail.vue";
+import * as os from "@/os";
 
 const props = withDefaults(defineProps<{
 	value: any
 }>(), {
 	value: {
-		fileId: null
-	}
+		fileId: null,
+	},
 });
 
 let file: any = $ref(null);
@@ -42,8 +42,8 @@ onMounted(async () => {
 	if (props.value.fileId == null) {
 		await choose();
 	} else {
-		os.api('drive/files/show', {
-			fileId: props.value.fileId
+		os.api("drive/files/show", {
+			fileId: props.value.fileId,
 		}).then(fileResponse => {
 			file = fileResponse;
 		});

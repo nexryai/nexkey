@@ -1,39 +1,39 @@
-import { deleteFile } from '@/services/drive/delete-file.js';
-import { publishDriveStream } from '@/services/stream.js';
-import define from '../../../define.js';
-import { ApiError } from '../../../error.js';
-import { DriveFiles, Users } from '@/models/index.js';
+import { deleteFile } from "@/services/drive/delete-file.js";
+import { publishDriveStream } from "@/services/stream.js";
+import { DriveFiles, Users } from "@/models/index.js";
+import define from "../../../define.js";
+import { ApiError } from "../../../error.js";
 
 export const meta = {
-	tags: ['drive'],
+	tags: ["drive"],
 
 	requireCredential: true,
 
-	kind: 'write:drive',
+	kind: "write:drive",
 
-	description: 'Delete an existing drive file.',
+	description: "Delete an existing drive file.",
 
 	errors: {
 		noSuchFile: {
-			message: 'No such file.',
-			code: 'NO_SUCH_FILE',
-			id: '908939ec-e52b-4458-b395-1025195cea58',
+			message: "No such file.",
+			code: "NO_SUCH_FILE",
+			id: "908939ec-e52b-4458-b395-1025195cea58",
 		},
 
 		accessDenied: {
-			message: 'Access denied.',
-			code: 'ACCESS_DENIED',
-			id: '5eb8d909-2540-4970-90b8-dd6f86088121',
+			message: "Access denied.",
+			code: "ACCESS_DENIED",
+			id: "5eb8d909-2540-4970-90b8-dd6f86088121",
 		},
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		fileId: { type: 'string', format: 'misskey:id' },
+		fileId: { type: "string", format: "misskey:id" },
 	},
-	required: ['fileId'],
+	required: ["fileId"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
@@ -52,5 +52,5 @@ export default define(meta, paramDef, async (ps, user) => {
 	await deleteFile(file);
 
 	// Publish fileDeleted event
-	publishDriveStream(user.id, 'fileDeleted', file.id);
+	publishDriveStream(user.id, "fileDeleted", file.id);
 });
