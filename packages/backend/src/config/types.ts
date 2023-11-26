@@ -83,7 +83,7 @@ export type Source = {
 	};
 
 	mediaProxy?: string;
-
+	
 	disableAntenna?: boolean;
 	disableSearch?: boolean;
 };
