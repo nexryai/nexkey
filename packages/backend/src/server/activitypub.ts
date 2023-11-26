@@ -80,7 +80,7 @@ function inbox(ctx: Router.RouterContext) {
 			console.log("RawBody is Null")
 			ctx.status = 400;
 			return;
-		}*/
+		}
 
 		const hash = crypto.createHash("sha256").update(ctx.request.rawBody).digest("base64");
 
@@ -89,7 +89,7 @@ function inbox(ctx: Router.RouterContext) {
 			console.log("Invalid digest")
 			ctx.status = 401;
 			return;
-		}
+		}*/
 	}
 
 	processInbox(ctx.request.body, signature);
