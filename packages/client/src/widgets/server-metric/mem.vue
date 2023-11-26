@@ -11,9 +11,9 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onBeforeUnmount } from 'vue';
-import XPie from './pie.vue';
-import bytes from '@/filters/bytes';
+import { onMounted, onBeforeUnmount } from "vue";
+import XPie from "./pie.vue";
+import bytes from "@/filters/bytes";
 
 const props = defineProps<{
 	connection: any,
@@ -33,11 +33,11 @@ function onStats(stats) {
 }
 
 onMounted(() => {
-	props.connection.on('stats', onStats);
+	props.connection.on("stats", onStats);
 });
 
 onBeforeUnmount(() => {
-	props.connection.off('stats', onStats);
+	props.connection.off("stats", onStats);
 });
 </script>
 

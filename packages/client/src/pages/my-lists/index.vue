@@ -17,18 +17,18 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import MkPagination from '@/components/MkPagination.vue';
-import MkButton from '@/components/MkButton.vue';
-import MkAvatars from '@/components/MkAvatars.vue';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { } from "vue";
+import MkPagination from "@/components/MkPagination.vue";
+import MkButton from "@/components/MkButton.vue";
+import MkAvatars from "@/components/MkAvatars.vue";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 const pagingComponent = $ref<InstanceType<typeof MkPagination>>();
 
 const pagination = {
-	endpoint: 'users/lists/list' as const,
+	endpoint: "users/lists/list" as const,
 	limit: 10,
 };
 
@@ -37,7 +37,7 @@ async function create() {
 		title: i18n.ts.enterListName,
 	});
 	if (canceled) return;
-	await os.apiWithDialog('users/lists/create', { name: name });
+	await os.apiWithDialog("users/lists/create", { name: name });
 	pagingComponent.reload();
 }
 
@@ -47,9 +47,9 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.manageLists,
-	icon: 'ti ti-list',
+	icon: "ti ti-list",
 	action: {
-		icon: 'ti ti-plus',
+		icon: "ti ti-plus",
 		handler: create,
 	},
 });

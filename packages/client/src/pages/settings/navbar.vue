@@ -18,25 +18,25 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue';
-import FormTextarea from '@/components/form/textarea.vue';
-import FormRadios from '@/components/form/radios.vue';
-import FormButton from '@/components/MkButton.vue';
-import * as os from '@/os';
-import { navbarItemDef } from '@/navbar';
-import { defaultStore } from '@/store';
-import { unisonReload } from '@/scripts/unison-reload';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { computed, ref, watch } from "vue";
+import FormTextarea from "@/components/form/textarea.vue";
+import FormRadios from "@/components/form/radios.vue";
+import FormButton from "@/components/MkButton.vue";
+import * as os from "@/os";
+import { navbarItemDef } from "@/navbar";
+import { defaultStore } from "@/store";
+import { unisonReload } from "@/scripts/unison-reload";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
-const items = ref(defaultStore.state.menu.join('\n'));
+const items = ref(defaultStore.state.menu.join("\n"));
 
-const split = computed(() => items.value.trim().split('\n').filter(x => x.trim() !== ''));
-const menuDisplay = computed(defaultStore.makeGetterSetter('menuDisplay'));
+const split = computed(() => items.value.trim().split("\n").filter(x => x.trim() !== ""));
+const menuDisplay = computed(defaultStore.makeGetterSetter("menuDisplay"));
 
 async function reloadAsk() {
 	const { canceled } = await os.confirm({
-		type: 'info',
+		type: "info",
 		text: i18n.ts.reloadToApplySetting,
 	});
 	if (canceled) return;
@@ -51,21 +51,21 @@ async function addItem() {
 		items: [...menu.map(k => ({
 			value: k, text: i18n.ts[navbarItemDef[k].title],
 		})), {
-			value: '-', text: i18n.ts.divider,
+			value: "-", text: i18n.ts.divider,
 		}],
 	});
 	if (canceled) return;
-	items.value = [...split.value, item].join('\n');
+	items.value = [...split.value, item].join("\n");
 }
 
 async function save() {
-	defaultStore.set('menu', split.value);
+	defaultStore.set("menu", split.value);
 	await reloadAsk();
 }
 
 function reset() {
-	defaultStore.reset('menu');
-	items.value = defaultStore.state.menu.join('\n');
+	defaultStore.reset("menu");
+	items.value = defaultStore.state.menu.join("\n");
 }
 
 watch(items, async () => {
@@ -82,6 +82,6 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.navbar,
-	icon: 'ti ti-list',
+	icon: "ti ti-list",
 });
 </script>

@@ -1,29 +1,29 @@
-import define from '../define.js';
-import endpoints from '../endpoints.js';
+import define from "../define.js";
+import endpoints from "../endpoints.js";
 
 export const meta = {
 	requireCredential: false,
 
-	tags: ['meta'],
+	tags: ["meta"],
 
 	res: {
-		type: 'array',
+		type: "array",
 		optional: false, nullable: false,
 		items: {
-			type: 'string',
+			type: "string",
 			optional: false, nullable: false,
 		},
 		example: [
-			'admin/abuse-user-reports',
-			'admin/accounts/create',
-			'admin/announcements/create',
-			'...',
+			"admin/abuse-user-reports",
+			"admin/accounts/create",
+			"admin/announcements/create",
+			"...",
 		],
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {},
 	required: [],
 } as const;

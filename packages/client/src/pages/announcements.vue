@@ -22,15 +22,15 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import MkPagination from '@/components/MkPagination.vue';
-import MkButton from '@/components/MkButton.vue';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { } from "vue";
+import MkPagination from "@/components/MkPagination.vue";
+import MkButton from "@/components/MkButton.vue";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 const pagination = {
-	endpoint: 'announcements' as const,
+	endpoint: "announcements" as const,
 	limit: 10,
 };
 
@@ -40,7 +40,7 @@ function read(items, announcement, i) {
 		...announcement,
 		isRead: true,
 	};
-	os.api('i/read-announcement', { announcementId: announcement.id });
+	os.api("i/read-announcement", { announcementId: announcement.id });
 }
 
 const headerActions = $computed(() => []);
@@ -49,7 +49,7 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.announcements,
-	icon: 'ti ti-speakerphone',
+	icon: "ti ti-speakerphone",
 });
 </script>
 

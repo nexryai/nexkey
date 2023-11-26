@@ -1,23 +1,23 @@
-import { IObject, isCreate, isDelete, isUpdate, isRead, isFollow, isAccept, isReject, isAdd, isRemove, isAnnounce, isLike, isUndo, isBlock, isCollectionOrOrderedCollection, isCollection, isFlag } from '../type.js';
-import { CacheableRemoteUser } from '@/models/entities/user.js';
-import create from './create/index.js';
-import performDeleteActivity from './delete/index.js';
-import performUpdateActivity from './update/index.js';
-import { performReadActivity } from './read.js';
-import follow from './follow.js';
-import undo from './undo/index.js';
-import like from './like.js';
-import announce from './announce/index.js';
-import accept from './accept/index.js';
-import reject from './reject/index.js';
-import add from './add/index.js';
-import remove from './remove/index.js';
-import block from './block/index.js';
-import flag from './flag/index.js';
-import { apLogger } from '../logger.js';
-import Resolver from '../resolver.js';
-import { toArray } from '@/prelude/array.js';
-import { Users } from '@/models/index.js';
+import { CacheableRemoteUser } from "@/models/entities/user.js";
+import { toArray } from "@/prelude/array.js";
+import { Users } from "@/models/index.js";
+import { IObject, isCreate, isDelete, isUpdate, isRead, isFollow, isAccept, isReject, isAdd, isRemove, isAnnounce, isLike, isUndo, isBlock, isCollectionOrOrderedCollection, isCollection, isFlag } from "../type.js";
+import { apLogger } from "../logger.js";
+import Resolver from "../resolver.js";
+import create from "./create/index.js";
+import performDeleteActivity from "./delete/index.js";
+import performUpdateActivity from "./update/index.js";
+import { performReadActivity } from "./read.js";
+import follow from "./follow.js";
+import undo from "./undo/index.js";
+import like from "./like.js";
+import announce from "./announce/index.js";
+import accept from "./accept/index.js";
+import reject from "./reject/index.js";
+import add from "./add/index.js";
+import remove from "./remove/index.js";
+import block from "./block/index.js";
+import flag from "./flag/index.js";
 
 export async function performActivity(actor: CacheableRemoteUser, activity: IObject) {
 	if (isCollectionOrOrderedCollection(activity)) {
@@ -27,7 +27,7 @@ export async function performActivity(actor: CacheableRemoteUser, activity: IObj
 			try {
 				await performOneActivity(actor, act);
 			} catch (err) {
-				if (err instanceof Error || typeof err === 'string') {
+				if (err instanceof Error || typeof err === "string") {
 					apLogger.error(err);
 				}
 			}

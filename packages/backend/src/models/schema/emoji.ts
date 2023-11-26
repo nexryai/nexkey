@@ -1,36 +1,36 @@
 export const packedEmojiSchema = {
-	type: 'object',
+	type: "object",
 	properties: {
 		id: {
-			type: 'string',
+			type: "string",
 			optional: false, nullable: false,
-			format: 'id',
-			example: 'xxxxxxxxxx',
+			format: "id",
+			example: "xxxxxxxxxx",
 		},
 		aliases: {
-			type: 'array',
+			type: "array",
 			optional: false, nullable: false,
 			items: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: false,
-				format: 'id',
+				format: "id",
 			},
 		},
 		name: {
-			type: 'string',
+			type: "string",
 			optional: false, nullable: false,
 		},
 		category: {
-			type: 'string',
+			type: "string",
 			optional: false, nullable: true,
 		},
 		host: {
-			type: 'string',
+			type: "string",
 			optional: false, nullable: true,
-			description: 'The local host is represented with `null`.',
+			description: "The local host is represented with `null`.",
 		},
 		url: {
-			type: 'string',
+			type: "string",
 			optional: false, nullable: false,
 		},
 	},

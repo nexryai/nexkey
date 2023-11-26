@@ -312,46 +312,46 @@
 </template>
 
 <script lang="ts" setup>
-import { defineComponent } from 'vue';
-import MkTextarea from '@/components/form/textarea.vue';
-import { definePageMetadata } from '@/scripts/page-metadata';
-import { i18n } from '@/i18n';
-import { instance } from '@/instance';
+import { defineComponent } from "vue";
+import MkTextarea from "@/components/form/textarea.vue";
+import { definePageMetadata } from "@/scripts/page-metadata";
+import { i18n } from "@/i18n";
+import { instance } from "@/instance";
 
-let preview_mention = $ref('@example');
-let preview_hashtag = $ref('#test');
-let preview_url = $ref('https://example.com');
+let preview_mention = $ref("@example");
+let preview_hashtag = $ref("#test");
+let preview_url = $ref("https://example.com");
 let preview_link = $ref(`[${i18n.ts._mfm.dummy}](https://example.com)`);
-let preview_emoji = $ref(instance.emojis.length ? `:${instance.emojis[0].name}:` : ':emojiname:');
+let preview_emoji = $ref(instance.emojis.length ? `:${instance.emojis[0].name}:` : ":emojiname:");
 let preview_bold = $ref(`**${i18n.ts._mfm.dummy}**`);
 let preview_small = $ref(`<small>${i18n.ts._mfm.dummy}</small>`);
 let preview_center = $ref(`<center>${i18n.ts._mfm.dummy}</center>`);
-let preview_inlineCode = $ref('`<: "Hello, world!"`');
-let preview_blockCode = $ref('```\n~ (#i, 100) {\n\t<: ? ((i % 15) = 0) "FizzBuzz"\n\t\t.? ((i % 3) = 0) "Fizz"\n\t\t.? ((i % 5) = 0) "Buzz"\n\t\t. i\n}\n```');
-let preview_inlineMath = $ref('\\(x= \\frac{-b\' \\pm \\sqrt{(b\')^2-ac}}{a}\\)');
+let preview_inlineCode = $ref("`<: \"Hello, world!\"`");
+let preview_blockCode = $ref("```\n~ (#i, 100) {\n\t<: ? ((i % 15) = 0) \"FizzBuzz\"\n\t\t.? ((i % 3) = 0) \"Fizz\"\n\t\t.? ((i % 5) = 0) \"Buzz\"\n\t\t. i\n}\n```");
+let preview_inlineMath = $ref("\\(x= \\frac{-b' \\pm \\sqrt{(b')^2-ac}}{a}\\)");
 let preview_quote = $ref(`> ${i18n.ts._mfm.dummy}`);
 let preview_search = $ref(`${i18n.ts._mfm.dummy} 検索`);
-let preview_jelly = $ref('$[jelly 🍮] $[jelly.speed=5s 🍮]');
-let preview_tada = $ref('$[tada 🍮] $[tada.speed=5s 🍮]');
-let preview_jump = $ref('$[jump 🍮] $[jump.speed=5s 🍮]');
-let preview_bounce = $ref('$[bounce 🍮] $[bounce.speed=5s 🍮]');
-let preview_shake = $ref('$[shake 🍮] $[shake.speed=5s 🍮]');
-let preview_twitch = $ref('$[twitch 🍮] $[twitch.speed=5s 🍮]');
-let preview_spin = $ref('$[spin 🍮] $[spin.left 🍮] $[spin.alternate 🍮]\n$[spin.x 🍮] $[spin.x,left 🍮] $[spin.x,alternate 🍮]\n$[spin.y 🍮] $[spin.y,left 🍮] $[spin.y,alternate 🍮]\n\n$[spin.speed=5s 🍮]');
+let preview_jelly = $ref("$[jelly 🍮] $[jelly.speed=5s 🍮]");
+let preview_tada = $ref("$[tada 🍮] $[tada.speed=5s 🍮]");
+let preview_jump = $ref("$[jump 🍮] $[jump.speed=5s 🍮]");
+let preview_bounce = $ref("$[bounce 🍮] $[bounce.speed=5s 🍮]");
+let preview_shake = $ref("$[shake 🍮] $[shake.speed=5s 🍮]");
+let preview_twitch = $ref("$[twitch 🍮] $[twitch.speed=5s 🍮]");
+let preview_spin = $ref("$[spin 🍮] $[spin.left 🍮] $[spin.alternate 🍮]\n$[spin.x 🍮] $[spin.x,left 🍮] $[spin.x,alternate 🍮]\n$[spin.y 🍮] $[spin.y,left 🍮] $[spin.y,alternate 🍮]\n\n$[spin.speed=5s 🍮]");
 let preview_flip = $ref(`$[flip ${i18n.ts._mfm.dummy}]\n$[flip.v ${i18n.ts._mfm.dummy}]\n$[flip.h,v ${i18n.ts._mfm.dummy}]`);
 let preview_font = $ref(`$[font.serif ${i18n.ts._mfm.dummy}]\n$[font.monospace ${i18n.ts._mfm.dummy}]\n$[font.cursive ${i18n.ts._mfm.dummy}]\n$[font.fantasy ${i18n.ts._mfm.dummy}]`);
-let preview_x2 = $ref('$[x2 🍮]');
-let preview_x3 = $ref('$[x3 🍮]');
-let preview_x4 = $ref('$[x4 🍮]');
+let preview_x2 = $ref("$[x2 🍮]");
+let preview_x3 = $ref("$[x3 🍮]");
+let preview_x4 = $ref("$[x4 🍮]");
 let preview_blur = $ref(`$[blur ${i18n.ts._mfm.dummy}]`);
-let preview_rainbow = $ref('$[rainbow 🍮] $[rainbow.speed=5s 🍮]');
-let preview_sparkle = $ref('$[sparkle 🍮]');
-let preview_rotate = $ref('$[rotate 🍮]');
-let preview_plain = $ref('<plain>**bold** @mention #hashtag `code` $[x2 🍮]</plain>');
+let preview_rainbow = $ref("$[rainbow 🍮] $[rainbow.speed=5s 🍮]");
+let preview_sparkle = $ref("$[sparkle 🍮]");
+let preview_rotate = $ref("$[rotate 🍮]");
+let preview_plain = $ref("<plain>**bold** @mention #hashtag `code` $[x2 🍮]</plain>");
 
 definePageMetadata({
 	title: i18n.ts._mfm.cheatSheet,
-	icon: 'ti ti-question-circle',
+	icon: "ti ti-question-circle",
 });
 </script>
 

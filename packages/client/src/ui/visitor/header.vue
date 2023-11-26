@@ -2,10 +2,10 @@
 <div class="sqxihjet">
 	<div class="wide">
 		<div v-if="narrow === false" class="content">
-      <img @click="jumpToHome" :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" class="header-logo"/>
+			<img :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" class="header-logo" @click="jumpToHome"/>
 			<MkA to="/explore" class="link" active-class="active"><i class="ti ti-hash icon"></i>{{ $ts.explore }}</MkA>
 			<MkA to="/pages" class="link" active-class="active"><i class="ti ti-news icon"></i>{{ $ts.pages }}</MkA>
-      <MkA to="/announcements" class="link" active-class="active"><i class="ti ti-speakerphone icon"></i>{{ $ts.announcements }}</MkA>
+			<MkA to="/announcements" class="link" active-class="active"><i class="ti ti-speakerphone icon"></i>{{ $ts.announcements }}</MkA>
 			<div v-if="info" class="page active link">
 				<div class="title">
 					<i v-if="info.icon" class="icon" :class="info.icon"></i>
@@ -25,9 +25,9 @@
 		<button class="menu _button" @click="$parent.showMenu = true">
 			<i class="ti ti-menu-2 icon"></i>
 		</button>
-    <img @click="jumpToHome" :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" class="header-logo-mobile"/>
-    <MkA to="/" class="instance-name" active-class="active"><span>{{ instanceName() }}</span></MkA>
-    <div v-if="info" class="title">
+		<img :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" class="header-logo-mobile" @click="jumpToHome"/>
+		<MkA to="/" class="instance-name" active-class="active"><span>{{ instanceName() }}</span></MkA>
+		<div v-if="info" class="title">
 			<i v-if="info.icon" class="icon" :class="info.icon"></i>
 			<MkAvatar v-else-if="info.avatar" class="avatar" :user="info.avatar" :disable-preview="true" :show-indicator="true"/>
 			<span v-if="info.title" class="text">{{ info.title }}</span>
@@ -41,13 +41,13 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, ref} from 'vue';
-import XSigninDialog from '@/components/MkSigninDialog.vue';
-import XSignupDialog from '@/components/MkSignupDialog.vue';
-import * as os from '@/os';
-import { search } from '@/scripts/search';
-import {i18n} from "@/i18n";
-import { instanceName } from '@/config';
+import { defineComponent, ref } from "vue";
+import XSigninDialog from "@/components/MkSigninDialog.vue";
+import XSignupDialog from "@/components/MkSignupDialog.vue";
+import * as os from "@/os";
+import { search } from "@/scripts/search";
+import { i18n } from "@/i18n";
+import { instanceName } from "@/config";
 
 export default defineComponent({
 	props: {
@@ -68,23 +68,23 @@ export default defineComponent({
 	},
 
 	methods: {
-    instanceName() {
-      return instanceName
-    },
-    jumpToHome() {
-      window.location.href = '/';
-    },
+		instanceName() {
+			return instanceName;
+		},
+		jumpToHome() {
+			window.location.href = "/";
+		},
 
 		signin() {
 			os.popup(XSigninDialog, {
 				autoSet: true,
-			}, {}, 'closed');
+			}, {}, "closed");
 		},
 
 		signup() {
 			os.popup(XSignupDialog, {
 				autoSet: true,
-			}, {}, 'closed');
+			}, {}, "closed");
 		},
 
 		search,

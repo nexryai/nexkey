@@ -7,7 +7,7 @@
 				<div v-if="!narrow || currentPage?.route.name == null" class="nav">
 					<div class="baaadecd">
 						<MkInfo v-if="emailNotConfigured" warn class="info">{{ i18n.ts.emailNotConfiguredWarning }} <MkA to="/settings/email" class="_link">{{ i18n.ts.configure }}</MkA></MkInfo>
-            <MkSuperMenu :def="menuDef" :grid="narrow"></MkSuperMenu>
+						<MkSuperMenu :def="menuDef" :grid="narrow"></MkSuperMenu>
 					</div>
 				</div>
 				<div v-if="!(narrow && currentPage?.route.name == null)" class="main">
@@ -22,21 +22,21 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineAsyncComponent, inject, nextTick, onActivated, onMounted, onUnmounted, provide, ref, watch } from 'vue';
-import { i18n } from '@/i18n';
-import MkInfo from '@/components/MkInfo.vue';
-import MkSuperMenu from '@/components/MkSuperMenu.vue';
-import { scroll } from '@/scripts/scroll';
-import { signout , $i } from '@/account';
-import { unisonReload } from '@/scripts/unison-reload';
-import { instance } from '@/instance';
-import { useRouter } from '@/router';
-import { definePageMetadata, provideMetadataReceiver, setPageMetadata } from '@/scripts/page-metadata';
-import * as os from '@/os';
+import { computed, defineAsyncComponent, inject, nextTick, onActivated, onMounted, onUnmounted, provide, ref, watch } from "vue";
+import { i18n } from "@/i18n";
+import MkInfo from "@/components/MkInfo.vue";
+import MkSuperMenu from "@/components/MkSuperMenu.vue";
+import { scroll } from "@/scripts/scroll";
+import { signout , $i } from "@/account";
+import { unisonReload } from "@/scripts/unison-reload";
+import { instance } from "@/instance";
+import { useRouter } from "@/router";
+import { definePageMetadata, provideMetadataReceiver, setPageMetadata } from "@/scripts/page-metadata";
+import * as os from "@/os";
 
 const indexInfo = {
 	title: i18n.ts.settings,
-	icon: 'ti ti-settings',
+	icon: "ti ti-settings",
 	hideHeader: true,
 };
 const INFO = ref(indexInfo);
@@ -58,124 +58,124 @@ const ro = new ResizeObserver((entries, observer) => {
 const menuDef = computed(() => [{
 	title: i18n.ts.basicSettings,
 	items: [{
-		icon: 'ti ti-user',
+		icon: "ti ti-user",
 		text: i18n.ts.profile,
-		to: '/settings/profile',
-		active: currentPage?.route.name === 'profile',
+		to: "/settings/profile",
+		active: currentPage?.route.name === "profile",
 	}, {
-		icon: 'ti ti-lock-open',
+		icon: "ti ti-lock-open",
 		text: i18n.ts.privacy,
-		to: '/settings/privacy',
-		active: currentPage?.route.name === 'privacy',
-  }, {
-    icon: 'ti ti-ban',
-    text: i18n.ts.muteAndBlock,
-    to: '/settings/mute-block',
-    active: currentPage?.route.name === 'mute-block',
+		to: "/settings/privacy",
+		active: currentPage?.route.name === "privacy",
 	}, {
-		icon: 'ti ti-mood-happy',
+		icon: "ti ti-ban",
+		text: i18n.ts.muteAndBlock,
+		to: "/settings/mute-block",
+		active: currentPage?.route.name === "mute-block",
+	}, {
+		icon: "ti ti-mood-happy",
 		text: i18n.ts.reaction,
-		to: '/settings/reaction',
-		active: currentPage?.route.name === 'reaction',
+		to: "/settings/reaction",
+		active: currentPage?.route.name === "reaction",
 	}, {
-		icon: 'ti ti-cloud',
+		icon: "ti ti-cloud",
 		text: i18n.ts.drive,
-		to: '/settings/drive',
-		active: currentPage?.route.name === 'drive',
+		to: "/settings/drive",
+		active: currentPage?.route.name === "drive",
 	}, {
-		icon: 'ti ti-bell',
+		icon: "ti ti-bell",
 		text: i18n.ts.notifications,
-		to: '/settings/notifications',
-		active: currentPage?.route.name === 'notifications',
+		to: "/settings/notifications",
+		active: currentPage?.route.name === "notifications",
 	}, {
-		icon: 'ti ti-mail',
+		icon: "ti ti-mail",
 		text: i18n.ts.email,
-		to: '/settings/email',
-		active: currentPage?.route.name === 'email',
+		to: "/settings/email",
+		active: currentPage?.route.name === "email",
 	}, {
-		icon: 'ti ti-lock',
+		icon: "ti ti-lock",
 		text: i18n.ts.security,
-		to: '/settings/security',
-		active: currentPage?.route.name === 'security',
+		to: "/settings/security",
+		active: currentPage?.route.name === "security",
 	}],
 }, {
 	title: i18n.ts.clientSettings,
 	items: [{
-		icon: 'ti ti-adjustments',
+		icon: "ti ti-adjustments",
 		text: i18n.ts.general,
-		to: '/settings/general',
-		active: currentPage?.route.name === 'general',
+		to: "/settings/general",
+		active: currentPage?.route.name === "general",
 	}, {
-		icon: 'ti ti-palette',
+		icon: "ti ti-palette",
 		text: i18n.ts.theme,
-		to: '/settings/theme',
-		active: currentPage?.route.name === 'theme',
+		to: "/settings/theme",
+		active: currentPage?.route.name === "theme",
 	}, {
-		icon: 'ti ti-menu-2',
+		icon: "ti ti-menu-2",
 		text: i18n.ts.navbar,
-		to: '/settings/navbar',
-		active: currentPage?.route.name === 'navbar',
+		to: "/settings/navbar",
+		active: currentPage?.route.name === "navbar",
 	}, {
-		icon: 'ti ti-equal-double',
+		icon: "ti ti-equal-double",
 		text: i18n.ts.statusbar,
-		to: '/settings/statusbar',
-		active: currentPage?.route.name === 'statusbar',
+		to: "/settings/statusbar",
+		active: currentPage?.route.name === "statusbar",
 	}, {
-		icon: 'ti ti-music',
+		icon: "ti ti-music",
 		text: i18n.ts.sounds,
-		to: '/settings/sounds',
-		active: currentPage?.route.name === 'sounds',
+		to: "/settings/sounds",
+		active: currentPage?.route.name === "sounds",
 	}, {
-		icon: 'ti ti-plug',
+		icon: "ti ti-plug",
 		text: i18n.ts.plugins,
-		to: '/settings/plugin',
-		active: currentPage?.route.name === 'plugin',
+		to: "/settings/plugin",
+		active: currentPage?.route.name === "plugin",
 	}],
 }, {
 	title: i18n.ts.otherSettings,
 	items: [{
-		icon: 'ti ti-package',
+		icon: "ti ti-package",
 		text: i18n.ts.importAndExport,
-		to: '/settings/import-export',
-		active: currentPage?.route.name === 'import-export',
+		to: "/settings/import-export",
+		active: currentPage?.route.name === "import-export",
 	}, {
-		icon: 'ti ti-api',
-		text: 'API',
-		to: '/settings/api',
-		active: currentPage?.route.name === 'api',
+		icon: "ti ti-api",
+		text: "API",
+		to: "/settings/api",
+		active: currentPage?.route.name === "api",
 	}, {
-		icon: 'ti ti-webhook',
-		text: 'Webhook',
-		to: '/settings/webhook',
-		active: currentPage?.route.name === 'webhook',
+		icon: "ti ti-webhook",
+		text: "Webhook",
+		to: "/settings/webhook",
+		active: currentPage?.route.name === "webhook",
 	}, {
-		icon: 'ti ti-dots',
+		icon: "ti ti-dots",
 		text: i18n.ts.other,
-		to: '/settings/other',
-		active: currentPage?.route.name === 'other',
+		to: "/settings/other",
+		active: currentPage?.route.name === "other",
 	}],
 }, {
 	items: [{
-		icon: 'ti ti-device-floppy',
+		icon: "ti ti-device-floppy",
 		text: i18n.ts.preferencesBackups,
-		to: '/settings/preferences-backups',
-		active: currentPage?.route.name === 'preferences-backups',
+		to: "/settings/preferences-backups",
+		active: currentPage?.route.name === "preferences-backups",
 	}, {
-		type: 'button',
-		icon: 'ti ti-trash',
+		type: "button",
+		icon: "ti ti-trash",
 		text: i18n.ts.clearCache,
 		action: () => {
-			localStorage.removeItem('locale');
-			localStorage.removeItem('theme');
+			localStorage.removeItem("locale");
+			localStorage.removeItem("theme");
 			unisonReload();
 		},
 	}, {
-		type: 'button',
-		icon: 'ti ti-power',
+		type: "button",
+		icon: "ti ti-power",
 		text: i18n.ts.logout,
 		action: async () => {
 			const { canceled } = await os.confirm({
-				type: 'warning',
+				type: "warning",
 				text: i18n.ts.logoutConfirm,
 			});
 			if (canceled) return;
@@ -194,7 +194,7 @@ onMounted(() => {
 	narrow = el.value.offsetWidth < NARROW_THRESHOLD;
 
 	if (!narrow && currentPage?.route.name == null) {
-		router.replace('/settings/profile');
+		router.replace("/settings/profile");
 	}
 });
 
@@ -202,7 +202,7 @@ onActivated(() => {
 	narrow = el.value.offsetWidth < NARROW_THRESHOLD;
 
 	if (!narrow && currentPage?.route.name == null) {
-		router.replace('/settings/profile');
+		router.replace("/settings/profile");
 	}
 });
 
@@ -211,9 +211,9 @@ onUnmounted(() => {
 });
 
 watch(router.currentRef, (to) => {
-  if (to.route.path === "/admin" && to.child?.route.name == null && !narrow) {
-    router.replace('/admin/overview');
-  }
+	if (to.route.path === "/admin" && to.child?.route.name == null && !narrow) {
+		router.replace("/admin/overview");
+	}
 });
 
 const emailNotConfigured = computed(() => instance.enableEmail && ($i.email == null || !$i.emailVerified));

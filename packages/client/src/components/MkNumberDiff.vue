@@ -5,8 +5,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
-import number from '@/filters/number';
+import { computed, defineComponent } from "vue";
+import number from "@/filters/number";
 
 export default defineComponent({
 	props: {

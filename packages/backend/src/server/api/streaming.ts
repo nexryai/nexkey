@@ -1,12 +1,12 @@
-import * as http from 'node:http';
-import * as websocket from 'websocket';
+import * as http from "node:http";
+import { ParsedUrlQuery } from "querystring";
+import { EventEmitter } from "events";
+import * as websocket from "websocket";
 
-import MainStreamConnection from './stream/index.js';
-import { ParsedUrlQuery } from 'querystring';
-import authenticate from './authenticate.js';
-import { EventEmitter } from 'events';
-import { subsdcriber as redisClient } from '../../db/redis.js';
-import { Users } from '@/models/index.js';
+import { Users } from "@/models/index.js";
+import { subsdcriber as redisClient } from "../../db/redis.js";
+import MainStreamConnection from "./stream/index.js";
+import authenticate from "./authenticate.js";
 
 export const initializeStreamingServer = (server: http.Server) => {
 	// Init websocket server
@@ -14,7 +14,7 @@ export const initializeStreamingServer = (server: http.Server) => {
 		httpServer: server,
 	});
 
-	ws.on('request', async (request) => {
+	ws.on("request", async (request) => {
 		const q = request.resourceURL.query as ParsedUrlQuery;
 
 		// TODO: トークンが間違ってるなどしてauthenticateに失敗したら
@@ -36,7 +36,7 @@ export const initializeStreamingServer = (server: http.Server) => {
 			ev.emit(parsed.channel, parsed.message);
 		}
 
-		redisClient.on('message', onRedisMessage);
+		redisClient.on("message", onRedisMessage);
 
 		const main = new MainStreamConnection(connection, ev, user, app);
 
@@ -51,16 +51,16 @@ export const initializeStreamingServer = (server: http.Server) => {
 			});
 		}
 
-		connection.once('close', () => {
+		connection.once("close", () => {
 			ev.removeAllListeners();
 			main.dispose();
-			redisClient.off('message', onRedisMessage);
+			redisClient.off("message", onRedisMessage);
 			if (intervalId) clearInterval(intervalId);
 		});
 
-		connection.on('message', async (data) => {
-			if (data.type === 'utf8' && data.utf8Data === 'ping') {
-				connection.send('pong');
+		connection.on("message", async (data) => {
+			if (data.type === "utf8" && data.utf8Data === "ping") {
+				connection.send("pong");
 			}
 		});
 	});

@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 export default defineComponent({
 	props: {
@@ -76,11 +76,11 @@ export default defineComponent({
 		};
 	},
 	mounted() {
-		this.$watch('showBody', showBody => {
+		this.$watch("showBody", showBody => {
 			const headerHeight = this.showHeader ? this.$refs.header.offsetHeight : 0;
 			this.$el.style.minHeight = `${headerHeight}px`;
 			if (showBody) {
-				this.$el.style.flexBasis = 'auto';
+				this.$el.style.flexBasis = "auto";
 			} else {
 				this.$el.style.flexBasis = `${headerHeight}px`;
 			}
@@ -88,7 +88,7 @@ export default defineComponent({
 			immediate: true,
 		});
 
-		this.$el.style.setProperty('--maxHeight', this.maxHeight + 'px');
+		this.$el.style.setProperty("--maxHeight", this.maxHeight + "px");
 
 		const calcOmit = () => {
 			if (this.omitted || this.ignoreOmit || this.maxHeight == null) return;
@@ -111,14 +111,14 @@ export default defineComponent({
 			const elementHeight = el.getBoundingClientRect().height;
 			el.style.height = 0;
 			el.offsetHeight; // reflow
-			el.style.height = elementHeight + 'px';
+			el.style.height = elementHeight + "px";
 		},
 		afterEnter(el) {
 			el.style.height = null;
 		},
 		leave(el) {
 			const elementHeight = el.getBoundingClientRect().height;
-			el.style.height = elementHeight + 'px';
+			el.style.height = elementHeight + "px";
 			el.offsetHeight; // reflow
 			el.style.height = 0;
 		},

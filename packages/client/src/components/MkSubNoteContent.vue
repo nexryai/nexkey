@@ -25,12 +25,12 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
-import * as misskey from 'misskey-js';
-import XMediaList from '@/components/MkMediaList.vue';
-import XPoll from '@/components/MkPoll.vue';
-import { i18n } from '@/i18n';
-import { defaultStore } from '@/store';
+import { onMounted, ref } from "vue";
+import * as misskey from "misskey-js";
+import XMediaList from "@/components/MkMediaList.vue";
+import XPoll from "@/components/MkPoll.vue";
+import { i18n } from "@/i18n";
+import { defaultStore } from "@/store";
 
 const props = defineProps<{
 	note: misskey.entities.Note;

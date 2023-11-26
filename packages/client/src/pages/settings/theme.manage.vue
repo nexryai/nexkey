@@ -26,18 +26,18 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
-import JSON5 from 'json5';
-import FormTextarea from '@/components/form/textarea.vue';
-import FormSelect from '@/components/form/select.vue';
-import FormInput from '@/components/form/input.vue';
-import FormButton from '@/components/MkButton.vue';
-import { Theme, getBuiltinThemesRef } from '@/scripts/theme';
-import copyToClipboard from '@/scripts/copy-to-clipboard';
-import * as os from '@/os';
-import { getThemes, removeTheme } from '@/theme-store';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { computed, ref } from "vue";
+import JSON5 from "json5";
+import FormTextarea from "@/components/form/textarea.vue";
+import FormSelect from "@/components/form/select.vue";
+import FormInput from "@/components/form/input.vue";
+import FormButton from "@/components/MkButton.vue";
+import { Theme, getBuiltinThemesRef } from "@/scripts/theme";
+import copyToClipboard from "@/scripts/copy-to-clipboard";
+import * as os from "@/os";
+import { getThemes, removeTheme } from "@/theme-store";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 const installedThemes = ref(getThemes());
 const builtinThemes = getBuiltinThemesRef();
@@ -52,7 +52,7 @@ const selectedTheme = computed(() => {
 
 const selectedThemeCode = computed(() => {
 	if (selectedTheme.value == null) return null;
-	return JSON5.stringify(selectedTheme.value, null, '\t');
+	return JSON5.stringify(selectedTheme.value, null, "\t");
 });
 
 function copyThemeCode() {
@@ -73,6 +73,6 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts._theme.manage,
-	icon: 'ti ti-tool',
+	icon: "ti ti-tool",
 });
 </script>

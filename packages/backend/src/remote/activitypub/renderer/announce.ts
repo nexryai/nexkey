@@ -1,5 +1,5 @@
-import config from '@/config/index.js';
-import { Note } from '@/models/entities/note.js';
+import config from "@/config/index.js";
+import { Note } from "@/models/entities/note.js";
 
 export default (object: any, note: Note) => {
 	const attributedTo = `${config.url}/users/${note.userId}`;
@@ -7,15 +7,15 @@ export default (object: any, note: Note) => {
 	let to: string[] = [];
 	let cc: string[] = [];
 
-	if (note.visibility === 'public') {
-		to = ['https://www.w3.org/ns/activitystreams#Public'];
+	if (note.visibility === "public") {
+		to = ["https://www.w3.org/ns/activitystreams#Public"];
 		cc = [`${attributedTo}/followers`];
-	} else if (note.visibility === 'home') {
+	} else if (note.visibility === "home") {
 		to = [`${attributedTo}/followers`];
-		cc = ['https://www.w3.org/ns/activitystreams#Public'];
-	} else if (note.visibility === 'followers') {
-			to = [`${attributedTo}/followers`];
-			cc = [];
+		cc = ["https://www.w3.org/ns/activitystreams#Public"];
+	} else if (note.visibility === "followers") {
+		to = [`${attributedTo}/followers`];
+		cc = [];
 	} else {
 		return null;
 	}
@@ -23,7 +23,7 @@ export default (object: any, note: Note) => {
 	return {
 		id: `${config.url}/notes/${note.id}/activity`,
 		actor: `${config.url}/users/${note.userId}`,
-		type: 'Announce',
+		type: "Announce",
 		published: note.createdAt.toISOString(),
 		to,
 		cc,

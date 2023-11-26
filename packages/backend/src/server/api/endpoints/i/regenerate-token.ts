@@ -1,8 +1,8 @@
-import { publishInternalEvent, publishMainStream, publishUserEvent } from '@/services/stream.js';
-import generateUserToken from '../../common/generate-native-user-token.js';
-import define from '../../define.js';
-import { Users, UserProfiles } from '@/models/index.js';
+import { publishInternalEvent, publishMainStream, publishUserEvent } from "@/services/stream.js";
+import { Users, UserProfiles } from "@/models/index.js";
 import { comparePassword } from "@/misc/password.js";
+import generateUserToken from "../../common/generate-native-user-token.js";
+import define from "../../define.js";
 
 export const meta = {
 	requireCredential: true,
@@ -11,11 +11,11 @@ export const meta = {
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		password: { type: 'string' },
+		password: { type: "string" },
 	},
-	required: ['password'],
+	required: ["password"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
@@ -29,7 +29,7 @@ export default define(meta, paramDef, async (ps, user) => {
 	const same = await comparePassword(ps.password, profile.password!);
 
 	if (!same) {
-		throw new Error('incorrect password');
+		throw new Error("incorrect password");
 	}
 
 	const newToken = generateUserToken();
@@ -39,11 +39,11 @@ export default define(meta, paramDef, async (ps, user) => {
 	});
 
 	// Publish event
-	publishInternalEvent('userTokenRegenerated', { id: user.id, oldToken, newToken });
-	publishMainStream(user.id, 'myTokenRegenerated');
+	publishInternalEvent("userTokenRegenerated", { id: user.id, oldToken, newToken });
+	publishMainStream(user.id, "myTokenRegenerated");
 
 	// Terminate streaming
 	setTimeout(() => {
-		publishUserEvent(user.id, 'terminate', {});
+		publishUserEvent(user.id, "terminate", {});
 	}, 5000);
 });

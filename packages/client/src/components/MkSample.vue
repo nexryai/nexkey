@@ -28,14 +28,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import MkButton from '@/components/MkButton.vue';
-import MkInput from '@/components/form/input.vue';
-import MkSwitch from '@/components/form/switch.vue';
-import MkTextarea from '@/components/form/textarea.vue';
-import MkRadio from '@/components/form/radio.vue';
-import * as os from '@/os';
-import * as config from '@/config';
+import { defineComponent } from "vue";
+import MkButton from "@/components/MkButton.vue";
+import MkInput from "@/components/form/input.vue";
+import MkSwitch from "@/components/form/switch.vue";
+import MkTextarea from "@/components/form/textarea.vue";
+import MkRadio from "@/components/form/radio.vue";
+import * as os from "@/os";
+import * as config from "@/config";
 
 export default defineComponent({
 	components: {
@@ -48,38 +48,38 @@ export default defineComponent({
 
 	data() {
 		return {
-			text: '',
+			text: "",
 			flag: true,
-			radio: 'misskey',
-			mfm: `Hello world! This is an @example mention. BTW you are @${this.$i ? this.$i.username : 'guest'}.\nAlso, here is ${config.url} and [example link](${config.url}). for more details, see https://example.com.\nAs you know #misskey is open-source software.`
+			radio: "misskey",
+			mfm: `Hello world! This is an @example mention. BTW you are @${this.$i ? this.$i.username : "guest"}.\nAlso, here is ${config.url} and [example link](${config.url}). for more details, see https://example.com.\nAs you know #misskey is open-source software.`,
 		};
 	},
 
 	methods: {
 		async openDialog() {
 			os.alert({
-				type: 'warning',
-				title: 'Oh my Aichan',
-				text: 'Lorem ipsum dolor sit amet, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+				type: "warning",
+				title: "Oh my Aichan",
+				text: "Lorem ipsum dolor sit amet, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
 			});
 		},
 
 		async openForm() {
-			os.form('Example form', {
+			os.form("Example form", {
 				foo: {
-					type: 'boolean',
+					type: "boolean",
 					default: true,
-					label: 'This is a boolean property'
+					label: "This is a boolean property",
 				},
 				bar: {
-					type: 'number',
+					type: "number",
 					default: 300,
-					label: 'This is a number property'
+					label: "This is a number property",
 				},
 				baz: {
-					type: 'string',
-					default: 'Misskey makes you happy.',
-					label: 'This is a string property'
+					type: "string",
+					default: "Misskey makes you happy.",
+					label: "This is a string property",
 				},
 			});
 		},
@@ -94,23 +94,23 @@ export default defineComponent({
 
 		async openMenu(ev) {
 			os.popupMenu([{
-				type: 'label',
-				text: 'Fruits'
+				type: "label",
+				text: "Fruits",
 			}, {
-				text: 'Create some apples',
+				text: "Create some apples",
 				action: () => {},
 			}, {
-				text: 'Read some oranges',
+				text: "Read some oranges",
 				action: () => {},
 			}, {
-				text: 'Update some melons',
+				text: "Update some melons",
 				action: () => {},
 			}, null, {
-				text: 'Delete some bananas',
+				text: "Delete some bananas",
 				danger: true,
 				action: () => {},
 			}], ev.currentTarget ?? ev.target);
 		},
-	}
+	},
 });
 </script>

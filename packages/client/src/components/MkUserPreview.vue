@@ -34,12 +34,12 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
-import * as Acct from 'misskey-js/built/acct';
-import * as misskey from 'misskey-js';
-import MkFollowButton from '@/components/MkFollowButton.vue';
-import { userPage } from '@/filters/user';
-import * as os from '@/os';
+import { onMounted } from "vue";
+import * as Acct from "misskey-js/built/acct";
+import * as misskey from "misskey-js";
+import MkFollowButton from "@/components/MkFollowButton.vue";
+import { userPage } from "@/filters/user";
+import * as os from "@/os";
 
 const props = defineProps<{
 	showing: boolean;
@@ -48,25 +48,25 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-	(ev: 'closed'): void;
-	(ev: 'mouseover'): void;
-	(ev: 'mouseleave'): void;
+	(ev: "closed"): void;
+	(ev: "mouseover"): void;
+	(ev: "mouseleave"): void;
 }>();
 
-const zIndex = os.claimZIndex('middle');
+const zIndex = os.claimZIndex("middle");
 let user = $ref<misskey.entities.UserDetailed | null>(null);
 let top = $ref(0);
 let left = $ref(0);
 
 onMounted(() => {
-	if (typeof props.q === 'object') {
+	if (typeof props.q === "object") {
 		user = props.q;
 	} else {
-		const query = props.q.startsWith('@') ?
+		const query = props.q.startsWith("@") ?
 			Acct.parse(props.q.substr(1)) :
 			{ userId: props.q };
 
-		os.api('users/show', query).then(res => {
+		os.api("users/show", query).then(res => {
 			if (!props.showing) return;
 			user = res;
 		});

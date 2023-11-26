@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
 const props = defineProps<{
 	emojis: string[];
@@ -26,7 +26,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-	(ev: 'chosen', v: string, event: MouseEvent): void;
+	(ev: "chosen", v: string, event: MouseEvent): void;
 }>();
 
 const shown = ref(!!props.initialShown);

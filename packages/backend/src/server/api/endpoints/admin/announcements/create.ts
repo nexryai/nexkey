@@ -1,43 +1,43 @@
-import define from '../../../define.js';
-import { Announcements } from '@/models/index.js';
-import { genId } from '@/misc/gen-id.js';
+import { Announcements } from "@/models/index.js";
+import { genId } from "@/misc/gen-id.js";
+import define from "../../../define.js";
 
 export const meta = {
-	tags: ['admin'],
+	tags: ["admin"],
 
 	requireCredential: true,
 	requireModerator: true,
 
 	res: {
-		type: 'object',
+		type: "object",
 		optional: false, nullable: false,
 		properties: {
 			id: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: false,
-				format: 'id',
-				example: 'xxxxxxxxxx',
+				format: "id",
+				example: "xxxxxxxxxx",
 			},
 			createdAt: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: false,
-				format: 'date-time',
+				format: "date-time",
 			},
 			updatedAt: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: true,
-				format: 'date-time',
+				format: "date-time",
 			},
 			title: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: false,
 			},
 			text: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: false,
 			},
 			imageUrl: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: true,
 			},
 		},
@@ -45,13 +45,13 @@ export const meta = {
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		title: { type: 'string', minLength: 1 },
-		text: { type: 'string', minLength: 1 },
-		imageUrl: { type: 'string', nullable: true, minLength: 1 },
+		title: { type: "string", minLength: 1 },
+		text: { type: "string", minLength: 1 },
+		imageUrl: { type: "string", nullable: true, minLength: 1 },
 	},
-	required: ['title', 'text', 'imageUrl'],
+	required: ["title", "text", "imageUrl"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export

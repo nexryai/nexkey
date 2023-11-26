@@ -49,24 +49,24 @@
 </template>
 
 <script lang="ts" setup>
-import { defineAsyncComponent } from 'vue';
-import { toUnicode } from 'punycode/';
-import { showSuspendedDialog } from '../scripts/show-suspended-dialog';
-import MkButton from '@/components/MkButton.vue';
-import MkInput from '@/components/form/input.vue';
-import MkInfo from '@/components/MkInfo.vue';
-import { apiUrl, host as configHost } from '@/config';
-import { byteify, hexify } from '@/scripts/2fa';
-import * as os from '@/os';
-import { login } from '@/account';
-import { instance } from '@/instance';
-import { i18n } from '@/i18n';
+import { defineAsyncComponent } from "vue";
+import { toUnicode } from "punycode/";
+import { showSuspendedDialog } from "../scripts/show-suspended-dialog";
+import MkButton from "@/components/MkButton.vue";
+import MkInput from "@/components/form/input.vue";
+import MkInfo from "@/components/MkInfo.vue";
+import { apiUrl, host as configHost } from "@/config";
+import { byteify, hexify } from "@/scripts/2fa";
+import * as os from "@/os";
+import { login } from "@/account";
+import { instance } from "@/instance";
+import { i18n } from "@/i18n";
 
 let signing = $ref(false);
 let user = $ref(null);
-let username = $ref('');
-let password = $ref('');
-let token = $ref('');
+let username = $ref("");
+let password = $ref("");
+let token = $ref("");
 let host = $ref(toUnicode(configHost));
 let totpLogin = $ref(false);
 let credential = $ref(null);
@@ -78,7 +78,7 @@ let reCaptchaResponse = $ref(null);
 const meta = $computed(() => instance);
 
 const emit = defineEmits<{
-	(ev: 'login', v: any): void;
+	(ev: "login", v: any): void;
 }>();
 
 const props = defineProps({
@@ -95,12 +95,12 @@ const props = defineProps({
 	message: {
 		type: String,
 		required: false,
-		default: '',
+		default: "",
 	},
 });
 
 function onUsernameChange() {
-	os.api('users/show', {
+	os.api("users/show", {
 		username: username,
 	}).then(userResponse => {
 		user = userResponse;
@@ -119,11 +119,11 @@ function queryKey() {
 	queryingKey = true;
 	return navigator.credentials.get({
 		publicKey: {
-			challenge: byteify(challengeData.challenge, 'base64'),
+			challenge: byteify(challengeData.challenge, "base64"),
 			allowCredentials: challengeData.securityKeys.map(key => ({
-				id: byteify(key.id, 'hex'),
-				type: 'public-key',
-				transports: ['usb', 'nfc', 'ble', 'internal'],
+				id: byteify(key.id, "hex"),
+				type: "public-key",
+				transports: ["usb", "nfc", "ble", "internal"],
 			})),
 			timeout: 60 * 1000,
 		},
@@ -133,7 +133,7 @@ function queryKey() {
 	}).then(credential => {
 		queryingKey = false;
 		signing = true;
-		return os.api('signin', {
+		return os.api("signin", {
 			username,
 			password,
 			signature: hexify(credential.response.signature),
@@ -141,16 +141,16 @@ function queryKey() {
 			clientDataJSON: hexify(credential.response.clientDataJSON),
 			credentialId: credential.id,
 			challengeId: challengeData.challengeId,
-			'hcaptcha-response': hCaptchaResponse,
-			'g-recaptcha-response': reCaptchaResponse,
+			"hcaptcha-response": hCaptchaResponse,
+			"g-recaptcha-response": reCaptchaResponse,
 		});
 	}).then(res => {
-		emit('login', res);
+		emit("login", res);
 		return onLogin(res);
 	}).catch(err => {
 		if (err === null) return;
 		os.alert({
-			type: 'error',
+			type: "error",
 			text: i18n.ts.signinFailed,
 		});
 		signing = false;
@@ -159,14 +159,14 @@ function queryKey() {
 
 function onSubmit() {
 	signing = true;
-	console.log('submit');
+	console.log("submit");
 	if (!totpLogin && user && user.twoFactorEnabled) {
 		if (window.PublicKeyCredential && user.securityKeys) {
-			os.api('signin', {
+			os.api("signin", {
 				username,
 				password,
-				'hcaptcha-response': hCaptchaResponse,
-				'g-recaptcha-response': reCaptchaResponse,
+				"hcaptcha-response": hCaptchaResponse,
+				"g-recaptcha-response": reCaptchaResponse,
 			}).then(res => {
 				totpLogin = true;
 				signing = false;
@@ -178,14 +178,14 @@ function onSubmit() {
 			signing = false;
 		}
 	} else {
-		os.api('signin', {
+		os.api("signin", {
 			username,
 			password,
-			'hcaptcha-response': hCaptchaResponse,
-			'g-recaptcha-response': reCaptchaResponse,
+			"hcaptcha-response": hCaptchaResponse,
+			"g-recaptcha-response": reCaptchaResponse,
 			token: user && user.twoFactorEnabled ? token : undefined,
 		}).then(res => {
-			emit('login', res);
+			emit("login", res);
 			onLogin(res);
 		}).catch(loginFailed);
 	}
@@ -193,29 +193,29 @@ function onSubmit() {
 
 function loginFailed(err) {
 	switch (err.id) {
-		case '6cc579cc-885d-43d8-95c2-b8c7fc963280': {
+		case "6cc579cc-885d-43d8-95c2-b8c7fc963280": {
 			os.alert({
-				type: 'error',
+				type: "error",
 				title: i18n.ts.loginFailed,
 				text: i18n.ts.noSuchUser,
 			});
 			break;
 		}
-		case '932c904e-9460-45b7-9ce6-7ed33be7eb2c': {
+		case "932c904e-9460-45b7-9ce6-7ed33be7eb2c": {
 			os.alert({
-				type: 'error',
+				type: "error",
 				title: i18n.ts.loginFailed,
 				text: i18n.ts.incorrectPassword,
 			});
 			break;
 		}
-		case 'e03a5f46-d309-4865-9b69-56282d94e1eb': {
+		case "e03a5f46-d309-4865-9b69-56282d94e1eb": {
 			showSuspendedDialog();
 			break;
 		}
-		case '22d05606-fbcf-421a-a2db-b32610dcfd1b': {
+		case "22d05606-fbcf-421a-a2db-b32610dcfd1b": {
 			os.alert({
-				type: 'error',
+				type: "error",
 				title: i18n.ts.loginFailed,
 				text: i18n.ts.rateLimitExceeded,
 			});
@@ -224,7 +224,7 @@ function loginFailed(err) {
 		default: {
 			console.log(err);
 			os.alert({
-				type: 'error',
+				type: "error",
 				title: i18n.ts.loginFailed,
 				text: JSON.stringify(err),
 			});
@@ -237,8 +237,8 @@ function loginFailed(err) {
 }
 
 function resetPassword() {
-	os.popup(defineAsyncComponent(() => import('@/components/MkForgotPassword.vue')), {}, {
-	}, 'closed');
+	os.popup(defineAsyncComponent(() => import("@/components/MkForgotPassword.vue")), {}, {
+	}, "closed");
 }
 </script>
 

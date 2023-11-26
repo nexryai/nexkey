@@ -1,10 +1,10 @@
 <template>
 <MkStickyContainer>
 	<template #header><XHeader :actions="headerActions" :tabs="headerTabs"/></template>
-  <MkSpacer v-if="streamModeEnabled">
-    <MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
-  </MkSpacer>
-	<MkSpacer :content-max="700" :margin-min="16" :margin-max="32" v-if="!streamModeEnabled">
+	<MkSpacer v-if="streamModeEnabled">
+		<MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
+	</MkSpacer>
+	<MkSpacer v-if="!streamModeEnabled" :content-max="700" :margin-min="16" :margin-max="32">
 		<FormSuspense :p="init">
 			<div class="_formRoot">
 				<FormSwitch v-model="enableEmail" class="_formBlock">
@@ -49,19 +49,19 @@
 </template>
 
 <script lang="ts" setup>
-import {ref} from 'vue';
-import XHeader from './_header_.vue';
-import FormSwitch from '@/components/form/switch.vue';
-import FormInput from '@/components/form/input.vue';
-import FormInfo from '@/components/MkInfo.vue';
-import FormSuspense from '@/components/form/suspense.vue';
-import FormSplit from '@/components/form/split.vue';
-import FormSection from '@/components/form/section.vue';
-import * as os from '@/os';
-import { fetchInstance, instance } from '@/instance';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
-import {defaultStore} from "@/store";
+import { ref } from "vue";
+import XHeader from "./_header_.vue";
+import FormSwitch from "@/components/form/switch.vue";
+import FormInput from "@/components/form/input.vue";
+import FormInfo from "@/components/MkInfo.vue";
+import FormSuspense from "@/components/form/suspense.vue";
+import FormSplit from "@/components/form/split.vue";
+import FormSection from "@/components/form/section.vue";
+import * as os from "@/os";
+import { fetchInstance, instance } from "@/instance";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
+import { defaultStore } from "@/store";
 import MkInfo from "@/components/MkInfo.vue";
 
 const streamModeEnabled = ref(defaultStore.state.streamModeEnabled);
@@ -69,13 +69,13 @@ const streamModeEnabled = ref(defaultStore.state.streamModeEnabled);
 let enableEmail: boolean = $ref(false);
 let email: any = $ref(null);
 let smtpSecure: boolean = $ref(false);
-let smtpHost: string = $ref('');
+let smtpHost: string = $ref("");
 let smtpPort: number = $ref(0);
-let smtpUser: string = $ref('');
-let smtpPass: string = $ref('');
+let smtpUser: string = $ref("");
+let smtpPass: string = $ref("");
 
 async function init() {
-	const meta = await os.api('admin/meta');
+	const meta = await os.api("admin/meta");
 	enableEmail = meta.enableEmail;
 	email = meta.email;
 	smtpSecure = meta.smtpSecure;
@@ -88,19 +88,19 @@ async function init() {
 async function testEmail() {
 	const { canceled, result: destination } = await os.inputText({
 		title: i18n.ts.destination,
-		type: 'email',
+		type: "email",
 		placeholder: instance.maintainerEmail,
 	});
 	if (canceled) return;
-	os.apiWithDialog('admin/send-email', {
+	os.apiWithDialog("admin/send-email", {
 		to: destination,
-		subject: 'Test email',
-		text: 'Yo',
+		subject: "Test email",
+		text: "Yo",
 	});
 }
 
 function save() {
-	os.apiWithDialog('admin/update-meta', {
+	os.apiWithDialog("admin/update-meta", {
 		enableEmail,
 		email,
 		smtpSecure,
@@ -119,7 +119,7 @@ const headerActions = $computed(() => [{
 	handler: testEmail,
 }, {
 	asFullButton: true,
-	icon: 'ti ti-check',
+	icon: "ti ti-check",
 	text: i18n.ts.save,
 	handler: save,
 }]);
@@ -128,6 +128,6 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.emailServer,
-	icon: 'ti ti-mail',
+	icon: "ti ti-mail",
 });
 </script>

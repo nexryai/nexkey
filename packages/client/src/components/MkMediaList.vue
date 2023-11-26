@@ -13,17 +13,17 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
-import * as misskey from 'misskey-js';
-import PhotoSwipeLightbox from 'photoswipe/lightbox';
-import PhotoSwipe from 'photoswipe';
-import 'photoswipe/style.css';
-import XBanner from '@/components/MkMediaBanner.vue';
-import XImage from '@/components/MkMediaImage.vue';
-import XVideo from '@/components/MkMediaVideo.vue';
-import * as os from '@/os';
-import { FILE_TYPE_BROWSERSAFE } from '@/const';
-import { defaultStore } from '@/store';
+import { onMounted, ref } from "vue";
+import * as misskey from "misskey-js";
+import PhotoSwipeLightbox from "photoswipe/lightbox";
+import PhotoSwipe from "photoswipe";
+import "photoswipe/style.css";
+import XBanner from "@/components/MkMediaBanner.vue";
+import XImage from "@/components/MkMediaImage.vue";
+import XVideo from "@/components/MkMediaVideo.vue";
+import * as os from "@/os";
+import { FILE_TYPE_BROWSERSAFE } from "@/const";
+import { defaultStore } from "@/store";
 
 const props = defineProps<{
 	mediaList: misskey.entities.DriveFile[];
@@ -31,14 +31,14 @@ const props = defineProps<{
 }>();
 
 const gallery = ref(null);
-const pswpZIndex = os.claimZIndex('middle');
+const pswpZIndex = os.claimZIndex("middle");
 
 onMounted(() => {
 	const lightbox = new PhotoSwipeLightbox({
 		dataSource: props.mediaList
 			.filter(media => {
-				if (media.type === 'image/svg+xml') return true; // svgのwebpublicはpngなのでtrue
-				return media.type.startsWith('image') && FILE_TYPE_BROWSERSAFE.includes(media.type);
+				if (media.type === "image/svg+xml") return true; // svgのwebpublicはpngなのでtrue
+				return media.type.startsWith("image") && FILE_TYPE_BROWSERSAFE.includes(media.type);
 			})
 			.map(media => {
 				const item = {
@@ -53,8 +53,8 @@ onMounted(() => {
 				return item;
 			}),
 		gallery: gallery.value,
-		children: '.image',
-		thumbSelector: '.image',
+		children: ".image",
+		thumbSelector: ".image",
 		loop: false,
 		padding: window.innerWidth > 500 ? {
 			top: 32,
@@ -67,12 +67,12 @@ onMounted(() => {
 			left: 0,
 			right: 0,
 		},
-		imageClickAction: 'close',
-		tapAction: 'toggle-controls',
+		imageClickAction: "close",
+		tapAction: "toggle-controls",
 		pswpModule: PhotoSwipe,
 	});
 
-	lightbox.on('itemData', (ev) => {
+	lightbox.on("itemData", (ev) => {
 		const { itemData } = ev;
 
 		// element is children
@@ -95,9 +95,9 @@ onMounted(() => {
 });
 
 const previewable = (file: misskey.entities.DriveFile): boolean => {
-	if (file.type === 'image/svg+xml') return true; // svgのwebpublic/thumbnailはpngなのでtrue
+	if (file.type === "image/svg+xml") return true; // svgのwebpublic/thumbnailはpngなのでtrue
 	// FILE_TYPE_BROWSERSAFEに適合しないものはブラウザで表示するのに不適切
-	return (file.type.startsWith('video') || file.type.startsWith('image')) && FILE_TYPE_BROWSERSAFE.includes(file.type);
+	return (file.type.startsWith("video") || file.type.startsWith("image")) && FILE_TYPE_BROWSERSAFE.includes(file.type);
 };
 </script>
 

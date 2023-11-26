@@ -43,16 +43,16 @@
 </template>
 
 <script lang="ts" setup>
-import { markRaw, onMounted, onUnmounted } from 'vue';
-import * as Acct from 'misskey-js/built/acct';
-import MkButton from '@/components/MkButton.vue';
-import { acct } from '@/filters/user';
-import * as os from '@/os';
-import { stream } from '@/stream';
-import { useRouter } from '@/router';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
-import { $i } from '@/account';
+import { markRaw, onMounted, onUnmounted } from "vue";
+import * as Acct from "misskey-js/built/acct";
+import MkButton from "@/components/MkButton.vue";
+import { acct } from "@/filters/user";
+import * as os from "@/os";
+import { stream } from "@/stream";
+import { useRouter } from "@/router";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
+import { $i } from "@/account";
 
 const router = useRouter();
 
@@ -103,13 +103,13 @@ async function startUser() {
 }
 
 onMounted(() => {
-	connection = markRaw(stream.useChannel('messagingIndex'));
+	connection = markRaw(stream.useChannel("messagingIndex"));
 
-	connection.on('message', onMessage);
-	connection.on('read', onRead);
+	connection.on("message", onMessage);
+	connection.on("read", onRead);
 
-	os.api('messaging/history', { group: false }).then(userMessages => {
-		os.api('messaging/history', { group: true }).then(groupMessages => {
+	os.api("messaging/history", { group: false }).then(userMessages => {
+		os.api("messaging/history", { group: true }).then(groupMessages => {
 			const _messages = userMessages.concat(groupMessages);
 			_messages.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 			messages = _messages;
@@ -128,7 +128,7 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.messaging,
-	icon: 'ti ti-messages',
+	icon: "ti ti-messages",
 });
 </script>
 

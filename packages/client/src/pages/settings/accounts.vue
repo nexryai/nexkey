@@ -21,13 +21,13 @@
 </template>
 
 <script lang="ts" setup>
-import { defineAsyncComponent, ref } from 'vue';
-import FormSuspense from '@/components/form/suspense.vue';
-import FormButton from '@/components/MkButton.vue';
-import * as os from '@/os';
-import { getAccounts, addAccount as addAccounts, removeAccount as _removeAccount, login, $i } from '@/account';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { defineAsyncComponent, ref } from "vue";
+import FormSuspense from "@/components/form/suspense.vue";
+import FormButton from "@/components/MkButton.vue";
+import * as os from "@/os";
+import { getAccounts, addAccount as addAccounts, removeAccount as _removeAccount, login, $i } from "@/account";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 const storedAccounts = ref<any>(null);
 const accounts = ref<any>(null);
@@ -38,7 +38,7 @@ const init = async () => {
 
 		console.log(storedAccounts.value);
 
-		return os.api('users/show', {
+		return os.api("users/show", {
 			userIds: storedAccounts.value.map(x => x.id),
 		});
 	}).then(response => {
@@ -50,11 +50,11 @@ const init = async () => {
 function menu(account, ev) {
 	os.popupMenu([{
 		text: i18n.ts.switch,
-		icon: 'ti ti-switch-horizontal',
+		icon: "ti ti-switch-horizontal",
 		action: () => switchAccount(account),
 	}, {
 		text: i18n.ts.remove,
-		icon: 'ti ti-trash',
+		icon: "ti ti-trash",
 		danger: true,
 		action: () => removeAccount(account),
 	}], ev.currentTarget ?? ev.target);
@@ -75,21 +75,21 @@ function removeAccount(account) {
 }
 
 function addExistingAccount() {
-	os.popup(defineAsyncComponent(() => import('@/components/MkSigninDialog.vue')), {}, {
+	os.popup(defineAsyncComponent(() => import("@/components/MkSigninDialog.vue")), {}, {
 		done: res => {
 			addAccounts(res.id, res.i);
 			os.success();
 		},
-	}, 'closed');
+	}, "closed");
 }
 
 function createAccount() {
-	os.popup(defineAsyncComponent(() => import('@/components/MkSignupDialog.vue')), {}, {
+	os.popup(defineAsyncComponent(() => import("@/components/MkSignupDialog.vue")), {}, {
 		done: res => {
 			addAccounts(res.id, res.i);
 			switchAccountWithToken(res.i);
 		},
-	}, 'closed');
+	}, "closed");
 }
 
 async function switchAccount(account: any) {
@@ -108,7 +108,7 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.accounts,
-	icon: 'ti ti-users',
+	icon: "ti ti-users",
 });
 </script>
 

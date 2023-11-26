@@ -1,13 +1,13 @@
-import { renderActivity } from '@/remote/activitypub/renderer/index.js';
-import { renderBlock } from '@/remote/activitypub/renderer/block.js';
-import renderUndo from '@/remote/activitypub/renderer/undo.js';
-import { deliver } from '@/queue/index.js';
-import Logger from '../logger.js';
-import { CacheableUser, User } from '@/models/entities/user.js';
-import { Blockings, Users } from '@/models/index.js';
-import { publishUserEvent } from '@/services/stream.js';
+import { renderActivity } from "@/remote/activitypub/renderer/index.js";
+import { renderBlock } from "@/remote/activitypub/renderer/block.js";
+import renderUndo from "@/remote/activitypub/renderer/undo.js";
+import { deliver } from "@/queue/index.js";
+import { CacheableUser, User } from "@/models/entities/user.js";
+import { Blockings, Users } from "@/models/index.js";
+import { publishUserEvent } from "@/services/stream.js";
+import Logger from "../logger.js";
 
-const logger = new Logger('blocking/delete');
+const logger = new Logger("blocking/delete");
 
 export default async function(blocker: CacheableUser, blockee: CacheableUser) {
 	const blocking = await Blockings.findOneBy({
@@ -16,7 +16,7 @@ export default async function(blocker: CacheableUser, blockee: CacheableUser) {
 	});
 
 	if (blocking == null) {
-		logger.warn('ブロック解除がリクエストされましたがブロックしていませんでした');
+		logger.warn("ブロック解除がリクエストされましたがブロックしていませんでした");
 		return;
 	}
 
@@ -34,6 +34,6 @@ export default async function(blocker: CacheableUser, blockee: CacheableUser) {
 	}
 
 	if (Users.isLocalUser(blockee)) {
-		publishUserEvent(blockee.id, 'unblock', blocker);
+		publishUserEvent(blockee.id, "unblock", blocker);
 	}
 }

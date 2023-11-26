@@ -1,5 +1,5 @@
-import define from '../../../define.js';
-import { UserProfiles } from '@/models/index.js';
+import { UserProfiles } from "@/models/index.js";
+import define from "../../../define.js";
 
 export const meta = {
 	requireCredential: true,
@@ -8,11 +8,11 @@ export const meta = {
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		value: { type: 'boolean' },
+		value: { type: "boolean" },
 	},
-	required: ['value'],
+	required: ["value"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export

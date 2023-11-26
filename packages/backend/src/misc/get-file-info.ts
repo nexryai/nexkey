@@ -1,12 +1,12 @@
-import * as fs from 'node:fs';
-import * as crypto from 'node:crypto';
-import * as stream from 'node:stream';
-import * as util from 'node:util';
-import { fileTypeFromFile } from 'file-type';
-import isSvg from 'is-svg';
-import probeImageSize from 'probe-image-size';
-import sharp from 'sharp';
-import { encode } from 'blurhash';
+import * as fs from "node:fs";
+import * as crypto from "node:crypto";
+import * as stream from "node:stream";
+import * as util from "node:util";
+import { fileTypeFromFile } from "file-type";
+import isSvg from "is-svg";
+import probeImageSize from "probe-image-size";
+import sharp from "sharp";
+import { encode } from "blurhash";
 
 const pipeline = util.promisify(stream.pipeline);
 
@@ -25,13 +25,13 @@ export type FileInfo = {
 };
 
 const TYPE_OCTET_STREAM = {
-	mime: 'application/octet-stream',
+	mime: "application/octet-stream",
 	ext: null,
 };
 
 const TYPE_SVG = {
-	mime: 'image/svg+xml',
-	ext: 'svg',
+	mime: "image/svg+xml",
+	ext: "svg",
 };
 
 /**
@@ -50,7 +50,7 @@ export async function getFileInfo(path: string): Promise<FileInfo> {
 	let height: number | undefined;
 	let orientation: number | undefined;
 
-	if (['image/jpeg', 'image/gif', 'image/png', 'image/apng', 'image/webp', 'image/bmp', 'image/tiff', 'image/svg+xml', 'image/vnd.adobe.photoshop'].includes(type.mime)) {
+	if (["image/jpeg", "image/gif", "image/png", "image/apng", "image/webp", "image/bmp", "image/tiff", "image/svg+xml", "image/vnd.adobe.photoshop"].includes(type.mime)) {
 		const imageSize = await detectImageSize(path).catch(e => {
 			warnings.push(`detectImageSize failed: ${e}`);
 			return undefined;
@@ -58,16 +58,16 @@ export async function getFileInfo(path: string): Promise<FileInfo> {
 
 		// うまく判定できない画像は octet-stream にする
 		if (!imageSize) {
-			warnings.push(`cannot detect image dimensions`);
+			warnings.push("cannot detect image dimensions");
 			type = TYPE_OCTET_STREAM;
-		} else if (imageSize.wUnits === 'px') {
+		} else if (imageSize.wUnits === "px") {
 			width = imageSize.width;
 			height = imageSize.height;
 			orientation = imageSize.orientation;
 
 			// 制限を超えている画像は octet-stream にする
 			if (imageSize.width > 16383 || imageSize.height > 16383) {
-				warnings.push(`image dimensions exceeds limits`);
+				warnings.push("image dimensions exceeds limits");
 				type = TYPE_OCTET_STREAM;
 			}
 		} else {
@@ -77,7 +77,7 @@ export async function getFileInfo(path: string): Promise<FileInfo> {
 
 	let blurhash: string | undefined;
 
-	if (['image/jpeg', 'image/gif', 'image/png', 'image/apng', 'image/webp', 'image/svg+xml'].includes(type.mime)) {
+	if (["image/jpeg", "image/gif", "image/png", "image/apng", "image/webp", "image/svg+xml"].includes(type.mime)) {
 		blurhash = await getBlurhash(path).catch(e => {
 			warnings.push(`getBlurhash failed: ${e}`);
 			return undefined;
@@ -113,7 +113,7 @@ export async function detectType(path: string): Promise<{
 
 	if (type) {
 		// XMLはSVGかもしれない
-		if (type.mime === 'application/xml' && await checkSvg(path)) {
+		if (type.mime === "application/xml" && await checkSvg(path)) {
 			return TYPE_SVG;
 		}
 
@@ -158,7 +158,7 @@ export async function getFileSize(path: string): Promise<number> {
  * Calculate MD5 hash
  */
 async function calcHash(path: string): Promise<string> {
-	const hash = crypto.createHash('md5').setEncoding('hex');
+	const hash = crypto.createHash("md5").setEncoding("hex");
 	await pipeline(fs.createReadStream(path), hash);
 	return hash.read();
 }
@@ -187,7 +187,7 @@ function getBlurhash(path: string): Promise<string> {
 		sharp(path)
 			.raw()
 			.ensureAlpha()
-			.resize(64, 64, { fit: 'inside' })
+			.resize(64, 64, { fit: "inside" })
 			.toBuffer((err, buffer, { width, height }) => {
 				if (err) return reject(err);
 

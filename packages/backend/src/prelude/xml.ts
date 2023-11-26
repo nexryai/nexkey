@@ -1,17 +1,17 @@
 const map: Record<string, string> = {
-	'&': '&amp;',
-	'<': '&lt;',
-	'>': '&gt;',
-	'"': '&quot;',
-	'\'': '&apos;',
+	"&": "&amp;",
+	"<": "&lt;",
+	">": "&gt;",
+	"\"": "&quot;",
+	"'": "&apos;",
 };
 
-const beginingOfCDATA = '<![CDATA[';
-const endOfCDATA = ']]>';
+const beginingOfCDATA = "<![CDATA[";
+const endOfCDATA = "]]>";
 
 export function escapeValue(x: string): string {
 	let insideOfCDATA = false;
-	let builder = '';
+	let builder = "";
 	for (
 		let i = 0;
 		i < x.length;

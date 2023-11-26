@@ -5,21 +5,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, PropType, Ref, ref } from 'vue';
-import * as os from '@/os';
-import { CanvasBlock } from '@/scripts/hpml/block';
-import { Hpml } from '@/scripts/hpml/evaluator';
+import { defineComponent, onMounted, PropType, Ref, ref } from "vue";
+import * as os from "@/os";
+import { CanvasBlock } from "@/scripts/hpml/block";
+import { Hpml } from "@/scripts/hpml/evaluator";
 
 export default defineComponent({
 	props: {
 		block: {
 			type: Object as PropType<CanvasBlock>,
-			required: true
+			required: true,
 		},
 		hpml: {
 			type: Object as PropType<Hpml>,
-			required: true
-		}
+			required: true,
+		},
 	},
 	setup(props, ctx) {
 		const canvas: Ref<any> = ref(null);
@@ -29,9 +29,9 @@ export default defineComponent({
 		});
 
 		return {
-			canvas
+			canvas,
 		};
-	}
+	},
 });
 </script>
 

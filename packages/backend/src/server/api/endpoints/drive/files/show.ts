@@ -1,52 +1,52 @@
-import { DriveFile } from '@/models/entities/drive-file.js';
-import { DriveFiles, Users } from '@/models/index.js';
-import define from '../../../define.js';
-import { ApiError } from '../../../error.js';
+import { DriveFile } from "@/models/entities/drive-file.js";
+import { DriveFiles, Users } from "@/models/index.js";
+import define from "../../../define.js";
+import { ApiError } from "../../../error.js";
 
 export const meta = {
-	tags: ['drive'],
+	tags: ["drive"],
 
 	requireCredential: true,
 
-	kind: 'read:drive',
+	kind: "read:drive",
 
-	description: 'Show the properties of a drive file.',
+	description: "Show the properties of a drive file.",
 
 	res: {
-		type: 'object',
+		type: "object",
 		optional: false, nullable: false,
-		ref: 'DriveFile',
+		ref: "DriveFile",
 	},
 
 	errors: {
 		noSuchFile: {
-			message: 'No such file.',
-			code: 'NO_SUCH_FILE',
-			id: '067bc436-2718-4795-b0fb-ecbe43949e31',
+			message: "No such file.",
+			code: "NO_SUCH_FILE",
+			id: "067bc436-2718-4795-b0fb-ecbe43949e31",
 		},
 
 		accessDenied: {
-			message: 'Access denied.',
-			code: 'ACCESS_DENIED',
-			id: '25b73c73-68b1-41d0-bad1-381cfdf6579f',
+			message: "Access denied.",
+			code: "ACCESS_DENIED",
+			id: "25b73c73-68b1-41d0-bad1-381cfdf6579f",
 		},
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	anyOf: [
 		{
 			properties: {
-				fileId: { type: 'string', format: 'misskey:id' },
+				fileId: { type: "string", format: "misskey:id" },
 			},
-			required: ['fileId'],
+			required: ["fileId"],
 		},
 		{
 			properties: {
-				url: { type: 'string' },
+				url: { type: "string" },
 			},
-			required: ['url'],
+			required: ["url"],
 		},
 	],
 } as const;

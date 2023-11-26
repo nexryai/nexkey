@@ -32,19 +32,19 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ComputedRef, isRef, markRaw, onActivated, onDeactivated, Ref, ref, watch } from 'vue';
-import * as misskey from 'misskey-js';
-import * as os from '@/os';
-import { onScrollTop, isTopVisible, getScrollPosition, getScrollContainer } from '@/scripts/scroll';
-import MkButton from '@/components/MkButton.vue';
-import { i18n } from '@/i18n';
+import { computed, ComputedRef, isRef, markRaw, onActivated, onDeactivated, Ref, ref, watch } from "vue";
+import * as misskey from "misskey-js";
+import * as os from "@/os";
+import { onScrollTop, isTopVisible, getScrollPosition, getScrollContainer } from "@/scripts/scroll";
+import MkButton from "@/components/MkButton.vue";
+import { i18n } from "@/i18n";
 
 const SECOND_FETCH_LIMIT = 30;
 
 export type Paging<E extends keyof misskey.Endpoints = keyof misskey.Endpoints> = {
 	endpoint: E;
 	limit: number;
-	params?: misskey.Endpoints[E]['req'] | ComputedRef<misskey.Endpoints[E]['req']>;
+	params?: misskey.Endpoints[E]["req"] | ComputedRef<misskey.Endpoints[E]["req"]>;
 
 	/**
 	 * 検索APIのような、ページング不可なエンドポイントを利用する場合
@@ -69,8 +69,8 @@ const props = withDefaults(defineProps<{
 });
 
 const emit = defineEmits<{
-	(ev: 'queue', count: number): void;
-	(ev: 'status', error: boolean): void;
+	(ev: "queue", count: number): void;
+	(ev: "status", error: boolean): void;
 }>();
 
 type Item = { id: string; [another: string]: unknown; };
@@ -263,7 +263,7 @@ const removeItem = (finder: (item: Item) => boolean) => {
 	items.value.splice(i, 1);
 };
 
-const updateItem = (id: Item['id'], replacer: (old: Item) => Item): void => {
+const updateItem = (id: Item["id"], replacer: (old: Item) => Item): void => {
 	const i = items.value.findIndex(item => item.id === id);
 	items.value[i] = replacer(items.value[i]);
 };
@@ -274,12 +274,12 @@ if (props.pagination.params && isRef(props.pagination.params)) {
 
 watch(queue, (a, b) => {
 	if (a.length === 0 && b.length === 0) return;
-	emit('queue', queue.value.length);
+	emit("queue", queue.value.length);
 }, { deep: true });
 
 watch(error, (n, o) => {
 	if (n === o) return;
-	emit('status', n);
+	emit("status", n);
 });
 
 init();

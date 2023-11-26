@@ -64,18 +64,18 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, watch } from 'vue';
-import XPage from '@/components/page/page.vue';
-import MkButton from '@/components/MkButton.vue';
-import * as os from '@/os';
-import { url } from '@/config';
-import MkFollowButton from '@/components/MkFollowButton.vue';
-import MkContainer from '@/components/MkContainer.vue';
-import MkPagination from '@/components/MkPagination.vue';
-import MkPagePreview from '@/components/MkPagePreview.vue';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
-import { defaultStore } from '@/store';
+import { computed, watch } from "vue";
+import XPage from "@/components/page/page.vue";
+import MkButton from "@/components/MkButton.vue";
+import * as os from "@/os";
+import { url } from "@/config";
+import MkFollowButton from "@/components/MkFollowButton.vue";
+import MkContainer from "@/components/MkContainer.vue";
+import MkPagination from "@/components/MkPagination.vue";
+import MkPagePreview from "@/components/MkPagePreview.vue";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
+import { defaultStore } from "@/store";
 
 const enableSudo = defaultStore.state.enableSudo;
 const props = defineProps<{
@@ -86,17 +86,17 @@ const props = defineProps<{
 let page = $ref(null);
 let error = $ref(null);
 const otherPostsPagination = {
-	endpoint: 'users/pages' as const,
+	endpoint: "users/pages" as const,
 	limit: 6,
 	params: computed(() => ({
 		userId: page.user.id,
 	})),
 };
-const path = $computed(() => props.username + '/' + props.pageName);
+const path = $computed(() => props.username + "/" + props.pageName);
 
 function fetchPage() {
 	page = null;
-	os.api('pages/show', {
+	os.api("pages/show", {
 		name: props.pageName,
 		username: props.username,
 	}).then(_page => {
@@ -121,7 +121,7 @@ function shareWithNote() {
 }
 
 function like() {
-	os.apiWithDialog('pages/like', {
+	os.apiWithDialog("pages/like", {
 		pageId: page.id,
 	}).then(() => {
 		page.isLiked = true;
@@ -131,11 +131,11 @@ function like() {
 
 async function unlike() {
 	const confirm = await os.confirm({
-		type: 'warning',
+		type: "warning",
 		text: i18n.ts.unlikeConfirm,
 	});
 	if (confirm.canceled) return;
-	os.apiWithDialog('pages/unlike', {
+	os.apiWithDialog("pages/unlike", {
 		pageId: page.id,
 	}).then(() => {
 		page.isLiked = false;
@@ -145,19 +145,19 @@ async function unlike() {
 
 async function del() {
 	const confirm = await os.confirm({
-		type: 'warning',
+		type: "warning",
 		text: i18n.ts.noteDeleteAsAdminConfirm,
 	});
 	if (confirm.canceled) return;
-	os.apiWithDialog('pages/delete', {
+	os.apiWithDialog("pages/delete", {
 		pageId: page.id,
 	}).then(() => {
-		router.push('/pages');
+		router.push("/pages");
 	});
 }
 
 function pin(pin) {
-	os.apiWithDialog('i/update', {
+	os.apiWithDialog("i/update", {
 		pinnedPageId: pin ? page.id : null,
 	});
 }

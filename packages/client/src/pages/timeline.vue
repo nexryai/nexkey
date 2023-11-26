@@ -31,20 +31,20 @@
 </template>
 
 <script lang="ts" setup>
-import { defineAsyncComponent, computed, watch, provide } from 'vue';
-import XTimeline from '@/components/MkTimeline.vue';
-import XPostForm from '@/components/MkPostForm.vue';
-import { scroll } from '@/scripts/scroll';
-import * as os from '@/os';
-import { defaultStore } from '@/store';
-import { i18n } from '@/i18n';
-import { instance } from '@/instance';
-import { $i } from '@/account';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { defineAsyncComponent, computed, watch, provide } from "vue";
+import XTimeline from "@/components/MkTimeline.vue";
+import XPostForm from "@/components/MkPostForm.vue";
+import { scroll } from "@/scripts/scroll";
+import * as os from "@/os";
+import { defaultStore } from "@/store";
+import { i18n } from "@/i18n";
+import { instance } from "@/instance";
+import { $i } from "@/account";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
-provide('shouldOmitHeaderTitle', true);
+provide("shouldOmitHeaderTitle", true);
 
-const XTutorial = defineAsyncComponent(() => import('./timeline.tutorial.vue'));
+const XTutorial = defineAsyncComponent(() => import("./timeline.tutorial.vue"));
 
 const isMediaTimelineAvailable = (!instance.disableLocalTimeline || ($i != null && ($i.isModerator || $i.isAdmin))) && defaultStore.state.enableMTL && defaultStore.state.enableLTL;
 const isLocalTimelineAvailable = (!instance.disableLocalTimeline || ($i != null && ($i.isModerator || $i.isAdmin))) && defaultStore.state.enableLTL;
@@ -52,7 +52,7 @@ const isGlobalTimelineAvailable = (!instance.disableGlobalTimeline || ($i != nul
 const isPersonalTimelineAvailable = $i != null && defaultStore.state.enablePTL;
 const isLimitedTimelineAvailable = $i != null && defaultStore.state.enableLimitedTL;
 const keymap = {
-	't': focus,
+	"t": focus,
 };
 
 const tlComponent = $ref<InstanceType<typeof XTimeline>>();
@@ -72,42 +72,42 @@ function top(): void {
 }
 
 async function chooseList(ev: MouseEvent): Promise<void> {
-	const lists = await os.api('users/lists/list');
+	const lists = await os.api("users/lists/list");
 	let items = lists.map(list => ({
-		type: 'link' as const,
+		type: "link" as const,
 		text: list.name,
 		to: `/timeline/list/${list.id}`,
 	}));
 	items.push({
-  	type: 'link' as const,
-  	icon: 'ti ti-settings',
+  	type: "link" as const,
+  	icon: "ti ti-settings",
   	text: i18n.ts.manageLists,
   	indicate: false,
-  	to: '/my/lists',
+  	to: "/my/lists",
 	});
 	os.popupMenu(items, ev.currentTarget ?? ev.target);
 }
 
 async function chooseAntenna(ev: MouseEvent): Promise<void> {
-	const antennas = await os.api('antennas/list');
+	const antennas = await os.api("antennas/list");
 	let items = antennas.map(antenna => ({
-		type: 'link' as const,
+		type: "link" as const,
 		text: antenna.name,
 		indicate: antenna.hasUnreadNote,
 		to: `/timeline/antenna/${antenna.id}`,
 	}));
 	items.push({
-  	type: 'link' as const,
-  	icon: 'ti ti-settings',
+  	type: "link" as const,
+  	icon: "ti ti-settings",
   	text: i18n.ts.manageAntennas,
   	indicate: false,
-  	to: '/my/antennas',
+  	to: "/my/antennas",
 	});
 	os.popupMenu(items, ev.currentTarget ?? ev.target);
 }
 
-function saveSrc(newSrc: 'home' | 'local' | 'social' | 'global' | 'limited' | 'media' | 'personal'): void {
-	defaultStore.set('tl', {
+function saveSrc(newSrc: "home" | "local" | "social" | "global" | "limited" | "media" | "personal"): void {
+	defaultStore.set("tl", {
 		...defaultStore.state.tl,
 		src: newSrc,
 	});
@@ -120,27 +120,27 @@ function focus(): void {
 const headerActions = $computed(() => []);
 
 const headerTabs = $computed(() => [{
-	key: 'home',
+	key: "home",
 	title: i18n.ts._timelines.home,
-	icon: 'ti ti-home',
+	icon: "ti ti-home",
 	iconOnly: true,
 }, ...(isLocalTimelineAvailable ? [{
-	key: 'social',
+	key: "social",
 	title: i18n.ts._timelines.social,
-	icon: 'ti ti-rocket',
+	icon: "ti ti-rocket",
 	iconOnly: true,
 }] : []), ...(isGlobalTimelineAvailable ? [{
-	key: 'global',
+	key: "global",
 	title: i18n.ts._timelines.global,
-	icon: 'ti ti-whirl',
+	icon: "ti ti-whirl",
 	iconOnly: true,
 }] : []), {
-	icon: 'ti ti-list',
+	icon: "ti ti-list",
 	title: i18n.ts.lists,
 	iconOnly: true,
 	onClick: chooseList,
 }, {
-	icon: 'ti ti-antenna',
+	icon: "ti ti-antenna",
 	title: i18n.ts.antennas,
 	iconOnly: true,
 	onClick: chooseAntenna,
@@ -148,7 +148,7 @@ const headerTabs = $computed(() => [{
 
 definePageMetadata(computed(() => ({
 	title: i18n.ts.timeline,
-	icon: src === 'local' ? 'ti ti-planet' : src === 'social' ? 'ti ti-rocket' : src === 'global' ? 'ti ti-whirl' : src === 'limited' ? 'ti ti-lock-open' :src === 'media' ? 'ti ti-file' :src === 'personal' ? 'ti ti-book' : 'ti ti-home',
+	icon: src === "local" ? "ti ti-planet" : src === "social" ? "ti ti-rocket" : src === "global" ? "ti ti-whirl" : src === "limited" ? "ti ti-lock-open" : src === "media" ? "ti ti-file" : src === "personal" ? "ti ti-book" : "ti ti-home",
 })));
 </script>
 

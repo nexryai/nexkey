@@ -13,19 +13,19 @@
 
 <script lang="ts" setup>
 /* eslint-disable vue/no-mutating-props */
-import { } from 'vue';
-import XContainer from '../page-editor.container.vue';
-import MkTextarea from '@/components/form/textarea.vue';
-import MkInput from '@/components/form/input.vue';
-import MkSwitch from '@/components/form/switch.vue';
+import { } from "vue";
+import XContainer from "../page-editor.container.vue";
+import MkTextarea from "@/components/form/textarea.vue";
+import MkInput from "@/components/form/input.vue";
+import MkSwitch from "@/components/form/switch.vue";
 
 withDefaults(defineProps<{
 	value: any
 }>(), {
 	value: {
-		text: '',
+		text: "",
 		attachCanvasImage: false,
-		canvasId: ''
-	}
+		canvasId: "",
+	},
 });
 </script>

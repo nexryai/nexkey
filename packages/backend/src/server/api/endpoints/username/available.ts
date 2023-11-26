@@ -1,18 +1,18 @@
-import { IsNull } from 'typeorm';
-import { Users, UsedUsernames } from '@/models/index.js';
-import define from '../../define.js';
+import { IsNull } from "typeorm";
+import { Users, UsedUsernames } from "@/models/index.js";
+import define from "../../define.js";
 
 export const meta = {
-	tags: ['users'],
+	tags: ["users"],
 
 	requireCredential: false,
 
 	res: {
-		type: 'object',
+		type: "object",
 		optional: false, nullable: false,
 		properties: {
 			available: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 		},
@@ -20,11 +20,11 @@ export const meta = {
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
 		username: Users.localUsernameSchema,
 	},
-	required: ['username'],
+	required: ["username"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export

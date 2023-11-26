@@ -35,36 +35,36 @@
 </template>
 
 <script lang="ts" setup>
-import MkButton from '@/components/MkButton.vue';
-import MkSwitch from '@/components/form/switch.vue';
-import MkKeyValue from '@/components/MkKeyValue.vue';
-import { acct, userPage } from '@/filters/user';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
+import MkButton from "@/components/MkButton.vue";
+import MkSwitch from "@/components/form/switch.vue";
+import MkKeyValue from "@/components/MkKeyValue.vue";
+import { acct, userPage } from "@/filters/user";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
 
 const props = defineProps<{
 	report: any;
 }>();
 
 const emit = defineEmits<{
-	(ev: 'resolved', reportId: string): void;
+	(ev: "resolved", reportId: string): void;
 }>();
 
 let forward = $ref(props.report.forwarded);
 
 function resolve() {
 	os.confirm({
-		type: 'warning',
-		text: i18n.t('resolveAreYouSure', { x: props.report.comment }),
+		type: "warning",
+		text: i18n.t("resolveAreYouSure", { x: props.report.comment }),
 	}).then(({ canceled }) => {
 		if (canceled) return;
-		os.apiWithDialog('admin/resolve-abuse-user-report', {
+		os.apiWithDialog("admin/resolve-abuse-user-report", {
 			forward: forward,
 			reportId: props.report.id,
 		}).then(() => {
-			emit('resolved', props.report.id);
+			emit("resolved", props.report.id);
 		});
-});
+	});
 }
 </script>
 

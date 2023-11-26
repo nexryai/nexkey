@@ -1,24 +1,24 @@
-import { db } from '@/db/postgre.js';
-import { MessagingMessage } from '@/models/entities/messaging-message.js';
-import { Users, DriveFiles, UserGroups } from '../index.js';
-import { Packed } from '@/misc/schema.js';
-import { User } from '@/models/entities/user.js';
+import { db } from "@/db/postgre.js";
+import { MessagingMessage } from "@/models/entities/messaging-message.js";
+import { Packed } from "@/misc/schema.js";
+import { User } from "@/models/entities/user.js";
+import { Users, DriveFiles, UserGroups } from "../index.js";
 
 export const MessagingMessageRepository = db.getRepository(MessagingMessage).extend({
 	async pack(
-		src: MessagingMessage['id'] | MessagingMessage,
-		me?: { id: User['id'] } | null | undefined,
+		src: MessagingMessage["id"] | MessagingMessage,
+		me?: { id: User["id"] } | null | undefined,
 		options?: {
 			populateRecipient?: boolean,
 			populateGroup?: boolean,
-		}
-	): Promise<Packed<'MessagingMessage'>> {
+		},
+	): Promise<Packed<"MessagingMessage">> {
 		const opts = options || {
 			populateRecipient: true,
 			populateGroup: true,
 		};
 
-		const message = typeof src === 'object' ? src : await this.findOneByOrFail({ id: src });
+		const message = typeof src === "object" ? src : await this.findOneByOrFail({ id: src });
 
 		return {
 			id: message.id,

@@ -1,13 +1,13 @@
-import { db } from '@/db/postgre.js';
-import { Antenna } from '@/models/entities/antenna.js';
-import { Packed } from '@/misc/schema.js';
-import { AntennaNotes, UserGroupJoinings } from '../index.js';
+import { db } from "@/db/postgre.js";
+import { Antenna } from "@/models/entities/antenna.js";
+import { Packed } from "@/misc/schema.js";
+import { AntennaNotes, UserGroupJoinings } from "../index.js";
 
 export const AntennaRepository = db.getRepository(Antenna).extend({
 	async pack(
-		src: Antenna['id'] | Antenna,
-	): Promise<Packed<'Antenna'>> {
-		const antenna = typeof src === 'object' ? src : await this.findOneByOrFail({ id: src });
+		src: Antenna["id"] | Antenna,
+	): Promise<Packed<"Antenna">> {
+		const antenna = typeof src === "object" ? src : await this.findOneByOrFail({ id: src });
 
 		const hasUnreadNote = (await AntennaNotes.findOneBy({ antennaId: antenna.id, read: false })) != null;
 		const userGroupJoining = antenna.userGroupJoiningId ? await UserGroupJoinings.findOneBy({ id: antenna.userGroupJoiningId }) : null;

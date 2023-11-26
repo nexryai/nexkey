@@ -1,28 +1,28 @@
-import * as fs from 'node:fs';
+import * as fs from "node:fs";
 
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from "uuid";
 
-import S3 from 'aws-sdk/clients/s3.js';
-import sharp from 'sharp';
-import { IsNull } from 'typeorm';
-import { publishMainStream, publishDriveStream } from '@/services/stream.js';
-import { fetchMeta } from '@/misc/fetch-meta.js';
-import { contentDisposition } from '@/misc/content-disposition.js';
-import { getFileInfo } from '@/misc/get-file-info.js';
-import { DriveFiles, DriveFolders, Users, Instances, UserProfiles } from '@/models/index.js';
-import { DriveFile } from '@/models/entities/drive-file.js';
-import { IRemoteUser, User } from '@/models/entities/user.js';
-import { genId } from '@/misc/gen-id.js';
-import { isDuplicateKeyValueError } from '@/misc/is-duplicate-key-value-error.js';
-import { FILE_TYPE_BROWSERSAFE } from '@/const.js';
-import { getS3 } from './s3.js';
-import { InternalStorage } from './internal-storage.js';
-import { IImage, convertSharpToJpeg, convertSharpToWebp, convertSharpToPng } from './image-processor.js';
-import { driveLogger } from './logger.js';
-import { GenerateVideoThumbnail } from './generate-video-thumbnail.js';
-import { deleteFile } from './delete-file.js';
+import S3 from "aws-sdk/clients/s3.js";
+import sharp from "sharp";
+import { IsNull } from "typeorm";
+import { publishMainStream, publishDriveStream } from "@/services/stream.js";
+import { fetchMeta } from "@/misc/fetch-meta.js";
+import { contentDisposition } from "@/misc/content-disposition.js";
+import { getFileInfo } from "@/misc/get-file-info.js";
+import { DriveFiles, DriveFolders, Users, Instances, UserProfiles } from "@/models/index.js";
+import { DriveFile } from "@/models/entities/drive-file.js";
+import { IRemoteUser, User } from "@/models/entities/user.js";
+import { genId } from "@/misc/gen-id.js";
+import { isDuplicateKeyValueError } from "@/misc/is-duplicate-key-value-error.js";
+import { FILE_TYPE_BROWSERSAFE } from "@/const.js";
+import { getS3 } from "./s3.js";
+import { InternalStorage } from "./internal-storage.js";
+import { IImage, convertSharpToJpeg, convertSharpToWebp, convertSharpToPng } from "./image-processor.js";
+import { driveLogger } from "./logger.js";
+import { GenerateVideoThumbnail } from "./generate-video-thumbnail.js";
+import { deleteFile } from "./delete-file.js";
 
-const logger = driveLogger.createSubLogger('register', 'yellow');
+const logger = driveLogger.createSubLogger("register", "yellow");
 
 /***
  * Save file
@@ -40,24 +40,24 @@ async function save(file: DriveFile, path: string, name: string, type: string, h
 
 	if (meta.useObjectStorage) {
 		//#region ObjectStorage params
-		let [ext] = (name.match(/\.([a-zA-Z0-9_-]+)$/) || ['']);
+		let [ext] = (name.match(/\.([a-zA-Z0-9_-]+)$/) || [""]);
 
-		if (ext === '') {
-			if (type === 'image/jpeg') ext = '.jpg';
-			if (type === 'image/png') ext = '.png';
-			if (type === 'image/webp') ext = '.webp';
-			if (type === 'image/apng') ext = '.apng';
-			if (type === 'image/vnd.mozilla.apng') ext = '.apng';
+		if (ext === "") {
+			if (type === "image/jpeg") ext = ".jpg";
+			if (type === "image/png") ext = ".png";
+			if (type === "image/webp") ext = ".webp";
+			if (type === "image/apng") ext = ".apng";
+			if (type === "image/vnd.mozilla.apng") ext = ".apng";
 		}
 
 		// 拡張子からContent-Typeを設定してそうな挙動を示すオブジェクトストレージ (upcloud?) も存在するので、
 		// 許可されているファイル形式でしか拡張子をつけない
 		if (!FILE_TYPE_BROWSERSAFE.includes(type)) {
-			ext = '';
+			ext = "";
 		}
 
 		const baseUrl = meta.objectStorageBaseUrl
-			|| `${ meta.objectStorageUseSSL ? 'https' : 'http' }://${ meta.objectStorageEndpoint }${ meta.objectStoragePort ? `:${meta.objectStoragePort}` : '' }/${ meta.objectStorageBucket }`;
+			|| `${ meta.objectStorageUseSSL ? "https" : "http" }://${ meta.objectStorageEndpoint }${ meta.objectStoragePort ? `:${meta.objectStoragePort}` : "" }/${ meta.objectStorageBucket }`;
 
 		// for original
 		const key = `${meta.objectStoragePrefix}/${uuid()}${ext}`;
@@ -111,8 +111,8 @@ async function save(file: DriveFile, path: string, name: string, type: string, h
 		return await DriveFiles.insert(file).then(x => DriveFiles.findOneByOrFail(x.identifiers[0]));
 	} else { // use internal storage
 		const accessKey = uuid();
-		const thumbnailAccessKey = 'thumbnail-' + uuid();
-		const webpublicAccessKey = 'webpublic-' + uuid();
+		const thumbnailAccessKey = "thumbnail-" + uuid();
+		const webpublicAccessKey = "webpublic-" + uuid();
 
 		const url = InternalStorage.saveFromPath(accessKey, path);
 
@@ -153,7 +153,7 @@ async function save(file: DriveFile, path: string, name: string, type: string, h
  * @param generateWeb Generate webpublic or not
  */
 export async function generateAlts(path: string, type: string, generateWeb: boolean) {
-	if (type.startsWith('video/')) {
+	if (type.startsWith("video/")) {
 		try {
 			const thumbnail = await GenerateVideoThumbnail(path);
 			return {
@@ -169,8 +169,8 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 		}
 	}
 
-	if (!['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'].includes(type)) {
-		logger.debug('web image and thumbnail not created (not an required file)');
+	if (!["image/jpeg", "image/png", "image/webp", "image/svg+xml"].includes(type)) {
+		logger.debug("web image and thumbnail not created (not an required file)");
 		return {
 			webpublic: null,
 			thumbnail: null,
@@ -194,7 +194,7 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 		}
 
 		satisfyWebpublic = !!(
-			type !== 'image/svg+xml' && type !== 'image/webp' &&
+			type !== "image/svg+xml" && type !== "image/webp" &&
 			!(metadata.exif || metadata.iptc || metadata.xmp || metadata.tifftagPhotoshop) &&
 			metadata.width && metadata.width <= 2048 &&
 			metadata.height && metadata.height <= 2048
@@ -211,24 +211,24 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 	let webpublic: IImage | null = null;
 
 	if (generateWeb && !satisfyWebpublic) {
-		logger.info('creating web image');
+		logger.info("creating web image");
 
 		try {
-			if (['image/jpeg', 'image/webp'].includes(type)) {
+			if (["image/jpeg", "image/webp"].includes(type)) {
 				webpublic = await convertSharpToJpeg(img, 2048, 2048);
-			} else if (['image/png'].includes(type)) {
+			} else if (["image/png"].includes(type)) {
 				webpublic = await convertSharpToPng(img, 2048, 2048);
-			} else if (['image/svg+xml'].includes(type)) {
+			} else if (["image/svg+xml"].includes(type)) {
 				webpublic = await convertSharpToPng(img, 2048, 2048);
 			} else {
-				logger.debug('web image not created (not an required image)');
+				logger.debug("web image not created (not an required image)");
 			}
 		} catch (err) {
-			logger.warn('web image not created (an error occured)', err as Error);
+			logger.warn("web image not created (an error occured)", err as Error);
 		}
 	} else {
-		if (satisfyWebpublic) logger.info('web image not created (original satisfies webpublic)');
-		else logger.info('web image not created (from remote)');
+		if (satisfyWebpublic) logger.info("web image not created (original satisfies webpublic)");
+		else logger.info("web image not created (from remote)");
 	}
 	// #endregion webpublic
 
@@ -236,13 +236,13 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 	let thumbnail: IImage | null = null;
 
 	try {
-		if (['image/jpeg', 'image/webp', 'image/png', 'image/svg+xml'].includes(type)) {
+		if (["image/jpeg", "image/webp", "image/png", "image/svg+xml"].includes(type)) {
 			thumbnail = await convertSharpToWebp(img, 498, 280);
 		} else {
-			logger.debug('thumbnail not created (not an required file)');
+			logger.debug("thumbnail not created (not an required file)");
 		}
 	} catch (err) {
-		logger.warn('thumbnail not created (an error occured)', err as Error);
+		logger.warn("thumbnail not created (an error occured)", err as Error);
 	}
 	// #endregion thumbnail
 
@@ -256,8 +256,8 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
  * Upload to ObjectStorage
  */
 async function upload(key: string, stream: fs.ReadStream | Buffer, type: string, filename?: string) {
-	if (type === 'image/apng') type = 'image/png';
-	if (!FILE_TYPE_BROWSERSAFE.includes(type)) type = 'application/octet-stream';
+	if (type === "image/apng") type = "image/png";
+	if (!FILE_TYPE_BROWSERSAFE.includes(type)) type = "application/octet-stream";
 
 	const meta = await fetchMeta();
 
@@ -266,16 +266,16 @@ async function upload(key: string, stream: fs.ReadStream | Buffer, type: string,
 		Key: key,
 		Body: stream,
 		ContentType: type,
-		CacheControl: 'max-age=31536000, immutable',
+		CacheControl: "max-age=31536000, immutable",
 	} as S3.PutObjectRequest;
 
-	if (filename) params.ContentDisposition = contentDisposition('inline', filename);
-	if (meta.objectStorageSetPublicRead) params.ACL = 'public-read';
+	if (filename) params.ContentDisposition = contentDisposition("inline", filename);
+	if (meta.objectStorageSetPublicRead) params.ACL = "public-read";
 
 	const s3 = getS3(meta);
 
 	const upload = s3.upload(params, {
-		partSize: s3.endpoint.hostname === 'storage.googleapis.com' ? 500 * 1024 * 1024 : 8 * 1024 * 1024,
+		partSize: s3.endpoint.hostname === "storage.googleapis.com" ? 500 * 1024 * 1024 : 8 * 1024 * 1024,
 	});
 
 	const result = await upload.promise();
@@ -283,19 +283,19 @@ async function upload(key: string, stream: fs.ReadStream | Buffer, type: string,
 }
 
 async function deleteOldFile(user: IRemoteUser) {
-	const q = DriveFiles.createQueryBuilder('file')
-		.where('file.userId = :userId', { userId: user.id })
-		.andWhere('file.isLink = FALSE');
+	const q = DriveFiles.createQueryBuilder("file")
+		.where("file.userId = :userId", { userId: user.id })
+		.andWhere("file.isLink = FALSE");
 
 	if (user.avatarId) {
-		q.andWhere('file.id != :avatarId', { avatarId: user.avatarId });
+		q.andWhere("file.id != :avatarId", { avatarId: user.avatarId });
 	}
 
 	if (user.bannerId) {
-		q.andWhere('file.id != :bannerId', { bannerId: user.bannerId });
+		q.andWhere("file.id != :bannerId", { bannerId: user.bannerId });
 	}
 
-	q.orderBy('file.id', 'ASC');
+	q.orderBy("file.id", "ASC");
 
 	const oldFile = await q.getOne();
 
@@ -306,7 +306,7 @@ async function deleteOldFile(user: IRemoteUser) {
 
 type AddFileArgs = {
 	/** User who wish to add file */
-	user: { id: User['id']; host: User['host']; driveCapacityOverrideMb: User['driveCapacityOverrideMb'] } | null;
+	user: { id: User["id"]; host: User["host"]; driveCapacityOverrideMb: User["driveCapacityOverrideMb"] } | null;
 	/** File path */
 	path: string;
 	/** Name */
@@ -352,7 +352,7 @@ export async function addFile({
 	logger.info(`${JSON.stringify(info)}`);
 
 	// detect name
-	const detectedName = name || (info.type.ext ? `untitled.${info.type.ext}` : 'untitled');
+	const detectedName = name || (info.type.ext ? `untitled.${info.type.ext}` : "untitled");
 
 	if (user && !force) {
 		// Check if there is a file with the same hash
@@ -377,7 +377,7 @@ export async function addFile({
 
 		if (Users.isLocalUser(user) && u?.driveCapacityOverrideMb != null) {
 			driveCapacity = 1024 * 1024 * u.driveCapacityOverrideMb;
-			logger.debug('drive capacity override applied');
+			logger.debug("drive capacity override applied");
 			logger.debug(`overrideCap: ${driveCapacity}bytes, usage: ${usage}bytes, u+s: ${usage + info.size}bytes`);
 		}
 
@@ -386,7 +386,7 @@ export async function addFile({
 		// If usage limit exceeded
 		if (usage + info.size > driveCapacity) {
 			if (Users.isLocalUser(user)) {
-				throw new Error('no-free-space');
+				throw new Error("no-free-space");
 			} else {
 				// (アバターまたはバナーを含まず)最も古いファイルを削除する
 				deleteOldFile(await Users.findOneByOrFail({ id: user.id }) as IRemoteUser);
@@ -405,7 +405,7 @@ export async function addFile({
 			userId: user ? user.id : IsNull(),
 		});
 
-		if (driveFolder == null) throw new Error('folder-not-found');
+		if (driveFolder == null) throw new Error("folder-not-found");
 
 		return driveFolder;
 	};
@@ -417,11 +417,11 @@ export async function addFile({
 	} = {};
 
 	if (info.width) {
-		properties['width'] = info.width;
-		properties['height'] = info.height;
+		properties["width"] = info.width;
+		properties["height"] = info.height;
 	}
 	if (info.orientation != null) {
-		properties['orientation'] = info.orientation;
+		properties["orientation"] = info.orientation;
 	}
 
 	const profile = user ? await UserProfiles.findOneBy({ userId: user.id }) : null;
@@ -454,8 +454,8 @@ export async function addFile({
 			file.url = url;
 			// ローカルプロキシ用
 			file.accessKey = uuid();
-			file.thumbnailAccessKey = 'thumbnail-' + uuid();
-			file.webpublicAccessKey = 'webpublic-' + uuid();
+			file.thumbnailAccessKey = "thumbnail-" + uuid();
+			file.webpublicAccessKey = "webpublic-" + uuid();
 		}
 	}
 
@@ -495,8 +495,8 @@ export async function addFile({
 	if (user) {
 		DriveFiles.pack(file, { self: true }).then(packedFile => {
 			// Publish driveFileCreated event
-			publishMainStream(user.id, 'driveFileCreated', packedFile);
-			publishDriveStream(user.id, 'fileCreated', packedFile);
+			publishMainStream(user.id, "driveFileCreated", packedFile);
+			publishDriveStream(user.id, "fileCreated", packedFile);
 		});
 	}
 

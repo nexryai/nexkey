@@ -1,7 +1,7 @@
-import { apLogger } from '../../logger.js';
-import { createDeleteAccountJob } from '@/queue/index.js';
-import { CacheableRemoteUser } from '@/models/entities/user.js';
-import { Users } from '@/models/index.js';
+import { createDeleteAccountJob } from "@/queue/index.js";
+import { CacheableRemoteUser } from "@/models/entities/user.js";
+import { Users } from "@/models/index.js";
+import { apLogger } from "../../logger.js";
 
 const logger = apLogger;
 
@@ -14,7 +14,7 @@ export async function deleteActor(actor: CacheableRemoteUser, uri: string): Prom
 
 	const user = await Users.findOneByOrFail({ id: actor.id });
 	if (user.isDeleted) {
-		logger.info(`skip: already deleted`);
+		logger.info("skip: already deleted");
 	}
 
 	const job = await createDeleteAccountJob(actor);

@@ -1,8 +1,8 @@
-import { PrimaryColumn, Entity, Index, JoinColumn, Column, ManyToOne } from 'typeorm';
-import { User } from './user.js';
-import { DriveFile } from './drive-file.js';
-import { id } from '../id.js';
-import { UserGroup } from './user-group.js';
+import { PrimaryColumn, Entity, Index, JoinColumn, Column, ManyToOne } from "typeorm";
+import { id } from "../id.js";
+import { User } from "./user.js";
+import { DriveFile } from "./drive-file.js";
+import { UserGroup } from "./user-group.js";
 
 @Entity()
 export class MessagingMessage {
@@ -10,20 +10,20 @@ export class MessagingMessage {
 	public id: string;
 
 	@Index()
-	@Column('timestamp with time zone', {
-		comment: 'The created date of the MessagingMessage.',
+	@Column("timestamp with time zone", {
+		comment: "The created date of the MessagingMessage.",
 	})
 	public createdAt: Date;
 
 	@Index()
 	@Column({
 		...id(),
-		comment: 'The sender user ID.',
+		comment: "The sender user ID.",
 	})
-	public userId: User['id'];
+	public userId: User["id"];
 
 	@ManyToOne(type => User, {
-		onDelete: 'CASCADE',
+		onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public user: User | null;
@@ -31,12 +31,12 @@ export class MessagingMessage {
 	@Index()
 	@Column({
 		...id(), nullable: true,
-		comment: 'The recipient user ID.',
+		comment: "The recipient user ID.",
 	})
-	public recipientId: User['id'] | null;
+	public recipientId: User["id"] | null;
 
 	@ManyToOne(type => User, {
-		onDelete: 'CASCADE',
+		onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public recipient: User | null;
@@ -44,45 +44,45 @@ export class MessagingMessage {
 	@Index()
 	@Column({
 		...id(), nullable: true,
-		comment: 'The recipient group ID.',
+		comment: "The recipient group ID.",
 	})
-	public groupId: UserGroup['id'] | null;
+	public groupId: UserGroup["id"] | null;
 
 	@ManyToOne(type => UserGroup, {
-		onDelete: 'CASCADE',
+		onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public group: UserGroup | null;
 
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 4096, nullable: true,
 	})
 	public text: string | null;
 
-	@Column('boolean', {
+	@Column("boolean", {
 		default: false,
 	})
 	public isRead: boolean;
 
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 512, nullable: true,
 	})
 	public uri: string | null;
 
 	@Column({
 		...id(),
-		array: true, default: '{}',
+		array: true, default: "{}",
 	})
-	public reads: User['id'][];
+	public reads: User["id"][];
 
 	@Column({
 		...id(),
 		nullable: true,
 	})
-	public fileId: DriveFile['id'] | null;
+	public fileId: DriveFile["id"] | null;
 
 	@ManyToOne(type => DriveFile, {
-		onDelete: 'CASCADE',
+		onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public file: DriveFile | null;

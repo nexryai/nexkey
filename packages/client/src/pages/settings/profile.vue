@@ -62,22 +62,22 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, watch } from 'vue';
-import MkButton from '@/components/MkButton.vue';
-import FormInput from '@/components/form/input.vue';
-import FormTextarea from '@/components/form/textarea.vue';
-import FormSwitch from '@/components/form/switch.vue';
-import FormSelect from '@/components/form/select.vue';
-import FormSplit from '@/components/form/split.vue';
-import FormFolder from '@/components/form/folder.vue';
-import FormSlot from '@/components/form/slot.vue';
-import { host } from '@/config';
-import { selectFile } from '@/scripts/select-file';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
-import { $i } from '@/account';
-import { langmap } from '@/scripts/langmap';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { reactive, watch } from "vue";
+import MkButton from "@/components/MkButton.vue";
+import FormInput from "@/components/form/input.vue";
+import FormTextarea from "@/components/form/textarea.vue";
+import FormSwitch from "@/components/form/switch.vue";
+import FormSelect from "@/components/form/select.vue";
+import FormSplit from "@/components/form/split.vue";
+import FormFolder from "@/components/form/folder.vue";
+import FormSlot from "@/components/form/slot.vue";
+import { host } from "@/config";
+import { selectFile } from "@/scripts/select-file";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
+import { $i } from "@/account";
+import { langmap } from "@/scripts/langmap";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 const profile = reactive({
 	name: $i.name,
@@ -101,8 +101,8 @@ const fields = reactive($i.fields.map(field => ({ name: field.name, value: field
 
 function addField() {
 	fields.push({
-		name: '',
-		value: '',
+		name: "",
+		value: "",
 	});
 }
 
@@ -111,13 +111,13 @@ while (fields.length < 4) {
 }
 
 function saveFields() {
-	os.apiWithDialog('i/update', {
-		fields: fields.filter(field => field.name !== '' && field.value !== ''),
+	os.apiWithDialog("i/update", {
+		fields: fields.filter(field => field.name !== "" && field.value !== ""),
 	});
 }
 
 function save() {
-	os.apiWithDialog('i/update', {
+	os.apiWithDialog("i/update", {
 		name: profile.name || null,
 		description: profile.description || null,
 		location: profile.location || null,
@@ -135,8 +135,8 @@ function changeAvatar(ev) {
 		let originalOrCropped = file;
 
 		const { canceled } = await os.confirm({
-			type: 'question',
-			text: i18n.t('cropImageAsk'),
+			type: "question",
+			text: i18n.t("cropImageAsk"),
 		});
 
 		if (!canceled) {
@@ -145,7 +145,7 @@ function changeAvatar(ev) {
 			});
 		}
 
-		const i = await os.apiWithDialog('i/update', {
+		const i = await os.apiWithDialog("i/update", {
 			avatarId: originalOrCropped.id,
 		});
 		$i.avatarId = i.avatarId;
@@ -158,8 +158,8 @@ function changeBanner(ev) {
 		let originalOrCropped = file;
 
 		const { canceled } = await os.confirm({
-			type: 'question',
-			text: i18n.t('cropImageAsk'),
+			type: "question",
+			text: i18n.t("cropImageAsk"),
 		});
 
 		if (!canceled) {
@@ -168,7 +168,7 @@ function changeBanner(ev) {
 			});
 		}
 
-		const i = await os.apiWithDialog('i/update', {
+		const i = await os.apiWithDialog("i/update", {
 			bannerId: originalOrCropped.id,
 		});
 		$i.bannerId = i.bannerId;
@@ -182,7 +182,7 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.profile,
-	icon: 'ti ti-user',
+	icon: "ti ti-user",
 });
 </script>
 

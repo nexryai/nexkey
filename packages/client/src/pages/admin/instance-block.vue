@@ -1,10 +1,10 @@
 <template>
 <MkStickyContainer>
 	<template #header><XHeader :actions="headerActions" :tabs="headerTabs"/></template>
-  <MkSpacer v-if="streamModeEnabled">
-    <MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
-  </MkSpacer>
-	<MkSpacer :content-max="700" :margin-min="16" :margin-max="32" v-if="!streamModeEnabled">
+	<MkSpacer v-if="streamModeEnabled">
+		<MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
+	</MkSpacer>
+	<MkSpacer v-if="!streamModeEnabled" :content-max="700" :margin-min="16" :margin-max="32">
 		<FormSuspense :p="init">
 			<FormTextarea v-model="blockedHosts" class="_formBlock">
 				<span>{{ i18n.ts.blockedInstances }}</span>
@@ -18,30 +18,30 @@
 </template>
 
 <script lang="ts" setup>
-import {ref} from 'vue';
-import XHeader from './_header_.vue';
-import FormButton from '@/components/MkButton.vue';
-import FormTextarea from '@/components/form/textarea.vue';
-import FormSuspense from '@/components/form/suspense.vue';
-import * as os from '@/os';
-import { fetchInstance } from '@/instance';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { ref } from "vue";
+import XHeader from "./_header_.vue";
+import FormButton from "@/components/MkButton.vue";
+import FormTextarea from "@/components/form/textarea.vue";
+import FormSuspense from "@/components/form/suspense.vue";
+import * as os from "@/os";
+import { fetchInstance } from "@/instance";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 import MkInfo from "@/components/MkInfo.vue";
-import {defaultStore} from "@/store";
+import { defaultStore } from "@/store";
 
 const streamModeEnabled = ref(defaultStore.state.streamModeEnabled);
 
-let blockedHosts: string = $ref('');
+let blockedHosts: string = $ref("");
 
 async function init() {
-	const meta = await os.api('admin/meta');
-	blockedHosts = meta.blockedHosts.join('\n');
+	const meta = await os.api("admin/meta");
+	blockedHosts = meta.blockedHosts.join("\n");
 }
 
 function save() {
-	os.apiWithDialog('admin/update-meta', {
-		blockedHosts: blockedHosts.split('\n') || [],
+	os.apiWithDialog("admin/update-meta", {
+		blockedHosts: blockedHosts.split("\n") || [],
 	}).then(() => {
 		fetchInstance();
 	});
@@ -53,6 +53,6 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.instanceBlocking,
-	icon: 'ti ti-ban',
+	icon: "ti ti-ban",
 });
 </script>

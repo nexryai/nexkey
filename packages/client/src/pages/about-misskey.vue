@@ -78,17 +78,17 @@
 </template>
 
 <script lang="ts" setup>
-import { nextTick, onBeforeUnmount } from 'vue';
-import { version } from '@/config';
-import FormLink from '@/components/form/link.vue';
-import FormSection from '@/components/form/section.vue';
-import MkButton from '@/components/MkButton.vue';
-import MkLink from '@/components/MkLink.vue';
-import { physics } from '@/scripts/physics';
-import { i18n } from '@/i18n';
-import { defaultStore } from '@/store';
-import * as os from '@/os';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { nextTick, onBeforeUnmount } from "vue";
+import { version } from "@/config";
+import FormLink from "@/components/form/link.vue";
+import FormSection from "@/components/form/section.vue";
+import MkButton from "@/components/MkButton.vue";
+import MkLink from "@/components/MkLink.vue";
+import { physics } from "@/scripts/physics";
+import { i18n } from "@/i18n";
+import { defaultStore } from "@/store";
+import * as os from "@/os";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 let easterEggReady = false;
 let easterEggEmojis = $ref([]);
@@ -120,7 +120,7 @@ function gravity() {
 
 function iLoveMisskey() {
 	os.post({
-		initialText: 'I $[jelly ❤] #Misskey',
+		initialText: "I $[jelly ❤] #Misskey",
 		instant: true,
 	});
 }

@@ -9,27 +9,27 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, defineAsyncComponent, PropType } from 'vue';
-import * as os from '@/os';
-import { SectionBlock } from '@/scripts/hpml/block';
-import { Hpml } from '@/scripts/hpml/evaluator';
+import { defineComponent, defineAsyncComponent, PropType } from "vue";
+import * as os from "@/os";
+import { SectionBlock } from "@/scripts/hpml/block";
+import { Hpml } from "@/scripts/hpml/evaluator";
 
 export default defineComponent({
 	components: {
-		XBlock: defineAsyncComponent(() => import('./page.block.vue'))
+		XBlock: defineAsyncComponent(() => import("./page.block.vue")),
 	},
 	props: {
 		block: {
 			type: Object as PropType<SectionBlock>,
-			required: true
+			required: true,
 		},
 		hpml: {
 			type: Object as PropType<Hpml>,
-			required: true
+			required: true,
 		},
 		h: {
-			required: true
-		}
+			required: true,
+		},
 	},
 });
 </script>

@@ -2,7 +2,7 @@ export class Cache<T> {
 	public cache: Map<string | null, { date: number; value: T; }>;
 	private lifetime: number;
 
-	constructor(lifetime: Cache<never>['lifetime']) {
+	constructor(lifetime: Cache<never>["lifetime"]) {
 		this.cache = new Map();
 		this.lifetime = lifetime;
 	}

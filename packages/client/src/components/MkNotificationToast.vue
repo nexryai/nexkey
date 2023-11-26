@@ -7,19 +7,19 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
-import XNotification from '@/components/MkNotification.vue';
-import * as os from '@/os';
+import { onMounted } from "vue";
+import XNotification from "@/components/MkNotification.vue";
+import * as os from "@/os";
 
 defineProps<{
 	notification: any; // TODO
 }>();
 
 const emit = defineEmits<{
-	(ev: 'closed'): void;
+	(ev: "closed"): void;
 }>();
 
-const zIndex = os.claimZIndex('high');
+const zIndex = os.claimZIndex("high");
 let showing = $ref(true);
 
 onMounted(() => {

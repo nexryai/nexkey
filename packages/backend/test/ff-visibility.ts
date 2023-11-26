@@ -1,10 +1,10 @@
-process.env.NODE_ENV = 'test';
+process.env.NODE_ENV = "test";
 
-import * as assert from 'assert';
-import * as childProcess from 'child_process';
-import { async, signup, request, post, react, connectStream, startServer, shutdownServer, simpleGet } from './utils.js';
+import * as assert from "assert";
+import * as childProcess from "child_process";
+import { async, signup, request, post, react, connectStream, startServer, shutdownServer, simpleGet } from "./utils.js";
 
-describe('FF visibility', () => {
+describe("FF visibility", () => {
 	let p: childProcess.ChildProcess;
 
 	let alice: any;
@@ -13,24 +13,24 @@ describe('FF visibility', () => {
 
 	before(async () => {
 		p = await startServer();
-		alice = await signup({ username: 'alice' });
-		bob = await signup({ username: 'bob' });
-		carol = await signup({ username: 'carol' });
+		alice = await signup({ username: "alice" });
+		bob = await signup({ username: "bob" });
+		carol = await signup({ username: "carol" });
 	});
 
 	after(async () => {
 		await shutdownServer(p);
 	});
 
-	it('ffVisibility が public なユーザーのフォロー/フォロワーを誰でも見れる', async(async () => {
-		await request('/i/update', {
-			ffVisibility: 'public',
+	it("ffVisibility が public なユーザーのフォロー/フォロワーを誰でも見れる", async(async () => {
+		await request("/i/update", {
+			ffVisibility: "public",
 		}, alice);
 
-		const followingRes = await request('/users/following', {
+		const followingRes = await request("/users/following", {
 			userId: alice.id,
 		}, bob);
-		const followersRes = await request('/users/followers', {
+		const followersRes = await request("/users/followers", {
 			userId: alice.id,
 		}, bob);
 
@@ -40,15 +40,15 @@ describe('FF visibility', () => {
 		assert.strictEqual(Array.isArray(followersRes.body), true);
 	}));
 
-	it('ffVisibility が followers なユーザーのフォロー/フォロワーを自分で見れる', async(async () => {
-		await request('/i/update', {
-			ffVisibility: 'followers',
+	it("ffVisibility が followers なユーザーのフォロー/フォロワーを自分で見れる", async(async () => {
+		await request("/i/update", {
+			ffVisibility: "followers",
 		}, alice);
 
-		const followingRes = await request('/users/following', {
+		const followingRes = await request("/users/following", {
 			userId: alice.id,
 		}, alice);
-		const followersRes = await request('/users/followers', {
+		const followersRes = await request("/users/followers", {
 			userId: alice.id,
 		}, alice);
 
@@ -58,15 +58,15 @@ describe('FF visibility', () => {
 		assert.strictEqual(Array.isArray(followersRes.body), true);
 	}));
 
-	it('ffVisibility が followers なユーザーのフォロー/フォロワーを非フォロワーが見れない', async(async () => {
-		await request('/i/update', {
-			ffVisibility: 'followers',
+	it("ffVisibility が followers なユーザーのフォロー/フォロワーを非フォロワーが見れない", async(async () => {
+		await request("/i/update", {
+			ffVisibility: "followers",
 		}, alice);
 
-		const followingRes = await request('/users/following', {
+		const followingRes = await request("/users/following", {
 			userId: alice.id,
 		}, bob);
-		const followersRes = await request('/users/followers', {
+		const followersRes = await request("/users/followers", {
 			userId: alice.id,
 		}, bob);
 
@@ -74,19 +74,19 @@ describe('FF visibility', () => {
 		assert.strictEqual(followersRes.status, 400);
 	}));
 
-	it('ffVisibility が followers なユーザーのフォロー/フォロワーをフォロワーが見れる', async(async () => {
-		await request('/i/update', {
-			ffVisibility: 'followers',
+	it("ffVisibility が followers なユーザーのフォロー/フォロワーをフォロワーが見れる", async(async () => {
+		await request("/i/update", {
+			ffVisibility: "followers",
 		}, alice);
 
-		await request('/following/create', {
+		await request("/following/create", {
 			userId: alice.id,
 		}, bob);
 
-		const followingRes = await request('/users/following', {
+		const followingRes = await request("/users/following", {
 			userId: alice.id,
 		}, bob);
-		const followersRes = await request('/users/followers', {
+		const followersRes = await request("/users/followers", {
 			userId: alice.id,
 		}, bob);
 
@@ -96,15 +96,15 @@ describe('FF visibility', () => {
 		assert.strictEqual(Array.isArray(followersRes.body), true);
 	}));
 
-	it('ffVisibility が private なユーザーのフォロー/フォロワーを自分で見れる', async(async () => {
-		await request('/i/update', {
-			ffVisibility: 'private',
+	it("ffVisibility が private なユーザーのフォロー/フォロワーを自分で見れる", async(async () => {
+		await request("/i/update", {
+			ffVisibility: "private",
 		}, alice);
 
-		const followingRes = await request('/users/following', {
+		const followingRes = await request("/users/following", {
 			userId: alice.id,
 		}, alice);
-		const followersRes = await request('/users/followers', {
+		const followersRes = await request("/users/followers", {
 			userId: alice.id,
 		}, alice);
 
@@ -114,15 +114,15 @@ describe('FF visibility', () => {
 		assert.strictEqual(Array.isArray(followersRes.body), true);
 	}));
 
-	it('ffVisibility が private なユーザーのフォロー/フォロワーを他人が見れない', async(async () => {
-		await request('/i/update', {
-			ffVisibility: 'private',
+	it("ffVisibility が private なユーザーのフォロー/フォロワーを他人が見れない", async(async () => {
+		await request("/i/update", {
+			ffVisibility: "private",
 		}, alice);
 
-		const followingRes = await request('/users/following', {
+		const followingRes = await request("/users/following", {
 			userId: alice.id,
 		}, bob);
-		const followersRes = await request('/users/followers', {
+		const followersRes = await request("/users/followers", {
 			userId: alice.id,
 		}, bob);
 

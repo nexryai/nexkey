@@ -1,9 +1,9 @@
-import { db } from '@/db/postgre.js';
-import { Users } from '../index.js';
-import { Following } from '@/models/entities/following.js';
-import { awaitAll } from '@/prelude/await-all.js';
-import { Packed } from '@/misc/schema.js';
-import { User } from '@/models/entities/user.js';
+import { db } from "@/db/postgre.js";
+import { Following } from "@/models/entities/following.js";
+import { awaitAll } from "@/prelude/await-all.js";
+import { Packed } from "@/misc/schema.js";
+import { User } from "@/models/entities/user.js";
+import { Users } from "../index.js";
 
 type LocalFollowerFollowing = Following & {
 	followerHost: null;
@@ -47,14 +47,14 @@ export const FollowingRepository = db.getRepository(Following).extend({
 	},
 
 	async pack(
-		src: Following['id'] | Following,
-		me?: { id: User['id'] } | null | undefined,
+		src: Following["id"] | Following,
+		me?: { id: User["id"] } | null | undefined,
 		opts?: {
 			populateFollowee?: boolean;
 			populateFollower?: boolean;
-		}
-	): Promise<Packed<'Following'>> {
-		const following = typeof src === 'object' ? src : await this.findOneByOrFail({ id: src });
+		},
+	): Promise<Packed<"Following">> {
+		const following = typeof src === "object" ? src : await this.findOneByOrFail({ id: src });
 
 		if (opts == null) opts = {};
 
@@ -74,11 +74,11 @@ export const FollowingRepository = db.getRepository(Following).extend({
 
 	packMany(
 		followings: any[],
-		me?: { id: User['id'] } | null | undefined,
+		me?: { id: User["id"] } | null | undefined,
 		opts?: {
 			populateFollowee?: boolean;
 			populateFollower?: boolean;
-		}
+		},
 	) {
 		return Promise.all(followings.map(x => this.pack(x, me, opts)));
 	},

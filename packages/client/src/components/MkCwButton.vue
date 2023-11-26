@@ -6,11 +6,11 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
-import { length } from 'stringz';
-import * as misskey from 'misskey-js';
-import { concat } from '@/scripts/array';
-import { i18n } from '@/i18n';
+import { computed } from "vue";
+import { length } from "stringz";
+import * as misskey from "misskey-js";
+import { concat } from "@/scripts/array";
+import { i18n } from "@/i18n";
 
 const props = defineProps<{
 	modelValue: boolean;
@@ -18,19 +18,19 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-	(ev: 'update:modelValue', v: boolean): void;
+	(ev: "update:modelValue", v: boolean): void;
 }>();
 
 const label = computed(() => {
 	return concat([
-		props.note.text ? [i18n.t('_cw.chars', { count: length(props.note.text) })] : [],
-		props.note.files && props.note.files.length !== 0 ? [i18n.t('_cw.files', { count: props.note.files.length }) ] : [],
-		props.note.poll != null ? [i18n.ts.poll] : []
-	] as string[][]).join(' / ');
+		props.note.text ? [i18n.t("_cw.chars", { count: length(props.note.text) })] : [],
+		props.note.files && props.note.files.length !== 0 ? [i18n.t("_cw.files", { count: props.note.files.length }) ] : [],
+		props.note.poll != null ? [i18n.ts.poll] : [],
+	] as string[][]).join(" / ");
 });
 
 const toggle = () => {
-	emit('update:modelValue', !props.modelValue);
+	emit("update:modelValue", !props.modelValue);
 };
 </script>
 

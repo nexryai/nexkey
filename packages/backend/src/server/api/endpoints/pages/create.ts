@@ -1,61 +1,61 @@
-import ms from 'ms';
-import { Pages, DriveFiles } from '@/models/index.js';
-import { genId } from '@/misc/gen-id.js';
-import { Page } from '@/models/entities/page.js';
-import define from '../../define.js';
-import { ApiError } from '../../error.js';
+import ms from "ms";
+import { Pages, DriveFiles } from "@/models/index.js";
+import { genId } from "@/misc/gen-id.js";
+import { Page } from "@/models/entities/page.js";
+import define from "../../define.js";
+import { ApiError } from "../../error.js";
 
 export const meta = {
-	tags: ['pages'],
+	tags: ["pages"],
 
 	requireCredential: true,
 
-	kind: 'write:pages',
+	kind: "write:pages",
 
 	limit: {
-		duration: ms('1hour'),
+		duration: ms("1hour"),
 		max: 300,
 	},
 
 	res: {
-		type: 'object',
+		type: "object",
 		optional: false, nullable: false,
-		ref: 'Page',
+		ref: "Page",
 	},
 
 	errors: {
 		noSuchFile: {
-			message: 'No such file.',
-			code: 'NO_SUCH_FILE',
-			id: 'b7b97489-0f66-4b12-a5ff-b21bd63f6e1c',
+			message: "No such file.",
+			code: "NO_SUCH_FILE",
+			id: "b7b97489-0f66-4b12-a5ff-b21bd63f6e1c",
 		},
 		nameAlreadyExists: {
-			message: 'Specified name already exists.',
-			code: 'NAME_ALREADY_EXISTS',
-			id: '4650348e-301c-499a-83c9-6aa988c66bc1',
+			message: "Specified name already exists.",
+			code: "NAME_ALREADY_EXISTS",
+			id: "4650348e-301c-499a-83c9-6aa988c66bc1",
 		},
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		title: { type: 'string' },
-		name: { type: 'string', minLength: 1 },
-		summary: { type: 'string', nullable: true },
-		content: { type: 'array', items: {
-			type: 'object', additionalProperties: true,
+		title: { type: "string" },
+		name: { type: "string", minLength: 1 },
+		summary: { type: "string", nullable: true },
+		content: { type: "array", items: {
+			type: "object", additionalProperties: true,
 		} },
-		variables: { type: 'array', items: {
-			type: 'object', additionalProperties: true,
+		variables: { type: "array", items: {
+			type: "object", additionalProperties: true,
 		} },
-		script: { type: 'string' },
-		eyeCatchingImageId: { type: 'string', format: 'misskey:id', nullable: true },
-		font: { type: 'string', enum: ['serif', 'sans-serif'], default: 'sans-serif' },
-		alignCenter: { type: 'boolean', default: false },
-		hideTitleWhenPinned: { type: 'boolean', default: false },
+		script: { type: "string" },
+		eyeCatchingImageId: { type: "string", format: "misskey:id", nullable: true },
+		font: { type: "string", enum: ["serif", "sans-serif"], default: "sans-serif" },
+		alignCenter: { type: "boolean", default: false },
+		hideTitleWhenPinned: { type: "boolean", default: false },
 	},
-	required: ['title', 'name', 'content', 'variables', 'script'],
+	required: ["title", "name", "content", "variables", "script"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
@@ -93,7 +93,7 @@ export default define(meta, paramDef, async (ps, user) => {
 		script: ps.script,
 		eyeCatchingImageId: eyeCatchingImage ? eyeCatchingImage.id : null,
 		userId: user.id,
-		visibility: 'public',
+		visibility: "public",
 		alignCenter: ps.alignCenter,
 		hideTitleWhenPinned: ps.hideTitleWhenPinned,
 		font: ps.font,

@@ -20,15 +20,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import MkPagination from '@/components/MkPagination.vue';
-import XNote from '@/components/MkNote.vue';
-import XList from '@/components/MkDateSeparatedList.vue';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { ref } from "vue";
+import MkPagination from "@/components/MkPagination.vue";
+import XNote from "@/components/MkNote.vue";
+import XList from "@/components/MkDateSeparatedList.vue";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 const pagination = {
-	endpoint: 'i/favorites' as const,
+	endpoint: "i/favorites" as const,
 	limit: 10,
 };
 
@@ -36,7 +36,7 @@ const pagingComponent = ref<InstanceType<typeof MkPagination>>();
 
 definePageMetadata({
 	title: i18n.ts.favorites,
-	icon: 'ti ti-star',
+	icon: "ti ti-star",
 });
 </script>
 

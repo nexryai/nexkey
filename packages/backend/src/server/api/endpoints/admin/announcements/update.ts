@@ -1,31 +1,31 @@
-import define from '../../../define.js';
-import { Announcements } from '@/models/index.js';
-import { ApiError } from '../../../error.js';
+import { Announcements } from "@/models/index.js";
+import define from "../../../define.js";
+import { ApiError } from "../../../error.js";
 
 export const meta = {
-	tags: ['admin'],
+	tags: ["admin"],
 
 	requireCredential: true,
 	requireModerator: true,
 
 	errors: {
 		noSuchAnnouncement: {
-			message: 'No such announcement.',
-			code: 'NO_SUCH_ANNOUNCEMENT',
-			id: 'd3aae5a7-6372-4cb4-b61c-f511ffc2d7cc',
+			message: "No such announcement.",
+			code: "NO_SUCH_ANNOUNCEMENT",
+			id: "d3aae5a7-6372-4cb4-b61c-f511ffc2d7cc",
 		},
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		id: { type: 'string', format: 'misskey:id' },
-		title: { type: 'string', minLength: 1 },
-		text: { type: 'string', minLength: 1 },
-		imageUrl: { type: 'string', nullable: true, minLength: 0 },
+		id: { type: "string", format: "misskey:id" },
+		title: { type: "string", minLength: 1 },
+		text: { type: "string", minLength: 1 },
+		imageUrl: { type: "string", nullable: true, minLength: 0 },
 	},
-	required: ['id', 'title', 'text', 'imageUrl'],
+	required: ["id", "title", "text", "imageUrl"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export

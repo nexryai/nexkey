@@ -17,8 +17,8 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted } from 'vue';
-import MkModal from './MkModal.vue';
+import { onMounted, onUnmounted } from "vue";
+import MkModal from "./MkModal.vue";
 
 const props = withDefaults(defineProps<{
 	withOkButton: boolean;
@@ -35,10 +35,10 @@ const props = withDefaults(defineProps<{
 });
 
 const emit = defineEmits<{
-	(event: 'click'): void;
-	(event: 'close'): void;
-	(event: 'closed'): void;
-	(event: 'ok'): void;
+	(event: "click"): void;
+	(event: "close"): void;
+	(event: "closed"): void;
+	(event: "ok"): void;
 }>();
 
 let modal = $ref<InstanceType<typeof MkModal>>();
@@ -52,7 +52,7 @@ const close = () => {
 };
 
 const onBgClick = () => {
-	emit('click');
+	emit("click");
 };
 
 const onKeydown = (evt) => {

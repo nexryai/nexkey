@@ -1,9 +1,9 @@
-import tinycolor from 'tinycolor2';
-import { Hpml } from './evaluator';
-import { values, utils } from '@syuilo/aiscript';
-import { Fn, HpmlScope } from '.';
-import { Expr } from './expr';
-import seedrandom from 'seedrandom';
+import tinycolor from "tinycolor2";
+import { values, utils } from "@syuilo/aiscript";
+import seedrandom from "seedrandom";
+import { Hpml } from "./evaluator";
+import { Expr } from "./expr";
+import { Fn, HpmlScope } from ".";
 
 /* TODO: https://www.chartjs.org/docs/latest/configuration/canvas-background.html#color
 // https://stackoverflow.com/questions/38493564/chart-area-background-color-chartjs
@@ -22,34 +22,34 @@ Chart.pluginService.register({
 
 export function initAiLib(hpml: Hpml) {
 	return {
-		'MkPages:updated': values.FN_NATIVE(([callback]) => {
+		"MkPages:updated": values.FN_NATIVE(([callback]) => {
 			hpml.pageVarUpdatedCallback = (callback as values.VFn);
 		}),
-		'MkPages:get_canvas': values.FN_NATIVE(([id]) => {
+		"MkPages:get_canvas": values.FN_NATIVE(([id]) => {
 			utils.assertString(id);
 			const canvas = hpml.canvases[id.value];
-			const ctx = canvas.getContext('2d');
+			const ctx = canvas.getContext("2d");
 			return values.OBJ(new Map([
-				['clear_rect', values.FN_NATIVE(([x, y, width, height]) => { ctx.clearRect(x.value, y.value, width.value, height.value); })],
-				['fill_rect', values.FN_NATIVE(([x, y, width, height]) => { ctx.fillRect(x.value, y.value, width.value, height.value); })],
-				['stroke_rect', values.FN_NATIVE(([x, y, width, height]) => { ctx.strokeRect(x.value, y.value, width.value, height.value); })],
-				['fill_text', values.FN_NATIVE(([text, x, y, width]) => { ctx.fillText(text.value, x.value, y.value, width ? width.value : undefined); })],
-				['stroke_text', values.FN_NATIVE(([text, x, y, width]) => { ctx.strokeText(text.value, x.value, y.value, width ? width.value : undefined); })],
-				['set_line_width', values.FN_NATIVE(([width]) => { ctx.lineWidth = width.value; })],
-				['set_font', values.FN_NATIVE(([font]) => { ctx.font = font.value; })],
-				['set_fill_style', values.FN_NATIVE(([style]) => { ctx.fillStyle = style.value; })],
-				['set_stroke_style', values.FN_NATIVE(([style]) => { ctx.strokeStyle = style.value; })],
-				['begin_path', values.FN_NATIVE(() => { ctx.beginPath(); })],
-				['close_path', values.FN_NATIVE(() => { ctx.closePath(); })],
-				['move_to', values.FN_NATIVE(([x, y]) => { ctx.moveTo(x.value, y.value); })],
-				['line_to', values.FN_NATIVE(([x, y]) => { ctx.lineTo(x.value, y.value); })],
-				['arc', values.FN_NATIVE(([x, y, radius, startAngle, endAngle]) => { ctx.arc(x.value, y.value, radius.value, startAngle.value, endAngle.value); })],
-				['rect', values.FN_NATIVE(([x, y, width, height]) => { ctx.rect(x.value, y.value, width.value, height.value); })],
-				['fill', values.FN_NATIVE(() => { ctx.fill(); })],
-				['stroke', values.FN_NATIVE(() => { ctx.stroke(); })],
+				["clear_rect", values.FN_NATIVE(([x, y, width, height]) => { ctx.clearRect(x.value, y.value, width.value, height.value); })],
+				["fill_rect", values.FN_NATIVE(([x, y, width, height]) => { ctx.fillRect(x.value, y.value, width.value, height.value); })],
+				["stroke_rect", values.FN_NATIVE(([x, y, width, height]) => { ctx.strokeRect(x.value, y.value, width.value, height.value); })],
+				["fill_text", values.FN_NATIVE(([text, x, y, width]) => { ctx.fillText(text.value, x.value, y.value, width ? width.value : undefined); })],
+				["stroke_text", values.FN_NATIVE(([text, x, y, width]) => { ctx.strokeText(text.value, x.value, y.value, width ? width.value : undefined); })],
+				["set_line_width", values.FN_NATIVE(([width]) => { ctx.lineWidth = width.value; })],
+				["set_font", values.FN_NATIVE(([font]) => { ctx.font = font.value; })],
+				["set_fill_style", values.FN_NATIVE(([style]) => { ctx.fillStyle = style.value; })],
+				["set_stroke_style", values.FN_NATIVE(([style]) => { ctx.strokeStyle = style.value; })],
+				["begin_path", values.FN_NATIVE(() => { ctx.beginPath(); })],
+				["close_path", values.FN_NATIVE(() => { ctx.closePath(); })],
+				["move_to", values.FN_NATIVE(([x, y]) => { ctx.moveTo(x.value, y.value); })],
+				["line_to", values.FN_NATIVE(([x, y]) => { ctx.lineTo(x.value, y.value); })],
+				["arc", values.FN_NATIVE(([x, y, radius, startAngle, endAngle]) => { ctx.arc(x.value, y.value, radius.value, startAngle.value, endAngle.value); })],
+				["rect", values.FN_NATIVE(([x, y, width, height]) => { ctx.rect(x.value, y.value, width.value, height.value); })],
+				["fill", values.FN_NATIVE(() => { ctx.fill(); })],
+				["stroke", values.FN_NATIVE(() => { ctx.stroke(); })],
 			]));
 		}),
-		'MkPages:chart': values.FN_NATIVE(([id, opts]) => {
+		"MkPages:chart": values.FN_NATIVE(([id, opts]) => {
 			/* TODO
 			utils.assertString(id);
 			utils.assertObject(opts);
@@ -130,48 +130,48 @@ export function initAiLib(hpml: Hpml) {
 }
 
 export const funcDefs: Record<string, { in: any[]; out: any; category: string; icon: any; }> = {
-	if: { in: ['boolean', 0, 0], out: 0, category: 'flow', icon: 'ti ti-share' },
-	for: { in: ['number', 'function'], out: null, category: 'flow', icon: 'ti ti-recycle' },
-	not: { in: ['boolean'], out: 'boolean', category: 'logical', icon: 'ti ti-flag' },
-	or: { in: ['boolean', 'boolean'], out: 'boolean', category: 'logical', icon: 'ti ti-flag' },
-	and: { in: ['boolean', 'boolean'], out: 'boolean', category: 'logical', icon: 'ti ti-flag' },
-	add: { in: ['number', 'number'], out: 'number', category: 'operation', icon: 'ti ti-plus' },
-	subtract: { in: ['number', 'number'], out: 'number', category: 'operation', icon: 'ti ti-minus' },
-	multiply: { in: ['number', 'number'], out: 'number', category: 'operation', icon: 'ti ti-x' },
-	divide: { in: ['number', 'number'], out: 'number', category: 'operation', icon: 'ti ti-divide' },
-	mod: { in: ['number', 'number'], out: 'number', category: 'operation', icon: 'ti ti-divide' },
-	round: { in: ['number'], out: 'number', category: 'operation', icon: 'ti ti-calculator' },
-	eq: { in: [0, 0], out: 'boolean', category: 'comparison', icon: 'ti ti-equal' },
-	notEq: { in: [0, 0], out: 'boolean', category: 'comparison', icon: 'ti ti-equal-not' },
-	gt: { in: ['number', 'number'], out: 'boolean', category: 'comparison', icon: 'ti ti-math-greater' },
-	lt: { in: ['number', 'number'], out: 'boolean', category: 'comparison', icon: 'ti ti-math-lower' },
-	gtEq: { in: ['number', 'number'], out: 'boolean', category: 'comparison', icon: 'ti ti-math-equal-greater' },
-	ltEq: { in: ['number', 'number'], out: 'boolean', category: 'comparison', icon: 'ti ti-math-equal-lower' },
-	strLen: { in: ['string'], out: 'number', category: 'text', icon: 'ti ti-quote' },
-	strPick: { in: ['string', 'number'], out: 'string', category: 'text', icon: 'ti ti-quote' },
-	strReplace: { in: ['string', 'string', 'string'], out: 'string', category: 'text', icon: 'ti ti-quote' },
-	strReverse: { in: ['string'], out: 'string', category: 'text', icon: 'ti ti-quote' },
-	join: { in: ['stringArray', 'string'], out: 'string', category: 'text', icon: 'ti ti-quote' },
-	stringToNumber: { in: ['string'], out: 'number', category: 'convert', icon: 'ti ti-arrows-right-left' },
-	numberToString: { in: ['number'], out: 'string', category: 'convert', icon: 'ti ti-arrows-right-left' },
-	splitStrByLine: { in: ['string'], out: 'stringArray', category: 'convert', icon: 'ti ti-arrows-right-left' },
-	pick: { in: [null, 'number'], out: null, category: 'list', icon: 'ti ti-indent-increase' },
-	listLen: { in: [null], out: 'number', category: 'list', icon: 'ti ti-indent-increase' },
-	rannum: { in: ['number', 'number'], out: 'number', category: 'random', icon: 'ti ti-dice' },
-	dailyRannum: { in: ['number', 'number'], out: 'number', category: 'random', icon: 'ti ti-dice' },
-	seedRannum: { in: [null, 'number', 'number'], out: 'number', category: 'random', icon: 'ti ti-dice' },
-	random: { in: ['number'], out: 'boolean', category: 'random', icon: 'ti ti-dice' },
-	dailyRandom: { in: ['number'], out: 'boolean', category: 'random', icon: 'ti ti-dice' },
-	seedRandom: { in: [null, 'number'], out: 'boolean', category: 'random', icon: 'ti ti-dice' },
-	randomPick: { in: [0], out: 0, category: 'random', icon: 'ti ti-dice' },
-	dailyRandomPick: { in: [0], out: 0, category: 'random', icon: 'ti ti-dice' },
-	seedRandomPick: { in: [null, 0], out: 0, category: 'random', icon: 'ti ti-dice' },
-	DRPWPM: { in: ['stringArray'], out: 'string', category: 'random', icon: 'ti ti-dice' }, // dailyRandomPickWithProbabilityMapping
+	if: { in: ["boolean", 0, 0], out: 0, category: "flow", icon: "ti ti-share" },
+	for: { in: ["number", "function"], out: null, category: "flow", icon: "ti ti-recycle" },
+	not: { in: ["boolean"], out: "boolean", category: "logical", icon: "ti ti-flag" },
+	or: { in: ["boolean", "boolean"], out: "boolean", category: "logical", icon: "ti ti-flag" },
+	and: { in: ["boolean", "boolean"], out: "boolean", category: "logical", icon: "ti ti-flag" },
+	add: { in: ["number", "number"], out: "number", category: "operation", icon: "ti ti-plus" },
+	subtract: { in: ["number", "number"], out: "number", category: "operation", icon: "ti ti-minus" },
+	multiply: { in: ["number", "number"], out: "number", category: "operation", icon: "ti ti-x" },
+	divide: { in: ["number", "number"], out: "number", category: "operation", icon: "ti ti-divide" },
+	mod: { in: ["number", "number"], out: "number", category: "operation", icon: "ti ti-divide" },
+	round: { in: ["number"], out: "number", category: "operation", icon: "ti ti-calculator" },
+	eq: { in: [0, 0], out: "boolean", category: "comparison", icon: "ti ti-equal" },
+	notEq: { in: [0, 0], out: "boolean", category: "comparison", icon: "ti ti-equal-not" },
+	gt: { in: ["number", "number"], out: "boolean", category: "comparison", icon: "ti ti-math-greater" },
+	lt: { in: ["number", "number"], out: "boolean", category: "comparison", icon: "ti ti-math-lower" },
+	gtEq: { in: ["number", "number"], out: "boolean", category: "comparison", icon: "ti ti-math-equal-greater" },
+	ltEq: { in: ["number", "number"], out: "boolean", category: "comparison", icon: "ti ti-math-equal-lower" },
+	strLen: { in: ["string"], out: "number", category: "text", icon: "ti ti-quote" },
+	strPick: { in: ["string", "number"], out: "string", category: "text", icon: "ti ti-quote" },
+	strReplace: { in: ["string", "string", "string"], out: "string", category: "text", icon: "ti ti-quote" },
+	strReverse: { in: ["string"], out: "string", category: "text", icon: "ti ti-quote" },
+	join: { in: ["stringArray", "string"], out: "string", category: "text", icon: "ti ti-quote" },
+	stringToNumber: { in: ["string"], out: "number", category: "convert", icon: "ti ti-arrows-right-left" },
+	numberToString: { in: ["number"], out: "string", category: "convert", icon: "ti ti-arrows-right-left" },
+	splitStrByLine: { in: ["string"], out: "stringArray", category: "convert", icon: "ti ti-arrows-right-left" },
+	pick: { in: [null, "number"], out: null, category: "list", icon: "ti ti-indent-increase" },
+	listLen: { in: [null], out: "number", category: "list", icon: "ti ti-indent-increase" },
+	rannum: { in: ["number", "number"], out: "number", category: "random", icon: "ti ti-dice" },
+	dailyRannum: { in: ["number", "number"], out: "number", category: "random", icon: "ti ti-dice" },
+	seedRannum: { in: [null, "number", "number"], out: "number", category: "random", icon: "ti ti-dice" },
+	random: { in: ["number"], out: "boolean", category: "random", icon: "ti ti-dice" },
+	dailyRandom: { in: ["number"], out: "boolean", category: "random", icon: "ti ti-dice" },
+	seedRandom: { in: [null, "number"], out: "boolean", category: "random", icon: "ti ti-dice" },
+	randomPick: { in: [0], out: 0, category: "random", icon: "ti ti-dice" },
+	dailyRandomPick: { in: [0], out: 0, category: "random", icon: "ti ti-dice" },
+	seedRandomPick: { in: [null, 0], out: 0, category: "random", icon: "ti ti-dice" },
+	DRPWPM: { in: ["stringArray"], out: "string", category: "random", icon: "ti ti-dice" }, // dailyRandomPickWithProbabilityMapping
 };
 
 export function initHpmlLib(expr: Expr, scope: HpmlScope, randomSeed: string, visitor?: any) {
 	const date = new Date();
-	const day = `${visitor ? visitor.id : ''} ${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+	const day = `${visitor ? visitor.id : ""} ${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
 
 	// SHOULD be fine to ignore since it's intended + function shape isn't defined
 	// eslint-disable-next-line @typescript-eslint/ban-types
@@ -204,11 +204,11 @@ export function initHpmlLib(expr: Expr, scope: HpmlScope, randomSeed: string, vi
 		strLen: (a: string) => a.length,
 		strPick: (a: string, b: number) => a[b - 1],
 		strReplace: (a: string, b: string, c: string) => a.split(b).join(c),
-		strReverse: (a: string) => a.split('').reverse().join(''),
-		join: (texts: string[], separator: string) => texts.join(separator || ''),
+		strReverse: (a: string) => a.split("").reverse().join(""),
+		join: (texts: string[], separator: string) => texts.join(separator || ""),
 		stringToNumber: (a: string) => parseInt(a),
 		numberToString: (a: number) => a.toString(),
-		splitStrByLine: (a: string) => a.split('\n'),
+		splitStrByLine: (a: string) => a.split("\n"),
 		pick: (list: any[], i: number) => list[i - 1],
 		listLen: (list: any[]) => list.length,
 		random: (probability: number) => Math.floor(seedrandom(`${randomSeed}:${expr.id}`)() * 100) < probability,
@@ -224,9 +224,9 @@ export function initHpmlLib(expr: Expr, scope: HpmlScope, randomSeed: string, vi
 			const xs: any[] = [];
 			let totalFactor = 0;
 			for (const x of list) {
-				const parts = x.split(' ');
+				const parts = x.split(" ");
 				const factor = parseInt(parts.pop()!, 10);
-				const text = parts.join(' ');
+				const text = parts.join(" ");
 				totalFactor += factor;
 				xs.push({ factor, text });
 			}

@@ -1,10 +1,10 @@
 <template>
 <MkStickyContainer>
 	<template #header><XHeader :actions="headerActions" :tabs="headerTabs"/></template>
-  <MkSpacer v-if="streamModeEnabled">
-    <MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
-  </MkSpacer>
-	<MkSpacer :content-max="700" :margin-min="16" :margin-max="32" v-if="!streamModeEnabled">
+	<MkSpacer v-if="streamModeEnabled">
+		<MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
+	</MkSpacer>
+	<MkSpacer v-if="!streamModeEnabled" :content-max="700" :margin-min="16" :margin-max="32">
 		<FormSuspense :p="init">
 			<div class="_formRoot">
 				<FormFolder class="_formBlock">
@@ -49,26 +49,26 @@
 </template>
 
 <script lang="ts" setup>
-import {ref} from 'vue';
-import XBotProtection from './bot-protection.vue';
-import XHeader from './_header_.vue';
-import FormFolder from '@/components/form/folder.vue';
-import FormSwitch from '@/components/form/switch.vue';
-import FormInfo from '@/components/MkInfo.vue';
-import FormSuspense from '@/components/form/suspense.vue';
-import FormSection from '@/components/form/section.vue';
-import FormInput from '@/components/form/input.vue';
-import FormButton from '@/components/MkButton.vue';
-import * as os from '@/os';
-import { fetchInstance } from '@/instance';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
-import {defaultStore} from "@/store";
+import { ref } from "vue";
+import XBotProtection from "./bot-protection.vue";
+import XHeader from "./_header_.vue";
+import FormFolder from "@/components/form/folder.vue";
+import FormSwitch from "@/components/form/switch.vue";
+import FormInfo from "@/components/MkInfo.vue";
+import FormSuspense from "@/components/form/suspense.vue";
+import FormSection from "@/components/form/section.vue";
+import FormInput from "@/components/form/input.vue";
+import FormButton from "@/components/MkButton.vue";
+import * as os from "@/os";
+import { fetchInstance } from "@/instance";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
+import { defaultStore } from "@/store";
 import MkInfo from "@/components/MkInfo.vue";
 
 const streamModeEnabled = ref(defaultStore.state.streamModeEnabled);
 
-let summalyProxy: string = $ref('');
+let summalyProxy: string = $ref("");
 let enableHcaptcha: boolean = $ref(false);
 let enableRecaptcha: boolean = $ref(false);
 let enableTurnstile: boolean = $ref(false);
@@ -76,7 +76,7 @@ let enableIpLogging: boolean = $ref(false);
 let enableActiveEmailValidation: boolean = $ref(false);
 
 async function init() {
-	const meta = await os.api('admin/meta');
+	const meta = await os.api("admin/meta");
 	summalyProxy = meta.summalyProxy;
 	enableHcaptcha = meta.enableHcaptcha;
 	enableRecaptcha = meta.enableRecaptcha;
@@ -86,7 +86,7 @@ async function init() {
 }
 
 function save() {
-	os.apiWithDialog('admin/update-meta', {
+	os.apiWithDialog("admin/update-meta", {
 		summalyProxy,
 		enableIpLogging,
 		enableActiveEmailValidation,
@@ -101,6 +101,6 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.security,
-	icon: 'ti ti-lock',
+	icon: "ti ti-lock",
 });
 </script>

@@ -1,4 +1,4 @@
-import { Directive } from 'vue';
+import { Directive } from "vue";
 
 type Value = { max?: number[]; min?: number[]; };
 
@@ -29,7 +29,7 @@ function getClassOrder(width: number, queue: Value): ClassOrder {
 		remove: [
 			...(queue.max ? queue.max.filter(v => width > v).map(getMaxClass) : []),
 			...(queue.min ? queue.min.filter(v => width < v).map(getMinClass) : []),
-		]
+		],
 	};
 }
 
@@ -39,7 +39,7 @@ function applyClassOrder(el: Element, order: ClassOrder) {
 }
 
 function getOrderName(width: number, queue: Value): string {
-	return `${width}|${queue.max ? queue.max.join(',') : ''}|${queue.min ? queue.min.join(',') : ''}`;
+	return `${width}|${queue.max ? queue.max.join(",") : ""}|${queue.min ? queue.min.join(",") : ""}`;
 }
 
 function calc(el: Element) {
@@ -103,5 +103,5 @@ export default {
 		info.resize.disconnect();
 		if (info.intersection) info.intersection.disconnect();
 		mountings.delete(src);
-	}
+	},
 } as Directive<Element, Value>;

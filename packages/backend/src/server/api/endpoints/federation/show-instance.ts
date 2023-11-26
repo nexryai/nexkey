@@ -1,28 +1,28 @@
-import define from '../../define.js';
-import { Instances } from '@/models/index.js';
-import { toPuny } from '@/misc/convert-host.js';
+import { Instances } from "@/models/index.js";
+import { toPuny } from "@/misc/convert-host.js";
+import define from "../../define.js";
 
 export const meta = {
-	tags: ['federation'],
+	tags: ["federation"],
 
 	requireCredential: true,
 
 	res: {
 		oneOf: [{
-			type: 'object',
-			ref: 'FederationInstance',
+			type: "object",
+			ref: "FederationInstance",
 		}, {
-			type: 'null',
+			type: "null",
 		}],
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		host: { type: 'string' },
+		host: { type: "string" },
 	},
-	required: ['host'],
+	required: ["host"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export

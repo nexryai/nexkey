@@ -70,46 +70,46 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import MkButton from '@/components/MkButton.vue';
-import FormSection from '@/components/form/section.vue';
-import FormFolder from '@/components/form/folder.vue';
-import FormSwitch from '@/components/form/switch.vue';
-import * as os from '@/os';
-import { selectFile } from '@/scripts/select-file';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { ref } from "vue";
+import MkButton from "@/components/MkButton.vue";
+import FormSection from "@/components/form/section.vue";
+import FormFolder from "@/components/form/folder.vue";
+import FormSwitch from "@/components/form/switch.vue";
+import * as os from "@/os";
+import { selectFile } from "@/scripts/select-file";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 const excludeMutingUsers = ref(false);
 const excludeInactiveUsers = ref(false);
 
 const onExportSuccess = () => {
 	os.alert({
-		type: 'info',
+		type: "info",
 		text: i18n.ts.exportRequested,
 	});
 };
 
 const onImportSuccess = () => {
 	os.alert({
-		type: 'info',
+		type: "info",
 		text: i18n.ts.importRequested,
 	});
 };
 
 const onError = (ev) => {
 	os.alert({
-		type: 'error',
+		type: "error",
 		text: ev.message,
 	});
 };
 
 const exportNotes = () => {
-	os.api('i/export-notes', {}).then(onExportSuccess).catch(onError);
+	os.api("i/export-notes", {}).then(onExportSuccess).catch(onError);
 };
 
 const exportFollowing = () => {
-	os.api('i/export-following', {
+	os.api("i/export-following", {
 		excludeMuting: excludeMutingUsers.value,
 		excludeInactive: excludeInactiveUsers.value,
 	})
@@ -117,35 +117,35 @@ const exportFollowing = () => {
 };
 
 const exportBlocking = () => {
-	os.api('i/export-blocking', {}).then(onExportSuccess).catch(onError);
+	os.api("i/export-blocking", {}).then(onExportSuccess).catch(onError);
 };
 
 const exportUserLists = () => {
-	os.api('i/export-user-lists', {}).then(onExportSuccess).catch(onError);
+	os.api("i/export-user-lists", {}).then(onExportSuccess).catch(onError);
 };
 
 const exportMuting = () => {
-	os.api('i/export-mute', {}).then(onExportSuccess).catch(onError);
+	os.api("i/export-mute", {}).then(onExportSuccess).catch(onError);
 };
 
 const importFollowing = async (ev) => {
 	const file = await selectFile(ev.currentTarget ?? ev.target);
-	os.api('i/import-following', { fileId: file.id }).then(onImportSuccess).catch(onError);
+	os.api("i/import-following", { fileId: file.id }).then(onImportSuccess).catch(onError);
 };
 
 const importUserLists = async (ev) => {
 	const file = await selectFile(ev.currentTarget ?? ev.target);
-	os.api('i/import-user-lists', { fileId: file.id }).then(onImportSuccess).catch(onError);
+	os.api("i/import-user-lists", { fileId: file.id }).then(onImportSuccess).catch(onError);
 };
 
 const importMuting = async (ev) => {
 	const file = await selectFile(ev.currentTarget ?? ev.target);
-	os.api('i/import-muting', { fileId: file.id }).then(onImportSuccess).catch(onError);
+	os.api("i/import-muting", { fileId: file.id }).then(onImportSuccess).catch(onError);
 };
 
 const importBlocking = async (ev) => {
 	const file = await selectFile(ev.currentTarget ?? ev.target);
-	os.api('i/import-blocking', { fileId: file.id }).then(onImportSuccess).catch(onError);
+	os.api("i/import-blocking", { fileId: file.id }).then(onImportSuccess).catch(onError);
 };
 
 const headerActions = $computed(() => []);
@@ -154,7 +154,7 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.importAndExport,
-	icon: 'ti ti-package',
+	icon: "ti ti-package",
 });
 </script>
 

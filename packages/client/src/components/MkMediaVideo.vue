@@ -24,15 +24,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import * as misskey from 'misskey-js';
-import { defaultStore } from '@/store';
+import { ref } from "vue";
+import * as misskey from "misskey-js";
+import { defaultStore } from "@/store";
 
 const props = defineProps<{
 	video: misskey.entities.DriveFile;
 }>();
 
-const hide = ref((defaultStore.state.nsfw === 'force') ? true : props.video.isSensitive && (defaultStore.state.nsfw !== 'ignore'));
+const hide = ref((defaultStore.state.nsfw === "force") ? true : props.video.isSensitive && (defaultStore.state.nsfw !== "ignore"));
 </script>
 
 <style lang="scss" scoped>

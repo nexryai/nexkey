@@ -30,26 +30,26 @@
 			</template>
 		</MkSelect>
 		<div v-if="(showOkButton || showCancelButton) && !actions" class="buttons">
-			<MkButton rounded v-if="showOkButton" inline primary :autofocus="!input && !select" @click="ok">{{ (showCancelButton || input || select) ? i18n.ts.ok : i18n.ts.gotIt }}</MkButton>
-			<MkButton rounded v-if="showCancelButton || input || select" inline @click="cancel">{{ i18n.ts.cancel }}</MkButton>
+			<MkButton v-if="showOkButton" rounded inline primary :autofocus="!input && !select" @click="ok">{{ (showCancelButton || input || select) ? i18n.ts.ok : i18n.ts.gotIt }}</MkButton>
+			<MkButton v-if="showCancelButton || input || select" rounded inline @click="cancel">{{ i18n.ts.cancel }}</MkButton>
 		</div>
 		<div v-if="actions" class="buttons">
-			<MkButton rounded v-for="action in actions" :key="action.text" inline :primary="action.primary" @click="() => { action.callback(); close(); }">{{ action.text }}</MkButton>
+			<MkButton v-for="action in actions" :key="action.text" rounded inline :primary="action.primary" @click="() => { action.callback(); close(); }">{{ action.text }}</MkButton>
 		</div>
 	</div>
 </MkModal>
 </template>
 
 <script lang="ts" setup>
-import { onBeforeUnmount, onMounted, ref } from 'vue';
-import MkModal from '@/components/MkModal.vue';
-import MkButton from '@/components/MkButton.vue';
-import MkInput from '@/components/form/input.vue';
-import MkSelect from '@/components/form/select.vue';
-import { i18n } from '@/i18n';
+import { onBeforeUnmount, onMounted, ref } from "vue";
+import MkModal from "@/components/MkModal.vue";
+import MkButton from "@/components/MkButton.vue";
+import MkInput from "@/components/form/input.vue";
+import MkSelect from "@/components/form/select.vue";
+import { i18n } from "@/i18n";
 
 type Input = {
-	type: HTMLInputElement['type'];
+	type: HTMLInputElement["type"];
 	placeholder?: string | null;
 	default: any | null;
 };
@@ -70,7 +70,7 @@ type Select = {
 };
 
 const props = withDefaults(defineProps<{
-	type?: 'success' | 'error' | 'warning' | 'info' | 'question' | 'waiting';
+	type?: "success" | "error" | "warning" | "info" | "question" | "waiting";
 	title: string;
 	text?: string;
 	input?: Input;
@@ -85,15 +85,15 @@ const props = withDefaults(defineProps<{
 	showCancelButton?: boolean;
 	cancelableByBgClick?: boolean;
 }>(), {
-	type: 'info',
+	type: "info",
 	showOkButton: true,
 	showCancelButton: false,
 	cancelableByBgClick: true,
 });
 
 const emit = defineEmits<{
-	(ev: 'done', v: { canceled: boolean; result: any }): void;
-	(ev: 'closed'): void;
+	(ev: "done", v: { canceled: boolean; result: any }): void;
+	(ev: "closed"): void;
 }>();
 
 const modal = ref<InstanceType<typeof MkModal>>();
@@ -102,7 +102,7 @@ const inputValue = ref(props.input?.default || null);
 const selectedValue = ref(props.select?.default || null);
 
 function done(canceled: boolean, result?) {
-	emit('done', { canceled, result });
+	emit("done", { canceled, result });
 	modal.value?.close();
 }
 
@@ -125,11 +125,11 @@ function onBgClick() {
 }
 */
 function onKeydown(evt: KeyboardEvent) {
-	if (evt.key === 'Escape') cancel();
+	if (evt.key === "Escape") cancel();
 }
 
 function onInputKeydown(evt: KeyboardEvent) {
-	if (evt.key === 'Enter') {
+	if (evt.key === "Enter") {
 		evt.preventDefault();
 		evt.stopPropagation();
 		ok();
@@ -137,11 +137,11 @@ function onInputKeydown(evt: KeyboardEvent) {
 }
 
 onMounted(() => {
-	document.addEventListener('keydown', onKeydown);
+	document.addEventListener("keydown", onKeydown);
 });
 
 onBeforeUnmount(() => {
-	document.removeEventListener('keydown', onKeydown);
+	document.removeEventListener("keydown", onKeydown);
 });
 </script>
 

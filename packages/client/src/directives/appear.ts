@@ -1,4 +1,4 @@
-import { Directive } from 'vue';
+import { Directive } from "vue";
 
 export default {
 	mounted(src, binding, vn) {
@@ -18,5 +18,5 @@ export default {
 
 	unmounted(src, binding, vn) {
 		if (src._observer_) src._observer_.disconnect();
-	}
+	},
 } as Directive;

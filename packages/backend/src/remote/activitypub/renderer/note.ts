@@ -1,15 +1,15 @@
-import { In, IsNull } from 'typeorm';
-import config from '@/config/index.js';
-import { Note, IMentionedRemoteUsers } from '@/models/entities/note.js';
-import { DriveFile } from '@/models/entities/drive-file.js';
-import { DriveFiles, Notes, Users, Emojis, Polls } from '@/models/index.js';
-import { Emoji } from '@/models/entities/emoji.js';
-import { Poll } from '@/models/entities/poll.js';
-import toHtml from '../misc/get-note-html.js';
-import renderEmoji from './emoji.js';
-import renderMention from './mention.js';
-import renderHashtag from './hashtag.js';
-import renderDocument from './document.js';
+import { In, IsNull } from "typeorm";
+import config from "@/config/index.js";
+import { Note, IMentionedRemoteUsers } from "@/models/entities/note.js";
+import { DriveFile } from "@/models/entities/drive-file.js";
+import { DriveFiles, Notes, Users, Emojis, Polls } from "@/models/index.js";
+import { Emoji } from "@/models/entities/emoji.js";
+import { Poll } from "@/models/entities/poll.js";
+import toHtml from "../misc/get-note-html.js";
+import renderEmoji from "./emoji.js";
+import renderMention from "./mention.js";
+import renderHashtag from "./hashtag.js";
+import renderDocument from "./document.js";
 
 export default async function renderNote(note: Note, dive = true, isTalk = false): Promise<Record<string, unknown>> {
 	const getPromisedFiles = async (ids: string[]) => {
@@ -60,13 +60,13 @@ export default async function renderNote(note: Note, dive = true, isTalk = false
 	let to: string[] = [];
 	let cc: string[] = [];
 
-	if (note.visibility === 'public') {
-		to = ['https://www.w3.org/ns/activitystreams#Public'];
+	if (note.visibility === "public") {
+		to = ["https://www.w3.org/ns/activitystreams#Public"];
 		cc = [`${attributedTo}/followers`].concat(mentions);
-	} else if (note.visibility === 'home') {
+	} else if (note.visibility === "home") {
 		to = [`${attributedTo}/followers`];
-		cc = ['https://www.w3.org/ns/activitystreams#Public'].concat(mentions);
-	} else if (note.visibility === 'followers') {
+		cc = ["https://www.w3.org/ns/activitystreams#Public"].concat(mentions);
+	} else if (note.visibility === "followers") {
 		to = [`${attributedTo}/followers`];
 		cc = mentions;
 	} else {
@@ -82,7 +82,7 @@ export default async function renderNote(note: Note, dive = true, isTalk = false
 
 	const files = await getPromisedFiles(note.fileIds);
 
-	const text = note.text ?? '';
+	const text = note.text ?? "";
 	let poll: Poll | null = null;
 
 	if (note.hasPoll) {
@@ -95,7 +95,7 @@ export default async function renderNote(note: Note, dive = true, isTalk = false
 		apText += `\n\nRE: ${quote}`;
 	}
 
-	const summary = note.cw === '' ? String.fromCharCode(0x200B) : note.cw;
+	const summary = note.cw === "" ? String.fromCharCode(0x200B) : note.cw;
 
 	const content = toHtml(Object.assign({}, note, {
 		text: apText,
@@ -111,16 +111,16 @@ export default async function renderNote(note: Note, dive = true, isTalk = false
 	];
 
 	const asPoll = poll ? {
-		type: 'Question',
+		type: "Question",
 		content: toHtml(Object.assign({}, note, {
 			text: text,
 		})),
-		[poll.expiresAt && poll.expiresAt < new Date() ? 'closed' : 'endTime']: poll.expiresAt,
-		[poll.multiple ? 'anyOf' : 'oneOf']: poll.choices.map((text, i) => ({
-			type: 'Note',
+		[poll.expiresAt && poll.expiresAt < new Date() ? "closed" : "endTime"]: poll.expiresAt,
+		[poll.multiple ? "anyOf" : "oneOf"]: poll.choices.map((text, i) => ({
+			type: "Note",
 			name: text,
 			replies: {
-				type: 'Collection',
+				type: "Collection",
 				totalItems: poll!.votes[i],
 			},
 		})),
@@ -132,7 +132,7 @@ export default async function renderNote(note: Note, dive = true, isTalk = false
 
 	return {
 		id: `${config.url}/notes/${note.id}`,
-		type: 'Note',
+		type: "Note",
 		attributedTo,
 		summary,
 		content,

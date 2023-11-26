@@ -1,4 +1,4 @@
-import * as tmp from 'tmp';
+import * as tmp from "tmp";
 
 export function createTemp(): Promise<[string, () => void]> {
 	return new Promise<[string, () => void]>((res, rej) => {
@@ -18,7 +18,7 @@ export function createTempDir(): Promise<[string, () => void]> {
 			(e, path, cleanup) => {
 				if (e) return rej(e);
 				res([path, cleanup]);
-			}
+			},
 		);
 	});
 }

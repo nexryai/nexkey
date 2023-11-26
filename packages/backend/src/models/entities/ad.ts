@@ -1,5 +1,5 @@
-import { Entity, Index, Column, PrimaryColumn } from 'typeorm';
-import { id } from '../id.js';
+import { Entity, Index, Column, PrimaryColumn } from "typeorm";
+import { id } from "../id.js";
 
 @Entity()
 export class Ad {
@@ -7,44 +7,44 @@ export class Ad {
 	public id: string;
 
 	@Index()
-	@Column('timestamp with time zone', {
-		comment: 'The created date of the Ad.',
+	@Column("timestamp with time zone", {
+		comment: "The created date of the Ad.",
 	})
 	public createdAt: Date;
 
 	@Index()
-	@Column('timestamp with time zone', {
-		comment: 'The expired date of the Ad.',
+	@Column("timestamp with time zone", {
+		comment: "The expired date of the Ad.",
 	})
 	public expiresAt: Date;
 
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 32, nullable: false,
 	})
 	public place: string;
 
 	// 今は使われていないが将来的に活用される可能性はある
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 32, nullable: false,
 	})
 	public priority: string;
 
-	@Column('integer', {
+	@Column("integer", {
 		default: 1, nullable: false,
 	})
 	public ratio: number;
 
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 1024, nullable: false,
 	})
 	public url: string;
 
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 1024, nullable: false,
 	})
 	public imageUrl: string;
 
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 8192, nullable: false,
 	})
 	public memo: string;

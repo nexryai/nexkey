@@ -8,10 +8,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
-import XNotes from '@/components/MkNotes.vue';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { computed } from "vue";
+import XNotes from "@/components/MkNotes.vue";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 const props = defineProps<{
 	query: string;
@@ -19,7 +19,7 @@ const props = defineProps<{
 }>();
 
 const pagination = {
-	endpoint: 'notes/search' as const,
+	endpoint: "notes/search" as const,
 	limit: 10,
 	params: computed(() => ({
 		query: props.query,
@@ -32,7 +32,7 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
 
 definePageMetadata(computed(() => ({
-	title: i18n.t('searchWith', { q: props.query }),
-	icon: 'ti ti-search',
+	title: i18n.t("searchWith", { q: props.query }),
+	icon: "ti ti-search",
 })));
 </script>

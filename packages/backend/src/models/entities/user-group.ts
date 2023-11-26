@@ -1,6 +1,6 @@
-import { Entity, Index, JoinColumn, Column, PrimaryColumn, ManyToOne } from 'typeorm';
-import { User } from './user.js';
-import { id } from '../id.js';
+import { Entity, Index, JoinColumn, Column, PrimaryColumn, ManyToOne } from "typeorm";
+import { id } from "../id.js";
+import { User } from "./user.js";
 
 @Entity()
 export class UserGroup {
@@ -8,12 +8,12 @@ export class UserGroup {
 	public id: string;
 
 	@Index()
-	@Column('timestamp with time zone', {
-		comment: 'The created date of the UserGroup.',
+	@Column("timestamp with time zone", {
+		comment: "The created date of the UserGroup.",
 	})
 	public createdAt: Date;
 
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 256,
 	})
 	public name: string;
@@ -21,17 +21,17 @@ export class UserGroup {
 	@Index()
 	@Column({
 		...id(),
-		comment: 'The ID of owner.',
+		comment: "The ID of owner.",
 	})
-	public userId: User['id'];
+	public userId: User["id"];
 
 	@ManyToOne(type => User, {
-		onDelete: 'CASCADE',
+		onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public user: User | null;
 
-	@Column('boolean', {
+	@Column("boolean", {
 		default: false,
 	})
 	public isPrivate: boolean;

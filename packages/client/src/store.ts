@@ -1,6 +1,6 @@
-import { markRaw, ref } from 'vue';
-import { Storage } from './pizzax';
-import { Theme } from './scripts/theme';
+import { markRaw, ref } from "vue";
+import { Storage } from "./pizzax";
+import { Theme } from "./scripts/theme";
 
 export const postFormActions = [];
 export const userActions = [];
@@ -10,117 +10,117 @@ export const notePostInterruptors = [];
 
 // TODO: それぞれいちいちwhereとかdefaultというキーを付けなきゃいけないの冗長なのでなんとかする(ただ型定義が面倒になりそう)
 //       あと、現行の定義の仕方なら「whereが何であるかに関わらずキー名の重複不可」という制約を付けられるメリットもあるからそのメリットを引き継ぐ方法も考えないといけない
-export const defaultStore = markRaw(new Storage('base', {
+export const defaultStore = markRaw(new Storage("base", {
 	tutorial: {
-		where: 'account',
+		where: "account",
 		default: 0,
 	},
 	keepCw: {
-		where: 'account',
+		where: "account",
 		default: true,
 	},
 	showFullAcct: {
-		where: 'account',
+		where: "account",
 		default: false,
 	},
 	rememberNoteVisibility: {
-		where: 'account',
+		where: "account",
 		default: false,
 	},
 	defaultNoteVisibility: {
-		where: 'account',
-		default: 'public',
+		where: "account",
+		default: "public",
 	},
 	defaultNoteLocalOnly: {
-		where: 'account',
+		where: "account",
 		default: false,
 	},
 	uploadFolder: {
-		where: 'account',
+		where: "account",
 		default: null as string | null,
 	},
 	pastedFileName: {
-		where: 'account',
-		default: 'yyyy-MM-dd HH-mm-ss [{{number}}]',
+		where: "account",
+		default: "yyyy-MM-dd HH-mm-ss [{{number}}]",
 	},
 	keepOriginalUploading: {
-		where: 'account',
+		where: "account",
 		default: false,
 	},
 	memo: {
-		where: 'account',
+		where: "account",
 		default: null,
 	},
 	reactions: {
-		where: 'account',
-		default: ['👍', '❤️', '😆', '🤔', '😮', '🎉', '💢', '😥', '😇', '🍮'],
+		where: "account",
+		default: ["👍", "❤️", "😆", "🤔", "😮", "🎉", "💢", "😥", "😇", "🍮"],
 	},
 	mutedWords: {
-		where: 'account',
+		where: "account",
 		default: [],
 	},
 	showMessageOnMuted: {
-		where: 'account',
-		default: false
+		where: "account",
+		default: false,
 	},
 	mutedReactions: {
-		where: 'account',
+		where: "account",
 		default: [],
 	},
 	mutedAds: {
-		where: 'account',
+		where: "account",
 		default: [] as string[],
 	},
 
 	menu: {
-		where: 'account',
+		where: "account",
 		default: [
-			'notifications',
-			'messaging',
-			'followRequests',
-			'drive',
-			'explore',
+			"notifications",
+			"messaging",
+			"followRequests",
+			"drive",
+			"explore",
 		],
 	},
 	visibility: {
-		where: 'deviceAccount',
-		default: 'public' as 'public' | 'home' | 'followers' | 'specified',
+		where: "deviceAccount",
+		default: "public" as "public" | "home" | "followers" | "specified",
 	},
 	localOnly: {
-		where: 'deviceAccount',
+		where: "deviceAccount",
 		default: false,
 	},
 	statusbars: {
-		where: 'deviceAccount',
+		where: "deviceAccount",
 		default: [] as {
 			name: string;
 			id: string;
 			type: string;
-			size: 'verySmall' | 'small' | 'medium' | 'large' | 'veryLarge';
+			size: "verySmall" | "small" | "medium" | "large" | "veryLarge";
 			black: boolean;
 			props: Record<string, any>;
 		}[],
 	},
 	widgets: {
-		where: 'account',
+		where: "account",
 		default: [
 			{
-				id: 'a',
+				id: "a",
 				data: {},
-				name: 'calendar',
-				place: 'right',
+				name: "calendar",
+				place: "right",
 			},
 			{
-				id: 'b',
+				id: "b",
 				data: {},
-				name: 'clock',
-				place: 'right',
+				name: "clock",
+				place: "right",
 			},
 			{
-				id: 'c',
+				id: "c",
 				data: {},
-				name: 'notifications',
-				place: 'right',
+				name: "notifications",
+				place: "right",
 			},
 		] as {
 			name: string;
@@ -130,194 +130,194 @@ export const defaultStore = markRaw(new Storage('base', {
 		}[],
 	},
 	tl: {
-		where: 'deviceAccount',
+		where: "deviceAccount",
 		default: {
-			src: 'home' as 'home' | 'local' | 'social' | 'global',
+			src: "home" as "home" | "local" | "social" | "global",
 			arg: null,
 		},
 	},
 
 	overridedDeviceKind: {
-		where: 'device',
-		default: null as null | 'smartphone' | 'tablet' | 'desktop',
+		where: "device",
+		default: null as null | "smartphone" | "tablet" | "desktop",
 	},
 	serverDisconnectedBehavior: {
-		where: 'device',
-		default: 'quiet' as 'quiet' | 'reload' | 'dialog',
+		where: "device",
+		default: "quiet" as "quiet" | "reload" | "dialog",
 	},
 	nsfw: {
-		where: 'device',
-		default: 'respect' as 'respect' | 'force' | 'ignore',
+		where: "device",
+		default: "respect" as "respect" | "force" | "ignore",
 	},
 	animation: {
-		where: 'device',
+		where: "device",
 		default: true,
 	},
 	animatedMfm: {
-		where: 'device',
+		where: "device",
 		default: true,
 	},
 	loadRawImages: {
-		where: 'device',
+		where: "device",
 		default: false,
 	},
 	imageNewTab: {
-		where: 'device',
+		where: "device",
 		default: false,
 	},
 	disableShowingAnimatedImages: {
-		where: 'device',
+		where: "device",
 		default: false,
 	},
 	disablePagesScript: {
-		where: 'device',
+		where: "device",
 		default: false,
 	},
 	useOsNativeEmojis: {
-		where: 'device',
+		where: "device",
 		default: false,
 	},
 	disableDrawer: {
-		where: 'device',
+		where: "device",
 		default: false,
 	},
 	useBlurEffectForModal: {
-		where: 'device',
+		where: "device",
 		default: true,
 	},
 	useBlurEffect: {
-		where: 'device',
+		where: "device",
 		default: true,
 	},
 	showFixedPostForm: {
-		where: 'device',
+		where: "device",
 		default: false,
 	},
 	enableInfiniteScroll: {
-		where: 'device',
+		where: "device",
 		default: true,
 	},
 	useReactionPickerForContextMenu: {
-		where: 'device',
+		where: "device",
 		default: false,
 	},
 	showGapBetweenNotesInTimeline: {
-		where: 'device',
+		where: "device",
 		default: true,
 	},
 	darkMode: {
-		where: 'device',
+		where: "device",
 		default: false,
 	},
 	instanceTicker: {
-		where: 'device',
-		default: 'remote' as 'none' | 'remote' | 'always',
+		where: "device",
+		default: "remote" as "none" | "remote" | "always",
 	},
 	reactionPickerSize: {
-		where: 'device',
+		where: "device",
 		default: 1,
 	},
 	reactionPickerWidth: {
-		where: 'device',
+		where: "device",
 		default: 1,
 	},
 	reactionPickerHeight: {
-		where: 'device',
+		where: "device",
 		default: 2,
 	},
 	reactionPickerUseDrawerForMobile: {
-		where: 'device',
+		where: "device",
 		default: true,
 	},
 	recentlyUsedEmojis: {
-		where: 'device',
+		where: "device",
 		default: [] as string[],
 	},
 	recentlyUsedUsers: {
-		where: 'device',
+		where: "device",
 		default: [] as string[],
 	},
 	defaultSideView: {
-		where: 'device',
+		where: "device",
 		default: false,
 	},
 	menuDisplay: {
-		where: 'device',
-		default: 'sideFull' as 'sideFull' | 'sideIcon' | 'top',
+		where: "device",
+		default: "sideFull" as "sideFull" | "sideIcon" | "top",
 	},
 	reportError: {
-		where: 'device',
+		where: "device",
 		default: false,
 	},
 	squareAvatars: {
-		where: 'device',
+		where: "device",
 		default: false,
 	},
 	postFormWithHashtags: {
-		where: 'device',
+		where: "device",
 		default: false,
 	},
 	postFormHashtags: {
-		where: 'device',
-		default: '',
+		where: "device",
+		default: "",
 	},
 	themeInitial: {
-		where: 'device',
+		where: "device",
 		default: true,
 	},
 	numberOfPageCache: {
-		where: 'device',
+		where: "device",
 		default: 5,
 	},
 	aiChanMode: {
-		where: 'device',
+		where: "device",
 		default: false,
 	},
 	enableMTL: {
-		where: 'device',
+		where: "device",
 		default: false,
 	},
 	enableLTL: {
-		where: 'account',
+		where: "account",
 		default: true,
 	},
 	enableGTL: {
-		where: 'account',
+		where: "account",
 		default: true,
 	},
 	enablePTL: {
-		where: 'device',
+		where: "device",
 		default: false,
 	},
 	enableLimitedTL: {
-		where: 'device',
+		where: "device",
 		default: false,
 	},
 	enableMfm: {
-		where: 'device',
-		default: true
+		where: "device",
+		default: true,
 	},
 	enableSudo: {
-		where: 'device',
-		default: false
+		where: "device",
+		default: false,
 	},
 	streamModeEnabled: {
-		where: 'device',
+		where: "device",
 		default: false,
 	},
 	showOnlineUsersOnNavbar: {
-		where: 'account',
+		where: "account",
 		default: true,
 	},
 	searchEngine: {
-		where: 'device',
-		default: 'https://google.com/search?',
-	}
+		where: "device",
+		default: "https://google.com/search?",
+	},
 }));
 
 // TODO: 他のタブと永続化されたstateを同期
 
-const PREFIX = 'miux:';
+const PREFIX = "miux:";
 
 type Plugin = {
 	id: string;
@@ -331,8 +331,8 @@ type Plugin = {
 /**
  * 常にメモリにロードしておく必要がないような設定情報を保管するストレージ(非リアクティブ)
  */
-import lightTheme from '@/themes/l-ocean.json5';
-import darkTheme from '@/themes/d-ocean.json5';
+import lightTheme from "@/themes/l-ocean.json5";
+import darkTheme from "@/themes/d-ocean.json5";
 
 export class ColdDeviceStorage {
 	public static default = {
@@ -342,13 +342,13 @@ export class ColdDeviceStorage {
 		plugins: [] as Plugin[],
 		mediaVolume: 0,
 		sound_masterVolume: 0,
-		sound_note: { type: 'syuilo/down', volume: 1 },
-		sound_noteMy: { type: 'syuilo/up', volume: 1 },
-		sound_notification: { type: 'syuilo/pope2', volume: 1 },
-		sound_chat: { type: 'syuilo/pope1', volume: 1 },
-		sound_chatBg: { type: 'syuilo/waon', volume: 1 },
-		sound_antenna: { type: 'syuilo/triple', volume: 1 },
-		sound_channel: { type: 'syuilo/square-pico', volume: 1 },
+		sound_note: { type: "syuilo/down", volume: 1 },
+		sound_noteMy: { type: "syuilo/up", volume: 1 },
+		sound_notification: { type: "syuilo/pope2", volume: 1 },
+		sound_chat: { type: "syuilo/pope1", volume: 1 },
+		sound_chatBg: { type: "syuilo/waon", volume: 1 },
+		sound_antenna: { type: "syuilo/triple", volume: 1 },
+		sound_channel: { type: "syuilo/square-pico", volume: 1 },
 	};
 
 	public static watchers = [];
@@ -416,7 +416,7 @@ export class ColdDeviceStorage {
 }
 
 // このファイルに書きたくないけどここに書かないと何故かVeturが認識しない
-declare module '@vue/runtime-core' {
+declare module "@vue/runtime-core" {
 	interface ComponentCustomProperties {
 		$store: typeof defaultStore;
 	}

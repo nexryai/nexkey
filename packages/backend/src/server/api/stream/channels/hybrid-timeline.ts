@@ -1,17 +1,17 @@
-import { fetchMeta } from '@/misc/fetch-meta.js';
-import { Notes } from '@/models/index.js';
-import { checkWordMute } from '@/misc/check-word-mute.js';
-import { isUserRelated } from '@/misc/is-user-related.js';
-import { isInstanceMuted } from '@/misc/is-instance-muted.js';
-import { Packed } from '@/misc/schema.js';
-import Channel from '../channel.js';
+import { fetchMeta } from "@/misc/fetch-meta.js";
+import { Notes } from "@/models/index.js";
+import { checkWordMute } from "@/misc/check-word-mute.js";
+import { isUserRelated } from "@/misc/is-user-related.js";
+import { isInstanceMuted } from "@/misc/is-instance-muted.js";
+import { Packed } from "@/misc/schema.js";
+import Channel from "../channel.js";
 
 export default class extends Channel {
-	public readonly chName = 'hybridTimeline';
+	public readonly chName = "hybridTimeline";
 	public static shouldShare = true;
 	public static requireCredential = true;
 
-	constructor(id: string, connection: Channel['connection']) {
+	constructor(id: string, connection: Channel["connection"]) {
 		super(id, connection);
 		this.onNote = this.onNote.bind(this);
 	}
@@ -21,10 +21,10 @@ export default class extends Channel {
 		if (meta.disableLocalTimeline && !this.user!.isAdmin && !this.user!.isModerator) return;
 
 		// Subscribe events
-		this.subscriber.on('notesStream', this.onNote);
+		this.subscriber.on("notesStream", this.onNote);
 	}
 
-	private async onNote(note: Packed<'Note'>) {
+	private async onNote(note: Packed<"Note">) {
 		// チャンネルの投稿ではなく、自分自身の投稿 または
 		// チャンネルの投稿ではなく、その投稿のユーザーをフォローしている または
 		// チャンネルの投稿ではなく、全体公開のローカルの投稿 または
@@ -32,11 +32,11 @@ export default class extends Channel {
 		if (!(
 			(note.channelId == null && this.user!.id === note.userId) ||
 			(note.channelId == null && this.following.has(note.userId)) ||
-			(note.channelId == null && (note.user.host == null && note.visibility === 'public')) ||
+			(note.channelId == null && (note.user.host == null && note.visibility === "public")) ||
 			(note.channelId != null && this.followingChannels.has(note.channelId))
 		)) return;
 
-		if (['followers', 'specified'].includes(note.visibility)) {
+		if (["followers", "specified"].includes(note.visibility)) {
 			note = await Notes.pack(note.id, this.user!, {
 				detail: true,
 			});
@@ -86,11 +86,11 @@ export default class extends Channel {
 
 		this.connection.cacheNote(note);
 
-		this.send('note', note);
+		this.send("note", note);
 	}
 
 	public dispose() {
 		// Unsubscribe events
-		this.subscriber.off('notesStream', this.onNote);
+		this.subscriber.off("notesStream", this.onNote);
 	}
 }

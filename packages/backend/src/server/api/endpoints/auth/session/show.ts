@@ -1,36 +1,36 @@
-import define from '../../../define.js';
-import { ApiError } from '../../../error.js';
-import { AuthSessions } from '@/models/index.js';
+import { AuthSessions } from "@/models/index.js";
+import define from "../../../define.js";
+import { ApiError } from "../../../error.js";
 
 export const meta = {
-	tags: ['auth'],
+	tags: ["auth"],
 
 	requireCredential: false,
 
 	errors: {
 		noSuchSession: {
-			message: 'No such session.',
-			code: 'NO_SUCH_SESSION',
-			id: 'bd72c97d-eba7-4adb-a467-f171b8847250',
+			message: "No such session.",
+			code: "NO_SUCH_SESSION",
+			id: "bd72c97d-eba7-4adb-a467-f171b8847250",
 		},
 	},
 
 	res: {
-		type: 'object',
+		type: "object",
 		optional: false, nullable: false,
 		properties: {
 			id: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: false,
-				format: 'id',
+				format: "id",
 			},
 			app: {
-				type: 'object',
+				type: "object",
 				optional: false, nullable: false,
-				ref: 'App',
+				ref: "App",
 			},
 			token: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: false,
 			},
 		},
@@ -38,11 +38,11 @@ export const meta = {
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		token: { type: 'string' },
+		token: { type: "string" },
 	},
-	required: ['token'],
+	required: ["token"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export

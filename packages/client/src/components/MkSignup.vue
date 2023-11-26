@@ -65,18 +65,18 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import getPasswordStrength from 'syuilo-password-strength';
-import { toUnicode } from 'punycode/';
-import MkButton from './MkButton.vue';
-import MkInput from './form/input.vue';
-import MkSwitch from './form/switch.vue';
-import MkCaptcha from '@/components/MkCaptcha.vue';
-import * as config from '@/config';
-import * as os from '@/os';
-import { login } from '@/account';
-import { instance } from '@/instance';
-import { i18n } from '@/i18n';
+import { } from "vue";
+import getPasswordStrength from "syuilo-password-strength";
+import { toUnicode } from "punycode/";
+import MkButton from "./MkButton.vue";
+import MkInput from "./form/input.vue";
+import MkSwitch from "./form/switch.vue";
+import MkCaptcha from "@/components/MkCaptcha.vue";
+import * as config from "@/config";
+import * as os from "@/os";
+import { login } from "@/account";
+import { instance } from "@/instance";
+import { i18n } from "@/i18n";
 
 const props = withDefaults(defineProps<{
 	autoSet?: boolean;
@@ -85,8 +85,8 @@ const props = withDefaults(defineProps<{
 });
 
 const emit = defineEmits<{
-	(ev: 'signup', user: Record<string, any>): void;
-	(ev: 'signupEmailPending'): void;
+	(ev: "signup", user: Record<string, any>): void;
+	(ev: "signupEmailPending"): void;
 }>();
 
 const host = toUnicode(config.host);
@@ -95,15 +95,15 @@ let hcaptcha = $ref();
 let recaptcha = $ref();
 let turnstile = $ref();
 
-let username: string = $ref('');
-let password: string = $ref('');
-let retypedPassword: string = $ref('');
-let invitationCode: string = $ref('');
-let email = $ref('');
-let usernameState: null | 'wait' | 'ok' | 'unavailable' | 'error' | 'invalid-format' | 'min-range' | 'max-range' = $ref(null);
-let emailState: null | 'wait' | 'ok' | 'unavailable:used' | 'unavailable:format' | 'unavailable:disposable' | 'unavailable:mx' | 'unavailable:smtp' | 'unavailable:blocked' | 'unavailable' | 'error' = $ref(null);
-let passwordStrength: '' | 'low' | 'medium' | 'high' = $ref('');
-let passwordRetypeState: null | 'match' | 'not-match' = $ref(null);
+let username: string = $ref("");
+let password: string = $ref("");
+let retypedPassword: string = $ref("");
+let invitationCode: string = $ref("");
+let email = $ref("");
+let usernameState: null | "wait" | "ok" | "unavailable" | "error" | "invalid-format" | "min-range" | "max-range" = $ref(null);
+let emailState: null | "wait" | "ok" | "unavailable:used" | "unavailable:format" | "unavailable:disposable" | "unavailable:mx" | "unavailable:smtp" | "unavailable:blocked" | "unavailable" | "error" = $ref(null);
+let passwordStrength: "" | "low" | "medium" | "high" = $ref("");
+let passwordRetypeState: null | "match" | "not-match" = $ref(null);
 let submitting: boolean = $ref(false);
 let ToSAgreement: boolean = $ref(false);
 let hCaptchaResponse = $ref(null);
@@ -116,20 +116,20 @@ const shouldDisableSubmitting = $computed((): boolean => {
 		instance.enableHcaptcha && !hCaptchaResponse ||
 		instance.enableRecaptcha && !reCaptchaResponse ||
 		instance.enableTurnstile && !turnstileResponse ||
-		passwordRetypeState === 'not-match';
+		passwordRetypeState === "not-match";
 });
 
 function onChangeUsername(): void {
-	if (username === '') {
+	if (username === "") {
 		usernameState = null;
 		return;
 	}
 
 	{
 		const err =
-			!username.match(/^[a-zA-Z0-9_]+$/) ? 'invalid-format' :
-			username.length < 1 ? 'min-range' :
-			username.length > 20 ? 'max-range' :
+			!username.match(/^[a-zA-Z0-9_]+$/) ? "invalid-format" :
+			username.length < 1 ? "min-range" :
+			username.length > 20 ? "max-range" :
 			null;
 
 		if (err) {
@@ -138,86 +138,86 @@ function onChangeUsername(): void {
 		}
 	}
 
-	usernameState = 'wait';
+	usernameState = "wait";
 
-	os.api('username/available', {
+	os.api("username/available", {
 		username,
 	}).then(result => {
-		usernameState = result.available ? 'ok' : 'unavailable';
+		usernameState = result.available ? "ok" : "unavailable";
 	}).catch(() => {
-		usernameState = 'error';
+		usernameState = "error";
 	});
 }
 
 function onChangeEmail(): void {
-	if (email === '') {
+	if (email === "") {
 		emailState = null;
 		return;
 	}
 
-	emailState = 'wait';
+	emailState = "wait";
 
-	os.api('email-address/available', {
+	os.api("email-address/available", {
 		emailAddress: email,
 	}).then(result => {
-		emailState = result.available ? 'ok' :
-			result.reason === 'used' ? 'unavailable:used' :
-			result.reason === 'format' ? 'unavailable:format' :
-			result.reason === 'disposable' ? 'unavailable:disposable' :
-			result.reason === 'mx' ? 'unavailable:mx' :
-			result.reason === 'smtp' ? 'unavailable:smtp' :
-			result.reason === 'blocked' ? 'unavailable:blocked' :
-			'unavailable';
+		emailState = result.available ? "ok" :
+			result.reason === "used" ? "unavailable:used" :
+			result.reason === "format" ? "unavailable:format" :
+			result.reason === "disposable" ? "unavailable:disposable" :
+			result.reason === "mx" ? "unavailable:mx" :
+			result.reason === "smtp" ? "unavailable:smtp" :
+			result.reason === "blocked" ? "unavailable:blocked" :
+			"unavailable";
 	}).catch(() => {
-		emailState = 'error';
+		emailState = "error";
 	});
 }
 
 function onChangePassword(): void {
-	if (password === '') {
-		passwordStrength = '';
+	if (password === "") {
+		passwordStrength = "";
 		return;
 	}
 
 	const strength = getPasswordStrength(password);
-	passwordStrength = strength > 0.7 ? 'high' : strength > 0.3 ? 'medium' : 'low';
+	passwordStrength = strength > 0.7 ? "high" : strength > 0.3 ? "medium" : "low";
 }
 
 function onChangePasswordRetype(): void {
-	if (retypedPassword === '') {
+	if (retypedPassword === "") {
 		passwordRetypeState = null;
 		return;
 	}
 
-	passwordRetypeState = password === retypedPassword ? 'match' : 'not-match';
+	passwordRetypeState = password === retypedPassword ? "match" : "not-match";
 }
 
 function onSubmit(): void {
 	if (submitting) return;
 	submitting = true;
 
-	os.api('signup', {
+	os.api("signup", {
 		username,
 		password,
 		emailAddress: email,
 		invitationCode,
-		'hcaptcha-response': hCaptchaResponse,
-		'g-recaptcha-response': reCaptchaResponse,
-		'turnstile-response': turnstileResponse,
+		"hcaptcha-response": hCaptchaResponse,
+		"g-recaptcha-response": reCaptchaResponse,
+		"turnstile-response": turnstileResponse,
 	}).then(() => {
 		if (instance.emailRequiredForSignup) {
 			os.alert({
-				type: 'success',
+				type: "success",
 				title: i18n.ts._signup.almostThere,
-				text: i18n.t('_signup.emailSent', { email }),
+				text: i18n.t("_signup.emailSent", { email }),
 			});
-			emit('signupEmailPending');
+			emit("signupEmailPending");
 		} else {
-			os.api('signin', {
+			os.api("signin", {
 				username,
 				password,
 			}).then(res => {
-				emit('signup', res);
+				emit("signup", res);
 
 				if (props.autoSet) {
 					login(res.i);
@@ -231,7 +231,7 @@ function onSubmit(): void {
 		turnstile.reset?.();
 
 		os.alert({
-			type: 'error',
+			type: "error",
 			text: i18n.ts.somethingHappened,
 		});
 	});

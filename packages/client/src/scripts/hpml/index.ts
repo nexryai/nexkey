@@ -2,53 +2,53 @@
  * Hpml
  */
 
-import autobind from 'autobind-decorator';
-import { Hpml } from './evaluator';
-import { funcDefs } from './lib';
+import autobind from "autobind-decorator";
+import { Hpml } from "./evaluator";
+import { funcDefs } from "./lib";
 
 export type Fn = {
 	slots: string[];
-	exec: (args: Record<string, any>) => ReturnType<Hpml['evaluate']>;
+	exec: (args: Record<string, any>) => ReturnType<Hpml["evaluate"]>;
 };
 
-export type Type = 'string' | 'number' | 'boolean' | 'stringArray' | null;
+export type Type = "string" | "number" | "boolean" | "stringArray" | null;
 
 export const literalDefs: Record<string, { out: any; category: string; icon: any; }> = {
-	text: { out: 'string', category: 'value', icon: 'ti ti-quote', },
-	multiLineText: { out: 'string', category: 'value', icon: 'ti ti-align-left', },
-	textList: { out: 'stringArray', category: 'value', icon: 'ti ti-list', },
-	number: { out: 'number', category: 'value', icon: 'ti ti-list-numbers', },
-	ref: { out: null, category: 'value', icon: 'ti ti-wand', },
-	aiScriptVar: { out: null, category: 'value', icon: 'ti ti-wand', },
-	fn: { out: 'function', category: 'value', icon: 'ti ti-math-function', },
+	text: { out: "string", category: "value", icon: "ti ti-quote" },
+	multiLineText: { out: "string", category: "value", icon: "ti ti-align-left" },
+	textList: { out: "stringArray", category: "value", icon: "ti ti-list" },
+	number: { out: "number", category: "value", icon: "ti ti-list-numbers" },
+	ref: { out: null, category: "value", icon: "ti ti-wand" },
+	aiScriptVar: { out: null, category: "value", icon: "ti ti-wand" },
+	fn: { out: "function", category: "value", icon: "ti ti-math-function" },
 };
 
 export const blockDefs = [
 	...Object.entries(literalDefs).map(([k, v]) => ({
-		type: k, out: v.out, category: v.category, icon: v.icon
+		type: k, out: v.out, category: v.category, icon: v.icon,
 	})),
 	...Object.entries(funcDefs).map(([k, v]) => ({
-		type: k, out: v.out, category: v.category, icon: v.icon
-	}))
+		type: k, out: v.out, category: v.category, icon: v.icon,
+	})),
 ];
 
 export type PageVar = { name: string; value: any; type: Type; };
 
 export const envVarsDef: Record<string, Type> = {
-	AI: 'string',
-	URL: 'string',
-	VERSION: 'string',
-	LOGIN: 'boolean',
-	NAME: 'string',
-	USERNAME: 'string',
-	USERID: 'string',
-	NOTES_COUNT: 'number',
-	FOLLOWERS_COUNT: 'number',
-	FOLLOWING_COUNT: 'number',
-	IS_CAT: 'boolean',
+	AI: "string",
+	URL: "string",
+	VERSION: "string",
+	LOGIN: "boolean",
+	NAME: "string",
+	USERNAME: "string",
+	USERID: "string",
+	NOTES_COUNT: "number",
+	FOLLOWERS_COUNT: "number",
+	FOLLOWING_COUNT: "number",
+	IS_CAT: "boolean",
 	SEED: null,
-	YMD: 'string',
-	AISCRIPT_DISABLED: 'boolean',
+	YMD: "string",
+	AISCRIPT_DISABLED: "boolean",
 	NULL: null,
 };
 
@@ -56,13 +56,13 @@ export class HpmlScope {
 	private layerdStates: Record<string, any>[];
 	public name: string;
 
-	constructor(layerdStates: HpmlScope['layerdStates'], name?: HpmlScope['name']) {
+	constructor(layerdStates: HpmlScope["layerdStates"], name?: HpmlScope["name"]) {
 		this.layerdStates = layerdStates;
-		this.name = name || 'anonymous';
+		this.name = name || "anonymous";
 	}
 
 	@autobind
-	public createChildScope(states: Record<string, any>, name?: HpmlScope['name']): HpmlScope {
+	public createChildScope(states: Record<string, any>, name?: HpmlScope["name"]): HpmlScope {
 		const layer = [states, ...this.layerdStates];
 		return new HpmlScope(layer, name);
 	}
@@ -82,7 +82,7 @@ export class HpmlScope {
 
 		throw new HpmlError(
 			`No such variable '${name}' in scope '${this.name}'`, {
-				scope: this.layerdStates
+				scope: this.layerdStates,
 			});
 	}
 }

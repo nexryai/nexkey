@@ -34,15 +34,15 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, nextTick, ref, watch, computed, toRefs } from 'vue';
-import { debounce } from 'throttle-debounce';
-import MkButton from '@/components/MkButton.vue';
-import { useInterval } from '@/scripts/use-interval';
-import { i18n } from '@/i18n';
+import { onMounted, onUnmounted, nextTick, ref, watch, computed, toRefs } from "vue";
+import { debounce } from "throttle-debounce";
+import MkButton from "@/components/MkButton.vue";
+import { useInterval } from "@/scripts/use-interval";
+import { i18n } from "@/i18n";
 
 const props = defineProps<{
 	modelValue: string | number;
-	type?: 'text' | 'number' | 'password' | 'email' | 'url' | 'date' | 'time' | 'search' | 'datetime-local';
+	type?: "text" | "number" | "password" | "email" | "url" | "date" | "time" | "search" | "datetime-local";
 	required?: boolean;
 	readonly?: boolean;
 	disabled?: boolean;
@@ -61,10 +61,10 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-	(ev: 'change', _ev: KeyboardEvent): void;
-	(ev: 'keydown', _ev: KeyboardEvent): void;
-	(ev: 'enter'): void;
-	(ev: 'update:modelValue', value: string | number): void;
+	(ev: "change", _ev: KeyboardEvent): void;
+	(ev: "keydown", _ev: KeyboardEvent): void;
+	(ev: "enter"): void;
+	(ev: "update:modelValue", value: string | number): void;
 }>();
 
 const { modelValue, type, autofocus } = toRefs(props);
@@ -73,7 +73,7 @@ const id = Math.random().toString(); // TODO: uuid?
 const focused = ref(false);
 const changed = ref(false);
 const invalid = ref(false);
-const filled = computed(() => v.value !== '' && v.value != null);
+const filled = computed(() => v.value !== "" && v.value != null);
 const inputEl = ref<HTMLElement>();
 const prefixEl = ref<HTMLElement>();
 const suffixEl = ref<HTMLElement>();
@@ -85,22 +85,22 @@ const height =
 const focus = () => inputEl.value.focus();
 const onInput = (ev: KeyboardEvent) => {
 	changed.value = true;
-	emit('change', ev);
+	emit("change", ev);
 };
 const onKeydown = (ev: KeyboardEvent) => {
-	emit('keydown', ev);
+	emit("keydown", ev);
 
-	if (ev.code === 'Enter') {
-		emit('enter');
+	if (ev.code === "Enter") {
+		emit("enter");
 	}
 };
 
 const updated = () => {
 	changed.value = false;
-	if (type.value === 'number') {
-		emit('update:modelValue', parseFloat(v.value));
+	if (type.value === "number") {
+		emit("update:modelValue", parseFloat(v.value));
 	} else {
-		emit('update:modelValue', v.value);
+		emit("update:modelValue", v.value);
 	}
 };
 
@@ -127,12 +127,12 @@ watch(v, newValue => {
 useInterval(() => {
 	if (prefixEl.value) {
 		if (prefixEl.value.offsetWidth) {
-			inputEl.value.style.paddingLeft = prefixEl.value.offsetWidth + 'px';
+			inputEl.value.style.paddingLeft = prefixEl.value.offsetWidth + "px";
 		}
 	}
 	if (suffixEl.value) {
 		if (suffixEl.value.offsetWidth) {
-			inputEl.value.style.paddingRight = suffixEl.value.offsetWidth + 'px';
+			inputEl.value.style.paddingRight = suffixEl.value.offsetWidth + "px";
 		}
 	}
 }, 100, {

@@ -1,10 +1,10 @@
-import { comparePassword } from '@/misc/password.js';
-import define from '../../../define.js';
-import { UserProfiles, AttestationChallenges } from '@/models/index.js';
-import { promisify } from 'node:util';
-import * as crypto from 'node:crypto';
-import { genId } from '@/misc/gen-id.js';
-import { hash } from '../../../2fa.js';
+import { promisify } from "node:util";
+import * as crypto from "node:crypto";
+import { UserProfiles, AttestationChallenges } from "@/models/index.js";
+import { comparePassword } from "@/misc/password.js";
+import { genId } from "@/misc/gen-id.js";
+import define from "../../../define.js";
+import { hash } from "../../../2fa.js";
 
 const randomBytes = promisify(crypto.randomBytes);
 
@@ -15,11 +15,11 @@ export const meta = {
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		password: { type: 'string' },
+		password: { type: "string" },
 	},
-	required: ['password'],
+	required: ["password"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
@@ -30,26 +30,26 @@ export default define(meta, paramDef, async (ps, user) => {
 	const same = await comparePassword(ps.password, profile.password!);
 
 	if (!same) {
-		throw new Error('incorrect password');
+		throw new Error("incorrect password");
 	}
 
 	if (!profile.twoFactorEnabled) {
-		throw new Error('2fa not enabled');
+		throw new Error("2fa not enabled");
 	}
 
 	// 32 byte challenge
 	const entropy = await randomBytes(32);
-	const challenge = entropy.toString('base64')
-		.replace(/=/g, '')
-		.replace(/\+/g, '-')
-		.replace(/\//g, '_');
+	const challenge = entropy.toString("base64")
+		.replace(/=/g, "")
+		.replace(/\+/g, "-")
+		.replace(/\//g, "_");
 
 	const challengeId = genId();
 
 	await AttestationChallenges.insert({
 		userId: user.id,
 		id: challengeId,
-		challenge: hash(Buffer.from(challenge, 'utf-8')).toString('hex'),
+		challenge: hash(Buffer.from(challenge, "utf-8")).toString("hex"),
 		createdAt: new Date(),
 		registrationChallenge: true,
 	});

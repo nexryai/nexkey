@@ -1,7 +1,7 @@
-import { reactive, watch } from 'vue';
-import { throttle } from 'throttle-debounce';
-import { Form, GetFormResultType } from '@/scripts/form';
-import * as os from '@/os';
+import { reactive, watch } from "vue";
+import { throttle } from "throttle-debounce";
+import { Form, GetFormResultType } from "@/scripts/form";
+import * as os from "@/os";
 
 export type Widget<P extends Record<string, unknown>> = {
 	id: string;
@@ -13,7 +13,7 @@ export type WidgetComponentProps<P extends Record<string, unknown>> = {
 };
 
 export type WidgetComponentEmits<P extends Record<string, unknown>> = {
-	(ev: 'updateProps', props: P);
+	(ev: "updateProps", props: P);
 };
 
 export type WidgetComponentExpose = {
@@ -36,17 +36,17 @@ export const useWidgetPropsManager = <F extends Form & Record<string, { default:
 
 	const mergeProps = () => {
 		for (const prop of Object.keys(propsDef)) {
-			if (typeof widgetProps[prop] === 'undefined') {
+			if (typeof widgetProps[prop] === "undefined") {
 				widgetProps[prop] = propsDef[prop].default;
 			}
 		}
 	};
 	watch(widgetProps, () => {
 		mergeProps();
-	}, { deep: true, immediate: true, });
+	}, { deep: true, immediate: true });
 
 	const save = throttle(3000, () => {
-		emit('updateProps', widgetProps);
+		emit("updateProps", widgetProps);
 	});
 
 	const configure = async () => {

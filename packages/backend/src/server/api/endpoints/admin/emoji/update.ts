@@ -1,44 +1,44 @@
-import define from '../../../define.js';
-import { Emojis } from '@/models/index.js';
-import { ApiError } from '../../../error.js';
-import { db } from '@/db/postgre.js';
-import { IsNull } from 'typeorm';
+import { IsNull } from "typeorm";
+import { Emojis } from "@/models/index.js";
+import { db } from "@/db/postgre.js";
+import define from "../../../define.js";
+import { ApiError } from "../../../error.js";
 
 export const meta = {
-	tags: ['admin'],
+	tags: ["admin"],
 
 	requireCredential: true,
 	requireModerator: true,
 
 	errors: {
 		noSuchEmoji: {
-			message: 'No such emoji.',
-			code: 'NO_SUCH_EMOJI',
-			id: '684dec9d-a8c2-4364-9aa8-456c49cb1dc8',
+			message: "No such emoji.",
+			code: "NO_SUCH_EMOJI",
+			id: "684dec9d-a8c2-4364-9aa8-456c49cb1dc8",
 		},
 		duplicateName: {
-			message: 'Duplicate name.',
-			code: 'DUPLICATE_NAME',
-			id: 'f7a3462c-4e6e-4069-8421-b9bd4f4c3975',
+			message: "Duplicate name.",
+			code: "DUPLICATE_NAME",
+			id: "f7a3462c-4e6e-4069-8421-b9bd4f4c3975",
 		},
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		id: { type: 'string', format: 'misskey:id' },
-		name: { type: 'string' },
+		id: { type: "string", format: "misskey:id" },
+		name: { type: "string" },
 		category: {
-			type: 'string',
+			type: "string",
 			nullable: true,
-			description: 'Use `null` to reset the category.',
+			description: "Use `null` to reset the category.",
 		},
-		aliases: { type: 'array', items: {
-			type: 'string',
+		aliases: { type: "array", items: {
+			type: "string",
 		} },
 	},
-	required: ['id', 'name', 'aliases'],
+	required: ["id", "name", "aliases"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
@@ -48,7 +48,7 @@ export default define(meta, paramDef, async (ps) => {
 	if (emoji == null) throw new ApiError(meta.errors.noSuchEmoji);
 
 	if (emoji.name != ps.name) {
-		let existemojis = await Emojis.findOneBy({
+		const existemojis = await Emojis.findOneBy({
 			host: IsNull(),
 			name: ps.name,
 		});
@@ -65,5 +65,5 @@ export default define(meta, paramDef, async (ps) => {
 		aliases: ps.aliases,
 	});
 
-	await db.queryResultCache!.remove(['meta_emojis']);
+	await db.queryResultCache!.remove(["meta_emojis"]);
 });

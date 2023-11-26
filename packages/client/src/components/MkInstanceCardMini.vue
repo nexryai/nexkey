@@ -10,9 +10,9 @@
 </template>
 
 <script lang="ts" setup>
-import * as misskey from 'misskey-js';
-import MkMiniChart from '@/components/MkMiniChart.vue';
-import * as os from '@/os';
+import * as misskey from "misskey-js";
+import MkMiniChart from "@/components/MkMiniChart.vue";
+import * as os from "@/os";
 
 const props = defineProps<{
 	instance: misskey.entities.Instance;
@@ -20,7 +20,7 @@ const props = defineProps<{
 
 let chartValues = $ref<number[] | null>(null);
 
-os.apiGet('charts/instance', { host: props.instance.host, limit: 16 + 1, span: 'day' }).then(res => {
+os.apiGet("charts/instance", { host: props.instance.host, limit: 16 + 1, span: "day" }).then(res => {
 	// 今日のぶんの値はまだ途中の値であり、それも含めると大抵の場合前日よりも下降しているようなグラフになってしまうため今日は弾く
 	res.requests.received.splice(0, 1);
 	chartValues = res.requests.received;

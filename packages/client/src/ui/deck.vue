@@ -72,26 +72,26 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineAsyncComponent, onMounted, provide, ref, watch } from 'vue';
-import { v4 as uuid } from 'uuid';
-import XCommon from './_common_/common.vue';
-import { deckStore, addColumn as addColumnToStore, loadDeck, getProfiles, deleteProfile as deleteProfile_ } from './deck/deck-store';
-import DeckColumnCore from '@/ui/deck/column-core.vue';
-import XSidebar from '@/ui/_common_/navbar.vue';
-import XDrawerMenu from '@/ui/_common_/navbar-for-mobile.vue';
-import MkButton from '@/components/MkButton.vue';
-import { getScrollContainer } from '@/scripts/scroll';
-import * as os from '@/os';
-import { navbarItemDef } from '@/navbar';
-import { $i } from '@/account';
-import { i18n } from '@/i18n';
-import { mainRouter } from '@/router';
-import { unisonReload } from '@/scripts/unison-reload';
-const XStatusBars = defineAsyncComponent(() => import('@/ui/_common_/statusbars.vue'));
+import { computed, defineAsyncComponent, onMounted, provide, ref, watch } from "vue";
+import { v4 as uuid } from "uuid";
+import XCommon from "./_common_/common.vue";
+import { deckStore, addColumn as addColumnToStore, loadDeck, getProfiles, deleteProfile as deleteProfile_ } from "./deck/deck-store";
+import DeckColumnCore from "@/ui/deck/column-core.vue";
+import XSidebar from "@/ui/_common_/navbar.vue";
+import XDrawerMenu from "@/ui/_common_/navbar-for-mobile.vue";
+import MkButton from "@/components/MkButton.vue";
+import { getScrollContainer } from "@/scripts/scroll";
+import * as os from "@/os";
+import { navbarItemDef } from "@/navbar";
+import { $i } from "@/account";
+import { i18n } from "@/i18n";
+import { mainRouter } from "@/router";
+import { unisonReload } from "@/scripts/unison-reload";
+const XStatusBars = defineAsyncComponent(() => import("@/ui/_common_/statusbars.vue"));
 
 mainRouter.navHook = (path, flag): boolean => {
-	if (flag === 'forcePage') return false;
-	const noMainColumn = !deckStore.state.columns.some(x => x.type === 'main');
+	if (flag === "forcePage") return false;
+	const noMainColumn = !deckStore.state.columns.some(x => x.type === "main");
 	if (deckStore.state.navWindow || noMainColumn) {
 		os.pageWindow(path);
 		return true;
@@ -100,13 +100,13 @@ mainRouter.navHook = (path, flag): boolean => {
 };
 
 const isMobile = ref(window.innerWidth <= 500);
-window.addEventListener('resize', () => {
+window.addEventListener("resize", () => {
 	isMobile.value = window.innerWidth <= 500;
 });
 
 const drawerMenuShowing = ref(false);
 
-const route = 'TODO';
+const route = "TODO";
 watch(route, () => {
 	drawerMenuShowing.value = false;
 });
@@ -122,27 +122,27 @@ const menuIndicated = computed(() => {
 });
 
 function showSettings() {
-	os.pageWindow('/settings/deck');
+	os.pageWindow("/settings/deck");
 }
 
 let columnsEl = $ref<HTMLElement>();
 
 const addColumn = async (ev) => {
 	const columns = [
-		'main',
-		'widgets',
-		'notifications',
-		'tl',
-		'antenna',
-		'list',
-		'mentions',
-		'direct',
+		"main",
+		"widgets",
+		"notifications",
+		"tl",
+		"antenna",
+		"list",
+		"mentions",
+		"direct",
 	];
 
 	const { canceled, result: column } = await os.select({
 		title: i18n.ts._deck.addColumn,
 		items: columns.map(column => ({
-			value: column, text: i18n.t('_deck._columns.' + column),
+			value: column, text: i18n.t("_deck._columns." + column),
 		})),
 	});
 	if (canceled) return;
@@ -150,7 +150,7 @@ const addColumn = async (ev) => {
 	addColumnToStore({
 		type: column,
 		id: uuid(),
-		name: i18n.t('_deck._columns.' + column),
+		name: i18n.t("_deck._columns." + column),
 		width: 330,
 	});
 };
@@ -162,9 +162,9 @@ const onContextmenu = (ev) => {
 	}], ev);
 };
 
-document.documentElement.style.overflowY = 'hidden';
-document.documentElement.style.scrollBehavior = 'auto';
-window.addEventListener('wheel', (ev) => {
+document.documentElement.style.overflowY = "hidden";
+document.documentElement.style.scrollBehavior = "auto";
+window.addEventListener("wheel", (ev) => {
 	if (ev.target === columnsEl && ev.deltaX === 0) {
 		columnsEl.scrollLeft += ev.deltaY;
 	} else if (getScrollContainer(ev.target as HTMLElement) == null && ev.deltaX === 0) {
@@ -173,7 +173,7 @@ window.addEventListener('wheel', (ev) => {
 });
 loadDeck();
 
-function moveFocus(id: string, direction: 'up' | 'down' | 'left' | 'right') {
+function moveFocus(id: string, direction: "up" | "down" | "left" | "right") {
 	// TODO??
 }
 
@@ -189,12 +189,12 @@ function changeProfile(ev: MouseEvent) {
 		}, ...(profiles.filter(k => k !== deckStore.state.profile).map(k => ({
 			text: k,
 			action: () => {
-				deckStore.set('profile', k);
+				deckStore.set("profile", k);
 				unisonReload();
 			},
 		}))), null, {
 			text: i18n.ts._deck.newProfile,
-			icon: 'ti ti-plus',
+			icon: "ti ti-plus",
 			action: async () => {
 				const { canceled, result: name } = await os.inputText({
 					title: i18n.ts._deck.profile,
@@ -202,7 +202,7 @@ function changeProfile(ev: MouseEvent) {
 				});
 				if (canceled) return;
 
-				deckStore.set('profile', name);
+				deckStore.set("profile", name);
 				unisonReload();
 			},
 		}];
@@ -212,13 +212,13 @@ function changeProfile(ev: MouseEvent) {
 
 async function deleteProfile() {
 	const { canceled } = await os.confirm({
-		type: 'warning',
-		text: i18n.t('deleteAreYouSure', { x: deckStore.state.profile }),
+		type: "warning",
+		text: i18n.t("deleteAreYouSure", { x: deckStore.state.profile }),
 	});
 	if (canceled) return;
 
 	deleteProfile_(deckStore.state.profile);
-	deckStore.set('profile', 'default');
+	deckStore.set("profile", "default");
 	unisonReload();
 }
 </script>

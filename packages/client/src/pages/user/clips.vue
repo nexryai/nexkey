@@ -10,16 +10,16 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
-import * as misskey from 'misskey-js';
-import MkPagination from '@/components/MkPagination.vue';
+import { computed } from "vue";
+import * as misskey from "misskey-js";
+import MkPagination from "@/components/MkPagination.vue";
 
 const props = defineProps<{
 	user: misskey.entities.User;
 }>();
 
 const pagination = {
-	endpoint: 'users/clips' as const,
+	endpoint: "users/clips" as const,
 	limit: 20,
 	params: computed(() => ({
 		userId: props.user.id,

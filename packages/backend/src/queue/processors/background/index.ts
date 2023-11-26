@@ -1,5 +1,5 @@
-import type Bull from "bull";
 import indexAllNotes from "./index-all-notes.js";
+import type Bull from "bull";
 
 const jobs = {
 	indexAllNotes,

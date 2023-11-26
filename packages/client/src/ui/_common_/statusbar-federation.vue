@@ -20,16 +20,16 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineAsyncComponent, ref, toRef, watch } from 'vue';
-import * as misskey from 'misskey-js';
-import MarqueeText from '@/components/MkMarquee.vue';
-import * as os from '@/os';
-import { useInterval } from '@/scripts/use-interval';
-import { getNoteSummary } from '@/scripts/get-note-summary';
-import { notePage } from '@/filters/note';
+import { computed, defineAsyncComponent, ref, toRef, watch } from "vue";
+import * as misskey from "misskey-js";
+import MarqueeText from "@/components/MkMarquee.vue";
+import * as os from "@/os";
+import { useInterval } from "@/scripts/use-interval";
+import { getNoteSummary } from "@/scripts/get-note-summary";
+import { notePage } from "@/filters/note";
 
 const props = defineProps<{
-	display?: 'marquee' | 'oneByOne';
+	display?: "marquee" | "oneByOne";
 	colored?: boolean;
 	marqueeDuration?: number;
 	marqueeReverse?: boolean;
@@ -42,8 +42,8 @@ const fetching = ref(true);
 let key = $ref(0);
 
 const tick = () => {
-	os.api('federation/instances', {
-		sort: '+lastCommunicatedAt',
+	os.api("federation/instances", {
+		sort: "+lastCommunicatedAt",
 		limit: 30,
 	}).then(res => {
 		instances.value = res;

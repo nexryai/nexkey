@@ -38,36 +38,36 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
-import JSON5 from 'json5';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
-import FormLink from '@/components/form/link.vue';
-import FormSection from '@/components/form/section.vue';
-import MkButton from '@/components/MkButton.vue';
-import MkKeyValue from '@/components/MkKeyValue.vue';
-import FormTextarea from '@/components/form/textarea.vue';
-import FormSplit from '@/components/form/split.vue';
-import FormInfo from '@/components/MkInfo.vue';
+import { ref, watch } from "vue";
+import JSON5 from "json5";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
+import FormLink from "@/components/form/link.vue";
+import FormSection from "@/components/form/section.vue";
+import MkButton from "@/components/MkButton.vue";
+import MkKeyValue from "@/components/MkKeyValue.vue";
+import FormTextarea from "@/components/form/textarea.vue";
+import FormSplit from "@/components/form/split.vue";
+import FormInfo from "@/components/MkInfo.vue";
 
 const props = defineProps<{
 	path: string;
 }>();
 
-const scope = $computed(() => props.path.split('/').slice(0, -1));
-const key = $computed(() => props.path.split('/').at(-1));
+const scope = $computed(() => props.path.split("/").slice(0, -1));
+const key = $computed(() => props.path.split("/").at(-1));
 
 let value = $ref(null);
 let valueForEditor = $ref(null);
 
 function fetchValue() {
-	os.api('i/registry/get-detail', {
+	os.api("i/registry/get-detail", {
 		scope,
 		key,
 	}).then(res => {
 		value = res;
-		valueForEditor = JSON5.stringify(res.value, null, '\t');
+		valueForEditor = JSON5.stringify(res.value, null, "\t");
 	});
 }
 
@@ -76,17 +76,17 @@ async function save() {
 		JSON5.parse(valueForEditor);
 	} catch (err) {
 		os.alert({
-			type: 'error',
+			type: "error",
 			text: i18n.ts.invalidValue,
 		});
 		return;
 	}
 	os.confirm({
-		type: 'warning',
+		type: "warning",
 		text: i18n.ts.saveConfirm,
 	}).then(({ canceled }) => {
 		if (canceled) return;
-		os.apiWithDialog('i/registry/set', {
+		os.apiWithDialog("i/registry/set", {
 			scope,
 			key,
 			value: JSON5.parse(valueForEditor),
@@ -96,11 +96,11 @@ async function save() {
 
 function del() {
 	os.confirm({
-		type: 'warning',
+		type: "warning",
 		text: i18n.ts.deleteConfirm,
 	}).then(({ canceled }) => {
 		if (canceled) return;
-		os.apiWithDialog('i/registry/remove', {
+		os.apiWithDialog("i/registry/remove", {
 			scope,
 			key,
 		});
@@ -115,7 +115,7 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.registry,
-	icon: 'ti ti-adjustments',
+	icon: "ti ti-adjustments",
 });
 </script>
 

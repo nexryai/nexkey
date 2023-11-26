@@ -1,4 +1,4 @@
-const CHARS = '0123456789abcdef';
+const CHARS = "0123456789abcdef";
 
 function getTime(time: number) {
 	if (time < 0) time = 0;
@@ -12,7 +12,7 @@ function getTime(time: number) {
 }
 
 function getRandom() {
-	let str = '';
+	let str = "";
 
 	for (let i = 0; i < 12; i++) {
 		str += CHARS[Math.floor(Math.random() * CHARS.length)];

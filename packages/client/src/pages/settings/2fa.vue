@@ -77,32 +77,32 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import { hostname } from '@/config';
-import { byteify, hexify, stringify } from '@/scripts/2fa';
-import MkButton from '@/components/MkButton.vue';
-import MkInfo from '@/components/MkInfo.vue';
-import MkInput from '@/components/form/input.vue';
-import MkSwitch from '@/components/form/switch.vue';
-import * as os from '@/os';
-import { $i } from '@/account';
-import { i18n } from '@/i18n';
+import { ref } from "vue";
+import { hostname } from "@/config";
+import { byteify, hexify, stringify } from "@/scripts/2fa";
+import MkButton from "@/components/MkButton.vue";
+import MkInfo from "@/components/MkInfo.vue";
+import MkInput from "@/components/form/input.vue";
+import MkSwitch from "@/components/form/switch.vue";
+import * as os from "@/os";
+import { $i } from "@/account";
+import { i18n } from "@/i18n";
 
 const twoFactorData = ref<any>(null);
 const supportsCredentials = ref(!!navigator.credentials);
 const usePasswordLessLogin = ref($i!.usePasswordLessLogin);
 const registration = ref<any>(null);
-const keyName = ref('');
+const keyName = ref("");
 const token = ref(null);
 const backupCodes = ref<string[]>();
 
 function register() {
 	os.inputText({
 		title: i18n.ts.currentPassword,
-		type: 'password',
+		type: "password",
 	}).then(({ canceled, result: password }) => {
 		if (canceled) return;
-		os.api('i/2fa/register', {
+		os.api("i/2fa/register", {
 			password: password,
 		}).then(data => {
 			twoFactorData.value = data;
@@ -113,10 +113,10 @@ function register() {
 function unregister() {
 	os.inputText({
 		title: i18n.ts.currentPassword,
-		type: 'password',
+		type: "password",
 	}).then(({ canceled, result: password }) => {
 		if (canceled) return;
-		os.api('i/2fa/unregister', {
+		os.api("i/2fa/unregister", {
 			password: password,
 		}).then(() => {
 			usePasswordLessLogin.value = false;
@@ -129,7 +129,7 @@ function unregister() {
 }
 
 async function submit() {
-	const res = await os.apiWithDialog('i/2fa/done', {
+	const res = await os.apiWithDialog("i/2fa/done", {
 		token: token.value.toString(),
 	});
 	backupCodes.value = res.backupCodes;
@@ -139,7 +139,7 @@ async function submit() {
 
 function registerKey() {
 	registration.value.saving = true;
-	os.api('i/2fa/key-done', {
+	os.api("i/2fa/key-done", {
 		password: registration.value.password,
 		name: keyName.value,
 		challengeId: registration.value.challengeId,
@@ -156,10 +156,10 @@ function registerKey() {
 function unregisterKey(key) {
 	os.inputText({
 		title: i18n.ts.currentPassword,
-		type: 'password',
+		type: "password",
 	}).then(({ canceled, result: password }) => {
 		if (canceled) return;
-		return os.api('i/2fa/remove-key', {
+		return os.api("i/2fa/remove-key", {
 			password,
 			credentialId: key.id,
 		}).then(() => {
@@ -176,8 +176,8 @@ async function downloadBackupCodes() {
 		text: i18n.ts.backupCodesDownloaded,
 	});
 	if (backupCodes.value !== undefined) {
-		const txtBlob = new Blob([backupCodes.value.join('\n')], { type: 'text/plain' });
-		const dummya = document.createElement('a');
+		const txtBlob = new Blob([backupCodes.value.join("\n")], { type: "text/plain" });
+		const dummya = document.createElement("a");
 		dummya.href = URL.createObjectURL(txtBlob);
 		dummya.download = `${$i?.username}-2fa-backup-codes.txt`;
 		dummya.click();
@@ -187,10 +187,10 @@ async function downloadBackupCodes() {
 function addSecurityKey() {
 	os.inputText({
 		title: i18n.ts.currentPassword,
-		type: 'password',
+		type: "password",
 	}).then(({ canceled, result: password }) => {
 		if (canceled) return;
-		os.api('i/2fa/register-key', {
+		os.api("i/2fa/register-key", {
 			password,
 		}).then(reg => {
 			registration.value = {
@@ -198,19 +198,19 @@ function addSecurityKey() {
 				challengeId: reg!.challengeId,
 				stage: 0,
 				publicKeyOptions: {
-					challenge: byteify(reg!.challenge, 'base64'),
+					challenge: byteify(reg!.challenge, "base64"),
 					rp: {
 						id: hostname,
-						name: 'Misskey',
+						name: "Misskey",
 					},
 					user: {
-						id: byteify($i!.id, 'ascii'),
+						id: byteify($i!.id, "ascii"),
 						name: $i!.username,
 						displayName: $i!.name,
 					},
-					pubKeyCredParams: [{ alg: -7, type: 'public-key' }],
+					pubKeyCredParams: [{ alg: -7, type: "public-key" }],
 					timeout: 60000,
-					attestation: 'direct',
+					attestation: "direct",
 				},
 				saving: true,
 			};
@@ -222,7 +222,7 @@ function addSecurityKey() {
 			registration.value.saving = false;
 			registration.value.stage = 1;
 		}).catch(err => {
-			console.warn('Error while registering?', err);
+			console.warn("Error while registering?", err);
 			registration.value.error = err.message;
 			registration.value.stage = -1;
 		});
@@ -230,7 +230,7 @@ function addSecurityKey() {
 }
 
 async function updatePasswordLessLogin() {
-	await os.api('i/2fa/password-less', {
+	await os.api("i/2fa/password-less", {
 		value: !!usePasswordLessLogin.value,
 	});
 }

@@ -34,17 +34,17 @@
 </template>
 
 <script lang="ts">
-import { markRaw, ref, onUpdated, onMounted, onBeforeUnmount, nextTick, watch } from 'vue';
-import contains from '@/scripts/contains';
-import { char2filePath } from '@/scripts/twemoji-base';
-import { getStaticImageUrl } from '@/scripts/get-static-image-url';
-import { acct } from '@/filters/user';
-import * as os from '@/os';
-import { MFM_TAGS } from '@/scripts/mfm-tags';
-import { defaultStore } from '@/store';
-import { emojilist } from '@/scripts/emojilist';
-import { instance } from '@/instance';
-import { i18n } from '@/i18n';
+import { markRaw, ref, onUpdated, onMounted, onBeforeUnmount, nextTick, watch } from "vue";
+import contains from "@/scripts/contains";
+import { char2filePath } from "@/scripts/twemoji-base";
+import { getStaticImageUrl } from "@/scripts/get-static-image-url";
+import { acct } from "@/filters/user";
+import * as os from "@/os";
+import { MFM_TAGS } from "@/scripts/mfm-tags";
+import { defaultStore } from "@/store";
+import { emojilist } from "@/scripts/emojilist";
+import { instance } from "@/instance";
+import { i18n } from "@/i18n";
 
 type EmojiDef = {
 	emoji: string;
@@ -54,7 +54,7 @@ type EmojiDef = {
 	isCustomEmoji?: boolean;
 };
 
-const lib = emojilist.filter(x => x.category !== 'flags');
+const lib = emojilist.filter(x => x.category !== "flags");
 
 const emjdb: EmojiDef[] = lib.map(x => ({
 	emoji: x.char,
@@ -86,7 +86,7 @@ for (const x of customEmojis) {
 		name: x.name,
 		emoji: `:${x.name}:`,
 		url: x.url,
-		isCustomEmoji: true
+		isCustomEmoji: true,
 	});
 
 	if (x.aliases) {
@@ -96,7 +96,7 @@ for (const x of customEmojis) {
 				aliasOf: x.name,
 				emoji: `:${x.name}:`,
 				url: x.url,
-				isCustomEmoji: true
+				isCustomEmoji: true,
 			});
 		}
 	}
@@ -126,8 +126,8 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-	(event: 'done', value: { type: string; value: any }): void;
-	(event: 'closed'): void;
+	(event: "done", value: { type: string; value: any }): void;
+	(event: "closed"): void;
 }>();
 
 const suggests = ref<Element>();
@@ -140,32 +140,32 @@ const emojis = ref<(EmojiDef)[]>([]);
 const items = ref<Element[] | HTMLCollection>([]);
 const mfmTags = ref<string[]>([]);
 const select = ref(-1);
-const zIndex = os.claimZIndex('high');
+const zIndex = os.claimZIndex("high");
 
 function complete(type: string, value: any) {
-	emit('done', { type, value });
-	emit('closed');
-	if (type === 'emoji') {
+	emit("done", { type, value });
+	emit("closed");
+	if (type === "emoji") {
 		let recents = defaultStore.state.recentlyUsedEmojis;
 		recents = recents.filter((emoji: any) => emoji !== value);
 		recents.unshift(value);
-		defaultStore.set('recentlyUsedEmojis', recents.splice(0, 32));
+		defaultStore.set("recentlyUsedEmojis", recents.splice(0, 32));
 	}
 }
 
 function setPosition() {
 	if (!rootEl.value) return;
 	if (props.x + rootEl.value.offsetWidth > window.innerWidth) {
-		rootEl.value.style.left = (window.innerWidth - rootEl.value.offsetWidth) + 'px';
+		rootEl.value.style.left = (window.innerWidth - rootEl.value.offsetWidth) + "px";
 	} else {
 		rootEl.value.style.left = `${props.x}px`;
 	}
 	if (props.y + rootEl.value.offsetHeight > window.innerHeight) {
-		rootEl.value.style.top = (props.y - rootEl.value.offsetHeight) + 'px';
-		rootEl.value.style.marginTop = '0';
+		rootEl.value.style.top = (props.y - rootEl.value.offsetHeight) + "px";
+		rootEl.value.style.marginTop = "0";
 	} else {
-		rootEl.value.style.top = props.y + 'px';
-		rootEl.value.style.marginTop = 'calc(1em + 8px)';
+		rootEl.value.style.top = props.y + "px";
+		rootEl.value.style.marginTop = "calc(1em + 8px)";
 	}
 }
 
@@ -173,10 +173,10 @@ function exec() {
 	select.value = -1;
 	if (suggests.value) {
 		for (const el of Array.from(items.value)) {
-			el.removeAttribute('data-selected');
+			el.removeAttribute("data-selected");
 		}
 	}
-	if (props.type === 'user') {
+	if (props.type === "user") {
 		if (!props.q) {
 			users.value = [];
 			fetching.value = false;
@@ -190,10 +190,10 @@ function exec() {
 			users.value = JSON.parse(cache);
 			fetching.value = false;
 		} else {
-			os.api('users/search-by-username-and-host', {
+			os.api("users/search-by-username-and-host", {
 				username: props.q,
 				limit: 10,
-				detail: false
+				detail: false,
 			}).then(searchedUsers => {
 				users.value = searchedUsers as any[];
 				fetching.value = false;
@@ -201,9 +201,9 @@ function exec() {
 				sessionStorage.setItem(cacheKey, JSON.stringify(searchedUsers));
 			});
 		}
-	} else if (props.type === 'hashtag') {
-		if (!props.q || props.q === '') {
-			hashtags.value = JSON.parse(localStorage.getItem('hashtags') || '[]');
+	} else if (props.type === "hashtag") {
+		if (!props.q || props.q === "") {
+			hashtags.value = JSON.parse(localStorage.getItem("hashtags") || "[]");
 			fetching.value = false;
 		} else {
 			const cacheKey = `autocomplete:hashtag:${props.q}`;
@@ -213,9 +213,9 @@ function exec() {
 				hashtags.value = hashtags;
 				fetching.value = false;
 			} else {
-				os.api('hashtags/search', {
+				os.api("hashtags/search", {
 					query: props.q,
-					limit: 30
+					limit: 30,
 				}).then(searchedHashtags => {
 					hashtags.value = searchedHashtags as any[];
 					fetching.value = false;
@@ -224,8 +224,8 @@ function exec() {
 				});
 			}
 		}
-	} else if (props.type === 'emoji') {
-		if (!props.q || props.q === '') {
+	} else if (props.type === "emoji") {
+		if (!props.q || props.q === "") {
 			// 最近使った絵文字をサジェスト
 			emojis.value = defaultStore.state.recentlyUsedEmojis.map(emoji => emojiDb.find(dbEmoji => dbEmoji.emoji === emoji)).filter(x => x) as EmojiDef[];
 			return;
@@ -235,32 +235,32 @@ function exec() {
 		const max = 30;
 
 		emojiDb.some(x => {
-			if (x.name.startsWith(props.q ?? '') && !x.aliasOf && !matched.some(y => y.emoji === x.emoji)) matched.push(x);
+			if (x.name.startsWith(props.q ?? "") && !x.aliasOf && !matched.some(y => y.emoji === x.emoji)) matched.push(x);
 			return matched.length === max;
 		});
 
 		if (matched.length < max) {
 			emojiDb.some(x => {
-				if (x.name.startsWith(props.q ?? '') && !matched.some(y => y.emoji === x.emoji)) matched.push(x);
+				if (x.name.startsWith(props.q ?? "") && !matched.some(y => y.emoji === x.emoji)) matched.push(x);
 				return matched.length === max;
 			});
 		}
 
 		if (matched.length < max) {
 			emojiDb.some(x => {
-				if (x.name.includes(props.q ?? '') && !matched.some(y => y.emoji === x.emoji)) matched.push(x);
+				if (x.name.includes(props.q ?? "") && !matched.some(y => y.emoji === x.emoji)) matched.push(x);
 				return matched.length === max;
 			});
 		}
 
 		emojis.value = matched;
-	} else if (props.type === 'mfmTag') {
-		if (!props.q || props.q === '') {
+	} else if (props.type === "mfmTag") {
+		if (!props.q || props.q === "") {
 			mfmTags.value = MFM_TAGS;
 			return;
 		}
 
-		mfmTags.value = MFM_TAGS.filter(tag => tag.startsWith(props.q ?? ''));
+		mfmTags.value = MFM_TAGS.filter(tag => tag.startsWith(props.q ?? ""));
 	}
 }
 
@@ -275,7 +275,7 @@ function onKeydown(event: KeyboardEvent) {
 	};
 
 	switch (event.key) {
-		case 'Enter':
+		case "Enter":
 			if (select.value !== -1) {
 				cancel();
 				(items.value[select.value] as any).click();
@@ -284,12 +284,12 @@ function onKeydown(event: KeyboardEvent) {
 			}
 			break;
 
-		case 'Escape':
+		case "Escape":
 			cancel();
 			props.close();
 			break;
 
-		case 'ArrowUp':
+		case "ArrowUp":
 			if (select.value !== -1) {
 				cancel();
 				selectPrev();
@@ -298,8 +298,8 @@ function onKeydown(event: KeyboardEvent) {
 			}
 			break;
 
-		case 'Tab':
-		case 'ArrowDown':
+		case "Tab":
+		case "ArrowDown":
 			cancel();
 			selectNext();
 			break;
@@ -323,11 +323,11 @@ function selectPrev() {
 
 function applySelect() {
 	for (const el of Array.from(items.value)) {
-		el.removeAttribute('data-selected');
+		el.removeAttribute("data-selected");
 	}
 
 	if (select.value !== -1) {
-		items.value[select.value].setAttribute('data-selected', 'true');
+		items.value[select.value].setAttribute("data-selected", "true");
 		(items.value[select.value] as any).focus();
 	}
 }
@@ -335,7 +335,7 @@ function applySelect() {
 function chooseUser() {
 	props.close();
 	os.selectUser().then(user => {
-		complete('user', user);
+		complete("user", user);
 		props.textarea.focus();
 	});
 }
@@ -348,10 +348,10 @@ onUpdated(() => {
 onMounted(() => {
 	setPosition();
 
-	props.textarea.addEventListener('keydown', onKeydown);
+	props.textarea.addEventListener("keydown", onKeydown);
 
-	for (const el of Array.from(document.querySelectorAll('body *'))) {
-		el.addEventListener('mousedown', onMousedown);
+	for (const el of Array.from(document.querySelectorAll("body *"))) {
+		el.addEventListener("mousedown", onMousedown);
 	}
 
 	nextTick(() => {
@@ -366,10 +366,10 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-	props.textarea.removeEventListener('keydown', onKeydown);
+	props.textarea.removeEventListener("keydown", onKeydown);
 
-	for (const el of Array.from(document.querySelectorAll('body *'))) {
-		el.removeEventListener('mousedown', onMousedown);
+	for (const el of Array.from(document.querySelectorAll("body *"))) {
+		el.removeEventListener("mousedown", onMousedown);
 	}
 });
 </script>

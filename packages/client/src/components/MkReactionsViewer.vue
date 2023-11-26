@@ -5,10 +5,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
-import * as misskey from 'misskey-js';
-import { $i } from '@/account';
-import XReaction from '@/components/MkReactionsViewer.reaction.vue';
+import { computed } from "vue";
+import * as misskey from "misskey-js";
+import { $i } from "@/account";
+import XReaction from "@/components/MkReactionsViewer.reaction.vue";
 
 const props = defineProps<{
 	note: misskey.entities.Note;

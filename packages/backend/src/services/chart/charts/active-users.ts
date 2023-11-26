@@ -1,7 +1,7 @@
-import Chart, { KVs } from '../core.js';
-import { User } from '@/models/entities/user.js';
-import { Users } from '@/models/index.js';
-import { name, schema } from './entities/active-users.js';
+import { User } from "@/models/entities/user.js";
+import { Users } from "@/models/index.js";
+import Chart, { KVs } from "../core.js";
+import { name, schema } from "./entities/active-users.js";
 
 const week = 1000 * 60 * 60 * 24 * 7;
 const month = 1000 * 60 * 60 * 24 * 30;
@@ -24,21 +24,21 @@ export default class ActiveUsersChart extends Chart<typeof schema> {
 		return {};
 	}
 
-	public async read(user: { id: User['id'], host: null, createdAt: User['createdAt'] }): Promise<void> {
+	public async read(user: { id: User["id"], host: null, createdAt: User["createdAt"] }): Promise<void> {
 		await this.commit({
-			'read': [user.id],
-			'registeredWithinWeek': (Date.now() - user.createdAt.getTime() < week) ? [user.id] : [],
-			'registeredWithinMonth': (Date.now() - user.createdAt.getTime() < month) ? [user.id] : [],
-			'registeredWithinYear': (Date.now() - user.createdAt.getTime() < year) ? [user.id] : [],
-			'registeredOutsideWeek': (Date.now() - user.createdAt.getTime() > week) ? [user.id] : [],
-			'registeredOutsideMonth': (Date.now() - user.createdAt.getTime() > month) ? [user.id] : [],
-			'registeredOutsideYear': (Date.now() - user.createdAt.getTime() > year) ? [user.id] : [],
+			"read": [user.id],
+			"registeredWithinWeek": (Date.now() - user.createdAt.getTime() < week) ? [user.id] : [],
+			"registeredWithinMonth": (Date.now() - user.createdAt.getTime() < month) ? [user.id] : [],
+			"registeredWithinYear": (Date.now() - user.createdAt.getTime() < year) ? [user.id] : [],
+			"registeredOutsideWeek": (Date.now() - user.createdAt.getTime() > week) ? [user.id] : [],
+			"registeredOutsideMonth": (Date.now() - user.createdAt.getTime() > month) ? [user.id] : [],
+			"registeredOutsideYear": (Date.now() - user.createdAt.getTime() > year) ? [user.id] : [],
 		});
 	}
 
-	public async write(user: { id: User['id'], host: null, createdAt: User['createdAt'] }): Promise<void> {
+	public async write(user: { id: User["id"], host: null, createdAt: User["createdAt"] }): Promise<void> {
 		await this.commit({
-			'write': [user.id],
+			"write": [user.id],
 		});
 	}
 }

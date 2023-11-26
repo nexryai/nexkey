@@ -1,32 +1,32 @@
-import define from '../../define.js';
-import { Apps } from '@/models/index.js';
-import { genId } from '@/misc/gen-id.js';
-import { unique } from '@/prelude/array.js';
-import { secureRndstr } from '@/misc/secure-rndstr.js';
+import { Apps } from "@/models/index.js";
+import { genId } from "@/misc/gen-id.js";
+import { unique } from "@/prelude/array.js";
+import { secureRndstr } from "@/misc/secure-rndstr.js";
+import define from "../../define.js";
 
 export const meta = {
-	tags: ['app'],
+	tags: ["app"],
 
 	requireCredential: false,
 
 	res: {
-		type: 'object',
+		type: "object",
 		optional: false, nullable: false,
-		ref: 'App',
+		ref: "App",
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		name: { type: 'string' },
-		description: { type: 'string' },
-		permission: { type: 'array', uniqueItems: true, items: {
-			type: 'string',
+		name: { type: "string" },
+		description: { type: "string" },
+		permission: { type: "array", uniqueItems: true, items: {
+			type: "string",
 		} },
-		callbackUrl: { type: 'string', nullable: true },
+		callbackUrl: { type: "string", nullable: true },
 	},
-	required: ['name', 'description', 'permission'],
+	required: ["name", "description", "permission"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
@@ -35,7 +35,7 @@ export default define(meta, paramDef, async (ps, user) => {
 	const secret = secureRndstr(32, true);
 
 	// for backward compatibility
-	const permission = unique(ps.permission.map(v => v.replace(/^(.+)(\/|-)(read|write)$/, '$3:$1')));
+	const permission = unique(ps.permission.map(v => v.replace(/^(.+)(\/|-)(read|write)$/, "$3:$1")));
 
 	// Create account
 	const app = await Apps.insert({

@@ -1,5 +1,6 @@
 <template>
-<MkWindow ref="window"
+<MkWindow
+	ref="window"
 	:initial-width="null"
 	:initial-height="null"
 	:can-resize="false"
@@ -12,9 +13,9 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import MkWindow from '@/components/MkWindow.vue';
-import MkEmojiPicker from '@/components/MkEmojiPicker.vue';
+import { } from "vue";
+import MkWindow from "@/components/MkWindow.vue";
+import MkEmojiPicker from "@/components/MkEmojiPicker.vue";
 
 withDefaults(defineProps<{
 	src?: HTMLElement;
@@ -25,12 +26,12 @@ withDefaults(defineProps<{
 });
 
 const emit = defineEmits<{
-	(ev: 'chosen', v: any): void;
-	(ev: 'closed'): void;
+	(ev: "chosen", v: any): void;
+	(ev: "closed"): void;
 }>();
 
 function chosen(emoji: any) {
-	emit('chosen', emoji);
+	emit("chosen", emoji);
 }
 </script>
 

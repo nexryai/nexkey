@@ -1,7 +1,7 @@
-import { onUnmounted, Ref } from 'vue';
-import * as misskey from 'misskey-js';
-import { stream } from '@/stream';
-import { $i } from '@/account';
+import { onUnmounted, Ref } from "vue";
+import * as misskey from "misskey-js";
+import { stream } from "@/stream";
+import { $i } from "@/account";
 
 export function useNoteCapture(props: {
 	rootEl: Ref<HTMLElement>;
@@ -19,7 +19,7 @@ export function useNoteCapture(props: {
 		if ((id !== note.value.id) && (id !== pureNote.value.id)) return;
 
 		switch (type) {
-			case 'reacted': {
+			case "reacted": {
 				const reaction = body.reaction;
 
 				if (body.emoji) {
@@ -40,7 +40,7 @@ export function useNoteCapture(props: {
 				break;
 			}
 
-			case 'unreacted': {
+			case "unreacted": {
 				const reaction = body.reaction;
 
 				// TODO: reactionsプロパティがない場合ってあったっけ？ なければ || {} は消せる
@@ -54,7 +54,7 @@ export function useNoteCapture(props: {
 				break;
 			}
 
-			case 'pollVoted': {
+			case "pollVoted": {
 				const choice = body.choice;
 
 				const choices = [...note.value.poll.choices];
@@ -62,15 +62,15 @@ export function useNoteCapture(props: {
 					...choices[choice],
 					votes: choices[choice].votes + 1,
 					...($i && (body.userId === $i.id) ? {
-						isVoted: true
-					} : {})
+						isVoted: true,
+					} : {}),
 				};
 
 				note.value.poll.choices = choices;
 				break;
 			}
 
-			case 'deleted': {
+			case "deleted": {
 				if (pureNote.value.id !== note.value.id) {
 					props.isDeletedRef.value = true;
 					pureNote.value.text = null;
@@ -89,23 +89,23 @@ export function useNoteCapture(props: {
 	function capture(withHandler = false): void {
 		if (connection) {
 			// TODO: このノートがストリーミング経由で流れてきた場合のみ sr する
-			connection.send(document.body.contains(props.rootEl.value) ? 'sr' : 's', { id: note.value.id });
-			if (pureNote.value.id !== note.value.id) connection.send('s', { id: pureNote.value.id });
-			if (withHandler) connection.on('noteUpdated', onStreamNoteUpdated);
+			connection.send(document.body.contains(props.rootEl.value) ? "sr" : "s", { id: note.value.id });
+			if (pureNote.value.id !== note.value.id) connection.send("s", { id: pureNote.value.id });
+			if (withHandler) connection.on("noteUpdated", onStreamNoteUpdated);
 		}
 	}
 
 	function decapture(withHandler = false): void {
 		if (connection) {
-			connection.send('un', {
+			connection.send("un", {
 				id: note.value.id,
 			});
 			if (pureNote.value.id !== note.value.id) {
-				connection.send('un', {
+				connection.send("un", {
 					id: pureNote.value.id,
 				});
 			}
-			if (withHandler) connection.off('noteUpdated', onStreamNoteUpdated);
+			if (withHandler) connection.off("noteUpdated", onStreamNoteUpdated);
 		}
 	}
 
@@ -115,13 +115,13 @@ export function useNoteCapture(props: {
 
 	capture(true);
 	if (connection) {
-		connection.on('_connected_', onStreamConnected);
+		connection.on("_connected_", onStreamConnected);
 	}
 
 	onUnmounted(() => {
 		decapture(true);
 		if (connection) {
-			connection.off('_connected_', onStreamConnected);
+			connection.off("_connected_", onStreamConnected);
 		}
 	});
 }

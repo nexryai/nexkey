@@ -1,15 +1,15 @@
-import Bull from 'bull';
-import { queueLogger } from '../../logger.js';
-import { AccessTokens, DriveFiles, Notes, UserProfiles, Users, UserNotePinings, MessagingMessages, Followings, Mutings, Blockings, Notifications, FollowRequests, Antennas, NoteReactions, Clips } from '@/models/index.js';
-import { DbUserDeleteJobData } from '@/queue/types.js';
-import { Note } from '@/models/entities/note.js';
-import { DriveFile } from '@/models/entities/drive-file.js';
-import { MoreThan } from 'typeorm';
-import { deleteFileSync } from '@/services/drive/delete-file.js';
-import { sendEmail } from '@/services/send-email.js';
-import { emailDeliver } from '@/queue/index.js';
+import Bull from "bull";
+import { MoreThan } from "typeorm";
+import { AccessTokens, DriveFiles, Notes, UserProfiles, Users, UserNotePinings, MessagingMessages, Followings, Mutings, Blockings, Notifications, FollowRequests, Antennas, NoteReactions, Clips } from "@/models/index.js";
+import { DbUserDeleteJobData } from "@/queue/types.js";
+import { Note } from "@/models/entities/note.js";
+import { DriveFile } from "@/models/entities/drive-file.js";
+import { deleteFileSync } from "@/services/drive/delete-file.js";
+import { sendEmail } from "@/services/send-email.js";
+import { emailDeliver } from "@/queue/index.js";
+import { queueLogger } from "../../logger.js";
 
-const logger = queueLogger.createSubLogger('delete-account');
+const logger = queueLogger.createSubLogger("delete-account");
 
 export async function deleteAccount(job: Bull.Job<DbUserDeleteJobData>): Promise<string | void> {
 	logger.info(`Deleting account of ${job.data.user.id} ...`);
@@ -20,10 +20,10 @@ export async function deleteAccount(job: Bull.Job<DbUserDeleteJobData>): Promise
 	}
 
 	{ // Delete notes
-		let cursor: Note['id'] | null = null;
+		let cursor: Note["id"] | null = null;
 
-		const notesCount = await Notes.createQueryBuilder('note')
-    .where('note.userId = :userId', { userId: job.data.user.id })
+		const notesCount = await Notes.createQueryBuilder("note")
+    .where("note.userId = :userId", { userId: job.data.user.id })
     .getCount();
 
 		while (true) {
@@ -49,20 +49,20 @@ export async function deleteAccount(job: Bull.Job<DbUserDeleteJobData>): Promise
 				await new Promise(resolve => setTimeout(resolve, 500)); // 0.5秒待機
 			}
 
-			let currentNotesCount = await Notes.createQueryBuilder('note')
-			.where('note.userId = :userId', { userId: job.data.user.id })
+			const currentNotesCount = await Notes.createQueryBuilder("note")
+			.where("note.userId = :userId", { userId: job.data.user.id })
 			.getCount();
 
-			let deleteprogress = currentNotesCount === 0 ? 99 : Math.floor(100 - (currentNotesCount / notesCount) * 100);
+			const deleteprogress = currentNotesCount === 0 ? 99 : Math.floor(100 - (currentNotesCount / notesCount) * 100);
 
 			job.progress(deleteprogress);
 		}
 
-		logger.succ(`All of notes deleted`);
+		logger.succ("All of notes deleted");
 	}
 
 	{ // Delete files
-		let cursor: DriveFile['id'] | null = null;
+		let cursor: DriveFile["id"] | null = null;
 
 		while (true) {
 			const files = await DriveFiles.find({
@@ -87,15 +87,15 @@ export async function deleteAccount(job: Bull.Job<DbUserDeleteJobData>): Promise
 			}
 		}
 
-		logger.succ(`All of files deleted`);
+		logger.succ("All of files deleted");
 	}
 
 	{ // Send email notification
 		const profile = await UserProfiles.findOneByOrFail({ userId: user.id });
 		if (profile.email && profile.emailVerified) {
-			emailDeliver(profile.email, 'Account deleted',
-				`Your account has been deleted.`,
-				`Your account has been deleted.`);
+			emailDeliver(profile.email, "Account deleted",
+				"Your account has been deleted.",
+				"Your account has been deleted.");
 		}
 	}
 
@@ -183,5 +183,5 @@ export async function deleteAccount(job: Bull.Job<DbUserDeleteJobData>): Promise
 		}
 	}
 
-	return 'Account deleted';
+	return "Account deleted";
 }

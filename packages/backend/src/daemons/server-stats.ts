@@ -1,6 +1,6 @@
-import si from 'systeminformation';
-import Xev from 'xev';
-import * as osUtils from 'os-utils';
+import si from "systeminformation";
+import Xev from "xev";
+import * as osUtils from "os-utils";
 
 const ev = new Xev();
 
@@ -15,7 +15,7 @@ const round = (num: number) => Math.round(num * 10) / 10;
 export default function() {
 	const log = [] as any[];
 
-	ev.on('requestServerStatsLog', x => {
+	ev.on("requestServerStatsLog", x => {
 		ev.emit(`serverStatsLog:${x.id}`, log.slice(0, x.length || 50));
 	});
 
@@ -40,7 +40,7 @@ export default function() {
 				w: round(Math.max(0, fsStats.wIO_sec ?? 0)),
 			},
 		};
-		ev.emit('serverStats', stats);
+		ev.emit("serverStats", stats);
 		log.unshift(stats);
 		if (log.length > 200) log.pop();
 	}

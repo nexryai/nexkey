@@ -13,23 +13,23 @@
 </template>
 
 <script lang="ts" setup>
-import { defineAsyncComponent, nextTick, ref } from 'vue';
-import { AiScript, parse } from '@syuilo/aiscript';
-import { serialize } from '@syuilo/aiscript/built/serializer';
-import { v4 as uuid } from 'uuid';
-import FormTextarea from '@/components/form/textarea.vue';
-import FormButton from '@/components/MkButton.vue';
-import FormInfo from '@/components/MkInfo.vue';
-import * as os from '@/os';
-import { ColdDeviceStorage } from '@/store';
-import { unisonReload } from '@/scripts/unison-reload';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { defineAsyncComponent, nextTick, ref } from "vue";
+import { AiScript, parse } from "@syuilo/aiscript";
+import { serialize } from "@syuilo/aiscript/built/serializer";
+import { v4 as uuid } from "uuid";
+import FormTextarea from "@/components/form/textarea.vue";
+import FormButton from "@/components/MkButton.vue";
+import FormInfo from "@/components/MkInfo.vue";
+import * as os from "@/os";
+import { ColdDeviceStorage } from "@/store";
+import { unisonReload } from "@/scripts/unison-reload";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 const code = ref(null);
 
 function installPlugin({ id, meta, ast, token }) {
-	ColdDeviceStorage.set('plugins', ColdDeviceStorage.get('plugins').concat({
+	ColdDeviceStorage.set("plugins", ColdDeviceStorage.get("plugins").concat({
 		...meta,
 		id,
 		active: true,
@@ -45,8 +45,8 @@ async function install() {
 		ast = parse(code.value);
 	} catch (err) {
 		os.alert({
-			type: 'error',
-			text: 'Syntax error :(',
+			type: "error",
+			text: "Syntax error :(",
 		});
 		return;
 	}
@@ -54,8 +54,8 @@ async function install() {
 	const meta = AiScript.collectMetadata(ast);
 	if (meta == null) {
 		os.alert({
-			type: 'error',
-			text: 'No metadata found :(',
+			type: "error",
+			text: "No metadata found :(",
 		});
 		return;
 	}
@@ -63,8 +63,8 @@ async function install() {
 	const metadata = meta.get(null);
 	if (metadata == null) {
 		os.alert({
-			type: 'error',
-			text: 'No metadata found :(',
+			type: "error",
+			text: "No metadata found :(",
 		});
 		return;
 	}
@@ -72,14 +72,14 @@ async function install() {
 	const { name, version, author, description, permissions, config } = metadata;
 	if (name == null || version == null || author == null) {
 		os.alert({
-			type: 'error',
-			text: 'Required property not found :(',
+			type: "error",
+			text: "Required property not found :(",
 		});
 		return;
 	}
 
 	const token = permissions == null || permissions.length === 0 ? null : await new Promise((res, rej) => {
-		os.popup(defineAsyncComponent(() => import('@/components/MkTokenGenerateWindow.vue')), {
+		os.popup(defineAsyncComponent(() => import("@/components/MkTokenGenerateWindow.vue")), {
 			title: i18n.ts.tokenRequested,
 			information: i18n.ts.pluginTokenRequestedDescription,
 			initialName: name,
@@ -87,14 +87,14 @@ async function install() {
 		}, {
 			done: async result => {
 				const { name, permissions } = result;
-				const { token } = await os.api('miauth/gen-token', {
+				const { token } = await os.api("miauth/gen-token", {
 					session: null,
 					name: name,
 					permission: permissions,
 				});
 				res(token);
 			},
-		}, 'closed');
+		}, "closed");
 	});
 
 	installPlugin({
@@ -119,6 +119,6 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts._plugin.install,
-	icon: 'ti ti-download',
+	icon: "ti ti-download",
 });
 </script>

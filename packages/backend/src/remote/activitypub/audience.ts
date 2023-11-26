@@ -1,11 +1,11 @@
-import { ApObject, getApIds } from './type.js';
-import Resolver from './resolver.js';
-import { resolvePerson } from './models/person.js';
-import { unique, concat } from '@/prelude/array.js';
-import promiseLimit from 'promise-limit';
-import { User, CacheableRemoteUser, CacheableUser } from '@/models/entities/user.js';
+import promiseLimit from "promise-limit";
+import { unique, concat } from "@/prelude/array.js";
+import { User, CacheableRemoteUser, CacheableUser } from "@/models/entities/user.js";
+import { ApObject, getApIds } from "./type.js";
+import Resolver from "./resolver.js";
+import { resolvePerson } from "./models/person.js";
 
-type Visibility = 'public' | 'home' | 'followers' | 'specified';
+type Visibility = "public" | "home" | "followers" | "specified";
 
 type AudienceInfo = {
 	visibility: Visibility,
@@ -21,12 +21,12 @@ export async function parseAudience(actor: CacheableRemoteUser, to?: ApObject, c
 
 	const limit = promiseLimit<CacheableUser | null>(2);
 	const mentionedUsers = (await Promise.all(
-		others.map(id => limit(() => resolvePerson(id, resolver).catch(() => null)))
+		others.map(id => limit(() => resolvePerson(id, resolver).catch(() => null))),
 	)).filter((x): x is CacheableUser => x != null);
 
 	if (toGroups.public.length > 0) {
 		return {
-			visibility: 'public',
+			visibility: "public",
 			mentionedUsers,
 			visibleUsers: [],
 		};
@@ -34,7 +34,7 @@ export async function parseAudience(actor: CacheableRemoteUser, to?: ApObject, c
 
 	if (ccGroups.public.length > 0) {
 		return {
-			visibility: 'home',
+			visibility: "home",
 			mentionedUsers,
 			visibleUsers: [],
 		};
@@ -42,14 +42,14 @@ export async function parseAudience(actor: CacheableRemoteUser, to?: ApObject, c
 
 	if (toGroups.followers.length > 0) {
 		return {
-			visibility: 'followers',
+			visibility: "followers",
 			mentionedUsers,
 			visibleUsers: [],
 		};
 	}
 
 	return {
-		visibility: 'specified',
+		visibility: "specified",
 		mentionedUsers,
 		visibleUsers: mentionedUsers,
 	};
@@ -79,9 +79,9 @@ function groupingAudience(ids: string[], actor: CacheableRemoteUser) {
 
 function isPublic(id: string) {
 	return [
-		'https://www.w3.org/ns/activitystreams#Public',
-		'as:Public',
-		'Public',
+		"https://www.w3.org/ns/activitystreams#Public",
+		"as:Public",
+		"Public",
 	].includes(id);
 }
 

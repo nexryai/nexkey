@@ -1,10 +1,10 @@
-import { IsNull, MoreThan, Not } from 'typeorm';
-import { Followings, Instances } from '@/models/index.js';
-import { awaitAll } from '@/prelude/await-all.js';
-import define from '../../define.js';
+import { IsNull, MoreThan, Not } from "typeorm";
+import { Followings, Instances } from "@/models/index.js";
+import { awaitAll } from "@/prelude/await-all.js";
+import define from "../../define.js";
 
 export const meta = {
-	tags: ['federation'],
+	tags: ["federation"],
 
 	requireCredential: true,
 
@@ -13,9 +13,9 @@ export const meta = {
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
+		limit: { type: "integer", minimum: 1, maximum: 100, default: 10 },
 	},
 	required: [],
 } as const;
@@ -28,7 +28,7 @@ export default define(meta, paramDef, async (ps) => {
 				followersCount: MoreThan(0),
 			},
 			order: {
-				followersCount: 'DESC',
+				followersCount: "DESC",
 			},
 			take: ps.limit,
 		}),
@@ -37,7 +37,7 @@ export default define(meta, paramDef, async (ps) => {
 				followingCount: MoreThan(0),
 			},
 			order: {
-				followingCount: 'DESC',
+				followingCount: "DESC",
 			},
 			take: ps.limit,
 		}),

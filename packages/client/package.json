@@ -3,7 +3,8 @@
 	"scripts": {
 		"watch": "vite build --watch --mode development",
 		"build": "vite build",
-		"lint": "eslint --quiet \"src/**/*.{ts,vue}\""
+		"lint": "eslint --quiet \"src/**/*.{ts,vue}\"",
+		"lintfix": "eslint --fix --ext .ts \"src/**/*.{ts,vue}\" ."
 	},
 	"resolutions": {
 		"chokidar": "^3.3.1",

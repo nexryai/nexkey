@@ -1,25 +1,25 @@
-import { NoteFavorites, Notes, NoteThreadMutings, NoteWatchings } from '@/models/index.js';
-import define from '../../define.js';
+import { NoteFavorites, Notes, NoteThreadMutings, NoteWatchings } from "@/models/index.js";
+import define from "../../define.js";
 
 export const meta = {
-	tags: ['notes'],
+	tags: ["notes"],
 
 	requireCredential: true,
 
 	res: {
-		type: 'object',
+		type: "object",
 		optional: false, nullable: false,
 		properties: {
 			isFavorited: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 			isWatching: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 			isMutedThread: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 		},
@@ -27,11 +27,11 @@ export const meta = {
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		noteId: { type: 'string', format: 'misskey:id' },
+		noteId: { type: "string", format: "misskey:id" },
 	},
-	required: ['noteId'],
+	required: ["noteId"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export

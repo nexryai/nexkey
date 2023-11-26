@@ -20,9 +20,9 @@
 		<option value="desktop"><i class="ti ti-device-desktop"/> {{ i18n.ts.desktop }}</option>
 	</FormRadios>
 
-  <MkButton @click="switchUi"><i class="ti ti-devices"></i> {{ i18n.ts.switchUi }}</MkButton>
+	<MkButton @click="switchUi"><i class="ti ti-devices"></i> {{ i18n.ts.switchUi }}</MkButton>
 	<FormSwitch v-model="showFixedPostForm" class="_formBlock">{{ i18n.ts.showFixedPostForm }}</FormSwitch>
-  <FormSwitch v-model="showOnlineUsersOnNavbar" class="_formBlock">{{ i18n.ts.showOnlineUsersOnNavbar }}</FormSwitch>
+	<FormSwitch v-model="showOnlineUsersOnNavbar" class="_formBlock">{{ i18n.ts.showOnlineUsersOnNavbar }}</FormSwitch>
 
 	<FormSelect v-model="searchEngine" class="_formBlock">
 		<template #label>{{ i18n.ts.searchEngine }}</template>
@@ -110,29 +110,29 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue';
-import FormSwitch from '@/components/form/switch.vue';
-import FormSelect from '@/components/form/select.vue';
-import FormRadios from '@/components/form/radios.vue';
-import FormRange from '@/components/form/range.vue';
-import FormSection from '@/components/form/section.vue';
-import FormLink from '@/components/form/link.vue';
-import MkLink from '@/components/MkLink.vue';
-import { langs, ui } from '@/config';
-import { defaultStore } from '@/store';
-import * as os from '@/os';
-import { unisonReload } from '@/scripts/unison-reload';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { computed, ref, watch } from "vue";
+import FormSwitch from "@/components/form/switch.vue";
+import FormSelect from "@/components/form/select.vue";
+import FormRadios from "@/components/form/radios.vue";
+import FormRange from "@/components/form/range.vue";
+import FormSection from "@/components/form/section.vue";
+import FormLink from "@/components/form/link.vue";
+import MkLink from "@/components/MkLink.vue";
+import { langs, ui } from "@/config";
+import { defaultStore } from "@/store";
+import * as os from "@/os";
+import { unisonReload } from "@/scripts/unison-reload";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 import MkButton from "@/components/MkButton.vue";
 
-const lang = ref(localStorage.getItem('lang'));
-const fontSize = ref(localStorage.getItem('fontSize'));
-const useSystemFont = ref(localStorage.getItem('useSystemFont') != null);
+const lang = ref(localStorage.getItem("lang"));
+const fontSize = ref(localStorage.getItem("fontSize"));
+const useSystemFont = ref(localStorage.getItem("useSystemFont") != null);
 
 async function reloadAsk() {
 	const { canceled } = await os.confirm({
-		type: 'info',
+		type: "info",
 		text: i18n.ts.reloadToApplySetting,
 	});
 	if (canceled) return;
@@ -140,49 +140,49 @@ async function reloadAsk() {
 	unisonReload();
 }
 
-const overridedDeviceKind = computed(defaultStore.makeGetterSetter('overridedDeviceKind'));
-const serverDisconnectedBehavior = computed(defaultStore.makeGetterSetter('serverDisconnectedBehavior'));
-const reduceAnimation = computed(defaultStore.makeGetterSetter('animation', v => !v, v => !v));
-const useBlurEffectForModal = computed(defaultStore.makeGetterSetter('useBlurEffectForModal'));
-const useBlurEffect = computed(defaultStore.makeGetterSetter('useBlurEffect'));
-const showGapBetweenNotesInTimeline = computed(defaultStore.makeGetterSetter('showGapBetweenNotesInTimeline'));
-const disableAnimatedMfm = computed(defaultStore.makeGetterSetter('animatedMfm', v => !v, v => !v));
-const useOsNativeEmojis = computed(defaultStore.makeGetterSetter('useOsNativeEmojis'));
-const disableDrawer = computed(defaultStore.makeGetterSetter('disableDrawer'));
-const disableShowingAnimatedImages = computed(defaultStore.makeGetterSetter('disableShowingAnimatedImages'));
-const loadRawImages = computed(defaultStore.makeGetterSetter('loadRawImages'));
-const imageNewTab = computed(defaultStore.makeGetterSetter('imageNewTab'));
-const nsfw = computed(defaultStore.makeGetterSetter('nsfw'));
-const disablePagesScript = computed(defaultStore.makeGetterSetter('disablePagesScript'));
-const showFixedPostForm = computed(defaultStore.makeGetterSetter('showFixedPostForm'));
-const numberOfPageCache = computed(defaultStore.makeGetterSetter('numberOfPageCache'));
-const instanceTicker = computed(defaultStore.makeGetterSetter('instanceTicker'));
-const enableInfiniteScroll = computed(defaultStore.makeGetterSetter('enableInfiniteScroll'));
-const useReactionPickerForContextMenu = computed(defaultStore.makeGetterSetter('useReactionPickerForContextMenu'));
-const squareAvatars = computed(defaultStore.makeGetterSetter('squareAvatars'));
-const aiChanMode = computed(defaultStore.makeGetterSetter('aiChanMode'));
-const enableMfm = computed(defaultStore.makeGetterSetter('enableMfm'));
-const showOnlineUsersOnNavbar = computed(defaultStore.makeGetterSetter('showOnlineUsersOnNavbar'));
-const searchEngine = computed(defaultStore.makeGetterSetter('searchEngine'));
+const overridedDeviceKind = computed(defaultStore.makeGetterSetter("overridedDeviceKind"));
+const serverDisconnectedBehavior = computed(defaultStore.makeGetterSetter("serverDisconnectedBehavior"));
+const reduceAnimation = computed(defaultStore.makeGetterSetter("animation", v => !v, v => !v));
+const useBlurEffectForModal = computed(defaultStore.makeGetterSetter("useBlurEffectForModal"));
+const useBlurEffect = computed(defaultStore.makeGetterSetter("useBlurEffect"));
+const showGapBetweenNotesInTimeline = computed(defaultStore.makeGetterSetter("showGapBetweenNotesInTimeline"));
+const disableAnimatedMfm = computed(defaultStore.makeGetterSetter("animatedMfm", v => !v, v => !v));
+const useOsNativeEmojis = computed(defaultStore.makeGetterSetter("useOsNativeEmojis"));
+const disableDrawer = computed(defaultStore.makeGetterSetter("disableDrawer"));
+const disableShowingAnimatedImages = computed(defaultStore.makeGetterSetter("disableShowingAnimatedImages"));
+const loadRawImages = computed(defaultStore.makeGetterSetter("loadRawImages"));
+const imageNewTab = computed(defaultStore.makeGetterSetter("imageNewTab"));
+const nsfw = computed(defaultStore.makeGetterSetter("nsfw"));
+const disablePagesScript = computed(defaultStore.makeGetterSetter("disablePagesScript"));
+const showFixedPostForm = computed(defaultStore.makeGetterSetter("showFixedPostForm"));
+const numberOfPageCache = computed(defaultStore.makeGetterSetter("numberOfPageCache"));
+const instanceTicker = computed(defaultStore.makeGetterSetter("instanceTicker"));
+const enableInfiniteScroll = computed(defaultStore.makeGetterSetter("enableInfiniteScroll"));
+const useReactionPickerForContextMenu = computed(defaultStore.makeGetterSetter("useReactionPickerForContextMenu"));
+const squareAvatars = computed(defaultStore.makeGetterSetter("squareAvatars"));
+const aiChanMode = computed(defaultStore.makeGetterSetter("aiChanMode"));
+const enableMfm = computed(defaultStore.makeGetterSetter("enableMfm"));
+const showOnlineUsersOnNavbar = computed(defaultStore.makeGetterSetter("showOnlineUsersOnNavbar"));
+const searchEngine = computed(defaultStore.makeGetterSetter("searchEngine"));
 
 watch(lang, () => {
-	localStorage.setItem('lang', lang.value as string);
-	localStorage.removeItem('locale');
+	localStorage.setItem("lang", lang.value as string);
+	localStorage.removeItem("locale");
 });
 
 watch(fontSize, () => {
 	if (fontSize.value == null) {
-		localStorage.removeItem('fontSize');
+		localStorage.removeItem("fontSize");
 	} else {
-		localStorage.setItem('fontSize', fontSize.value);
+		localStorage.setItem("fontSize", fontSize.value);
 	}
 });
 
 watch(useSystemFont, () => {
 	if (useSystemFont.value) {
-		localStorage.setItem('useSystemFont', 't');
+		localStorage.setItem("useSystemFont", "t");
 	} else {
-		localStorage.removeItem('useSystemFont');
+		localStorage.removeItem("useSystemFont");
 	}
 });
 
@@ -206,24 +206,24 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.general,
-	icon: 'ti ti-adjustments',
+	icon: "ti ti-adjustments",
 });
 
 function switchUi(ev) {
-  os.popupMenu([{
-    text: i18n.ts.default,
-    active: ui === 'default' || ui === null,
-    action: () => {
-      localStorage.setItem('ui', 'default');
-      unisonReload();
-    },
-  }, {
-    text: i18n.ts.deck,
-    active: ui === 'deck',
-    action: () => {
-      localStorage.setItem('ui', 'deck');
-      unisonReload();
-    },
-  }], ev.currentTarget ?? ev.target);
+	os.popupMenu([{
+		text: i18n.ts.default,
+		active: ui === "default" || ui === null,
+		action: () => {
+			localStorage.setItem("ui", "default");
+			unisonReload();
+		},
+	}, {
+		text: i18n.ts.deck,
+		active: ui === "deck",
+		action: () => {
+			localStorage.setItem("ui", "deck");
+			unisonReload();
+		},
+	}], ev.currentTarget ?? ev.target);
 }
 </script>

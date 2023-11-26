@@ -1,8 +1,8 @@
 <template>
 <div>
-  <MkSpacer v-if="streamModeEnabled">
-    <MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
-  </MkSpacer>
+	<MkSpacer v-if="streamModeEnabled">
+		<MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
+	</MkSpacer>
 	<MkStickyContainer v-if="!streamModeEnabled">
 		<template #header><XHeader :actions="headerActions" :tabs="headerTabs"/></template>
 		<MkSpacer :content-max="700" :margin-min="16" :margin-max="32">
@@ -151,21 +151,21 @@
 </template>
 
 <script lang="ts" setup>
-import {ref} from 'vue';
-import XHeader from './_header_.vue';
-import FormSwitch from '@/components/form/switch.vue';
-import FormInput from '@/components/form/input.vue';
-import FormTextarea from '@/components/form/textarea.vue';
-import FormInfo from '@/components/MkInfo.vue';
-import FormSection from '@/components/form/section.vue';
-import FormSplit from '@/components/form/split.vue';
-import FormSuspense from '@/components/form/suspense.vue';
-import * as os from '@/os';
-import { fetchInstance } from '@/instance';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { ref } from "vue";
+import XHeader from "./_header_.vue";
+import FormSwitch from "@/components/form/switch.vue";
+import FormInput from "@/components/form/input.vue";
+import FormTextarea from "@/components/form/textarea.vue";
+import FormInfo from "@/components/MkInfo.vue";
+import FormSection from "@/components/form/section.vue";
+import FormSplit from "@/components/form/split.vue";
+import FormSuspense from "@/components/form/suspense.vue";
+import * as os from "@/os";
+import { fetchInstance } from "@/instance";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 import MkInfo from "@/components/MkInfo.vue";
-import {defaultStore} from "@/store";
+import { defaultStore } from "@/store";
 
 const streamModeEnabled = ref(defaultStore.state.streamModeEnabled);
 
@@ -182,7 +182,7 @@ let defaultLightTheme: any = $ref(null);
 let defaultDarkTheme: any = $ref(null);
 let enableLocalTimeline: boolean = $ref(false);
 let enableGlobalTimeline: boolean = $ref(false);
-let pinnedUsers: string = $ref('');
+let pinnedUsers: string = $ref("");
 let cacheRemoteFiles: boolean = $ref(false);
 let localDriveCapacityMb: any = $ref(0);
 let remoteDriveCapacityMb: any = $ref(0);
@@ -191,11 +191,11 @@ let emailRequiredForSignup: boolean = $ref(false);
 let enableServiceWorker: boolean = $ref(false);
 let swPublicKey: any = $ref(null);
 let swPrivateKey: any = $ref(null);
-let deeplAuthKey: string = $ref('');
+let deeplAuthKey: string = $ref("");
 let deeplIsPro: boolean = $ref(false);
 
 async function init() {
-	const meta = await os.api('admin/meta');
+	const meta = await os.api("admin/meta");
 	name = meta.name;
 	description = meta.description;
 	tosUrl = meta.tosUrl;
@@ -209,7 +209,7 @@ async function init() {
 	maintainerEmail = meta.maintainerEmail;
 	enableLocalTimeline = !meta.disableLocalTimeline;
 	enableGlobalTimeline = !meta.disableGlobalTimeline;
-	pinnedUsers = meta.pinnedUsers.join('\n');
+	pinnedUsers = meta.pinnedUsers.join("\n");
 	cacheRemoteFiles = meta.cacheRemoteFiles;
 	localDriveCapacityMb = meta.driveCapacityPerLocalUserMb;
 	remoteDriveCapacityMb = meta.driveCapacityPerRemoteUserMb;
@@ -223,21 +223,21 @@ async function init() {
 }
 
 function save() {
-	os.apiWithDialog('admin/update-meta', {
+	os.apiWithDialog("admin/update-meta", {
 		name,
 		description,
 		tosUrl,
 		iconUrl,
 		bannerUrl,
 		backgroundImageUrl,
-		themeColor: themeColor === '' ? null : themeColor,
-		defaultLightTheme: defaultLightTheme === '' ? null : defaultLightTheme,
-		defaultDarkTheme: defaultDarkTheme === '' ? null : defaultDarkTheme,
+		themeColor: themeColor === "" ? null : themeColor,
+		defaultLightTheme: defaultLightTheme === "" ? null : defaultLightTheme,
+		defaultDarkTheme: defaultDarkTheme === "" ? null : defaultDarkTheme,
 		maintainerName,
 		maintainerEmail,
 		disableLocalTimeline: !enableLocalTimeline,
 		disableGlobalTimeline: !enableGlobalTimeline,
-		pinnedUsers: pinnedUsers.split('\n'),
+		pinnedUsers: pinnedUsers.split("\n"),
 		cacheRemoteFiles,
 		localDriveCapacityMb: parseInt(localDriveCapacityMb, 10),
 		remoteDriveCapacityMb: parseInt(remoteDriveCapacityMb, 10),
@@ -255,7 +255,7 @@ function save() {
 
 const headerActions = $computed(() => [{
 	asFullButton: true,
-	icon: 'ti ti-check',
+	icon: "ti ti-check",
 	text: i18n.ts.save,
 	handler: save,
 }]);
@@ -264,6 +264,6 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.general,
-	icon: 'ti ti-settings',
+	icon: "ti ti-settings",
 });
 </script>

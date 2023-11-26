@@ -1,21 +1,21 @@
-import { generateKeyPair } from 'node:crypto';
-import generateUserToken from './generate-native-user-token.js';
-import { User } from '@/models/entities/user.js';
-import { Users, UsedUsernames } from '@/models/index.js';
-import { UserProfile } from '@/models/entities/user-profile.js';
-import { IsNull } from 'typeorm';
-import { genId } from '@/misc/gen-id.js';
-import { toPunyNullable } from '@/misc/convert-host.js';
-import { UserKeypair } from '@/models/entities/user-keypair.js';
-import { usersChart } from '@/services/chart/index.js';
-import { UsedUsername } from '@/models/entities/used-username.js';
-import { db } from '@/db/postgre.js';
+import { generateKeyPair } from "node:crypto";
+import { IsNull } from "typeorm";
+import { User } from "@/models/entities/user.js";
+import { Users, UsedUsernames } from "@/models/index.js";
+import { UserProfile } from "@/models/entities/user-profile.js";
+import { genId } from "@/misc/gen-id.js";
+import { toPunyNullable } from "@/misc/convert-host.js";
+import { UserKeypair } from "@/models/entities/user-keypair.js";
+import { usersChart } from "@/services/chart/index.js";
+import { UsedUsername } from "@/models/entities/used-username.js";
+import { db } from "@/db/postgre.js";
 import { hashPassword } from "@/misc/password.js";
+import generateUserToken from "./generate-native-user-token.js";
 
 export async function signup(opts: {
-	username: User['username'];
+	username: User["username"];
 	password?: string | null;
-	passwordHash?: UserProfile['password'] | null;
+	passwordHash?: UserProfile["password"] | null;
 	host?: string | null;
 }) {
 	const { username, password, passwordHash, host } = opts;
@@ -23,13 +23,13 @@ export async function signup(opts: {
 
 	// Validate username
 	if (!Users.validateLocalUsername(username)) {
-		throw new Error('INVALID_USERNAME');
+		throw new Error("INVALID_USERNAME");
 	}
 
 	if (password != null && passwordHash == null) {
 		// Validate password
 		if (!Users.validatePassword(password)) {
-			throw new Error('INVALID_PASSWORD');
+			throw new Error("INVALID_PASSWORD");
 		}
 
 		// Generate hash of password
@@ -41,29 +41,29 @@ export async function signup(opts: {
 
 	// Check username duplication
 	if (await Users.findOneBy({ usernameLower: username.toLowerCase(), host: IsNull() })) {
-		throw new Error('DUPLICATED_USERNAME');
+		throw new Error("DUPLICATED_USERNAME");
 	}
 
 	// Check deleted username duplication
 	if (await UsedUsernames.findOneBy({ username: username.toLowerCase() })) {
-		throw new Error('USED_USERNAME');
+		throw new Error("USED_USERNAME");
 	}
 
 	const keyPair = await new Promise<string[]>((res, rej) =>
-		generateKeyPair('rsa', {
+		generateKeyPair("rsa", {
 			modulusLength: 4096,
 			publicKeyEncoding: {
-				type: 'spki',
-				format: 'pem',
+				type: "spki",
+				format: "pem",
 			},
 			privateKeyEncoding: {
-				type: 'pkcs8',
-				format: 'pem',
+				type: "pkcs8",
+				format: "pem",
 				cipher: undefined,
 				passphrase: undefined,
 			},
 		} as any, (err, publicKey, privateKey) =>
-			err ? rej(err) : res([publicKey, privateKey])
+			err ? rej(err) : res([publicKey, privateKey]),
 		));
 
 	let account!: User;
@@ -75,7 +75,7 @@ export async function signup(opts: {
 			host: IsNull(),
 		});
 
-		if (exist) throw new Error(' the username is already used');
+		if (exist) throw new Error(" the username is already used");
 
 		account = await transactionalEntityManager.save(new User({
 			id: genId(),

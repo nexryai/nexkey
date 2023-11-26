@@ -3,22 +3,22 @@
 	<div class="body">
 		<div class="top">
 			<div class="banner" :style="{ backgroundImage: `url(${ $instance.bannerUrl })` }"></div>
-      <div class="instance_info">
-        <button v-click-anime class="item _button instance" @click="openInstanceMenu">
-          <img :src="instance.iconUrl || instance.faviconUrl || '/favicon.ico'" alt="" class="icon"/>
-        </button>
-        <div class="instance_info_text">
-          <div class="instance_name">
-            {{ instance.name || host }}
-          </div>
-          <I18n v-if="onlineUsersCount && showOnlineUsersOnNavbar" :src="i18n.ts.onlineUsersCount" text-tag="span" class="text">
-            <template #n><b>{{ onlineUsersCount }}</b></template>
-          </I18n>
-        </div>
-      </div>
+			<div class="instance_info">
+				<button v-click-anime class="item _button instance" @click="openInstanceMenu">
+					<img :src="instance.iconUrl || instance.faviconUrl || '/favicon.ico'" alt="" class="icon"/>
+				</button>
+				<div class="instance_info_text">
+					<div class="instance_name">
+						{{ instance.name || host }}
+					</div>
+					<I18n v-if="onlineUsersCount && showOnlineUsersOnNavbar" :src="i18n.ts.onlineUsersCount" text-tag="span" class="text">
+						<template #n><b>{{ onlineUsersCount }}</b></template>
+					</I18n>
+				</div>
+			</div>
 		</div>
 
-    <div class="middle">
+		<div class="middle">
 			<MkA v-click-anime class="item index" active-class="active" to="/" exact>
 				<i class="icon ti ti-home ti-fw"></i><span class="text">{{ i18n.ts.timeline }}</span>
 			</MkA>
@@ -55,20 +55,20 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineAsyncComponent, defineComponent, ref, toRef, watch } from 'vue';
-import { host } from '@/config';
-import { search } from '@/scripts/search';
-import * as os from '@/os';
-import { navbarItemDef } from '@/navbar';
-import { openAccountMenu as openAccountMenu_ } from '@/account';
-import { defaultStore } from '@/store';
-import { instance } from '@/instance';
-import { i18n } from '@/i18n';
-import { useInterval } from '@/scripts/use-interval';
+import { computed, defineAsyncComponent, defineComponent, ref, toRef, watch } from "vue";
+import { host } from "@/config";
+import { search } from "@/scripts/search";
+import * as os from "@/os";
+import { navbarItemDef } from "@/navbar";
+import { openAccountMenu as openAccountMenu_ } from "@/account";
+import { defaultStore } from "@/store";
+import { instance } from "@/instance";
+import { i18n } from "@/i18n";
+import { useInterval } from "@/scripts/use-interval";
 
 const showOnlineUsersOnNavbar = ref(defaultStore.state.showOnlineUsersOnNavbar);
 
-const menu = toRef(defaultStore.state, 'menu');
+const menu = toRef(defaultStore.state, "menu");
 const otherMenuItemIndicated = computed(() => {
 	for (const def in navbarItemDef) {
 		if (menu.value.includes(def)) continue;
@@ -86,76 +86,76 @@ function openAccountMenu(ev: MouseEvent) {
 function openInstanceMenu(ev: MouseEvent) {
 	os.popupMenu([{
 		text: instance.name ?? host,
-		type: 'label',
+		type: "label",
 	}, {
-		type: 'link',
+		type: "link",
 		text: i18n.ts.instanceInfo,
-		icon: 'ti ti-info-circle',
-		to: '/about',
+		icon: "ti ti-info-circle",
+		to: "/about",
 	}, {
-		type: 'link',
+		type: "link",
 		text: i18n.ts.customEmojis,
-		icon: 'ti ti-mood-happy',
-		to: '/about#emojis',
+		icon: "ti ti-mood-happy",
+		to: "/about#emojis",
 	}, {
-		type: 'link',
+		type: "link",
 		text: i18n.ts.federation,
-		icon: 'ti ti-whirl',
-		to: '/about#federation',
+		icon: "ti ti-whirl",
+		to: "/about#federation",
 	}, {
-		type: 'link',
+		type: "link",
 		text: i18n.ts.ads,
-		icon: 'fas fa-rectangle-ad',
-		to: '/ads',
+		icon: "fas fa-rectangle-ad",
+		to: "/ads",
 	}, null, {
-		type: 'parent',
+		type: "parent",
 		text: i18n.ts.help,
-		icon: 'ti ti-question-circle',
+		icon: "ti ti-question-circle",
 		children: [{
-			type: 'link',
-			to: '/mfm-cheat-sheet',
+			type: "link",
+			to: "/mfm-cheat-sheet",
 			text: i18n.ts._mfm.cheatSheet,
-			icon: 'ti ti-code',
+			icon: "ti ti-code",
 		}, {
-			type: 'link',
-			to: '/scratchpad',
+			type: "link",
+			to: "/scratchpad",
 			text: i18n.ts.scratchpad,
-			icon: 'ti ti-terminal-2',
+			icon: "ti ti-terminal-2",
 		}, {
-			type: 'link',
-			to: '/api-console',
-			text: 'API Console',
-			icon: 'ti ti-terminal-2',
+			type: "link",
+			to: "/api-console",
+			text: "API Console",
+			icon: "ti ti-terminal-2",
 		}, null, {
 			text: i18n.ts.document,
-			icon: 'ti ti-question-circle',
+			icon: "ti ti-question-circle",
 			action: () => {
-				window.open('https://misskey-hub.net/help.html', '_blank');
+				window.open("https://misskey-hub.net/help.html", "_blank");
 			},
 		}],
 	}, {
-		type: 'link',
+		type: "link",
 		text: i18n.ts.aboutMisskey,
-		to: '/about-misskey',
+		to: "/about-misskey",
 	}], ev.currentTarget ?? ev.target, {
-		align: 'left',
+		align: "left",
 	});
 }
 
 function more() {
-	os.popup(defineAsyncComponent(() => import('@/components/MkLaunchPad.vue')), {}, {
-	}, 'closed');
+	os.popup(defineAsyncComponent(() => import("@/components/MkLaunchPad.vue")), {}, {
+	}, "closed");
 }
 
 const onlineUsersCount = ref(0);
 const tick = () => {
-  os.api('get-online-users-count').then(res => {
-    onlineUsersCount.value = res.count;
-  });
+	os.api("get-online-users-count").then(res => {
+		onlineUsersCount.value = res.count;
+	});
 };
 useInterval(tick, 1000 * 15, {
-  immediate: true,
-  afterMounted: true,
+	immediate: true,
+	afterMounted: true,
 });
 </script>
 

@@ -1,18 +1,18 @@
-import * as fs from 'node:fs';
-import * as path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { dirname } from 'node:path';
-import * as childProcess from 'child_process';
-import * as http from 'node:http';
-import { SIGKILL } from 'constants';
-import WebSocket from 'ws';
-import * as misskey from 'misskey-js';
-import fetch from 'node-fetch';
-import FormData from 'form-data';
-import { DataSource } from 'typeorm';
-import loadConfig from '../src/config/load.js';
-import { entities } from '../src/db/postgre.js';
-import got from 'got';
+import * as fs from "node:fs";
+import * as path from "node:path";
+import { fileURLToPath } from "node:url";
+import { dirname } from "node:path";
+import * as childProcess from "child_process";
+import * as http from "node:http";
+import { SIGKILL } from "constants";
+import WebSocket from "ws";
+import * as misskey from "misskey-js";
+import fetch from "node-fetch";
+import FormData from "form-data";
+import { DataSource } from "typeorm";
+import got from "got";
+import loadConfig from "../src/config/load.js";
+import { entities } from "../src/db/postgre.js";
 
 const _filename = fileURLToPath(import.meta.url);
 const _dirname = dirname(_filename);
@@ -29,16 +29,16 @@ export const async = (fn: Function) => (done: Function) => {
 };
 
 export const api = async (endpoint: string, params: any, me?: any) => {
-	endpoint = endpoint.replace(/^\//, '');
+	endpoint = endpoint.replace(/^\//, "");
 
 	const auth = me ? {
-		i: me.token
+		i: me.token,
 	} : {};
 
 	const res = await got<string>(`http://localhost:${port}/api/${endpoint}`, {
-		method: 'POST',
+		method: "POST",
 		headers: {
-			'Content-Type': 'application/json'
+			"Content-Type": "application/json",
 		},
 		body: JSON.stringify(Object.assign(auth, params)),
 		retry: {
@@ -50,8 +50,8 @@ export const api = async (endpoint: string, params: any, me?: any) => {
 					const { response } = error;
 					if (response && response.body) console.warn(response.body);
 					return error;
-				}
-			]
+				},
+			],
 		},
 	});
 
@@ -60,7 +60,7 @@ export const api = async (endpoint: string, params: any, me?: any) => {
 
 	return {
 		status,
-		body
+		body,
 	};
 };
 
@@ -70,9 +70,9 @@ export const request = async (endpoint: string, params: any, me?: any): Promise<
 	} : {};
 
 	const res = await fetch(`http://localhost:${port}/api${endpoint}`, {
-		method: 'POST',
+		method: "POST",
 		headers: {
-			'Content-Type': 'application/json',
+			"Content-Type": "application/json",
 		},
 		body: JSON.stringify(Object.assign(auth, params)),
 	});
@@ -87,27 +87,27 @@ export const request = async (endpoint: string, params: any, me?: any): Promise<
 
 export const signup = async (params?: any): Promise<any> => {
 	const q = Object.assign({
-		username: 'test',
-		password: 'test',
+		username: "test",
+		password: "test",
 	}, params);
 
-	const res = await api('signup', q);
+	const res = await api("signup", q);
 
 	return res.body;
 };
 
-export const post = async (user: any, params?: misskey.Endpoints['notes/create']['req']): Promise<misskey.entities.Note> => {
+export const post = async (user: any, params?: misskey.Endpoints["notes/create"]["req"]): Promise<misskey.entities.Note> => {
 	const q = Object.assign({
-		text: 'test',
+		text: "test",
 	}, params);
 
-	const res = await api('notes/create', q, user);
+	const res = await api("notes/create", q, user);
 
 	return res.body ? res.body.createdNote : null;
 };
 
 export const react = async (user: any, note: any, reaction: string): Promise<any> => {
-	await api('notes/reactions/create', {
+	await api("notes/reactions/create", {
 		noteId: note.id,
 		reaction: reaction,
 	}, user);
@@ -122,12 +122,12 @@ export const uploadFile = async (user: any, _path?: string): Promise<any> => {
 	const absPath = _path == null ? `${_dirname}/resources/Lenna.jpg` : path.isAbsolute(_path) ? _path : `${_dirname}/resources/${_path}`;
 
 	const formData = new FormData() as any;
-	formData.append('i', user.token);
-	formData.append('file', fs.createReadStream(absPath));
-	formData.append('force', 'true');
+	formData.append("i", user.token);
+	formData.append("file", fs.createReadStream(absPath));
+	formData.append("force", "true");
 
 	const res = await got<string>(`http://localhost:${port}/api/drive/files/create`, {
-		method: 'POST',
+		method: "POST",
 		body: formData,
 		retry: {
 			limit: 0,
@@ -142,13 +142,13 @@ export const uploadFile = async (user: any, _path?: string): Promise<any> => {
 export const uploadUrl = async (user: any, url: string) => {
 	let file: any;
 
-	const ws = await connectStream(user, 'main', (msg) => {
-		if (msg.type === 'driveFileCreated') {
+	const ws = await connectStream(user, "main", (msg) => {
+		if (msg.type === "driveFileCreated") {
 			file = msg.body;
 		}
 	});
 
-	await api('drive/files/upload-from-url', {
+	await api("drive/files/upload-from-url", {
 		url,
 		force: true,
 	}, user);
@@ -163,21 +163,21 @@ export function connectStream(user: any, channel: string, listener: (message: Re
 	return new Promise((res, rej) => {
 		const ws = new WebSocket(`ws://localhost:${port}/streaming?i=${user.token}`);
 
-		ws.on('open', () => {
-			ws.on('message', data => {
+		ws.on("open", () => {
+			ws.on("message", data => {
 				const msg = JSON.parse(data.toString());
-				if (msg.type === 'channel' && msg.body.id === 'a') {
+				if (msg.type === "channel" && msg.body.id === "a") {
 					listener(msg.body);
-				} else if (msg.type === 'connected' && msg.body.id === 'a') {
+				} else if (msg.type === "connected" && msg.body.id === "a") {
 					res(ws);
 				}
 			});
 
 			ws.send(JSON.stringify({
-				type: 'connect',
+				type: "connect",
 				body: {
 					channel: channel,
-					id: 'a',
+					id: "a",
 					pong: true,
 					params: params,
 				},
@@ -217,10 +217,10 @@ export const waitFire = async (user: any, channel: string, trgr: () => any, cond
 			if (timer) clearTimeout(timer);
 			rej(e);
 		}
-	})
+	});
 };
 
-export const simpleGet = async (path: string, accept = '*/*'): Promise<{ status?: number, type?: string, location?: string }> => {
+export const simpleGet = async (path: string, accept = "*/*"): Promise<{ status?: number, type?: string, location?: string }> => {
 	// node-fetchだと3xxを取れない
 	return await new Promise((resolve, reject) => {
 		const req = http.request(`http://localhost:${port}${path}`, {
@@ -233,7 +233,7 @@ export const simpleGet = async (path: string, accept = '*/*'): Promise<{ status?
 			} else {
 				resolve({
 					status: res.statusCode,
-					type: res.headers['content-type'],
+					type: res.headers["content-type"],
 					location: res.headers.location,
 				});
 			}
@@ -245,22 +245,22 @@ export const simpleGet = async (path: string, accept = '*/*'): Promise<{ status?
 
 export function launchServer(callbackSpawnedProcess: (p: childProcess.ChildProcess) => void, moreProcess: () => Promise<void> = async () => {}) {
 	return (done: (err?: Error) => any) => {
-		const p = childProcess.spawn('node', [_dirname + '/../index.js'], {
-			stdio: ['inherit', 'inherit', 'inherit', 'ipc'],
-			env: { NODE_ENV: 'test', PATH: process.env.PATH },
+		const p = childProcess.spawn("node", [_dirname + "/../index.js"], {
+			stdio: ["inherit", "inherit", "inherit", "ipc"],
+			env: { NODE_ENV: "test", PATH: process.env.PATH },
 		});
 		callbackSpawnedProcess(p);
-		p.on('message', message => {
-			if (message === 'ok') moreProcess().then(() => done()).catch(e => done(e));
+		p.on("message", message => {
+			if (message === "ok") moreProcess().then(() => done()).catch(e => done(e));
 		});
 	};
 }
 
 export async function initTestDb(justBorrow = false, initEntities?: any[]) {
-	if (process.env.NODE_ENV !== 'test') throw 'NODE_ENV is not a test';
+	if (process.env.NODE_ENV !== "test") throw "NODE_ENV is not a test";
 
 	const db = new DataSource({
-		type: 'postgres',
+		type: "postgres",
 		host: config.db.host,
 		port: config.db.port,
 		username: config.db.user,
@@ -280,18 +280,18 @@ export function startServer(timeout = 60 * 1000): Promise<childProcess.ChildProc
 	return new Promise((res, rej) => {
 		const t = setTimeout(() => {
 			p.kill(SIGKILL);
-			rej('timeout to start');
+			rej("timeout to start");
 		}, timeout);
 
-		const p = childProcess.spawn('node', [_dirname + '/../built/index.js'], {
-			stdio: ['inherit', 'inherit', 'inherit', 'ipc'],
-			env: { NODE_ENV: 'test', PATH: process.env.PATH },
+		const p = childProcess.spawn("node", [_dirname + "/../built/index.js"], {
+			stdio: ["inherit", "inherit", "inherit", "ipc"],
+			env: { NODE_ENV: "test", PATH: process.env.PATH },
 		});
 
-		p.on('error', e => rej(e));
+		p.on("error", e => rej(e));
 
-		p.on('message', message => {
-			if (message === 'ok') {
+		p.on("message", message => {
+			if (message === "ok") {
 				clearTimeout(t);
 				res(p);
 			}
@@ -303,12 +303,12 @@ export function shutdownServer(p: childProcess.ChildProcess, timeout = 20 * 1000
 	return new Promise((res, rej) => {
 		const t = setTimeout(() => {
 			p.kill(SIGKILL);
-			res('force exit');
+			res("force exit");
 		}, timeout);
 
-		p.once('exit', () => {
+		p.once("exit", () => {
 			clearTimeout(t);
-			res('exited');
+			res("exited");
 		});
 
 		p.kill();

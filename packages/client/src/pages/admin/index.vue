@@ -4,7 +4,7 @@
 		<MkSpacer :content-max="700" :margin-min="16">
 			<div class="lxpfedzu">
 				<div class="banner">
-          <i class="icon ti ti-dashboard dashboard-icon"></i>
+					<i class="icon ti ti-dashboard dashboard-icon"></i>
 				</div>
 
 				<MkInfo v-if="thereIsUnresolvedAbuseReport" warn class="info">{{ i18n.ts.thereIsUnresolvedAbuseReportWarning }} <MkA to="/admin/abuses" class="_link">{{ i18n.ts.check }}</MkA></MkInfo>
@@ -24,33 +24,33 @@
 </template>
 
 <script lang="ts" setup>
-import { defineAsyncComponent, inject, nextTick, onMounted, onUnmounted, provide, watch } from 'vue';
-import { i18n } from '@/i18n';
-import MkSuperMenu from '@/components/MkSuperMenu.vue';
-import MkInfo from '@/components/MkInfo.vue';
-import { scroll } from '@/scripts/scroll';
-import { instance } from '@/instance';
-import * as os from '@/os';
-import { lookupUser } from '@/scripts/lookup-user';
+import { defineAsyncComponent, inject, nextTick, onMounted, onUnmounted, provide, watch } from "vue";
+import { i18n } from "@/i18n";
+import MkSuperMenu from "@/components/MkSuperMenu.vue";
+import MkInfo from "@/components/MkInfo.vue";
+import { scroll } from "@/scripts/scroll";
+import { instance } from "@/instance";
+import * as os from "@/os";
+import { lookupUser } from "@/scripts/lookup-user";
 import { indexPosts } from "@/scripts/index-posts";
-import { useRouter } from '@/router';
-import { definePageMetadata, provideMetadataReceiver, setPageMetadata } from '@/scripts/page-metadata';
-import { defaultStore } from '@/store';
-import FormSwitch from '@/components/form/switch.vue';
-import { unisonReload } from '@/scripts/unison-reload';
-import { iAmAdmin } from '@/account';
+import { useRouter } from "@/router";
+import { definePageMetadata, provideMetadataReceiver, setPageMetadata } from "@/scripts/page-metadata";
+import { defaultStore } from "@/store";
+import FormSwitch from "@/components/form/switch.vue";
+import { unisonReload } from "@/scripts/unison-reload";
+import { iAmAdmin } from "@/account";
 
-const isEmpty = (x: string | null) => x == null || x === '';
+const isEmpty = (x: string | null) => x == null || x === "";
 
 const router = useRouter();
 
 const indexInfo = {
 	title: i18n.ts.controlPanel,
-	icon: 'ti ti-settings',
+	icon: "ti ti-settings",
 	hideHeader: true,
 };
 
-provide('shouldOmitHeaderTitle', false);
+provide("shouldOmitHeaderTitle", false);
 
 let INFO = $ref(indexInfo);
 let childInfo = $ref(null);
@@ -67,8 +67,8 @@ let moderator = $ref(false);
 
 moderator = defaultStore.state.enableSudo;
 
-os.api('admin/abuse-user-reports', {
-	state: 'unresolved',
+os.api("admin/abuse-user-reports", {
+	state: "unresolved",
 	limit: 1,
 }).then(reports => {
 	if (reports.length > 0) thereIsUnresolvedAbuseReport = true;
@@ -83,8 +83,8 @@ const ro = new ResizeObserver((entries, observer) => {
 const menuDef = $computed(() => [{
 	title: i18n.ts.quickAction,
 	items: [{
-		type: 'button',
-		icon: 'ti ti-search',
+		type: "button",
+		icon: "ti ti-search",
 		text: i18n.ts.lookup,
 		action: lookup,
 	},{
@@ -93,120 +93,120 @@ const menuDef = $computed(() => [{
 		text: i18n.ts.indexPosts,
 		action: indexPosts,
 	}, ...(instance.disableRegistration ? [{
-		type: 'button',
-		icon: 'ti ti-user',
+		type: "button",
+		icon: "ti ti-user",
 		text: i18n.ts.invite,
 		action: invite,
 	}] : [])],
 }, {
 	title: i18n.ts.administration,
 	items: [{
-		icon: 'ti ti-dashboard',
+		icon: "ti ti-dashboard",
 		text: i18n.ts.dashboard,
-		to: '/admin/overview',
-		active: currentPage?.route.name === 'overview',
+		to: "/admin/overview",
+		active: currentPage?.route.name === "overview",
 	}, {
-		icon: 'ti ti-users',
+		icon: "ti ti-users",
 		text: i18n.ts.users,
-		to: '/admin/users',
-		active: currentPage?.route.name === 'users',
+		to: "/admin/users",
+		active: currentPage?.route.name === "users",
 	}, {
-		icon: 'ti ti-mood-happy',
+		icon: "ti ti-mood-happy",
 		text: i18n.ts.customEmojis,
-		to: '/admin/emojis',
-		active: currentPage?.route.name === 'emojis',
+		to: "/admin/emojis",
+		active: currentPage?.route.name === "emojis",
 	}, {
-		icon: 'ti ti-whirl',
+		icon: "ti ti-whirl",
 		text: i18n.ts.federation,
-		to: '/about#federation',
-		active: currentPage?.route.name === 'federation',
+		to: "/about#federation",
+		active: currentPage?.route.name === "federation",
 	}, {
-		icon: 'ti ti-clock-play',
+		icon: "ti ti-clock-play",
 		text: i18n.ts.jobQueue,
-		to: '/admin/queue',
-		active: currentPage?.route.name === 'queue',
+		to: "/admin/queue",
+		active: currentPage?.route.name === "queue",
 	}, {
-		icon: 'ti ti-cloud',
+		icon: "ti ti-cloud",
 		text: i18n.ts.files,
-		to: '/admin/files',
-		active: currentPage?.route.name === 'files',
+		to: "/admin/files",
+		active: currentPage?.route.name === "files",
 	}, {
-		icon: 'ti ti-speakerphone',
+		icon: "ti ti-speakerphone",
 		text: i18n.ts.announcements,
-		to: '/admin/announcements',
-		active: currentPage?.route.name === 'announcements',
+		to: "/admin/announcements",
+		active: currentPage?.route.name === "announcements",
 	}, {
-		icon: 'ti ti-ad',
+		icon: "ti ti-ad",
 		text: i18n.ts.ads,
-		to: '/admin/ads',
-		active: currentPage?.route.name === 'ads',
+		to: "/admin/ads",
+		active: currentPage?.route.name === "ads",
 	}, {
-		icon: 'ti ti-exclamation-circle',
+		icon: "ti ti-exclamation-circle",
 		text: i18n.ts.abuseReports,
-		to: '/admin/abuses',
-		active: currentPage?.route.name === 'abuses',
+		to: "/admin/abuses",
+		active: currentPage?.route.name === "abuses",
 	}],
 }, {
 	title: i18n.ts.settings,
 	items: [...(iAmAdmin ? [{
-		icon: 'ti ti-settings',
+		icon: "ti ti-settings",
 		text: i18n.ts.general,
-		to: '/admin/settings',
-		active: currentPage?.route.name === 'settings',
+		to: "/admin/settings",
+		active: currentPage?.route.name === "settings",
 	}, {
-		icon: 'ti ti-mail',
+		icon: "ti ti-mail",
 		text: i18n.ts.emailServer,
-		to: '/admin/email-settings',
-		active: currentPage?.route.name === 'email-settings',
+		to: "/admin/email-settings",
+		active: currentPage?.route.name === "email-settings",
 	}, {
-		icon: 'ti ti-cloud',
+		icon: "ti ti-cloud",
 		text: i18n.ts.objectStorage,
-		to: '/admin/object-storage',
-		active: currentPage?.route.name === 'object-storage',
+		to: "/admin/object-storage",
+		active: currentPage?.route.name === "object-storage",
 	}, {
-		icon: 'ti ti-lock',
+		icon: "ti ti-lock",
 		text: i18n.ts.security,
-		to: '/admin/security',
-		active: currentPage?.route.name === 'security',
+		to: "/admin/security",
+		active: currentPage?.route.name === "security",
 	}] : []), {
-		icon: 'ti ti-planet',
+		icon: "ti ti-planet",
 		text: i18n.ts.relays,
-		to: '/admin/relays',
-		active: currentPage?.route.name === 'relays',
+		to: "/admin/relays",
+		active: currentPage?.route.name === "relays",
 	}, ...(iAmAdmin ? [{
-		icon: 'ti ti-ban',
+		icon: "ti ti-ban",
 		text: i18n.ts.instanceBlocking,
-		to: '/admin/instance-block',
-		active: currentPage?.route.name === 'instance-block',
+		to: "/admin/instance-block",
+		active: currentPage?.route.name === "instance-block",
 	}, {
-		icon: 'ti ti-ban',
+		icon: "ti ti-ban",
 		text: i18n.ts.emailDomainBlocking,
-		to: '/admin/email-block',
-		active: currentPage?.route.name === 'email-block',
+		to: "/admin/email-block",
+		active: currentPage?.route.name === "email-block",
 	}, {
-		icon: 'ti ti-ghost',
+		icon: "ti ti-ghost",
 		text: i18n.ts.proxyAccount,
-		to: '/admin/proxy-account',
-		active: currentPage?.route.name === 'proxy-account',
-  }] : [])],
+		to: "/admin/proxy-account",
+		active: currentPage?.route.name === "proxy-account",
+	}] : [])],
 }, {
 	title: i18n.ts.info,
 	items: [{
-	icon: 'ti ti-shield-lock',
-	text: i18n.ts.moderationlogs,
-	to: '/admin/moderation-logs',
-	active: currentPage?.route.name === 'moderation-logs',
+		icon: "ti ti-shield-lock",
+		text: i18n.ts.moderationlogs,
+		to: "/admin/moderation-logs",
+		active: currentPage?.route.name === "moderation-logs",
 	}, {
-		icon: 'ti ti-database',
+		icon: "ti ti-database",
 		text: i18n.ts.database,
-		to: '/admin/database',
-		active: currentPage?.route.name === 'database',
+		to: "/admin/database",
+		active: currentPage?.route.name === "database",
 	}],
 }]);
 
 watch(narrow, () => {
 	if (currentPage?.route.name == null && !narrow) {
-		router.push('/admin/overview');
+		router.push("/admin/overview");
 	}
 });
 
@@ -215,7 +215,7 @@ onMounted(() => {
 
 	narrow = el.offsetWidth < NARROW_THRESHOLD;
 	if (currentPage?.route.name == null && !narrow) {
-		router.push('/admin/overview');
+		router.push("/admin/overview");
 	}
 });
 
@@ -224,9 +224,9 @@ onUnmounted(() => {
 });
 
 watch(router.currentRef, (to) => {
-  if (to.route.path === "/admin" && to.child?.route.name == null && !narrow) {
-    router.replace('/admin/overview');
-  }
+	if (to.route.path === "/admin" && to.child?.route.name == null && !narrow) {
+		router.replace("/admin/overview");
+	}
 });
 
 provideMetadataReceiver((info) => {
@@ -239,20 +239,20 @@ provideMetadataReceiver((info) => {
 
 async function toggleModerator(v) {
 	const confirm = await os.confirm({
-		type: 'warning',
+		type: "warning",
 		text: v ? i18n.ts.sudoConfirm : i18n.ts.unsudoConfirm,
 	});
 	if (confirm.canceled) {
 		moderator = !v;
 	} else {
 		if (v) {
-			await defaultStore.set('enableSudo', true);
+			await defaultStore.set("enableSudo", true);
 			await os.alert({
 				text: i18n.ts.sudoActivated,
 			});
 			await unisonReload();
 		} else {
-			await defaultStore.set('enableSudo', false);
+			await defaultStore.set("enableSudo", false);
 			await os.alert({
 				text: i18n.ts.sudoDeactivated,
 			});
@@ -262,14 +262,14 @@ async function toggleModerator(v) {
 }
 
 const invite = () => {
-	os.api('admin/invite').then(x => {
+	os.api("admin/invite").then(x => {
 		os.alert({
-			type: 'info',
+			type: "info",
 			text: x.code,
 		});
 	}).catch(err => {
 		os.alert({
-			type: 'error',
+			type: "error",
 			text: err,
 		});
 	});
@@ -278,10 +278,10 @@ const invite = () => {
 const lookup = (ev) => {
 	os.popupMenu([{
 		text: i18n.ts.user,
-		icon: 'ti ti-user',
+		icon: "ti ti-user",
 		action: () => {
 			lookupUser();
-		}
+		},
 	}], ev.currentTarget ?? ev.target);
 };
 

@@ -1,11 +1,11 @@
-import Router from '@koa/router';
-import config from '@/config/index.js';
-import { renderActivity } from '@/remote/activitypub/renderer/index.js';
-import renderOrderedCollection from '@/remote/activitypub/renderer/ordered-collection.js';
-import { setResponseType } from '../activitypub.js';
-import renderNote from '@/remote/activitypub/renderer/note.js';
-import { Users, Notes, UserNotePinings } from '@/models/index.js';
-import { IsNull } from 'typeorm';
+import Router from "@koa/router";
+import { IsNull } from "typeorm";
+import config from "@/config/index.js";
+import { renderActivity } from "@/remote/activitypub/renderer/index.js";
+import renderOrderedCollection from "@/remote/activitypub/renderer/ordered-collection.js";
+import renderNote from "@/remote/activitypub/renderer/note.js";
+import { Users, Notes, UserNotePinings } from "@/models/index.js";
+import { setResponseType } from "../activitypub.js";
 
 export default async (ctx: Router.RouterContext) => {
 	const userId = ctx.params.user;
@@ -22,7 +22,7 @@ export default async (ctx: Router.RouterContext) => {
 
 	const pinings = await UserNotePinings.find({
 		where: { userId: user.id },
-		order: { id: 'DESC' },
+		order: { id: "DESC" },
 	});
 
 	const pinnedNotes = await Promise.all(pinings.map(pining =>
@@ -36,6 +36,6 @@ export default async (ctx: Router.RouterContext) => {
 	);
 
 	ctx.body = renderActivity(rendered);
-	ctx.set('Cache-Control', 'public, max-age=180');
+	ctx.set("Cache-Control", "public, max-age=180");
 	setResponseType(ctx);
 };

@@ -1,12 +1,12 @@
-import { URL } from 'node:url';
-import Bull from 'bull';
-import Logger from '@/services/logger.js';
-import { WebhookDeliverJobData } from '../types.js';
-import { getResponse, StatusError } from '@/misc/fetch.js';
-import { Webhooks } from '@/models/index.js';
-import config from '@/config/index.js';
+import { URL } from "node:url";
+import Bull from "bull";
+import Logger from "@/services/logger.js";
+import { getResponse, StatusError } from "@/misc/fetch.js";
+import { Webhooks } from "@/models/index.js";
+import config from "@/config/index.js";
+import { WebhookDeliverJobData } from "../types.js";
 
-const logger = new Logger('webhook');
+const logger = new Logger("webhook");
 
 export default async (job: Bull.Job<WebhookDeliverJobData>) => {
 	try {
@@ -14,13 +14,13 @@ export default async (job: Bull.Job<WebhookDeliverJobData>) => {
 
 		const res = await getResponse({
 			url: job.data.to,
-			method: 'POST',
+			method: "POST",
 			headers: {
-				'User-Agent': 'Misskey-Hooks',
-				'X-Misskey-Host': config.host,
-				'X-Misskey-Hook-Id': job.data.webhookId,
-				'X-Misskey-Hook-Secret': job.data.secret,
-				'Content-Type': 'application/json',
+				"User-Agent": "Misskey-Hooks",
+				"X-Misskey-Host": config.host,
+				"X-Misskey-Hook-Id": job.data.webhookId,
+				"X-Misskey-Hook-Secret": job.data.secret,
+				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
 				hookId: job.data.webhookId,
@@ -37,7 +37,7 @@ export default async (job: Bull.Job<WebhookDeliverJobData>) => {
 			latestStatus: res.status,
 		});
 
-		return 'Success';
+		return "Success";
 	} catch (res) {
 		Webhooks.update({ id: job.data.webhookId }, {
 			latestSentAt: new Date(),

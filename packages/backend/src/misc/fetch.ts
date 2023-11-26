@@ -1,17 +1,17 @@
-import * as http from 'node:http';
-import * as https from 'node:https';
-import { URL } from 'node:url';
-import CacheableLookup from 'cacheable-lookup';
-import fetch from 'node-fetch';
-import { HttpProxyAgent, HttpsProxyAgent } from 'hpagent';
-import config from '@/config/index.js';
+import * as http from "node:http";
+import * as https from "node:https";
+import { URL } from "node:url";
+import CacheableLookup from "cacheable-lookup";
+import fetch from "node-fetch";
+import { HttpProxyAgent, HttpsProxyAgent } from "hpagent";
+import config from "@/config/index.js";
 
-export async function getJson(url: string, accept = 'application/json, */*', timeout = 10000, headers?: Record<string, string>) {
+export async function getJson(url: string, accept = "application/json, */*", timeout = 10000, headers?: Record<string, string>) {
 	const res = await getResponse({
 		url,
-		method: 'GET',
+		method: "GET",
 		headers: Object.assign({
-			'User-Agent': config.userAgent,
+			"User-Agent": config.userAgent,
 			Accept: accept,
 		}, headers || {}),
 		timeout,
@@ -20,12 +20,12 @@ export async function getJson(url: string, accept = 'application/json, */*', tim
 	return await res.json();
 }
 
-export async function getHtml(url: string, accept = 'text/html, */*', timeout = 10000, headers?: Record<string, string>) {
+export async function getHtml(url: string, accept = "text/html, */*", timeout = 10000, headers?: Record<string, string>) {
 	const res = await getResponse({
 		url,
-		method: 'GET',
+		method: "GET",
 		headers: Object.assign({
-			'User-Agent': config.userAgent,
+			"User-Agent": config.userAgent,
 			Accept: accept,
 		}, headers || {}),
 		timeout,
@@ -94,7 +94,7 @@ export const httpAgent = config.proxy
 		keepAliveMsecs: 30 * 1000,
 		maxSockets,
 		maxFreeSockets: 256,
-		scheduling: 'lifo',
+		scheduling: "lifo",
 		proxy: config.proxy,
 	})
 	: _http;
@@ -108,7 +108,7 @@ export const httpsAgent = config.proxy
 		keepAliveMsecs: 30 * 1000,
 		maxSockets,
 		maxFreeSockets: 256,
-		scheduling: 'lifo',
+		scheduling: "lifo",
 		proxy: config.proxy,
 	})
 	: _https;
@@ -120,9 +120,9 @@ export const httpsAgent = config.proxy
  */
 export function getAgentByUrl(url: URL, bypassProxy = false) {
 	if (bypassProxy || (config.proxyBypassHosts || []).includes(url.hostname)) {
-		return url.protocol === 'http:' ? _http : _https;
+		return url.protocol === "http:" ? _http : _https;
 	} else {
-		return url.protocol === 'http:' ? httpAgent : httpsAgent;
+		return url.protocol === "http:" ? httpAgent : httpsAgent;
 	}
 }
 
@@ -133,9 +133,9 @@ export class StatusError extends Error {
 
 	constructor(message: string, statusCode: number, statusMessage?: string) {
 		super(message);
-		this.name = 'StatusError';
+		this.name = "StatusError";
 		this.statusCode = statusCode;
 		this.statusMessage = statusMessage;
-		this.isClientError = typeof this.statusCode === 'number' && this.statusCode >= 400 && this.statusCode < 500;
+		this.isClientError = typeof this.statusCode === "number" && this.statusCode >= 400 && this.statusCode < 500;
 	}
 }

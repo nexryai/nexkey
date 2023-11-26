@@ -12,11 +12,11 @@
 <script lang="ts">
 // なんか動かない
 //const CURRENT_STICKY_TOP = Symbol('CURRENT_STICKY_TOP');
-const CURRENT_STICKY_TOP = 'CURRENT_STICKY_TOP';
+const CURRENT_STICKY_TOP = "CURRENT_STICKY_TOP";
 </script>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, provide, inject, Ref, ref, watch } from 'vue';
+import { onMounted, onUnmounted, provide, inject, Ref, ref, watch } from "vue";
 
 const rootEl = $ref<HTMLElement>();
 const headerEl = $ref<HTMLElement>();
@@ -44,14 +44,14 @@ onMounted(() => {
 	watch(parentStickyTop, calc);
 
 	watch($$(childStickyTop), () => {
-		bodyEl.style.setProperty('--stickyTop', `${childStickyTop}px`);
+		bodyEl.style.setProperty("--stickyTop", `${childStickyTop}px`);
 	}, {
 		immediate: true,
 	});
 
-	headerEl.style.position = 'sticky';
-	headerEl.style.top = 'var(--stickyTop, 0)';
-	headerEl.style.zIndex = '1000';
+	headerEl.style.position = "sticky";
+	headerEl.style.top = "var(--stickyTop, 0)";
+	headerEl.style.zIndex = "1000";
 
 	observer.observe(headerEl);
 });

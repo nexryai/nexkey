@@ -1,5 +1,5 @@
-import Chart, { KVs } from '../core.js';
-import { name, schema } from './entities/test-grouped.js';
+import Chart, { KVs } from "../core.js";
+import { name, schema } from "./entities/test-grouped.js";
 
 /**
  * For testing
@@ -14,7 +14,7 @@ export default class TestGroupedChart extends Chart<typeof schema> {
 
 	protected async tickMajor(group: string): Promise<Partial<KVs<typeof schema>>> {
 		return {
-			'foo.total': this.total[group],
+			"foo.total": this.total[group],
 		};
 	}
 
@@ -28,8 +28,8 @@ export default class TestGroupedChart extends Chart<typeof schema> {
 		this.total[group]++;
 
 		await this.commit({
-			'foo.total': 1,
-			'foo.inc': 1,
+			"foo.total": 1,
+			"foo.inc": 1,
 		}, group);
 	}
 }

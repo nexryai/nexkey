@@ -40,26 +40,26 @@
 
 <script lang="ts" setup>
 /* eslint-disable vue/no-mutating-props */
-import { } from 'vue';
-import XContainer from '../page-editor.container.vue';
-import MkSelect from '@/components/form/select.vue';
-import MkInput from '@/components/form/input.vue';
-import MkSwitch from '@/components/form/switch.vue';
+import { } from "vue";
+import XContainer from "../page-editor.container.vue";
+import MkSelect from "@/components/form/select.vue";
+import MkInput from "@/components/form/input.vue";
+import MkSwitch from "@/components/form/switch.vue";
 
 withDefaults(defineProps<{
 	value: any,
 	hpml: any
 }>(), {
 	value: {
-		text: '',
-		action: 'dialog',
+		text: "",
+		action: "dialog",
 		content: null,
 		event: null,
 		message: null,
 		primary: false,
 		var: null,
-		fn: null
-	}
+		fn: null,
+	},
 });
 </script>
 

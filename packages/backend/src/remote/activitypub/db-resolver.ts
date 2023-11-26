@@ -1,14 +1,14 @@
-import escapeRegexp from 'escape-regexp';
-import config from '@/config/index.js';
-import { Note } from '@/models/entities/note.js';
-import { User, IRemoteUser, CacheableRemoteUser, CacheableUser } from '@/models/entities/user.js';
-import { UserPublickey } from '@/models/entities/user-publickey.js';
-import { MessagingMessage } from '@/models/entities/messaging-message.js';
-import { Notes, Users, UserPublickeys, MessagingMessages } from '@/models/index.js';
-import { Cache } from '@/misc/cache.js';
-import { uriPersonCache, userByIdCache } from '@/services/user-cache.js';
-import { IObject, getApId } from './type.js';
-import { resolvePerson } from './models/person.js';
+import escapeRegexp from "escape-regexp";
+import config from "@/config/index.js";
+import { Note } from "@/models/entities/note.js";
+import { User, IRemoteUser, CacheableRemoteUser, CacheableUser } from "@/models/entities/user.js";
+import { UserPublickey } from "@/models/entities/user-publickey.js";
+import { MessagingMessage } from "@/models/entities/messaging-message.js";
+import { Notes, Users, UserPublickeys, MessagingMessages } from "@/models/index.js";
+import { Cache } from "@/misc/cache.js";
+import { uriPersonCache, userByIdCache } from "@/services/user-cache.js";
+import { IObject, getApId } from "./type.js";
+import { resolvePerson } from "./models/person.js";
 
 const publicKeyCache = new Cache<UserPublickey | null>(Infinity);
 const publicKeyByUserIdCache = new Cache<UserPublickey | null>(Infinity);
@@ -33,7 +33,7 @@ export function parseUri(value: string | IObject): UriParseResult {
 	const uri = getApId(value);
 
 	// the host part of a URL is case insensitive, so use the 'i' flag.
-	const localRegex = new RegExp('^' + escapeRegexp(config.url) + '/(\\w+)/(\\w+)(?:\/(.+))?', 'i');
+	const localRegex = new RegExp("^" + escapeRegexp(config.url) + "/(\\w+)/(\\w+)(?:\/(.+))?", "i");
 	const matchLocal = uri.match(localRegex);
 
 	if (matchLocal) {
@@ -62,7 +62,7 @@ export default class DbResolver {
 		const parsed = parseUri(value);
 
 		if (parsed.local) {
-			if (parsed.type !== 'notes') return null;
+			if (parsed.type !== "notes") return null;
 
 			return await Notes.findOneBy({
 				id: parsed.id,
@@ -78,7 +78,7 @@ export default class DbResolver {
 		const parsed = parseUri(value);
 
 		if (parsed.local) {
-			if (parsed.type !== 'notes') return null;
+			if (parsed.type !== "notes") return null;
 
 			return await MessagingMessages.findOneBy({
 				id: parsed.id,
@@ -97,7 +97,7 @@ export default class DbResolver {
 		const parsed = parseUri(value);
 
 		if (parsed.local) {
-			if (parsed.type !== 'users') return null;
+			if (parsed.type !== "users") return null;
 
 			return await userByIdCache.fetchMaybe(parsed.id, () => Users.findOneBy({
 				id: parsed.id,

@@ -1,16 +1,16 @@
-import define from '../../../define.js';
-import { Webhooks } from '@/models/index.js';
+import { Webhooks } from "@/models/index.js";
+import define from "../../../define.js";
 
 export const meta = {
-	tags: ['webhooks', 'account'],
+	tags: ["webhooks", "account"],
 
 	requireCredential: true,
 
-	kind: 'read:account',
+	kind: "read:account",
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {},
 	required: [],
 } as const;

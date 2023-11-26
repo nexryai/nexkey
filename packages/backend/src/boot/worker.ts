@@ -1,6 +1,6 @@
-import cluster from 'node:cluster';
-import { initDb } from '../db/postgre.js';
+import cluster from "node:cluster";
 import config from "@/config/index.js";
+import { initDb } from "../db/postgre.js";
 
 /**
  * Init worker process
@@ -15,11 +15,11 @@ export async function workerMain() {
 
 	if (!config.disableQueueProcessor) {
 		// start job queue
-		import('../queue/index.js').then(x => x.default());
+		import("../queue/index.js").then(x => x.default());
 	}
 
 	if (cluster.isWorker) {
 		// Send a 'ready' message to parent process
-		process.send!('ready');
+		process.send!("ready");
 	}
 }

@@ -10,27 +10,27 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import XHeader from './_header_.vue';
-import FormSuspense from '@/components/form/suspense.vue';
-import * as os from '@/os';
-import { fetchInstance } from '@/instance';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { } from "vue";
+import XHeader from "./_header_.vue";
+import FormSuspense from "@/components/form/suspense.vue";
+import * as os from "@/os";
+import { fetchInstance } from "@/instance";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 async function init() {
-	await os.api('admin/meta');
+	await os.api("admin/meta");
 }
 
 function save() {
-	os.apiWithDialog('admin/update-meta').then(() => {
+	os.apiWithDialog("admin/update-meta").then(() => {
 		fetchInstance();
 	});
 }
 
 const headerActions = $computed(() => [{
 	asFullButton: true,
-	icon: 'ti ti-check',
+	icon: "ti ti-check",
 	text: i18n.ts.save,
 	handler: save,
 }]);
@@ -39,6 +39,6 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.other,
-	icon: 'ti ti-adjustments',
+	icon: "ti ti-adjustments",
 });
 </script>

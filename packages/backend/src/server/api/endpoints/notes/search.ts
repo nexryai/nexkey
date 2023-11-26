@@ -1,28 +1,28 @@
-import { In } from 'typeorm';
-import { Notes } from '@/models/index.js';
+import { In } from "typeorm";
+import { Notes } from "@/models/index.js";
 import { Note } from "@/models/entities/note.js";
-import config from '@/config/index.js';
-import es from '../../../../db/elasticsearch.js';
+import config from "@/config/index.js";
+import { sqlLikeEscape } from "@/misc/sql-like-escape.js";
+import es from "../../../../db/elasticsearch.js";
 import sonic from "../../../../db/sonic.js";
-import define from '../../define.js';
-import { makePaginationQuery } from '../../common/make-pagination-query.js';
-import { generateVisibilityQuery } from '../../common/generate-visibility-query.js';
-import { generateMutedUserQuery } from '../../common/generate-muted-user-query.js';
-import { generateBlockedUserQuery } from '../../common/generate-block-query.js';
-import { sqlLikeEscape } from '@/misc/sql-like-escape.js';
+import define from "../../define.js";
+import { makePaginationQuery } from "../../common/make-pagination-query.js";
+import { generateVisibilityQuery } from "../../common/generate-visibility-query.js";
+import { generateMutedUserQuery } from "../../common/generate-muted-user-query.js";
+import { generateBlockedUserQuery } from "../../common/generate-block-query.js";
 
 export const meta = {
-	tags: ['notes'],
+	tags: ["notes"],
 
 	requireCredential: true,
 
 	res: {
-		type: 'array',
+		type: "array",
 		optional: false, nullable: false,
 		items: {
-			type: 'object',
+			type: "object",
 			optional: false, nullable: false,
-			ref: 'Note',
+			ref: "Note",
 		},
 	},
 
@@ -31,22 +31,22 @@ export const meta = {
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		query: { type: 'string' },
-		sinceId: { type: 'string', format: 'misskey:id' },
-		untilId: { type: 'string', format: 'misskey:id' },
-		limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
-		offset: { type: 'integer', default: 0 },
+		query: { type: "string" },
+		sinceId: { type: "string", format: "misskey:id" },
+		untilId: { type: "string", format: "misskey:id" },
+		limit: { type: "integer", minimum: 1, maximum: 100, default: 10 },
+		offset: { type: "integer", default: 0 },
 		host: {
-			type: 'string',
+			type: "string",
 			nullable: true,
-			description: 'The local host is represented with `null`.',
+			description: "The local host is represented with `null`.",
 		},
-		userId: { type: 'string', format: 'misskey:id', nullable: true, default: null },
-		channelId: { type: 'string', format: 'misskey:id', nullable: true, default: null },
+		userId: { type: "string", format: "misskey:id", nullable: true, default: null },
+		channelId: { type: "string", format: "misskey:id", nullable: true, default: null },
 	},
-	required: ['query'],
+	required: ["query"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
@@ -56,27 +56,27 @@ export default define(meta, paramDef, async (ps, me) => {
 	}
 	if (es == null && sonic == null) {
 		// DBで検索
-		const query = makePaginationQuery(Notes.createQueryBuilder('note'), ps.sinceId, ps.untilId);
+		const query = makePaginationQuery(Notes.createQueryBuilder("note"), ps.sinceId, ps.untilId);
 
 		if (ps.userId) {
-			query.andWhere('note.userId = :userId', { userId: ps.userId });
+			query.andWhere("note.userId = :userId", { userId: ps.userId });
 		} else if (ps.channelId) {
-			query.andWhere('note.channelId = :channelId', { channelId: ps.channelId });
+			query.andWhere("note.channelId = :channelId", { channelId: ps.channelId });
 		}
 
 		query
-			.andWhere('note.text ILIKE :q', { q: `%${ sqlLikeEscape(ps.query) }%` })
-			.innerJoinAndSelect('note.user', 'user')
-			.leftJoinAndSelect('user.avatar', 'avatar')
-			.leftJoinAndSelect('user.banner', 'banner')
-			.leftJoinAndSelect('note.reply', 'reply')
-			.leftJoinAndSelect('note.renote', 'renote')
-			.leftJoinAndSelect('reply.user', 'replyUser')
-			.leftJoinAndSelect('replyUser.avatar', 'replyUserAvatar')
-			.leftJoinAndSelect('replyUser.banner', 'replyUserBanner')
-			.leftJoinAndSelect('renote.user', 'renoteUser')
-			.leftJoinAndSelect('renoteUser.avatar', 'renoteUserAvatar')
-			.leftJoinAndSelect('renoteUser.banner', 'renoteUserBanner');
+			.andWhere("note.text ILIKE :q", { q: `%${ sqlLikeEscape(ps.query) }%` })
+			.innerJoinAndSelect("note.user", "user")
+			.leftJoinAndSelect("user.avatar", "avatar")
+			.leftJoinAndSelect("user.banner", "banner")
+			.leftJoinAndSelect("note.reply", "reply")
+			.leftJoinAndSelect("note.renote", "renote")
+			.leftJoinAndSelect("reply.user", "replyUser")
+			.leftJoinAndSelect("replyUser.avatar", "replyUserAvatar")
+			.leftJoinAndSelect("replyUser.banner", "replyUserBanner")
+			.leftJoinAndSelect("renote.user", "renoteUser")
+			.leftJoinAndSelect("renoteUser.avatar", "renoteUserAvatar")
+			.leftJoinAndSelect("renoteUser.banner", "renoteUserBanner");
 
 		generateVisibilityQuery(query, me);
 		if (me) generateMutedUserQuery(query, me);
@@ -85,7 +85,6 @@ export default define(meta, paramDef, async (ps, me) => {
 		const notes: Note[] = await query.take(ps.limit).getMany();
 
 		return await Notes.packMany(notes, me);
-
 	} else if (sonic) {
 		// Sonic検索
 		let start = 0;
@@ -129,7 +128,7 @@ export default define(meta, paramDef, async (ps, me) => {
 				})
 				.map((key) => key.id);
 
-				ids.push(...res);
+			ids.push(...res);
 		}
 
 		// Sort all the results by note id DESC (newest first)
@@ -160,7 +159,6 @@ export default define(meta, paramDef, async (ps, me) => {
 		}
 
 		return found;
-	
 	} else {
 		const userQuery = ps.userId != null ? [{
 			term: {
@@ -173,7 +171,7 @@ export default define(meta, paramDef, async (ps, me) => {
 				bool: {
 					must_not: {
 						exists: {
-							field: 'userHost',
+							field: "userHost",
 						},
 					},
 				},
@@ -185,7 +183,7 @@ export default define(meta, paramDef, async (ps, me) => {
 			: [];
 
 		const result = await es.search({
-			index: config.elasticsearch.index || 'misskey_note',
+			index: config.elasticsearch.index || "misskey_note",
 			body: {
 				size: ps.limit,
 				from: ps.offset,
@@ -193,15 +191,15 @@ export default define(meta, paramDef, async (ps, me) => {
 					bool: {
 						must: [{
 							simple_query_string: {
-								fields: ['text'],
+								fields: ["text"],
 								query: ps.query.toLowerCase(),
-								default_operator: 'and',
+								default_operator: "and",
 							},
 						}, ...hostQuery, ...userQuery],
 					},
 				},
 				sort: [{
-					_doc: 'desc',
+					_doc: "desc",
 				}],
 			},
 		});

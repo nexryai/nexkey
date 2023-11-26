@@ -17,29 +17,29 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import XHeader from './_header_.vue';
-import MkButton from '@/components/MkButton.vue';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { } from "vue";
+import XHeader from "./_header_.vue";
+import MkButton from "@/components/MkButton.vue";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 let relays: any[] = $ref([]);
 
 async function addRelay() {
 	const { canceled, result: inbox } = await os.inputText({
 		title: i18n.ts.addRelay,
-		type: 'url',
+		type: "url",
 		placeholder: i18n.ts.inboxUrl,
 	});
 	if (canceled) return;
-	os.api('admin/relays/add', {
+	os.api("admin/relays/add", {
 		inbox,
 	}).then((relay: any) => {
 		refresh();
 	}).catch((err: any) => {
 		os.alert({
-			type: 'error',
+			type: "error",
 			text: err.message || err,
 		});
 	});
@@ -47,17 +47,17 @@ async function addRelay() {
 
 function remove(inbox: string) {
 	os.confirm({
-		type: 'warning',
-		text: i18n.t('removeAreYouSure', { x: inbox }),
+		type: "warning",
+		text: i18n.t("removeAreYouSure", { x: inbox }),
 	}).then(({ canceled }) => {
 		if (canceled) return;
-		os.api('admin/relays/remove', {
+		os.api("admin/relays/remove", {
 			inbox,
 		}).then(() => {
 			refresh();
 		}).catch((err: any) => {
 			os.alert({
-				type: 'error',
+				type: "error",
 				text: err.message || err,
 			});
 		});
@@ -65,7 +65,7 @@ function remove(inbox: string) {
 }
 
 function refresh() {
-	os.api('admin/relays/list').then((relayList: any) => {
+	os.api("admin/relays/list").then((relayList: any) => {
 		relays = relayList;
 	});
 }
@@ -74,7 +74,7 @@ refresh();
 
 const headerActions = $computed(() => [{
 	asFullButton: true,
-	icon: 'ti ti-plus',
+	icon: "ti ti-plus",
 	text: i18n.ts.addRelay,
 	handler: addRelay,
 }]);
@@ -83,7 +83,7 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.relays,
-	icon: 'ti ti-planet',
+	icon: "ti ti-planet",
 });
 </script>
 

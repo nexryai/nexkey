@@ -1,14 +1,14 @@
-import { v4 as uuid } from 'uuid';
-import generateNativeUserToken from '../server/api/common/generate-native-user-token.js';
-import { genRsaKeyPair } from '@/misc/gen-key-pair.js';
-import { User } from '@/models/entities/user.js';
-import { UserProfile } from '@/models/entities/user-profile.js';
-import { IsNull } from 'typeorm';
-import { genId } from '@/misc/gen-id.js';
-import { UserKeypair } from '@/models/entities/user-keypair.js';
-import { UsedUsername } from '@/models/entities/used-username.js';
-import { db } from '@/db/postgre.js';
+import { v4 as uuid } from "uuid";
+import { IsNull } from "typeorm";
+import { genRsaKeyPair } from "@/misc/gen-key-pair.js";
+import { User } from "@/models/entities/user.js";
+import { UserProfile } from "@/models/entities/user-profile.js";
+import { genId } from "@/misc/gen-id.js";
+import { UserKeypair } from "@/models/entities/user-keypair.js";
+import { UsedUsername } from "@/models/entities/used-username.js";
+import { db } from "@/db/postgre.js";
 import { hashPassword } from "@/misc/password.js";
+import generateNativeUserToken from "../server/api/common/generate-native-user-token.js";
 
 export async function createSystemUser(username: string) {
 	const password = uuid();
@@ -30,7 +30,7 @@ export async function createSystemUser(username: string) {
 			host: IsNull(),
 		});
 
-		if (exist) throw new Error('the user is already exists');
+		if (exist) throw new Error("the user is already exists");
 
 		account = await transactionalEntityManager.insert(User, {
 			id: genId(),

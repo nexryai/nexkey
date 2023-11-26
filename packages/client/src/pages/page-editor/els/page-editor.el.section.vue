@@ -19,13 +19,13 @@
 
 <script lang="ts" setup>
 /* eslint-disable vue/no-mutating-props */
-import { defineAsyncComponent, inject, onMounted } from 'vue';
-import { v4 as uuid } from 'uuid';
-import XContainer from '../page-editor.container.vue';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
+import { defineAsyncComponent, inject, onMounted } from "vue";
+import { v4 as uuid } from "uuid";
+import XContainer from "../page-editor.container.vue";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
 
-const XBlocks = defineAsyncComponent(() => import('../page-editor.blocks.vue'));
+const XBlocks = defineAsyncComponent(() => import("../page-editor.blocks.vue"));
 
 const props = withDefaults(defineProps<{
 	value: any,
@@ -33,16 +33,16 @@ const props = withDefaults(defineProps<{
 }>(), {
 	value: {
 		title: null,
-		children: []
-	}
+		children: [],
+	},
 });
 
-const getPageBlockList = inject<(any) => any>('getPageBlockList');
+const getPageBlockList = inject<(any) => any>("getPageBlockList");
 
 async function rename() {
 	const { canceled, result: title } = await os.inputText({
-		title: 'Enter title',
-		default: props.value.title
+		title: "Enter title",
+		default: props.value.title,
 	});
 	if (canceled) return;
 	props.value.title = title;
@@ -51,7 +51,7 @@ async function rename() {
 async function add() {
 	const { canceled, result: type } = await os.select({
 		title: i18n.ts._pages.chooseBlock,
-		groupedItems: getPageBlockList()
+		groupedItems: getPageBlockList(),
 	});
 	if (canceled) return;
 

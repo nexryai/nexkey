@@ -23,13 +23,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import * as Misskey from 'misskey-js';
-import XWindow from '@/components/MkWindow.vue';
-import MkTextarea from '@/components/form/textarea.vue';
-import MkButton from '@/components/MkButton.vue';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
+import { ref } from "vue";
+import * as Misskey from "misskey-js";
+import XWindow from "@/components/MkWindow.vue";
+import MkTextarea from "@/components/form/textarea.vue";
+import MkButton from "@/components/MkButton.vue";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
 
 const props = defineProps<{
 	user: Misskey.entities.User;
@@ -37,23 +37,23 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-	(ev: 'closed'): void;
+	(ev: "closed"): void;
 }>();
 
 const uiWindow = ref<InstanceType<typeof XWindow>>();
-const comment = ref(props.initialComment || '');
+const comment = ref(props.initialComment || "");
 
 function send() {
-	os.apiWithDialog('users/report-abuse', {
+	os.apiWithDialog("users/report-abuse", {
 		userId: props.user.id,
 		comment: comment.value,
 	}, undefined).then(res => {
 		os.alert({
-			type: 'success',
-			text: i18n.ts.abuseReported
+			type: "success",
+			text: i18n.ts.abuseReported,
 		});
 		uiWindow.value?.close();
-		emit('closed');
+		emit("closed");
 	});
 }
 </script>

@@ -1,16 +1,16 @@
-import { db } from '@/db/postgre.js';
-import { Channel } from '@/models/entities/channel.js';
-import { Packed } from '@/misc/schema.js';
-import { DriveFiles, ChannelFollowings, NoteUnreads } from '../index.js';
-import { User } from '@/models/entities/user.js';
-import { sanitizeUrl } from '@/misc/sanitize-url.js';
+import { db } from "@/db/postgre.js";
+import { Channel } from "@/models/entities/channel.js";
+import { Packed } from "@/misc/schema.js";
+import { User } from "@/models/entities/user.js";
+import { sanitizeUrl } from "@/misc/sanitize-url.js";
+import { DriveFiles, ChannelFollowings, NoteUnreads } from "../index.js";
 
 export const ChannelRepository = db.getRepository(Channel).extend({
 	async pack(
-		src: Channel['id'] | Channel,
-		me?: { id: User['id'] } | null | undefined,
-	): Promise<Packed<'Channel'>> {
-		const channel = typeof src === 'object' ? src : await this.findOneByOrFail({ id: src });
+		src: Channel["id"] | Channel,
+		me?: { id: User["id"] } | null | undefined,
+	): Promise<Packed<"Channel">> {
+		const channel = typeof src === "object" ? src : await this.findOneByOrFail({ id: src });
 		const meId = me ? me.id : null;
 
 		const banner = channel.bannerId ? await DriveFiles.findOneBy({ id: channel.bannerId }) : null;

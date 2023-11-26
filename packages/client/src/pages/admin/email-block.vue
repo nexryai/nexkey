@@ -15,26 +15,26 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import XHeader from './_header_.vue';
-import FormButton from '@/components/MkButton.vue';
-import FormTextarea from '@/components/form/textarea.vue';
-import FormSuspense from '@/components/form/suspense.vue';
-import * as os from '@/os';
-import { fetchInstance } from '@/instance';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { } from "vue";
+import XHeader from "./_header_.vue";
+import FormButton from "@/components/MkButton.vue";
+import FormTextarea from "@/components/form/textarea.vue";
+import FormSuspense from "@/components/form/suspense.vue";
+import * as os from "@/os";
+import { fetchInstance } from "@/instance";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
-let blockedEmailDomains: string = $ref('');
+let blockedEmailDomains: string = $ref("");
 
 async function init() {
-	const meta = await os.api('admin/meta');
-	blockedEmailDomains = meta.blockedEmailDomains.join('\n');
+	const meta = await os.api("admin/meta");
+	blockedEmailDomains = meta.blockedEmailDomains.join("\n");
 }
 
 function save() {
-	os.apiWithDialog('admin/update-meta', {
-		blockedEmailDomains: blockedEmailDomains.split('\n') || [],
+	os.apiWithDialog("admin/update-meta", {
+		blockedEmailDomains: blockedEmailDomains.split("\n") || [],
 	}).then(() => {
 		fetchInstance();
 	});
@@ -46,6 +46,6 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.emailDomainBlocking,
-	icon: 'fas fa-ban',
+	icon: "fas fa-ban",
 });
 </script>

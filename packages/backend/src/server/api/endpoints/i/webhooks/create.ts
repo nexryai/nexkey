@@ -1,28 +1,28 @@
-import define from '../../../define.js';
-import { genId } from '@/misc/gen-id.js';
-import { Webhooks } from '@/models/index.js';
-import { publishInternalEvent } from '@/services/stream.js';
-import { webhookEventTypes } from '@/models/entities/webhook.js';
+import { genId } from "@/misc/gen-id.js";
+import { Webhooks } from "@/models/index.js";
+import { publishInternalEvent } from "@/services/stream.js";
+import { webhookEventTypes } from "@/models/entities/webhook.js";
+import define from "../../../define.js";
 
 export const meta = {
-	tags: ['webhooks'],
+	tags: ["webhooks"],
 
 	requireCredential: true,
 
-	kind: 'write:account',
+	kind: "write:account",
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		name: { type: 'string', minLength: 1, maxLength: 100 },
-		url: { type: 'string', minLength: 1, maxLength: 1024 },
-		secret: { type: 'string', maxLength: 1024, default: '' },
-		on: { type: 'array', items: {
-			type: 'string', enum: webhookEventTypes,
+		name: { type: "string", minLength: 1, maxLength: 100 },
+		url: { type: "string", minLength: 1, maxLength: 1024 },
+		secret: { type: "string", maxLength: 1024, default: "" },
+		on: { type: "array", items: {
+			type: "string", enum: webhookEventTypes,
 		} },
 	},
-	required: ['name', 'url', 'on'],
+	required: ["name", "url", "on"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
@@ -37,7 +37,7 @@ export default define(meta, paramDef, async (ps, user) => {
 		on: ps.on,
 	}).then(x => Webhooks.findOneByOrFail(x.identifiers[0]));
 
-	publishInternalEvent('webhookCreated', webhook);
+	publishInternalEvent("webhookCreated", webhook);
 
 	return webhook;
 });

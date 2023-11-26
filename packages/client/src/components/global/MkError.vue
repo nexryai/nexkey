@@ -9,8 +9,8 @@
 </template>
 
 <script lang="ts" setup>
-import MkButton from '@/components/MkButton.vue';
-import { i18n } from '@/i18n';
+import MkButton from "@/components/MkButton.vue";
+import { i18n } from "@/i18n";
 </script>
 
 <style lang="scss" scoped>

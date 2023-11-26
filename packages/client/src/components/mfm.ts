@@ -502,7 +502,7 @@ export default defineComponent({
 								) {
 									ast2[ast2.length - 1].props.text = ast2[
 									ast2.length - 1
-										].props.text.slice(0, -1);
+									].props.text.slice(0, -1);
 								} else {
 									// I don't think this scope is reachable
 									console.warn(

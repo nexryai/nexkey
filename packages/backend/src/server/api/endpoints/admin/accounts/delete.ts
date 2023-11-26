@@ -1,22 +1,22 @@
-import define from '../../../define.js';
-import { Users } from '@/models/index.js';
-import { doPostSuspend } from '@/services/suspend-user.js';
-import { publishUserEvent } from '@/services/stream.js';
-import { createDeleteAccountJob } from '@/queue/index.js';
+import { Users } from "@/models/index.js";
+import { doPostSuspend } from "@/services/suspend-user.js";
+import { publishUserEvent } from "@/services/stream.js";
+import { createDeleteAccountJob } from "@/queue/index.js";
+import define from "../../../define.js";
 
 export const meta = {
-	tags: ['admin'],
+	tags: ["admin"],
 
 	requireCredential: true,
 	requireModerator: true,
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		userId: { type: 'string', format: 'misskey:id' },
+		userId: { type: "string", format: "misskey:id" },
 	},
-	required: ['userId'],
+	required: ["userId"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
@@ -24,15 +24,15 @@ export default define(meta, paramDef, async (ps, me) => {
 	const user = await Users.findOneBy({ id: ps.userId });
 
 	if (user == null) {
-		throw new Error('user not found');
+		throw new Error("user not found");
 	}
 
 	if (user.isAdmin) {
-		throw new Error('cannot suspend admin');
+		throw new Error("cannot suspend admin");
 	}
 
 	if (user.isModerator) {
-		throw new Error('cannot suspend moderator');
+		throw new Error("cannot suspend moderator");
 	}
 
 	if (Users.isLocalUser(user)) {
@@ -54,6 +54,6 @@ export default define(meta, paramDef, async (ps, me) => {
 
 	if (Users.isLocalUser(user)) {
 		// Terminate streaming
-		publishUserEvent(user.id, 'terminate', {});
+		publishUserEvent(user.id, "terminate", {});
 	}
 });

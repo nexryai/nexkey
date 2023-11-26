@@ -1,36 +1,36 @@
 export const packedFollowingSchema = {
-	type: 'object',
+	type: "object",
 	properties: {
 		id: {
-			type: 'string',
+			type: "string",
 			optional: false, nullable: false,
-			format: 'id',
-			example: 'xxxxxxxxxx',
+			format: "id",
+			example: "xxxxxxxxxx",
 		},
 		createdAt: {
-			type: 'string',
+			type: "string",
 			optional: false, nullable: false,
-			format: 'date-time',
+			format: "date-time",
 		},
 		followeeId: {
-			type: 'string',
+			type: "string",
 			optional: false, nullable: false,
-			format: 'id',
+			format: "id",
 		},
 		followee: {
-			type: 'object',
+			type: "object",
 			optional: true, nullable: false,
-			ref: 'UserDetailed',
+			ref: "UserDetailed",
 		},
 		followerId: {
-			type: 'string',
+			type: "string",
 			optional: false, nullable: false,
-			format: 'id',
+			format: "id",
 		},
 		follower: {
-			type: 'object',
+			type: "object",
 			optional: true, nullable: false,
-			ref: 'UserDetailed',
+			ref: "UserDetailed",
 		},
 	},
 } as const;

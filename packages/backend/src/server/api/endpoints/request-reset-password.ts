@@ -1,23 +1,23 @@
-import rndstr from 'rndstr';
-import ms from 'ms';
-import { IsNull } from 'typeorm';
-import { publishMainStream } from '@/services/stream.js';
-import config from '@/config/index.js';
-import { Users, UserProfiles, PasswordResetRequests } from '@/models/index.js';
-import { sendEmail } from '@/services/send-email.js';
-import { genId } from '@/misc/gen-id.js';
-import { ApiError } from '../error.js';
-import define from '../define.js';
+import rndstr from "rndstr";
+import ms from "ms";
+import { IsNull } from "typeorm";
+import { publishMainStream } from "@/services/stream.js";
+import config from "@/config/index.js";
+import { Users, UserProfiles, PasswordResetRequests } from "@/models/index.js";
+import { sendEmail } from "@/services/send-email.js";
+import { genId } from "@/misc/gen-id.js";
+import { ApiError } from "../error.js";
+import define from "../define.js";
 
 export const meta = {
-	tags: ['reset password'],
+	tags: ["reset password"],
 
 	requireCredential: false,
 
-	description: 'Request a users password to be reset.',
+	description: "Request a users password to be reset.",
 
 	limit: {
-		duration: ms('1hour'),
+		duration: ms("1hour"),
 		max: 3,
 	},
 
@@ -27,12 +27,12 @@ export const meta = {
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		username: { type: 'string' },
-		email: { type: 'string' },
+		username: { type: "string" },
+		email: { type: "string" },
 	},
-	required: ['username', 'email'],
+	required: ["username", "email"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
@@ -59,7 +59,7 @@ export default define(meta, paramDef, async (ps) => {
 		return;
 	}
 
-	const token = rndstr('a-z0-9', 64);
+	const token = rndstr("a-z0-9", 64);
 
 	await PasswordResetRequests.insert({
 		id: genId(),
@@ -70,7 +70,7 @@ export default define(meta, paramDef, async (ps) => {
 
 	const link = `${config.url}/reset-password/${token}`;
 
-	sendEmail(ps.email, 'Password reset requested',
+	sendEmail(ps.email, "Password reset requested",
 		`To reset password, please click this link:<br><a href="${link}">${link}</a>`,
 		`To reset password, please click this link: ${link}`);
 });

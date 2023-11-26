@@ -25,10 +25,10 @@
 </template>
 
 <script lang="ts" setup>
-import { nextTick, onMounted } from 'vue';
+import { nextTick, onMounted } from "vue";
 
 const props = defineProps<{
-	type?: 'button' | 'submit' | 'reset';
+	type?: "button" | "submit" | "reset";
 	primary?: boolean;
 	gradate?: boolean;
 	rounded?: boolean;
@@ -42,7 +42,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-	(ev: 'click', payload: MouseEvent): void;
+	(ev: "click", payload: MouseEvent): void;
 }>();
 
 let el = $ref<HTMLElement | null>(null);
@@ -73,9 +73,9 @@ function onMousedown(evt: MouseEvent): void {
 	const target = evt.target! as HTMLElement;
 	const rect = target.getBoundingClientRect();
 
-	const ripple = document.createElement('div');
-	ripple.style.top = (evt.clientY - rect.top - 1).toString() + 'px';
-	ripple.style.left = (evt.clientX - rect.left - 1).toString() + 'px';
+	const ripple = document.createElement("div");
+	ripple.style.top = (evt.clientY - rect.top - 1).toString() + "px";
+	ripple.style.left = (evt.clientX - rect.left - 1).toString() + "px";
 
 	ripples!.appendChild(ripple);
 
@@ -85,11 +85,11 @@ function onMousedown(evt: MouseEvent): void {
 	const scale = calcCircleScale(target.clientWidth, target.clientHeight, circleCenterX, circleCenterY);
 
 	window.setTimeout(() => {
-		ripple.style.transform = 'scale(' + (scale / 2) + ')';
+		ripple.style.transform = "scale(" + (scale / 2) + ")";
 	}, 1);
 	window.setTimeout(() => {
-		ripple.style.transition = 'all 1s ease';
-		ripple.style.opacity = '0';
+		ripple.style.transition = "all 1s ease";
+		ripple.style.opacity = "0";
 	}, 1000);
 	window.setTimeout(() => {
 		if (ripples) ripples.removeChild(ripple);

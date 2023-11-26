@@ -8,13 +8,13 @@ export default (input: string): string[] => {
 };
 
 export const aliases = {
-	'esc': 'Escape',
-	'enter': ['Enter', 'NumpadEnter'],
-	'up': 'ArrowUp',
-	'down': 'ArrowDown',
-	'left': 'ArrowLeft',
-	'right': 'ArrowRight',
-	'plus': ['NumpadAdd', 'Semicolon'],
+	"esc": "Escape",
+	"enter": ["Enter", "NumpadEnter"],
+	"up": "ArrowUp",
+	"down": "ArrowDown",
+	"left": "ArrowLeft",
+	"right": "ArrowRight",
+	"plus": ["NumpadAdd", "Semicolon"],
 };
 
 /*!

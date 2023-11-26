@@ -1,26 +1,26 @@
-import define from '../../define.js';
-import { Antennas } from '@/models/index.js';
+import { Antennas } from "@/models/index.js";
+import define from "../../define.js";
 
 export const meta = {
-	tags: ['antennas', 'account'],
+	tags: ["antennas", "account"],
 
 	requireCredential: true,
 
-	kind: 'read:account',
+	kind: "read:account",
 
 	res: {
-		type: 'array',
+		type: "array",
 		optional: false, nullable: false,
 		items: {
-			type: 'object',
+			type: "object",
 			optional: false, nullable: false,
-			ref: 'Antenna',
+			ref: "Antenna",
 		},
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {},
 	required: [],
 } as const;

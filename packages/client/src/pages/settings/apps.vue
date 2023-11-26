@@ -38,24 +38,24 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import FormPagination from '@/components/MkPagination.vue';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { ref } from "vue";
+import FormPagination from "@/components/MkPagination.vue";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 const list = ref<any>(null);
 
 const pagination = {
-	endpoint: 'i/apps' as const,
+	endpoint: "i/apps" as const,
 	limit: 100,
 	params: {
-		sort: '+lastUsedAt',
+		sort: "+lastUsedAt",
 	},
 };
 
 function revoke(token) {
-	os.api('i/revoke-token', { tokenId: token.id }).then(() => {
+	os.api("i/revoke-token", { tokenId: token.id }).then(() => {
 		list.value.reload();
 	});
 }
@@ -66,7 +66,7 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.installedApps,
-	icon: 'ti ti-plug',
+	icon: "ti ti-plug",
 });
 </script>
 

@@ -5,11 +5,11 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
-import * as os from '@/os';
-import { login } from '@/account';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { onMounted } from "vue";
+import * as os from "@/os";
+import { login } from "@/account";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 const props = defineProps<{
 	code: string;
@@ -17,13 +17,13 @@ const props = defineProps<{
 
 onMounted(async () => {
 	await os.alert({
-		type: 'info',
-		text: i18n.t('clickToFinishEmailVerification', { ok: i18n.ts.gotIt }),
+		type: "info",
+		text: i18n.t("clickToFinishEmailVerification", { ok: i18n.ts.gotIt }),
 	});
-	const res = await os.apiWithDialog('signup-pending', {
+	const res = await os.apiWithDialog("signup-pending", {
 		code: props.code,
 	});
-	login(res.i, '/');
+	login(res.i, "/");
 });
 
 const headerActions = $computed(() => []);
@@ -32,7 +32,7 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.signup,
-	icon: 'ti ti-user',
+	icon: "ti ti-user",
 });
 </script>
 

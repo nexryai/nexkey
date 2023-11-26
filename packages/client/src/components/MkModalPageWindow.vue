@@ -21,29 +21,29 @@
 </template>
 
 <script lang="ts" setup>
-import { ComputedRef, provide } from 'vue';
-import MkModal from '@/components/MkModal.vue';
-import { popout as _popout } from '@/scripts/popout';
-import copyToClipboard from '@/scripts/copy-to-clipboard';
-import { url } from '@/config';
-import * as os from '@/os';
-import { mainRouter, routes } from '@/router';
-import { i18n } from '@/i18n';
-import { PageMetadata, provideMetadataReceiver, setPageMetadata } from '@/scripts/page-metadata';
-import { Router } from '@/nirax';
+import { ComputedRef, provide } from "vue";
+import MkModal from "@/components/MkModal.vue";
+import { popout as _popout } from "@/scripts/popout";
+import copyToClipboard from "@/scripts/copy-to-clipboard";
+import { url } from "@/config";
+import * as os from "@/os";
+import { mainRouter, routes } from "@/router";
+import { i18n } from "@/i18n";
+import { PageMetadata, provideMetadataReceiver, setPageMetadata } from "@/scripts/page-metadata";
+import { Router } from "@/nirax";
 
 const props = defineProps<{
 	initialPath: string;
 }>();
 
 defineEmits<{
-	(ev: 'closed'): void;
-	(ev: 'click'): void;
+	(ev: "closed"): void;
+	(ev: "click"): void;
 }>();
 
 const router = new Router(routes, props.initialPath);
 
-router.addListener('push', ctx => {
+router.addListener("push", ctx => {
 	
 });
 
@@ -55,35 +55,35 @@ let width = $ref(860);
 let height = $ref(660);
 const history = [];
 
-provide('router', router);
+provide("router", router);
 provideMetadataReceiver((info) => {
 	pageMetadata = info;
 });
-provide('shouldOmitHeaderTitle', true);
-provide('shouldHeaderThin', true);
+provide("shouldOmitHeaderTitle", true);
+provide("shouldHeaderThin", true);
 
 const pageUrl = $computed(() => url + path);
 const contextmenu = $computed(() => {
 	return [{
-		type: 'label',
+		type: "label",
 		text: path,
 	}, {
-		icon: 'ti ti-player-eject',
+		icon: "ti ti-player-eject",
 		text: i18n.ts.showInPage,
 		action: expand,
 	}, {
-		icon: 'ti ti-window-maximize',
+		icon: "ti ti-window-maximize",
 		text: i18n.ts.popout,
 		action: popout,
 	}, null, {
-		icon: 'ti ti-external-link',
+		icon: "ti ti-external-link",
 		text: i18n.ts.openInNewTab,
 		action: () => {
-			window.open(pageUrl, '_blank');
+			window.open(pageUrl, "_blank");
 			modal.close();
 		},
 	}, {
-		icon: 'ti ti-link',
+		icon: "ti ti-link",
 		text: i18n.ts.copyLink,
 		action: () => {
 			copyToClipboard(pageUrl);

@@ -36,7 +36,7 @@
 				<XUserList v-if="userSearchQuery" ref="searchEl" class="_gap" :pagination="userSearchPagination"/>
 				<div v-if="!userSearchQuery" class="no_search">
 					<h4>{{ i18n.ts.pinnedUsers }}</h4>
-					<XUsers />
+					<XUsers/>
 				</div>
 			</MkSpacer>
 		</div>
@@ -45,33 +45,33 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, watch } from 'vue';
-import XFeatured from './explore.featured.vue';
-import XUsers from './explore.users.vue';
-import MkFolder from '@/components/MkFolder.vue';
-import MkInput from '@/components/form/input.vue';
-import MkRadios from '@/components/form/radios.vue';
-import { definePageMetadata } from '@/scripts/page-metadata';
-import { i18n } from '@/i18n';
+import { computed, watch } from "vue";
+import XFeatured from "./explore.featured.vue";
+import XUsers from "./explore.users.vue";
+import MkFolder from "@/components/MkFolder.vue";
+import MkInput from "@/components/form/input.vue";
+import MkRadios from "@/components/form/radios.vue";
+import { definePageMetadata } from "@/scripts/page-metadata";
+import { i18n } from "@/i18n";
 import XNotes from "@/components/MkNotes.vue";
-import XUserList from '@/components/MkUserList.vue';
+import XUserList from "@/components/MkUserList.vue";
 
 const props = defineProps<{
 	tag?: string;
 }>();
 
-let tab = $ref('notes');
+let tab = $ref("notes");
 let tagsEl = $ref<InstanceType<typeof MkFolder>>();
 let searchQuery = $ref(null);
 let userSearchQuery = $ref(null);
-let userSearchOrigin = $ref('combined');
+let userSearchOrigin = $ref("combined");
 
 watch(() => props.tag, () => {
 	if (tagsEl) tagsEl.toggleContent(props.tag == null);
 });
 
 const searchPagination = {
-	endpoint: 'notes/search' as const,
+	endpoint: "notes/search" as const,
 	limit: 10,
 	params: computed(() => ({
 		query: searchQuery,
@@ -79,9 +79,9 @@ const searchPagination = {
 };
 
 const userSearchPagination = {
-	endpoint: 'users/search' as const,
+	endpoint: "users/search" as const,
 	limit: 10,
-	params: computed(() => (userSearchQuery && userSearchQuery !== '') ? {
+	params: computed(() => (userSearchQuery && userSearchQuery !== "") ? {
 		query: userSearchQuery,
 		origin: userSearchOrigin,
 	} : null),
@@ -90,18 +90,18 @@ const userSearchPagination = {
 const headerActions = $computed(() => []);
 
 const headerTabs = $computed(() => [{
-	key: 'notes',
-	icon: 'ti ti-bolt',
+	key: "notes",
+	icon: "ti ti-bolt",
 	title: i18n.ts.notes,
 }, {
-	key: 'users',
-	icon: 'ti ti-users',
+	key: "users",
+	icon: "ti ti-users",
 	title: i18n.ts.users,
 }]);
 
 definePageMetadata(computed(() => ({
 	title: i18n.ts.explore,
-	icon: 'ti ti-hash',
+	icon: "ti ti-hash",
 })));
 </script>
 

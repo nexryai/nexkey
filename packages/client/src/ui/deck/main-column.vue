@@ -12,13 +12,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ComputedRef, provide } from 'vue';
-import XColumn from './column.vue';
-import { deckStore, Column } from '@/ui/deck/deck-store';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
-import { mainRouter } from '@/router';
-import { PageMetadata, provideMetadataReceiver, setPageMetadata } from '@/scripts/page-metadata';
+import { ComputedRef, provide } from "vue";
+import XColumn from "./column.vue";
+import { deckStore, Column } from "@/ui/deck/deck-store";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
+import { mainRouter } from "@/router";
+import { PageMetadata, provideMetadataReceiver, setPageMetadata } from "@/scripts/page-metadata";
 
 defineProps<{
 	column: Column;
@@ -26,12 +26,12 @@ defineProps<{
 }>();
 
 const emit = defineEmits<{
-	(ev: 'parent-focus', direction: 'up' | 'down' | 'left' | 'right'): void;
+	(ev: "parent-focus", direction: "up" | "down" | "left" | "right"): void;
 }>();
 
 let pageMetadata = $ref<null | ComputedRef<PageMetadata>>();
 
-provide('router', mainRouter);
+provide("router", mainRouter);
 provideMetadataReceiver((info) => {
 	pageMetadata = info;
 });
@@ -45,20 +45,20 @@ function onContextmenu(ev: MouseEvent) {
 	if (!ev.target) return;
 
 	const isLink = (el: HTMLElement) => {
-		if (el.tagName === 'A') return true;
+		if (el.tagName === "A") return true;
 		if (el.parentElement) {
 			return isLink(el.parentElement);
 		}
 	};
 	if (isLink(ev.target as HTMLElement)) return;
-	if (['INPUT', 'TEXTAREA', 'IMG', 'VIDEO', 'CANVAS'].includes((ev.target as HTMLElement).tagName) || (ev.target as HTMLElement).attributes['contenteditable']) return;
-	if (window.getSelection()?.toString() !== '') return;
+	if (["INPUT", "TEXTAREA", "IMG", "VIDEO", "CANVAS"].includes((ev.target as HTMLElement).tagName) || (ev.target as HTMLElement).attributes["contenteditable"]) return;
+	if (window.getSelection()?.toString() !== "") return;
 	const path = mainRouter.currentRoute.value.path;
 	os.contextMenu([{
-		type: 'label',
+		type: "label",
 		text: path,
 	}, {
-		icon: 'ti ti-window-maximize',
+		icon: "ti ti-window-maximize",
 		text: i18n.ts.openInWindow,
 		action: () => {
 			os.pageWindow(path);

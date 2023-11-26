@@ -9,12 +9,12 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import XColumn from './column.vue';
-import { updateColumn, Column } from './deck-store';
-import XTimeline from '@/components/MkTimeline.vue';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
+import { } from "vue";
+import XColumn from "./column.vue";
+import { updateColumn, Column } from "./deck-store";
+import XTimeline from "@/components/MkTimeline.vue";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
 
 const props = defineProps<{
 	column: Column;
@@ -22,8 +22,8 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-	(ev: 'loaded'): void;
-	(ev: 'parent-focus', direction: 'up' | 'down' | 'left' | 'right'): void;
+	(ev: "loaded"): void;
+	(ev: "parent-focus", direction: "up" | "down" | "left" | "right"): void;
 }>();
 
 let timeline = $ref<InstanceType<typeof XTimeline>>();
@@ -33,7 +33,7 @@ if (props.column.listId == null) {
 }
 
 async function setList() {
-	const lists = await os.api('users/lists/list');
+	const lists = await os.api("users/lists/list");
 	const { canceled, result: list } = await os.select({
 		title: i18n.ts.selectList,
 		items: lists.map(x => ({
@@ -48,7 +48,7 @@ async function setList() {
 }
 
 const menu = [{
-	icon: 'ti ti-pencil',
+	icon: "ti ti-pencil",
 	text: i18n.ts.selectList,
 	action: setList,
 }];
