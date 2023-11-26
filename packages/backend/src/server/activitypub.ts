@@ -2,7 +2,9 @@ import Router from "@koa/router";
 import json from "koa-json-body";
 import httpSignature from "@peertube/http-signature";
 
+import * as crypto from 'node:crypto';
 import { In, IsNull, Not } from "typeorm";
+import config from "@/config/index.js";
 import { renderActivity } from "@/remote/activitypub/renderer/index.js";
 import renderNote from "@/remote/activitypub/renderer/note.js";
 import renderKey from "@/remote/activitypub/renderer/key.js";
@@ -33,6 +35,58 @@ function inbox(ctx: Router.RouterContext) {
 	} catch (e) {
 		ctx.status = 401;
 		return;
+	}
+
+	if (signature.params.headers.indexOf('host') === -1
+		|| ctx.headers.host !== config.host) {
+		// Host not specified or not match.
+		ctx.status = 401;
+		return;
+	}
+
+	if (signature.params.headers.indexOf('digest') === -1) {
+		// Digest not found.
+		ctx.status = 401;
+	} else {
+		const digest = ctx.headers.digest;
+
+		if (typeof digest !== 'string') {
+			// Huh?
+			ctx.status = 401;
+			return;
+		}
+
+		const re = /^([a-zA-Z0-9\-]+)=(.+)$/;
+		const match = digest.match(re);
+
+		if (match == null) {
+			// Invalid digest
+			ctx.status = 401;
+			return;
+		}
+
+		const algo = match[1];
+		const digestValue = match[2];
+
+		if (algo !== 'SHA-256') {
+			// Unsupported digest algorithm
+			ctx.status = 401;
+			return;
+		}
+
+		if (ctx.request.rawBody == null) {
+			// Bad request
+			ctx.status = 400;
+			return;
+		}
+
+		const hash = crypto.createHash('sha256').update(ctx.request.rawBody).digest('base64');
+
+		if (hash !== digestValue) {
+			// Invalid digest
+			ctx.status = 401;
+			return;
+		}
 	}
 
 	processInbox(ctx.request.body, signature);
