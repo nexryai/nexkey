@@ -1,7 +1,6 @@
 import { DriveFile } from '@/models/entities/drive-file.js';
 import { InternalStorage } from './internal-storage.js';
-import { DriveFiles, Instances, Emojis } from '@/models/index.js';
-import { driveChart, perUserDriveChart, instanceChart } from '@/services/chart/index.js';
+import { DriveFiles, Emojis } from '@/models/index.js';
 import { createDeleteObjectStorageFileJob } from '@/queue/index.js';
 import { fetchMeta } from '@/misc/fetch-meta.js';
 import { getS3 } from './s3.js';
@@ -116,13 +115,6 @@ async function postProcess(file: DriveFile, isExpired = false) {
 		});
 	} else {
 		DriveFiles.delete(file.id);
-	}
-
-	// 統計を更新
-	driveChart.update(file, false);
-	perUserDriveChart.update(file, false);
-	if (file.userHost !== null) {
-		instanceChart.updateDrive(file, false);
 	}
 }
 

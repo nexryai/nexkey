@@ -68,7 +68,10 @@ export default async function(user: { id: User['id']; uri: User['uri']; host: Us
 
 		// 統計を更新
 		notesChart.update(note, false);
-		perUserNotesChart.update(user, note, false);
+
+		if (user.host == null) {
+			perUserNotesChart.update(user, note, false);
+		}
 
 		if (Users.isRemoteUser(user)) {
 			registerOrFetchInstanceDoc(user.host).then(i => {

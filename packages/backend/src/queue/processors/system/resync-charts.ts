@@ -1,7 +1,7 @@
 import Bull from 'bull';
 
 import { queueLogger } from '../../logger.js';
-import { driveChart, notesChart, usersChart } from '@/services/chart/index.js';
+import { notesChart, usersChart } from '@/services/chart/index.js';
 
 const logger = queueLogger.createSubLogger('resync-charts');
 
@@ -11,7 +11,6 @@ export async function resyncCharts(job: Bull.Job<Record<string, unknown>>, done:
 	// TODO: ユーザーごとのチャートも更新する
 	// TODO: インスタンスごとのチャートも更新する
 	await Promise.all([
-		driveChart.resync(),
 		notesChart.resync(),
 		usersChart.resync(),
 	]);

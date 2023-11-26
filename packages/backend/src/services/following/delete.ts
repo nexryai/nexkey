@@ -8,7 +8,7 @@ import Logger from '../logger.js';
 import { registerOrFetchInstanceDoc } from '../register-or-fetch-instance-doc.js';
 import { User } from '@/models/entities/user.js';
 import { Followings, Users, Instances } from '@/models/index.js';
-import { instanceChart, perUserFollowingChart } from '@/services/chart/index.js';
+import { instanceChart } from '@/services/chart/index.js';
 import { getActiveWebhooks } from '@/misc/webhook-cache.js';
 
 const logger = new Logger('following/delete');
@@ -78,6 +78,4 @@ export async function decrementFollowing(follower: { id: User['id']; host: User[
 		});
 	}
 	//#endregion
-
-	perUserFollowingChart.update(follower, followee, false);
 }

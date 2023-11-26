@@ -8,7 +8,6 @@ import renderReject from '@/remote/activitypub/renderer/reject.js';
 import { Blocking } from '@/models/entities/blocking.js';
 import { User } from '@/models/entities/user.js';
 import { Blockings, Users, FollowRequests, Followings, UserListJoinings, UserLists } from '@/models/index.js';
-import { perUserFollowingChart } from '@/services/chart/index.js';
 import { genId } from '@/misc/gen-id.js';
 import { IdentifiableError } from '@/misc/identifiable-error.js';
 import { getActiveWebhooks } from '@/misc/webhook-cache.js';
@@ -108,7 +107,6 @@ async function unFollow(follower: User, followee: User) {
 		Followings.delete(following.id),
 		Users.decrement({ id: follower.id }, 'followingCount', 1),
 		Users.decrement({ id: followee.id }, 'followersCount', 1),
-		perUserFollowingChart.update(follower, followee, false),
 	]);
 
 	// Publish unfollow event

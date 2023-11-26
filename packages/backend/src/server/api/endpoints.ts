@@ -86,15 +86,10 @@ import * as ep___blocking_delete from './endpoints/blocking/delete.js';
 import * as ep___blocking_list from './endpoints/blocking/list.js';
 import * as ep___charts_activeUsers from './endpoints/charts/active-users.js';
 import * as ep___charts_apRequest from './endpoints/charts/ap-request.js';
-import * as ep___charts_drive from './endpoints/charts/drive.js';
 import * as ep___charts_federation from './endpoints/charts/federation.js';
-import * as ep___charts_hashtag from './endpoints/charts/hashtag.js';
 import * as ep___charts_instance from './endpoints/charts/instance.js';
 import * as ep___charts_notes from './endpoints/charts/notes.js';
-import * as ep___charts_user_drive from './endpoints/charts/user/drive.js';
-import * as ep___charts_user_following from './endpoints/charts/user/following.js';
 import * as ep___charts_user_notes from './endpoints/charts/user/notes.js';
-import * as ep___charts_user_reactions from './endpoints/charts/user/reactions.js';
 import * as ep___charts_users from './endpoints/charts/users.js';
 import * as ep___clips_addNote from './endpoints/clips/add-note.js';
 import * as ep___clips_removeNote from './endpoints/clips/remove-note.js';
@@ -375,15 +370,10 @@ const eps = [
 	['blocking/list', ep___blocking_list],
 	['charts/active-users', ep___charts_activeUsers],
 	['charts/ap-request', ep___charts_apRequest],
-	['charts/drive', ep___charts_drive],
 	['charts/federation', ep___charts_federation],
-	['charts/hashtag', ep___charts_hashtag],
 	['charts/instance', ep___charts_instance],
 	['charts/notes', ep___charts_notes],
-	['charts/user/drive', ep___charts_user_drive],
-	['charts/user/following', ep___charts_user_following],
 	['charts/user/notes', ep___charts_user_notes],
-	['charts/user/reactions', ep___charts_user_reactions],
 	['charts/users', ep___charts_users],
 	['clips/add-note', ep___clips_addNote],
 	['clips/remove-note', ep___clips_removeNote],

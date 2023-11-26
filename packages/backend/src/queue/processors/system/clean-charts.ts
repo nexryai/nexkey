@@ -1,7 +1,7 @@
 import Bull from 'bull';
 
 import { queueLogger } from '../../logger.js';
-import { activeUsersChart, driveChart, federationChart, hashtagChart, instanceChart, notesChart, perUserDriveChart, perUserFollowingChart, perUserNotesChart, perUserReactionsChart, usersChart, apRequestChart } from '@/services/chart/index.js';
+import { activeUsersChart, federationChart, instanceChart, notesChart, perUserNotesChart, usersChart, apRequestChart } from '@/services/chart/index.js';
 
 const logger = queueLogger.createSubLogger('clean-charts');
 
@@ -15,11 +15,6 @@ export async function cleanCharts(job: Bull.Job<Record<string, unknown>>, done: 
 		activeUsersChart.clean(),
 		instanceChart.clean(),
 		perUserNotesChart.clean(),
-		driveChart.clean(),
-		perUserReactionsChart.clean(),
-		hashtagChart.clean(),
-		perUserFollowingChart.clean(),
-		perUserDriveChart.clean(),
 		apRequestChart.clean(),
 	]);
 

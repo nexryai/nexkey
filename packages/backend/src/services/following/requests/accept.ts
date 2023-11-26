@@ -4,7 +4,7 @@ import renderAccept from '@/remote/activitypub/renderer/accept.js';
 import { deliver } from '@/queue/index.js';
 import { publishMainStream } from '@/services/stream.js';
 import { insertFollowingDoc } from '../create.js';
-import { User, ILocalUser, CacheableUser } from '@/models/entities/user.js';
+import { User, CacheableUser } from '@/models/entities/user.js';
 import { FollowRequests, Users } from '@/models/index.js';
 import { IdentifiableError } from '@/misc/identifiable-error.js';
 

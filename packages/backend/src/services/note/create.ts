@@ -267,7 +267,10 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 
 	// 統計を更新
 	notesChart.update(note, true);
-	perUserNotesChart.update(user, note, true);
+
+	if (user.host == null) {
+		perUserNotesChart.update(user, note, true);
+	}
 
 	// Register host
 	if (Users.isRemoteUser(user)) {
