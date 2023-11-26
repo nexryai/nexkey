@@ -37,20 +37,20 @@ function inbox(ctx: Router.RouterContext) {
 		return;
 	}
 
-	if (signature.params.headers.indexOf('host') === -1
+	if (signature.params.headers.indexOf("host") === -1
 		|| ctx.headers.host !== config.host) {
 		// Host not specified or not match.
 		ctx.status = 401;
 		return;
 	}
 
-	if (signature.params.headers.indexOf('digest') === -1) {
+	if (signature.params.headers.indexOf("digest") === -1) {
 		// Digest not found.
 		ctx.status = 401;
 	} else {
 		const digest = ctx.headers.digest;
 
-		if (typeof digest !== 'string') {
+		if (typeof digest !== "string") {
 			// Huh?
 			ctx.status = 401;
 			return;
@@ -68,7 +68,7 @@ function inbox(ctx: Router.RouterContext) {
 		const algo = match[1];
 		const digestValue = match[2];
 
-		if (algo !== 'SHA-256') {
+		if (algo !== "SHA-256") {
 			// Unsupported digest algorithm
 			ctx.status = 401;
 			return;
@@ -80,7 +80,7 @@ function inbox(ctx: Router.RouterContext) {
 			return;
 		}
 
-		const hash = crypto.createHash('sha256').update(ctx.request.rawBody).digest('base64');
+		const hash = crypto.createHash("sha256").update(ctx.request.rawBody).digest("base64");
 
 		if (hash !== digestValue) {
 			// Invalid digest
