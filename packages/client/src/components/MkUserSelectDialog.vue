@@ -52,34 +52,34 @@
 </template>
 
 <script lang="ts" setup>
-import { nextTick, onMounted } from 'vue';
-import * as misskey from 'misskey-js';
-import MkInput from '@/components/form/input.vue';
-import FormSplit from '@/components/form/split.vue';
-import XModalWindow from '@/components/MkModalWindow.vue';
-import * as os from '@/os';
-import { defaultStore } from '@/store';
-import { i18n } from '@/i18n';
+import { nextTick, onMounted } from "vue";
+import * as misskey from "misskey-js";
+import MkInput from "@/components/form/input.vue";
+import FormSplit from "@/components/form/split.vue";
+import XModalWindow from "@/components/MkModalWindow.vue";
+import * as os from "@/os";
+import { defaultStore } from "@/store";
+import { i18n } from "@/i18n";
 
 const emit = defineEmits<{
-	(ev: 'ok', selected: misskey.entities.UserDetailed): void;
-	(ev: 'cancel'): void;
-	(ev: 'closed'): void;
+	(ev: "ok", selected: misskey.entities.UserDetailed): void;
+	(ev: "cancel"): void;
+	(ev: "closed"): void;
 }>();
 
-let username = $ref('');
-let host = $ref('');
+let username = $ref("");
+let host = $ref("");
 let users: misskey.entities.UserDetailed[] = $ref([]);
 let recentUsers: misskey.entities.UserDetailed[] = $ref([]);
 let selected: misskey.entities.UserDetailed | null = $ref(null);
 let dialogEl = $ref();
 
 const search = () => {
-	if (username === '' && host === '') {
+	if (username === "" && host === "") {
 		users = [];
 		return;
 	}
-	os.api('users/search-by-username-and-host', {
+	os.api("users/search-by-username-and-host", {
 		username: username,
 		host: host,
 		limit: 10,
@@ -91,23 +91,23 @@ const search = () => {
 
 const ok = () => {
 	if (selected == null) return;
-	emit('ok', selected);
+	emit("ok", selected);
 	dialogEl.close();
 
 	// 最近使ったユーザー更新
 	let recents = defaultStore.state.recentlyUsedUsers;
 	recents = recents.filter(x => x !== selected.id);
 	recents.unshift(selected.id);
-	defaultStore.set('recentlyUsedUsers', recents.splice(0, 16));
+	defaultStore.set("recentlyUsedUsers", recents.splice(0, 16));
 };
 
 const cancel = () => {
-	emit('cancel');
+	emit("cancel");
 	dialogEl.close();
 };
 
 onMounted(() => {
-	os.api('users/show', {
+	os.api("users/show", {
 		userIds: defaultStore.state.recentlyUsedUsers,
 	}).then(users => {
 		recentUsers = users;

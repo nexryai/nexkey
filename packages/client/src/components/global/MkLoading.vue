@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
+import { } from "vue";
 
 const props = withDefaults(defineProps<{
 	inline?: boolean;

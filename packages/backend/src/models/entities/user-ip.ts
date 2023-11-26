@@ -1,23 +1,23 @@
-import { PrimaryColumn, Entity, Index, JoinColumn, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { id } from '../id.js';
-import { Note } from './note.js';
-import { User } from './user.js';
+import { PrimaryColumn, Entity, Index, JoinColumn, Column, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { id } from "../id.js";
+import { Note } from "./note.js";
+import { User } from "./user.js";
 
 @Entity()
-@Index(['userId', 'ip'], { unique: true })
+@Index(["userId", "ip"], { unique: true })
 export class UserIp {
 	@PrimaryGeneratedColumn()
 	public id: string;
 
-	@Column('timestamp with time zone', {
+	@Column("timestamp with time zone", {
 	})
 	public createdAt: Date;
 
 	@Index()
 	@Column(id())
-	public userId: User['id'];
+	public userId: User["id"];
 
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 128,
 	})
 	public ip: string;

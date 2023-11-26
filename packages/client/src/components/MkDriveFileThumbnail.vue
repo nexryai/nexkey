@@ -15,9 +15,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
-import * as Misskey from 'misskey-js';
-import ImgWithBlurhash from '@/components/MkImgWithBlurhash.vue';
+import { computed } from "vue";
+import * as Misskey from "misskey-js";
+import ImgWithBlurhash from "@/components/MkImgWithBlurhash.vue";
 
 const props = defineProps<{
 	file: Misskey.entities.DriveFile;
@@ -25,30 +25,30 @@ const props = defineProps<{
 }>();
 
 const is = computed(() => {
-	if (props.file.type.startsWith('image/')) return 'image';
-	if (props.file.type.startsWith('video/')) return 'video';
-	if (props.file.type === 'audio/midi') return 'midi';
-	if (props.file.type.startsWith('audio/')) return 'audio';
-	if (props.file.type.endsWith('/csv')) return 'csv';
-	if (props.file.type.endsWith('/pdf')) return 'pdf';
-	if (props.file.type.startsWith('text/')) return 'textfile';
+	if (props.file.type.startsWith("image/")) return "image";
+	if (props.file.type.startsWith("video/")) return "video";
+	if (props.file.type === "audio/midi") return "midi";
+	if (props.file.type.startsWith("audio/")) return "audio";
+	if (props.file.type.endsWith("/csv")) return "csv";
+	if (props.file.type.endsWith("/pdf")) return "pdf";
+	if (props.file.type.startsWith("text/")) return "textfile";
 	if ([
-		'application/zip',
-		'application/x-cpio',
-		'application/x-bzip',
-		'application/x-bzip2',
-		'application/java-archive',
-		'application/x-rar-compressed',
-		'application/x-tar',
-		'application/gzip',
-		'application/x-7z-compressed',
-	].some(archiveType => archiveType === props.file.type)) return 'archive';
-	return 'unknown';
+		"application/zip",
+		"application/x-cpio",
+		"application/x-bzip",
+		"application/x-bzip2",
+		"application/java-archive",
+		"application/x-rar-compressed",
+		"application/x-tar",
+		"application/gzip",
+		"application/x-7z-compressed",
+	].some(archiveType => archiveType === props.file.type)) return "archive";
+	return "unknown";
 });
 
 const isThumbnailAvailable = computed(() => {
 	return props.file.thumbnailUrl
-		? (is.value === 'image' as const || is.value === 'video')
+		? (is.value === "image" as const || is.value === "video")
 		: false;
 });
 </script>

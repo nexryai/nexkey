@@ -1,15 +1,15 @@
-import define from '../../define.js';
-import Resolver from '@/remote/activitypub/resolver.js';
-import { ApiError } from '../../error.js';
-import ms from 'ms';
+import ms from "ms";
+import Resolver from "@/remote/activitypub/resolver.js";
+import define from "../../define.js";
+import { ApiError } from "../../error.js";
 
 export const meta = {
-	tags: ['federation'],
+	tags: ["federation"],
 
 	requireCredential: true,
 
 	limit: {
-		duration: ms('1hour'),
+		duration: ms("1hour"),
 		max: 30,
 	},
 
@@ -17,17 +17,17 @@ export const meta = {
 	},
 
 	res: {
-		type: 'object',
+		type: "object",
 		optional: false, nullable: false,
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		uri: { type: 'string' },
+		uri: { type: "string" },
 	},
-	required: ['uri'],
+	required: ["uri"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export

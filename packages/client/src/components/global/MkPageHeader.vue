@@ -34,13 +34,13 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, ref, inject } from 'vue';
-import tinycolor from 'tinycolor2';
-import XTabs, { Tab } from './MkPageHeader.tabs.vue';
-import { scrollToTop } from '@/scripts/scroll';
-import { globalEvents } from '@/events';
-import { injectPageMetadata } from '@/scripts/page-metadata';
-import { $i, openAccountMenu as openAccountMenu_ } from '@/account';
+import { onMounted, onUnmounted, ref, inject } from "vue";
+import tinycolor from "tinycolor2";
+import XTabs, { Tab } from "./MkPageHeader.tabs.vue";
+import { scrollToTop } from "@/scripts/scroll";
+import { globalEvents } from "@/events";
+import { injectPageMetadata } from "@/scripts/page-metadata";
+import { $i, openAccountMenu as openAccountMenu_ } from "@/account";
 
 const props = withDefaults(defineProps<{
 	tabs?: Tab[];
@@ -58,13 +58,13 @@ const props = withDefaults(defineProps<{
 });
 
 const emit = defineEmits<{
-	(ev: 'update:tab', key: string);
+	(ev: "update:tab", key: string);
 }>();
 
 const metadata = injectPageMetadata();
 
-const hideTitle = inject('shouldOmitHeaderTitle', false);
-const thin_ = props.thin || inject('shouldHeaderThin', false);
+const hideTitle = inject("shouldOmitHeaderTitle", false);
+const thin_ = props.thin || inject("shouldHeaderThin", false);
 
 let el = $shallowRef<HTMLElement | undefined>(undefined);
 const bg = ref<string | undefined>(undefined);
@@ -81,7 +81,7 @@ const preventDrag = (ev: TouchEvent) => {
 
 const top = () => {
 	if (el) {
-		scrollToTop(el as HTMLElement, { behavior: 'smooth' });
+		scrollToTop(el as HTMLElement, { behavior: "smooth" });
 	}
 };
 
@@ -96,8 +96,8 @@ function onTabClick(): void {
 }
 
 const calcBg = () => {
-	const rawBg = 'var(--bg)';
-	const tinyBg = tinycolor(rawBg.startsWith('var(') ? getComputedStyle(document.documentElement).getPropertyValue(rawBg.slice(4, -1)) : rawBg);
+	const rawBg = "var(--bg)";
+	const tinyBg = tinycolor(rawBg.startsWith("var(") ? getComputedStyle(document.documentElement).getPropertyValue(rawBg.slice(4, -1)) : rawBg);
 	tinyBg.setAlpha(0.85);
 	bg.value = tinyBg.toRgbString();
 };
@@ -106,7 +106,7 @@ let ro: ResizeObserver | null;
 
 onMounted(() => {
 	calcBg();
-	globalEvents.on('themeChanged', calcBg);
+	globalEvents.on("themeChanged", calcBg);
 
 	if (el && el.parentElement) {
 		narrow = el.parentElement.offsetWidth < 500;
@@ -120,7 +120,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-	globalEvents.off('themeChanged', calcBg);
+	globalEvents.off("themeChanged", calcBg);
 	if (ro) ro.disconnect();
 });
 </script>

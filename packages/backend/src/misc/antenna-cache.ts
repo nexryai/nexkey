@@ -1,6 +1,6 @@
-import { Antennas } from '@/models/index.js';
-import { Antenna } from '@/models/entities/antenna.js';
-import { subsdcriber } from '../db/redis.js';
+import { Antennas } from "@/models/index.js";
+import { Antenna } from "@/models/entities/antenna.js";
+import { subsdcriber } from "../db/redis.js";
 
 let antennasFetched = false;
 let antennas: Antenna[] = [];
@@ -14,19 +14,19 @@ export async function getAntennas() {
 	return antennas;
 }
 
-subsdcriber.on('message', async (_, data) => {
+subsdcriber.on("message", async (_, data) => {
 	const obj = JSON.parse(data);
 
-	if (obj.channel === 'internal') {
+	if (obj.channel === "internal") {
 		const { type, body } = obj.message;
 		switch (type) {
-			case 'antennaCreated':
+			case "antennaCreated":
 				antennas.push(body);
 				break;
-			case 'antennaUpdated':
+			case "antennaUpdated":
 				antennas[antennas.findIndex(a => a.id === body.id)] = body;
 				break;
-			case 'antennaDeleted':
+			case "antennaDeleted":
 				antennas = antennas.filter(a => a.id !== body.id);
 				break;
 			default:

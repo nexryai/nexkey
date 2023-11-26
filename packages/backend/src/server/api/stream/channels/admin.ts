@@ -1,7 +1,7 @@
-import Channel from '../channel.js';
+import Channel from "../channel.js";
 
 export default class extends Channel {
-	public readonly chName = 'admin';
+	public readonly chName = "admin";
 	public static shouldShare = true;
 	public static requireCredential = true;
 

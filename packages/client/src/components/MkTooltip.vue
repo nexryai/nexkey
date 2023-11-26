@@ -10,9 +10,9 @@
 </template>
 
 <script lang="ts" setup>
-import { nextTick, onMounted, onUnmounted, ref } from 'vue';
-import * as os from '@/os';
-import { calcPopupPosition } from '@/scripts/popup-position';
+import { nextTick, onMounted, onUnmounted, ref } from "vue";
+import * as os from "@/os";
+import { calcPopupPosition } from "@/scripts/popup-position";
 
 const props = withDefaults(defineProps<{
 	showing: boolean;
@@ -22,34 +22,34 @@ const props = withDefaults(defineProps<{
 	text?: string;
 	asMfm?: boolean;
 	maxWidth?: number;
-	direction?: 'top' | 'bottom' | 'right' | 'left';
+	direction?: "top" | "bottom" | "right" | "left";
 	innerMargin?: number;
 }>(), {
 	maxWidth: 250,
-	direction: 'top',
+	direction: "top",
 	innerMargin: 0,
 });
 
 const emit = defineEmits<{
-	(ev: 'closed'): void;
+	(ev: "closed"): void;
 }>();
 
 const el = ref<HTMLElement>();
-const zIndex = os.claimZIndex('high');
+const zIndex = os.claimZIndex("high");
 
 function setPosition() {
 	const data = calcPopupPosition(el.value, {
 		anchorElement: props.targetElement,
 		direction: props.direction,
-		align: 'center',
+		align: "center",
 		innerMargin: props.innerMargin,
 		x: props.x,
 		y: props.y,
 	});
 
 	el.value.style.transformOrigin = data.transformOrigin;
-	el.value.style.left = data.left + 'px';
-	el.value.style.top = data.top + 'px';
+	el.value.style.left = data.left + "px";
+	el.value.style.top = data.top + "px";
 }
 
 let loopHandler;

@@ -14,10 +14,10 @@
 </div>
 </template>
 <script lang="ts" setup>
-import { useWidgetPropsManager, Widget, WidgetComponentExpose } from './widget';
-import { GetFormResultType } from '@/scripts/form';
-import { host } from '@/config';
-const name = 'instanceInfo';
+import { useWidgetPropsManager, Widget, WidgetComponentExpose } from "./widget";
+import { GetFormResultType } from "@/scripts/form";
+import { host } from "@/config";
+const name = "instanceInfo";
 const widgetPropsDef = {
 };
 type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
@@ -25,7 +25,7 @@ type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
 //const props = defineProps<WidgetComponentProps<WidgetProps>>();
 //const emit = defineEmits<WidgetComponentEmits<WidgetProps>>();
 const props = defineProps<{ widget?: Widget<WidgetProps>; }>();
-const emit = defineEmits<{ (ev: 'updateProps', props: WidgetProps); }>();
+const emit = defineEmits<{ (ev: "updateProps", props: WidgetProps); }>();
 const { widgetProps, configure } = useWidgetPropsManager(name,
 	widgetPropsDef,
 	props,

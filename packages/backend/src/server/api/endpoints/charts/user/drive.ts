@@ -1,9 +1,9 @@
-import { getJsonSchema } from '@/services/chart/core.js';
-import { perUserDriveChart } from '@/services/chart/index.js';
-import define from '../../../define.js';
+import { getJsonSchema } from "@/services/chart/core.js";
+import { perUserDriveChart } from "@/services/chart/index.js";
+import define from "../../../define.js";
 
 export const meta = {
-	tags: ['charts', 'drive', 'users'],
+	tags: ["charts", "drive", "users"],
 
 	res: getJsonSchema(perUserDriveChart.schema),
 
@@ -12,14 +12,14 @@ export const meta = {
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		span: { type: 'string', enum: ['day', 'hour'] },
-		limit: { type: 'integer', minimum: 1, maximum: 500, default: 30 },
-		offset: { type: 'integer', nullable: true, default: null },
-		userId: { type: 'string', format: 'misskey:id' },
+		span: { type: "string", enum: ["day", "hour"] },
+		limit: { type: "integer", minimum: 1, maximum: 500, default: 30 },
+		offset: { type: "integer", nullable: true, default: null },
+		userId: { type: "string", format: "misskey:id" },
 	},
-	required: ['span', 'userId'],
+	required: ["span", "userId"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export

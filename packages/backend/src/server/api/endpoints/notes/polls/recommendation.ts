@@ -1,47 +1,47 @@
-import { Brackets, In } from 'typeorm';
-import { Polls, Mutings, Notes, PollVotes } from '@/models/index.js';
-import define from '../../../define.js';
+import { Brackets, In } from "typeorm";
+import { Polls, Mutings, Notes, PollVotes } from "@/models/index.js";
+import define from "../../../define.js";
 
 export const meta = {
-	tags: ['notes'],
+	tags: ["notes"],
 
 	requireCredential: true,
 
 	res: {
-		type: 'array',
+		type: "array",
 		optional: false, nullable: false,
 		items: {
-			type: 'object',
+			type: "object",
 			optional: false, nullable: false,
-			ref: 'Note',
+			ref: "Note",
 		},
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
-		offset: { type: 'integer', default: 0 },
+		limit: { type: "integer", minimum: 1, maximum: 100, default: 10 },
+		offset: { type: "integer", default: 0 },
 	},
 	required: [],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	const query = Polls.createQueryBuilder('poll')
-		.where('poll.userHost IS NULL')
-		.andWhere('poll.userId != :meId', { meId: user.id })
-		.andWhere('poll.noteVisibility = \'public\'')
+	const query = Polls.createQueryBuilder("poll")
+		.where("poll.userHost IS NULL")
+		.andWhere("poll.userId != :meId", { meId: user.id })
+		.andWhere("poll.noteVisibility = 'public'")
 		.andWhere(new Brackets(qb => { qb
-			.where('poll.expiresAt IS NULL')
-			.orWhere('poll.expiresAt > :now', { now: new Date() });
+			.where("poll.expiresAt IS NULL")
+			.orWhere("poll.expiresAt > :now", { now: new Date() });
 		}));
 
 	//#region exclude arleady voted polls
-	const votedQuery = PollVotes.createQueryBuilder('vote')
-		.select('vote.noteId')
-		.where('vote.userId = :meId', { meId: user.id });
+	const votedQuery = PollVotes.createQueryBuilder("vote")
+		.select("vote.noteId")
+		.where("vote.userId = :meId", { meId: user.id });
 
 	query
 		.andWhere(`poll.noteId NOT IN (${ votedQuery.getQuery() })`);
@@ -50,9 +50,9 @@ export default define(meta, paramDef, async (ps, user) => {
 	//#endregion
 
 	//#region mute
-	const mutingQuery = Mutings.createQueryBuilder('muting')
-		.select('muting.muteeId')
-		.where('muting.muterId = :muterId', { muterId: user.id });
+	const mutingQuery = Mutings.createQueryBuilder("muting")
+		.select("muting.muteeId")
+		.where("muting.muterId = :muterId", { muterId: user.id });
 
 	query
 		.andWhere(`poll.userId NOT IN (${ mutingQuery.getQuery() })`);
@@ -61,7 +61,7 @@ export default define(meta, paramDef, async (ps, user) => {
 	//#endregion
 
 	const polls = await query
-		.orderBy('poll.noteId', 'DESC')
+		.orderBy("poll.noteId", "DESC")
 		.take(ps.limit)
 		.skip(ps.offset)
 		.getMany();
@@ -73,7 +73,7 @@ export default define(meta, paramDef, async (ps, user) => {
 			id: In(polls.map(poll => poll.noteId)),
 		},
 		order: {
-			createdAt: 'DESC',
+			createdAt: "DESC",
 		},
 	});
 

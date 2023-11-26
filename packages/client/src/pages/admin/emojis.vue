@@ -68,22 +68,22 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineAsyncComponent, defineComponent, ref, toRef } from 'vue';
-import XHeader from './_header_.vue';
-import MkButton from '@/components/MkButton.vue';
-import MkInput from '@/components/form/input.vue';
-import MkPagination from '@/components/MkPagination.vue';
-import MkTab from '@/components/MkTab.vue';
-import MkSwitch from '@/components/form/switch.vue';
-import FormSplit from '@/components/form/split.vue';
-import { selectFile, selectFiles } from '@/scripts/select-file';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { computed, defineAsyncComponent, defineComponent, ref, toRef } from "vue";
+import XHeader from "./_header_.vue";
+import MkButton from "@/components/MkButton.vue";
+import MkInput from "@/components/form/input.vue";
+import MkPagination from "@/components/MkPagination.vue";
+import MkTab from "@/components/MkTab.vue";
+import MkSwitch from "@/components/form/switch.vue";
+import FormSplit from "@/components/form/split.vue";
+import { selectFile, selectFiles } from "@/scripts/select-file";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 const emojisPaginationComponent = ref<InstanceType<typeof MkPagination>>();
 
-const tab = ref('local');
+const tab = ref("local");
 const query = ref(null);
 const queryRemote = ref(null);
 const host = ref(null);
@@ -91,19 +91,19 @@ const selectMode = ref(false);
 const selectedEmojis = ref<string[]>([]);
 
 const pagination = {
-	endpoint: 'admin/emoji/list' as const,
+	endpoint: "admin/emoji/list" as const,
 	limit: 30,
 	params: computed(() => ({
-		query: (query.value && query.value !== '') ? query.value : null,
+		query: (query.value && query.value !== "") ? query.value : null,
 	})),
 };
 
 const remotePagination = {
-	endpoint: 'admin/emoji/list-remote' as const,
+	endpoint: "admin/emoji/list-remote" as const,
 	limit: 30,
 	params: computed(() => ({
-		query: (queryRemote.value && queryRemote.value !== '') ? queryRemote.value : null,
-		host: (host.value && host.value !== '') ? host.value : null,
+		query: (queryRemote.value && queryRemote.value !== "") ? queryRemote.value : null,
+		host: (host.value && host.value !== "") ? host.value : null,
 	})),
 };
 
@@ -126,7 +126,7 @@ const toggleSelect = (emoji) => {
 const add = async (ev: MouseEvent) => {
 	const files = await selectFiles(ev.currentTarget ?? ev.target, null);
 
-	const promise = Promise.all(files.map(file => os.api('admin/emoji/add', {
+	const promise = Promise.all(files.map(file => os.api("admin/emoji/add", {
 		fileId: file.id,
 	})));
 	promise.then(() => {
@@ -136,7 +136,7 @@ const add = async (ev: MouseEvent) => {
 };
 
 const edit = (emoji) => {
-	os.popup(defineAsyncComponent(() => import('./emoji-edit-dialog.vue')), {
+	os.popup(defineAsyncComponent(() => import("./emoji-edit-dialog.vue")), {
 		emoji: emoji,
 	}, {
 		done: result => {
@@ -149,61 +149,61 @@ const edit = (emoji) => {
 				emojisPaginationComponent.value.removeItem((item) => item.id === emoji.id);
 			}
 		},
-	}, 'closed');
+	}, "closed");
 };
 
 const im = (emoji) => {
-	os.apiWithDialog('admin/emoji/copy', {
+	os.apiWithDialog("admin/emoji/copy", {
 		emojiId: emoji.id,
 	});
 };
 
 const remoteMenu = (emoji, ev: MouseEvent) => {
 	os.popupMenu([{
-		type: 'label',
-		text: ':' + emoji.name + ':',
+		type: "label",
+		text: ":" + emoji.name + ":",
 	}, {
 		text: i18n.ts.import,
-		icon: 'ti ti-plus',
+		icon: "ti ti-plus",
 		action: () => { im(emoji); },
 	}], ev.currentTarget ?? ev.target);
 };
 
 const menu = (ev: MouseEvent) => {
 	os.popupMenu([{
-		icon: 'ti ti-download',
+		icon: "ti ti-download",
 		text: i18n.ts.export,
 		action: async () => {
-			os.api('export-custom-emojis', {
+			os.api("export-custom-emojis", {
 			})
 				.then(() => {
 					os.alert({
-						type: 'info',
+						type: "info",
 						text: i18n.ts.exportRequested,
 					});
 				}).catch((err) => {
 					os.alert({
-						type: 'error',
+						type: "error",
 						text: err.message,
 					});
 				});
 		},
 	}, {
-		icon: 'ti ti-upload',
+		icon: "ti ti-upload",
 		text: i18n.ts.import,
 		action: async () => {
 			const file = await selectFile(ev.currentTarget ?? ev.target);
-			os.api('admin/emoji/import-zip', {
+			os.api("admin/emoji/import-zip", {
 				fileId: file.id,
 			})
 				.then(() => {
 					os.alert({
-						type: 'info',
+						type: "info",
 						text: i18n.ts.importRequested,
 					});
 				}).catch((err) => {
 					os.alert({
-						type: 'error',
+						type: "error",
 						text: err.message,
 					});
 				});
@@ -213,10 +213,10 @@ const menu = (ev: MouseEvent) => {
 
 const setCategoryBulk = async () => {
 	const { canceled, result } = await os.inputText({
-		title: 'Category',
+		title: "Category",
 	});
 	if (canceled) return;
-	await os.apiWithDialog('admin/emoji/set-category-bulk', {
+	await os.apiWithDialog("admin/emoji/set-category-bulk", {
 		ids: selectedEmojis.value,
 		category: result,
 	});
@@ -225,47 +225,47 @@ const setCategoryBulk = async () => {
 
 const addTagBulk = async () => {
 	const { canceled, result } = await os.inputText({
-		title: 'Tag',
+		title: "Tag",
 	});
 	if (canceled) return;
-	await os.apiWithDialog('admin/emoji/add-aliases-bulk', {
+	await os.apiWithDialog("admin/emoji/add-aliases-bulk", {
 		ids: selectedEmojis.value,
-		aliases: result.split(' '),
+		aliases: result.split(" "),
 	});
 	emojisPaginationComponent.value.reload();
 };
 
 const removeTagBulk = async () => {
 	const { canceled, result } = await os.inputText({
-		title: 'Tag',
+		title: "Tag",
 	});
 	if (canceled) return;
-	await os.apiWithDialog('admin/emoji/remove-aliases-bulk', {
+	await os.apiWithDialog("admin/emoji/remove-aliases-bulk", {
 		ids: selectedEmojis.value,
-		aliases: result.split(' '),
+		aliases: result.split(" "),
 	});
 	emojisPaginationComponent.value.reload();
 };
 
 const setTagBulk = async () => {
 	const { canceled, result } = await os.inputText({
-		title: 'Tag',
+		title: "Tag",
 	});
 	if (canceled) return;
-	await os.apiWithDialog('admin/emoji/set-aliases-bulk', {
+	await os.apiWithDialog("admin/emoji/set-aliases-bulk", {
 		ids: selectedEmojis.value,
-		aliases: result.split(' '),
+		aliases: result.split(" "),
 	});
 	emojisPaginationComponent.value.reload();
 };
 
 const delBulk = async () => {
 	const { canceled } = await os.confirm({
-		type: 'warning',
+		type: "warning",
 		text: i18n.ts.deleteConfirm,
 	});
 	if (canceled) return;
-	await os.apiWithDialog('admin/emoji/delete-bulk', {
+	await os.apiWithDialog("admin/emoji/delete-bulk", {
 		ids: selectedEmojis.value,
 	});
 	emojisPaginationComponent.value.reload();
@@ -273,25 +273,25 @@ const delBulk = async () => {
 
 const headerActions = $computed(() => [{
 	asFullButton: true,
-	icon: 'ti ti-plus',
+	icon: "ti ti-plus",
 	text: i18n.ts.addEmoji,
 	handler: add,
 }, {
-	icon: 'ti ti-dots',
+	icon: "ti ti-dots",
 	handler: menu,
 }]);
 
 const headerTabs = $computed(() => [{
-	key: 'local',
+	key: "local",
 	title: i18n.ts.local,
 }, {
-	key: 'remote',
+	key: "remote",
 	title: i18n.ts.remote,
 }]);
 
 definePageMetadata(computed(() => ({
 	title: i18n.ts.customEmojis,
-	icon: 'ti ti-mood-happy',
+	icon: "ti ti-mood-happy",
 })));
 </script>
 

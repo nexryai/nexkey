@@ -14,14 +14,14 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
-import * as misskey from 'misskey-js';
-import XDetails from '@/components/MkUsersTooltip.vue';
-import { pleaseLogin } from '@/scripts/please-login';
-import * as os from '@/os';
-import { $i } from '@/account';
-import { useTooltip } from '@/scripts/use-tooltip';
-import { i18n } from '@/i18n';
+import { computed, ref } from "vue";
+import * as misskey from "misskey-js";
+import XDetails from "@/components/MkUsersTooltip.vue";
+import { pleaseLogin } from "@/scripts/please-login";
+import * as os from "@/os";
+import { $i } from "@/account";
+import { useTooltip } from "@/scripts/use-tooltip";
+import { i18n } from "@/i18n";
 import { defaultStore } from "@/store";
 
 const props = defineProps<{
@@ -31,10 +31,10 @@ const props = defineProps<{
 
 const buttonRef = ref<HTMLElement>();
 
-const canRenote = computed(() => ['public', 'home'].includes(props.note.visibility) || (props.note.visibility === 'followers' && props.note.userId === $i?.id));
+const canRenote = computed(() => ["public", "home"].includes(props.note.visibility) || (props.note.visibility === "followers" && props.note.userId === $i?.id));
 
 useTooltip(buttonRef, async (showing) => {
-	const renotes = await os.api('notes/renotes', {
+	const renotes = await os.api("notes/renotes", {
 		noteId: props.note.id,
 		limit: 11,
 	});
@@ -48,7 +48,7 @@ useTooltip(buttonRef, async (showing) => {
 		users,
 		count: props.count,
 		targetElement: buttonRef.value,
-	}, {}, 'closed');
+	}, {}, "closed");
 });
 
 const renote = (viaKeyboard = false) => {
@@ -59,9 +59,9 @@ const renote = (viaKeyboard = false) => {
 
 	os.popupMenu([{
 		text: i18n.ts.renote,
-		icon: 'ti ti-repeat',
+		icon: "ti ti-repeat",
 		action: () => {
-			os.api('notes/create', {
+			os.api("notes/create", {
 				renoteId: props.note.id,
 				visibility: visibility as never,
 				localOnly,
@@ -69,7 +69,7 @@ const renote = (viaKeyboard = false) => {
 		},
 	}, {
 		text: i18n.ts.quote,
-		icon: 'ti ti-quote',
+		icon: "ti ti-quote",
 		action: () => {
 			os.post({
 				renote: props.note,

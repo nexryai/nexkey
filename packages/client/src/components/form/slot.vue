@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
+import { } from "vue";
 
 function focus() {
 	// TODO

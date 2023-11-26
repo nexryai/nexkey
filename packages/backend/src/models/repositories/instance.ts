@@ -1,13 +1,13 @@
-import { db } from '@/db/postgre.js';
-import { Instance } from '@/models/entities/instance.js';
-import { Packed } from '@/misc/schema.js';
-import { fetchMeta } from '@/misc/fetch-meta.js';
-import { sanitizeUrl } from '@/misc/sanitize-url.js';
+import { db } from "@/db/postgre.js";
+import { Instance } from "@/models/entities/instance.js";
+import { Packed } from "@/misc/schema.js";
+import { fetchMeta } from "@/misc/fetch-meta.js";
+import { sanitizeUrl } from "@/misc/sanitize-url.js";
 
 export const InstanceRepository = db.getRepository(Instance).extend({
 	async pack(
 		instance: Instance,
-	): Promise<Packed<'FederationInstance'>> {
+	): Promise<Packed<"FederationInstance">> {
 		const meta = await fetchMeta();
 		return {
 			id: instance.id,

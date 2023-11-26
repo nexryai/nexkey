@@ -1,21 +1,21 @@
-import { publishNoteStream } from '@/services/stream.js';
-import { renderLike } from '@/remote/activitypub/renderer/like.js';
-import DeliverManager from '@/remote/activitypub/deliver-manager.js';
-import { renderActivity } from '@/remote/activitypub/renderer/index.js';
-import { toDbReaction, decodeReaction } from '@/misc/reaction-lib.js';
-import { User, IRemoteUser } from '@/models/entities/user.js';
-import { Note } from '@/models/entities/note.js';
-import { NoteReactions, Users, NoteWatchings, Notes, Emojis, Blockings } from '@/models/index.js';
-import { IsNull, Not } from 'typeorm';
-import { perUserReactionsChart } from '@/services/chart/index.js';
-import { genId } from '@/misc/gen-id.js';
-import { createNotification } from '../../create-notification.js';
-import deleteReaction from './delete.js';
-import { isDuplicateKeyValueError } from '@/misc/is-duplicate-key-value-error.js';
-import { NoteReaction } from '@/models/entities/note-reaction.js';
-import { IdentifiableError } from '@/misc/identifiable-error.js';
+import { IsNull, Not } from "typeorm";
+import { publishNoteStream } from "@/services/stream.js";
+import { renderLike } from "@/remote/activitypub/renderer/like.js";
+import DeliverManager from "@/remote/activitypub/deliver-manager.js";
+import { renderActivity } from "@/remote/activitypub/renderer/index.js";
+import { toDbReaction, decodeReaction } from "@/misc/reaction-lib.js";
+import { User, IRemoteUser } from "@/models/entities/user.js";
+import { Note } from "@/models/entities/note.js";
+import { NoteReactions, Users, NoteWatchings, Notes, Emojis, Blockings } from "@/models/index.js";
+import { perUserReactionsChart } from "@/services/chart/index.js";
+import { genId } from "@/misc/gen-id.js";
+import { isDuplicateKeyValueError } from "@/misc/is-duplicate-key-value-error.js";
+import { NoteReaction } from "@/models/entities/note-reaction.js";
+import { IdentifiableError } from "@/misc/identifiable-error.js";
+import { createNotification } from "../../create-notification.js";
+import deleteReaction from "./delete.js";
 
-export default async (user: { id: User['id']; host: User['host']; }, note: Note, reaction?: string) => {
+export default async (user: { id: User["id"]; host: User["host"]; }, note: Note, reaction?: string) => {
 	// Check blocking
 	if (note.userId !== user.id) {
 		const block = await Blockings.findOneBy({
@@ -23,13 +23,13 @@ export default async (user: { id: User['id']; host: User['host']; }, note: Note,
 			blockeeId: user.id,
 		});
 		if (block) {
-			throw new IdentifiableError('e70412a4-7197-4726-8e74-f3e0deb92aa7');
+			throw new IdentifiableError("e70412a4-7197-4726-8e74-f3e0deb92aa7");
 		}
 	}
 
 	// check visibility
 	if (!await Notes.isVisibleForMe(note, user.id)) {
-		throw new IdentifiableError('68e9d2d1-48bf-42c2-b90a-b20e09fd3d48', 'Note not accessible for you.');
+		throw new IdentifiableError("68e9d2d1-48bf-42c2-b90a-b20e09fd3d48", "Note not accessible for you.");
 	}
 
 	// TODO: cache
@@ -59,7 +59,7 @@ export default async (user: { id: User['id']; host: User['host']; }, note: Note,
 				await NoteReactions.insert(record);
 			} else {
 				// 同じリアクションがすでにされていたらエラー
-				throw new IdentifiableError('51c42bb4-931a-456b-bff7-e5a8a70dd298');
+				throw new IdentifiableError("51c42bb4-931a-456b-bff7-e5a8a70dd298");
 			}
 		} else {
 			throw e;
@@ -71,9 +71,9 @@ export default async (user: { id: User['id']; host: User['host']; }, note: Note,
 	await Notes.createQueryBuilder().update()
 		.set({
 			reactions: () => sql,
-			score: () => '"score" + 1',
+			score: () => "\"score\" + 1",
 		})
-		.where('id = :id', { id: note.id })
+		.where("id = :id", { id: note.id })
 		.execute();
 
 	perUserReactionsChart.update(user, note);
@@ -86,10 +86,10 @@ export default async (user: { id: User['id']; host: User['host']; }, note: Note,
 			name: decodedReaction.name,
 			host: decodedReaction.host ?? IsNull(),
 		},
-		select: ['name', 'host', 'originalUrl', 'publicUrl'],
+		select: ["name", "host", "originalUrl", "publicUrl"],
 	});
 
-	publishNoteStream(note.id, 'reacted', {
+	publishNoteStream(note.id, "reacted", {
 		reaction: decodedReaction.reaction,
 		emoji: emoji != null ? {
 			name: emoji.host ? `${emoji.name}@${emoji.host}` : `${emoji.name}@.`,
@@ -100,7 +100,7 @@ export default async (user: { id: User['id']; host: User['host']; }, note: Note,
 
 	// リアクションされたユーザーがローカルユーザーなら通知を作成
 	if (note.userHost === null) {
-		createNotification(note.userId, 'reaction', {
+		createNotification(note.userId, "reaction", {
 			notifierId: user.id,
 			noteId: note.id,
 			reaction: reaction,
@@ -113,7 +113,7 @@ export default async (user: { id: User['id']; host: User['host']; }, note: Note,
 		userId: Not(user.id),
 	}).then(watchers => {
 		for (const watcher of watchers) {
-			createNotification(watcher.userId, 'reaction', {
+			createNotification(watcher.userId, "reaction", {
 				notifierId: user.id,
 				noteId: note.id,
 				reaction: reaction,
@@ -130,9 +130,9 @@ export default async (user: { id: User['id']; host: User['host']; }, note: Note,
 			dm.addDirectRecipe(reactee as IRemoteUser);
 		}
 
-		if (['public', 'home', 'followers'].includes(note.visibility)) {
+		if (["public", "home", "followers"].includes(note.visibility)) {
 			dm.addFollowersRecipe();
-		} else if (note.visibility === 'specified') {
+		} else if (note.visibility === "specified") {
 			const visibleUsers = await Promise.all(note.visibleUserIds.map(id => Users.findOneBy({ id })));
 			for (const u of visibleUsers.filter(u => u && Users.isRemoteUser(u))) {
 				dm.addDirectRecipe(u as IRemoteUser);

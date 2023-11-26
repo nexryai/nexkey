@@ -1,42 +1,42 @@
-import { ref } from 'vue';
-import tinycolor from 'tinycolor2';
-import { globalEvents } from '@/events';
+import { ref } from "vue";
+import tinycolor from "tinycolor2";
+import { globalEvents } from "@/events";
 
 export type Theme = {
 	id: string;
 	name: string;
 	author: string;
 	desc?: string;
-	base?: 'dark' | 'light';
+	base?: "dark" | "light";
 	props: Record<string, string>;
 };
 
-import lightTheme from '@/themes/_light.json5';
-import darkTheme from '@/themes/_dark.json5';
+import lightTheme from "@/themes/_light.json5";
+import darkTheme from "@/themes/_dark.json5";
 
-export const themeProps = Object.keys(lightTheme.props).filter(key => !key.startsWith('X'));
+export const themeProps = Object.keys(lightTheme.props).filter(key => !key.startsWith("X"));
 
 export const getBuiltinThemes = () => Promise.all(
 	[
-		'l-light',
-		'l-coffee',
-		'l-apricot',
-		'l-rainy',
-		'l-vivid',
-		'l-cherry',
-		'l-sushi',
-		'l-u0',
+		"l-light",
+		"l-coffee",
+		"l-apricot",
+		"l-rainy",
+		"l-vivid",
+		"l-cherry",
+		"l-sushi",
+		"l-u0",
 
-		'd-dark',
-		'd-persimmon',
-		'd-astro',
-		'd-future',
-		'd-botanical',
-		'd-green-lime',
-		'd-green-orange',
-		'd-cherry',
-		'd-ice',
-		'd-u0',
+		"d-dark",
+		"d-persimmon",
+		"d-astro",
+		"d-future",
+		"d-botanical",
+		"d-green-lime",
+		"d-green-orange",
+		"d-cherry",
+		"d-ice",
+		"d-u0",
 	].map(name => import(`../themes/${name}.json5`).then(({ default: _default }): Theme => _default)),
 );
 
@@ -51,13 +51,13 @@ let timeout = null;
 export function applyTheme(theme: Theme, persist = true) {
 	if (timeout) window.clearTimeout(timeout);
 
-	document.documentElement.classList.add('_themeChanging_');
+	document.documentElement.classList.add("_themeChanging_");
 
 	timeout = window.setTimeout(() => {
-		document.documentElement.classList.remove('_themeChanging_');
+		document.documentElement.classList.remove("_themeChanging_");
 	}, 1000);
 
-	const colorSchema = theme.base === 'dark' ? 'dark' : 'light';
+	const colorSchema = theme.base === "dark" ? "dark" : "light";
 
 	// Deep copy
 	const _theme = JSON.parse(JSON.stringify(theme));
@@ -70,8 +70,8 @@ export function applyTheme(theme: Theme, persist = true) {
 	const props = compile(_theme);
 
 	for (const tag of document.head.children) {
-		if (tag.tagName === 'META' && tag.getAttribute('name') === 'theme-color') {
-			tag.setAttribute('content', props['htmlThemeColor']);
+		if (tag.tagName === "META" && tag.getAttribute("name") === "theme-color") {
+			tag.setAttribute("content", props["htmlThemeColor"]);
 			break;
 		}
 	}
@@ -80,42 +80,42 @@ export function applyTheme(theme: Theme, persist = true) {
 		document.documentElement.style.setProperty(`--${k}`, v.toString());
 	}
 
-	document.documentElement.style.setProperty('color-schema', colorSchema);
+	document.documentElement.style.setProperty("color-schema", colorSchema);
 
 	if (persist) {
-		localStorage.setItem('theme', JSON.stringify(props));
-		localStorage.setItem('colorSchema', colorSchema);
+		localStorage.setItem("theme", JSON.stringify(props));
+		localStorage.setItem("colorSchema", colorSchema);
 	}
 
 	// 色計算など再度行えるようにクライアント全体に通知
-	globalEvents.emit('themeChanged');
+	globalEvents.emit("themeChanged");
 }
 
 function compile(theme: Theme): Record<string, string> {
 	function getColor(val: string): tinycolor.Instance {
 		// ref (prop)
-		if (val[0] === '@') {
+		if (val[0] === "@") {
 			return getColor(theme.props[val.substr(1)]);
 		}
 
 		// ref (const)
-		else if (val[0] === '$') {
+		else if (val[0] === "$") {
 			return getColor(theme.props[val]);
 		}
 
 		// func
-		else if (val[0] === ':') {
-			const parts = val.split('<');
+		else if (val[0] === ":") {
+			const parts = val.split("<");
 			const func = parts.shift().substr(1);
 			const arg = parseFloat(parts.shift());
-			const color = getColor(parts.join('<'));
+			const color = getColor(parts.join("<"));
 
 			switch (func) {
-				case 'darken': return color.darken(arg);
-				case 'lighten': return color.lighten(arg);
-				case 'alpha': return color.setAlpha(arg);
-				case 'hue': return color.spin(arg);
-				case 'saturate': return color.saturate(arg);
+				case "darken": return color.darken(arg);
+				case "lighten": return color.lighten(arg);
+				case "alpha": return color.setAlpha(arg);
+				case "hue": return color.spin(arg);
+				case "saturate": return color.saturate(arg);
 			}
 		}
 
@@ -126,9 +126,9 @@ function compile(theme: Theme): Record<string, string> {
 	const props = {};
 
 	for (const [k, v] of Object.entries(theme.props)) {
-		if (k.startsWith('$')) continue; // ignore const
+		if (k.startsWith("$")) continue; // ignore const
 
-		props[k] = v.startsWith('"') ? v.replace(/^"\s*/, '') : genValue(getColor(v));
+		props[k] = v.startsWith("\"") ? v.replace(/^"\s*/, "") : genValue(getColor(v));
 	}
 
 	return props;
@@ -139,9 +139,9 @@ function genValue(c: tinycolor.Instance): string {
 }
 
 export function validateTheme(theme: Record<string, any>): boolean {
-	if (theme.id == null || typeof theme.id !== 'string') return false;
-	if (theme.name == null || typeof theme.name !== 'string') return false;
-	if (theme.base == null || !['light', 'dark'].includes(theme.base)) return false;
-	if (theme.props == null || typeof theme.props !== 'object') return false;
+	if (theme.id == null || typeof theme.id !== "string") return false;
+	if (theme.name == null || typeof theme.name !== "string") return false;
+	if (theme.base == null || !["light", "dark"].includes(theme.base)) return false;
+	if (theme.props == null || typeof theme.props !== "object") return false;
 	return true;
 }

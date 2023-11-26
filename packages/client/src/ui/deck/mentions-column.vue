@@ -7,10 +7,10 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import XColumn from './column.vue';
-import XNotes from '@/components/MkNotes.vue';
-import { Column } from './deck-store';
+import { } from "vue";
+import XColumn from "./column.vue";
+import { Column } from "./deck-store";
+import XNotes from "@/components/MkNotes.vue";
 
 defineProps<{
 	column: Column;
@@ -18,11 +18,11 @@ defineProps<{
 }>();
 
 const emit = defineEmits<{
-	(ev: 'parent-focus', direction: 'up' | 'down' | 'left' | 'right'): void;
+	(ev: "parent-focus", direction: "up" | "down" | "left" | "right"): void;
 }>();
 
 const pagination = {
-	endpoint: 'notes/mentions' as const,
+	endpoint: "notes/mentions" as const,
 	limit: 10,
 };
 </script>

@@ -1,5 +1,5 @@
-import Bull from 'bull';
-import config from '@/config/index.js';
+import Bull from "bull";
+import config from "@/config/index.js";
 
 export function initialize<T>(name: string, limitPerSec = -1) {
 	return new Bull<T>(name, {
@@ -10,7 +10,7 @@ export function initialize<T>(name: string, limitPerSec = -1) {
 			password: config.redis.pass,
 			db: config.redis.db || 0,
 		},
-		prefix: config.redis.prefix ? `${config.redis.prefix}:queue` : 'queue',
+		prefix: config.redis.prefix ? `${config.redis.prefix}:queue` : "queue",
 		limiter: limitPerSec > 0 ? {
 			max: limitPerSec,
 			duration: 1000,

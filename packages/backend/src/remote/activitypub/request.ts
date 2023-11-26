@@ -1,10 +1,10 @@
-import config from '@/config/index.js';
-import { getUserKeypair } from '@/misc/keypair-store.js';
-import { User } from '@/models/entities/user.js';
-import { getResponse } from '../../misc/fetch.js';
-import { createSignedPost, createSignedGet } from './ap-request.js';
+import config from "@/config/index.js";
+import { getUserKeypair } from "@/misc/keypair-store.js";
+import { User } from "@/models/entities/user.js";
+import { getResponse } from "../../misc/fetch.js";
+import { createSignedPost, createSignedGet } from "./ap-request.js";
 
-export default async (user: { id: User['id'] }, url: string, object: any) => {
+export default async (user: { id: User["id"] }, url: string, object: any) => {
 	const body = JSON.stringify(object);
 
 	const keypair = await getUserKeypair(user.id);
@@ -17,7 +17,7 @@ export default async (user: { id: User['id'] }, url: string, object: any) => {
 		url,
 		body,
 		additionalHeaders: {
-			'User-Agent': config.userAgent,
+			"User-Agent": config.userAgent,
 		},
 	});
 
@@ -34,7 +34,7 @@ export default async (user: { id: User['id'] }, url: string, object: any) => {
  * @param user http-signature user
  * @param url URL to fetch
  */
-export async function signedGet(url: string, user: { id: User['id'] }) {
+export async function signedGet(url: string, user: { id: User["id"] }) {
 	const keypair = await getUserKeypair(user.id);
 
 	const req = createSignedGet({
@@ -44,7 +44,7 @@ export async function signedGet(url: string, user: { id: User['id'] }) {
 		},
 		url,
 		additionalHeaders: {
-			'User-Agent': config.userAgent,
+			"User-Agent": config.userAgent,
 		},
 	});
 

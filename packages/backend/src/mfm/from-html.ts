@@ -1,6 +1,6 @@
-import { URL } from 'node:url';
-import * as parse5 from 'parse5';
-import * as TreeAdapter from '../../node_modules/parse5/dist/tree-adapters/default.js';
+import { URL } from "node:url";
+import * as parse5 from "parse5";
+import * as TreeAdapter from "../../node_modules/parse5/dist/tree-adapters/default.js";
 
 const treeAdapter = TreeAdapter.defaultTreeAdapter;
 
@@ -9,11 +9,11 @@ const urlRegexFull = /^https?:\/\/[\w\/:%#@$&?!()\[\]~.,=+\-]+$/;
 
 export function fromHtml(html: string, hashtagNames?: string[]): string {
 	// some AP servers like Pixelfed use br tags as well as newlines
-	html = html.replace(/<br\s?\/?>\r?\n/gi, '\n');
+	html = html.replace(/<br\s?\/?>\r?\n/gi, "\n");
 
 	const dom = parse5.parseFragment(html);
 
-	let text = '';
+	let text = "";
 
 	for (const n of dom.childNodes) {
 		analyze(n);
@@ -23,14 +23,14 @@ export function fromHtml(html: string, hashtagNames?: string[]): string {
 
 	function getText(node: TreeAdapter.Node): string {
 		if (treeAdapter.isTextNode(node)) return node.value;
-		if (!treeAdapter.isElementNode(node)) return '';
-		if (node.nodeName === 'br') return '\n';
+		if (!treeAdapter.isElementNode(node)) return "";
+		if (node.nodeName === "br") return "\n";
 
 		if (node.childNodes) {
-			return node.childNodes.map(n => getText(n)).join('');
+			return node.childNodes.map(n => getText(n)).join("");
 		}
 
-		return '';
+		return "";
 	}
 
 	function appendChildren(childNodes: TreeAdapter.ChildNode[]): void {
@@ -51,23 +51,23 @@ export function fromHtml(html: string, hashtagNames?: string[]): string {
 		if (!treeAdapter.isElementNode(node)) return;
 
 		switch (node.nodeName) {
-			case 'br': {
-				text += '\n';
+			case "br": {
+				text += "\n";
 				break;
 			}
 
-			case 'a':
+			case "a":
 			{
 				const txt = getText(node);
-				const rel = node.attrs.find(x => x.name === 'rel');
-				const href = node.attrs.find(x => x.name === 'href');
+				const rel = node.attrs.find(x => x.name === "rel");
+				const href = node.attrs.find(x => x.name === "href");
 
 				// ハッシュタグ
 				if (hashtagNames && href && hashtagNames.map(x => x.toLowerCase()).includes(txt.toLowerCase())) {
 					text += txt;
 				// メンション
-				} else if (txt.startsWith('@') && !(rel && rel.value.match(/^me /))) {
-					const part = txt.split('@');
+				} else if (txt.startsWith("@") && !(rel && rel.value.match(/^me /))) {
+					const part = txt.split("@");
 
 					if (part.length === 2 && href) {
 						//#region ホスト名部分が省略されているので復元する
@@ -81,7 +81,7 @@ export function fromHtml(html: string, hashtagNames?: string[]): string {
 				} else {
 					const generateLink = () => {
 						if (!href && !txt) {
-							return '';
+							return "";
 						}
 						if (!href) {
 							return txt;
@@ -105,55 +105,55 @@ export function fromHtml(html: string, hashtagNames?: string[]): string {
 				break;
 			}
 
-			case 'h1':
+			case "h1":
 			{
-				text += '【';
+				text += "【";
 				appendChildren(node.childNodes);
-				text += '】\n';
+				text += "】\n";
 				break;
 			}
 
-			case 'b':
-			case 'strong':
+			case "b":
+			case "strong":
 			{
-				text += '**';
+				text += "**";
 				appendChildren(node.childNodes);
-				text += '**';
+				text += "**";
 				break;
 			}
 
-			case 'small':
+			case "small":
 			{
-				text += '<small>';
+				text += "<small>";
 				appendChildren(node.childNodes);
-				text += '</small>';
+				text += "</small>";
 				break;
 			}
 
-			case 's':
-			case 'del':
+			case "s":
+			case "del":
 			{
-				text += '~~';
+				text += "~~";
 				appendChildren(node.childNodes);
-				text += '~~';
+				text += "~~";
 				break;
 			}
 
-			case 'i':
-			case 'em':
+			case "i":
+			case "em":
 			{
-				text += '<i>';
+				text += "<i>";
 				appendChildren(node.childNodes);
-				text += '</i>';
+				text += "</i>";
 				break;
 			}
 
 			// block code (<pre><code>)
-			case 'pre': {
-				if (node.childNodes.length === 1 && node.childNodes[0].nodeName === 'code') {
-					text += '\n```\n';
+			case "pre": {
+				if (node.childNodes.length === 1 && node.childNodes[0].nodeName === "code") {
+					text += "\n```\n";
 					text += getText(node.childNodes[0]);
-					text += '\n```\n';
+					text += "\n```\n";
 				} else {
 					appendChildren(node.childNodes);
 				}
@@ -161,44 +161,44 @@ export function fromHtml(html: string, hashtagNames?: string[]): string {
 			}
 
 			// inline code (<code>)
-			case 'code': {
-				text += '`';
+			case "code": {
+				text += "`";
 				appendChildren(node.childNodes);
-				text += '`';
+				text += "`";
 				break;
 			}
 
-			case 'blockquote': {
+			case "blockquote": {
 				const t = getText(node);
 				if (t) {
-					text += '\n> ';
-					text += t.split('\n').join('\n> ');
+					text += "\n> ";
+					text += t.split("\n").join("\n> ");
 				}
 				break;
 			}
 
-			case 'p':
-			case 'h2':
-			case 'h3':
-			case 'h4':
-			case 'h5':
-			case 'h6':
+			case "p":
+			case "h2":
+			case "h3":
+			case "h4":
+			case "h5":
+			case "h6":
 			{
-				text += '\n\n';
+				text += "\n\n";
 				appendChildren(node.childNodes);
 				break;
 			}
 
 			// other block elements
-			case 'div':
-			case 'header':
-			case 'footer':
-			case 'article':
-			case 'li':
-			case 'dt':
-			case 'dd':
+			case "div":
+			case "header":
+			case "footer":
+			case "article":
+			case "li":
+			case "dt":
+			case "dd":
 			{
-				text += '\n';
+				text += "\n";
 				appendChildren(node.childNodes);
 				break;
 			}

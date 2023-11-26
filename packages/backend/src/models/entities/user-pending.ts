@@ -1,31 +1,31 @@
-import { PrimaryColumn, Entity, Index, Column } from 'typeorm';
-import { id } from '../id.js';
+import { PrimaryColumn, Entity, Index, Column } from "typeorm";
+import { id } from "../id.js";
 
 @Entity()
 export class UserPending {
 	@PrimaryColumn(id())
 	public id: string;
 
-	@Column('timestamp with time zone')
+	@Column("timestamp with time zone")
 	public createdAt: Date;
 
 	@Index({ unique: true })
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 128,
 	})
 	public code: string;
 
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 128,
 	})
 	public username: string;
 
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 128,
 	})
 	public email: string;
 
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 128,
 	})
 	public password: string;

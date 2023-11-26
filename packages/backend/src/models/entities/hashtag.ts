@@ -1,6 +1,6 @@
-import { Entity, PrimaryColumn, Index, Column } from 'typeorm';
-import { User } from './user.js';
-import { id } from '../id.js';
+import { Entity, PrimaryColumn, Index, Column } from "typeorm";
+import { id } from "../id.js";
+import { User } from "./user.js";
 
 @Entity()
 export class Hashtag {
@@ -8,7 +8,7 @@ export class Hashtag {
 	public id: string;
 
 	@Index({ unique: true })
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 128,
 	})
 	public name: string;
@@ -17,10 +17,10 @@ export class Hashtag {
 		...id(),
 		array: true,
 	})
-	public mentionedUserIds: User['id'][];
+	public mentionedUserIds: User["id"][];
 
 	@Index()
-	@Column('integer', {
+	@Column("integer", {
 		default: 0,
 	})
 	public mentionedUsersCount: number;
@@ -29,10 +29,10 @@ export class Hashtag {
 		...id(),
 		array: true,
 	})
-	public mentionedLocalUserIds: User['id'][];
+	public mentionedLocalUserIds: User["id"][];
 
 	@Index()
-	@Column('integer', {
+	@Column("integer", {
 		default: 0,
 	})
 	public mentionedLocalUsersCount: number;
@@ -41,10 +41,10 @@ export class Hashtag {
 		...id(),
 		array: true,
 	})
-	public mentionedRemoteUserIds: User['id'][];
+	public mentionedRemoteUserIds: User["id"][];
 
 	@Index()
-	@Column('integer', {
+	@Column("integer", {
 		default: 0,
 	})
 	public mentionedRemoteUsersCount: number;
@@ -53,10 +53,10 @@ export class Hashtag {
 		...id(),
 		array: true,
 	})
-	public attachedUserIds: User['id'][];
+	public attachedUserIds: User["id"][];
 
 	@Index()
-	@Column('integer', {
+	@Column("integer", {
 		default: 0,
 	})
 	public attachedUsersCount: number;
@@ -65,10 +65,10 @@ export class Hashtag {
 		...id(),
 		array: true,
 	})
-	public attachedLocalUserIds: User['id'][];
+	public attachedLocalUserIds: User["id"][];
 
 	@Index()
-	@Column('integer', {
+	@Column("integer", {
 		default: 0,
 	})
 	public attachedLocalUsersCount: number;
@@ -77,10 +77,10 @@ export class Hashtag {
 		...id(),
 		array: true,
 	})
-	public attachedRemoteUserIds: User['id'][];
+	public attachedRemoteUserIds: User["id"][];
 
 	@Index()
-	@Column('integer', {
+	@Column("integer", {
 		default: 0,
 	})
 	public attachedRemoteUsersCount: number;

@@ -28,15 +28,15 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, onUnmounted, ref, inject, watch, nextTick } from 'vue';
-import tinycolor from 'tinycolor2';
-import { popupMenu } from '@/os';
-import { url } from '@/config';
-import { scrollToTop } from '@/scripts/scroll';
-import MkButton from '@/components/MkButton.vue';
-import { i18n } from '@/i18n';
-import { globalEvents } from '@/events';
-import { injectPageMetadata } from '@/scripts/page-metadata';
+import { computed, onMounted, onUnmounted, ref, inject, watch, nextTick } from "vue";
+import tinycolor from "tinycolor2";
+import { popupMenu } from "@/os";
+import { url } from "@/config";
+import { scrollToTop } from "@/scripts/scroll";
+import MkButton from "@/components/MkButton.vue";
+import { i18n } from "@/i18n";
+import { globalEvents } from "@/events";
+import { injectPageMetadata } from "@/scripts/page-metadata";
 
 type Tab = {
 	key?: string | null;
@@ -59,7 +59,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-	(ev: 'update:tab', key: string);
+	(ev: "update:tab", key: string);
 }>();
 
 const metadata = injectPageMetadata();
@@ -93,13 +93,13 @@ const preventDrag = (ev: TouchEvent) => {
 };
 
 const onClick = () => {
-	scrollToTop(el.value, { behavior: 'smooth' });
+	scrollToTop(el.value, { behavior: "smooth" });
 };
 
 function onTabMousedown(tab: Tab, ev: MouseEvent): void {
 	// ユーザビリティの観点からmousedown時にはonClickは呼ばない
 	if (tab.key) {
-		emit('update:tab', tab.key);
+		emit("update:tab", tab.key);
 	}
 }
 
@@ -110,20 +110,20 @@ function onTabClick(tab: Tab, ev: MouseEvent): void {
 		tab.onClick(ev);
 	}
 	if (tab.key) {
-		emit('update:tab', tab.key);
+		emit("update:tab", tab.key);
 	}
 }
 
 const calcBg = () => {
-	const rawBg = metadata?.bg || 'var(--bg)';
-	const tinyBg = tinycolor(rawBg.startsWith('var(') ? getComputedStyle(document.documentElement).getPropertyValue(rawBg.slice(4, -1)) : rawBg);
+	const rawBg = metadata?.bg || "var(--bg)";
+	const tinyBg = tinycolor(rawBg.startsWith("var(") ? getComputedStyle(document.documentElement).getPropertyValue(rawBg.slice(4, -1)) : rawBg);
 	tinyBg.setAlpha(0.85);
 	bg.value = tinyBg.toRgbString();
 };
 
 onMounted(() => {
 	calcBg();
-	globalEvents.on('themeChanged', calcBg);
+	globalEvents.on("themeChanged", calcBg);
 
 	watch(() => [props.tab, props.tabs], () => {
 		nextTick(() => {
@@ -133,8 +133,8 @@ onMounted(() => {
 				// https://developer.mozilla.org/ja/docs/Web/API/HTMLElement/offsetWidth#%E5%80%A4
 				const parentRect = tabEl.parentElement.getBoundingClientRect();
 				const rect = tabEl.getBoundingClientRect();
-				tabHighlightEl.style.width = rect.width + 'px';
-				tabHighlightEl.style.left = (rect.left - parentRect.left) + 'px';
+				tabHighlightEl.style.width = rect.width + "px";
+				tabHighlightEl.style.left = (rect.left - parentRect.left) + "px";
 			}
 		});
 	}, {
@@ -143,7 +143,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-	globalEvents.off('themeChanged', calcBg);
+	globalEvents.off("themeChanged", calcBg);
 });
 </script>
 

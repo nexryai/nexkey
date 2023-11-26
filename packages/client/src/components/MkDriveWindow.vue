@@ -14,17 +14,17 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import * as Misskey from 'misskey-js';
-import XDrive from '@/components/MkDrive.vue';
-import XWindow from '@/components/MkWindow.vue';
-import { i18n } from '@/i18n';
+import { } from "vue";
+import * as Misskey from "misskey-js";
+import XDrive from "@/components/MkDrive.vue";
+import XWindow from "@/components/MkWindow.vue";
+import { i18n } from "@/i18n";
 
 defineProps<{
 	initialFolder?: Misskey.entities.DriveFolder;
 }>();
 
 const emit = defineEmits<{
-	(ev: 'closed'): void;
+	(ev: "closed"): void;
 }>();
 </script>

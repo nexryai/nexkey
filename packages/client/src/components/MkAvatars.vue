@@ -7,8 +7,8 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
-import * as os from '@/os';
+import { onMounted, ref } from "vue";
+import * as os from "@/os";
 
 const props = defineProps<{
 	userIds: string[];
@@ -17,8 +17,8 @@ const props = defineProps<{
 const users = ref([]);
 
 onMounted(async () => {
-	users.value = await os.api('users/show', {
-		userIds: props.userIds
+	users.value = await os.api("users/show", {
+		userIds: props.userIds,
 	});
 });
 </script>

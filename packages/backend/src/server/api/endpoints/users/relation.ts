@@ -1,99 +1,99 @@
-import { Users } from '@/models/index.js';
-import define from '../../define.js';
+import { Users } from "@/models/index.js";
+import define from "../../define.js";
 
 export const meta = {
-	tags: ['users'],
+	tags: ["users"],
 
 	requireCredential: true,
 
-	description: 'Show the different kinds of relations between the authenticated user and the specified user(s).',
+	description: "Show the different kinds of relations between the authenticated user and the specified user(s).",
 
 	res: {
 		optional: false, nullable: false,
 		oneOf: [
 			{
-				type: 'object',
+				type: "object",
 				properties: {
 					id: {
-						type: 'string',
+						type: "string",
 						optional: false, nullable: false,
-						format: 'id',
+						format: "id",
 					},
 					isFollowing: {
-						type: 'boolean',
+						type: "boolean",
 						optional: false, nullable: false,
 					},
 					hasPendingFollowRequestFromYou: {
-						type: 'boolean',
+						type: "boolean",
 						optional: false, nullable: false,
 					},
 					hasPendingFollowRequestToYou: {
-						type: 'boolean',
+						type: "boolean",
 						optional: false, nullable: false,
 					},
 					isFollowed: {
-						type: 'boolean',
+						type: "boolean",
 						optional: false, nullable: false,
 					},
 					isBlocking: {
-						type: 'boolean',
+						type: "boolean",
 						optional: false, nullable: false,
 					},
 					isBlocked: {
-						type: 'boolean',
+						type: "boolean",
 						optional: false, nullable: false,
 					},
 					isMuted: {
-						type: 'boolean',
+						type: "boolean",
 						optional: false, nullable: false,
 					},
 					isRenoteMuted: {
-						type: 'boolean',
+						type: "boolean",
 						optional: false, nullable: false,
 					},
 				},
 			},
 			{
-				type: 'array',
+				type: "array",
 				items: {
-					type: 'object',
+					type: "object",
 					optional: false, nullable: false,
 					properties: {
 						id: {
-							type: 'string',
+							type: "string",
 							optional: false, nullable: false,
-							format: 'id',
+							format: "id",
 						},
 						isFollowing: {
-							type: 'boolean',
+							type: "boolean",
 							optional: false, nullable: false,
 						},
 						hasPendingFollowRequestFromYou: {
-							type: 'boolean',
+							type: "boolean",
 							optional: false, nullable: false,
 						},
 						hasPendingFollowRequestToYou: {
-							type: 'boolean',
+							type: "boolean",
 							optional: false, nullable: false,
 						},
 						isFollowed: {
-							type: 'boolean',
+							type: "boolean",
 							optional: false, nullable: false,
 						},
 						isBlocking: {
-							type: 'boolean',
+							type: "boolean",
 							optional: false, nullable: false,
 						},
 						isBlocked: {
-							type: 'boolean',
+							type: "boolean",
 							optional: false, nullable: false,
 						},
 						isMuted: {
-							type: 'boolean',
+							type: "boolean",
 							optional: false, nullable: false,
 						},
 						isRenoteMuted: {
-							type: 'boolean',
+							type: "boolean",
 							optional: false, nullable: false,
 						},
 					},
@@ -104,19 +104,19 @@ export const meta = {
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
 		userId: {
 			anyOf: [
-				{ type: 'string', format: 'misskey:id' },
+				{ type: "string", format: "misskey:id" },
 				{
-					type: 'array',
-					items: { type: 'string', format: 'misskey:id' },
+					type: "array",
+					items: { type: "string", format: "misskey:id" },
 				},
 			],
 		},
 	},
-	required: ['userId'],
+	required: ["userId"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export

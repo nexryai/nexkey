@@ -13,14 +13,14 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref, watch } from 'vue';
-import * as misskey from 'misskey-js';
-import XDetails from '@/components/MkReactionsViewer.details.vue';
-import XReactionIcon from '@/components/MkReactionIcon.vue';
-import * as os from '@/os';
-import { useTooltip } from '@/scripts/use-tooltip';
-import { $i } from '@/account';
-import { defaultStore } from '@/store';
+import { computed, onMounted, ref, watch } from "vue";
+import * as misskey from "misskey-js";
+import XDetails from "@/components/MkReactionsViewer.details.vue";
+import XReactionIcon from "@/components/MkReactionIcon.vue";
+import * as os from "@/os";
+import { useTooltip } from "@/scripts/use-tooltip";
+import { $i } from "@/account";
+import { defaultStore } from "@/store";
 import { checkReactionMute } from "@/scripts/check-reaction-mute";
 
 const props = defineProps<{
@@ -42,18 +42,18 @@ const toggleReaction = () => {
 
 	const oldReaction = props.note.myReaction;
 	if (oldReaction) {
-		os.api('notes/reactions/delete', {
+		os.api("notes/reactions/delete", {
 			noteId: props.note.id,
 		}).then(() => {
 			if (oldReaction !== props.reaction) {
-				os.api('notes/reactions/create', {
+				os.api("notes/reactions/create", {
 					noteId: props.note.id,
 					reaction: props.reaction,
 				});
 			}
 		});
 	} else {
-		os.api('notes/reactions/create', {
+		os.api("notes/reactions/create", {
 			noteId: props.note.id,
 			reaction: props.reaction,
 		});
@@ -75,7 +75,7 @@ onMounted(() => {
 });
 
 useTooltip(buttonRef, async (showing) => {
-	const reactions = await os.apiGet('notes/reactions', {
+	const reactions = await os.apiGet("notes/reactions", {
 		noteId: props.note.id,
 		type: props.reaction,
 		limit: 11,
@@ -91,7 +91,7 @@ useTooltip(buttonRef, async (showing) => {
 		users,
 		count: props.count,
 		targetElement: buttonRef.value,
-	}, {}, 'closed');
+	}, {}, "closed");
 }, 100);
 </script>
 

@@ -1,15 +1,15 @@
-import * as os from 'node:os';
-import si from 'systeminformation';
-import define from '../define.js';
+import * as os from "node:os";
+import si from "systeminformation";
+import define from "../define.js";
 
 export const meta = {
 	requireCredential: false,
 
-	tags: ['meta'],
+	tags: ["meta"],
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {},
 	required: [],
 } as const;

@@ -1,19 +1,19 @@
-import define from '../../../define.js';
-import { removeRelay } from '@/services/relay.js';
+import { removeRelay } from "@/services/relay.js";
+import define from "../../../define.js";
 
 export const meta = {
-	tags: ['admin'],
+	tags: ["admin"],
 
 	requireCredential: true,
 	requireModerator: true,
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		inbox: { type: 'string' },
+		inbox: { type: "string" },
 	},
-	required: ['inbox'],
+	required: ["inbox"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export

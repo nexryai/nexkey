@@ -55,15 +55,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import FormInput from './form/input.vue';
-import FormTextarea from './form/textarea.vue';
-import FormSwitch from './form/switch.vue';
-import FormSelect from './form/select.vue';
-import FormRange from './form/range.vue';
-import MkButton from './MkButton.vue';
-import FormRadios from './form/radios.vue';
-import XModalWindow from '@/components/MkModalWindow.vue';
+import { defineComponent } from "vue";
+import FormInput from "./form/input.vue";
+import FormTextarea from "./form/textarea.vue";
+import FormSwitch from "./form/switch.vue";
+import FormSelect from "./form/select.vue";
+import FormRange from "./form/range.vue";
+import MkButton from "./MkButton.vue";
+import FormRadios from "./form/radios.vue";
+import XModalWindow from "@/components/MkModalWindow.vue";
 
 export default defineComponent({
 	components: {
@@ -88,7 +88,7 @@ export default defineComponent({
 		},
 	},
 
-	emits: ['done'],
+	emits: ["done"],
 
 	data() {
 		return {
@@ -104,14 +104,14 @@ export default defineComponent({
 
 	methods: {
 		ok() {
-			this.$emit('done', {
+			this.$emit("done", {
 				result: this.values,
 			});
 			this.$refs.dialog.close();
 		},
 
 		cancel() {
-			this.$emit('done', {
+			this.$emit("done", {
 				canceled: true,
 			});
 			this.$refs.dialog.close();

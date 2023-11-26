@@ -10,13 +10,13 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, watch } from 'vue';
-import * as misskey from 'misskey-js';
-import { getStaticImageUrl } from '@/scripts/get-static-image-url';
-import { extractAvgColorFromBlurhash } from '@/scripts/extract-avg-color-from-blurhash';
-import { acct, userPage } from '@/filters/user';
-import MkUserOnlineIndicator from '@/components/MkUserOnlineIndicator.vue';
-import { defaultStore } from '@/store';
+import { onMounted, watch } from "vue";
+import * as misskey from "misskey-js";
+import { getStaticImageUrl } from "@/scripts/get-static-image-url";
+import { extractAvgColorFromBlurhash } from "@/scripts/extract-avg-color-from-blurhash";
+import { acct, userPage } from "@/filters/user";
+import MkUserOnlineIndicator from "@/components/MkUserOnlineIndicator.vue";
+import { defaultStore } from "@/store";
 
 const props = withDefaults(defineProps<{
 	user: misskey.entities.User;
@@ -32,7 +32,7 @@ const props = withDefaults(defineProps<{
 });
 
 const emit = defineEmits<{
-	(ev: 'click', v: MouseEvent): void;
+	(ev: "click", v: MouseEvent): void;
 }>();
 
 const url = $computed(() => defaultStore.state.disableShowingAnimatedImages
@@ -40,7 +40,7 @@ const url = $computed(() => defaultStore.state.disableShowingAnimatedImages
 	: props.user.avatarUrl);
 
 function onClick(ev: MouseEvent) {
-	emit('click', ev);
+	emit("click", ev);
 }
 
 let color = $ref();

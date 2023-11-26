@@ -18,69 +18,69 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
-import FormRange from '@/components/form/range.vue';
-import FormButton from '@/components/MkButton.vue';
-import FormLink from '@/components/form/link.vue';
-import FormSection from '@/components/form/section.vue';
-import * as os from '@/os';
-import { ColdDeviceStorage } from '@/store';
-import { playFile } from '@/scripts/sound';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { computed, ref } from "vue";
+import FormRange from "@/components/form/range.vue";
+import FormButton from "@/components/MkButton.vue";
+import FormLink from "@/components/form/link.vue";
+import FormSection from "@/components/form/section.vue";
+import * as os from "@/os";
+import { ColdDeviceStorage } from "@/store";
+import { playFile } from "@/scripts/sound";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 const masterVolume = computed({
 	get: () => {
-		return ColdDeviceStorage.get('sound_masterVolume');
+		return ColdDeviceStorage.get("sound_masterVolume");
 	},
 	set: (value) => {
-		ColdDeviceStorage.set('sound_masterVolume', value);
+		ColdDeviceStorage.set("sound_masterVolume", value);
 	},
 });
 
-const volumeIcon = computed(() => masterVolume.value === 0 ? 'ti ti-volume-3' : 'ti ti-volume');
+const volumeIcon = computed(() => masterVolume.value === 0 ? "ti ti-volume-3" : "ti ti-volume");
 
 const sounds = ref({
-	note: ColdDeviceStorage.get('sound_note'),
-	noteMy: ColdDeviceStorage.get('sound_noteMy'),
-	notification: ColdDeviceStorage.get('sound_notification'),
-	chat: ColdDeviceStorage.get('sound_chat'),
-	chatBg: ColdDeviceStorage.get('sound_chatBg'),
-	antenna: ColdDeviceStorage.get('sound_antenna'),
-	channel: ColdDeviceStorage.get('sound_channel'),
+	note: ColdDeviceStorage.get("sound_note"),
+	noteMy: ColdDeviceStorage.get("sound_noteMy"),
+	notification: ColdDeviceStorage.get("sound_notification"),
+	chat: ColdDeviceStorage.get("sound_chat"),
+	chatBg: ColdDeviceStorage.get("sound_chatBg"),
+	antenna: ColdDeviceStorage.get("sound_antenna"),
+	channel: ColdDeviceStorage.get("sound_channel"),
 });
 
 const soundsTypes = [
 	null,
-	'syuilo/up',
-	'syuilo/down',
-	'syuilo/pope1',
-	'syuilo/pope2',
-	'syuilo/waon',
-	'syuilo/popo',
-	'syuilo/triple',
-	'syuilo/poi1',
-	'syuilo/poi2',
-	'syuilo/pirori',
-	'syuilo/pirori-wet',
-	'syuilo/pirori-square-wet',
-	'syuilo/square-pico',
-	'syuilo/reverved',
-	'syuilo/ryukyu',
-	'syuilo/kick',
-	'syuilo/snare',
-	'syuilo/queue-jammed',
-	'aisha/1',
-	'aisha/2',
-	'aisha/3',
-	'noizenecio/kick_gaba',
-	'noizenecio/kick_gaba2',
+	"syuilo/up",
+	"syuilo/down",
+	"syuilo/pope1",
+	"syuilo/pope2",
+	"syuilo/waon",
+	"syuilo/popo",
+	"syuilo/triple",
+	"syuilo/poi1",
+	"syuilo/poi2",
+	"syuilo/pirori",
+	"syuilo/pirori-wet",
+	"syuilo/pirori-square-wet",
+	"syuilo/square-pico",
+	"syuilo/reverved",
+	"syuilo/ryukyu",
+	"syuilo/kick",
+	"syuilo/snare",
+	"syuilo/queue-jammed",
+	"aisha/1",
+	"aisha/2",
+	"aisha/3",
+	"noizenecio/kick_gaba",
+	"noizenecio/kick_gaba2",
 ];
 
 async function edit(type) {
-	const { canceled, result } = await os.form(i18n.t('_sfx.' + type), {
+	const { canceled, result } = await os.form(i18n.t("_sfx." + type), {
 		type: {
-			type: 'enum',
+			type: "enum",
 			enum: soundsTypes.map(x => ({
 				value: x,
 				label: x == null ? i18n.ts.none : x,
@@ -89,7 +89,7 @@ async function edit(type) {
 			default: sounds.value[type].type,
 		},
 		volume: {
-			type: 'range',
+			type: "range",
 			min: 0,
 			max: 1,
 			step: 0.05,
@@ -98,7 +98,7 @@ async function edit(type) {
 			default: sounds.value[type].volume,
 		},
 		listen: {
-			type: 'button',
+			type: "button",
 			content: i18n.ts.listen,
 			action: (_, values) => {
 				playFile(values.type, values.volume);
@@ -112,14 +112,14 @@ async function edit(type) {
 		volume: result.volume,
 	};
 
-	ColdDeviceStorage.set('sound_' + type, v);
+	ColdDeviceStorage.set("sound_" + type, v);
 	sounds.value[type] = v;
 }
 
 function reset() {
 	for (const sound of Object.keys(sounds.value)) {
-		const v = ColdDeviceStorage.default['sound_' + sound];
-		ColdDeviceStorage.set('sound_' + sound, v);
+		const v = ColdDeviceStorage.default["sound_" + sound];
+		ColdDeviceStorage.set("sound_" + sound, v);
 		sounds.value[sound] = v;
 	}
 }
@@ -130,6 +130,6 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.sounds,
-	icon: 'ti ti-music',
+	icon: "ti ti-music",
 });
 </script>

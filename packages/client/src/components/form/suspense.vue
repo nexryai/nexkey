@@ -16,8 +16,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, watch } from 'vue';
-import MkButton from '@/components/MkButton.vue';
+import { defineComponent, PropType, ref, watch } from "vue";
+import MkButton from "@/components/MkButton.vue";
 
 export default defineComponent({
 	components: {

@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
+import { } from "vue";
 
 const props = defineProps<{
 	warn?: boolean;

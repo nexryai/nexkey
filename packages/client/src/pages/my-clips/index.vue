@@ -1,6 +1,6 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader v-model:tab="tab"  :actions="headerActions" :tabs="headerTabs"/></template>
+	<template #header><MkPageHeader v-model:tab="tab" :actions="headerActions" :tabs="headerTabs"/></template>
 	<MkSpacer :content-max="700">
 		<div v-if="tab === 'favorites'">
 			<XFavorites></XFavorites>
@@ -20,44 +20,44 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import XFavorites from './favorites.vue';
-import MkPagination from '@/components/MkPagination.vue';
-import MkButton from '@/components/MkButton.vue';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { } from "vue";
+import XFavorites from "./favorites.vue";
+import MkPagination from "@/components/MkPagination.vue";
+import MkButton from "@/components/MkButton.vue";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 const pagination = {
-	endpoint: 'clips/list' as const,
+	endpoint: "clips/list" as const,
 	limit: 10,
 };
 
 const pagingComponent = $ref<InstanceType<typeof MkPagination>>();
 
-let tab = $ref('favorites');
+let tab = $ref("favorites");
 
 async function create() {
 	const { canceled, result } = await os.form(i18n.ts.createNewClip, {
 		name: {
-			type: 'string',
+			type: "string",
 			label: i18n.ts.name,
 		},
 		description: {
-			type: 'string',
+			type: "string",
 			required: false,
 			multiline: true,
 			label: i18n.ts.description,
 		},
 		isPublic: {
-			type: 'boolean',
+			type: "boolean",
 			label: i18n.ts.public,
 			default: false,
 		},
 	});
 	if (canceled) return;
 
-	os.apiWithDialog('clips/create', result);
+	os.apiWithDialog("clips/create", result);
 
 	pagingComponent.reload();
 }
@@ -73,20 +73,20 @@ function onClipDeleted() {
 const headerActions = $computed(() => []);
 
 const headerTabs = $computed(() => [{
-	key: 'favorites',
+	key: "favorites",
 	title: i18n.ts.favorites,
-	icon: 'ti ti-star',
+	icon: "ti ti-star",
 }, {
-	key: 'clip',
+	key: "clip",
 	title: i18n.ts.clip,
-	icon: 'ti ti-edit',
+	icon: "ti ti-edit",
 }]);
 
 definePageMetadata({
 	title: i18n.ts.clip,
-	icon: 'ti ti-paperclip',
+	icon: "ti ti-paperclip",
 	action: {
-		icon: 'ti ti-plus',
+		icon: "ti ti-plus",
 		handler: create,
 	},
 });

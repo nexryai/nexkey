@@ -27,14 +27,14 @@
 
 <script lang="ts" setup>
 /* eslint-disable vue/no-mutating-props */
-import { defineAsyncComponent, inject } from 'vue';
-import { v4 as uuid } from 'uuid';
-import XContainer from '../page-editor.container.vue';
-import MkSelect from '@/components/form/select.vue';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
+import { defineAsyncComponent, inject } from "vue";
+import { v4 as uuid } from "uuid";
+import XContainer from "../page-editor.container.vue";
+import MkSelect from "@/components/form/select.vue";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
 
-const XBlocks = defineAsyncComponent(() => import('../page-editor.blocks.vue'));
+const XBlocks = defineAsyncComponent(() => import("../page-editor.blocks.vue"));
 
 const props = withDefaults(defineProps<{
 	value: any,
@@ -42,16 +42,16 @@ const props = withDefaults(defineProps<{
 }>(), {
 	value: {
 		children: [],
-		var: null
-	}
+		var: null,
+	},
 });
 
-const getPageBlockList = inject<(any) => any>('getPageBlockList');
+const getPageBlockList = inject<(any) => any>("getPageBlockList");
 
 async function add() {
 	const { canceled, result: type } = await os.select({
 		title: i18n.ts._pages.chooseBlock,
-		groupedItems: getPageBlockList()
+		groupedItems: getPageBlockList(),
 	});
 	if (canceled) return;
 

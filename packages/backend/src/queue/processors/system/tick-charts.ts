@@ -1,12 +1,12 @@
-import Bull from 'bull';
+import Bull from "bull";
 
-import { queueLogger } from '../../logger.js';
-import { activeUsersChart, driveChart, federationChart, hashtagChart, instanceChart, notesChart, perUserDriveChart, perUserFollowingChart, perUserNotesChart, perUserReactionsChart, usersChart, apRequestChart } from '@/services/chart/index.js';
+import { activeUsersChart, driveChart, federationChart, hashtagChart, instanceChart, notesChart, perUserDriveChart, perUserFollowingChart, perUserNotesChart, perUserReactionsChart, usersChart, apRequestChart } from "@/services/chart/index.js";
+import { queueLogger } from "../../logger.js";
 
-const logger = queueLogger.createSubLogger('tick-charts');
+const logger = queueLogger.createSubLogger("tick-charts");
 
 export async function tickCharts(job: Bull.Job<Record<string, unknown>>, done: any): Promise<void> {
-	logger.info(`Tick charts...`);
+	logger.info("Tick charts...");
 
 	await Promise.all([
 		federationChart.tick(false),
@@ -23,6 +23,6 @@ export async function tickCharts(job: Bull.Job<Record<string, unknown>>, done: a
 		apRequestChart.tick(false),
 	]);
 
-	logger.succ(`All charts successfully ticked.`);
+	logger.succ("All charts successfully ticked.");
 	done();
 }

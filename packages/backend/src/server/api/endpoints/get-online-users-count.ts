@@ -1,16 +1,16 @@
-import { MoreThan } from 'typeorm';
-import { USER_ONLINE_THRESHOLD } from '@/const.js';
-import { Users } from '@/models/index.js';
-import define from '../define.js';
+import { MoreThan } from "typeorm";
+import { USER_ONLINE_THRESHOLD } from "@/const.js";
+import { Users } from "@/models/index.js";
+import define from "../define.js";
 
 export const meta = {
-	tags: ['meta'],
+	tags: ["meta"],
 
 	requireCredential: true,
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {},
 	required: [],
 } as const;

@@ -33,17 +33,17 @@
 </template>
 
 <script lang="ts" setup>
-import { onUnmounted, ref } from 'vue';
-import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from './widget';
-import { GetFormResultType } from '@/scripts/form';
-import { i18n } from '@/i18n';
-import { useInterval } from '@/scripts/use-interval';
+import { onUnmounted, ref } from "vue";
+import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from "./widget";
+import { GetFormResultType } from "@/scripts/form";
+import { i18n } from "@/i18n";
+import { useInterval } from "@/scripts/use-interval";
 
-const name = 'calendar';
+const name = "calendar";
 
 const widgetPropsDef = {
 	transparent: {
-		type: 'boolean' as const,
+		type: "boolean" as const,
 		default: false,
 	},
 };
@@ -54,7 +54,7 @@ type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
 //const props = defineProps<WidgetComponentProps<WidgetProps>>();
 //const emit = defineEmits<WidgetComponentEmits<WidgetProps>>();
 const props = defineProps<{ widget?: Widget<WidgetProps>; }>();
-const emit = defineEmits<{ (ev: 'updateProps', props: WidgetProps); }>();
+const emit = defineEmits<{ (ev: "updateProps", props: WidgetProps); }>();
 
 const { widgetProps, configure } = useWidgetPropsManager(name,
 	widgetPropsDef,
@@ -65,7 +65,7 @@ const { widgetProps, configure } = useWidgetPropsManager(name,
 const year = ref(0);
 const month = ref(0);
 const day = ref(0);
-const weekDay = ref('');
+const weekDay = ref("");
 const yearP = ref(0);
 const monthP = ref(0);
 const dayP = ref(0);

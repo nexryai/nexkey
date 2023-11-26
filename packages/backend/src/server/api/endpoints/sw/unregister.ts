@@ -1,20 +1,20 @@
-import { SwSubscriptions } from '@/models/index.js';
-import define from '../../define.js';
+import { SwSubscriptions } from "@/models/index.js";
+import define from "../../define.js";
 
 export const meta = {
-	tags: ['account'],
+	tags: ["account"],
 
 	requireCredential: true,
 
-	description: 'Unregister from receiving push notifications.',
+	description: "Unregister from receiving push notifications.",
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		endpoint: { type: 'string' },
+		endpoint: { type: "string" },
 	},
-	required: ['endpoint'],
+	required: ["endpoint"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export

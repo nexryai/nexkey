@@ -1,50 +1,50 @@
 export const packedPageSchema = {
-	type: 'object',
+	type: "object",
 	properties: {
 		id: {
-			type: 'string',
+			type: "string",
 			optional: false, nullable: false,
-			format: 'id',
-			example: 'xxxxxxxxxx',
+			format: "id",
+			example: "xxxxxxxxxx",
 		},
 		createdAt: {
-			type: 'string',
+			type: "string",
 			optional: false, nullable: false,
-			format: 'date-time',
+			format: "date-time",
 		},
 		updatedAt: {
-			type: 'string',
+			type: "string",
 			optional: false, nullable: false,
-			format: 'date-time',
+			format: "date-time",
 		},
 		title: {
-			type: 'string',
+			type: "string",
 			optional: false, nullable: false,
 		},
 		name: {
-			type: 'string',
+			type: "string",
 			optional: false, nullable: false,
 		},
 		summary: {
-			type: 'string',
+			type: "string",
 			optional: false, nullable: true,
 		},
 		content: {
-			type: 'array',
+			type: "array",
 			optional: false, nullable: false,
 		},
 		variables: {
-			type: 'array',
+			type: "array",
 			optional: false, nullable: false,
 		},
 		userId: {
-			type: 'string',
+			type: "string",
 			optional: false, nullable: false,
-			format: 'id',
+			format: "id",
 		},
 		user: {
-			type: 'object',
-			ref: 'UserLite',
+			type: "object",
+			ref: "UserLite",
 			optional: false, nullable: false,
 		},
 	},

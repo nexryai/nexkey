@@ -1,17 +1,17 @@
-import { IsNull } from 'typeorm';
-import define from '../../../define.js';
-import { deleteFile } from '@/services/drive/delete-file.js';
-import { DriveFiles } from '@/models/index.js';
+import { IsNull } from "typeorm";
+import { deleteFile } from "@/services/drive/delete-file.js";
+import { DriveFiles } from "@/models/index.js";
+import define from "../../../define.js";
 
 export const meta = {
-	tags: ['admin'],
+	tags: ["admin"],
 
 	requireCredential: true,
 	requireModerator: true,
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {},
 	required: [],
 } as const;

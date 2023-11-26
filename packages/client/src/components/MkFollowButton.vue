@@ -30,11 +30,11 @@
 </template>
 
 <script lang="ts" setup>
-import { onBeforeUnmount, onMounted } from 'vue';
-import * as Misskey from 'misskey-js';
-import * as os from '@/os';
-import { stream } from '@/stream';
-import { i18n } from '@/i18n';
+import { onBeforeUnmount, onMounted } from "vue";
+import * as Misskey from "misskey-js";
+import * as os from "@/os";
+import { stream } from "@/stream";
+import { i18n } from "@/i18n";
 
 const props = withDefaults(defineProps<{
 	user: Misskey.entities.UserDetailed,
@@ -48,10 +48,10 @@ const props = withDefaults(defineProps<{
 let isFollowing = $ref(props.user.isFollowing);
 let hasPendingFollowRequestFromYou = $ref(props.user.hasPendingFollowRequestFromYou);
 let wait = $ref(false);
-const connection = stream.useChannel('main');
+const connection = stream.useChannel("main");
 
 if (props.user.isFollowing == null) {
-	os.api('users/show', {
+	os.api("users/show", {
 		userId: props.user.id,
 	})
 		.then(onFollowChange);
@@ -70,23 +70,23 @@ async function onClick() {
 	try {
 		if (isFollowing) {
 			const { canceled } = await os.confirm({
-				type: 'warning',
-				text: i18n.t('unfollowConfirm', { name: props.user.name || props.user.username }),
+				type: "warning",
+				text: i18n.t("unfollowConfirm", { name: props.user.name || props.user.username }),
 			});
 
 			if (canceled) return;
 
-			await os.api('following/delete', {
+			await os.api("following/delete", {
 				userId: props.user.id,
 			});
 		} else {
 			if (hasPendingFollowRequestFromYou) {
-				await os.api('following/requests/cancel', {
+				await os.api("following/requests/cancel", {
 					userId: props.user.id,
 				});
 				hasPendingFollowRequestFromYou = false;
 			} else {
-				await os.api('following/create', {
+				await os.api("following/create", {
 					userId: props.user.id,
 				});
 				hasPendingFollowRequestFromYou = true;
@@ -100,8 +100,8 @@ async function onClick() {
 }
 
 onMounted(() => {
-	connection.on('follow', onFollowChange);
-	connection.on('unfollow', onFollowChange);
+	connection.on("follow", onFollowChange);
+	connection.on("unfollow", onFollowChange);
 });
 
 onBeforeUnmount(() => {

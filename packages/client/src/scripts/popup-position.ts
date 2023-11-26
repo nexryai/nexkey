@@ -1,10 +1,10 @@
-import { Ref } from 'vue';
+import { Ref } from "vue";
 
 export function calcPopupPosition(el: HTMLElement, props: {
 	anchorElement: HTMLElement | null;
 	innerMargin: number;
-	direction: 'top' | 'bottom' | 'left' | 'right';
-	align: 'top' | 'bottom' | 'left' | 'right' | 'center';
+	direction: "top" | "bottom" | "left" | "right";
+	align: "top" | "bottom" | "left" | "right" | "center";
 	alignOffset?: number;
 	x?: number;
 	y?: number;
@@ -88,10 +88,10 @@ export function calcPopupPosition(el: HTMLElement, props: {
 		if (props.anchorElement) {
 			left = (rect.left + props.anchorElement.offsetWidth + window.pageXOffset) + props.innerMargin;
 
-			if (props.align === 'top') {
+			if (props.align === "top") {
 				top = rect.top + window.pageYOffset;
 				if (props.alignOffset != null) top += props.alignOffset;
-			} else if (props.align === 'bottom') {
+			} else if (props.align === "bottom") {
 				// TODO
 			} else { // center
 				top = rect.top + window.pageYOffset + (props.anchorElement.offsetHeight / 2);
@@ -116,40 +116,40 @@ export function calcPopupPosition(el: HTMLElement, props: {
 		transformOrigin: string;
 	} => {
 		switch (props.direction) {
-			case 'top': {
+			case "top": {
 				const [left, top] = calcPosWhenTop();
 
 				// ツールチップを上に向かって表示するスペースがなければ下に向かって出す
 				if (top - window.pageYOffset < 0) {
 					const [left, top] = calcPosWhenBottom();
-					return { left, top, transformOrigin: 'center top' };
+					return { left, top, transformOrigin: "center top" };
 				}
 
-				return { left, top, transformOrigin: 'center bottom' };
+				return { left, top, transformOrigin: "center bottom" };
 			}
 
-			case 'bottom': {
+			case "bottom": {
 				const [left, top] = calcPosWhenBottom();
 				// TODO: ツールチップを下に向かって表示するスペースがなければ上に向かって出す
-				return { left, top, transformOrigin: 'center top' };
+				return { left, top, transformOrigin: "center top" };
 			}
 
-			case 'left': {
+			case "left": {
 				const [left, top] = calcPosWhenLeft();
 
 				// ツールチップを左に向かって表示するスペースがなければ右に向かって出す
 				if (left - window.pageXOffset < 0) {
 					const [left, top] = calcPosWhenRight();
-					return { left, top, transformOrigin: 'left center' };
+					return { left, top, transformOrigin: "left center" };
 				}
 
-				return { left, top, transformOrigin: 'right center' };
+				return { left, top, transformOrigin: "right center" };
 			}
 
-			case 'right': {
+			case "right": {
 				const [left, top] = calcPosWhenRight();
 				// TODO: ツールチップを右に向かって表示するスペースがなければ左に向かって出す
-				return { left, top, transformOrigin: 'left center' };
+				return { left, top, transformOrigin: "left center" };
 			}
 		}
 	};

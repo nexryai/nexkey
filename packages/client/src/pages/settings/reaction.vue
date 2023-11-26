@@ -54,28 +54,28 @@
 </template>
 
 <script lang="ts" setup>
-import { defineAsyncComponent, watch } from 'vue';
-import XDraggable from 'vuedraggable';
-import FormInput from '@/components/form/input.vue';
-import FormRadios from '@/components/form/radios.vue';
-import FromSlot from '@/components/form/slot.vue';
-import FormButton from '@/components/MkButton.vue';
-import FormSection from '@/components/form/section.vue';
-import FormSwitch from '@/components/form/switch.vue';
-import * as os from '@/os';
-import { defaultStore } from '@/store';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { defineAsyncComponent, watch } from "vue";
+import XDraggable from "vuedraggable";
+import FormInput from "@/components/form/input.vue";
+import FormRadios from "@/components/form/radios.vue";
+import FromSlot from "@/components/form/slot.vue";
+import FormButton from "@/components/MkButton.vue";
+import FormSection from "@/components/form/section.vue";
+import FormSwitch from "@/components/form/switch.vue";
+import * as os from "@/os";
+import { defaultStore } from "@/store";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 let reactions = $ref(JSON.parse(JSON.stringify(defaultStore.state.reactions)));
 
-const reactionPickerSize = $computed(defaultStore.makeGetterSetter('reactionPickerSize'));
-const reactionPickerWidth = $computed(defaultStore.makeGetterSetter('reactionPickerWidth'));
-const reactionPickerHeight = $computed(defaultStore.makeGetterSetter('reactionPickerHeight'));
-const reactionPickerUseDrawerForMobile = $computed(defaultStore.makeGetterSetter('reactionPickerUseDrawerForMobile'));
+const reactionPickerSize = $computed(defaultStore.makeGetterSetter("reactionPickerSize"));
+const reactionPickerWidth = $computed(defaultStore.makeGetterSetter("reactionPickerWidth"));
+const reactionPickerHeight = $computed(defaultStore.makeGetterSetter("reactionPickerHeight"));
+const reactionPickerUseDrawerForMobile = $computed(defaultStore.makeGetterSetter("reactionPickerUseDrawerForMobile"));
 
 function save() {
-	defaultStore.set('reactions', reactions);
+	defaultStore.set("reactions", reactions);
 }
 
 function remove(reaction, ev: MouseEvent) {
@@ -88,15 +88,15 @@ function remove(reaction, ev: MouseEvent) {
 }
 
 function preview(ev: MouseEvent) {
-	os.popup(defineAsyncComponent(() => import('@/components/MkEmojiPickerDialog.vue')), {
+	os.popup(defineAsyncComponent(() => import("@/components/MkEmojiPickerDialog.vue")), {
 		asReactionPicker: true,
 		src: ev.currentTarget ?? ev.target,
-	}, {}, 'closed');
+	}, {}, "closed");
 }
 
 async function setDefault() {
 	const { canceled } = await os.confirm({
-		type: 'warning',
+		type: "warning",
 		text: i18n.ts.resetAreYouSure,
 	});
 	if (canceled) return;
@@ -126,9 +126,9 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.reaction,
-	icon: 'ti ti-mood-happy',
+	icon: "ti ti-mood-happy",
 	action: {
-		icon: 'ti ti-eye',
+		icon: "ti ti-eye",
 		handler: preview,
 	},
 });

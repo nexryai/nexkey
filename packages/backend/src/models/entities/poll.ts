@@ -1,56 +1,56 @@
-import { PrimaryColumn, Entity, Index, JoinColumn, Column, OneToOne } from 'typeorm';
-import { id } from '../id.js';
-import { Note } from './note.js';
-import { User } from './user.js';
-import { noteVisibilities } from '../../types.js';
+import { PrimaryColumn, Entity, Index, JoinColumn, Column, OneToOne } from "typeorm";
+import { id } from "../id.js";
+import { noteVisibilities } from "../../types.js";
+import { Note } from "./note.js";
+import { User } from "./user.js";
 
 @Entity()
 export class Poll {
 	@PrimaryColumn(id())
-	public noteId: Note['id'];
+	public noteId: Note["id"];
 
 	@OneToOne(type => Note, {
-		onDelete: 'CASCADE',
+		onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public note: Note | null;
 
-	@Column('timestamp with time zone', {
+	@Column("timestamp with time zone", {
 		nullable: true,
 	})
 	public expiresAt: Date | null;
 
-	@Column('boolean')
+	@Column("boolean")
 	public multiple: boolean;
 
-	@Column('varchar', {
-		length: 128, array: true, default: '{}',
+	@Column("varchar", {
+		length: 128, array: true, default: "{}",
 	})
 	public choices: string[];
 
-	@Column('integer', {
+	@Column("integer", {
 		array: true,
 	})
 	public votes: number[];
 
 	//#region Denormalized fields
-	@Column('enum', {
+	@Column("enum", {
 		enum: noteVisibilities,
-		comment: '[Denormalized]',
+		comment: "[Denormalized]",
 	})
 	public noteVisibility: typeof noteVisibilities[number];
 
 	@Index()
 	@Column({
 		...id(),
-		comment: '[Denormalized]',
+		comment: "[Denormalized]",
 	})
-	public userId: User['id'];
+	public userId: User["id"];
 
 	@Index()
-	@Column('varchar', {
+	@Column("varchar", {
 		length: 128, nullable: true,
-		comment: '[Denormalized]',
+		comment: "[Denormalized]",
 	})
 	public userHost: string | null;
 	//#endregion

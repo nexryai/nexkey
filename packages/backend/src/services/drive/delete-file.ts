@@ -1,16 +1,16 @@
-import { DriveFile } from '@/models/entities/drive-file.js';
-import { InternalStorage } from './internal-storage.js';
-import { DriveFiles, Instances, Emojis } from '@/models/index.js';
-import { driveChart, perUserDriveChart, instanceChart } from '@/services/chart/index.js';
-import { createDeleteObjectStorageFileJob } from '@/queue/index.js';
-import { fetchMeta } from '@/misc/fetch-meta.js';
-import { getS3 } from './s3.js';
-import { v4 as uuid } from 'uuid';
-import { IsNull } from 'typeorm';
+import { v4 as uuid } from "uuid";
+import { IsNull } from "typeorm";
+import { DriveFile } from "@/models/entities/drive-file.js";
+import { DriveFiles, Instances, Emojis } from "@/models/index.js";
+import { driveChart, perUserDriveChart, instanceChart } from "@/services/chart/index.js";
+import { createDeleteObjectStorageFileJob } from "@/queue/index.js";
+import { fetchMeta } from "@/misc/fetch-meta.js";
+import { InternalStorage } from "./internal-storage.js";
+import { getS3 } from "./s3.js";
 
 export async function deleteFile(file: DriveFile, isExpired = false) {
 	if (file.webpublicUrl != null) {
-		let emojis = await Emojis.findOneBy({
+		const emojis = await Emojis.findOneBy({
 			host: IsNull(),
 			publicUrl: file.webpublicUrl,
 		});
@@ -18,7 +18,7 @@ export async function deleteFile(file: DriveFile, isExpired = false) {
 			return; // emojiのpublicUrlがfileに含まれている場合は処理をスキップ
 		}
 	} else if (file.url != null) {
-		let emojis = await Emojis.findOneBy({
+		const emojis = await Emojis.findOneBy({
 			host: IsNull(),
 			publicUrl: file.url,
 		});
@@ -54,7 +54,7 @@ export async function deleteFile(file: DriveFile, isExpired = false) {
 
 export async function deleteFileSync(file: DriveFile, isExpired = false) {
 	if (file.webpublicUrl != null) {
-		let emojis = await Emojis.findOneBy({
+		const emojis = await Emojis.findOneBy({
 			host: IsNull(),
 			publicUrl: file.webpublicUrl,
 		});
@@ -62,7 +62,7 @@ export async function deleteFileSync(file: DriveFile, isExpired = false) {
 			return; // emojiのpublicUrlがfileに含まれている場合は処理をスキップ
 		}
 	} else if (file.url != null) {
-		let emojis = await Emojis.findOneBy({
+		const emojis = await Emojis.findOneBy({
 			host: IsNull(),
 			publicUrl: file.url,
 		});
@@ -111,8 +111,8 @@ async function postProcess(file: DriveFile, isExpired = false) {
 			storedInternal: false,
 			// ローカルプロキシ用
 			accessKey: uuid(),
-			thumbnailAccessKey: 'thumbnail-' + uuid(),
-			webpublicAccessKey: 'webpublic-' + uuid(),
+			thumbnailAccessKey: "thumbnail-" + uuid(),
+			webpublicAccessKey: "webpublic-" + uuid(),
 		});
 	} else {
 		DriveFiles.delete(file.id);

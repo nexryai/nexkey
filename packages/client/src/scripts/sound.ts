@@ -1,4 +1,4 @@
-import { ColdDeviceStorage } from '@/store';
+import { ColdDeviceStorage } from "@/store";
 
 const cache = new Map<string, HTMLAudioElement>();
 
@@ -14,19 +14,19 @@ export function getAudio(file: string, useCache = true): HTMLAudioElement {
 }
 
 export function setVolume(audio: HTMLAudioElement, volume: number): HTMLAudioElement {
-	const masterVolume = ColdDeviceStorage.get('sound_masterVolume');
+	const masterVolume = ColdDeviceStorage.get("sound_masterVolume");
 	audio.volume = masterVolume - ((1 - volume) * masterVolume);
 	return audio;
 }
 
 export function play(type: string) {
-	const sound = ColdDeviceStorage.get('sound_' + type as any);
+	const sound = ColdDeviceStorage.get("sound_" + type as any);
 	if (sound.type == null) return;
 	playFile(sound.type, sound.volume);
 }
 
 export function playFile(file: string, volume: number) {
-	const masterVolume = ColdDeviceStorage.get('sound_masterVolume');
+	const masterVolume = ColdDeviceStorage.get("sound_masterVolume");
 	if (masterVolume === 0) return;
 
 	const audio = setVolume(getAudio(file), volume);

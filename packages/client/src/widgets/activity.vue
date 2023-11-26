@@ -14,29 +14,29 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, reactive, ref, watch } from 'vue';
-import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from './widget';
-import XCalendar from './activity.calendar.vue';
-import XChart from './activity.chart.vue';
-import { GetFormResultType } from '@/scripts/form';
-import * as os from '@/os';
-import MkContainer from '@/components/MkContainer.vue';
-import { $i } from '@/account';
-import { i18n } from '@/i18n';
+import { onMounted, onUnmounted, reactive, ref, watch } from "vue";
+import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from "./widget";
+import XCalendar from "./activity.calendar.vue";
+import XChart from "./activity.chart.vue";
+import { GetFormResultType } from "@/scripts/form";
+import * as os from "@/os";
+import MkContainer from "@/components/MkContainer.vue";
+import { $i } from "@/account";
+import { i18n } from "@/i18n";
 
-const name = 'activity';
+const name = "activity";
 
 const widgetPropsDef = {
 	showHeader: {
-		type: 'boolean' as const,
+		type: "boolean" as const,
 		default: true,
 	},
 	transparent: {
-		type: 'boolean' as const,
+		type: "boolean" as const,
 		default: false,
 	},
 	view: {
-		type: 'number' as const,
+		type: "number" as const,
 		default: 0,
 		hidden: true,
 	},
@@ -48,7 +48,7 @@ type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
 //const props = defineProps<WidgetComponentProps<WidgetProps>>();
 //const emit = defineEmits<WidgetComponentEmits<WidgetProps>>();
 const props = defineProps<{ widget?: Widget<WidgetProps>; }>();
-const emit = defineEmits<{ (ev: 'updateProps', props: WidgetProps); }>();
+const emit = defineEmits<{ (ev: "updateProps", props: WidgetProps); }>();
 
 const { widgetProps, configure, save } = useWidgetPropsManager(name,
 	widgetPropsDef,
@@ -68,9 +68,9 @@ const toggleView = () => {
 	save();
 };
 
-os.apiGet('charts/user/notes', {
+os.apiGet("charts/user/notes", {
 	userId: $i.id,
-	span: 'day',
+	span: "day",
 	limit: 7 * 21,
 }).then(res => {
 	activity.value = res.diffs.normal.map((_, i) => ({

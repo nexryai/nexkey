@@ -1,85 +1,85 @@
-import * as os from 'node:os';
-import si from 'systeminformation';
-import define from '../../define.js';
-import { redisClient } from '../../../../db/redis.js';
-import { db } from '@/db/postgre.js';
+import * as os from "node:os";
+import si from "systeminformation";
+import { db } from "@/db/postgre.js";
+import define from "../../define.js";
+import { redisClient } from "../../../../db/redis.js";
 
 export const meta = {
 	requireCredential: true,
 	requireModerator: true,
 
-	tags: ['admin', 'meta'],
+	tags: ["admin", "meta"],
 
 	res: {
-		type: 'object',
+		type: "object",
 		optional: false, nullable: false,
 		properties: {
 			machine: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: false,
 			},
 			os: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: false,
-				example: 'linux',
+				example: "linux",
 			},
 			node: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: false,
 			},
 			psql: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: false,
 			},
 			cpu: {
-				type: 'object',
+				type: "object",
 				optional: false, nullable: false,
 				properties: {
 					model: {
-						type: 'string',
+						type: "string",
 						optional: false, nullable: false,
 					},
 					cores: {
-						type: 'number',
+						type: "number",
 						optional: false, nullable: false,
 					},
 				},
 			},
 			mem: {
-				type: 'object',
+				type: "object",
 				optional: false, nullable: false,
 				properties: {
 					total: {
-						type: 'number',
+						type: "number",
 						optional: false, nullable: false,
-						format: 'bytes',
+						format: "bytes",
 					},
 				},
 			},
 			fs: {
-				type: 'object',
+				type: "object",
 				optional: false, nullable: false,
 				properties: {
 					total: {
-						type: 'number',
+						type: "number",
 						optional: false, nullable: false,
-						format: 'bytes',
+						format: "bytes",
 					},
 					used: {
-						type: 'number',
+						type: "number",
 						optional: false, nullable: false,
-						format: 'bytes',
+						format: "bytes",
 					},
 				},
 			},
 			net: {
-				type: 'object',
+				type: "object",
 				optional: false, nullable: false,
 				properties: {
 					interface: {
-						type: 'string',
+						type: "string",
 						optional: false, nullable: false,
-						example: 'eth0',
+						example: "eth0",
 					},
 				},
 			},
@@ -88,7 +88,7 @@ export const meta = {
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {},
 	required: [],
 } as const;
@@ -99,15 +99,15 @@ export default define(meta, paramDef, async () => {
 	const fsStats = await si.fsSize();
 	const netInterface = await si.networkInterfaceDefault();
 
-	const redisServerInfo = await redisClient.info('Server');
-	const m = redisServerInfo.match(new RegExp('^redis_version:(.*)', 'm'));
+	const redisServerInfo = await redisClient.info("Server");
+	const m = redisServerInfo.match(new RegExp("^redis_version:(.*)", "m"));
 	const redis_version = m?.[1];
 
 	return {
 		machine: os.hostname(),
 		os: os.platform(),
 		node: process.version,
-		psql: await db.query('SHOW server_version').then(x => x[0].server_version),
+		psql: await db.query("SHOW server_version").then(x => x[0].server_version),
 		redis: redis_version,
 		cpu: {
 			model: os.cpus()[0].model,

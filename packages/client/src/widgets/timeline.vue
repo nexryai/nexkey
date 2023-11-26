@@ -28,18 +28,18 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, reactive, ref, watch } from 'vue';
-import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from './widget';
-import { GetFormResultType } from '@/scripts/form';
-import * as os from '@/os';
-import MkContainer from '@/components/MkContainer.vue';
-import XTimeline from '@/components/MkTimeline.vue';
-import { $i } from '@/account';
-import { i18n } from '@/i18n';
-import { instance } from '@/instance';
-import { defaultStore } from '@/store';
+import { onMounted, onUnmounted, reactive, ref, watch } from "vue";
+import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from "./widget";
+import { GetFormResultType } from "@/scripts/form";
+import * as os from "@/os";
+import MkContainer from "@/components/MkContainer.vue";
+import XTimeline from "@/components/MkTimeline.vue";
+import { $i } from "@/account";
+import { i18n } from "@/i18n";
+import { instance } from "@/instance";
+import { defaultStore } from "@/store";
 
-const name = 'timeline';
+const name = "timeline";
 const isMediaTimelineAvailable = (!instance.disableLocalTimeline || ($i != null && ($i.isModerator || $i.isAdmin))) && defaultStore.state.enableMTL && defaultStore.state.enableLTL;
 const isLocalTimelineAvailable = (!instance.disableLocalTimeline || ($i != null && ($i.isModerator || $i.isAdmin))) && defaultStore.state.enableLTL;
 const isGlobalTimelineAvailable = (!instance.disableGlobalTimeline || ($i != null && ($i.isModerator || $i.isAdmin))) && defaultStore.state.enableGTL;
@@ -48,25 +48,25 @@ const isLimitedTimelineAvailable = $i != null && defaultStore.state.enableLimite
 
 const widgetPropsDef = {
 	showHeader: {
-		type: 'boolean' as const,
+		type: "boolean" as const,
 		default: false,
 	},
 	height: {
-		type: 'number' as const,
+		type: "number" as const,
 		default: 300,
 	},
 	src: {
-		type: 'string' as const,
-		default: 'home',
+		type: "string" as const,
+		default: "home",
 		hidden: true,
 	},
 	antenna: {
-		type: 'object' as const,
+		type: "object" as const,
 		default: null,
 		hidden: true,
 	},
 	list: {
-		type: 'object' as const,
+		type: "object" as const,
 		default: null,
 		hidden: true,
 	},
@@ -78,7 +78,7 @@ type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
 //const props = defineProps<WidgetComponentProps<WidgetProps>>();
 //const emit = defineEmits<WidgetComponentEmits<WidgetProps>>();
 const props = defineProps<{ widget?: Widget<WidgetProps>; }>();
-const emit = defineEmits<{ (ev: 'updateProps', props: WidgetProps); }>();
+const emit = defineEmits<{ (ev: "updateProps", props: WidgetProps); }>();
 
 const { widgetProps, configure, save } = useWidgetPropsManager(name,
 	widgetPropsDef,
@@ -96,37 +96,37 @@ const setSrc = (src) => {
 const choose = async (ev) => {
 	menuOpened.value = true;
 	const [antennas, lists] = await Promise.all([
-		os.api('antennas/list'),
-		os.api('users/lists/list')
+		os.api("antennas/list"),
+		os.api("users/lists/list"),
 	]);
 	const antennaItems = antennas.map(antenna => ({
 		text: antenna.name,
-		icon: 'ti ti-antenna',
+		icon: "ti ti-antenna",
 		action: () => {
 			widgetProps.antenna = antenna;
-			setSrc('antenna');
-		}
+			setSrc("antenna");
+		},
 	}));
 	const listItems = lists.map(list => ({
 		text: list.name,
-		icon: 'ti ti-list',
+		icon: "ti ti-list",
 		action: () => {
 			widgetProps.list = list;
-			setSrc('list');
-		}
+			setSrc("list");
+		},
 	}));
 	os.popupMenu([{
 		text: i18n.ts._timelines.home,
-		icon: 'ti ti-home',
-		action: () => { setSrc('home'); }
+		icon: "ti ti-home",
+		action: () => { setSrc("home"); },
 	}, {
 		text: i18n.ts._timelines.social,
-		icon: 'ti ti-rocket',
-		action: () => { setSrc('social'); },
+		icon: "ti ti-rocket",
+		action: () => { setSrc("social"); },
 	}, {
 		text: i18n.ts._timelines.global,
-		icon: 'ti ti-whirl',
-		action: () => { setSrc('global'); }
+		icon: "ti ti-whirl",
+		action: () => { setSrc("global"); },
 	}, antennaItems.length > 0 ? null : undefined, ...antennaItems, listItems.length > 0 ? null : undefined, ...listItems], ev.currentTarget ?? ev.target).then(() => {
 		menuOpened.value = false;
 	});

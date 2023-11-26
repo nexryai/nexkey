@@ -1,167 +1,167 @@
-import ms from 'ms';
-import { In } from 'typeorm';
-import create from '@/services/note/create.js';
-import { User } from '@/models/entities/user.js';
-import { Users, DriveFiles, Notes, Channels, Blockings } from '@/models/index.js';
-import { DriveFile } from '@/models/entities/drive-file.js';
-import { Note } from '@/models/entities/note.js';
-import { Channel } from '@/models/entities/channel.js';
-import { MAX_NOTE_TEXT_LENGTH } from '@/const.js';
-import { noteVisibilities } from '../../../../types.js';
-import { ApiError } from '../../error.js';
-import define from '../../define.js';
+import ms from "ms";
+import { In } from "typeorm";
+import create from "@/services/note/create.js";
+import { User } from "@/models/entities/user.js";
+import { Users, DriveFiles, Notes, Channels, Blockings } from "@/models/index.js";
+import { DriveFile } from "@/models/entities/drive-file.js";
+import { Note } from "@/models/entities/note.js";
+import { Channel } from "@/models/entities/channel.js";
+import { MAX_NOTE_TEXT_LENGTH } from "@/const.js";
+import { noteVisibilities } from "../../../../types.js";
+import { ApiError } from "../../error.js";
+import define from "../../define.js";
 
 export const meta = {
-	tags: ['notes'],
+	tags: ["notes"],
 
 	requireCredential: true,
 
 	limit: {
-		duration: ms('1hour'),
+		duration: ms("1hour"),
 		max: 300,
 	},
 
-	kind: 'write:notes',
+	kind: "write:notes",
 
 	res: {
-		type: 'object',
+		type: "object",
 		optional: false, nullable: false,
 		properties: {
 			createdNote: {
-				type: 'object',
+				type: "object",
 				optional: false, nullable: false,
-				ref: 'Note',
+				ref: "Note",
 			},
 		},
 	},
 
 	errors: {
 		noSuchRenoteTarget: {
-			message: 'No such renote target.',
-			code: 'NO_SUCH_RENOTE_TARGET',
-			id: 'b5c90186-4ab0-49c8-9bba-a1f76c282ba4',
+			message: "No such renote target.",
+			code: "NO_SUCH_RENOTE_TARGET",
+			id: "b5c90186-4ab0-49c8-9bba-a1f76c282ba4",
 		},
 
 		cannotReRenote: {
-			message: 'You can not Renote a pure Renote.',
-			code: 'CANNOT_RENOTE_TO_A_PURE_RENOTE',
-			id: 'fd4cc33e-2a37-48dd-99cc-9b806eb2031a',
+			message: "You can not Renote a pure Renote.",
+			code: "CANNOT_RENOTE_TO_A_PURE_RENOTE",
+			id: "fd4cc33e-2a37-48dd-99cc-9b806eb2031a",
 		},
 
 		noSuchReplyTarget: {
-			message: 'No such reply target.',
-			code: 'NO_SUCH_REPLY_TARGET',
-			id: '749ee0f6-d3da-459a-bf02-282e2da4292c',
+			message: "No such reply target.",
+			code: "NO_SUCH_REPLY_TARGET",
+			id: "749ee0f6-d3da-459a-bf02-282e2da4292c",
 		},
 
 		cannotReplyToPureRenote: {
-			message: 'You can not reply to a pure Renote.',
-			code: 'CANNOT_REPLY_TO_A_PURE_RENOTE',
-			id: '3ac74a84-8fd5-4bb0-870f-01804f82ce15',
+			message: "You can not reply to a pure Renote.",
+			code: "CANNOT_REPLY_TO_A_PURE_RENOTE",
+			id: "3ac74a84-8fd5-4bb0-870f-01804f82ce15",
 		},
 
 		cannotCreateAlreadyExpiredPoll: {
-			message: 'Poll is already expired.',
-			code: 'CANNOT_CREATE_ALREADY_EXPIRED_POLL',
-			id: '04da457d-b083-4055-9082-955525eda5a5',
+			message: "Poll is already expired.",
+			code: "CANNOT_CREATE_ALREADY_EXPIRED_POLL",
+			id: "04da457d-b083-4055-9082-955525eda5a5",
 		},
 
 		noSuchChannel: {
-			message: 'No such channel.',
-			code: 'NO_SUCH_CHANNEL',
-			id: 'b1653923-5453-4edc-b786-7c4f39bb0bbb',
+			message: "No such channel.",
+			code: "NO_SUCH_CHANNEL",
+			id: "b1653923-5453-4edc-b786-7c4f39bb0bbb",
 		},
 
 		youHaveBeenBlocked: {
-			message: 'You have been blocked by this user.',
-			code: 'YOU_HAVE_BEEN_BLOCKED',
-			id: 'b390d7e1-8a5e-46ed-b625-06271cafd3d3',
+			message: "You have been blocked by this user.",
+			code: "YOU_HAVE_BEEN_BLOCKED",
+			id: "b390d7e1-8a5e-46ed-b625-06271cafd3d3",
 		},
 
 		cannotRenoteDueToVisibility: {
-			message: 'You can not Renote due to target visibility.',
-			code: 'CANNOT_RENOTE_DUE_TO_VISIBILITY',
-			id: 'be9529e9-fe72-4de0-ae43-0b363c4938af',
+			message: "You can not Renote due to target visibility.",
+			code: "CANNOT_RENOTE_DUE_TO_VISIBILITY",
+			id: "be9529e9-fe72-4de0-ae43-0b363c4938af",
 		},
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		visibility: { type: 'string', enum: ['public', 'home', 'followers', 'specified'], default: 'public' },
-		visibleUserIds: { type: 'array', uniqueItems: true, items: {
-			type: 'string', format: 'misskey:id',
+		visibility: { type: "string", enum: ["public", "home", "followers", "specified"], default: "public" },
+		visibleUserIds: { type: "array", uniqueItems: true, items: {
+			type: "string", format: "misskey:id",
 		} },
-		text: { type: 'string', maxLength: MAX_NOTE_TEXT_LENGTH, nullable: true },
-		cw: { type: 'string', nullable: true, maxLength: 100 },
-		localOnly: { type: 'boolean', default: false },
-		noExtractMentions: { type: 'boolean', default: false },
-		noExtractHashtags: { type: 'boolean', default: false },
-		noExtractEmojis: { type: 'boolean', default: false },
+		text: { type: "string", maxLength: MAX_NOTE_TEXT_LENGTH, nullable: true },
+		cw: { type: "string", nullable: true, maxLength: 100 },
+		localOnly: { type: "boolean", default: false },
+		noExtractMentions: { type: "boolean", default: false },
+		noExtractHashtags: { type: "boolean", default: false },
+		noExtractEmojis: { type: "boolean", default: false },
 		fileIds: {
-			type: 'array',
+			type: "array",
 			uniqueItems: true,
 			minItems: 1,
 			maxItems: 16,
-			items: { type: 'string', format: 'misskey:id' },
+			items: { type: "string", format: "misskey:id" },
 		},
 		mediaIds: {
 			deprecated: true,
-			description: 'Use `fileIds` instead. If both are specified, this property is discarded.',
-			type: 'array',
+			description: "Use `fileIds` instead. If both are specified, this property is discarded.",
+			type: "array",
 			uniqueItems: true,
 			minItems: 1,
 			maxItems: 16,
-			items: { type: 'string', format: 'misskey:id' },
+			items: { type: "string", format: "misskey:id" },
 		},
-		replyId: { type: 'string', format: 'misskey:id', nullable: true },
-		renoteId: { type: 'string', format: 'misskey:id', nullable: true },
-		channelId: { type: 'string', format: 'misskey:id', nullable: true },
+		replyId: { type: "string", format: "misskey:id", nullable: true },
+		renoteId: { type: "string", format: "misskey:id", nullable: true },
+		channelId: { type: "string", format: "misskey:id", nullable: true },
 		poll: {
-			type: 'object',
+			type: "object",
 			nullable: true,
 			properties: {
 				choices: {
-					type: 'array',
+					type: "array",
 					uniqueItems: true,
 					minItems: 2,
 					maxItems: 10,
-					items: { type: 'string', minLength: 1, maxLength: 50 },
+					items: { type: "string", minLength: 1, maxLength: 50 },
 				},
-				multiple: { type: 'boolean', default: false },
-				expiresAt: { type: 'integer', nullable: true },
-				expiredAfter: { type: 'integer', nullable: true, minimum: 1 },
+				multiple: { type: "boolean", default: false },
+				expiresAt: { type: "integer", nullable: true },
+				expiredAfter: { type: "integer", nullable: true, minimum: 1 },
 			},
-			required: ['choices'],
+			required: ["choices"],
 		},
 	},
 	anyOf: [
 		{
 			// (re)note with text, files and poll are optional
 			properties: {
-				text: { type: 'string', minLength: 1, maxLength: MAX_NOTE_TEXT_LENGTH, nullable: false },
+				text: { type: "string", minLength: 1, maxLength: MAX_NOTE_TEXT_LENGTH, nullable: false },
 			},
-			required: ['text'],
+			required: ["text"],
 		},
 		{
 			// (re)note with files, text and poll are optional
-			required: ['fileIds'],
+			required: ["fileIds"],
 		},
 		{
 			// (re)note with files, text and poll are optional
-			required: ['mediaIds'],
+			required: ["mediaIds"],
 		},
 		{
 			// (re)note with poll, text and files are optional
 			properties: {
-				poll: { type: 'object', nullable: false },
+				poll: { type: "object", nullable: false },
 			},
-			required: ['poll'],
+			required: ["poll"],
 		},
 		{
 			// pure renote
-			required: ['renoteId'],
+			required: ["renoteId"],
 		},
 	],
 } as const;
@@ -178,12 +178,12 @@ export default define(meta, paramDef, async (ps, user) => {
 	let files: DriveFile[] = [];
 	const fileIds = ps.fileIds != null ? ps.fileIds : ps.mediaIds != null ? ps.mediaIds : null;
 	if (fileIds != null) {
-		files = await DriveFiles.createQueryBuilder('file')
-			.where('file.userId = :userId AND file.id IN (:...fileIds)', {
+		files = await DriveFiles.createQueryBuilder("file")
+			.where("file.userId = :userId AND file.id IN (:...fileIds)", {
 				userId: user.id,
 				fileIds,
 			})
-			.orderBy('array_position(ARRAY[:...fileIds], "id"::text)')
+			.orderBy("array_position(ARRAY[:...fileIds], \"id\"::text)")
 			.setParameters({ fileIds })
 			.getMany();
 	}
@@ -211,10 +211,10 @@ export default define(meta, paramDef, async (ps, user) => {
 		}
 
 		// Renote visibility Check
-		if (renote.visibility === 'followers' && renote.userId !== user.id) {
+		if (renote.visibility === "followers" && renote.userId !== user.id) {
 			// 他人のfollowers noteはreject
 			throw new ApiError(meta.errors.cannotRenoteDueToVisibility);
-		} else if (renote.visibility === 'specified') {
+		} else if (renote.visibility === "specified") {
 			// specified / direct noteはreject
 			throw new ApiError(meta.errors.cannotRenoteDueToVisibility);
 		}
@@ -244,11 +244,11 @@ export default define(meta, paramDef, async (ps, user) => {
 	}
 
 	if (ps.poll) {
-		if (typeof ps.poll.expiresAt === 'number') {
+		if (typeof ps.poll.expiresAt === "number") {
 			if (ps.poll.expiresAt < Date.now()) {
 				throw new ApiError(meta.errors.cannotCreateAlreadyExpiredPoll);
 			}
-		} else if (typeof ps.poll.expiredAfter === 'number') {
+		} else if (typeof ps.poll.expiredAfter === "number") {
 			ps.poll.expiresAt = Date.now() + ps.poll.expiredAfter;
 		}
 	}

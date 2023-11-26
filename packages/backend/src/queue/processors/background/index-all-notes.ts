@@ -1,10 +1,10 @@
-import type Bull from "bull";
 
-import { queueLogger } from "../../logger.js";
-import { Notes } from "@/models/index.js";
 import { MoreThan } from "typeorm";
-import { index } from "@/services/note/create.js"
+import { Notes } from "@/models/index.js";
+import { index } from "@/services/note/create.js";
 import { Note } from "@/models/entities/note.js";
+import { queueLogger } from "../../logger.js";
+import type Bull from "bull";
 
 const logger = queueLogger.createSubLogger("index-all-notes");
 
@@ -22,7 +22,7 @@ export default async function indexAllNotes(
 	const take = 50000;
 	const batch = 100;
 	while (running) {
-		logger.info(`Querying for ${take} notes ${indexedCount}/${total ? total : '?'} at ${cursor}`);
+		logger.info(`Querying for ${take} notes ${indexedCount}/${total ? total : "?"} at ${cursor}`);
 
 		let notes: Note[] = [];
 		try {
@@ -49,7 +49,7 @@ export default async function indexAllNotes(
 		try {
 			const count = await Notes.count();
 			total = count;
-			job.update({ indexedCount, cursor, total })
+			job.update({ indexedCount, cursor, total });
 		} catch (e) {
 		}
 
@@ -58,13 +58,13 @@ export default async function indexAllNotes(
 			await Promise.all(chunk.map(note => index(note)));
 
 			indexedCount += chunk.length;
-			const pct = (indexedCount / total)*100;
-			job.update({ indexedCount, cursor, total })
+			const pct = (indexedCount / total) * 100;
+			job.update({ indexedCount, cursor, total });
 			job.progress(+(pct.toFixed(1)));
-			logger.info(`Indexed notes ${indexedCount}/${total ? total : '?'}`);
+			logger.info(`Indexed notes ${indexedCount}/${total ? total : "?"}`);
 		}
 		cursor = notes[notes.length - 1].id;
-		job.update({ indexedCount, cursor, total })
+		job.update({ indexedCount, cursor, total });
 
 		if (notes.length < take) {
 			running = false;

@@ -53,16 +53,16 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import FormSwitch from '@/components/form/switch.vue';
-import FormSelect from '@/components/form/select.vue';
-import FormSection from '@/components/form/section.vue';
-import FormFolder from '@/components/form/folder.vue';
-import * as os from '@/os';
-import { defaultStore } from '@/store';
-import { i18n } from '@/i18n';
-import { $i } from '@/account';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { } from "vue";
+import FormSwitch from "@/components/form/switch.vue";
+import FormSelect from "@/components/form/select.vue";
+import FormSection from "@/components/form/section.vue";
+import FormFolder from "@/components/form/folder.vue";
+import * as os from "@/os";
+import { defaultStore } from "@/store";
+import { i18n } from "@/i18n";
+import { $i } from "@/account";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 let isLocked = $ref($i.isLocked);
 let autoAcceptFollowed = $ref($i.autoAcceptFollowed);
@@ -72,13 +72,13 @@ let hideOnlineStatus = $ref($i.hideOnlineStatus);
 let publicReactions = $ref($i.publicReactions);
 let ffVisibility = $ref($i.ffVisibility);
 
-let defaultNoteVisibility = $computed(defaultStore.makeGetterSetter('defaultNoteVisibility'));
-let defaultNoteLocalOnly = $computed(defaultStore.makeGetterSetter('defaultNoteLocalOnly'));
-let rememberNoteVisibility = $computed(defaultStore.makeGetterSetter('rememberNoteVisibility'));
-let keepCw = $computed(defaultStore.makeGetterSetter('keepCw'));
+let defaultNoteVisibility = $computed(defaultStore.makeGetterSetter("defaultNoteVisibility"));
+let defaultNoteLocalOnly = $computed(defaultStore.makeGetterSetter("defaultNoteLocalOnly"));
+let rememberNoteVisibility = $computed(defaultStore.makeGetterSetter("rememberNoteVisibility"));
+let keepCw = $computed(defaultStore.makeGetterSetter("keepCw"));
 
 function save() {
-	os.api('i/update', {
+	os.api("i/update", {
 		isLocked: !!isLocked,
 		autoAcceptFollowed: !!autoAcceptFollowed,
 		noCrawle: !!noCrawle,
@@ -95,6 +95,6 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.privacy,
-	icon: 'ti ti-lock-open',
+	icon: "ti ti-lock-open",
 });
 </script>

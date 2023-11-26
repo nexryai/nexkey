@@ -22,23 +22,23 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import MkButton from '@/components/MkButton.vue';
-import MkInput from '@/components/form/input.vue';
-import { host } from '@/config';
-import * as os from '@/os';
-import { login } from '@/account';
-import { i18n } from '@/i18n';
+import { } from "vue";
+import MkButton from "@/components/MkButton.vue";
+import MkInput from "@/components/form/input.vue";
+import { host } from "@/config";
+import * as os from "@/os";
+import { login } from "@/account";
+import { i18n } from "@/i18n";
 
-let username = $ref('');
-let password = $ref('');
+let username = $ref("");
+let password = $ref("");
 let submitting = $ref(false);
 
 function submit() {
 	if (submitting) return;
 	submitting = true;
 
-	os.api('admin/accounts/create', {
+	os.api("admin/accounts/create", {
 		username: username,
 		password: password,
 	}).then(res => {
@@ -47,7 +47,7 @@ function submit() {
 		submitting = false;
 
 		os.alert({
-			type: 'error',
+			type: "error",
 			text: i18n.ts.somethingHappened,
 		});
 	});

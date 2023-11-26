@@ -63,13 +63,13 @@
 		</MkA>
 		<span v-if="notification.type === 'follow'" class="text" style="opacity: 0.6;">{{ i18n.ts.youGotNewFollower }}<div v-if="full"><MkFollowButton :user="notification.user" :full="true"/></div></span>
 		<span v-if="notification.type === 'followRequestAccepted'" class="text" style="opacity: 0.6;">{{ i18n.ts.followRequestAccepted }}</span>
-    <template v-else-if="notification.type === 'receiveFollowRequest'">
-      <span class="text" style="opacity: 0.6;">{{ i18n.ts.receiveFollowRequest }}</span>
-      <div v-if="full && !followRequestDone" class="followRequestCommands">
-        <MkButton class="followRequestCommandButton" rounded primary @click="acceptFollowRequest()"><i class="ti ti-check"/> {{ i18n.ts.accept }}</MkButton>
-        <MkButton class="followRequestCommandButton" rounded danger @click="rejectFollowRequest()"><i class="ti ti-x"/> {{ i18n.ts.reject }}</MkButton>
-      </div>
-    </template>
+		<template v-else-if="notification.type === 'receiveFollowRequest'">
+			<span class="text" style="opacity: 0.6;">{{ i18n.ts.receiveFollowRequest }}</span>
+			<div v-if="full && !followRequestDone" class="followRequestCommands">
+				<MkButton class="followRequestCommandButton" rounded primary @click="acceptFollowRequest()"><i class="ti ti-check"/> {{ i18n.ts.accept }}</MkButton>
+				<MkButton class="followRequestCommandButton" rounded danger @click="rejectFollowRequest()"><i class="ti ti-x"/> {{ i18n.ts.reject }}</MkButton>
+			</div>
+		</template>
 		<span v-if="notification.type === 'groupInvited'" class="text" style="opacity: 0.6;">{{ i18n.ts.groupInvited }}: <b>{{ notification.invitation.group.name }}</b><div v-if="full && !groupInviteDone"><button class="_textButton" @click="acceptGroupInvitation()">{{ i18n.ts.accept }}</button> | <button class="_textButton" @click="rejectGroupInvitation()">{{ i18n.ts.reject }}</button></div></span>
 		<span v-if="notification.type === 'app'" class="text">
 			<Mfm :text="notification.body" :nowrap="!full"/>
@@ -79,19 +79,19 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onUnmounted, watch } from 'vue';
-import * as misskey from 'misskey-js';
-import XReactionIcon from '@/components/MkReactionIcon.vue';
-import MkButton from '@/components/MkButton.vue';
-import MkFollowButton from '@/components/MkFollowButton.vue';
-import XReactionTooltip from '@/components/MkReactionTooltip.vue';
-import { getNoteSummary } from '@/scripts/get-note-summary';
-import { notePage } from '@/filters/note';
-import { userPage } from '@/filters/user';
-import { i18n } from '@/i18n';
-import * as os from '@/os';
-import { stream } from '@/stream';
-import { useTooltip } from '@/scripts/use-tooltip';
+import { ref, onMounted, onUnmounted, watch } from "vue";
+import * as misskey from "misskey-js";
+import XReactionIcon from "@/components/MkReactionIcon.vue";
+import MkButton from "@/components/MkButton.vue";
+import MkFollowButton from "@/components/MkFollowButton.vue";
+import XReactionTooltip from "@/components/MkReactionTooltip.vue";
+import { getNoteSummary } from "@/scripts/get-note-summary";
+import { notePage } from "@/filters/note";
+import { userPage } from "@/filters/user";
+import { i18n } from "@/i18n";
+import * as os from "@/os";
+import { stream } from "@/stream";
+import { useTooltip } from "@/scripts/use-tooltip";
 
 const props = withDefaults(defineProps<{
 	notification: misskey.entities.Notification;
@@ -112,7 +112,7 @@ onMounted(() => {
 	if (!props.notification.isRead) {
 		readObserver = new IntersectionObserver((entries, observer) => {
 			if (!entries.some(entry => entry.isIntersecting)) return;
-			stream.send('readNotification', {
+			stream.send("readNotification", {
 				id: props.notification.id,
 			});
 			observer.disconnect();
@@ -120,8 +120,8 @@ onMounted(() => {
 
 		readObserver.observe(elRef.value);
 
-		connection = stream.useChannel('main');
-		connection.on('readAllNotifications', () => readObserver.disconnect());
+		connection = stream.useChannel("main");
+		connection.on("readAllNotifications", () => readObserver.disconnect());
 
 		watch(props.notification.isRead, () => {
 			readObserver.disconnect();
@@ -139,31 +139,31 @@ const groupInviteDone = ref(false);
 
 const acceptFollowRequest = () => {
 	followRequestDone.value = true;
-	os.api('following/requests/accept', { userId: props.notification.user.id });
+	os.api("following/requests/accept", { userId: props.notification.user.id });
 };
 
 const rejectFollowRequest = () => {
 	followRequestDone.value = true;
-	os.api('following/requests/reject', { userId: props.notification.user.id });
+	os.api("following/requests/reject", { userId: props.notification.user.id });
 };
 
 const acceptGroupInvitation = () => {
 	groupInviteDone.value = true;
-	os.apiWithDialog('users/groups/invitations/accept', { invitationId: props.notification.invitation.id });
+	os.apiWithDialog("users/groups/invitations/accept", { invitationId: props.notification.invitation.id });
 };
 
 const rejectGroupInvitation = () => {
 	groupInviteDone.value = true;
-	os.api('users/groups/invitations/reject', { invitationId: props.notification.invitation.id });
+	os.api("users/groups/invitations/reject", { invitationId: props.notification.invitation.id });
 };
 
 useTooltip(reactionRef, (showing) => {
 	os.popup(XReactionTooltip, {
 		showing,
-		reaction: props.notification.reaction ? props.notification.reaction.replace(/^:(\w+):$/, ':$1@.:') : props.notification.reaction,
+		reaction: props.notification.reaction ? props.notification.reaction.replace(/^:(\w+):$/, ":$1@.:") : props.notification.reaction,
 		emojis: props.notification.note.emojis,
 		targetElement: reactionRef.value.$el,
-	}, {}, 'closed');
+	}, {}, "closed");
 });
 </script>
 

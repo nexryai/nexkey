@@ -12,15 +12,15 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import JSON5 from 'json5';
-import FormTextarea from '@/components/form/textarea.vue';
-import FormButton from '@/components/MkButton.vue';
-import { applyTheme, validateTheme } from '@/scripts/theme';
-import * as os from '@/os';
-import { addTheme, getThemes } from '@/theme-store';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { } from "vue";
+import JSON5 from "json5";
+import FormTextarea from "@/components/form/textarea.vue";
+import FormButton from "@/components/MkButton.vue";
+import { applyTheme, validateTheme } from "@/scripts/theme";
+import * as os from "@/os";
+import { addTheme, getThemes } from "@/theme-store";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 let installThemeCode = $ref(null);
 
@@ -31,21 +31,21 @@ function parseThemeCode(code: string) {
 		theme = JSON5.parse(code);
 	} catch (err) {
 		os.alert({
-			type: 'error',
+			type: "error",
 			text: i18n.ts._theme.invalid,
 		});
 		return false;
 	}
 	if (!validateTheme(theme)) {
 		os.alert({
-			type: 'error',
+			type: "error",
 			text: i18n.ts._theme.invalid,
 		});
 		return false;
 	}
 	if (getThemes().some(t => t.id === theme.id)) {
 		os.alert({
-			type: 'info',
+			type: "info",
 			text: i18n.ts._theme.alreadyInstalled,
 		});
 		return false;
@@ -64,8 +64,8 @@ async function install(code: string): Promise<void> {
 	if (!theme) return;
 	await addTheme(theme);
 	os.alert({
-		type: 'success',
-		text: i18n.t('_theme.installed', { name: theme.name }),
+		type: "success",
+		text: i18n.t("_theme.installed", { name: theme.name }),
 	});
 }
 
@@ -75,6 +75,6 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts._theme.install,
-	icon: 'ti ti-download',
+	icon: "ti ti-download",
 });
 </script>

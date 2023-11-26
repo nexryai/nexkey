@@ -16,28 +16,28 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
-import { notificationTypes } from '@/const';
-import XNotifications from '@/components/MkNotifications.vue';
-import XNotes from '@/components/MkNotes.vue';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { computed } from "vue";
+import { notificationTypes } from "@/const";
+import XNotifications from "@/components/MkNotifications.vue";
+import XNotes from "@/components/MkNotes.vue";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
-let tab = $ref('all');
+let tab = $ref("all");
 let includeTypes = $ref<string[] | null>(null);
-let unreadOnly = $computed(() => tab === 'unread');
+let unreadOnly = $computed(() => tab === "unread");
 
 const mentionsPagination = {
-	endpoint: 'notes/mentions' as const,
+	endpoint: "notes/mentions" as const,
 	limit: 10,
 };
 
 const directNotesPagination = {
-	endpoint: 'notes/mentions' as const,
+	endpoint: "notes/mentions" as const,
 	limit: 10,
 	params: {
-		visibility: 'specified',
+		visibility: "specified",
 	},
 };
 
@@ -50,7 +50,7 @@ function setFilter(ev) {
 		},
 	}));
 	const items = includeTypes != null ? [{
-		icon: 'ti ti-x',
+		icon: "ti ti-x",
 		text: i18n.ts.clear,
 		action: () => {
 			includeTypes = null;
@@ -59,37 +59,37 @@ function setFilter(ev) {
 	os.popupMenu(items, ev.currentTarget ?? ev.target);
 }
 
-const headerActions = $computed(() => [tab === 'all' ? {
+const headerActions = $computed(() => [tab === "all" ? {
 	text: i18n.ts.filter,
-	icon: 'ti ti-filter',
+	icon: "ti ti-filter",
 	highlighted: includeTypes != null,
 	handler: setFilter,
-} : undefined, tab === 'all' ? {
+} : undefined, tab === "all" ? {
 	text: i18n.ts.markAllAsRead,
-	icon: 'ti ti-check',
+	icon: "ti ti-check",
 	handler: () => {
-		os.apiWithDialog('notifications/mark-all-as-read');
+		os.apiWithDialog("notifications/mark-all-as-read");
 	},
 } : undefined].filter(x => x !== undefined));
 
 const headerTabs = $computed(() => [{
-	key: 'all',
+	key: "all",
 	title: i18n.ts.all,
 }, {
-	key: 'unread',
+	key: "unread",
 	title: i18n.ts.unread,
 }, {
-	key: 'mentions',
+	key: "mentions",
 	title: i18n.ts.mentions,
-	icon: 'ti ti-at',
+	icon: "ti ti-at",
 }, {
-	key: 'directNotes',
+	key: "directNotes",
 	title: i18n.ts.directNotes,
-	icon: 'ti ti-mail',
+	icon: "ti ti-mail",
 }]);
 
 definePageMetadata(computed(() => ({
 	title: i18n.ts.notifications,
-	icon: 'ti ti-bell',
+	icon: "ti ti-bell",
 })));
 </script>

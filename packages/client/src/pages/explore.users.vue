@@ -58,20 +58,20 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, watch } from 'vue';
-import XUserList from '@/components/MkUserList.vue';
-import MkFolder from '@/components/MkFolder.vue';
-import MkTab from '@/components/MkTab.vue';
-import number from '@/filters/number';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
-import { instance } from '@/instance';
+import { computed, watch } from "vue";
+import XUserList from "@/components/MkUserList.vue";
+import MkFolder from "@/components/MkFolder.vue";
+import MkTab from "@/components/MkTab.vue";
+import number from "@/filters/number";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
+import { instance } from "@/instance";
 
 const props = defineProps<{
 	tag?: string;
 }>();
 
-let origin = $ref('local');
+let origin = $ref("local");
 let tagsEl = $ref<InstanceType<typeof MkFolder>>();
 let tagsLocal = $ref([]);
 let tagsRemote = $ref([]);
@@ -81,53 +81,53 @@ watch(() => props.tag, () => {
 });
 
 const tagUsers = $computed(() => ({
-	endpoint: 'hashtags/users' as const,
+	endpoint: "hashtags/users" as const,
 	limit: 30,
 	params: {
 		tag: props.tag,
-		origin: 'combined',
-		sort: '+follower',
+		origin: "combined",
+		sort: "+follower",
 	},
 }));
 
-const pinnedUsers = { endpoint: 'pinned-users' };
-const popularUsers = { endpoint: 'users', limit: 10, noPaging: true, params: {
-	state: 'alive',
-	origin: 'local',
-	sort: '+follower',
+const pinnedUsers = { endpoint: "pinned-users" };
+const popularUsers = { endpoint: "users", limit: 10, noPaging: true, params: {
+	state: "alive",
+	origin: "local",
+	sort: "+follower",
 } };
-const recentlyUpdatedUsers = { endpoint: 'users', limit: 10, noPaging: true, params: {
-	origin: 'local',
-	sort: '+updatedAt',
+const recentlyUpdatedUsers = { endpoint: "users", limit: 10, noPaging: true, params: {
+	origin: "local",
+	sort: "+updatedAt",
 } };
-const recentlyRegisteredUsers = { endpoint: 'users', limit: 10, noPaging: true, params: {
-	origin: 'local',
-	state: 'alive',
-	sort: '+createdAt',
+const recentlyRegisteredUsers = { endpoint: "users", limit: 10, noPaging: true, params: {
+	origin: "local",
+	state: "alive",
+	sort: "+createdAt",
 } };
-const popularUsersF = { endpoint: 'users', limit: 10, noPaging: true, params: {
-	state: 'alive',
-	origin: 'remote',
-	sort: '+follower',
+const popularUsersF = { endpoint: "users", limit: 10, noPaging: true, params: {
+	state: "alive",
+	origin: "remote",
+	sort: "+follower",
 } };
-const recentlyUpdatedUsersF = { endpoint: 'users', limit: 10, noPaging: true, params: {
-	origin: 'combined',
-	sort: '+updatedAt',
+const recentlyUpdatedUsersF = { endpoint: "users", limit: 10, noPaging: true, params: {
+	origin: "combined",
+	sort: "+updatedAt",
 } };
-const recentlyRegisteredUsersF = { endpoint: 'users', limit: 10, noPaging: true, params: {
-	origin: 'combined',
-	sort: '+createdAt',
+const recentlyRegisteredUsersF = { endpoint: "users", limit: 10, noPaging: true, params: {
+	origin: "combined",
+	sort: "+createdAt",
 } };
 
-os.api('hashtags/list', {
-	sort: '+attachedLocalUsers',
+os.api("hashtags/list", {
+	sort: "+attachedLocalUsers",
 	attachedToLocalUserOnly: true,
 	limit: 30,
 }).then(tags => {
 	tagsLocal = tags;
 });
-os.api('hashtags/list', {
-	sort: '+attachedRemoteUsers',
+os.api("hashtags/list", {
+	sort: "+attachedRemoteUsers",
 	attachedToRemoteUserOnly: true,
 	limit: 30,
 }).then(tags => {

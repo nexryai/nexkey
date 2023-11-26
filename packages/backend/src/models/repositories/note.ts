@@ -1,23 +1,23 @@
-import { In } from 'typeorm';
-import * as mfm from 'mfm-js';
-import { Note } from '@/models/entities/note.js';
-import { User } from '@/models/entities/user.js';
-import { Users, PollVotes, DriveFiles, NoteReactions, Followings, Polls, Channels } from '../index.js';
-import { Packed } from '@/misc/schema.js';
-import { nyaize } from '@/misc/nyaize.js';
-import { awaitAll } from '@/prelude/await-all.js';
-import { convertLegacyReaction, convertLegacyReactions, decodeReaction } from '@/misc/reaction-lib.js';
-import { NoteReaction } from '@/models/entities/note-reaction.js';
-import { aggregateNoteEmojis, populateEmojis, prefetchEmojis } from '@/misc/populate-emojis.js';
-import { db } from '@/db/postgre.js';
-import { sanitizeUrl } from '@/misc/sanitize-url.js';
+import { In } from "typeorm";
+import * as mfm from "mfm-js";
+import { Note } from "@/models/entities/note.js";
+import { User } from "@/models/entities/user.js";
+import { Packed } from "@/misc/schema.js";
+import { nyaize } from "@/misc/nyaize.js";
+import { awaitAll } from "@/prelude/await-all.js";
+import { convertLegacyReaction, convertLegacyReactions, decodeReaction } from "@/misc/reaction-lib.js";
+import { NoteReaction } from "@/models/entities/note-reaction.js";
+import { aggregateNoteEmojis, populateEmojis, prefetchEmojis } from "@/misc/populate-emojis.js";
+import { db } from "@/db/postgre.js";
+import { sanitizeUrl } from "@/misc/sanitize-url.js";
+import { Users, PollVotes, DriveFiles, NoteReactions, Followings, Polls, Channels } from "../index.js";
 
-async function hideNote(packedNote: Packed<'Note'>, meId: User['id'] | null) {
+async function hideNote(packedNote: Packed<"Note">, meId: User["id"] | null) {
 	// TODO: isVisibleForMe を使うようにしても良さそう(型違うけど)
 	let hide = false;
 
 	// visibility が specified かつ自分が指定されていなかったら非表示
-	if (packedNote.visibility === 'specified') {
+	if (packedNote.visibility === "specified") {
 		if (meId == null) {
 			hide = true;
 		} else if (meId === packedNote.userId) {
@@ -35,7 +35,7 @@ async function hideNote(packedNote: Packed<'Note'>, meId: User['id'] | null) {
 	}
 
 	// visibility が followers かつ自分が投稿者のフォロワーでなかったら非表示
-	if (packedNote.visibility === 'followers') {
+	if (packedNote.visibility === "followers") {
 		if (meId == null) {
 			hide = true;
 		} else if (meId === packedNote.userId) {
@@ -72,7 +72,7 @@ async function hideNote(packedNote: Packed<'Note'>, meId: User['id'] | null) {
 	}
 }
 
-async function populatePoll(note: Note, meId: User['id'] | null) {
+async function populatePoll(note: Note, meId: User["id"] | null) {
 	const poll = await Polls.findOneByOrFail({ noteId: note.id });
 	const choices = poll.choices.map(c => ({
 		text: c,
@@ -110,8 +110,8 @@ async function populatePoll(note: Note, meId: User['id'] | null) {
 	};
 }
 
-async function populateMyReaction(note: Note, meId: User['id'], _hint_?: {
-	myReactions: Map<Note['id'], NoteReaction | null>;
+async function populateMyReaction(note: Note, meId: User["id"], _hint_?: {
+	myReactions: Map<Note["id"], NoteReaction | null>;
 }) {
 	if (_hint_?.myReactions) {
 		const reaction = _hint_.myReactions.get(note.id);
@@ -136,10 +136,10 @@ async function populateMyReaction(note: Note, meId: User['id'], _hint_?: {
 }
 
 export const NoteRepository = db.getRepository(Note).extend({
-	async isVisibleForMe(note: Note, meId: User['id'] | null): Promise<boolean> {
+	async isVisibleForMe(note: Note, meId: User["id"] | null): Promise<boolean> {
 		// This code must always be synchronized with the checks in generateVisibilityQuery.
 		// visibility が specified かつ自分が指定されていなかったら非表示
-		if (note.visibility === 'specified') {
+		if (note.visibility === "specified") {
 			if (meId == null) {
 				return false;
 			} else if (meId === note.userId) {
@@ -151,7 +151,7 @@ export const NoteRepository = db.getRepository(Note).extend({
 		}
 
 		// visibility が followers かつ自分が投稿者のフォロワーでなかったら非表示
-		if (note.visibility === 'followers') {
+		if (note.visibility === "followers") {
 			if (meId == null) {
 				return false;
 			} else if (meId === note.userId) {
@@ -190,29 +190,29 @@ export const NoteRepository = db.getRepository(Note).extend({
 	},
 
 	async pack(
-		src: Note['id'] | Note,
-		me?: { id: User['id'] } | null | undefined,
+		src: Note["id"] | Note,
+		me?: { id: User["id"] } | null | undefined,
 		options?: {
 			detail?: boolean;
 			skipHide?: boolean;
 			_hint_?: {
-				myReactions: Map<Note['id'], NoteReaction | null>;
+				myReactions: Map<Note["id"], NoteReaction | null>;
 			};
-		}
-	): Promise<Packed<'Note'>> {
+		},
+	): Promise<Packed<"Note">> {
 		const opts = Object.assign({
 			detail: true,
 			skipHide: false,
 		}, options);
 
 		const meId = me ? me.id : null;
-		const note = typeof src === 'object' ? src : await this.findOneByOrFail({ id: src });
+		const note = typeof src === "object" ? src : await this.findOneByOrFail({ id: src });
 		const host = note.userHost;
 
 		let text = note.text;
 
 		if (note.name && (note.url ?? note.uri)) {
-			text = `【${note.name}】\n${(note.text || '').trim()}\n\n${note.url ?? note.uri}`;
+			text = `【${note.name}】\n${(note.text || "").trim()}\n\n${note.url ?? note.uri}`;
 		}
 
 		const channel = note.channelId
@@ -221,9 +221,9 @@ export const NoteRepository = db.getRepository(Note).extend({
 				: await Channels.findOneBy({ id: note.channelId })
 			: null;
 
-		const reactionEmojiNames = Object.keys(note.reactions).filter(x => x?.startsWith(':')).map(x => decodeReaction(x).reaction).map(x => x.replace(/:/g, ''));
+		const reactionEmojiNames = Object.keys(note.reactions).filter(x => x.startsWith(":")).map(x => decodeReaction(x).reaction).map(x => x.replace(/:/g, ""));
 
-		const packed: Packed<'Note'> = await awaitAll({
+		const packed: Packed<"Note"> = await awaitAll({
 			id: note.id,
 			createdAt: note.createdAt.toISOString(),
 			userId: note.userId,
@@ -234,7 +234,7 @@ export const NoteRepository = db.getRepository(Note).extend({
 			cw: note.cw,
 			visibility: note.visibility,
 			localOnly: note.localOnly || undefined,
-			visibleUserIds: note.visibility === 'specified' ? note.visibleUserIds : undefined,
+			visibleUserIds: note.visibility === "specified" ? note.visibleUserIds : undefined,
 			renoteCount: note.renoteCount,
 			repliesCount: note.repliesCount,
 			reactions: convertLegacyReactions(note.reactions),
@@ -275,7 +275,7 @@ export const NoteRepository = db.getRepository(Note).extend({
 		if (packed.user.isCat && packed.text) {
 			const tokens = packed.text ? mfm.parse(packed.text) : [];
 			mfm.inspect(tokens, node => {
-				if (node.type === 'text') {
+				if (node.type === "text") {
 					// TODO: quoteなtextはskip
 					node.props.text = nyaize(node.props.text);
 				}
@@ -292,16 +292,16 @@ export const NoteRepository = db.getRepository(Note).extend({
 
 	async packMany(
 		notes: Note[],
-		me?: { id: User['id'] } | null | undefined,
+		me?: { id: User["id"] } | null | undefined,
 		options?: {
 			detail?: boolean;
 			skipHide?: boolean;
-		}
+		},
 	) {
 		if (notes.length === 0) return [];
 
 		const meId = me ? me.id : null;
-		const myReactionsMap = new Map<Note['id'], NoteReaction | null>();
+		const myReactionsMap = new Map<Note["id"], NoteReaction | null>();
 		if (meId) {
 			const renoteIds = notes.filter(n => n.renoteId != null).map(n => n.renoteId!);
 			const targets = [...notes.map(n => n.id), ...renoteIds];

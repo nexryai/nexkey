@@ -27,10 +27,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onUnmounted, nextTick, ref, watch, computed, toRefs } from 'vue';
-import { debounce } from 'throttle-debounce';
-import MkButton from '@/components/MkButton.vue';
-import { i18n } from '@/i18n';
+import { defineComponent, onMounted, onUnmounted, nextTick, ref, watch, computed, toRefs } from "vue";
+import { debounce } from "throttle-debounce";
+import MkButton from "@/components/MkButton.vue";
+import { i18n } from "@/i18n";
 
 export default defineComponent({
 	components: {
@@ -102,7 +102,7 @@ export default defineComponent({
 		},
 	},
 
-	emits: ['change', 'keydown', 'enter', 'update:modelValue'],
+	emits: ["change", "keydown", "enter", "update:modelValue"],
 
 	setup(props, context) {
 		const { modelValue, autofocus } = toRefs(props);
@@ -110,25 +110,25 @@ export default defineComponent({
 		const focused = ref(false);
 		const changed = ref(false);
 		const invalid = ref(false);
-		const filled = computed(() => v.value !== '' && v.value != null);
+		const filled = computed(() => v.value !== "" && v.value != null);
 		const inputEl = ref(null);
 
 		const focus = () => inputEl.value.focus();
 		const onInput = (ev) => {
 			changed.value = true;
-			context.emit('change', ev);
+			context.emit("change", ev);
 		};
 		const onKeydown = (ev: KeyboardEvent) => {
-			context.emit('keydown', ev);
+			context.emit("keydown", ev);
 
-			if (ev.code === 'Enter') {
-				context.emit('enter');
+			if (ev.code === "Enter") {
+				context.emit("enter");
 			}
 		};
 
 		const updated = () => {
 			changed.value = false;
-			context.emit('update:modelValue', v.value);
+			context.emit("update:modelValue", v.value);
 		};
 
 		const debouncedUpdated = debounce(1000, updated);

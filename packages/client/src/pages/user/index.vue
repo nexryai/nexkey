@@ -17,29 +17,29 @@
 </template>
 
 <script lang="ts" setup>
-import { defineAsyncComponent, computed, inject, onMounted, onUnmounted, watch } from 'vue';
-import calcAge from 's-age';
-import * as Acct from 'misskey-js/built/acct';
-import * as misskey from 'misskey-js';
-import { getScrollPosition } from '@/scripts/scroll';
-import number from '@/filters/number';
-import { userPage, acct as getAcct } from '@/filters/user';
-import * as os from '@/os';
-import { useRouter } from '@/router';
-import { definePageMetadata } from '@/scripts/page-metadata';
-import { i18n } from '@/i18n';
-import { $i } from '@/account';
+import { defineAsyncComponent, computed, inject, onMounted, onUnmounted, watch } from "vue";
+import calcAge from "s-age";
+import * as Acct from "misskey-js/built/acct";
+import * as misskey from "misskey-js";
+import { getScrollPosition } from "@/scripts/scroll";
+import number from "@/filters/number";
+import { userPage, acct as getAcct } from "@/filters/user";
+import * as os from "@/os";
+import { useRouter } from "@/router";
+import { definePageMetadata } from "@/scripts/page-metadata";
+import { i18n } from "@/i18n";
+import { $i } from "@/account";
 
-const XHome = defineAsyncComponent(() => import('./home.vue'));
-const XReactions = defineAsyncComponent(() => import('./reactions.vue'));
-const XClips = defineAsyncComponent(() => import('./clips.vue'));
-const XPages = defineAsyncComponent(() => import('./pages.vue'));
+const XHome = defineAsyncComponent(() => import("./home.vue"));
+const XReactions = defineAsyncComponent(() => import("./reactions.vue"));
+const XClips = defineAsyncComponent(() => import("./clips.vue"));
+const XPages = defineAsyncComponent(() => import("./pages.vue"));
 
 const props = withDefaults(defineProps<{
 	acct: string;
 	page?: string;
 }>(), {
-	page: 'home',
+	page: "home",
 });
 
 const router = useRouter();
@@ -51,7 +51,7 @@ let error = $ref(null);
 function fetchUser(): void {
 	if (props.acct == null) return;
 	user = null;
-	os.api('users/show', Acct.parse(props.acct)).then(u => {
+	os.api("users/show", Acct.parse(props.acct)).then(u => {
 		user = u;
 	}).catch(err => {
 		error = err;
@@ -100,9 +100,8 @@ const headerTabs = computed(() =>
 		: null,
 );
 
-
 definePageMetadata(computed(() => user ? {
-	icon: 'ti ti-user',
+	icon: "ti ti-user",
 	title: user.name ? `${user.name} (@${user.username})` : `@${user.username}`,
 	subtitle: `@${getAcct(user)}`,
 	userName: user,

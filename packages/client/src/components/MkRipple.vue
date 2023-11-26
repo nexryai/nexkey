@@ -57,8 +57,8 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
-import * as os from '@/os';
+import { onMounted } from "vue";
+import * as os from "@/os";
 
 const props = withDefaults(defineProps<{
 	x: number;
@@ -69,13 +69,13 @@ const props = withDefaults(defineProps<{
 });
 
 const emit = defineEmits<{
-	(ev: 'end'): void;
+	(ev: "end"): void;
 }>();
 
 const particles = [];
 const origin = 64;
-const colors = ['#FF1493', '#00FFFF', '#FFE202'];
-const zIndex = os.claimZIndex('high');
+const colors = ["#FF1493", "#00FFFF", "#FFE202"];
+const zIndex = os.claimZIndex("high");
 
 if (props.particle) {
 	for (let i = 0; i < 12; i++) {
@@ -95,7 +95,7 @@ if (props.particle) {
 
 onMounted(() => {
 	window.setTimeout(() => {
-		emit('end');
+		emit("end");
 	}, 1100);
 });
 </script>

@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
+import { onMounted } from "vue";
 import {
 	Chart,
 	ArcElement,
@@ -66,12 +66,12 @@ import {
 	SubTitle,
 	Filler,
 	DoughnutController,
-} from 'chart.js';
-import MkSelect from '@/components/form/select.vue';
-import MkChart from '@/components/MkChart.vue';
-import { useChartTooltip } from '@/scripts/use-chart-tooltip';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
+} from "chart.js";
+import MkSelect from "@/components/form/select.vue";
+import MkChart from "@/components/MkChart.vue";
+import { useChartTooltip } from "@/scripts/use-chart-tooltip";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
 
 Chart.register(
 	ArcElement,
@@ -98,8 +98,8 @@ const props = withDefaults(defineProps<{
 	chartLimit: 90,
 });
 
-const chartSpan = $ref<'hour' | 'day'>('hour');
-const chartSrc = $ref('active-users');
+const chartSpan = $ref<"hour" | "day">("hour");
+const chartSrc = $ref("active-users");
 let subDoughnutEl = $ref<HTMLCanvasElement>();
 let pubDoughnutEl = $ref<HTMLCanvasElement>();
 
@@ -108,12 +108,12 @@ const { handler: externalTooltipHandler2 } = useChartTooltip();
 
 function createDoughnut(chartEl, tooltip, data) {
 	const chartInstance = new Chart(chartEl, {
-		type: 'doughnut',
+		type: "doughnut",
 		data: {
 			labels: data.map(x => x.name),
 			datasets: [{
 				backgroundColor: data.map(x => x.color),
-				borderColor: getComputedStyle(document.documentElement).getPropertyValue('--panel'),
+				borderColor: getComputedStyle(document.documentElement).getPropertyValue("--panel"),
 				borderWidth: 2,
 				hoverOffset: 0,
 				data: data.map(x => x.value),
@@ -130,7 +130,7 @@ function createDoughnut(chartEl, tooltip, data) {
 				},
 			},
 			onClick: (ev) => {
-				const hit = chartInstance.getElementsAtEventForMode(ev, 'nearest', { intersect: true }, false)[0];
+				const hit = chartInstance.getElementsAtEventForMode(ev, "nearest", { intersect: true }, false)[0];
 				if (hit && data[hit.index].onClick) {
 					data[hit.index].onClick();
 				}
@@ -141,7 +141,7 @@ function createDoughnut(chartEl, tooltip, data) {
 				},
 				tooltip: {
 					enabled: false,
-					mode: 'index',
+					mode: "index",
 					animation: {
 						duration: 0,
 					},
@@ -155,7 +155,7 @@ function createDoughnut(chartEl, tooltip, data) {
 }
 
 onMounted(() => {
-	os.apiGet('federation/stats', { limit: 30 }).then(fedStats => {
+	os.apiGet("federation/stats", { limit: 30 }).then(fedStats => {
 		createDoughnut(subDoughnutEl, externalTooltipHandler1, fedStats.topSubInstances.map(x => ({
 			name: x.host,
 			color: x.themeColor,
@@ -163,7 +163,7 @@ onMounted(() => {
 			onClick: () => {
 				os.pageWindow(`/instance-info/${x.host}`);
 			},
-		})).concat([{ name: '(other)', color: '#80808080', value: fedStats.otherFollowersCount }]));
+		})).concat([{ name: "(other)", color: "#80808080", value: fedStats.otherFollowersCount }]));
 
 		createDoughnut(pubDoughnutEl, externalTooltipHandler2, fedStats.topPubInstances.map(x => ({
 			name: x.host,
@@ -172,7 +172,7 @@ onMounted(() => {
 			onClick: () => {
 				os.pageWindow(`/instance-info/${x.host}`);
 			},
-		})).concat([{ name: '(other)', color: '#80808080', value: fedStats.otherFollowingCount }]));
+		})).concat([{ name: "(other)", color: "#80808080", value: fedStats.otherFollowingCount }]));
 	});
 });
 </script>

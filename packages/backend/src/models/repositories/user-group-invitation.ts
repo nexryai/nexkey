@@ -1,12 +1,12 @@
-import { db } from '@/db/postgre.js';
-import { UserGroupInvitation } from '@/models/entities/user-group-invitation.js';
-import { UserGroups } from '../index.js';
+import { db } from "@/db/postgre.js";
+import { UserGroupInvitation } from "@/models/entities/user-group-invitation.js";
+import { UserGroups } from "../index.js";
 
 export const UserGroupInvitationRepository = db.getRepository(UserGroupInvitation).extend({
 	async pack(
-		src: UserGroupInvitation['id'] | UserGroupInvitation,
+		src: UserGroupInvitation["id"] | UserGroupInvitation,
 	) {
-		const invitation = typeof src === 'object' ? src : await this.findOneByOrFail({ id: src });
+		const invitation = typeof src === "object" ? src : await this.findOneByOrFail({ id: src });
 
 		return {
 			id: invitation.id,

@@ -1,10 +1,10 @@
-import { Note } from '@/models/entities/note.js';
-import { publishMainStream } from '@/services/stream.js';
-import { User } from '@/models/entities/user.js';
-import { Mutings, NoteThreadMutings, NoteUnreads } from '@/models/index.js';
-import { genId } from '@/misc/gen-id.js';
+import { Note } from "@/models/entities/note.js";
+import { publishMainStream } from "@/services/stream.js";
+import { User } from "@/models/entities/user.js";
+import { Mutings, NoteThreadMutings, NoteUnreads } from "@/models/index.js";
+import { genId } from "@/misc/gen-id.js";
 
-export async function insertNoteUnread(userId: User['id'], note: Note, params: {
+export async function insertNoteUnread(userId: User["id"], note: Note, params: {
 	// NOTE: isSpecifiedがtrueならisMentionedは必ずfalse
 	isSpecified: boolean;
 	isMentioned: boolean;
@@ -43,13 +43,13 @@ export async function insertNoteUnread(userId: User['id'], note: Note, params: {
 		if (exist == null) return;
 
 		if (params.isMentioned) {
-			publishMainStream(userId, 'unreadMention', note.id);
+			publishMainStream(userId, "unreadMention", note.id);
 		}
 		if (params.isSpecified) {
-			publishMainStream(userId, 'unreadSpecifiedNote', note.id);
+			publishMainStream(userId, "unreadSpecifiedNote", note.id);
 		}
 		if (note.channelId) {
-			publishMainStream(userId, 'unreadChannel', note.id);
+			publishMainStream(userId, "unreadChannel", note.id);
 		}
 	}, 2000);
 }

@@ -34,8 +34,8 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
-import { i18n } from '@/i18n';
+import { computed } from "vue";
+import { i18n } from "@/i18n";
 
 const props = defineProps<{
 	channel: Record<string, any>;
@@ -45,7 +45,7 @@ const bannerStyle = computed(() => {
 	if (props.channel.bannerUrl) {
 		return { backgroundImage: `url(${props.channel.bannerUrl})` };
 	} else {
-		return { backgroundColor: '#4c5e6d' };
+		return { backgroundColor: "#4c5e6d" };
 	}
 });
 </script>

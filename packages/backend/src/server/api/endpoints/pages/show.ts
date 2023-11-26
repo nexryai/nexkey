@@ -1,44 +1,44 @@
-import { IsNull } from 'typeorm';
-import { Pages, Users } from '@/models/index.js';
-import { Page } from '@/models/entities/page.js';
-import define from '../../define.js';
-import { ApiError } from '../../error.js';
+import { IsNull } from "typeorm";
+import { Pages, Users } from "@/models/index.js";
+import { Page } from "@/models/entities/page.js";
+import define from "../../define.js";
+import { ApiError } from "../../error.js";
 
 export const meta = {
-	tags: ['pages'],
+	tags: ["pages"],
 
 	requireCredential: false,
 
 	res: {
-		type: 'object',
+		type: "object",
 		optional: false, nullable: false,
-		ref: 'Page',
+		ref: "Page",
 	},
 
 	errors: {
 		noSuchPage: {
-			message: 'No such page.',
-			code: 'NO_SUCH_PAGE',
-			id: '222120c0-3ead-4528-811b-b96f233388d7',
+			message: "No such page.",
+			code: "NO_SUCH_PAGE",
+			id: "222120c0-3ead-4528-811b-b96f233388d7",
 		},
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	anyOf: [
 		{
 			properties: {
-				pageId: { type: 'string', format: 'misskey:id' },
+				pageId: { type: "string", format: "misskey:id" },
 			},
-			required: ['pageId'],
+			required: ["pageId"],
 		},
 		{
 			properties: {
-				name: { type: 'string' },
-				username: { type: 'string' },
+				name: { type: "string" },
+				username: { type: "string" },
 			},
-			required: ['name', 'username'],
+			required: ["name", "username"],
 		},
 	],
 } as const;

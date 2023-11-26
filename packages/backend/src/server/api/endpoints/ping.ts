@@ -1,16 +1,16 @@
-import define from '../define.js';
+import define from "../define.js";
 
 export const meta = {
 	requireCredential: false,
 
-	tags: ['meta'],
+	tags: ["meta"],
 
 	res: {
-		type: 'object',
+		type: "object",
 		optional: false, nullable: false,
 		properties: {
 			pong: {
-				type: 'number',
+				type: "number",
 				optional: false, nullable: false,
 			},
 		},
@@ -18,7 +18,7 @@ export const meta = {
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {},
 	required: [],
 } as const;

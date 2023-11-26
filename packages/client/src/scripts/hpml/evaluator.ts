@@ -1,13 +1,13 @@
-import autobind from 'autobind-decorator';
-import { PageVar, envVarsDef, Fn, HpmlScope, HpmlError } from '.';
-import { version } from '@/config';
-import { AiScript, utils, values } from '@syuilo/aiscript';
-import { createAiScriptEnv } from '../aiscript/api';
-import { collectPageVars } from '../collect-page-vars';
-import { initHpmlLib, initAiLib } from './lib';
-import * as os from '@/os';
-import { markRaw, ref, Ref, unref } from 'vue';
-import { Expr, isLiteralValue, Variable } from './expr';
+import autobind from "autobind-decorator";
+import { AiScript, utils, values } from "@syuilo/aiscript";
+import { markRaw, ref, Ref, unref } from "vue";
+import { createAiScriptEnv } from "../aiscript/api";
+import { collectPageVars } from "../collect-page-vars";
+import { initHpmlLib, initAiLib } from "./lib";
+import { Expr, isLiteralValue, Variable } from "./expr";
+import { PageVar, envVarsDef, Fn, HpmlScope, HpmlError } from ".";
+import { version } from "@/config";
+import * as os from "@/os";
 
 /**
  * Hpml evaluator
@@ -27,7 +27,7 @@ export class Hpml {
 		enableAiScript: boolean;
 	};
 
-	constructor(page: Hpml['page'], opts: Hpml['opts']) {
+	constructor(page: Hpml["page"], opts: Hpml["opts"]) {
 		this.page = page;
 		this.variables = this.page.variables;
 		this.pageVars = collectPageVars(this.page.content);
@@ -35,7 +35,7 @@ export class Hpml {
 
 		if (this.opts.enableAiScript) {
 			this.aiscript = markRaw(new AiScript({ ...createAiScriptEnv({
-				storageKey: 'pages:' + this.page.id
+				storageKey: "pages:" + this.page.id,
 			}), ...initAiLib(this) }, {
 				in: (q) => {
 					return new Promise(ok => {
@@ -61,21 +61,21 @@ export class Hpml {
 		const date = new Date();
 
 		this.envVars = {
-			AI: 'kawaii',
+			AI: "kawaii",
 			VERSION: version,
-			URL: this.page ? `${opts.url}/@${this.page.user.username}/pages/${this.page.name}` : '',
+			URL: this.page ? `${opts.url}/@${this.page.user.username}/pages/${this.page.name}` : "",
 			LOGIN: opts.visitor != null,
-			NAME: opts.visitor ? opts.visitor.name || opts.visitor.username : '',
-			USERNAME: opts.visitor ? opts.visitor.username : '',
-			USERID: opts.visitor ? opts.visitor.id : '',
+			NAME: opts.visitor ? opts.visitor.name || opts.visitor.username : "",
+			USERNAME: opts.visitor ? opts.visitor.username : "",
+			USERID: opts.visitor ? opts.visitor.id : "",
 			NOTES_COUNT: opts.visitor ? opts.visitor.notesCount : 0,
 			FOLLOWERS_COUNT: opts.visitor ? opts.visitor.followersCount : 0,
 			FOLLOWING_COUNT: opts.visitor ? opts.visitor.followingCount : 0,
 			IS_CAT: opts.visitor ? opts.visitor.isCat : false,
-			SEED: opts.randomSeed ? opts.randomSeed : '',
+			SEED: opts.randomSeed ? opts.randomSeed : "",
 			YMD: `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`,
 			AISCRIPT_DISABLED: !this.opts.enableAiScript,
-			NULL: null
+			NULL: null,
 		};
 
 		this.eval();
@@ -95,7 +95,7 @@ export class Hpml {
 		if (str == null) return null;
 		return str.replace(/{(.+?)}/g, match => {
 			const v = unref(this.vars)[match.slice(1, -1).trim()];
-			return v == null ? 'NULL' : v.toString();
+			return v == null ? "NULL" : v.toString();
 		});
 	}
 
@@ -134,7 +134,7 @@ export class Hpml {
 	private _interpolateScope(str: string, scope: HpmlScope) {
 		return str.replace(/{(.+?)}/g, match => {
 			const v = scope.getState(match.slice(1, -1).trim());
-			return v == null ? 'NULL' : v.toString();
+			return v == null ? "NULL" : v.toString();
 		});
 	}
 
@@ -164,23 +164,23 @@ export class Hpml {
 				return null;
 			}
 
-			if (expr.type === 'number') {
+			if (expr.type === "number") {
 				return parseInt((expr.value as any), 10);
 			}
 
-			if (expr.type === 'text' || expr.type === 'multiLineText') {
-				return this._interpolateScope(expr.value || '', scope);
+			if (expr.type === "text" || expr.type === "multiLineText") {
+				return this._interpolateScope(expr.value || "", scope);
 			}
 
-			if (expr.type === 'textList') {
-				return this._interpolateScope(expr.value || '', scope).trim().split('\n');
+			if (expr.type === "textList") {
+				return this._interpolateScope(expr.value || "", scope).trim().split("\n");
 			}
 
-			if (expr.type === 'ref') {
+			if (expr.type === "ref") {
 				return scope.getState(expr.value);
 			}
 
-			if (expr.type === 'aiScriptVar') {
+			if (expr.type === "aiScriptVar") {
 				if (this.aiscript) {
 					try {
 						return utils.valToJs(this.aiscript.scope.get(expr.value));
@@ -193,20 +193,20 @@ export class Hpml {
 			}
 
 			// Define user function
-			if (expr.type === 'fn') {
+			if (expr.type === "fn") {
 				return {
 					slots: expr.value.slots.map(x => x.name),
 					exec: (slotArg: Record<string, any>) => {
 						return this.evaluate(expr.value.expression, scope.createChildScope(slotArg, expr.id));
-					}
+					},
 				} as Fn;
 			}
 			return;
 		}
 
 		// Call user function
-		if (expr.type.startsWith('fn:')) {
-			const fnName = expr.type.split(':')[1];
+		if (expr.type.startsWith("fn:")) {
+			const fnName = expr.type.split(":")[1];
 			const fn = scope.getState(fnName);
 			const args = {} as Record<string, any>;
 			for (let i = 0; i < fn.slots.length; i++) {

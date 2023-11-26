@@ -8,42 +8,42 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
-import XWidgets from '@/components/MkWidgets.vue';
-import { i18n } from '@/i18n';
-import { defaultStore } from '@/store';
+import { onMounted } from "vue";
+import XWidgets from "@/components/MkWidgets.vue";
+import { i18n } from "@/i18n";
+import { defaultStore } from "@/store";
 
 const emit = defineEmits<{
-	(ev: 'mounted', el: Element): void;
+	(ev: "mounted", el: Element): void;
 }>();
 
 let editMode = $ref(false);
 let rootEl = $ref<HTMLDivElement>();
 
 onMounted(() => {
-	emit('mounted', rootEl);
+	emit("mounted", rootEl);
 });
 
 function addWidget(widget) {
-	defaultStore.set('widgets', [{
+	defaultStore.set("widgets", [{
 		...widget,
 		place: null,
 	}, ...defaultStore.state.widgets]);
 }
 
 function removeWidget(widget) {
-	defaultStore.set('widgets', defaultStore.state.widgets.filter(w => w.id !== widget.id));
+	defaultStore.set("widgets", defaultStore.state.widgets.filter(w => w.id !== widget.id));
 }
 
 function updateWidget({ id, data }) {
-	defaultStore.set('widgets', defaultStore.state.widgets.map(w => w.id === id ? {
+	defaultStore.set("widgets", defaultStore.state.widgets.map(w => w.id === id ? {
 		...w,
 		data,
 	} : w));
 }
 
 function updateWidgets(widgets) {
-	defaultStore.set('widgets', widgets);
+	defaultStore.set("widgets", widgets);
 }
 </script>
 

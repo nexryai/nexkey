@@ -145,7 +145,7 @@
 </template>
 
 <script lang="ts" setup>
-import { markRaw, version as vueVersion, onMounted, onBeforeUnmount, nextTick } from 'vue';
+import { markRaw, version as vueVersion, onMounted, onBeforeUnmount, nextTick } from "vue";
 import {
 	Chart,
 	ArcElement,
@@ -162,27 +162,27 @@ import {
 	Tooltip,
 	SubTitle,
 	Filler,
-} from 'chart.js';
-import { enUS } from 'date-fns/locale';
-import tinycolor from 'tinycolor2';
-import MagicGrid from 'magic-grid';
-import XMetrics from './metrics.vue';
-import XFederation from './overview.federation.vue';
-import XQueueChart from './overview.queue-chart.vue';
-import XUser from './overview.user.vue';
-import XPie from './overview.pie.vue';
-import MkNumberDiff from '@/components/MkNumberDiff.vue';
-import MkTagCloud from '@/components/MkTagCloud.vue';
-import { version, url } from '@/config';
-import number from '@/filters/number';
-import * as os from '@/os';
-import { stream } from '@/stream';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
-import 'chartjs-adapter-date-fns';
-import { defaultStore } from '@/store';
-import { useChartTooltip } from '@/scripts/use-chart-tooltip';
-import MkFileListForAdmin from '@/components/MkFileListForAdmin.vue';
+} from "chart.js";
+import { enUS } from "date-fns/locale";
+import tinycolor from "tinycolor2";
+import MagicGrid from "magic-grid";
+import XMetrics from "./metrics.vue";
+import XFederation from "./overview.federation.vue";
+import XQueueChart from "./overview.queue-chart.vue";
+import XUser from "./overview.user.vue";
+import XPie from "./overview.pie.vue";
+import MkNumberDiff from "@/components/MkNumberDiff.vue";
+import MkTagCloud from "@/components/MkTagCloud.vue";
+import { version, url } from "@/config";
+import number from "@/filters/number";
+import * as os from "@/os";
+import { stream } from "@/stream";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
+import "chartjs-adapter-date-fns";
+import { defaultStore } from "@/store";
+import { useChartTooltip } from "@/scripts/use-chart-tooltip";
+import MkFileListForAdmin from "@/components/MkFileListForAdmin.vue";
 
 Chart.register(
 	ArcElement,
@@ -217,12 +217,12 @@ let federationSubActive = $ref<number | null>(null);
 let federationSubActiveDiff = $ref<number | null>(null);
 let newUsers = $ref(null);
 let activeInstances = $shallowRef(null);
-const queueStatsConnection = markRaw(stream.useChannel('queueStats'));
+const queueStatsConnection = markRaw(stream.useChannel("queueStats"));
 const now = new Date();
 let chartInstance: Chart = null;
 const chartLimit = 30;
 const filesPagination = {
-	endpoint: 'admin/drive/files' as const,
+	endpoint: "admin/drive/files" as const,
 	limit: 9,
 	noPaging: true,
 };
@@ -249,28 +249,28 @@ async function renderChart() {
 		}));
 	};
 
-	const raw = await os.api('charts/active-users', { limit: chartLimit, span: 'day' });
+	const raw = await os.api("charts/active-users", { limit: chartLimit, span: "day" });
 
-	const gridColor = defaultStore.state.darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
-	const vLineColor = defaultStore.state.darkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)';
+	const gridColor = defaultStore.state.darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)";
+	const vLineColor = defaultStore.state.darkMode ? "rgba(255, 255, 255, 0.2)" : "rgba(0, 0, 0, 0.2)";
 
 	// フォントカラー
-	Chart.defaults.color = getComputedStyle(document.documentElement).getPropertyValue('--fg');
+	Chart.defaults.color = getComputedStyle(document.documentElement).getPropertyValue("--fg");
 
-	const color = tinycolor(getComputedStyle(document.documentElement).getPropertyValue('--accent'));
+	const color = tinycolor(getComputedStyle(document.documentElement).getPropertyValue("--accent"));
 
 	chartInstance = new Chart(chartEl, {
-		type: 'bar',
+		type: "bar",
 		data: {
 			//labels: new Array(props.limit).fill(0).map((_, i) => getDate(i).toLocaleString()).slice().reverse(),
 			datasets: [{
 				parsing: false,
-				label: 'a',
+				label: "a",
 				data: format(raw.readWrite).slice().reverse(),
 				tension: 0.3,
 				pointRadius: 0,
 				borderWidth: 0,
-				borderJoinStyle: 'round',
+				borderJoinStyle: "round",
 				borderRadius: 3,
 				backgroundColor: color,
 				/*gradient: props.bar ? undefined : {
@@ -299,13 +299,13 @@ async function renderChart() {
 			},
 			scales: {
 				x: {
-					type: 'time',
+					type: "time",
 					display: false,
 					stacked: true,
 					offset: false,
 					time: {
 						stepSize: 1,
-						unit: 'month',
+						unit: "month",
 					},
 					grid: {
 						display: false,
@@ -322,7 +322,7 @@ async function renderChart() {
 				},
 				y: {
 					display: false,
-					position: 'left',
+					position: "left",
 					stacked: true,
 					grid: {
 						display: false,
@@ -335,7 +335,7 @@ async function renderChart() {
 			},
 			interaction: {
 				intersect: false,
-				mode: 'index',
+				mode: "index",
 			},
 			elements: {
 				point: {
@@ -350,7 +350,7 @@ async function renderChart() {
 				},
 				tooltip: {
 					enabled: false,
-					mode: 'index',
+					mode: "index",
 					animation: {
 						duration: 0,
 					},
@@ -360,7 +360,7 @@ async function renderChart() {
 			},
 		},
 		plugins: [{
-			id: 'vLine',
+			id: "vLine",
 			beforeDraw(chart, args, options) {
 				if (chart.tooltip?._active?.length) {
 					const activePoint = chart.tooltip._active[0];
@@ -400,30 +400,30 @@ onMounted(async () => {
 
 	renderChart();
 
-	os.api('stats', {}).then(statsResponse => {
+	os.api("stats", {}).then(statsResponse => {
 		stats = statsResponse;
 
-		os.apiGet('charts/users', { limit: 2, span: 'day' }).then(chart => {
+		os.apiGet("charts/users", { limit: 2, span: "day" }).then(chart => {
 			usersComparedToThePrevDay = stats.originalUsersCount - chart.local.total[1];
 		});
 
-		os.apiGet('charts/notes', { limit: 2, span: 'day' }).then(chart => {
+		os.apiGet("charts/notes", { limit: 2, span: "day" }).then(chart => {
 			notesComparedToThePrevDay = stats.originalNotesCount - chart.local.total[1];
 		});
 	});
 
-	os.api('get-online-users-count').then(res => {
+	os.api("get-online-users-count").then(res => {
 		onlineUsersCount = res.count;
 	});
 
-	os.apiGet('charts/federation', { limit: 2, span: 'day' }).then(chart => {
+	os.apiGet("charts/federation", { limit: 2, span: "day" }).then(chart => {
 		federationPubActive = chart.pubActive[0];
 		federationPubActiveDiff = chart.pubActive[0] - chart.pubActive[1];
 		federationSubActive = chart.subActive[0];
 		federationSubActiveDiff = chart.subActive[0] - chart.subActive[1];
 	});
 
-	os.apiGet('federation/stats', { limit: 10 }).then(res => {
+	os.apiGet("federation/stats", { limit: 10 }).then(res => {
 		topSubInstancesForPie = res.topSubInstances.map(x => ({
 			name: x.host,
 			color: x.themeColor,
@@ -431,7 +431,7 @@ onMounted(async () => {
 			onClick: () => {
 				os.pageWindow(`/instance-info/${x.host}`);
 			},
-		})).concat([{ name: '(other)', color: '#80808080', value: res.otherFollowersCount }]);
+		})).concat([{ name: "(other)", color: "#80808080", value: res.otherFollowersCount }]);
 		topPubInstancesForPie = res.topPubInstances.map(x => ({
 			name: x.host,
 			color: x.themeColor,
@@ -439,29 +439,29 @@ onMounted(async () => {
 			onClick: () => {
 				os.pageWindow(`/instance-info/${x.host}`);
 			},
-		})).concat([{ name: '(other)', color: '#80808080', value: res.otherFollowingCount }]);
+		})).concat([{ name: "(other)", color: "#80808080", value: res.otherFollowingCount }]);
 	});
 
-	os.api('admin/server-info').then(serverInfoResponse => {
+	os.api("admin/server-info").then(serverInfoResponse => {
 		serverInfo = serverInfoResponse;
 	});
 
-	os.api('admin/show-users', {
+	os.api("admin/show-users", {
 		limit: 5,
-		sort: '+createdAt',
+		sort: "+createdAt",
 	}).then(res => {
 		newUsers = res;
 	});
 
-	os.api('federation/instances', {
-		sort: '+lastCommunicatedAt',
+	os.api("federation/instances", {
+		sort: "+lastCommunicatedAt",
 		limit: 25,
 	}).then(res => {
 		activeInstances = res;
 	});
 
 	nextTick(() => {
-		queueStatsConnection.send('requestLog', {
+		queueStatsConnection.send("requestLog", {
 			id: Math.random().toString().substr(2, 8),
 			length: 100,
 		});
@@ -478,7 +478,7 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.dashboard,
-	icon: 'ti ti-dashboard',
+	icon: "ti ti-dashboard",
 });
 </script>
 

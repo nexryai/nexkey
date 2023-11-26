@@ -1,35 +1,35 @@
-import { Pages } from '@/models/index.js';
-import define from '../../define.js';
-import { ApiError } from '../../error.js';
+import { Pages } from "@/models/index.js";
+import define from "../../define.js";
+import { ApiError } from "../../error.js";
 
 export const meta = {
-	tags: ['pages'],
+	tags: ["pages"],
 
 	requireCredential: true,
 
-	kind: 'write:pages',
+	kind: "write:pages",
 
 	errors: {
 		noSuchPage: {
-			message: 'No such page.',
-			code: 'NO_SUCH_PAGE',
-			id: 'eb0c6e1d-d519-4764-9486-52a7e1c6392a',
+			message: "No such page.",
+			code: "NO_SUCH_PAGE",
+			id: "eb0c6e1d-d519-4764-9486-52a7e1c6392a",
 		},
 
 		accessDenied: {
-			message: 'Access denied.',
-			code: 'ACCESS_DENIED',
-			id: '8b741b3e-2c22-44b3-a15f-29949aa1601e',
+			message: "Access denied.",
+			code: "ACCESS_DENIED",
+			id: "8b741b3e-2c22-44b3-a15f-29949aa1601e",
 		},
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		pageId: { type: 'string', format: 'misskey:id' },
+		pageId: { type: "string", format: "misskey:id" },
 	},
-	required: ['pageId'],
+	required: ["pageId"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export

@@ -1,46 +1,46 @@
-import { EntityRepository, Repository, In, Not } from 'typeorm';
-import Ajv from 'ajv';
-import { User, ILocalUser, IRemoteUser } from '@/models/entities/user.js';
-import config from '@/config/index.js';
-import { Packed } from '@/misc/schema.js';
-import { awaitAll, Promiseable } from '@/prelude/await-all.js';
-import { populateEmojis } from '@/misc/populate-emojis.js';
-import { getAntennas } from '@/misc/antenna-cache.js';
-import { USER_ACTIVE_THRESHOLD, USER_ONLINE_THRESHOLD } from '@/const.js';
-import { Cache } from '@/misc/cache.js';
-import { db } from '@/db/postgre.js';
-import { Instance } from '../entities/instance.js';
-import { Notes, NoteUnreads, FollowRequests, Notifications, MessagingMessages, UserNotePinings, Followings, Blockings, Mutings, RenoteMutings, UserProfiles, UserSecurityKeys, UserGroupJoinings, Pages, Announcements, AnnouncementReads, Antennas, AntennaNotes, ChannelFollowings, Instances, DriveFiles } from '../index.js';
-import { sanitizeUrl } from '@/misc/sanitize-url.js';
+import { EntityRepository, Repository, In, Not } from "typeorm";
+import Ajv from "ajv";
+import { User, ILocalUser, IRemoteUser } from "@/models/entities/user.js";
+import config from "@/config/index.js";
+import { Packed } from "@/misc/schema.js";
+import { awaitAll, Promiseable } from "@/prelude/await-all.js";
+import { populateEmojis } from "@/misc/populate-emojis.js";
+import { getAntennas } from "@/misc/antenna-cache.js";
+import { USER_ACTIVE_THRESHOLD, USER_ONLINE_THRESHOLD } from "@/const.js";
+import { Cache } from "@/misc/cache.js";
+import { db } from "@/db/postgre.js";
+import { sanitizeUrl } from "@/misc/sanitize-url.js";
+import { Instance } from "../entities/instance.js";
+import { Notes, NoteUnreads, FollowRequests, Notifications, MessagingMessages, UserNotePinings, Followings, Blockings, Mutings, RenoteMutings, UserProfiles, UserSecurityKeys, UserGroupJoinings, Pages, Announcements, AnnouncementReads, Antennas, AntennaNotes, ChannelFollowings, Instances, DriveFiles } from "../index.js";
 
 const userInstanceCache = new Cache<Instance | null>(1000 * 60 * 60 * 3);
 
-type IsUserDetailed<Detailed extends boolean> = Detailed extends true ? Packed<'UserDetailed'> : Packed<'UserLite'>;
+type IsUserDetailed<Detailed extends boolean> = Detailed extends true ? Packed<"UserDetailed"> : Packed<"UserLite">;
 type IsMeAndIsUserDetailed<ExpectsMe extends boolean | null, Detailed extends boolean> =
 	Detailed extends true ?
-		ExpectsMe extends true ? Packed<'MeDetailed'> :
-		ExpectsMe extends false ? Packed<'UserDetailedNotMe'> :
-		Packed<'UserDetailed'> :
-	Packed<'UserLite'>;
+		ExpectsMe extends true ? Packed<"MeDetailed"> :
+		ExpectsMe extends false ? Packed<"UserDetailedNotMe"> :
+		Packed<"UserDetailed"> :
+	Packed<"UserLite">;
 
 const ajv = new Ajv();
 
-const localUsernameSchema = { type: 'string', pattern: /^\w{1,20}$/.toString().slice(1, -1) } as const;
-const passwordSchema = { type: 'string', minLength: 1 } as const;
-const nameSchema = { type: 'string', minLength: 1, maxLength: 50 } as const;
-const descriptionSchema = { type: 'string', minLength: 1, maxLength: 500 } as const;
-const locationSchema = { type: 'string', minLength: 1, maxLength: 50 } as const;
-const birthdaySchema = { type: 'string', pattern: /^([0-9]{4})-([0-9]{2})-([0-9]{2})$/.toString().slice(1, -1) } as const;
+const localUsernameSchema = { type: "string", pattern: /^\w{1,20}$/.toString().slice(1, -1) } as const;
+const passwordSchema = { type: "string", minLength: 1 } as const;
+const nameSchema = { type: "string", minLength: 1, maxLength: 50 } as const;
+const descriptionSchema = { type: "string", minLength: 1, maxLength: 500 } as const;
+const locationSchema = { type: "string", minLength: 1, maxLength: 50 } as const;
+const birthdaySchema = { type: "string", pattern: /^([0-9]{4})-([0-9]{2})-([0-9]{2})$/.toString().slice(1, -1) } as const;
 
 function isLocalUser(user: User): user is ILocalUser;
-function isLocalUser<T extends { host: User['host'] }>(user: T): user is T & { host: null; };
-function isLocalUser(user: User | { host: User['host'] }): boolean {
+function isLocalUser<T extends { host: User["host"] }>(user: T): user is T & { host: null; };
+function isLocalUser(user: User | { host: User["host"] }): boolean {
 	return user.host == null;
 }
 
 function isRemoteUser(user: User): user is IRemoteUser;
-function isRemoteUser<T extends { host: User['host'] }>(user: T): user is T & { host: string; };
-function isRemoteUser(user: User | { host: User['host'] }): boolean {
+function isRemoteUser<T extends { host: User["host"] }>(user: T): user is T & { host: string; };
+function isRemoteUser(user: User | { host: User["host"] }): boolean {
 	return !isLocalUser(user);
 }
 
@@ -61,7 +61,7 @@ export const UserRepository = db.getRepository(User).extend({
 	validateBirthday: ajv.compile(birthdaySchema),
 	//#endregion
 
-	async getRelation(me: User['id'], target: User['id']) {
+	async getRelation(me: User["id"], target: User["id"]) {
 		return awaitAll({
 			id: target,
 			isFollowing: Followings.count({
@@ -123,18 +123,18 @@ export const UserRepository = db.getRepository(User).extend({
 		});
 	},
 
-	async getHasUnreadMessagingMessage(userId: User['id']): Promise<boolean> {
+	async getHasUnreadMessagingMessage(userId: User["id"]): Promise<boolean> {
 		const mute = await Mutings.findBy({
 			muterId: userId,
 		});
 
 		const joinings = await UserGroupJoinings.findBy({ userId: userId });
 
-		const groupQs = Promise.all(joinings.map(j => MessagingMessages.createQueryBuilder('message')
-			.where('message.groupId = :groupId', { groupId: j.userGroupId })
-			.andWhere('message.userId != :userId', { userId: userId })
-			.andWhere('NOT (:userId = ANY(message.reads))', { userId: userId })
-			.andWhere('message.createdAt > :joinedAt', { joinedAt: j.createdAt }) // 自分が加入する前の会話については、未読扱いしない
+		const groupQs = Promise.all(joinings.map(j => MessagingMessages.createQueryBuilder("message")
+			.where("message.groupId = :groupId", { groupId: j.userGroupId })
+			.andWhere("message.userId != :userId", { userId: userId })
+			.andWhere("NOT (:userId = ANY(message.reads))", { userId: userId })
+			.andWhere("message.createdAt > :joinedAt", { joinedAt: j.createdAt }) // 自分が加入する前の会話については、未読扱いしない
 			.getOne().then(x => x != null)));
 
 		const [withUser, withGroups] = await Promise.all([
@@ -152,7 +152,7 @@ export const UserRepository = db.getRepository(User).extend({
 		return withUser || withGroups.some(x => x);
 	},
 
-	async getHasUnreadAnnouncement(userId: User['id']): Promise<boolean> {
+	async getHasUnreadAnnouncement(userId: User["id"]): Promise<boolean> {
 		const reads = await AnnouncementReads.findBy({
 			userId: userId,
 		});
@@ -164,7 +164,7 @@ export const UserRepository = db.getRepository(User).extend({
 		return count > 0;
 	},
 
-	async getHasUnreadAntenna(userId: User['id']): Promise<boolean> {
+	async getHasUnreadAntenna(userId: User["id"]): Promise<boolean> {
 		const myAntennas = (await getAntennas()).filter(a => a.userId === userId);
 
 		const unread = myAntennas.length > 0 ? await AntennaNotes.findOneBy({
@@ -175,7 +175,7 @@ export const UserRepository = db.getRepository(User).extend({
 		return unread != null;
 	},
 
-	async getHasUnreadChannel(userId: User['id']): Promise<boolean> {
+	async getHasUnreadChannel(userId: User["id"]): Promise<boolean> {
 		const channels = await ChannelFollowings.findBy({ followerId: userId });
 
 		const unread = channels.length > 0 ? await NoteUnreads.findOneBy({
@@ -186,7 +186,7 @@ export const UserRepository = db.getRepository(User).extend({
 		return unread != null;
 	},
 
-	async getHasUnreadNotification(userId: User['id']): Promise<boolean> {
+	async getHasUnreadNotification(userId: User["id"]): Promise<boolean> {
 		const mute = await Mutings.findBy({
 			muterId: userId,
 		});
@@ -204,7 +204,7 @@ export const UserRepository = db.getRepository(User).extend({
 		return count > 0;
 	},
 
-	async getHasPendingReceivedFollowRequest(userId: User['id']): Promise<boolean> {
+	async getHasPendingReceivedFollowRequest(userId: User["id"]): Promise<boolean> {
 		const count = await FollowRequests.countBy({
 			followeeId: userId,
 		});
@@ -212,14 +212,14 @@ export const UserRepository = db.getRepository(User).extend({
 		return count > 0;
 	},
 
-	getOnlineStatus(user: User): 'unknown' | 'online' | 'active' | 'offline' {
-		if (user.hideOnlineStatus) return 'unknown';
-		if (user.lastActiveDate == null) return 'unknown';
+	getOnlineStatus(user: User): "unknown" | "online" | "active" | "offline" {
+		if (user.hideOnlineStatus) return "unknown";
+		if (user.lastActiveDate == null) return "unknown";
 		const elapsed = Date.now() - user.lastActiveDate.getTime();
 		return (
-			elapsed < USER_ONLINE_THRESHOLD ? 'online' :
-			elapsed < USER_ACTIVE_THRESHOLD ? 'active' :
-			'offline'
+			elapsed < USER_ONLINE_THRESHOLD ? "online" :
+			elapsed < USER_ACTIVE_THRESHOLD ? "active" :
+			"offline"
 		);
 	},
 
@@ -242,13 +242,13 @@ export const UserRepository = db.getRepository(User).extend({
 		}
 	},
 
-	getIdenticonUrl(userId: User['id']): string {
+	getIdenticonUrl(userId: User["id"]): string {
 		return `${config.url}/identicon/${userId}`;
 	},
 
 	async pack<ExpectsMe extends boolean | null = null, D extends boolean = false>(
-		src: User['id'] | User,
-		me?: { id: User['id'] } | null | undefined,
+		src: User["id"] | User,
+		me?: { id: User["id"] } | null | undefined,
 		options?: {
 			detail?: D,
 			includeSecrets?: boolean,
@@ -261,7 +261,7 @@ export const UserRepository = db.getRepository(User).extend({
 
 		let user: User;
 
-		if (typeof src === 'object') {
+		if (typeof src === "object") {
 			user = src;
 			if (src.avatar === undefined && src.avatarId) src.avatar = await DriveFiles.findOneBy({ id: src.avatarId }) ?? null;
 			if (src.banner === undefined && src.bannerId) src.banner = await DriveFiles.findOneBy({ id: src.bannerId }) ?? null;
@@ -279,21 +279,21 @@ export const UserRepository = db.getRepository(User).extend({
 		const isMe = meId === user.id;
 
 		const relation = meId && !isMe && opts.detail ? await this.getRelation(meId, user.id) : null;
-		const pins = opts.detail ? await UserNotePinings.createQueryBuilder('pin')
-			.where('pin.userId = :userId', { userId: user.id })
-			.innerJoinAndSelect('pin.note', 'note')
-			.orderBy('pin.id', 'DESC')
+		const pins = opts.detail ? await UserNotePinings.createQueryBuilder("pin")
+			.where("pin.userId = :userId", { userId: user.id })
+			.innerJoinAndSelect("pin.note", "note")
+			.orderBy("pin.id", "DESC")
 			.getMany() : [];
 		const profile = opts.detail ? await UserProfiles.findOneByOrFail({ userId: user.id }) : null;
 
 		const followingCount = profile == null ? null :
-			(profile.ffVisibility === 'public') || isMe ? user.followingCount :
-			(profile.ffVisibility === 'followers') && (relation && relation.isFollowing) ? user.followingCount :
+			(profile.ffVisibility === "public") || isMe ? user.followingCount :
+			(profile.ffVisibility === "followers") && (relation && relation.isFollowing) ? user.followingCount :
 			null;
 
 		const followersCount = profile == null ? null :
-			(profile.ffVisibility === 'public') || isMe ? user.followersCount :
-			(profile.ffVisibility === 'followers') && (relation && relation.isFollowing) ? user.followersCount :
+			(profile.ffVisibility === "public") || isMe ? user.followersCount :
+			(profile.ffVisibility === "followers") && (relation && relation.isFollowing) ? user.followersCount :
 			null;
 
 		const falsy = opts.detail ? false : undefined;
@@ -331,7 +331,7 @@ export const UserRepository = db.getRepository(User).extend({
 				createdAt: user.createdAt.toISOString(),
 				updatedAt: user.updatedAt ? user.updatedAt.toISOString() : null,
 				lastFetchedAt: user.lastFetchedAt ? user.lastFetchedAt.toISOString() : null,
-				bannerUrl: user.banner ?  sanitizeUrl(DriveFiles.getPublicUrl(user.banner, false)) : null,
+				bannerUrl: user.banner ? sanitizeUrl(DriveFiles.getPublicUrl(user.banner, false)) : null,
 				bannerBlurhash: user.banner?.blurhash || null,
 				bannerColor: null, // 後方互換性のため
 				isLocked: user.isLocked,
@@ -373,7 +373,7 @@ export const UserRepository = db.getRepository(User).extend({
 				noCrawle: profile!.noCrawle,
 				isExplorable: user.isExplorable,
 				isDeleted: user.isDeleted,
-				twoFactorBackupCodesStock: profile?.twoFactorBackupSecret?.length === 5 ? 'full' : (profile?.twoFactorBackupSecret?.length ?? 0) > 0 ? 'partial' : 'none',
+				twoFactorBackupCodesStock: profile?.twoFactorBackupSecret?.length === 5 ? "full" : (profile?.twoFactorBackupSecret?.length ?? 0) > 0 ? "partial" : "none",
 				hideOnlineStatus: user.hideOnlineStatus,
 				hasUnreadSpecifiedNotes: NoteUnreads.count({
 					where: { userId: user.id, isSpecified: true },
@@ -424,14 +424,14 @@ export const UserRepository = db.getRepository(User).extend({
 				isMuted: relation.isMuted,
 				isRenoteMuted: relation.isRenoteMuted,
 			} : {}),
-		} as Promiseable<Packed<'User'>> as Promiseable<IsMeAndIsUserDetailed<ExpectsMe, D>>;
+		} as Promiseable<Packed<"User">> as Promiseable<IsMeAndIsUserDetailed<ExpectsMe, D>>;
 
 		return await awaitAll(packed);
 	},
 
 	packMany<D extends boolean = false>(
-		users: (User['id'] | User)[],
-		me?: { id: User['id'] } | null | undefined,
+		users: (User["id"] | User)[],
+		me?: { id: User["id"] } | null | undefined,
 		options?: {
 			detail?: D,
 			includeSecrets?: boolean,

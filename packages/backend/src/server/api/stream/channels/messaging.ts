@@ -1,23 +1,23 @@
-import { readUserMessagingMessage, readGroupMessagingMessage, deliverReadActivity } from '../../common/read-messaging-message.js';
-import Channel from '../channel.js';
-import { UserGroupJoinings, Users, MessagingMessages } from '@/models/index.js';
-import { User, ILocalUser, IRemoteUser } from '@/models/entities/user.js';
-import { UserGroup } from '@/models/entities/user-group.js';
-import { StreamMessages } from '../types.js';
+import { UserGroupJoinings, Users, MessagingMessages } from "@/models/index.js";
+import { User, ILocalUser, IRemoteUser } from "@/models/entities/user.js";
+import { UserGroup } from "@/models/entities/user-group.js";
+import Channel from "../channel.js";
+import { readUserMessagingMessage, readGroupMessagingMessage, deliverReadActivity } from "../../common/read-messaging-message.js";
+import { StreamMessages } from "../types.js";
 
 export default class extends Channel {
-	public readonly chName = 'messaging';
+	public readonly chName = "messaging";
 	public static shouldShare = false;
 	public static requireCredential = true;
 
 	private otherpartyId: string | null;
 	private otherparty: User | null;
 	private groupId: string | null;
-	private subCh: `messagingStream:${User['id']}-${User['id']}` | `messagingStream:${UserGroup['id']}`;
-	private typers: Record<User['id'], Date> = {};
+	private subCh: `messagingStream:${User["id"]}-${User["id"]}` | `messagingStream:${UserGroup["id"]}`;
+	private typers: Record<User["id"], Date> = {};
 	private emitTypersIntervalId: ReturnType<typeof setInterval>;
 
-	constructor(id: string, connection: Channel['connection']) {
+	constructor(id: string, connection: Channel["connection"]) {
 		super(id, connection);
 		this.onEvent = this.onEvent.bind(this);
 		this.onMessage = this.onMessage.bind(this);
@@ -51,8 +51,8 @@ export default class extends Channel {
 		this.subscriber.on(this.subCh, this.onEvent);
 	}
 
-	private onEvent(data: StreamMessages['messaging']['payload'] | StreamMessages['groupMessaging']['payload']) {
-		if (data.type === 'typing') {
+	private onEvent(data: StreamMessages["messaging"]["payload"] | StreamMessages["groupMessaging"]["payload"]) {
+		if (data.type === "typing") {
 			const id = data.body;
 			const begin = this.typers[id] == null;
 			this.typers[id] = new Date();
@@ -66,7 +66,7 @@ export default class extends Channel {
 
 	public onMessage(type: string, body: any) {
 		switch (type) {
-			case 'read':
+			case "read":
 				if (this.otherpartyId) {
 					readUserMessagingMessage(this.user!.id, this.otherpartyId, [body.id]);
 
@@ -94,7 +94,7 @@ export default class extends Channel {
 		const users = await Users.packMany(Object.keys(this.typers), null, { detail: false });
 
 		this.send({
-			type: 'typers',
+			type: "typers",
 			body: users,
 		});
 	}

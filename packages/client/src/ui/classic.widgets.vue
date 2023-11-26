@@ -9,21 +9,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, defineAsyncComponent } from 'vue';
-import XWidgets from '@/components/MkWidgets.vue';
+import { defineComponent, defineAsyncComponent } from "vue";
+import XWidgets from "@/components/MkWidgets.vue";
 
 export default defineComponent({
 	components: {
-		XWidgets
+		XWidgets,
 	},
 
 	props: {
 		place: {
 			type: String,
-		}
+		},
 	},
 
-	emits: ['mounted'],
+	emits: ["mounted"],
 
 	data() {
 		return {
@@ -32,35 +32,35 @@ export default defineComponent({
 	},
 
 	mounted() {
-		this.$emit('mounted', this.$el);
+		this.$emit("mounted", this.$el);
 	},
 
 	methods: {
 		addWidget(widget) {
-			this.$store.set('widgets', [{
+			this.$store.set("widgets", [{
 				...widget,
 				place: this.place,
 			}, ...this.$store.state.widgets]);
 		},
 
 		removeWidget(widget) {
-			this.$store.set('widgets', this.$store.state.widgets.filter(w => w.id !== widget.id));
+			this.$store.set("widgets", this.$store.state.widgets.filter(w => w.id !== widget.id));
 		},
 
 		updateWidget({ id, data }) {
-			this.$store.set('widgets', this.$store.state.widgets.map(w => w.id === id ? {
+			this.$store.set("widgets", this.$store.state.widgets.map(w => w.id === id ? {
 				...w,
 				data,
 			} : w));
 		},
 
 		updateWidgets(widgets) {
-			this.$store.set('widgets', [
+			this.$store.set("widgets", [
 				...this.$store.state.widgets.filter(w => w.place !== this.place),
-				...widgets
+				...widgets,
 			]);
-		}
-	}
+		},
+	},
 });
 </script>
 

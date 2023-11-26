@@ -20,13 +20,13 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
+import { } from "vue";
 
 const props = defineProps<{
 	to: string;
 	active?: boolean;
 	external?: boolean;
-	behavior?: null | 'window' | 'browser' | 'modalWindow';
+	behavior?: null | "window" | "browser" | "modalWindow";
 	inline?: boolean;
 }>();
 </script>

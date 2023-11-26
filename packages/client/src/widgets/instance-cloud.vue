@@ -13,19 +13,19 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from './widget';
-import { GetFormResultType } from '@/scripts/form';
-import MkContainer from '@/components/MkContainer.vue';
-import MkTagCloud from '@/components/MkTagCloud.vue';
-import * as os from '@/os';
-import { useInterval } from '@/scripts/use-interval';
+import { } from "vue";
+import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from "./widget";
+import { GetFormResultType } from "@/scripts/form";
+import MkContainer from "@/components/MkContainer.vue";
+import MkTagCloud from "@/components/MkTagCloud.vue";
+import * as os from "@/os";
+import { useInterval } from "@/scripts/use-interval";
 
-const name = 'instanceCloud';
+const name = "instanceCloud";
 
 const widgetPropsDef = {
 	transparent: {
-		type: 'boolean' as const,
+		type: "boolean" as const,
 		default: false,
 	},
 };
@@ -36,7 +36,7 @@ type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
 //const props = defineProps<WidgetComponentProps<WidgetProps>>();
 //const emit = defineEmits<WidgetComponentEmits<WidgetProps>>();
 const props = defineProps<{ widget?: Widget<WidgetProps>; }>();
-const emit = defineEmits<{ (ev: 'updateProps', props: WidgetProps); }>();
+const emit = defineEmits<{ (ev: "updateProps", props: WidgetProps); }>();
 
 const { widgetProps, configure } = useWidgetPropsManager(name,
 	widgetPropsDef,
@@ -52,8 +52,8 @@ function onInstanceClick(i) {
 }
 
 useInterval(() => {
-	os.api('federation/instances', {
-		sort: '+lastCommunicatedAt',
+	os.api("federation/instances", {
+		sort: "+lastCommunicatedAt",
 		limit: 25,
 	}).then(res => {
 		activeInstances = res;

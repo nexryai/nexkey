@@ -74,9 +74,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted, onBeforeUnmount, shallowRef, nextTick } from 'vue';
-import tinycolor from 'tinycolor2';
-import { globalEvents } from '@/events.js';
+import { ref, computed, onMounted, onBeforeUnmount, shallowRef, nextTick } from "vue";
+import tinycolor from "tinycolor2";
+import { globalEvents } from "@/events.js";
 
 // https://stackoverflow.com/questions/1878907/how-can-i-find-the-difference-between-two-angles
 const angleDiff = (a: number, b: number) => {
@@ -97,17 +97,17 @@ const props = withDefaults(defineProps<{
 	thickness?: number;
 	offset?: number;
 	twentyfour?: boolean;
-	graduations?: 'none' | 'dots' | 'numbers';
+	graduations?: "none" | "dots" | "numbers";
 	fadeGraduations?: boolean;
-	sAnimation?: 'none' | 'elastic' | 'easeOut';
+	sAnimation?: "none" | "elastic" | "easeOut";
 }>(), {
 	numbers: false,
 	thickness: 0.1,
 	offset: 0 - new Date().getTimezoneOffset(),
 	twentyfour: false,
-	graduations: 'dots',
+	graduations: "dots",
 	fadeGraduations: true,
-	sAnimation: 'elastic',
+	sAnimation: "elastic",
 });
 
 const graduationsMajor = computed(() => {
@@ -174,12 +174,12 @@ tick();
 
 function calcColors() {
 	const computedStyle = getComputedStyle(document.documentElement);
-	const dark = tinycolor(computedStyle.getPropertyValue('--bg')).isDark();
-	const accent = tinycolor(computedStyle.getPropertyValue('--accent')).toHexString();
-	majorGraduationColor = dark ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.3)';
+	const dark = tinycolor(computedStyle.getPropertyValue("--bg")).isDark();
+	const accent = tinycolor(computedStyle.getPropertyValue("--accent")).toHexString();
+	majorGraduationColor = dark ? "rgba(255, 255, 255, 0.3)" : "rgba(0, 0, 0, 0.3)";
 	//minorGraduationColor = dark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)';
-	sHandColor = dark ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.3)';
-	mHandColor = tinycolor(computedStyle.getPropertyValue('--fg')).toHexString();
+	sHandColor = dark ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.3)";
+	mHandColor = tinycolor(computedStyle.getPropertyValue("--fg")).toHexString();
 	hHandColor = accent;
 	nowColor = accent;
 }
@@ -195,13 +195,13 @@ onMounted(() => {
 	};
 	update();
 
-	globalEvents.on('themeChanged', calcColors);
+	globalEvents.on("themeChanged", calcColors);
 });
 
 onBeforeUnmount(() => {
 	enabled = false;
 
-	globalEvents.off('themeChanged', calcColors);
+	globalEvents.off("themeChanged", calcColors);
 });
 </script>
 

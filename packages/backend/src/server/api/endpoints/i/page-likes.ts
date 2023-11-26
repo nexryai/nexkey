@@ -1,50 +1,50 @@
-import define from '../../define.js';
-import { PageLikes } from '@/models/index.js';
-import { makePaginationQuery } from '../../common/make-pagination-query.js';
+import { PageLikes } from "@/models/index.js";
+import define from "../../define.js";
+import { makePaginationQuery } from "../../common/make-pagination-query.js";
 
 export const meta = {
-	tags: ['account', 'pages'],
+	tags: ["account", "pages"],
 
 	requireCredential: true,
 
-	kind: 'read:page-likes',
+	kind: "read:page-likes",
 
 	res: {
-		type: 'array',
+		type: "array",
 		optional: false, nullable: false,
 		items: {
-			type: 'object',
+			type: "object",
 			properties: {
 				id: {
-					type: 'string',
+					type: "string",
 					optional: false, nullable: false,
-					format: 'id',
+					format: "id",
 				},
 				page: {
-					type: 'object',
+					type: "object",
 					optional: false, nullable: false,
-					ref: 'Page',
+					ref: "Page",
 				},
 			},
-		}
+		},
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
-		sinceId: { type: 'string', format: 'misskey:id' },
-		untilId: { type: 'string', format: 'misskey:id' },
+		limit: { type: "integer", minimum: 1, maximum: 100, default: 10 },
+		sinceId: { type: "string", format: "misskey:id" },
+		untilId: { type: "string", format: "misskey:id" },
 	},
 	required: [],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	const query = makePaginationQuery(PageLikes.createQueryBuilder('like'), ps.sinceId, ps.untilId)
-		.andWhere(`like.userId = :meId`, { meId: user.id })
-		.leftJoinAndSelect('like.page', 'page');
+	const query = makePaginationQuery(PageLikes.createQueryBuilder("like"), ps.sinceId, ps.untilId)
+		.andWhere("like.userId = :meId", { meId: user.id })
+		.leftJoinAndSelect("like.page", "page");
 
 	const likes = await query
 		.take(ps.limit)

@@ -1,12 +1,12 @@
-import Bull from 'bull';
+import Bull from "bull";
 
-import { queueLogger } from '../../logger.js';
-import { deleteFileSync } from '@/services/drive/delete-file.js';
-import { Users, DriveFiles } from '@/models/index.js';
-import { MoreThan } from 'typeorm';
-import { DbUserJobData } from '@/queue/types.js';
+import { MoreThan } from "typeorm";
+import { deleteFileSync } from "@/services/drive/delete-file.js";
+import { Users, DriveFiles } from "@/models/index.js";
+import { DbUserJobData } from "@/queue/types.js";
+import { queueLogger } from "../../logger.js";
 
-const logger = queueLogger.createSubLogger('delete-drive-files');
+const logger = queueLogger.createSubLogger("delete-drive-files");
 
 export async function deleteDriveFiles(job: Bull.Job<DbUserJobData>, done: any): Promise<void> {
 	logger.info(`Deleting drive files of ${job.data.user.id} ...`);

@@ -14,12 +14,12 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import * as misskey from 'misskey-js';
-import MkContainer from '@/components/MkContainer.vue';
-import MkChart from '@/components/MkChart.vue';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
+import { } from "vue";
+import * as misskey from "misskey-js";
+import MkContainer from "@/components/MkContainer.vue";
+import MkChart from "@/components/MkChart.vue";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
 
 const props = withDefaults(defineProps<{
 	user: misskey.entities.User;
@@ -28,14 +28,14 @@ const props = withDefaults(defineProps<{
 	limit: 50,
 });
 
-let chartSrc = $ref('per-user-notes');
+let chartSrc = $ref("per-user-notes");
 
 function showMenu(ev: MouseEvent) {
 	os.popupMenu([{
 		text: i18n.ts.notes,
 		active: true,
 		action: () => {
-			chartSrc = 'per-user-notes';
+			chartSrc = "per-user-notes";
 		},
 	},/*, {
 		text: i18n.ts.following,

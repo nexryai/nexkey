@@ -1,51 +1,51 @@
 export const packedChannelSchema = {
-	type: 'object',
+	type: "object",
 	properties: {
 		id: {
-			type: 'string',
+			type: "string",
 			optional: false, nullable: false,
-			format: 'id',
-			example: 'xxxxxxxxxx',
+			format: "id",
+			example: "xxxxxxxxxx",
 		},
 		createdAt: {
-			type: 'string',
+			type: "string",
 			optional: false, nullable: false,
-			format: 'date-time',
+			format: "date-time",
 		},
 		lastNotedAt: {
-			type: 'string',
+			type: "string",
 			optional: false, nullable: true,
-			format: 'date-time',
+			format: "date-time",
 		},
 		name: {
-			type: 'string',
+			type: "string",
 			optional: false, nullable: false,
 		},
 		description: {
-			type: 'string',
+			type: "string",
 			nullable: true, optional: false,
 		},
 		bannerUrl: {
-			type: 'string',
-			format: 'url',
+			type: "string",
+			format: "url",
 			nullable: true, optional: false,
 		},
 		notesCount: {
-			type: 'number',
+			type: "number",
 			nullable: false, optional: false,
 		},
 		usersCount: {
-			type: 'number',
+			type: "number",
 			nullable: false, optional: false,
 		},
 		isFollowing: {
-			type: 'boolean',
+			type: "boolean",
 			optional: true, nullable: false,
 		},
 		userId: {
-			type: 'string',
+			type: "string",
 			nullable: true, optional: false,
-			format: 'id',
+			format: "id",
 		},
 	},
 } as const;

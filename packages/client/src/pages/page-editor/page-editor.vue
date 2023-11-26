@@ -82,32 +82,32 @@
 </template>
 
 <script lang="ts" setup>
-import { defineAsyncComponent, computed, provide, watch } from 'vue';
-import 'prismjs';
-import { highlight, languages } from 'prismjs/components/prism-core';
-import 'prismjs/components/prism-clike';
-import 'prismjs/components/prism-javascript';
-import 'prismjs/themes/prism-okaidia.css';
-import 'vue-prism-editor/dist/prismeditor.min.css';
-import { v4 as uuid } from 'uuid';
-import XVariable from './page-editor.script-block.vue';
-import XBlocks from './page-editor.blocks.vue';
-import MkTextarea from '@/components/form/textarea.vue';
-import MkButton from '@/components/MkButton.vue';
-import MkSelect from '@/components/form/select.vue';
-import MkSwitch from '@/components/form/switch.vue';
-import MkInput from '@/components/form/input.vue';
-import { blockDefs } from '@/scripts/hpml/index';
-import { HpmlTypeChecker } from '@/scripts/hpml/type-checker';
-import { url } from '@/config';
-import { collectPageVars } from '@/scripts/collect-page-vars';
-import * as os from '@/os';
-import { selectFile } from '@/scripts/select-file';
-import { mainRouter } from '@/router';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
-import { $i } from '@/account';
-const XDraggable = defineAsyncComponent(() => import('vuedraggable').then(x => x.default));
+import { defineAsyncComponent, computed, provide, watch } from "vue";
+import "prismjs";
+import { highlight, languages } from "prismjs/components/prism-core";
+import "prismjs/components/prism-clike";
+import "prismjs/components/prism-javascript";
+import "prismjs/themes/prism-okaidia.css";
+import "vue-prism-editor/dist/prismeditor.min.css";
+import { v4 as uuid } from "uuid";
+import XVariable from "./page-editor.script-block.vue";
+import XBlocks from "./page-editor.blocks.vue";
+import MkTextarea from "@/components/form/textarea.vue";
+import MkButton from "@/components/MkButton.vue";
+import MkSelect from "@/components/form/select.vue";
+import MkSwitch from "@/components/form/switch.vue";
+import MkInput from "@/components/form/input.vue";
+import { blockDefs } from "@/scripts/hpml/index";
+import { HpmlTypeChecker } from "@/scripts/hpml/type-checker";
+import { url } from "@/config";
+import { collectPageVars } from "@/scripts/collect-page-vars";
+import * as os from "@/os";
+import { selectFile } from "@/scripts/select-file";
+import { mainRouter } from "@/router";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
+import { $i } from "@/account";
+const XDraggable = defineAsyncComponent(() => import("vuedraggable").then(x => x.default));
 
 const props = defineProps<{
 	initPageId?: string;
@@ -115,34 +115,34 @@ const props = defineProps<{
 	initUser?: string;
 }>();
 
-let tab = $ref('settings');
+let tab = $ref("settings");
 let author = $ref($i);
 let readonly = $ref(false);
 let page = $ref(null);
 let pageId = $ref(null);
 let currentName = $ref(null);
-let title = $ref('');
+let title = $ref("");
 let summary = $ref(null);
 let name = $ref(Date.now().toString());
 let eyeCatchingImage = $ref(null);
 let eyeCatchingImageId = $ref(null);
-let font = $ref('sans-serif');
+let font = $ref("sans-serif");
 let content = $ref([]);
 let alignCenter = $ref(false);
 let hideTitleWhenPinned = $ref(false);
 let variables = $ref([]);
 let hpml = $ref(null);
-let script = $ref('');
+let script = $ref("");
 
-provide('readonly', readonly);
-provide('getScriptBlockList', getScriptBlockList);
-provide('getPageBlockList', getPageBlockList);
+provide("readonly", readonly);
+provide("getScriptBlockList", getScriptBlockList);
+provide("getPageBlockList", getPageBlockList);
 
 watch($$(eyeCatchingImageId), async () => {
 	if (eyeCatchingImageId == null) {
 		eyeCatchingImage = null;
 	} else {
-		eyeCatchingImage = await os.api('drive/files/show', {
+		eyeCatchingImage = await os.api("drive/files/show", {
 			fileId: eyeCatchingImageId,
 		});
 	}
@@ -167,17 +167,17 @@ function save() {
 	const options = getSaveOptions();
 
 	const onError = err => {
-		if (err.id === '3d81ceae-475f-4600-b2a8-2bc116157532') {
-			if (err.info.param === 'name') {
+		if (err.id === "3d81ceae-475f-4600-b2a8-2bc116157532") {
+			if (err.info.param === "name") {
 				os.alert({
-					type: 'error',
+					type: "error",
 					title: i18n.ts._pages.invalidNameTitle,
 					text: i18n.ts._pages.invalidNameText,
 				});
 			}
-		} else if (err.code === 'NAME_ALREADY_EXISTS') {
+		} else if (err.code === "NAME_ALREADY_EXISTS") {
 			os.alert({
-				type: 'error',
+				type: "error",
 				text: i18n.ts._pages.nameAlreadyExists,
 			});
 		}
@@ -185,21 +185,21 @@ function save() {
 
 	if (pageId) {
 		options.pageId = pageId;
-		os.api('pages/update', options)
+		os.api("pages/update", options)
 		.then(page => {
 			currentName = name.trim();
 			os.alert({
-				type: 'success',
+				type: "success",
 				text: i18n.ts._pages.updated,
 			});
 		}).catch(onError);
 	} else {
-		os.api('pages/create', options)
+		os.api("pages/create", options)
 		.then(created => {
 			pageId = created.id;
 			currentName = name.trim();
 			os.alert({
-				type: 'success',
+				type: "success",
 				text: i18n.ts._pages.created,
 			});
 			mainRouter.push(`/pages/edit/${pageId}`);
@@ -209,30 +209,30 @@ function save() {
 
 function del() {
 	os.confirm({
-		type: 'warning',
-		text: i18n.t('removeAreYouSure', { x: title.trim() }),
+		type: "warning",
+		text: i18n.t("removeAreYouSure", { x: title.trim() }),
 	}).then(({ canceled }) => {
 		if (canceled) return;
-		os.api('pages/delete', {
+		os.api("pages/delete", {
 			pageId: pageId,
 		}).then(() => {
 			os.alert({
-				type: 'success',
+				type: "success",
 				text: i18n.ts._pages.deleted,
 			});
-			mainRouter.push('/pages');
+			mainRouter.push("/pages");
 		});
 	});
 }
 
 function duplicate() {
-	title = title + ' - copy';
-	name = name + '-copy';
-	os.api('pages/create', getSaveOptions()).then(created => {
+	title = title + " - copy";
+	name = name + "-copy";
+	os.api("pages/create", getSaveOptions()).then(created => {
 		pageId = created.id;
 		currentName = name.trim();
 		os.alert({
-			type: 'success',
+			type: "success",
 			text: i18n.ts._pages.created,
 		});
 		mainRouter.push(`/pages/edit/${pageId}`);
@@ -261,7 +261,7 @@ async function addVariable() {
 
 	if (hpml.isUsedName(name)) {
 		os.alert({
-			type: 'error',
+			type: "error",
 			text: i18n.ts._pages.variableNameIsAlreadyUsed,
 		});
 		return;
@@ -279,29 +279,29 @@ function getPageBlockList() {
 	return [{
 		label: i18n.ts._pages.contentBlocks,
 		items: [
-			{ value: 'section', text: i18n.ts._pages.blocks.section },
-			{ value: 'text', text: i18n.ts._pages.blocks.text },
-			{ value: 'image', text: i18n.ts._pages.blocks.image },
-			{ value: 'textarea', text: i18n.ts._pages.blocks.textarea },
-			{ value: 'note', text: i18n.ts._pages.blocks.note },
-			{ value: 'canvas', text: i18n.ts._pages.blocks.canvas },
+			{ value: "section", text: i18n.ts._pages.blocks.section },
+			{ value: "text", text: i18n.ts._pages.blocks.text },
+			{ value: "image", text: i18n.ts._pages.blocks.image },
+			{ value: "textarea", text: i18n.ts._pages.blocks.textarea },
+			{ value: "note", text: i18n.ts._pages.blocks.note },
+			{ value: "canvas", text: i18n.ts._pages.blocks.canvas },
 		],
 	}, {
 		label: i18n.ts._pages.inputBlocks,
 		items: [
-			{ value: 'button', text: i18n.ts._pages.blocks.button },
-			{ value: 'radioButton', text: i18n.ts._pages.blocks.radioButton },
-			{ value: 'textInput', text: i18n.ts._pages.blocks.textInput },
-			{ value: 'textareaInput', text: i18n.ts._pages.blocks.textareaInput },
-			{ value: 'numberInput', text: i18n.ts._pages.blocks.numberInput },
-			{ value: 'switch', text: i18n.ts._pages.blocks.switch },
-			{ value: 'counter', text: i18n.ts._pages.blocks.counter },
+			{ value: "button", text: i18n.ts._pages.blocks.button },
+			{ value: "radioButton", text: i18n.ts._pages.blocks.radioButton },
+			{ value: "textInput", text: i18n.ts._pages.blocks.textInput },
+			{ value: "textareaInput", text: i18n.ts._pages.blocks.textareaInput },
+			{ value: "numberInput", text: i18n.ts._pages.blocks.numberInput },
+			{ value: "switch", text: i18n.ts._pages.blocks.switch },
+			{ value: "counter", text: i18n.ts._pages.blocks.counter },
 		],
 	}, {
 		label: i18n.ts._pages.specialBlocks,
 		items: [
-			{ value: 'if', text: i18n.ts._pages.blocks.if },
-			{ value: 'post', text: i18n.ts._pages.blocks.post },
+			{ value: "if", text: i18n.ts._pages.blocks.if },
+			{ value: "post", text: i18n.ts._pages.blocks.post },
 		],
 	}];
 }
@@ -309,7 +309,7 @@ function getPageBlockList() {
 function getScriptBlockList(type: string = null) {
 	const list = [];
 
-	const blocks = blockDefs.filter(block => type == null || block.out == null || block.out === type || typeof block.out === 'number');
+	const blocks = blockDefs.filter(block => type == null || block.out == null || block.out === type || typeof block.out === "number");
 
 	for (const block of blocks) {
 		const category = list.find(x => x.category === block.category);
@@ -330,12 +330,12 @@ function getScriptBlockList(type: string = null) {
 		}
 	}
 
-	const userFns = variables.filter(x => x.type === 'fn');
+	const userFns = variables.filter(x => x.type === "fn");
 	if (userFns.length > 0) {
 		list.unshift({
-			label: i18n.t('_pages.script.categories.fn'),
+			label: i18n.t("_pages.script.categories.fn"),
 			items: userFns.map(v => ({
-				value: 'fn:' + v.name,
+				value: "fn:" + v.name,
 				text: v.name,
 			})),
 		});
@@ -355,7 +355,7 @@ function removeEyeCatchingImage() {
 }
 
 function highlighter(code) {
-	return highlight(code, languages.js, 'javascript');
+	return highlight(code, languages.js, "javascript");
 }
 
 async function init() {
@@ -370,11 +370,11 @@ async function init() {
 	}, { deep: true });
 
 	if (props.initPageId) {
-		page = await os.api('pages/show', {
+		page = await os.api("pages/show", {
 			pageId: props.initPageId,
 		});
 	} else if (props.initPageName && props.initUser) {
-		page = await os.api('pages/show', {
+		page = await os.api("pages/show", {
 			name: props.initPageName,
 			username: props.initUser,
 		});
@@ -399,8 +399,8 @@ async function init() {
 		const id = uuid();
 		content = [{
 			id,
-			type: 'text',
-			text: 'Hello World!',
+			type: "text",
+			text: "Hello World!",
 		}];
 	}
 }
@@ -410,21 +410,21 @@ init();
 const headerActions = $computed(() => []);
 
 const headerTabs = $computed(() => [{
-	key: 'settings',
+	key: "settings",
 	title: i18n.ts._pages.pageSetting,
-	icon: 'ti ti-settings',
+	icon: "ti ti-settings",
 }, {
-	key: 'contents',
+	key: "contents",
 	title: i18n.ts._pages.contents,
-	icon: 'ti ti-note',
+	icon: "ti ti-note",
 }, {
-	key: 'variables',
+	key: "variables",
 	title: i18n.ts._pages.variables,
-	icon: 'ti ti-wand',
+	icon: "ti ti-wand",
 }, {
-	key: 'script',
+	key: "script",
 	title: i18n.ts.script,
-	icon: 'ti ti-code',
+	icon: "ti ti-code",
 }]);
 
 definePageMetadata(computed(() => {
@@ -437,8 +437,8 @@ definePageMetadata(computed(() => {
 	}
 	return {
 		title: title,
-		icon: 'ti ti-pencil',
-		};
+		icon: "ti ti-pencil",
+	};
 }));
 </script>
 

@@ -1,7 +1,7 @@
-import { IObject } from './type.js';
-import { CacheableRemoteUser } from '@/models/entities/user.js';
-import { performActivity } from './kernel/index.js';
-import { updatePerson } from './models/person.js';
+import { CacheableRemoteUser } from "@/models/entities/user.js";
+import { IObject } from "./type.js";
+import { performActivity } from "./kernel/index.js";
+import { updatePerson } from "./models/person.js";
 
 export default async (actor: CacheableRemoteUser, activity: IObject): Promise<void> => {
 	await performActivity(actor, activity);

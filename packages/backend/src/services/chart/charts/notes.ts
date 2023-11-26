@@ -1,8 +1,8 @@
-import Chart, { KVs } from '../core.js';
-import { Notes } from '@/models/index.js';
-import { Not, IsNull } from 'typeorm';
-import { Note } from '@/models/entities/note.js';
-import { name, schema } from './entities/notes.js';
+import { Not, IsNull } from "typeorm";
+import { Notes } from "@/models/index.js";
+import { Note } from "@/models/entities/note.js";
+import Chart, { KVs } from "../core.js";
+import { name, schema } from "./entities/notes.js";
 
 /**
  * ノートに関するチャート
@@ -20,8 +20,8 @@ export default class NotesChart extends Chart<typeof schema> {
 		]);
 
 		return {
-			'local.total': localCount,
-			'remote.total': remoteCount,
+			"local.total": localCount,
+			"remote.total": remoteCount,
 		};
 	}
 
@@ -30,7 +30,7 @@ export default class NotesChart extends Chart<typeof schema> {
 	}
 
 	public async update(note: Note, isAdditional: boolean): Promise<void> {
-		const prefix = note.userHost === null ? 'local' : 'remote';
+		const prefix = note.userHost === null ? "local" : "remote";
 
 		await this.commit({
 			[`${prefix}.total`]: isAdditional ? 1 : -1,

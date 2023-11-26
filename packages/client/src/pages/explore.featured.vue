@@ -10,21 +10,21 @@
 </template>
 
 <script lang="ts" setup>
-import XNotes from '@/components/MkNotes.vue';
-import MkTab from '@/components/MkTab.vue';
-import { i18n } from '@/i18n';
+import XNotes from "@/components/MkNotes.vue";
+import MkTab from "@/components/MkTab.vue";
+import { i18n } from "@/i18n";
 
 const paginationForNotes = {
-	endpoint: 'notes/featured' as const,
+	endpoint: "notes/featured" as const,
 	limit: 10,
 	offsetMode: true,
 };
 
 const paginationForPolls = {
-	endpoint: 'notes/polls/recommendation' as const,
+	endpoint: "notes/polls/recommendation" as const,
 	limit: 10,
 	offsetMode: true,
 };
 
-let tab = $ref('notes');
+let tab = $ref("notes");
 </script>

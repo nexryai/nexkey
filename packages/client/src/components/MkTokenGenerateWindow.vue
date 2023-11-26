@@ -21,21 +21,21 @@
 	</div>
 	<div class="_section" style="padding: 10px;">
 		<div style="margin-bottom: 16px;"><b>{{ $ts.permission }}</b></div>
-		<MkButton inline @click="disableAll" style="margin: 10px;">{{ $ts.disableAll }}</MkButton>
-		<MkButton inline @click="enableAll" style="margin: 10px;">{{ $ts.enableAll }}</MkButton>
+		<MkButton inline style="margin: 10px;" @click="disableAll">{{ $ts.disableAll }}</MkButton>
+		<MkButton inline style="margin: 10px;" @click="enableAll">{{ $ts.enableAll }}</MkButton>
 		<MkSwitch v-for="kind in (initialPermissions || kinds)" :key="kind" v-model="permissions[kind]" style="padding: 10px;">{{ $t(`_permissions.${kind}`) }}</MkSwitch>
 	</div>
 </XModalWindow>
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import { permissions as kinds } from 'misskey-js';
-import MkInput from './form/input.vue';
-import MkSwitch from './form/switch.vue';
-import MkButton from './MkButton.vue';
-import MkInfo from './MkInfo.vue';
-import XModalWindow from '@/components/MkModalWindow.vue';
+import { } from "vue";
+import { permissions as kinds } from "misskey-js";
+import MkInput from "./form/input.vue";
+import MkSwitch from "./form/switch.vue";
+import MkButton from "./MkButton.vue";
+import MkInfo from "./MkInfo.vue";
+import XModalWindow from "@/components/MkModalWindow.vue";
 
 const props = withDefaults(defineProps<{
 	title?: string | null;
@@ -50,8 +50,8 @@ const props = withDefaults(defineProps<{
 });
 
 const emit = defineEmits<{
-	(ev: 'closed'): void;
-	(ev: 'done', result: { name: string | null, permissions: string[] }): void;
+	(ev: "closed"): void;
+	(ev: "done", result: { name: string | null, permissions: string[] }): void;
 }>();
 
 const dialog = $ref<InstanceType<typeof XModalWindow>>();
@@ -69,7 +69,7 @@ if (props.initialPermissions) {
 }
 
 function ok(): void {
-	emit('done', {
+	emit("done", {
 		name: name,
 		permissions: Object.keys(permissions).filter(p => permissions[p]),
 	});

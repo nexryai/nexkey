@@ -5,13 +5,13 @@
 			<div class="banner" :style="{ backgroundImage: `url(${ $instance.bannerUrl })` }"></div>
 			<button v-click-anime v-tooltip.noDelay.right="$instance.name ?? i18n.ts.instance" class="item _button instance" @click="openInstanceMenu">
 				<img :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" alt="" class="icon"/>
-        <div v-if="!iconOnly && showOnlineUsersOnNavbar" class="instance_info">
-          <div class="instance_info_text">
-            <I18n v-if="onlineUsersCount" :src="i18n.ts.onlineUsersCountAlt" text-tag="span" class="text">
-              <template #n><i class="ti ti-access-point" style="vertical-align: middle; padding-right: 4px;"></i><b>{{ onlineUsersCount }}</b></template>
-            </I18n>
-          </div>
-        </div>
+				<div v-if="!iconOnly && showOnlineUsersOnNavbar" class="instance_info">
+					<div class="instance_info_text">
+						<I18n v-if="onlineUsersCount" :src="i18n.ts.onlineUsersCountAlt" text-tag="span" class="text">
+							<template #n><i class="ti ti-access-point" style="vertical-align: middle; padding-right: 4px;"></i><b>{{ onlineUsersCount }}</b></template>
+						</I18n>
+					</div>
+				</div>
 			</button>
 		</div>
 		<div class="middle">
@@ -60,19 +60,19 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineAsyncComponent, ref, watch } from 'vue';
-import * as os from '@/os';
-import { navbarItemDef } from '@/navbar';
-import { $i, openAccountMenu as openAccountMenu_ } from '@/account';
-import { defaultStore } from '@/store';
-import { i18n } from '@/i18n';
-import { instance } from '@/instance';
-import {host, ui} from '@/config';
-import { useInterval } from '@/scripts/use-interval';
-import {unisonReload} from "@/scripts/unison-reload";
+import { computed, defineAsyncComponent, ref, watch } from "vue";
+import * as os from "@/os";
+import { navbarItemDef } from "@/navbar";
+import { $i, openAccountMenu as openAccountMenu_ } from "@/account";
+import { defaultStore } from "@/store";
+import { i18n } from "@/i18n";
+import { instance } from "@/instance";
+import { host, ui } from "@/config";
+import { useInterval } from "@/scripts/use-interval";
+import { unisonReload } from "@/scripts/unison-reload";
 
 const iconOnly = ref(false);
-const streamModeEnabled = computed(defaultStore.makeGetterSetter('streamModeEnabled'));
+const streamModeEnabled = computed(defaultStore.makeGetterSetter("streamModeEnabled"));
 const showOnlineUsersOnNavbar = ref(defaultStore.state.showOnlineUsersOnNavbar);
 
 const menu = computed(() => defaultStore.state.menu);
@@ -85,12 +85,12 @@ const otherMenuItemIndicated = computed(() => {
 });
 
 const calcViewState = () => {
-	iconOnly.value = (window.innerWidth <= 1279) || (defaultStore.state.menuDisplay === 'sideIcon');
+	iconOnly.value = (window.innerWidth <= 1279) || (defaultStore.state.menuDisplay === "sideIcon");
 };
 
 calcViewState();
 
-window.addEventListener('resize', calcViewState);
+window.addEventListener("resize", calcViewState);
 
 watch(defaultStore.reactiveState.menuDisplay, () => {
 	calcViewState();
@@ -105,94 +105,94 @@ function openAccountMenu(ev: MouseEvent) {
 function openInstanceMenu(ev: MouseEvent) {
 	os.popupMenu([{
 		text: instance.name ?? host,
-		type: 'label',
+		type: "label",
 	}, {
-		type: 'link',
+		type: "link",
 		text: i18n.ts.instanceInfo,
-		icon: 'ti ti-info-circle',
-		to: '/about',
+		icon: "ti ti-info-circle",
+		to: "/about",
 	}, {
-		type: 'link',
+		type: "link",
 		text: i18n.ts.customEmojis,
-		icon: 'ti ti-mood-happy',
-		to: '/about#emojis',
+		icon: "ti ti-mood-happy",
+		to: "/about#emojis",
 	}, {
-		type: 'link',
+		type: "link",
 		text: i18n.ts.federation,
-		icon: 'ti ti-whirl',
-		to: '/about#federation',
-  }, null, {
+		icon: "ti ti-whirl",
+		to: "/about#federation",
+	}, null, {
 		text: i18n.ts.enableStreamingMode,
-		type: 'switch',
+		type: "switch",
 		ref: streamModeEnabled,
 	}, null, {
-      type: 'parent',
-      text: i18n.ts.switchUi,
-      icon: 'ti ti-devices',
-      children: [{
-        text: i18n.ts.default,
-        action: () => {
-          localStorage.setItem('ui', 'default');
-          unisonReload();
-        },
-      }, {
-        text: i18n.ts.deck,
-        action: () => {
-          localStorage.setItem('ui', 'deck');
-          unisonReload();
-        },
-      }],
-	}, {
-		type: 'parent',
-		text: i18n.ts.help,
-		icon: 'ti ti-question-circle',
+		type: "parent",
+		text: i18n.ts.switchUi,
+		icon: "ti ti-devices",
 		children: [{
-			type: 'link',
-			to: '/mfm-cheat-sheet',
-			text: i18n.ts._mfm.cheatSheet,
-			icon: 'ti ti-code',
-		}, {
-			type: 'link',
-			to: '/scratchpad',
-			text: i18n.ts.scratchpad,
-			icon: 'ti ti-terminal-2',
-		}, {
-			type: 'link',
-			to: '/api-console',
-			text: 'API Console',
-			icon: 'ti ti-terminal-2',
-		}, null, {
-			text: i18n.ts.document,
-			icon: 'ti ti-question-circle',
+			text: i18n.ts.default,
 			action: () => {
-				window.open('https://misskey-hub.net/help.html', '_blank');
+				localStorage.setItem("ui", "default");
+				unisonReload();
+			},
+		}, {
+			text: i18n.ts.deck,
+			action: () => {
+				localStorage.setItem("ui", "deck");
+				unisonReload();
 			},
 		}],
 	}, {
-		type: 'link',
+		type: "parent",
+		text: i18n.ts.help,
+		icon: "ti ti-question-circle",
+		children: [{
+			type: "link",
+			to: "/mfm-cheat-sheet",
+			text: i18n.ts._mfm.cheatSheet,
+			icon: "ti ti-code",
+		}, {
+			type: "link",
+			to: "/scratchpad",
+			text: i18n.ts.scratchpad,
+			icon: "ti ti-terminal-2",
+		}, {
+			type: "link",
+			to: "/api-console",
+			text: "API Console",
+			icon: "ti ti-terminal-2",
+		}, null, {
+			text: i18n.ts.document,
+			icon: "ti ti-question-circle",
+			action: () => {
+				window.open("https://misskey-hub.net/help.html", "_blank");
+			},
+		}],
+	}, {
+		type: "link",
 		text: i18n.ts.aboutMisskey,
-		to: '/about-misskey',
+		to: "/about-misskey",
 	}], ev.currentTarget ?? ev.target, {
-		align: 'left',
+		align: "left",
 	});
 }
 
 function more(ev: MouseEvent) {
-	os.popup(defineAsyncComponent(() => import('@/components/MkLaunchPad.vue')), {
+	os.popup(defineAsyncComponent(() => import("@/components/MkLaunchPad.vue")), {
 		src: ev.currentTarget ?? ev.target,
 	}, {
-	}, 'closed');
+	}, "closed");
 }
 
 const onlineUsersCount = ref(0);
 const tick = () => {
-  os.api('get-online-users-count').then(res => {
-    onlineUsersCount.value = res.count;
-  });
+	os.api("get-online-users-count").then(res => {
+		onlineUsersCount.value = res.count;
+	});
 };
 useInterval(tick, 1000 * 15, {
-  immediate: true,
-  afterMounted: true,
+	immediate: true,
+	afterMounted: true,
 });
 </script>
 

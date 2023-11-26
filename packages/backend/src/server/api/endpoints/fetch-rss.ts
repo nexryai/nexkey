@@ -1,12 +1,12 @@
-import Parser from 'rss-parser';
-import { getResponse } from '@/misc/fetch.js';
-import config from '@/config/index.js';
-import define from '../define.js';
+import Parser from "rss-parser";
+import { getResponse } from "@/misc/fetch.js";
+import config from "@/config/index.js";
+import define from "../define.js";
 
 const rssParser = new Parser();
 
 export const meta = {
-	tags: ['meta'],
+	tags: ["meta"],
 
 	requireCredential: false,
 	allowGet: true,
@@ -14,21 +14,21 @@ export const meta = {
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		url: { type: 'string' },
+		url: { type: "string" },
 	},
-	required: ['url'],
+	required: ["url"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps) => {
 	const res = await getResponse({
 		url: ps.url,
-		method: 'GET',
+		method: "GET",
 		headers: Object.assign({
-			'User-Agent': config.userAgent,
-			Accept: 'application/rss+xml, */*',
+			"User-Agent": config.userAgent,
+			Accept: "application/rss+xml, */*",
 		}),
 		timeout: 5000,
 	});

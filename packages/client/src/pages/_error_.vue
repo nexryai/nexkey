@@ -18,14 +18,14 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import * as misskey from 'misskey-js';
-import MkButton from '@/components/MkButton.vue';
-import { version } from '@/config';
-import * as os from '@/os';
-import { unisonReload } from '@/scripts/unison-reload';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { } from "vue";
+import * as misskey from "misskey-js";
+import MkButton from "@/components/MkButton.vue";
+import { version } from "@/config";
+import * as os from "@/os";
+import { unisonReload } from "@/scripts/unison-reload";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 const props = withDefaults(defineProps<{
 	error?: Error;
@@ -36,13 +36,13 @@ let loaded = $ref(false);
 let serverIsDead = $ref(false);
 let meta = $ref<misskey.entities.LiteInstanceMetadata | null>(null);
 
-os.api('meta', {
+os.api("meta", {
 	detail: false,
 }).then(res => {
 	loaded = true;
 	serverIsDead = false;
 	meta = res;
-	localStorage.setItem('v', res.version);
+	localStorage.setItem("v", res.version);
 }, () => {
 	loaded = true;
 	serverIsDead = true;
@@ -58,7 +58,7 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.error,
-	icon: 'ti ti-alert-triangle',
+	icon: "ti ti-alert-triangle",
 });
 </script>
 

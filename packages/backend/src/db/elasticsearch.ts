@@ -1,12 +1,12 @@
-import * as elasticsearch from '@elastic/elasticsearch';
-import config from '@/config/index.js';
+import * as elasticsearch from "@elastic/elasticsearch";
+import config from "@/config/index.js";
 
 const index = {
 	settings: {
 		analysis: {
 			analyzer: {
 				ngram: {
-					tokenizer: 'ngram',
+					tokenizer: "ngram",
 				},
 			},
 		},
@@ -14,16 +14,16 @@ const index = {
 	mappings: {
 		properties: {
 			text: {
-				type: 'text',
+				type: "text",
 				index: true,
-				analyzer: 'ngram',
+				analyzer: "ngram",
 			},
 			userId: {
-				type: 'keyword',
+				type: "keyword",
 				index: true,
 			},
 			userHost: {
-				type: 'keyword',
+				type: "keyword",
 				index: true,
 			},
 		},
@@ -32,7 +32,7 @@ const index = {
 
 // Init ElasticSearch connection
 const client = config.elasticsearch ? new elasticsearch.Client({
-	node: `${config.elasticsearch.ssl ? 'https://' : 'http://'}${config.elasticsearch.host}:${config.elasticsearch.port}`,
+	node: `${config.elasticsearch.ssl ? "https://" : "http://"}${config.elasticsearch.host}:${config.elasticsearch.port}`,
 	auth: (config.elasticsearch.user && config.elasticsearch.pass) ? {
 		username: config.elasticsearch.user,
 		password: config.elasticsearch.pass,
@@ -42,11 +42,11 @@ const client = config.elasticsearch ? new elasticsearch.Client({
 
 if (client) {
 	client.indices.exists({
-		index: config.elasticsearch.index || 'misskey_note',
+		index: config.elasticsearch.index || "misskey_note",
 	}).then(exist => {
 		if (!exist.body) {
 			client.indices.create({
-				index: config.elasticsearch.index || 'misskey_note',
+				index: config.elasticsearch.index || "misskey_note",
 				body: index,
 			});
 		}

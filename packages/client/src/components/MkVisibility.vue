@@ -8,11 +8,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import XDetails from '@/components/MkUsersTooltip.vue';
-import * as os from '@/os';
-import { useTooltip } from '@/scripts/use-tooltip';
-import { i18n } from '@/i18n';
+import { ref } from "vue";
+import XDetails from "@/components/MkUsersTooltip.vue";
+import * as os from "@/os";
+import { useTooltip } from "@/scripts/use-tooltip";
+import { i18n } from "@/i18n";
 
 const props = defineProps<{
 	note: {
@@ -24,9 +24,9 @@ const props = defineProps<{
 
 const specified = $ref<HTMLElement>();
 
-if (props.note.visibility === 'specified') {
+if (props.note.visibility === "specified") {
 	useTooltip($$(specified), async (showing) => {
-		const users = await os.api('users/show', {
+		const users = await os.api("users/show", {
 			userIds: props.note.visibleUserIds,
 			limit: 10,
 		});
@@ -36,7 +36,7 @@ if (props.note.visibility === 'specified') {
 			users,
 			count: props.note.visibleUserIds.length,
 			targetElement: specified,
-		}, {}, 'closed');
+		}, {}, "closed");
 	});
 }
 </script>

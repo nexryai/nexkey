@@ -1,25 +1,25 @@
-import define from '../../../define.js';
-import { Emojis } from '@/models/index.js';
-import { In } from 'typeorm';
-import { insertModerationLog } from '@/services/insert-moderation-log.js';
-import { ApiError } from '../../../error.js';
-import { db } from '@/db/postgre.js';
+import { In } from "typeorm";
+import { Emojis } from "@/models/index.js";
+import { insertModerationLog } from "@/services/insert-moderation-log.js";
+import { db } from "@/db/postgre.js";
+import { ApiError } from "../../../error.js";
+import define from "../../../define.js";
 
 export const meta = {
-	tags: ['admin'],
+	tags: ["admin"],
 
 	requireCredential: true,
 	requireModerator: true,
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		ids: { type: 'array', items: {
-			type: 'string', format: 'misskey:id',
+		ids: { type: "array", items: {
+			type: "string", format: "misskey:id",
 		} },
 	},
-	required: ['ids'],
+	required: ["ids"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
@@ -31,9 +31,9 @@ export default define(meta, paramDef, async (ps, me) => {
 	for (const emoji of emojis) {
 		await Emojis.delete(emoji.id);
 	
-		await db.queryResultCache!.remove(['meta_emojis']);
+		await db.queryResultCache!.remove(["meta_emojis"]);
 	
-		insertModerationLog(me, 'deleteEmoji', {
+		insertModerationLog(me, "deleteEmoji", {
 			emoji: emoji,
 		});
 	}

@@ -19,20 +19,20 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, ref } from 'vue';
-import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from './widget';
-import { GetFormResultType } from '@/scripts/form';
-import MkContainer from '@/components/MkContainer.vue';
-import MkMiniChart from '@/components/MkMiniChart.vue';
-import * as os from '@/os';
-import { useInterval } from '@/scripts/use-interval';
-import { i18n } from '@/i18n';
+import { onMounted, onUnmounted, ref } from "vue";
+import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from "./widget";
+import { GetFormResultType } from "@/scripts/form";
+import MkContainer from "@/components/MkContainer.vue";
+import MkMiniChart from "@/components/MkMiniChart.vue";
+import * as os from "@/os";
+import { useInterval } from "@/scripts/use-interval";
+import { i18n } from "@/i18n";
 
-const name = 'federation';
+const name = "federation";
 
 const widgetPropsDef = {
 	showHeader: {
-		type: 'boolean' as const,
+		type: "boolean" as const,
 		default: true,
 	},
 };
@@ -43,7 +43,7 @@ type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
 //const props = defineProps<WidgetComponentProps<WidgetProps> & { foldable?: boolean; scrollable?: boolean; }>();
 //const emit = defineEmits<WidgetComponentEmits<WidgetProps>>();
 const props = defineProps<{ widget?: Widget<WidgetProps>; foldable?: boolean; scrollable?: boolean; }>();
-const emit = defineEmits<{ (ev: 'updateProps', props: WidgetProps); }>();
+const emit = defineEmits<{ (ev: "updateProps", props: WidgetProps); }>();
 
 const { widgetProps, configure } = useWidgetPropsManager(name,
 	widgetPropsDef,
@@ -56,11 +56,11 @@ const charts = ref([]);
 const fetching = ref(true);
 
 const fetch = async () => {
-	const fetchedInstances = await os.api('federation/instances', {
-		sort: '+lastCommunicatedAt',
+	const fetchedInstances = await os.api("federation/instances", {
+		sort: "+lastCommunicatedAt",
 		limit: 5,
 	});
-	const fetchedCharts = await Promise.all(fetchedInstances.map(i => os.apiGet('charts/instance', { host: i.host, limit: 16, span: 'hour' })));
+	const fetchedCharts = await Promise.all(fetchedInstances.map(i => os.apiGet("charts/instance", { host: i.host, limit: 16, span: "hour" })));
 	instances.value = fetchedInstances;
 	charts.value = fetchedCharts;
 	fetching.value = false;

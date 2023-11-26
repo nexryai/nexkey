@@ -50,16 +50,16 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import XHeader from './_header_.vue';
-import MkButton from '@/components/MkButton.vue';
-import MkInput from '@/components/form/input.vue';
-import MkTextarea from '@/components/form/textarea.vue';
-import FormRadios from '@/components/form/radios.vue';
-import FormSplit from '@/components/form/split.vue';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { } from "vue";
+import XHeader from "./_header_.vue";
+import MkButton from "@/components/MkButton.vue";
+import MkInput from "@/components/form/input.vue";
+import MkTextarea from "@/components/form/textarea.vue";
+import FormRadios from "@/components/form/radios.vue";
+import FormSplit from "@/components/form/split.vue";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 let ads: any[] = $ref([]);
 
@@ -67,7 +67,7 @@ let ads: any[] = $ref([]);
 const localTime = new Date();
 const localTimeDiff = localTime.getTimezoneOffset() * 60 * 1000;
 
-os.api('admin/ad/list').then(adsResponse => {
+os.api("admin/ad/list").then(adsResponse => {
 	ads = adsResponse.map(r => {
 		const date = new Date(r.expiresAt);
 		date.setMilliseconds(date.getMilliseconds() - localTimeDiff);
@@ -81,11 +81,11 @@ os.api('admin/ad/list').then(adsResponse => {
 function add() {
 	ads.unshift({
 		id: null,
-		memo: '',
-		place: 'square',
-		priority: 'middle',
+		memo: "",
+		place: "square",
+		priority: "middle",
 		ratio: 1,
-		url: '',
+		url: "",
 		imageUrl: null,
 		expiresAt: null,
 	});
@@ -93,12 +93,12 @@ function add() {
 
 function remove(ad) {
 	os.confirm({
-		type: 'warning',
-		text: i18n.t('removeAreYouSure', { x: ad.url }),
+		type: "warning",
+		text: i18n.t("removeAreYouSure", { x: ad.url }),
 	}).then(({ canceled }) => {
 		if (canceled) return;
 		ads = ads.filter(x => x !== ad);
-		os.apiWithDialog('admin/ad/delete', {
+		os.apiWithDialog("admin/ad/delete", {
 			id: ad.id,
 		});
 	});
@@ -106,42 +106,42 @@ function remove(ad) {
 
 function save(ad) {
 	if (ad.id == null) {
-		os.api('admin/ad/create', {
+		os.api("admin/ad/create", {
 			...ad,
 			expiresAt: new Date(ad.expiresAt).getTime(),
 		}).then(() => {
-				os.alert({
-					type: 'success',
-					text: i18n.ts.saved,
-				});
-				refresh();
-			}).catch(err => {
-				os.alert({
-					type: 'error',
-					text: err,
-				});
+			os.alert({
+				type: "success",
+				text: i18n.ts.saved,
+			});
+			refresh();
+		}).catch(err => {
+			os.alert({
+				type: "error",
+				text: err,
+			});
 		});
 	} else {
-		os.api('admin/ad/update', {
+		os.api("admin/ad/update", {
 			...ad,
 			expiresAt: new Date(ad.expiresAt).getTime(),
 		}).then(() => {
-				os.alert({
-					type: 'success',
-					text: i18n.ts.saved,
-				});
-				refresh();
-			}).catch(err => {
-				os.alert({
-					type: 'error',
-					text: err,
+			os.alert({
+				type: "success",
+				text: i18n.ts.saved,
+			});
+			refresh();
+		}).catch(err => {
+			os.alert({
+				type: "error",
+				text: err,
 			});
 		});
 	}
 }
 
 function refresh() {
-	os.api('admin/ad/list').then(adsResponse => {
+	os.api("admin/ad/list").then(adsResponse => {
 		ads = adsResponse.map(r => {
 			const date = new Date(r.expiresAt);
 			date.setMilliseconds(date.getMilliseconds() - localTimeDiff);
@@ -154,7 +154,7 @@ function refresh() {
 }
 
 function more() {
-	os.api('admin/ad/list', { untilId: ads.reduce((acc, ad) => ad.id != null ? ad : acc).id }).then(adsResponse => {
+	os.api("admin/ad/list", { untilId: ads.reduce((acc, ad) => ad.id != null ? ad : acc).id }).then(adsResponse => {
 		ads = ads.concat(adsResponse.map(r => {
 			const date = new Date(r.expiresAt);
 			date.setMilliseconds(date.getMilliseconds() - localTimeDiff);
@@ -168,7 +168,7 @@ function more() {
 
 const headerActions = $computed(() => [{
 	asFullButton: true,
-	icon: 'ti ti-plus',
+	icon: "ti ti-plus",
 	text: i18n.ts.add,
 	handler: add,
 }]);
@@ -177,7 +177,7 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.ads,
-	icon: 'ti ti-ad',
+	icon: "ti ti-ad",
 });
 </script>
 

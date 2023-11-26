@@ -1,335 +1,335 @@
-import config from '@/config/index.js';
-import { fetchMeta } from '@/misc/fetch-meta.js';
-import { MAX_NOTE_TEXT_LENGTH } from '@/const.js';
-import define from '../../define.js';
+import config from "@/config/index.js";
+import { fetchMeta } from "@/misc/fetch-meta.js";
+import { MAX_NOTE_TEXT_LENGTH } from "@/const.js";
+import define from "../../define.js";
 
 export const meta = {
-	tags: ['meta'],
+	tags: ["meta"],
 
 	requireCredential: true,
 	requireAdmin: true,
 
 	res: {
-		type: 'object',
+		type: "object",
 		optional: false, nullable: false,
 		properties: {
 			driveCapacityPerLocalUserMb: {
-				type: 'number',
+				type: "number",
 				optional: false, nullable: false,
 			},
 			driveCapacityPerRemoteUserMb: {
-				type: 'number',
+				type: "number",
 				optional: false, nullable: false,
 			},
 			cacheRemoteFiles: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 			emailRequiredForSignup: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 			enableHcaptcha: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 			hcaptchaSiteKey: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: true,
 			},
 			enableRecaptcha: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 			recaptchaSiteKey: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: true,
 			},
 			enableTurnstile: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 			turnstileSiteKey: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: true,
 			},
 			swPublickey: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: true,
 			},
 			mascotImageUrl: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: false,
-				default: '/assets/ai.png',
+				default: "/assets/ai.png",
 			},
 			bannerUrl: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: false,
 			},
 			errorImageUrl: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: false,
-				default: 'https://xn--931a.moe/aiart/yubitun.png',
+				default: "https://xn--931a.moe/aiart/yubitun.png",
 			},
 			iconUrl: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: true,
 			},
 			maxNoteTextLength: {
-				type: 'number',
+				type: "number",
 				optional: false, nullable: false,
 			},
 			emojis: {
-				type: 'array',
+				type: "array",
 				optional: false, nullable: false,
 				items: {
-					type: 'object',
+					type: "object",
 					optional: false, nullable: false,
 					properties: {
 						id: {
-							type: 'string',
+							type: "string",
 							optional: false, nullable: false,
-							format: 'id',
+							format: "id",
 						},
 						aliases: {
-							type: 'array',
+							type: "array",
 							optional: false, nullable: false,
 							items: {
-								type: 'string',
+								type: "string",
 								optional: false, nullable: false,
 							},
 						},
 						category: {
-							type: 'string',
+							type: "string",
 							optional: false, nullable: true,
 						},
 						host: {
-							type: 'string',
+							type: "string",
 							optional: false, nullable: true,
 						},
 						url: {
-							type: 'string',
+							type: "string",
 							optional: false, nullable: false,
-							format: 'url',
+							format: "url",
 						},
 					},
 				},
 			},
 			ads: {
-				type: 'array',
+				type: "array",
 				optional: false, nullable: false,
 				items: {
-					type: 'object',
+					type: "object",
 					optional: false, nullable: false,
 					properties: {
 						place: {
-							type: 'string',
+							type: "string",
 							optional: false, nullable: false,
 						},
 						url: {
-							type: 'string',
+							type: "string",
 							optional: false, nullable: false,
-							format: 'url',
+							format: "url",
 						},
 						imageUrl: {
-							type: 'string',
+							type: "string",
 							optional: false, nullable: false,
-							format: 'url',
+							format: "url",
 						},
 					},
 				},
 			},
 			enableEmail: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 			enableTwitterIntegration: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 			enableGithubIntegration: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 			enableDiscordIntegration: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 			enableServiceWorker: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 			translatorAvailable: {
-				type: 'boolean',
+				type: "boolean",
 				optional: false, nullable: false,
 			},
 			proxyAccountName: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: true,
 			},
 			userStarForReactionFallback: {
-				type: 'boolean',
+				type: "boolean",
 				optional: true, nullable: false,
 			},
 			pinnedUsers: {
-				type: 'array',
+				type: "array",
 				optional: true, nullable: false,
 				items: {
-					type: 'string',
+					type: "string",
 					optional: false, nullable: false,
 				},
 			},
 			hiddenTags: {
-				type: 'array',
+				type: "array",
 				optional: true, nullable: false,
 				items: {
-					type: 'string',
+					type: "string",
 					optional: false, nullable: false,
 				},
 			},
 			blockedHosts: {
-				type: 'array',
+				type: "array",
 				optional: true, nullable: false,
 				items: {
-					type: 'string',
+					type: "string",
 					optional: false, nullable: false,
 				},
 			},
 			blockedEmailDomains: {
-				type: 'array',
+				type: "array",
 				optional: true, nullable: false,
 				items: {
-					type: 'string',
+					type: "string",
 					optional: false, nullable: false,
 				},
 			},
 			hcaptchaSecretKey: {
-				type: 'string',
+				type: "string",
 				optional: true, nullable: true,
 			},
 			recaptchaSecretKey: {
-				type: 'string',
+				type: "string",
 				optional: true, nullable: true,
 			},
 			turnstileSecretKey: {
-				type: 'string',
+				type: "string",
 				optional: true, nullable: true,
 			},
 			proxyAccountId: {
-				type: 'string',
+				type: "string",
 				optional: true, nullable: true,
-				format: 'id',
+				format: "id",
 			},
 			twitterConsumerKey: {
-				type: 'string',
+				type: "string",
 				optional: true, nullable: true,
 			},
 			twitterConsumerSecret: {
-				type: 'string',
+				type: "string",
 				optional: true, nullable: true,
 			},
 			githubClientId: {
-				type: 'string',
+				type: "string",
 				optional: true, nullable: true,
 			},
 			githubClientSecret: {
-				type: 'string',
+				type: "string",
 				optional: true, nullable: true,
 			},
 			discordClientId: {
-				type: 'string',
+				type: "string",
 				optional: true, nullable: true,
 			},
 			discordClientSecret: {
-				type: 'string',
+				type: "string",
 				optional: true, nullable: true,
 			},
 			summaryProxy: {
-				type: 'string',
+				type: "string",
 				optional: true, nullable: true,
 			},
 			email: {
-				type: 'string',
+				type: "string",
 				optional: true, nullable: true,
 			},
 			smtpSecure: {
-				type: 'boolean',
+				type: "boolean",
 				optional: true, nullable: false,
 			},
 			smtpHost: {
-				type: 'string',
+				type: "string",
 				optional: true, nullable: true,
 			},
 			smtpPort: {
-				type: 'string',
+				type: "string",
 				optional: true, nullable: true,
 			},
 			smtpUser: {
-				type: 'string',
+				type: "string",
 				optional: true, nullable: true,
 			},
 			smtpPass: {
-				type: 'string',
+				type: "string",
 				optional: true, nullable: true,
 			},
 			swPrivateKey: {
-				type: 'string',
+				type: "string",
 				optional: true, nullable: true,
 			},
 			useObjectStorage: {
-				type: 'boolean',
+				type: "boolean",
 				optional: true, nullable: false,
 			},
 			objectStorageBaseUrl: {
-				type: 'string',
+				type: "string",
 				optional: true, nullable: true,
 			},
 			objectStorageBucket: {
-				type: 'string',
+				type: "string",
 				optional: true, nullable: true,
 			},
 			objectStoragePrefix: {
-				type: 'string',
+				type: "string",
 				optional: true, nullable: true,
 			},
 			objectStorageEndpoint: {
-				type: 'string',
+				type: "string",
 				optional: true, nullable: true,
 			},
 			objectStorageRegion: {
-				type: 'string',
+				type: "string",
 				optional: true, nullable: true,
 			},
 			objectStoragePort: {
-				type: 'number',
+				type: "number",
 				optional: true, nullable: true,
 			},
 			objectStorageAccessKey: {
-				type: 'string',
+				type: "string",
 				optional: true, nullable: true,
 			},
 			objectStorageSecretKey: {
-				type: 'string',
+				type: "string",
 				optional: true, nullable: true,
 			},
 			objectStorageUseSSL: {
-				type: 'boolean',
+				type: "boolean",
 				optional: true, nullable: false,
 			},
 			objectStorageUseProxy: {
-				type: 'boolean',
+				type: "boolean",
 				optional: true, nullable: false,
 			},
 			objectStorageSetPublicRead: {
-				type: 'boolean',
+				type: "boolean",
 				optional: true, nullable: false,
 			},
 			enableIpLogging: {
-				type: 'boolean',
+				type: "boolean",
 				optional: true, nullable: false,
 			},
 			enableActiveEmailValidation: {
-				type: 'boolean',
+				type: "boolean",
 				optional: true, nullable: false,
 			},
 		},
@@ -337,7 +337,7 @@ export const meta = {
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
 	},
 	required: [],

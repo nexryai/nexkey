@@ -1,15 +1,15 @@
-import { publishMainStream } from '@/services/stream.js';
-import { Users, UserProfiles, PasswordResetRequests } from '@/models/index.js';
-import define from '../define.js';
-import { ApiError } from '../error.js';
+import { publishMainStream } from "@/services/stream.js";
+import { Users, UserProfiles, PasswordResetRequests } from "@/models/index.js";
 import { hashPassword } from "@/misc/password.js";
+import define from "../define.js";
+import { ApiError } from "../error.js";
 
 export const meta = {
-	tags: ['reset password'],
+	tags: ["reset password"],
 
 	requireCredential: false,
 
-	description: 'Complete the password reset that was previously requested.',
+	description: "Complete the password reset that was previously requested.",
 
 	errors: {
 
@@ -17,12 +17,12 @@ export const meta = {
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		token: { type: 'string' },
-		password: { type: 'string' },
+		token: { type: "string" },
+		password: { type: "string" },
 	},
-	required: ['token', 'password'],
+	required: ["token", "password"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export

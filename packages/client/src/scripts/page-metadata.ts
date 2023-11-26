@@ -1,8 +1,8 @@
-import * as misskey from 'misskey-js';
-import { ComputedRef, inject, isRef, onActivated, onMounted, provide, ref, Ref } from 'vue';
+import * as misskey from "misskey-js";
+import { ComputedRef, inject, isRef, onActivated, onMounted, provide, ref, Ref } from "vue";
 
-export const setPageMetadata = Symbol('setPageMetadata');
-export const pageMetadataProvider = Symbol('pageMetadataProvider');
+export const setPageMetadata = Symbol("setPageMetadata");
+export const pageMetadataProvider = Symbol("pageMetadataProvider");
 
 export type PageMetadata = {
 	title: string;

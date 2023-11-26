@@ -30,64 +30,64 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import XHeader from './_header_.vue';
-import MkButton from '@/components/MkButton.vue';
-import MkInput from '@/components/form/input.vue';
-import MkTextarea from '@/components/form/textarea.vue';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { } from "vue";
+import XHeader from "./_header_.vue";
+import MkButton from "@/components/MkButton.vue";
+import MkInput from "@/components/form/input.vue";
+import MkTextarea from "@/components/form/textarea.vue";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 let announcements: any[] = $ref([]);
 
-os.api('admin/announcements/list').then(announcementResponse => {
+os.api("admin/announcements/list").then(announcementResponse => {
 	announcements = announcementResponse;
 });
 
 function add() {
 	announcements.unshift({
 		id: null,
-		title: '',
-		text: '',
+		title: "",
+		text: "",
 		imageUrl: null,
 	});
 }
 
 function remove(announcement) {
 	os.confirm({
-		type: 'warning',
-		text: i18n.t('removeAreYouSure', { x: announcement.title }),
+		type: "warning",
+		text: i18n.t("removeAreYouSure", { x: announcement.title }),
 	}).then(({ canceled }) => {
 		if (canceled) return;
 		announcements = announcements.filter(x => x !== announcement);
-		os.api('admin/announcements/delete', announcement);
+		os.api("admin/announcements/delete", announcement);
 	});
 }
 
 function save(announcement) {
 	if (announcement.id == null) {
-		os.api('admin/announcements/create', announcement).then(() => {
+		os.api("admin/announcements/create", announcement).then(() => {
 			os.alert({
-				type: 'success',
+				type: "success",
 				text: i18n.ts.saved,
 			});
 			refresh();
 		}).catch(err => {
 			os.alert({
-				type: 'error',
+				type: "error",
 				text: err,
 			});
 		});
 	} else {
-		os.api('admin/announcements/update', announcement).then(() => {
+		os.api("admin/announcements/update", announcement).then(() => {
 			os.alert({
-				type: 'success',
+				type: "success",
 				text: i18n.ts.saved,
 			});
 		}).catch(err => {
 			os.alert({
-				type: 'error',
+				type: "error",
 				text: err,
 			});
 		});
@@ -95,20 +95,20 @@ function save(announcement) {
 }
 
 function refresh() {
-	os.api('admin/announcements/list').then(announcementResponse => {
+	os.api("admin/announcements/list").then(announcementResponse => {
 		announcements = announcementResponse;
 	});
 }
 
 function more() {
-	os.api('admin/announcements/list', { untilId: announcements.reduce((acc, announcement) => announcement.id != null ? announcement : acc).id }).then(announcementResponse => {
+	os.api("admin/announcements/list", { untilId: announcements.reduce((acc, announcement) => announcement.id != null ? announcement : acc).id }).then(announcementResponse => {
 		announcements = announcements.concat(announcementResponse);
 	});
 }
 
 const headerActions = $computed(() => [{
 	asFullButton: true,
-	icon: 'ti ti-plus',
+	icon: "ti ti-plus",
 	text: i18n.ts.add,
 	handler: add,
 }]);
@@ -117,7 +117,7 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.announcements,
-	icon: 'ti ti-speakerphone',
+	icon: "ti ti-speakerphone",
 });
 </script>
 

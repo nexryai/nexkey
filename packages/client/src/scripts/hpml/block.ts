@@ -6,23 +6,23 @@ export type BlockBase = {
 };
 
 export type TextBlock = BlockBase & {
-	type: 'text';
+	type: "text";
 	text: string;
 };
 
 export type SectionBlock = BlockBase & {
-	type: 'section';
+	type: "section";
 	title: string;
 	children: (Block | VarBlock)[];
 };
 
 export type ImageBlock = BlockBase & {
-	type: 'image';
+	type: "image";
 	fileId: string | null;
 };
 
 export type ButtonBlock = BlockBase & {
-	type: 'button';
+	type: "button";
 	text: any;
 	primary: boolean;
 	action: string;
@@ -34,32 +34,32 @@ export type ButtonBlock = BlockBase & {
 };
 
 export type IfBlock = BlockBase & {
-	type: 'if';
+	type: "if";
 	var: string;
 	children: Block[];
 };
 
 export type TextareaBlock = BlockBase & {
-	type: 'textarea';
+	type: "textarea";
 	text: string;
 };
 
 export type PostBlock = BlockBase & {
-	type: 'post';
+	type: "post";
 	text: string;
 	attachCanvasImage: boolean;
 	canvasId: string;
 };
 
 export type CanvasBlock = BlockBase & {
-	type: 'canvas';
+	type: "canvas";
 	name: string; // canvas id
 	width: number;
 	height: number;
 };
 
 export type NoteBlock = BlockBase & {
-	type: 'note';
+	type: "note";
 	detailed: boolean;
 	note: string | null;
 };
@@ -74,28 +74,28 @@ export type VarBlockBase = BlockBase & {
 };
 
 export type NumberInputVarBlock = VarBlockBase & {
-	type: 'numberInput';
+	type: "numberInput";
 	text: string;
 };
 
 export type TextInputVarBlock = VarBlockBase & {
-	type: 'textInput';
+	type: "textInput";
 	text: string;
 };
 
 export type SwitchVarBlock = VarBlockBase & {
-	type: 'switch';
+	type: "switch";
 	text: string;
 };
 
 export type RadioButtonVarBlock = VarBlockBase & {
-	type: 'radioButton';
+	type: "radioButton";
 	title: string;
 	values: string[];
 };
 
 export type CounterVarBlock = VarBlockBase & {
-	type: 'counter';
+	type: "counter";
 	text: string;
 	inc: number;
 };
@@ -103,7 +103,7 @@ export type CounterVarBlock = VarBlockBase & {
 export type VarBlock =
 	NumberInputVarBlock | TextInputVarBlock | SwitchVarBlock | RadioButtonVarBlock | CounterVarBlock;
 
-const varBlock = ['numberInput', 'textInput', 'switch', 'radioButton', 'counter'];
+const varBlock = ["numberInput", "textInput", "switch", "radioButton", "counter"];
 export function isVarBlock(block: Block): block is VarBlock {
 	return varBlock.includes(block.type);
 }

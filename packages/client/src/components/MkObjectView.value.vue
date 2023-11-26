@@ -29,11 +29,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, ref } from 'vue';
-import number from '@/filters/number';
+import { computed, defineComponent, reactive, ref } from "vue";
+import number from "@/filters/number";
 
 export default defineComponent({
-	name: 'XValue',
+	name: "XValue",
 
 	props: {
 		value: {
@@ -51,7 +51,7 @@ export default defineComponent({
 		}
 
 		function isObject(v): boolean {
-			return typeof v === 'object' && !Array.isArray(v) && v !== null;
+			return typeof v === "object" && !Array.isArray(v) && v !== null;
 		}
 
 		function isArray(v): boolean {

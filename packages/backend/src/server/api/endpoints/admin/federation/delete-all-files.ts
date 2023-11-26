@@ -1,20 +1,20 @@
-import define from '../../../define.js';
-import { deleteFile } from '@/services/drive/delete-file.js';
-import { DriveFiles } from '@/models/index.js';
+import { deleteFile } from "@/services/drive/delete-file.js";
+import { DriveFiles } from "@/models/index.js";
+import define from "../../../define.js";
 
 export const meta = {
-	tags: ['admin'],
+	tags: ["admin"],
 
 	requireCredential: true,
 	requireModerator: true,
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		host: { type: 'string' },
+		host: { type: "string" },
 	},
-	required: ['host'],
+	required: ["host"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export

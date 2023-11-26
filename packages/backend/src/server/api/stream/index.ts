@@ -1,18 +1,18 @@
-import { EventEmitter } from 'events';
-import * as websocket from 'websocket';
-import readNote from '@/services/note/read.js';
-import { User } from '@/models/entities/user.js';
-import { Channel as ChannelModel } from '@/models/entities/channel.js';
-import { Followings, Mutings, RenoteMutings, UserProfiles, ChannelFollowings, Blockings } from '@/models/index.js';
-import { AccessToken } from '@/models/entities/access-token.js';
-import { UserProfile } from '@/models/entities/user-profile.js';
-import { publishChannelStream, publishGroupMessagingStream, publishMessagingStream } from '@/services/stream.js';
-import { UserGroup } from '@/models/entities/user-group.js';
-import { Packed } from '@/misc/schema.js';
-import { readNotification } from '../common/read-notification.js';
-import channels from './channels/index.js';
-import Channel from './channel.js';
-import { StreamEventEmitter, StreamMessages } from './types.js';
+import { EventEmitter } from "events";
+import * as websocket from "websocket";
+import readNote from "@/services/note/read.js";
+import { User } from "@/models/entities/user.js";
+import { Channel as ChannelModel } from "@/models/entities/channel.js";
+import { Followings, Mutings, RenoteMutings, UserProfiles, ChannelFollowings, Blockings } from "@/models/index.js";
+import { AccessToken } from "@/models/entities/access-token.js";
+import { UserProfile } from "@/models/entities/user-profile.js";
+import { publishChannelStream, publishGroupMessagingStream, publishMessagingStream } from "@/services/stream.js";
+import { UserGroup } from "@/models/entities/user-group.js";
+import { Packed } from "@/misc/schema.js";
+import { readNotification } from "../common/read-notification.js";
+import channels from "./channels/index.js";
+import Channel from "./channel.js";
+import { StreamEventEmitter, StreamMessages } from "./types.js";
 
 /**
  * Main stream connection
@@ -20,16 +20,16 @@ import { StreamEventEmitter, StreamMessages } from './types.js';
 export default class Connection {
 	public user?: User;
 	public userProfile?: UserProfile | null;
-	public following: Set<User['id']> = new Set();
-	public muting: Set<User['id']> = new Set();
-	public blocking: Set<User['id']> = new Set(); // "被"blocking
-	public followingChannels: Set<ChannelModel['id']> = new Set();
+	public following: Set<User["id"]> = new Set();
+	public muting: Set<User["id"]> = new Set();
+	public blocking: Set<User["id"]> = new Set(); // "被"blocking
+	public followingChannels: Set<ChannelModel["id"]> = new Set();
 	public token?: AccessToken;
 	private wsConnection: websocket.connection;
 	public subscriber: StreamEventEmitter;
 	private channels: Channel[] = [];
 	private subscribingNotes: any = {};
-	private cachedNotes: Packed<'Note'>[] = [];
+	private cachedNotes: Packed<"Note">[] = [];
 
 	constructor(
 		wsConnection: websocket.connection,
@@ -47,9 +47,9 @@ export default class Connection {
 		this.onNoteStreamMessage = this.onNoteStreamMessage.bind(this);
 		this.onBroadcastMessage = this.onBroadcastMessage.bind(this);
 
-		this.wsConnection.on('message', this.onWsConnectionMessage);
+		this.wsConnection.on("message", this.onWsConnectionMessage);
 
-		this.subscriber.on('broadcast', data => {
+		this.subscriber.on("broadcast", data => {
 			this.onBroadcastMessage(data);
 		});
 
@@ -65,45 +65,45 @@ export default class Connection {
 		}
 	}
 
-	private onUserEvent(data: StreamMessages['user']['payload']) { // { type, body }と展開するとそれぞれ型が分離してしまう
+	private onUserEvent(data: StreamMessages["user"]["payload"]) { // { type, body }と展開するとそれぞれ型が分離してしまう
 		switch (data.type) {
-			case 'follow':
+			case "follow":
 				this.following.add(data.body.id);
 				break;
 
-			case 'unfollow':
+			case "unfollow":
 				this.following.delete(data.body.id);
 				break;
 
-			case 'mute':
+			case "mute":
 				this.muting.add(data.body.id);
 				break;
 
-			case 'unmute':
+			case "unmute":
 				this.muting.delete(data.body.id);
 				break;
 
-			case 'block':
+			case "block":
 				this.blocking.add(data.body.id);
 				break;
 
-			case 'unblock':
+			case "unblock":
 				this.blocking.delete(data.body.id);
 				break;
 
-			case 'followChannel':
+			case "followChannel":
 				this.followingChannels.add(data.body.id);
 				break;
 
-			case 'unfollowChannel':
+			case "unfollowChannel":
 				this.followingChannels.delete(data.body.id);
 				break;
 
-			case 'updateUserProfile':
+			case "updateUserProfile":
 				this.userProfile = data.body;
 				break;
 
-			case 'terminate':
+			case "terminate":
 				this.wsConnection.close();
 				this.dispose();
 				break;
@@ -117,7 +117,7 @@ export default class Connection {
 	 * クライアントからメッセージ受信時
 	 */
 	private async onWsConnectionMessage(data: websocket.Message) {
-		if (data.type !== 'utf8') return;
+		if (data.type !== "utf8") return;
 		if (data.utf8Data == null) return;
 
 		let obj: Record<string, any>;
@@ -131,31 +131,31 @@ export default class Connection {
 		const { type, body } = obj;
 
 		switch (type) {
-			case 'readNotification': this.onReadNotification(body); break;
-			case 'subNote': this.onSubscribeNote(body); break;
-			case 's': this.onSubscribeNote(body); break; // alias
-			case 'sr': this.onSubscribeNote(body); this.readNote(body); break;
-			case 'unsubNote': this.onUnsubscribeNote(body); break;
-			case 'un': this.onUnsubscribeNote(body); break; // alias
-			case 'connect': this.onChannelConnectRequested(body); break;
-			case 'disconnect': this.onChannelDisconnectRequested(body); break;
-			case 'channel': this.onChannelMessageRequested(body); break;
-			case 'ch': this.onChannelMessageRequested(body); break; // alias
+			case "readNotification": this.onReadNotification(body); break;
+			case "subNote": this.onSubscribeNote(body); break;
+			case "s": this.onSubscribeNote(body); break; // alias
+			case "sr": this.onSubscribeNote(body); this.readNote(body); break;
+			case "unsubNote": this.onUnsubscribeNote(body); break;
+			case "un": this.onUnsubscribeNote(body); break; // alias
+			case "connect": this.onChannelConnectRequested(body); break;
+			case "disconnect": this.onChannelDisconnectRequested(body); break;
+			case "channel": this.onChannelMessageRequested(body); break;
+			case "ch": this.onChannelMessageRequested(body); break; // alias
 
 			// 個々のチャンネルではなくルートレベルでこれらのメッセージを受け取る理由は、
 			// クライアントの事情を考慮したとき、入力フォームはノートチャンネルやメッセージのメインコンポーネントとは別
 			// なこともあるため、それらのコンポーネントがそれぞれ各チャンネルに接続するようにするのは面倒なため。
-			case 'typingOnChannel': this.typingOnChannel(body.channel); break;
-			case 'typingOnMessaging': this.typingOnMessaging(body); break;
+			case "typingOnChannel": this.typingOnChannel(body.channel); break;
+			case "typingOnMessaging": this.typingOnMessaging(body); break;
 		}
 	}
 
-	private onBroadcastMessage(data: StreamMessages['broadcast']['payload']) {
+	private onBroadcastMessage(data: StreamMessages["broadcast"]["payload"]) {
 		this.sendMessageToWs(data.type, data.body);
 	}
 
-	public cacheNote(note: Packed<'Note'>) {
-		const add = (note: Packed<'Note'>) => {
+	public cacheNote(note: Packed<"Note">) {
+		const add = (note: Packed<"Note">) => {
 			const existIndex = this.cachedNotes.findIndex(n => n.id === note.id);
 			if (existIndex > -1) {
 				this.cachedNotes[existIndex] = note;
@@ -222,8 +222,8 @@ export default class Connection {
 		}
 	}
 
-	private async onNoteStreamMessage(data: StreamMessages['note']['payload']) {
-		this.sendMessageToWs('noteUpdated', {
+	private async onNoteStreamMessage(data: StreamMessages["note"]["payload"]) {
+		this.sendMessageToWs("noteUpdated", {
 			id: data.body.id,
 			type: data.type,
 			body: data.body.body,
@@ -274,7 +274,7 @@ export default class Connection {
 		ch.init(params);
 
 		if (pong) {
-			this.sendMessageToWs('connected', {
+			this.sendMessageToWs("connected", {
 				id: id,
 			});
 		}
@@ -304,18 +304,18 @@ export default class Connection {
 		}
 	}
 
-	private typingOnChannel(channel: ChannelModel['id']) {
+	private typingOnChannel(channel: ChannelModel["id"]) {
 		if (this.user) {
-			publishChannelStream(channel, 'typing', this.user.id);
+			publishChannelStream(channel, "typing", this.user.id);
 		}
 	}
 
-	private typingOnMessaging(param: { partner?: User['id']; group?: UserGroup['id']; }) {
+	private typingOnMessaging(param: { partner?: User["id"]; group?: UserGroup["id"]; }) {
 		if (this.user) {
 			if (param.partner) {
-				publishMessagingStream(param.partner, this.user.id, 'typing', this.user.id);
+				publishMessagingStream(param.partner, this.user.id, "typing", this.user.id);
 			} else if (param.group) {
-				publishGroupMessagingStream(param.group, 'typing', this.user.id);
+				publishGroupMessagingStream(param.group, "typing", this.user.id);
 			}
 		}
 	}
@@ -325,7 +325,7 @@ export default class Connection {
 			where: {
 				followerId: this.user!.id,
 			},
-			select: ['followeeId'],
+			select: ["followeeId"],
 		});
 
 		this.following = new Set<string>(followings.map(x => x.followeeId));
@@ -336,7 +336,7 @@ export default class Connection {
 			where: {
 				muterId: this.user!.id,
 			},
-			select: ['muteeId'],
+			select: ["muteeId"],
 		});
 
 		this.muting = new Set<string>(mutings.map(x => x.muteeId));
@@ -347,7 +347,7 @@ export default class Connection {
 			where: {
 				muterId: this.user!.id,
 			},
-			select: ['muteeId'],
+			select: ["muteeId"],
 		});
 
 		this.renoteMuting = new Set<string>(renoteMutings.map(x => x.muteeId));
@@ -358,7 +358,7 @@ export default class Connection {
 			where: {
 				blockeeId: this.user!.id,
 			},
-			select: ['blockerId'],
+			select: ["blockerId"],
 		});
 
 		this.blocking = new Set<string>(blockings.map(x => x.blockerId));
@@ -369,7 +369,7 @@ export default class Connection {
 			where: {
 				followerId: this.user!.id,
 			},
-			select: ['followeeId'],
+			select: ["followeeId"],
 		});
 
 		this.followingChannels = new Set<string>(followings.map(x => x.followeeId));

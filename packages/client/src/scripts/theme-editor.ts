@@ -1,14 +1,14 @@
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from "uuid";
 
-import { themeProps, Theme } from './theme';
+import { themeProps, Theme } from "./theme";
 
 export type Default = null;
 export type Color = string;
-export type FuncName = 'alpha' | 'darken' | 'lighten';
-export type Func = { type: 'func'; name: FuncName; arg: number; value: string; };
-export type RefProp = { type: 'refProp'; key: string; };
-export type RefConst = { type: 'refConst'; key: string; };
-export type Css = { type: 'css'; value: string; };
+export type FuncName = "alpha" | "darken" | "lighten";
+export type Func = { type: "func"; name: FuncName; arg: number; value: string; };
+export type RefProp = { type: "refProp"; key: string; };
+export type RefConst = { type: "refConst"; key: string; };
+export type Css = { type: "css"; value: string; };
 
 export type ThemeValue = Color | Func | RefProp | RefConst | Css | Default;
 
@@ -16,25 +16,25 @@ export type ThemeViewModel = [ string, ThemeValue ][];
 
 export const fromThemeString = (str?: string) : ThemeValue => {
 	if (!str) return null;
-	if (str.startsWith(':')) {
-		const parts = str.slice(1).split('<');
+	if (str.startsWith(":")) {
+		const parts = str.slice(1).split("<");
 		const name = parts[0] as FuncName;
 		const arg = parseFloat(parts[1]);
-		const value = parts[2].startsWith('@') ? parts[2].slice(1) : '';
-		return { type: 'func', name, arg, value };
-	} else if (str.startsWith('@')) {
+		const value = parts[2].startsWith("@") ? parts[2].slice(1) : "";
+		return { type: "func", name, arg, value };
+	} else if (str.startsWith("@")) {
 		return {
-			type: 'refProp',
+			type: "refProp",
 			key: str.slice(1),
 		};
-	} else if (str.startsWith('$')) {
+	} else if (str.startsWith("$")) {
 		return {
-			type: 'refConst',
+			type: "refConst",
 			key: str.slice(1),
 		};
-	} else if (str.startsWith('"')) {
+	} else if (str.startsWith("\"")) {
 		return {
-			type: 'css',
+			type: "css",
 			value: str.substr(1).trim(),
 		};
 	} else {
@@ -43,16 +43,16 @@ export const fromThemeString = (str?: string) : ThemeValue => {
 };
 
 export const toThemeString = (value: Color | Func | RefProp | RefConst | Css) => {
-	if (typeof value === 'string') return value;
+	if (typeof value === "string") return value;
 	switch (value.type) {
-		case 'func': return `:${value.name}<${value.arg}<@${value.value}`;
-		case 'refProp': return `@${value.key}`;
-		case 'refConst': return `$${value.key}`;
-		case 'css': return `" ${value.value}`;
+		case "func": return `:${value.name}<${value.arg}<@${value.value}`;
+		case "refProp": return `@${value.key}`;
+		case "refConst": return `$${value.key}`;
+		case "css": return `" ${value.value}`;
 	}
 };
 
-export const convertToMisskeyTheme = (vm: ThemeViewModel, name: string, desc: string, author: string, base: 'dark' | 'light'): Theme => {
+export const convertToMisskeyTheme = (vm: ThemeViewModel, name: string, desc: string, author: string, base: "dark" | "light"): Theme => {
 	const props = { } as { [key: string]: string };
 	for (const [ key, value ] of vm) {
 		if (value === null) continue;
@@ -61,7 +61,7 @@ export const convertToMisskeyTheme = (vm: ThemeViewModel, name: string, desc: st
 
 	return {
 		id: uuid(),
-		name, desc, author, props, base
+		name, desc, author, props, base,
 	};
 };
 
@@ -73,9 +73,9 @@ export const convertToViewModel = (theme: Theme): ThemeViewModel => {
 	// 定数の登録
 	const consts = Object
 		.keys(theme.props)
-		.filter(k => k.startsWith('$'))
+		.filter(k => k.startsWith("$"))
 		.map(k => [ k, fromThemeString(theme.props[k]) ] as [ string, ThemeValue ]);
 
-		vm.push(...consts);
+	vm.push(...consts);
 	return vm;
 };

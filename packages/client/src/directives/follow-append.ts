@@ -1,5 +1,5 @@
-import { Directive } from 'vue';
-import { getScrollContainer, getScrollPosition } from '@/scripts/scroll';
+import { Directive } from "vue";
+import { getScrollContainer, getScrollPosition } from "@/scripts/scroll";
 
 export default {
 	mounted(src, binding, vn) {
@@ -8,7 +8,7 @@ export default {
 		let isBottom = true;
 
 		const container = getScrollContainer(src)!;
-		container.addEventListener('scroll', () => {
+		container.addEventListener("scroll", () => {
 			const pos = getScrollPosition(container);
 			const viewHeight = container.clientHeight;
 			const height = container.scrollHeight;
@@ -31,5 +31,5 @@ export default {
 
 	unmounted(src, binding, vn) {
 		if (src._ro_) src._ro_.unobserve(src);
-	}
+	},
 } as Directive;

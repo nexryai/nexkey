@@ -1,5 +1,5 @@
-import { db } from '@/db/postgre.js';
-import { Meta } from '@/models/entities/meta.js';
+import { db } from "@/db/postgre.js";
+import { Meta } from "@/models/entities/meta.js";
 
 let cache: Meta;
 
@@ -10,7 +10,7 @@ export async function fetchMeta(noCache = false): Promise<Meta> {
 		// 過去のバグでレコードが複数出来てしまっている可能性があるので新しいIDを優先する
 		const metas = await transactionalEntityManager.find(Meta, {
 			order: {
-				id: 'DESC',
+				id: "DESC",
 			},
 		});
 
@@ -25,9 +25,9 @@ export async function fetchMeta(noCache = false): Promise<Meta> {
 				.upsert(
 					Meta,
 					{
-						id: 'x',
+						id: "x",
 					},
-					['id'],
+					["id"],
 				)
 				.then((x) => transactionalEntityManager.findOneByOrFail(Meta, x.identifiers[0]));
 

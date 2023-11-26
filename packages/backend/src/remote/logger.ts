@@ -1,3 +1,3 @@
-import Logger from '@/services/logger.js';
+import Logger from "@/services/logger.js";
 
-export const remoteLogger = new Logger('remote', 'cyan');
+export const remoteLogger = new Logger("remote", "cyan");

@@ -1,30 +1,30 @@
-import { UserLists } from '@/models/index.js';
-import { genId } from '@/misc/gen-id.js';
-import { UserList } from '@/models/entities/user-list.js';
-import define from '../../../define.js';
+import { UserLists } from "@/models/index.js";
+import { genId } from "@/misc/gen-id.js";
+import { UserList } from "@/models/entities/user-list.js";
+import define from "../../../define.js";
 
 export const meta = {
-	tags: ['lists'],
+	tags: ["lists"],
 
 	requireCredential: true,
 
-	kind: 'write:account',
+	kind: "write:account",
 
-	description: 'Create a new list of users.',
+	description: "Create a new list of users.",
 
 	res: {
-		type: 'object',
+		type: "object",
 		optional: false, nullable: false,
-		ref: 'UserList',
+		ref: "UserList",
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		name: { type: 'string', minLength: 1, maxLength: 100 },
+		name: { type: "string", minLength: 1, maxLength: 100 },
 	},
-	required: ['name'],
+	required: ["name"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export

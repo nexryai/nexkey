@@ -1,270 +1,270 @@
 export const packedUserLiteSchema = {
-	type: 'object',
+	type: "object",
 	properties: {
 		id: {
-			type: 'string',
+			type: "string",
 			nullable: false, optional: false,
-			format: 'id',
-			example: 'xxxxxxxxxx',
+			format: "id",
+			example: "xxxxxxxxxx",
 		},
 		name: {
-			type: 'string',
+			type: "string",
 			nullable: true, optional: false,
-			example: '藍',
+			example: "藍",
 		},
 		username: {
-			type: 'string',
+			type: "string",
 			nullable: false, optional: false,
-			example: 'ai',
+			example: "ai",
 		},
 		host: {
-			type: 'string',
+			type: "string",
 			nullable: true, optional: false,
-			example: 'misskey.example.com',
-			description: 'The local host is represented with `null`.',
+			example: "misskey.example.com",
+			description: "The local host is represented with `null`.",
 		},
 		avatarUrl: {
-			type: 'string',
-			format: 'url',
+			type: "string",
+			format: "url",
 			nullable: true, optional: false,
 		},
 		avatarBlurhash: {
-			type: 'any',
+			type: "any",
 			nullable: true, optional: false,
 		},
 		avatarColor: {
-			type: 'any',
+			type: "any",
 			nullable: true, optional: false,
 			default: null,
 		},
 		isAdmin: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: true,
 			default: false,
 		},
 		isModerator: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: true,
 			default: false,
 		},
 		isBot: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: true,
 		},
 		isCat: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: true,
 		},
 		emojis: {
-			type: 'array',
+			type: "array",
 			nullable: false, optional: false,
 			items: {
-				type: 'object',
+				type: "object",
 				nullable: false, optional: false,
 				properties: {
 					name: {
-						type: 'string',
+						type: "string",
 						nullable: false, optional: false,
 					},
 					url: {
-						type: 'string',
+						type: "string",
 						nullable: false, optional: false,
-						format: 'url',
+						format: "url",
 					},
 				},
 			},
 		},
 		onlineStatus: {
-			type: 'string',
-			format: 'url',
+			type: "string",
+			format: "url",
 			nullable: true, optional: false,
-			enum: ['unknown', 'online', 'active', 'offline'],
+			enum: ["unknown", "online", "active", "offline"],
 		},
 	},
 } as const;
 
 export const packedUserDetailedNotMeOnlySchema = {
-	type: 'object',
+	type: "object",
 	properties: {
 		url: {
-			type: 'string',
-			format: 'url',
+			type: "string",
+			format: "url",
 			nullable: true, optional: false,
 		},
 		uri: {
-			type: 'string',
-			format: 'uri',
+			type: "string",
+			format: "uri",
 			nullable: true, optional: false,
 		},
 		createdAt: {
-			type: 'string',
+			type: "string",
 			nullable: false, optional: false,
-			format: 'date-time',
+			format: "date-time",
 		},
 		updatedAt: {
-			type: 'string',
+			type: "string",
 			nullable: true, optional: false,
-			format: 'date-time',
+			format: "date-time",
 		},
 		lastFetchedAt: {
-			type: 'string',
+			type: "string",
 			nullable: true, optional: false,
-			format: 'date-time',
+			format: "date-time",
 		},
 		bannerUrl: {
-			type: 'string',
-			format: 'url',
+			type: "string",
+			format: "url",
 			nullable: true, optional: false,
 		},
 		bannerBlurhash: {
-			type: 'any',
+			type: "any",
 			nullable: true, optional: false,
 		},
 		bannerColor: {
-			type: 'any',
+			type: "any",
 			nullable: true, optional: false,
 			default: null,
 		},
 		isLocked: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: false,
 		},
 		isSilenced: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: false,
 		},
 		isSuspended: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: false,
 			example: false,
 		},
 		description: {
-			type: 'string',
+			type: "string",
 			nullable: true, optional: false,
-			example: 'Hi masters, I am Ai!',
+			example: "Hi masters, I am Ai!",
 		},
 		location: {
-			type: 'string',
+			type: "string",
 			nullable: true, optional: false,
 		},
 		birthday: {
-			type: 'string',
+			type: "string",
 			nullable: true, optional: false,
-			example: '2018-03-12',
+			example: "2018-03-12",
 		},
 		lang: {
-			type: 'string',
+			type: "string",
 			nullable: true, optional: false,
-			example: 'ja-JP',
+			example: "ja-JP",
 		},
 		fields: {
-			type: 'array',
+			type: "array",
 			nullable: false, optional: false,
 			items: {
-					type: 'object',
-					nullable: false, optional: false,
-					properties: {
-						name: {
-							type: 'string',
-							nullable: false, optional: false,
-						},
-						value: {
-							type: 'string',
-							nullable: false, optional: false,
-						},
+				type: "object",
+				nullable: false, optional: false,
+				properties: {
+					name: {
+						type: "string",
+						nullable: false, optional: false,
 					},
-					maxLength: 4,
+					value: {
+						type: "string",
+						nullable: false, optional: false,
+					},
+				},
+				maxLength: 4,
 			},
 		},
 		followersCount: {
-			type: 'number',
+			type: "number",
 			nullable: false, optional: false,
 		},
 		followingCount: {
-			type: 'number',
+			type: "number",
 			nullable: false, optional: false,
 		},
 		notesCount: {
-			type: 'number',
+			type: "number",
 			nullable: false, optional: false,
 		},
 		pinnedNoteIds: {
-			type: 'array',
+			type: "array",
 			nullable: false, optional: false,
 			items: {
-				type: 'string',
+				type: "string",
 				nullable: false, optional: false,
-				format: 'id',
+				format: "id",
 			},
 		},
 		pinnedNotes: {
-			type: 'array',
+			type: "array",
 			nullable: false, optional: false,
 			items: {
-				type: 'object',
+				type: "object",
 				nullable: false, optional: false,
-				ref: 'Note',
+				ref: "Note",
 			},
 		},
 		pinnedPageId: {
-			type: 'string',
+			type: "string",
 			nullable: true, optional: false,
 		},
 		pinnedPage: {
-			type: 'object',
+			type: "object",
 			nullable: true, optional: false,
-			ref: 'Page',
+			ref: "Page",
 		},
 		publicReactions: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: false,
 		},
 		twoFactorEnabled: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: false,
 			default: false,
 		},
 		usePasswordLessLogin: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: false,
 			default: false,
 		},
 		securityKeys: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: false,
 			default: false,
 		},
 		//#region relations
 		isFollowing: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: true,
 		},
 		isFollowed: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: true,
 		},
 		hasPendingFollowRequestFromYou: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: true,
 		},
 		hasPendingFollowRequestToYou: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: true,
 		},
 		isBlocking: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: true,
 		},
 		isBlocked: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: true,
 		},
 		isMuted: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: true,
 		},
 		isRenoteMuted: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: true,
 		},
 		//#endregion
@@ -272,146 +272,146 @@ export const packedUserDetailedNotMeOnlySchema = {
 } as const;
 
 export const packedMeDetailedOnlySchema = {
-	type: 'object',
+	type: "object",
 	properties: {
 		avatarId: {
-			type: 'string',
+			type: "string",
 			nullable: true, optional: false,
-			format: 'id',
+			format: "id",
 		},
 		bannerId: {
-			type: 'string',
+			type: "string",
 			nullable: true, optional: false,
-			format: 'id',
+			format: "id",
 		},
 		injectFeaturedNote: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: true, optional: false,
 		},
 		receiveAnnouncementEmail: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: true, optional: false,
 		},
 		alwaysMarkNsfw: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: true, optional: false,
 		},
 		carefulBot: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: true, optional: false,
 		},
 		autoAcceptFollowed: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: true, optional: false,
 		},
 		noCrawle: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: true, optional: false,
 		},
 		isExplorable: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: false,
 		},
 		isDeleted: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: false,
 		},
 		hideOnlineStatus: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: false,
 		},
 		hasUnreadSpecifiedNotes: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: false,
 		},
 		hasUnreadMentions: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: false,
 		},
 		hasUnreadAnnouncement: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: false,
 		},
 		hasUnreadAntenna: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: false,
 		},
 		hasUnreadChannel: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: false,
 		},
 		hasUnreadMessagingMessage: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: false,
 		},
 		hasUnreadNotification: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: false,
 		},
 		hasPendingReceivedFollowRequest: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: false, optional: false,
 		},
 		integrations: {
-			type: 'object',
+			type: "object",
 			nullable: true, optional: false,
 		},
 		mutedWords: {
-			type: 'array',
+			type: "array",
 			nullable: false, optional: false,
 			items: {
-				type: 'array',
+				type: "array",
 				nullable: false, optional: false,
 				items: {
-					type: 'string',
+					type: "string",
 					nullable: false, optional: false,
 				},
 			},
 		},
 		mutedInstances: {
-			type: 'array',
+			type: "array",
 			nullable: true, optional: false,
 			items: {
-				type: 'string',
+				type: "string",
 				nullable: false, optional: false,
 			},
 		},
 		mutingNotificationTypes: {
-			type: 'array',
+			type: "array",
 			nullable: true, optional: false,
 			items: {
-				type: 'string',
+				type: "string",
 				nullable: false, optional: false,
 			},
 		},
 		emailNotificationTypes: {
-			type: 'array',
+			type: "array",
 			nullable: true, optional: false,
 			items: {
-				type: 'string',
+				type: "string",
 				nullable: false, optional: false,
 			},
 		},
 		//#region secrets
 		email: {
-			type: 'string',
+			type: "string",
 			nullable: true, optional: true,
 		},
 		emailVerified: {
-			type: 'boolean',
+			type: "boolean",
 			nullable: true, optional: true,
 		},
 		securityKeysList: {
-			type: 'array',
+			type: "array",
 			nullable: false, optional: true,
 			items: {
-				type: 'object',
+				type: "object",
 				nullable: false, optional: false,
 			},
 		},
 		twoFactorBackupCodesStock: {
-			type: 'string',
-			enum: ['full', 'partial', 'none'],
+			type: "string",
+			enum: ["full", "partial", "none"],
 			nullable: false, optional: false,
 		},
 		//#endregion
@@ -419,33 +419,33 @@ export const packedMeDetailedOnlySchema = {
 } as const;
 
 export const packedUserDetailedNotMeSchema = {
-	type: 'object',
+	type: "object",
 	allOf: [
 		{
-			type: 'object',
-			ref: 'UserLite',
+			type: "object",
+			ref: "UserLite",
 		},
 		{
-			type: 'object',
-			ref: 'UserDetailedNotMeOnly',
+			type: "object",
+			ref: "UserDetailedNotMeOnly",
 		},
 	],
 } as const;
 
 export const packedMeDetailedSchema = {
-	type: 'object',
+	type: "object",
 	allOf: [
 		{
-			type: 'object',
-			ref: 'UserLite',
+			type: "object",
+			ref: "UserLite",
 		},
 		{
-			type: 'object',
-			ref: 'UserDetailedNotMeOnly',
+			type: "object",
+			ref: "UserDetailedNotMeOnly",
 		},
 		{
-			type: 'object',
-			ref: 'MeDetailedOnly',
+			type: "object",
+			ref: "MeDetailedOnly",
 		},
 	],
 } as const;
@@ -453,12 +453,12 @@ export const packedMeDetailedSchema = {
 export const packedUserDetailedSchema = {
 	oneOf: [
 		{
-			type: 'object',
-			ref: 'UserDetailedNotMe',
+			type: "object",
+			ref: "UserDetailedNotMe",
 		},
 		{
-			type: 'object',
-			ref: 'MeDetailed',
+			type: "object",
+			ref: "MeDetailed",
 		},
 	],
 } as const;
@@ -466,12 +466,12 @@ export const packedUserDetailedSchema = {
 export const packedUserSchema = {
 	oneOf: [
 		{
-			type: 'object',
-			ref: 'UserLite',
+			type: "object",
+			ref: "UserLite",
 		},
 		{
-			type: 'object',
-			ref: 'UserDetailed',
+			type: "object",
+			ref: "UserDetailed",
 		},
 	],
 } as const;

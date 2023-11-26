@@ -18,13 +18,13 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, watch, inject } from 'vue';
-import XTimeline from '@/components/MkTimeline.vue';
-import { scroll } from '@/scripts/scroll';
-import * as os from '@/os';
-import { useRouter } from '@/router';
-import { definePageMetadata } from '@/scripts/page-metadata';
-import { i18n } from '@/i18n';
+import { computed, watch, inject } from "vue";
+import XTimeline from "@/components/MkTimeline.vue";
+import { scroll } from "@/scripts/scroll";
+import * as os from "@/os";
+import { useRouter } from "@/router";
+import { definePageMetadata } from "@/scripts/page-metadata";
+import { i18n } from "@/i18n";
 
 const router = useRouter();
 
@@ -38,7 +38,7 @@ let tlEl = $ref<InstanceType<typeof XTimeline>>();
 let rootEl = $ref<HTMLElement>();
 
 watch(() => props.listId, async () => {
-	list = await os.api('users/lists/show', {
+	list = await os.api("users/lists/show", {
 		listId: props.listId,
 	});
 }, { immediate: true });
@@ -65,11 +65,11 @@ async function timetravel() {
 }
 
 const headerActions = $computed(() => list ? [{
-	icon: 'ti ti-calendar-time',
+	icon: "ti ti-calendar-time",
 	text: i18n.ts.jumpToSpecifiedDate,
 	handler: timetravel,
 }, {
-	icon: 'ti ti-settings',
+	icon: "ti ti-settings",
 	text: i18n.ts.settings,
 	handler: settings,
 }] : []);
@@ -78,7 +78,7 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata(computed(() => list ? {
 	title: list.name,
-	icon: 'ti ti-list',
+	icon: "ti ti-list",
 } : null));
 </script>
 

@@ -1,21 +1,21 @@
-import { db } from '@/db/postgre.js';
-import { DriveFolders, DriveFiles } from '../index.js';
-import { DriveFolder } from '@/models/entities/drive-folder.js';
-import { awaitAll } from '@/prelude/await-all.js';
-import { Packed } from '@/misc/schema.js';
+import { db } from "@/db/postgre.js";
+import { DriveFolder } from "@/models/entities/drive-folder.js";
+import { awaitAll } from "@/prelude/await-all.js";
+import { Packed } from "@/misc/schema.js";
+import { DriveFolders, DriveFiles } from "../index.js";
 
 export const DriveFolderRepository = db.getRepository(DriveFolder).extend({
 	async pack(
-		src: DriveFolder['id'] | DriveFolder,
+		src: DriveFolder["id"] | DriveFolder,
 		options?: {
 			detail: boolean
-		}
-	): Promise<Packed<'DriveFolder'>> {
+		},
+	): Promise<Packed<"DriveFolder">> {
 		const opts = Object.assign({
 			detail: false,
 		}, options);
 
-		const folder = typeof src === 'object' ? src : await this.findOneByOrFail({ id: src });
+		const folder = typeof src === "object" ? src : await this.findOneByOrFail({ id: src });
 
 		return await awaitAll({
 			id: folder.id,

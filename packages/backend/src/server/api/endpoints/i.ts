@@ -1,20 +1,20 @@
-import { Users } from '@/models/index.js';
-import define from '../define.js';
+import { Users } from "@/models/index.js";
+import define from "../define.js";
 
 export const meta = {
-	tags: ['account'],
+	tags: ["account"],
 
 	requireCredential: true,
 
 	res: {
-		type: 'object',
+		type: "object",
 		optional: false, nullable: false,
-		ref: 'MeDetailed',
+		ref: "MeDetailed",
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {},
 	required: [],
 } as const;

@@ -13,27 +13,27 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, ref, watch } from 'vue';
-import { AiScript, parse, utils } from '@syuilo/aiscript';
-import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from './widget';
-import { GetFormResultType } from '@/scripts/form';
-import * as os from '@/os';
-import MkContainer from '@/components/MkContainer.vue';
-import { createAiScriptEnv } from '@/scripts/aiscript/api';
-import { $i } from '@/account';
-import { i18n } from '@/i18n';
+import { onMounted, onUnmounted, ref, watch } from "vue";
+import { AiScript, parse, utils } from "@syuilo/aiscript";
+import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from "./widget";
+import { GetFormResultType } from "@/scripts/form";
+import * as os from "@/os";
+import MkContainer from "@/components/MkContainer.vue";
+import { createAiScriptEnv } from "@/scripts/aiscript/api";
+import { $i } from "@/account";
+import { i18n } from "@/i18n";
 
-const name = 'aiscript';
+const name = "aiscript";
 
 const widgetPropsDef = {
 	showHeader: {
-		type: 'boolean' as const,
+		type: "boolean" as const,
 		default: true,
 	},
 	script: {
-		type: 'string' as const,
+		type: "string" as const,
 		multiline: true,
-		default: '(1 + 1)',
+		default: "(1 + 1)",
 		hidden: true,
 	},
 };
@@ -44,7 +44,7 @@ type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
 //const props = defineProps<WidgetComponentProps<WidgetProps>>();
 //const emit = defineEmits<WidgetComponentEmits<WidgetProps>>();
 const props = defineProps<{ widget?: Widget<WidgetProps>; }>();
-const emit = defineEmits<{ (ev: 'updateProps', props: WidgetProps); }>();
+const emit = defineEmits<{ (ev: "updateProps", props: WidgetProps); }>();
 
 const { widgetProps, configure } = useWidgetPropsManager(name,
 	widgetPropsDef,
@@ -61,7 +61,7 @@ const logs = ref<{
 const run = async () => {
 	logs.value = [];
 	const aiscript = new AiScript(createAiScriptEnv({
-		storageKey: 'widget',
+		storageKey: "widget",
 		token: $i?.token,
 	}), {
 		in: (q) => {
@@ -76,13 +76,13 @@ const run = async () => {
 		out: (value) => {
 			logs.value.push({
 				id: Math.random().toString(),
-				text: value.type === 'str' ? value.value : utils.valToString(value),
+				text: value.type === "str" ? value.value : utils.valToString(value),
 				print: true,
 			});
 		},
 		log: (type, params) => {
 			switch (type) {
-				case 'end': logs.value.push({
+				case "end": logs.value.push({
 					id: Math.random().toString(),
 					text: utils.valToString(params.val, true),
 					print: false,
@@ -97,8 +97,8 @@ const run = async () => {
 		ast = parse(widgetProps.script);
 	} catch (err) {
 		os.alert({
-			type: 'error',
-			text: 'Syntax error :(',
+			type: "error",
+			text: "Syntax error :(",
 		});
 		return;
 	}
@@ -106,7 +106,7 @@ const run = async () => {
 		await aiscript.exec(ast);
 	} catch (err) {
 		os.alert({
-			type: 'error',
+			type: "error",
 			text: err,
 		});
 	}

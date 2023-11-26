@@ -1,4 +1,4 @@
-import { h, defineComponent } from 'vue';
+import { h, defineComponent } from "vue";
 
 export default defineComponent({
 	props: {
@@ -9,7 +9,7 @@ export default defineComponent({
 		tag: {
 			type: String,
 			required: false,
-			default: 'span',
+			default: "span",
 		},
 		textTag: {
 			type: String,
@@ -21,8 +21,8 @@ export default defineComponent({
 		let str = this.src;
 		const parsed = [] as (string | { arg: string; })[];
 		while (true) {
-			const nextBracketOpen = str.indexOf('{');
-			const nextBracketClose = str.indexOf('}');
+			const nextBracketOpen = str.indexOf("{");
+			const nextBracketClose = str.indexOf("}");
 
 			if (nextBracketOpen === -1) {
 				parsed.push(str);
@@ -37,6 +37,6 @@ export default defineComponent({
 			str = str.substr(nextBracketClose + 1);
 		}
 
-		return h(this.tag, parsed.map(x => typeof x === 'string' ? (this.textTag ? h(this.textTag, x) : x) : this.$slots[x.arg]()));
+		return h(this.tag, parsed.map(x => typeof x === "string" ? (this.textTag ? h(this.textTag, x) : x) : this.$slots[x.arg]()));
 	},
 });

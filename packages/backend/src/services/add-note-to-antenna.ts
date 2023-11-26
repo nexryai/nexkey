@@ -1,12 +1,12 @@
-import { Antenna } from '@/models/entities/antenna.js';
-import { Note } from '@/models/entities/note.js';
-import { AntennaNotes, Mutings, Notes } from '@/models/index.js';
-import { genId } from '@/misc/gen-id.js';
-import { isUserRelated } from '@/misc/is-user-related.js';
-import { publishAntennaStream, publishMainStream } from '@/services/stream.js';
-import { User } from '@/models/entities/user.js';
+import { Antenna } from "@/models/entities/antenna.js";
+import { Note } from "@/models/entities/note.js";
+import { AntennaNotes, Mutings, Notes } from "@/models/index.js";
+import { genId } from "@/misc/gen-id.js";
+import { isUserRelated } from "@/misc/is-user-related.js";
+import { publishAntennaStream, publishMainStream } from "@/services/stream.js";
+import { User } from "@/models/entities/user.js";
 
-export async function addNoteToAntenna(antenna: Antenna, note: Note, noteUser: { id: User['id']; }) {
+export async function addNoteToAntenna(antenna: Antenna, note: Note, noteUser: { id: User["id"]; }) {
 	// 通知しない設定になっているか、自分自身の投稿なら既読にする
 	const read = !antenna.notify || (antenna.userId === noteUser.id);
 
@@ -17,14 +17,14 @@ export async function addNoteToAntenna(antenna: Antenna, note: Note, noteUser: {
 		read: read,
 	});
 
-	publishAntennaStream(antenna.id, 'note', note);
+	publishAntennaStream(antenna.id, "note", note);
 
 	if (!read) {
 		const mutings = await Mutings.find({
 			where: {
 				muterId: antenna.userId,
 			},
-			select: ['muteeId'],
+			select: ["muteeId"],
 		});
 
 		// Copy
@@ -47,7 +47,7 @@ export async function addNoteToAntenna(antenna: Antenna, note: Note, noteUser: {
 		setTimeout(async () => {
 			const unread = await AntennaNotes.findOneBy({ antennaId: antenna.id, read: false });
 			if (unread) {
-				publishMainStream(antenna.userId, 'unreadAntenna', antenna);
+				publishMainStream(antenna.userId, "unreadAntenna", antenna);
 			}
 		}, 2000);
 	}

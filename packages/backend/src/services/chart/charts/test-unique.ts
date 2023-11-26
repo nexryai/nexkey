@@ -1,5 +1,5 @@
-import Chart, { KVs } from '../core.js';
-import { name, schema } from './entities/test-unique.js';
+import Chart, { KVs } from "../core.js";
+import { name, schema } from "./entities/test-unique.js";
 
 /**
  * For testing

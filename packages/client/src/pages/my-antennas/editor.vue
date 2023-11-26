@@ -45,33 +45,33 @@
 </template>
 
 <script lang="ts" setup>
-import { watch } from 'vue';
-import * as Acct from 'misskey-js/built/acct';
-import MkButton from '@/components/MkButton.vue';
-import MkInput from '@/components/form/input.vue';
-import MkTextarea from '@/components/form/textarea.vue';
-import MkSelect from '@/components/form/select.vue';
-import MkSwitch from '@/components/form/switch.vue';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
+import { watch } from "vue";
+import * as Acct from "misskey-js/built/acct";
+import MkButton from "@/components/MkButton.vue";
+import MkInput from "@/components/form/input.vue";
+import MkTextarea from "@/components/form/textarea.vue";
+import MkSelect from "@/components/form/select.vue";
+import MkSwitch from "@/components/form/switch.vue";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
 
 const props = defineProps<{
 	antenna: any
 }>();
 
 const emit = defineEmits<{
-	(ev: 'created'): void,
-	(ev: 'updated'): void,
-	(ev: 'deleted'): void,
+	(ev: "created"): void,
+	(ev: "updated"): void,
+	(ev: "deleted"): void,
 }>();
 
 let name: string = $ref(props.antenna.name);
 let src: string = $ref(props.antenna.src);
 let userListId: any = $ref(props.antenna.userListId);
 let userGroupId: any = $ref(props.antenna.userGroupId);
-let users: string = $ref(props.antenna.users.join('\n'));
-let keywords: string = $ref(props.antenna.keywords.map(x => x.join(' ')).join('\n'));
-let excludeKeywords: string = $ref(props.antenna.excludeKeywords.map(x => x.join(' ')).join('\n'));
+let users: string = $ref(props.antenna.users.join("\n"));
+let keywords: string = $ref(props.antenna.keywords.map(x => x.join(" ")).join("\n"));
+let excludeKeywords: string = $ref(props.antenna.excludeKeywords.map(x => x.join(" ")).join("\n"));
 let caseSensitive: boolean = $ref(props.antenna.caseSensitive);
 let withReplies: boolean = $ref(props.antenna.withReplies);
 let withFile: boolean = $ref(props.antenna.withFile);
@@ -80,13 +80,13 @@ let userLists: any = $ref(null);
 let userGroups: any = $ref(null);
 
 watch(() => src, async () => {
-	if (src === 'list' && userLists === null) {
-		userLists = await os.api('users/lists/list');
+	if (src === "list" && userLists === null) {
+		userLists = await os.api("users/lists/list");
 	}
 
-	if (src === 'group' && userGroups === null) {
-		const groups1 = await os.api('users/groups/owned');
-		const groups2 = await os.api('users/groups/joined');
+	if (src === "group" && userGroups === null) {
+		const groups1 = await os.api("users/groups/owned");
+		const groups2 = await os.api("users/groups/joined");
 
 		userGroups = [...groups1, ...groups2];
 	}
@@ -102,40 +102,40 @@ async function saveAntenna() {
 		withFile,
 		notify,
 		caseSensitive,
-		users: users.trim().split('\n').map(x => x.trim()),
-		keywords: keywords.trim().split('\n').map(x => x.trim().split(' ')),
-		excludeKeywords: excludeKeywords.trim().split('\n').map(x => x.trim().split(' ')),
+		users: users.trim().split("\n").map(x => x.trim()),
+		keywords: keywords.trim().split("\n").map(x => x.trim().split(" ")),
+		excludeKeywords: excludeKeywords.trim().split("\n").map(x => x.trim().split(" ")),
 	};
 
 	if (props.antenna.id == null) {
-		await os.apiWithDialog('antennas/create', antennaData);
-		emit('created');
+		await os.apiWithDialog("antennas/create", antennaData);
+		emit("created");
 	} else {
-		antennaData['antennaId'] = props.antenna.id;
-		await os.apiWithDialog('antennas/update', antennaData);
-		emit('updated');
+		antennaData["antennaId"] = props.antenna.id;
+		await os.apiWithDialog("antennas/update", antennaData);
+		emit("updated");
 	}
 }
 
 async function deleteAntenna() {
 	const { canceled } = await os.confirm({
-		type: 'warning',
-		text: i18n.t('removeAreYouSure', { x: props.antenna.name }),
+		type: "warning",
+		text: i18n.t("removeAreYouSure", { x: props.antenna.name }),
 	});
 	if (canceled) return;
 
-	await os.api('antennas/delete', {
+	await os.api("antennas/delete", {
 		antennaId: props.antenna.id,
 	});
 
 	os.success();
-	emit('deleted');
+	emit("deleted");
 }
 
 function addUser() {
 	os.selectUser().then(user => {
 		users = users.trim();
-		users += '\n@' + Acct.toString(user as any);
+		users += "\n@" + Acct.toString(user as any);
 		users = users.trim();
 	});
 }

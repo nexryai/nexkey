@@ -18,10 +18,10 @@
 								<MkA v-user-preview="req.follower.id" class="name" :to="userPage(req.follower)"><MkUserName :user="req.follower"/></MkA>
 								<p class="acct">@{{ acct(req.follower) }}</p>
 							</div>
-              <div class="commands">
-                <MkButton class="command" rounded primary @click="accept(req.follower)"><i class="ti ti-check"/> {{ i18n.ts.accept }}</MkButton>
-                <MkButton class="command" rounded danger @click="reject(req.follower)"><i class="ti ti-x"/> {{ i18n.ts.reject }}</MkButton>
-              </div>
+							<div class="commands">
+								<MkButton class="command" rounded primary @click="accept(req.follower)"><i class="ti ti-check"/> {{ i18n.ts.accept }}</MkButton>
+								<MkButton class="command" rounded danger @click="reject(req.follower)"><i class="ti ti-x"/> {{ i18n.ts.reject }}</MkButton>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -32,29 +32,29 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
-import MkButton from '@/components/MkButton.vue';
-import MkPagination from '@/components/MkPagination.vue';
-import { userPage, acct } from '@/filters/user';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { ref, computed } from "vue";
+import MkButton from "@/components/MkButton.vue";
+import MkPagination from "@/components/MkPagination.vue";
+import { userPage, acct } from "@/filters/user";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 const paginationComponent = ref<InstanceType<typeof MkPagination>>();
 
 const pagination = {
-	endpoint: 'following/requests/list' as const,
+	endpoint: "following/requests/list" as const,
 	limit: 10,
 };
 
 function accept(user) {
-	os.api('following/requests/accept', { userId: user.id }).then(() => {
+	os.api("following/requests/accept", { userId: user.id }).then(() => {
 		paginationComponent.value.reload();
 	});
 }
 
 function reject(user) {
-	os.api('following/requests/reject', { userId: user.id }).then(() => {
+	os.api("following/requests/reject", { userId: user.id }).then(() => {
 		paginationComponent.value.reload();
 	});
 }
@@ -65,7 +65,7 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata(computed(() => ({
 	title: i18n.ts.followRequests,
-	icon: 'ti ti-user-plus',
+	icon: "ti ti-user-plus",
 })));
 </script>
 

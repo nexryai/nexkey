@@ -1,38 +1,38 @@
-import define from '../../define.js';
-import { ApiError } from '../../error.js';
-import { Clips } from '@/models/index.js';
+import { Clips } from "@/models/index.js";
+import define from "../../define.js";
+import { ApiError } from "../../error.js";
 
 export const meta = {
-	tags: ['clips'],
+	tags: ["clips"],
 
 	requireCredential: true,
 
-	kind: 'write:account',
+	kind: "write:account",
 
 	errors: {
 		noSuchClip: {
-			message: 'No such clip.',
-			code: 'NO_SUCH_CLIP',
-			id: 'b4d92d70-b216-46fa-9a3f-a8c811699257',
+			message: "No such clip.",
+			code: "NO_SUCH_CLIP",
+			id: "b4d92d70-b216-46fa-9a3f-a8c811699257",
 		},
 	},
 
 	res: {
-		type: 'object',
+		type: "object",
 		optional: false, nullable: false,
-		ref: 'Clip',
+		ref: "Clip",
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		clipId: { type: 'string', format: 'misskey:id' },
-		name: { type: 'string', minLength: 1, maxLength: 100 },
-		isPublic: { type: 'boolean' },
-		description: { type: 'string', nullable: true, minLength: 1, maxLength: 2048 },
+		clipId: { type: "string", format: "misskey:id" },
+		name: { type: "string", minLength: 1, maxLength: 100 },
+		isPublic: { type: "boolean" },
+		description: { type: "string", nullable: true, minLength: 1, maxLength: 2048 },
 	},
-	required: ['clipId', 'name'],
+	required: ["clipId", "name"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export

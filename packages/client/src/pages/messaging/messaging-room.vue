@@ -50,21 +50,21 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, watch, onMounted, nextTick, onBeforeUnmount } from 'vue';
-import * as Misskey from 'misskey-js';
-import * as Acct from 'misskey-js/built/acct';
-import XMessage from './messaging-room.message.vue';
-import XForm from './messaging-room.form.vue';
-import XList from '@/components/MkDateSeparatedList.vue';
-import MkPagination, { Paging } from '@/components/MkPagination.vue';
-import { isBottomVisible, onScrollBottom, scrollToBottom } from '@/scripts/scroll';
-import * as os from '@/os';
-import { stream } from '@/stream';
-import * as sound from '@/scripts/sound';
-import { i18n } from '@/i18n';
-import { $i } from '@/account';
-import { defaultStore } from '@/store';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { computed, watch, onMounted, nextTick, onBeforeUnmount } from "vue";
+import * as Misskey from "misskey-js";
+import * as Acct from "misskey-js/built/acct";
+import XMessage from "./messaging-room.message.vue";
+import XForm from "./messaging-room.form.vue";
+import XList from "@/components/MkDateSeparatedList.vue";
+import MkPagination, { Paging } from "@/components/MkPagination.vue";
+import { isBottomVisible, onScrollBottom, scrollToBottom } from "@/scripts/scroll";
+import * as os from "@/os";
+import { stream } from "@/stream";
+import * as sound from "@/scripts/sound";
+import { i18n } from "@/i18n";
+import { $i } from "@/account";
+import { defaultStore } from "@/store";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 const props = defineProps<{
 	userAcct?: string;
@@ -79,7 +79,7 @@ let fetching = $ref(true);
 let user: Misskey.entities.UserDetailed | null = $ref(null);
 let group: Misskey.entities.UserGroup | null = $ref(null);
 let typers: Misskey.entities.User[] = $ref([]);
-let connection: Misskey.ChannelConnection<Misskey.Channels['messaging']> | null = $ref(null);
+let connection: Misskey.ChannelConnection<Misskey.Channels["messaging"]> | null = $ref(null);
 let showIndicator = $ref(false);
 const {
 	animation,
@@ -97,11 +97,11 @@ async function fetch() {
 
 	if (props.userAcct) {
 		const acct = Acct.parse(props.userAcct);
-		user = await os.api('users/show', { username: acct.username, host: acct.host || undefined });
+		user = await os.api("users/show", { username: acct.username, host: acct.host || undefined });
 		group = null;
 		
 		pagination = {
-			endpoint: 'messaging/messages',
+			endpoint: "messaging/messages",
 			limit: 20,
 			params: {
 				userId: user.id,
@@ -109,15 +109,15 @@ async function fetch() {
 			reversed: true,
 			pageEl: $$(rootEl).value,
 		};
-		connection = stream.useChannel('messaging', {
+		connection = stream.useChannel("messaging", {
 			otherparty: user.id,
 		});
 	} else {
 		user = null;
-		group = await os.api('users/groups/show', { groupId: props.groupId });
+		group = await os.api("users/groups/show", { groupId: props.groupId });
 
 		pagination = {
-			endpoint: 'messaging/messages',
+			endpoint: "messaging/messages",
 			limit: 20,
 			params: {
 				groupId: group?.id,
@@ -125,19 +125,19 @@ async function fetch() {
 			reversed: true,
 			pageEl: $$(rootEl).value,
 		};
-		connection = stream.useChannel('messaging', {
+		connection = stream.useChannel("messaging", {
 			group: group?.id,
 		});
 	}
 
-	connection.on('message', onMessage);
-	connection.on('read', onRead);
-	connection.on('deleted', onDeleted);
-	connection.on('typers', _typers => {
+	connection.on("message", onMessage);
+	connection.on("read", onRead);
+	connection.on("deleted", onDeleted);
+	connection.on("typers", _typers => {
 		typers = _typers.filter(u => u.id !== $i?.id);
 	});
 
-	document.addEventListener('visibilitychange', onVisibilitychange);
+	document.addEventListener("visibilitychange", onVisibilitychange);
 
 	nextTick(() => {
 		thisScrollToBottom();
@@ -150,28 +150,28 @@ async function fetch() {
 function onDragover(ev: DragEvent) {
 	if (!ev.dataTransfer) return;
 
-	const isFile = ev.dataTransfer.items[0].kind === 'file';
+	const isFile = ev.dataTransfer.items[0].kind === "file";
 	const isDriveFile = ev.dataTransfer.types[0] === _DATA_TRANSFER_DRIVE_FILE_;
 
 	if (isFile || isDriveFile) {
 		switch (ev.dataTransfer.effectAllowed) {
-			case 'all':
-			case 'uninitialized':
-			case 'copy': 
-			case 'copyLink': 
-			case 'copyMove': 
-				ev.dataTransfer.dropEffect = 'copy';
+			case "all":
+			case "uninitialized":
+			case "copy": 
+			case "copyLink": 
+			case "copyMove": 
+				ev.dataTransfer.dropEffect = "copy";
 				break;
-			case 'linkMove':
-			case 'move':
-				ev.dataTransfer.dropEffect = 'move';
+			case "linkMove":
+			case "move":
+				ev.dataTransfer.dropEffect = "move";
 				break;
 			default:
-				ev.dataTransfer.dropEffect = 'none';
+				ev.dataTransfer.dropEffect = "none";
 				break;
 		}
 	} else {
-		ev.dataTransfer.dropEffect = 'none';
+		ev.dataTransfer.dropEffect = "none";
 	}
 }
 
@@ -184,7 +184,7 @@ function onDrop(ev: DragEvent): void {
 		return;
 	} else if (ev.dataTransfer.files.length > 1) {
 		os.alert({
-			type: 'error',
+			type: "error",
 			text: i18n.ts.onlyOneFileCanBeAttached,
 		});
 		return;
@@ -192,7 +192,7 @@ function onDrop(ev: DragEvent): void {
 
 	//#region ドライブのファイル
 	const driveFile = ev.dataTransfer.getData(_DATA_TRANSFER_DRIVE_FILE_);
-	if (driveFile != null && driveFile !== '') {
+	if (driveFile != null && driveFile !== "") {
 		const file = JSON.parse(driveFile);
 		formEl.file = file;
 	}
@@ -200,13 +200,13 @@ function onDrop(ev: DragEvent): void {
 }
 
 function onMessage(message) {
-	sound.play('chat');
+	sound.play("chat");
 
 	const _isBottom = isBottomVisible(rootEl, 64);
 
 	pagingComponent.prepend(message);
 	if (message.userId !== $i?.id && !document.hidden) {
-		connection?.send('read', {
+		connection?.send("read", {
 			id: message.id,
 		});
 	}
@@ -255,7 +255,7 @@ function onDeleted(id) {
 }
 
 function thisScrollToBottom() {
-	scrollToBottom($$(rootEl).value, { behavior: 'smooth' });
+	scrollToBottom($$(rootEl).value, { behavior: "smooth" });
 }
 
 function onIndicatorClick() {
@@ -278,7 +278,7 @@ function onVisibilitychange() {
 	if (document.hidden) return;
 	for (const message of pagingComponent.items) {
 		if (message.userId !== $i?.id && !message.isRead) {
-			connection?.send('read', {
+			connection?.send("read", {
 				id: message.id,
 			});
 		}
@@ -291,7 +291,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
 	connection?.dispose();
-	document.removeEventListener('visibilitychange', onVisibilitychange);
+	document.removeEventListener("visibilitychange", onVisibilitychange);
 	if (scrollRemove) scrollRemove();
 });
 
@@ -300,7 +300,7 @@ definePageMetadata(computed(() => !fetching ? user ? {
 	avatar: user,
 } : {
 	title: group?.name,
-	icon: 'ti ti-users',
+	icon: "ti ti-users",
 } : null));
 </script>
 

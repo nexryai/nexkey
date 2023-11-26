@@ -1,57 +1,57 @@
-import define from '../../../define.js';
-import { ApiError } from '../../../error.js';
-import { Apps, AuthSessions, AccessTokens, Users } from '@/models/index.js';
+import { Apps, AuthSessions, AccessTokens, Users } from "@/models/index.js";
+import define from "../../../define.js";
+import { ApiError } from "../../../error.js";
 
 export const meta = {
-	tags: ['auth'],
+	tags: ["auth"],
 
 	requireCredential: false,
 
 	res: {
-		type: 'object',
+		type: "object",
 		optional: false, nullable: false,
 		properties: {
 			accessToken: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: false,
 			},
 
 			user: {
-				type: 'object',
+				type: "object",
 				optional: false, nullable: false,
-				ref: 'UserDetailedNotMe',
+				ref: "UserDetailedNotMe",
 			},
 		},
 	},
 
 	errors: {
 		noSuchApp: {
-			message: 'No such app.',
-			code: 'NO_SUCH_APP',
-			id: 'fcab192a-2c5a-43b7-8ad8-9b7054d8d40d',
+			message: "No such app.",
+			code: "NO_SUCH_APP",
+			id: "fcab192a-2c5a-43b7-8ad8-9b7054d8d40d",
 		},
 
 		noSuchSession: {
-			message: 'No such session.',
-			code: 'NO_SUCH_SESSION',
-			id: '5b5a1503-8bc8-4bd0-8054-dc189e8cdcb3',
+			message: "No such session.",
+			code: "NO_SUCH_SESSION",
+			id: "5b5a1503-8bc8-4bd0-8054-dc189e8cdcb3",
 		},
 
 		pendingSession: {
-			message: 'This session is not completed yet.',
-			code: 'PENDING_SESSION',
-			id: '8c8a4145-02cc-4cca-8e66-29ba60445a8e',
+			message: "This session is not completed yet.",
+			code: "PENDING_SESSION",
+			id: "8c8a4145-02cc-4cca-8e66-29ba60445a8e",
 		},
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		appSecret: { type: 'string' },
-		token: { type: 'string' },
+		appSecret: { type: "string" },
+		token: { type: "string" },
 	},
-	required: ['appSecret', 'token'],
+	required: ["appSecret", "token"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export

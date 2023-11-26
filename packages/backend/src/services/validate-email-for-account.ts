@@ -1,11 +1,11 @@
-import { validate as validateEmail } from 'deep-email-validator';
-import { UserProfiles } from '@/models/index.js';
-import { fetchMeta } from '@/misc/fetch-meta.js';
-import extractDomain from 'extract-domain';
+import { validate as validateEmail } from "deep-email-validator";
+import extractDomain from "extract-domain";
+import { UserProfiles } from "@/models/index.js";
+import { fetchMeta } from "@/misc/fetch-meta.js";
 
 export async function validateEmailForAccount(emailAddress: string): Promise<{
 	available: boolean;
-	reason: null | 'used' | 'format' | 'disposable' | 'mx' | 'smtp' | 'blocked';
+	reason: null | "used" | "format" | "disposable" | "mx" | "smtp" | "blocked";
 }> {
 	const meta = await fetchMeta();
 
@@ -35,12 +35,12 @@ export async function validateEmailForAccount(emailAddress: string): Promise<{
 	return {
 		available,
 		reason: available ? null :
-		exist !== 0 ? 'used' :
-		validated.reason === 'regex' ? 'format' :
-		validated.reason === 'disposable' ? 'disposable' :
-		validated.reason === 'mx' ? 'mx' :
-		validated.reason === 'smtp' ? 'smtp' :
-		blockedemaildomain ? 'blocked' :
+		exist !== 0 ? "used" :
+		validated.reason === "regex" ? "format" :
+		validated.reason === "disposable" ? "disposable" :
+		validated.reason === "mx" ? "mx" :
+		validated.reason === "smtp" ? "smtp" :
+		blockedemaildomain ? "blocked" :
 		null,
 	};
 }

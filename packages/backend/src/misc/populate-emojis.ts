@@ -1,12 +1,12 @@
-import { In, IsNull } from 'typeorm';
-import { Emojis } from '@/models/index.js';
-import { Emoji } from '@/models/entities/emoji.js';
-import { Note } from '@/models/entities/note.js';
-import { Cache } from './cache.js';
-import { isSelfHost, toPunyNullable } from './convert-host.js';
-import { decodeReaction } from './reaction-lib.js';
-import config from '@/config/index.js';
-import { query } from '@/prelude/url.js';
+import { In, IsNull } from "typeorm";
+import { Emojis } from "@/models/index.js";
+import { Emoji } from "@/models/entities/emoji.js";
+import { Note } from "@/models/entities/note.js";
+import config from "@/config/index.js";
+import { query } from "@/prelude/url.js";
+import { Cache } from "./cache.js";
+import { isSelfHost, toPunyNullable } from "./convert-host.js";
+import { decodeReaction } from "./reaction-lib.js";
 
 const cache = new Cache<Emoji | null>(1000 * 60 * 60 * 12);
 
@@ -20,7 +20,7 @@ type PopulatedEmoji = {
 
 function normalizeHost(src: string | undefined, noteUserHost: string | null): string | null {
 	// クエリに使うホスト
-	let host = src === '.' ? null	// .はローカルホスト (ここがマッチするのはリアクションのみ)
+	let host = src === "." ? null	// .はローカルホスト (ここがマッチするのはリアクションのみ)
 		: src === undefined ? noteUserHost	// ノートなどでホスト省略表記の場合はローカルホスト (ここがリアクションにマッチすることはない)
 		: isSelfHost(src) ? null	// 自ホスト指定
 		: (src || noteUserHost);	// 指定されたホスト || ノートなどの所有者のホスト (こっちがリアクションにマッチすることはない)
@@ -117,7 +117,7 @@ export async function prefetchEmojis(emojis: { name: string; host: string | null
 	}
 	const _emojis = emojisQuery.length > 0 ? await Emojis.find({
 		where: emojisQuery,
-		select: ['name', 'host', 'originalUrl', 'publicUrl'],
+		select: ["name", "host", "originalUrl", "publicUrl"],
 	}) : [];
 	for (const emoji of _emojis) {
 		cache.set(`${emoji.name} ${emoji.host}`, emoji);

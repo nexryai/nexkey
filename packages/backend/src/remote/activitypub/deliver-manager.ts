@@ -1,7 +1,7 @@
-import { Users, Followings } from '@/models/index.js';
-import { ILocalUser, IRemoteUser, User } from '@/models/entities/user.js';
-import { deliver } from '@/queue/index.js';
-import { IsNull, Not } from 'typeorm';
+import { IsNull, Not } from "typeorm";
+import { Users, Followings } from "@/models/index.js";
+import { ILocalUser, IRemoteUser, User } from "@/models/entities/user.js";
+import { deliver } from "@/queue/index.js";
 
 //#region types
 interface IRecipe {
@@ -9,23 +9,23 @@ interface IRecipe {
 }
 
 interface IFollowersRecipe extends IRecipe {
-	type: 'Followers';
+	type: "Followers";
 }
 
 interface IDirectRecipe extends IRecipe {
-	type: 'Direct';
+	type: "Direct";
 	to: IRemoteUser;
 }
 
 const isFollowers = (recipe: any): recipe is IFollowersRecipe =>
-	recipe.type === 'Followers';
+	recipe.type === "Followers";
 
 const isDirect = (recipe: any): recipe is IDirectRecipe =>
-	recipe.type === 'Direct';
+	recipe.type === "Direct";
 //#endregion
 
 export default class DeliverManager {
-	private actor: { id: User['id']; host: null; };
+	private actor: { id: User["id"]; host: null; };
 	private activity: any;
 	private recipes: IRecipe[] = [];
 
@@ -34,7 +34,7 @@ export default class DeliverManager {
 	 * @param actor Actor
 	 * @param activity Activity to deliver
 	 */
-	constructor(actor: { id: User['id']; host: null; }, activity: any) {
+	constructor(actor: { id: User["id"]; host: null; }, activity: any) {
 		this.actor = actor;
 		this.activity = activity;
 	}
@@ -44,7 +44,7 @@ export default class DeliverManager {
 	 */
 	public addFollowersRecipe() {
 		const deliver = {
-			type: 'Followers',
+			type: "Followers",
 		} as IFollowersRecipe;
 
 		this.addRecipe(deliver);
@@ -56,7 +56,7 @@ export default class DeliverManager {
 	 */
 	public addDirectRecipe(to: IRemoteUser) {
 		const recipe = {
-			type: 'Direct',
+			type: "Direct",
 			to,
 		} as IDirectRecipe;
 
@@ -132,7 +132,7 @@ export default class DeliverManager {
  * @param activity Activity
  * @param from Followee
  */
-export async function deliverToFollowers(actor: { id: ILocalUser['id']; host: null; }, activity: any) {
+export async function deliverToFollowers(actor: { id: ILocalUser["id"]; host: null; }, activity: any) {
 	const manager = new DeliverManager(actor, activity);
 	manager.addFollowersRecipe();
 	await manager.execute();
@@ -143,7 +143,7 @@ export async function deliverToFollowers(actor: { id: ILocalUser['id']; host: nu
  * @param activity Activity
  * @param to Target user
  */
-export async function deliverToUser(actor: { id: ILocalUser['id']; host: null; }, activity: any, to: IRemoteUser) {
+export async function deliverToUser(actor: { id: ILocalUser["id"]; host: null; }, activity: any, to: IRemoteUser) {
 	const manager = new DeliverManager(actor, activity);
 	manager.addDirectRecipe(to);
 	await manager.execute();

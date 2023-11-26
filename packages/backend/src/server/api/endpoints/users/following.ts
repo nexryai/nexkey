@@ -1,66 +1,66 @@
-import { IsNull } from 'typeorm';
-import { Users, Followings, UserProfiles } from '@/models/index.js';
-import { toPunyNullable } from '@/misc/convert-host.js';
-import define from '../../define.js';
-import { ApiError } from '../../error.js';
-import { makePaginationQuery } from '../../common/make-pagination-query.js';
+import { IsNull } from "typeorm";
+import { Users, Followings, UserProfiles } from "@/models/index.js";
+import { toPunyNullable } from "@/misc/convert-host.js";
+import define from "../../define.js";
+import { ApiError } from "../../error.js";
+import { makePaginationQuery } from "../../common/make-pagination-query.js";
 
 export const meta = {
-	tags: ['users'],
+	tags: ["users"],
 
 	requireCredential: false,
 
-	description: 'Show everyone that this user is following.',
+	description: "Show everyone that this user is following.",
 
 	res: {
-		type: 'array',
+		type: "array",
 		optional: false, nullable: false,
 		items: {
-			type: 'object',
+			type: "object",
 			optional: false, nullable: false,
-			ref: 'Following',
+			ref: "Following",
 		},
 	},
 
 	errors: {
 		noSuchUser: {
-			message: 'No such user.',
-			code: 'NO_SUCH_USER',
-			id: '63e4aba4-4156-4e53-be25-c9559e42d71b',
+			message: "No such user.",
+			code: "NO_SUCH_USER",
+			id: "63e4aba4-4156-4e53-be25-c9559e42d71b",
 		},
 
 		forbidden: {
-			message: 'Forbidden.',
-			code: 'FORBIDDEN',
-			id: 'f6cdb0df-c19f-ec5c-7dbb-0ba84a1f92ba',
+			message: "Forbidden.",
+			code: "FORBIDDEN",
+			id: "f6cdb0df-c19f-ec5c-7dbb-0ba84a1f92ba",
 		},
 	},
 } as const;
 
 export const paramDef = {
-	type: 'object',
+	type: "object",
 	properties: {
-		sinceId: { type: 'string', format: 'misskey:id' },
-		untilId: { type: 'string', format: 'misskey:id' },
-		limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
+		sinceId: { type: "string", format: "misskey:id" },
+		untilId: { type: "string", format: "misskey:id" },
+		limit: { type: "integer", minimum: 1, maximum: 100, default: 10 },
 	},
 	anyOf: [
 		{
 			properties: {
-				userId: { type: 'string', format: 'misskey:id' },
+				userId: { type: "string", format: "misskey:id" },
 			},
-			required: ['userId'],
+			required: ["userId"],
 		},
 		{
 			properties: {
-				username: { type: 'string' },
+				username: { type: "string" },
 				host: {
-					type: 'string',
+					type: "string",
 					nullable: true,
-					description: 'The local host is represented with `null`.',
+					description: "The local host is represented with `null`.",
 				},
 			},
-			required: ['username', 'host'],
+			required: ["username", "host"],
 		},
 	],
 } as const;
@@ -77,11 +77,11 @@ export default define(meta, paramDef, async (ps, me) => {
 
 	const profile = await UserProfiles.findOneByOrFail({ userId: user.id });
 
-	if (profile.ffVisibility === 'private') {
+	if (profile.ffVisibility === "private") {
 		if (me == null || (me.id !== user.id)) {
 			throw new ApiError(meta.errors.forbidden);
 		}
-	} else if (profile.ffVisibility === 'followers') {
+	} else if (profile.ffVisibility === "followers") {
 		if (me == null) {
 			throw new ApiError(meta.errors.forbidden);
 		} else if (me.id !== user.id) {
@@ -95,9 +95,9 @@ export default define(meta, paramDef, async (ps, me) => {
 		}
 	}
 
-	const query = makePaginationQuery(Followings.createQueryBuilder('following'), ps.sinceId, ps.untilId)
-		.andWhere('following.followerId = :userId', { userId: user.id })
-		.innerJoinAndSelect('following.followee', 'followee');
+	const query = makePaginationQuery(Followings.createQueryBuilder("following"), ps.sinceId, ps.untilId)
+		.andWhere("following.followerId = :userId", { userId: user.id })
+		.innerJoinAndSelect("following.followee", "followee");
 
 	const followings = await query
 		.take(ps.limit)

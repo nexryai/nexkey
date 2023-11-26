@@ -27,19 +27,19 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, watch } from 'vue';
-import * as Misskey from 'misskey-js';
-import autosize from 'autosize';
+import { onMounted, watch } from "vue";
+import * as Misskey from "misskey-js";
+import autosize from "autosize";
 //import insertTextAtCursor from 'insert-text-at-cursor';
-import { throttle } from 'throttle-debounce';
-import { formatTimeString } from '@/scripts/format-time-string';
-import { selectFile } from '@/scripts/select-file';
-import * as os from '@/os';
-import { stream } from '@/stream';
-import { defaultStore } from '@/store';
-import { i18n } from '@/i18n';
+import { throttle } from "throttle-debounce";
+import { formatTimeString } from "@/scripts/format-time-string";
+import { selectFile } from "@/scripts/select-file";
+import * as os from "@/os";
+import { stream } from "@/stream";
+import { defaultStore } from "@/store";
+import { i18n } from "@/i18n";
 //import { Autocomplete } from '@/scripts/autocomplete';
-import { uploadFile } from '@/scripts/upload';
+import { uploadFile } from "@/scripts/upload";
 
 const props = defineProps<{
 	user?: Misskey.entities.UserDetailed | null;
@@ -49,15 +49,15 @@ const props = defineProps<{
 let textEl = $ref<HTMLTextAreaElement>();
 let fileEl = $ref<HTMLInputElement>();
 
-let text = $ref<string>('');
+let text = $ref<string>("");
 let file = $ref<Misskey.entities.DriveFile | null>(null);
 let sending = $ref(false);
 const typing = throttle(3000, () => {
-	stream.send('typingOnMessaging', props.user ? { partner: props.user.id } : { group: props.group?.id });
+	stream.send("typingOnMessaging", props.user ? { partner: props.user.id } : { group: props.group?.id });
 });
 
-let draftKey = $computed(() => props.user ? 'user:' + props.user.id : 'group:' + props.group?.id);
-let canSend = $computed(() => (text != null && text !== '') || file != null);
+let draftKey = $computed(() => props.user ? "user:" + props.user.id : "group:" + props.group?.id);
+let canSend = $computed(() => (text != null && text !== "") || file != null);
 
 watch([$$(text), $$(file)], saveDraft);
 
@@ -68,18 +68,18 @@ async function onPaste(ev: ClipboardEvent) {
 	const items = clipboardData.items;
 
 	if (items.length === 1) {
-		if (items[0].kind === 'file') {
+		if (items[0].kind === "file") {
 			const pastedFile = items[0].getAsFile();
 			if (!pastedFile) return;
-			const lio = pastedFile.name.lastIndexOf('.');
-			const ext = lio >= 0 ? pastedFile.name.slice(lio) : '';
-			const formatted = formatTimeString(new Date(pastedFile.lastModified), defaultStore.state.pastedFileName).replace(/{{number}}/g, '1') + ext;
+			const lio = pastedFile.name.lastIndexOf(".");
+			const ext = lio >= 0 ? pastedFile.name.slice(lio) : "";
+			const formatted = formatTimeString(new Date(pastedFile.lastModified), defaultStore.state.pastedFileName).replace(/{{number}}/g, "1") + ext;
 			if (formatted) upload(pastedFile, formatted);
 		}
 	} else {
-		if (items[0].kind === 'file') {
+		if (items[0].kind === "file") {
 			os.alert({
-				type: 'error',
+				type: "error",
 				text: i18n.ts.onlyOneFileCanBeAttached,
 			});
 		}
@@ -89,24 +89,24 @@ async function onPaste(ev: ClipboardEvent) {
 function onDragover(ev: DragEvent) {
 	if (!ev.dataTransfer) return;
 
-	const isFile = ev.dataTransfer.items[0].kind === 'file';
+	const isFile = ev.dataTransfer.items[0].kind === "file";
 	const isDriveFile = ev.dataTransfer.types[0] === _DATA_TRANSFER_DRIVE_FILE_;
 	if (isFile || isDriveFile) {
 		ev.preventDefault();
 		switch (ev.dataTransfer.effectAllowed) {
-			case 'all':
-			case 'uninitialized':
-			case 'copy': 
-			case 'copyLink': 
-			case 'copyMove': 
-				ev.dataTransfer.dropEffect = 'copy';
+			case "all":
+			case "uninitialized":
+			case "copy": 
+			case "copyLink": 
+			case "copyMove": 
+				ev.dataTransfer.dropEffect = "copy";
 				break;
-			case 'linkMove':
-			case 'move':
-				ev.dataTransfer.dropEffect = 'move';
+			case "linkMove":
+			case "move":
+				ev.dataTransfer.dropEffect = "move";
 				break;
 			default:
-				ev.dataTransfer.dropEffect = 'none';
+				ev.dataTransfer.dropEffect = "none";
 				break;
 		}
 	}
@@ -123,7 +123,7 @@ function onDrop(ev: DragEvent): void {
 	} else if (ev.dataTransfer.files.length > 1) {
 		ev.preventDefault();
 		os.alert({
-			type: 'error',
+			type: "error",
 			text: i18n.ts.onlyOneFileCanBeAttached,
 		});
 		return;
@@ -131,7 +131,7 @@ function onDrop(ev: DragEvent): void {
 
 	//#region ドライブのファイル
 	const driveFile = ev.dataTransfer.getData(_DATA_TRANSFER_DRIVE_FILE_);
-	if (driveFile != null && driveFile !== '') {
+	if (driveFile != null && driveFile !== "") {
 		file = JSON.parse(driveFile);
 		ev.preventDefault();
 	}
@@ -140,7 +140,7 @@ function onDrop(ev: DragEvent): void {
 
 function onKeydown(ev: KeyboardEvent) {
 	typing();
-	if ((ev.key === 'Enter') && (ev.ctrlKey || ev.metaKey) && canSend) {
+	if ((ev.key === "Enter") && (ev.ctrlKey || ev.metaKey) && canSend) {
 		send();
 	}
 }
@@ -167,7 +167,7 @@ function upload(fileToUpload: File, name?: string) {
 
 function send() {
 	sending = true;
-	os.api('messaging/messages/create', {
+	os.api("messaging/messages/create", {
 		userId: props.user ? props.user.id : undefined,
 		groupId: props.group ? props.group.id : undefined,
 		text: text ? text : undefined,
@@ -182,13 +182,13 @@ function send() {
 }
 
 function clear() {
-	text = '';
+	text = "";
 	file = null;
 	deleteDraft();
 }
 
 function saveDraft() {
-	const drafts = JSON.parse(localStorage.getItem('message_drafts') || '{}');
+	const drafts = JSON.parse(localStorage.getItem("message_drafts") || "{}");
 
 	drafts[draftKey] = {
 		updatedAt: new Date(),
@@ -199,15 +199,15 @@ function saveDraft() {
 		},
 	};
 
-	localStorage.setItem('message_drafts', JSON.stringify(drafts));
+	localStorage.setItem("message_drafts", JSON.stringify(drafts));
 }
 
 function deleteDraft() {
-	const drafts = JSON.parse(localStorage.getItem('message_drafts') || '{}');
+	const drafts = JSON.parse(localStorage.getItem("message_drafts") || "{}");
 
 	delete drafts[draftKey];
 
-	localStorage.setItem('message_drafts', JSON.stringify(drafts));
+	localStorage.setItem("message_drafts", JSON.stringify(drafts));
 }
 
 async function insertEmoji(ev: MouseEvent) {
@@ -222,7 +222,7 @@ onMounted(() => {
 	//new Autocomplete(textEl, this, { model: 'text' });
 
 	// 書きかけの投稿を復元
-	const draft = JSON.parse(localStorage.getItem('message_drafts') || '{}')[draftKey];
+	const draft = JSON.parse(localStorage.getItem("message_drafts") || "{}")[draftKey];
 	if (draft) {
 		text = draft.data.text;
 		file = draft.data.file;

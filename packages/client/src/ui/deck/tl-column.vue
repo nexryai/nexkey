@@ -19,15 +19,15 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
-import XColumn from './column.vue';
-import { removeColumn, updateColumn, Column } from './deck-store';
-import XTimeline from '@/components/MkTimeline.vue';
-import * as os from '@/os';
-import { $i } from '@/account';
-import { instance } from '@/instance';
-import { i18n } from '@/i18n';
-import { defaultStore } from '@/store';
+import { onMounted } from "vue";
+import XColumn from "./column.vue";
+import { removeColumn, updateColumn, Column } from "./deck-store";
+import XTimeline from "@/components/MkTimeline.vue";
+import * as os from "@/os";
+import { $i } from "@/account";
+import { instance } from "@/instance";
+import { i18n } from "@/i18n";
+import { defaultStore } from "@/store";
 
 const props = defineProps<{
 	column: Column;
@@ -35,8 +35,8 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-	(ev: 'loaded'): void;
-	(ev: 'parent-focus', direction: 'up' | 'down' | 'left' | 'right'): void;
+	(ev: "loaded"): void;
+	(ev: "parent-focus", direction: "up" | "down" | "left" | "right"): void;
 }>();
 
 let disabled = $ref(false);
@@ -53,8 +53,8 @@ onMounted(() => {
 		setType();
 	} else if ($i) {
 		disabled = !$i.isModerator && !$i.isAdmin && (
-			instance.disableLocalTimeline && ['local', 'social'].includes(props.column.tl) ||
-			instance.disableGlobalTimeline && ['global'].includes(props.column.tl));
+			instance.disableLocalTimeline && ["local", "social"].includes(props.column.tl) ||
+			instance.disableGlobalTimeline && ["global"].includes(props.column.tl));
 	}
 	enableLTL = defaultStore.state.enableLTL;
 	enableLimitedTL = defaultStore.state.enableLimitedTL;
@@ -67,13 +67,13 @@ async function setType() {
 	const { canceled, result: src } = await os.select({
 		title: i18n.ts.timeline,
 		items: [{
-			value: 'home' as const, text: i18n.ts._timelines.home,
+			value: "home" as const, text: i18n.ts._timelines.home,
 		}, {
-			value: 'local' as const, text: i18n.ts._timelines.local,
+			value: "local" as const, text: i18n.ts._timelines.local,
 		}, {
-			value: 'social' as const, text: i18n.ts._timelines.social,
+			value: "social" as const, text: i18n.ts._timelines.social,
 		}, {
-			value: 'global' as const, text: i18n.ts._timelines.global,
+			value: "global" as const, text: i18n.ts._timelines.global,
 		}],
 	});
 	if (canceled) {
@@ -108,7 +108,7 @@ function onChangeActiveState(state) {
 }
 
 const menu = [{
-	icon: 'ti ti-pencil',
+	icon: "ti ti-pencil",
 	text: i18n.ts.timeline,
 	action: setType,
 }];

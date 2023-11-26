@@ -22,13 +22,13 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onUnmounted, ref, toRef } from 'vue';
-import * as misskey from 'misskey-js';
-import { sum } from '@/scripts/array';
-import { pleaseLogin } from '@/scripts/please-login';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
-import { useInterval } from '@/scripts/use-interval';
+import { computed, onUnmounted, ref, toRef } from "vue";
+import * as misskey from "misskey-js";
+import { sum } from "@/scripts/array";
+import { pleaseLogin } from "@/scripts/please-login";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
+import { useInterval } from "@/scripts/use-interval";
 
 const props = defineProps<{
 	note: misskey.entities.Note;
@@ -41,9 +41,9 @@ const total = computed(() => sum(props.note.poll.choices.map(x => x.votes)));
 const closed = computed(() => remaining.value === 0);
 const isVoted = computed(() => !props.note.poll.multiple && props.note.poll.choices.some(c => c.isVoted));
 const timer = computed(() => i18n.t(
-	remaining.value >= 86400 ? '_poll.remainingDays' :
-	remaining.value >= 3600 ? '_poll.remainingHours' :
-	remaining.value >= 60 ? '_poll.remainingMinutes' : '_poll.remainingSeconds', {
+	remaining.value >= 86400 ? "_poll.remainingDays" :
+	remaining.value >= 3600 ? "_poll.remainingHours" :
+	remaining.value >= 60 ? "_poll.remainingMinutes" : "_poll.remainingSeconds", {
 		s: Math.floor(remaining.value % 60),
 		m: Math.floor(remaining.value / 60) % 60,
 		h: Math.floor(remaining.value / 3600) % 24,
@@ -73,12 +73,12 @@ const vote = async (id) => {
 	if (props.readOnly || closed.value || isVoted.value) return;
 
 	const { canceled } = await os.confirm({
-		type: 'question',
-		text: i18n.t('voteConfirm', { choice: props.note.poll.choices[id].text }),
+		type: "question",
+		text: i18n.t("voteConfirm", { choice: props.note.poll.choices[id].text }),
 	});
 	if (canceled) return;
 
-	await os.api('notes/polls/vote', {
+	await os.api("notes/polls/vote", {
 		noteId: props.note.id,
 		choice: id,
 	});

@@ -39,13 +39,13 @@
 </template>
 
 <script lang="ts">
-import { defineAsyncComponent, defineComponent } from 'vue';
-import { host } from '@/config';
-import { search } from '@/scripts/search';
-import * as os from '@/os';
-import { navbarItemDef } from '@/navbar';
-import { openAccountMenu } from '@/account';
-import MkButton from '@/components/MkButton.vue';
+import { defineAsyncComponent, defineComponent } from "vue";
+import { host } from "@/config";
+import { search } from "@/scripts/search";
+import * as os from "@/os";
+import { navbarItemDef } from "@/navbar";
+import { openAccountMenu } from "@/account";
+import MkButton from "@/components/MkButton.vue";
 
 export default defineComponent({
 	components: {
@@ -77,13 +77,13 @@ export default defineComponent({
 	},
 
 	watch: {
-		'$store.reactiveState.menuDisplay.value'() {
+		"$store.reactiveState.menuDisplay.value"() {
 			this.calcViewState();
 		},
 	},
 
 	created() {
-		window.addEventListener('resize', this.calcViewState);
+		window.addEventListener("resize", this.calcViewState);
 		this.calcViewState();
 	},
 
@@ -101,11 +101,11 @@ export default defineComponent({
 		},
 
 		more(ev) {
-			os.popup(defineAsyncComponent(() => import('@/components/MkLaunchPad.vue')), {
+			os.popup(defineAsyncComponent(() => import("@/components/MkLaunchPad.vue")), {
 				src: ev.currentTarget ?? ev.target,
-				anchor: { x: 'center', y: 'bottom' },
+				anchor: { x: "center", y: "bottom" },
 			}, {
-			}, 'closed');
+			}, "closed");
 		},
 
 		openAccountMenu: (ev) => {

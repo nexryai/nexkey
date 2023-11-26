@@ -26,10 +26,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import MkModal from '@/components/MkModal.vue';
-import MkEmojiPicker from '@/components/MkEmojiPicker.vue';
-import { defaultStore } from '@/store';
+import { ref } from "vue";
+import MkModal from "@/components/MkModal.vue";
+import MkEmojiPicker from "@/components/MkEmojiPicker.vue";
+import { defaultStore } from "@/store";
 
 withDefaults(defineProps<{
 	manualShowing?: boolean | null;
@@ -43,16 +43,16 @@ withDefaults(defineProps<{
 });
 
 const emit = defineEmits<{
-	(ev: 'done', v: any): void;
-	(ev: 'close'): void;
-	(ev: 'closed'): void;
+	(ev: "done", v: any): void;
+	(ev: "close"): void;
+	(ev: "closed"): void;
 }>();
 
 const modal = ref<InstanceType<typeof MkModal>>();
 const picker = ref<InstanceType<typeof MkEmojiPicker>>();
 
 function chosen(emoji: any) {
-	emit('done', emoji);
+	emit("done", emoji);
 	modal.value?.close();
 }
 

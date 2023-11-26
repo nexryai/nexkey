@@ -46,7 +46,7 @@
 						<template #key>{{ i18n.ts.lastActiveDate }}</template>
 						<template #value><span class="_monospace"><MkTime :time="info.lastActiveDate" :mode="'detail'"/></span></template>
 					</MkKeyValue>
-					<MkKeyValue :copy="info.email" v-if="info && $i.isAdmin && enableSudo" oneline style="margin: 1em 0;">
+					<MkKeyValue v-if="info && $i.isAdmin && enableSudo" :copy="info.email" oneline style="margin: 1em 0;">
 						<template #key>{{ i18n.ts.email }}</template>
 						<template #value><span class="_monospace">{{ info.email }}</span></template>
 					</MkKeyValue>
@@ -98,10 +98,10 @@
 				<FormSwitch v-model="suspended" class="_formBlock" @update:modelValue="toggleSuspend">{{ i18n.ts.suspend }}</FormSwitch>
 				{{ i18n.ts.reflectMayTakeTime }}
 				<div class="_formBlock">
-					<FormButton v-if="user.host == null && iAmModerator" inline @click="resetPassword" class="mod-button"><i class="ti ti-key"></i> {{ i18n.ts.resetPassword }}</FormButton>
-					<FormButton v-if="$i.isAdmin" inline danger @click="deleteAccount" class="mod-button"><i class="ti ti-trash"></i> {{ i18n.ts.deleteAccount }}</FormButton>
-					<FormButton v-if="$i.isAdmin" inline danger @click="deleteAllFiles" class="mod-button"><i class="ti ti-trash"></i> {{ i18n.ts.deleteAllFiles }}</FormButton>
-					<FormButton v-if="user.host == null && iAmModerator && !suspended" inline @click="sendModNotification" class="mod-button"><i class="ti ti-alert-circle"></i> {{ $ts.sendModNotification }}</FormButton>
+					<FormButton v-if="user.host == null && iAmModerator" inline class="mod-button" @click="resetPassword"><i class="ti ti-key"></i> {{ i18n.ts.resetPassword }}</FormButton>
+					<FormButton v-if="$i.isAdmin" inline danger class="mod-button" @click="deleteAccount"><i class="ti ti-trash"></i> {{ i18n.ts.deleteAccount }}</FormButton>
+					<FormButton v-if="$i.isAdmin" inline danger class="mod-button" @click="deleteAllFiles"><i class="ti ti-trash"></i> {{ i18n.ts.deleteAllFiles }}</FormButton>
+					<FormButton v-if="user.host == null && iAmModerator && !suspended" inline class="mod-button" @click="sendModNotification"><i class="ti ti-alert-circle"></i> {{ $ts.sendModNotification }}</FormButton>
 				</div>
 				<FormTextarea v-model="moderationNote" manual-save class="_formBlock">
 					<template #label>Moderation note</template>
@@ -178,41 +178,41 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, watch, ref } from 'vue';
-import * as misskey from 'misskey-js';
-import MkChart from '@/components/MkChart.vue';
-import MkObjectView from '@/components/MkObjectView.vue';
-import FormTextarea from '@/components/form/textarea.vue';
-import FormSwitch from '@/components/form/switch.vue';
-import FormLink from '@/components/form/link.vue';
-import FormSection from '@/components/form/section.vue';
-import FormButton from '@/components/MkButton.vue';
-import FormInput from '@/components/form/input.vue';
-import FormSplit from '@/components/form/split.vue';
-import FormFolder from '@/components/form/folder.vue';
-import MkKeyValue from '@/components/MkKeyValue.vue';
-import MkSelect from '@/components/form/select.vue';
-import FormSuspense from '@/components/form/suspense.vue';
-import MkFileListForAdmin from '@/components/MkFileListForAdmin.vue';
-import MkInfo from '@/components/MkInfo.vue';
-import * as os from '@/os';
-import number from '@/filters/number';
-import bytes from '@/filters/bytes';
-import { url } from '@/config';
-import { userPage, acct } from '@/filters/user';
-import { definePageMetadata } from '@/scripts/page-metadata';
-import { i18n } from '@/i18n';
-import { iAmAdmin, iAmModerator } from '@/account';
-import { instance } from '@/instance';
-import { defaultStore } from '@/store';
-import tinycolor from 'tinycolor2';
+import { computed, watch, ref } from "vue";
+import * as misskey from "misskey-js";
+import tinycolor from "tinycolor2";
+import MkChart from "@/components/MkChart.vue";
+import MkObjectView from "@/components/MkObjectView.vue";
+import FormTextarea from "@/components/form/textarea.vue";
+import FormSwitch from "@/components/form/switch.vue";
+import FormLink from "@/components/form/link.vue";
+import FormSection from "@/components/form/section.vue";
+import FormButton from "@/components/MkButton.vue";
+import FormInput from "@/components/form/input.vue";
+import FormSplit from "@/components/form/split.vue";
+import FormFolder from "@/components/form/folder.vue";
+import MkKeyValue from "@/components/MkKeyValue.vue";
+import MkSelect from "@/components/form/select.vue";
+import FormSuspense from "@/components/form/suspense.vue";
+import MkFileListForAdmin from "@/components/MkFileListForAdmin.vue";
+import MkInfo from "@/components/MkInfo.vue";
+import * as os from "@/os";
+import number from "@/filters/number";
+import bytes from "@/filters/bytes";
+import { url } from "@/config";
+import { userPage, acct } from "@/filters/user";
+import { definePageMetadata } from "@/scripts/page-metadata";
+import { i18n } from "@/i18n";
+import { iAmAdmin, iAmModerator } from "@/account";
+import { instance } from "@/instance";
+import { defaultStore } from "@/store";
 
 const props = defineProps<{
 	userId: string;
 }>();
 
-let tab = $ref('overview');
-let chartSrc = $ref('per-user-notes');
+let tab = $ref("overview");
+let chartSrc = $ref("per-user-notes");
 let user = $ref<null | misskey.entities.UserDetailed>();
 let init = $ref<ReturnType<typeof createFetcher>>();
 let info = $ref();
@@ -222,9 +222,9 @@ let moderator = $ref(false);
 let silenced = $ref(false);
 let suspended = $ref(false);
 let driveCapacityOverrideMb: number | null = $ref(0);
-let moderationNote = $ref('');
+let moderationNote = $ref("");
 const filesPagination = {
-	endpoint: 'admin/drive/files' as const,
+	endpoint: "admin/drive/files" as const,
 	limit: 10,
 	params: computed(() => ({
 		userId: props.userId,
@@ -247,11 +247,11 @@ const meterStyle = computed(() => {
 
 function createFetcher() {
 	if (iAmModerator) {
-		return () => Promise.all([os.api('users/show', {
+		return () => Promise.all([os.api("users/show", {
 			userId: props.userId,
-		}), os.api('admin/show-user', {
+		}), os.api("admin/show-user", {
 			userId: props.userId,
-		}), iAmAdmin ? os.api('admin/get-user-ips', {
+		}), iAmAdmin ? os.api("admin/get-user-ips", {
 			userId: props.userId,
 		}) : Promise.resolve(null)]).then(([_user, _info, _ips]) => {
 			user = _user;
@@ -266,12 +266,12 @@ function createFetcher() {
 			usage.value = info.usage;
 
 			watch($$(moderationNote), async () => {
-				await os.api('admin/update-user-note', { userId: user.id, text: moderationNote });
+				await os.api("admin/update-user-note", { userId: user.id, text: moderationNote });
 				await refreshUser();
 			});
 		});
 	} else {
-		return () => os.api('users/show', {
+		return () => os.api("users/show", {
 			userId: props.userId,
 		}).then((res) => {
 			user = res;
@@ -284,103 +284,103 @@ function refreshUser() {
 }
 
 async function updateRemoteUser() {
-	await os.apiWithDialog('federation/update-remote-user', { userId: user.id });
+	await os.apiWithDialog("federation/update-remote-user", { userId: user.id });
 	refreshUser();
 }
 
 async function resetPassword() {
 	const confirm = await os.confirm({
-		type: 'warning',
+		type: "warning",
 		text: i18n.ts.resetPasswordConfirm,
 	});
 	if (confirm.canceled) {
 		return;
 	} else {
-		const { password } = await os.api('admin/reset-password', {
+		const { password } = await os.api("admin/reset-password", {
 			userId: user.id,
 		});
 		os.alert({
-			type: 'success',
-			text: i18n.t('newPasswordIs', { password }),
+			type: "success",
+			text: i18n.t("newPasswordIs", { password }),
 		});
 	}
 }
 
 async function reset2fa() {
 	const confirm = await os.confirm({
-		type: 'warning',
+		type: "warning",
 		text: i18n.ts.reset2faConfirm,
 	});
 	if (confirm.canceled) {
 		return;
 	} else {
-		await os.api('admin/reset-2fa', {
+		await os.api("admin/reset-2fa", {
 			userId: user.id,
 		});
 		os.alert({
-			type: 'success',
+			type: "success",
 		});
 	}
 }
 
 async function toggleSilence(v) {
 	const confirm = await os.confirm({
-		type: 'warning',
+		type: "warning",
 		text: v ? i18n.ts.silenceConfirm : i18n.ts.unsilenceConfirm,
 	});
 	if (confirm.canceled) {
 		silenced = !v;
 	} else {
-		await os.api(v ? 'admin/silence-user' : 'admin/unsilence-user', { userId: user.id });
+		await os.api(v ? "admin/silence-user" : "admin/unsilence-user", { userId: user.id });
 		await refreshUser();
 	}
 }
 
 async function toggleSuspend(v) {
 	const confirm = await os.confirm({
-		type: 'warning',
+		type: "warning",
 		text: v ? i18n.ts.suspendConfirm : i18n.ts.unsuspendConfirm,
 	});
 	if (confirm.canceled) {
 		suspended = !v;
 	} else {
-		await os.api(v ? 'admin/suspend-user' : 'admin/unsuspend-user', { userId: user.id });
+		await os.api(v ? "admin/suspend-user" : "admin/unsuspend-user", { userId: user.id });
 		await refreshUser();
 	}
 }
 
 async function toggleModerator(v) {
-	await os.api(v ? 'admin/moderators/add' : 'admin/moderators/remove', { userId: user.id });
+	await os.api(v ? "admin/moderators/add" : "admin/moderators/remove", { userId: user.id });
 	await refreshUser();
 }
 
 async function deleteAllFiles() {
 	const confirm = await os.confirm({
-		type: 'warning',
+		type: "warning",
 		text: i18n.ts.deleteAllFilesConfirm,
 	});
 	if (confirm.canceled) return;
 	const typed = await os.inputText({
-		text: i18n.t('typeToConfirm', { x: user?.username }),
+		text: i18n.t("typeToConfirm", { x: user?.username }),
 	});
 	if (typed.canceled) return;
 
 	if (typed.result === user?.username) {
 		const process = async () => {
-			await os.api('admin/delete-all-files-of-a-user', { userId: user.id });
+			await os.api("admin/delete-all-files-of-a-user", { userId: user.id });
 			os.success();
 		};
 		await process().catch(err => {
 			os.alert({
-				type: 'error',
+				type: "error",
 				text: err.toString(),
 			});
 		});
 		await refreshUser();
 	} else {
 		os.alert({
-			type: 'error',
-			text: 'input not match',
+			type: "error",
+			text: "input not match",
 		});
 	}
 }
@@ -391,11 +391,11 @@ async function applyDriveCapacityOverride() {
 		driveCapOrMb = null;
 	}
 	try {
-		await os.apiWithDialog('admin/drive-capacity-override', { userId: user.id, overrideMb: driveCapOrMb });
+		await os.apiWithDialog("admin/drive-capacity-override", { userId: user.id, overrideMb: driveCapOrMb });
 		await refreshUser();
 	} catch (err) {
 		os.alert({
-			type: 'error',
+			type: "error",
 			text: err.toString(),
 		});
 	}
@@ -403,24 +403,24 @@ async function applyDriveCapacityOverride() {
 
 async function deleteAccount() {
 	const confirm = await os.confirm({
-		type: 'warning',
+		type: "warning",
 		text: i18n.ts.deleteAccountConfirm,
 	});
 	if (confirm.canceled) return;
 
 	const typed = await os.inputText({
-		text: i18n.t('typeToConfirm', { x: user?.username }),
+		text: i18n.t("typeToConfirm", { x: user?.username }),
 	});
 	if (typed.canceled) return;
 
 	if (typed.result === user?.username) {
-		await os.apiWithDialog('admin/delete-account', {
+		await os.apiWithDialog("admin/delete-account", {
 			userId: user.id,
 		});
 	} else {
 		os.alert({
-			type: 'error',
-			text: 'input not match',
+			type: "error",
+			text: "input not match",
 		});
 	}
 }
@@ -430,7 +430,7 @@ async function sendModNotification() {
 		title: "Moderation Notification 運営からの通知",
 	});
 	if (canceled) return;
-	await os.api('admin/send-notification', {
+	await os.api("admin/send-notification", {
 		comment: comment,
 		userId: user.id,
 	});
@@ -444,7 +444,7 @@ watch(() => props.userId, () => {
 });
 
 watch($$(user), () => {
-	os.api('ap/get', {
+	os.api("ap/get", {
 		uri: user.uri ?? `${url}/users/${user.id}`,
 	}).then(res => {
 		ap = res;
@@ -454,26 +454,26 @@ watch($$(user), () => {
 const headerActions = $computed(() => []);
 
 const headerTabs = $computed(() => [{
-	key: 'overview',
+	key: "overview",
 	title: i18n.ts.overview,
-	icon: 'ti ti-info-circle',
+	icon: "ti ti-info-circle",
 }, (iAmModerator && enableSudo) ? {
-	key: 'moderation',
+	key: "moderation",
 	title: i18n.ts.moderation,
-	icon: 'ti ti-user-exclamation',
+	icon: "ti ti-user-exclamation",
 } : null, {
-	key: 'chart',
+	key: "chart",
 	title: i18n.ts.charts,
-	icon: 'ti ti-chart-line',
+	icon: "ti ti-chart-line",
 }, {
-	key: 'raw',
-	title: 'Raw',
-	icon: 'ti ti-code',
+	key: "raw",
+	title: "Raw",
+	icon: "ti ti-code",
 }].filter(x => x != null));
 
 definePageMetadata(computed(() => ({
 	title: user ? acct(user) : i18n.ts.userInfo,
-	icon: 'ti ti-info-circle',
+	icon: "ti ti-info-circle",
 })));
 </script>
 

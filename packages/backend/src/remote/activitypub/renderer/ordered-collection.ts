@@ -8,7 +8,7 @@
  */
 export default function(id: string | null, totalItems: any, first?: string, last?: string, orderedItems?: Record<string, unknown>[]): {
 	id: string | null;
-	type: 'OrderedCollection';
+	type: "OrderedCollection";
 	totalItems: any;
 	first?: string;
 	last?: string;
@@ -16,7 +16,7 @@ export default function(id: string | null, totalItems: any, first?: string, last
 } {
 	const page: any = {
 		id,
-		type: 'OrderedCollection',
+		type: "OrderedCollection",
 		totalItems,
 	};
 

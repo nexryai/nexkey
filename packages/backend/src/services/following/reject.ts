@@ -1,23 +1,23 @@
-import { renderActivity } from '@/remote/activitypub/renderer/index.js';
-import renderFollow from '@/remote/activitypub/renderer/follow.js';
-import renderReject from '@/remote/activitypub/renderer/reject.js';
-import { deliver, webhookDeliver } from '@/queue/index.js';
-import { publishMainStream, publishUserEvent } from '@/services/stream.js';
-import { User, ILocalUser, IRemoteUser } from '@/models/entities/user.js';
-import { Users, FollowRequests, Followings } from '@/models/index.js';
-import { decrementFollowing } from './delete.js';
-import { getActiveWebhooks } from '@/misc/webhook-cache.js';
+import { renderActivity } from "@/remote/activitypub/renderer/index.js";
+import renderFollow from "@/remote/activitypub/renderer/follow.js";
+import renderReject from "@/remote/activitypub/renderer/reject.js";
+import { deliver, webhookDeliver } from "@/queue/index.js";
+import { publishMainStream, publishUserEvent } from "@/services/stream.js";
+import { User, ILocalUser, IRemoteUser } from "@/models/entities/user.js";
+import { Users, FollowRequests, Followings } from "@/models/index.js";
+import { getActiveWebhooks } from "@/misc/webhook-cache.js";
+import { decrementFollowing } from "./delete.js";
 
 type Local = ILocalUser | {
-	id: ILocalUser['id'];
-	host: ILocalUser['host'];
-	uri: ILocalUser['uri']
+	id: ILocalUser["id"];
+	host: ILocalUser["host"];
+	uri: ILocalUser["uri"]
 };
 type Remote = IRemoteUser | {
-	id: IRemoteUser['id'];
-	host: IRemoteUser['host'];
-	uri: IRemoteUser['uri'];
-	inbox: IRemoteUser['inbox'];
+	id: IRemoteUser["id"];
+	host: IRemoteUser["host"];
+	uri: IRemoteUser["uri"];
+	inbox: IRemoteUser["inbox"];
 };
 type Both = Local | Remote;
 
@@ -110,12 +110,12 @@ async function publishUnfollow(followee: Both, follower: Local) {
 		detail: true,
 	});
 
-	publishUserEvent(follower.id, 'unfollow', packedFollowee);
-	publishMainStream(follower.id, 'unfollow', packedFollowee);
+	publishUserEvent(follower.id, "unfollow", packedFollowee);
+	publishMainStream(follower.id, "unfollow", packedFollowee);
 
-	const webhooks = (await getActiveWebhooks()).filter(x => x.userId === follower.id && x.on.includes('unfollow'));
+	const webhooks = (await getActiveWebhooks()).filter(x => x.userId === follower.id && x.on.includes("unfollow"));
 	for (const webhook of webhooks) {
-		webhookDeliver(webhook, 'unfollow', {
+		webhookDeliver(webhook, "unfollow", {
 			user: packedFollowee,
 		});
 	}

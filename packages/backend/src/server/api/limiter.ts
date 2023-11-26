@@ -1,19 +1,19 @@
-import Limiter from 'ratelimiter';
-import { CacheableLocalUser, User } from '@/models/entities/user.js';
-import Logger from '@/services/logger.js';
-import { redisClient } from '../../db/redis.js';
-import { IEndpointMeta } from './endpoints.js';
+import Limiter from "ratelimiter";
+import { CacheableLocalUser, User } from "@/models/entities/user.js";
+import Logger from "@/services/logger.js";
+import { redisClient } from "../../db/redis.js";
+import { IEndpointMeta } from "./endpoints.js";
 
-const logger = new Logger('limiter');
+const logger = new Logger("limiter");
 
-export const limiter = (limitation: IEndpointMeta['limit'] & { key: NonNullable<string> }, actor: string) => new Promise<void>((ok, reject) => {
-	if (process.env.NODE_ENV === 'test') ok();
+export const limiter = (limitation: IEndpointMeta["limit"] & { key: NonNullable<string> }, actor: string) => new Promise<void>((ok, reject) => {
+	if (process.env.NODE_ENV === "test") ok();
 
-	const hasShortTermLimit = typeof limitation.minInterval === 'number';
+	const hasShortTermLimit = typeof limitation.minInterval === "number";
 
 	const hasLongTermLimit =
-		typeof limitation.duration === 'number' &&
-		typeof limitation.max === 'number';
+		typeof limitation.duration === "number" &&
+		typeof limitation.max === "number";
 
 	if (hasShortTermLimit) {
 		min();
@@ -34,13 +34,13 @@ export const limiter = (limitation: IEndpointMeta['limit'] & { key: NonNullable<
 
 		minIntervalLimiter.get((err, info) => {
 			if (err) {
-				return reject('ERR');
+				return reject("ERR");
 			}
 
 			logger.debug(`${actor} ${limitation.key} min remaining: ${info.remaining}`);
 
 			if (info.remaining === 0) {
-				reject('BRIEF_REQUEST_INTERVAL');
+				reject("BRIEF_REQUEST_INTERVAL");
 			} else {
 				if (hasLongTermLimit) {
 					max();
@@ -62,13 +62,13 @@ export const limiter = (limitation: IEndpointMeta['limit'] & { key: NonNullable<
 
 		limiter.get((err, info) => {
 			if (err) {
-				return reject('ERR');
+				return reject("ERR");
 			}
 
 			logger.debug(`${actor} ${limitation.key} max remaining: ${info.remaining}`);
 
 			if (info.remaining === 0) {
-				reject('RATE_LIMIT_EXCEEDED');
+				reject("RATE_LIMIT_EXCEEDED");
 			} else {
 				ok();
 			}

@@ -20,17 +20,17 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineAsyncComponent, ref, toRef, watch } from 'vue';
-import * as misskey from 'misskey-js';
-import MarqueeText from '@/components/MkMarquee.vue';
-import * as os from '@/os';
-import { useInterval } from '@/scripts/use-interval';
-import { getNoteSummary } from '@/scripts/get-note-summary';
-import { notePage } from '@/filters/note';
+import { computed, defineAsyncComponent, ref, toRef, watch } from "vue";
+import * as misskey from "misskey-js";
+import MarqueeText from "@/components/MkMarquee.vue";
+import * as os from "@/os";
+import { useInterval } from "@/scripts/use-interval";
+import { getNoteSummary } from "@/scripts/get-note-summary";
+import { notePage } from "@/filters/note";
 
 const props = defineProps<{
 	userListId?: string;
-	display?: 'marquee' | 'oneByOne';
+	display?: "marquee" | "oneByOne";
 	marqueeDuration?: number;
 	marqueeReverse?: boolean;
 	oneByOneInterval?: number;
@@ -43,7 +43,7 @@ let key = $ref(0);
 
 const tick = () => {
 	if (props.userListId == null) return;
-	os.api('notes/user-list-timeline', {
+	os.api("notes/user-list-timeline", {
 		listId: props.userListId,
 	}).then(res => {
 		notes.value = res;

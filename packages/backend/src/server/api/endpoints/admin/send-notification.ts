@@ -1,7 +1,7 @@
-import define from "../../define.js";
 import { Users, UserProfiles } from "@/models/index.js";
-import { ApiError } from "../../error.js";
 import { createNotification } from "@/services/create-notification.js";
+import define from "../../define.js";
+import { ApiError } from "../../error.js";
 
 export const meta = {
 	tags: ["users"],

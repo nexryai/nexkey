@@ -1,5 +1,5 @@
 export function concat(xs: string[]): string {
-	return xs.join('');
+	return xs.join("");
 }
 
 export function capitalize(s: string): string {

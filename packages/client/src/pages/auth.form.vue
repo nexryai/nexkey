@@ -13,48 +13,48 @@
 		</ul>
 	</div>
 	<div class="_footer">
-		<MkButton inline @click="cancel" style="margin: 10px;">{{ $ts.cancel }}</MkButton>
-		<MkButton inline primary @click="accept" style="margin: 10px;">{{ $ts.accept }}</MkButton>
+		<MkButton inline style="margin: 10px;" @click="cancel">{{ $ts.cancel }}</MkButton>
+		<MkButton inline primary style="margin: 10px;" @click="accept">{{ $ts.accept }}</MkButton>
 	</div>
 </section>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import MkButton from '@/components/MkButton.vue';
-import * as os from '@/os';
+import { defineComponent } from "vue";
+import MkButton from "@/components/MkButton.vue";
+import * as os from "@/os";
 
 export default defineComponent({
 	components: {
-		MkButton
+		MkButton,
 	},
-	props: ['session'],
+	props: ["session"],
 	computed: {
 		name(): string {
-			const el = document.createElement('div');
+			const el = document.createElement("div");
 			el.textContent = this.app.name;
 			return el.innerHTML;
 		},
 		app(): any {
 			return this.session.app;
-		}
+		},
 	},
 	methods: {
 		cancel() {
-			os.api('auth/deny', {
-				token: this.session.token
+			os.api("auth/deny", {
+				token: this.session.token,
 			}).then(() => {
-				this.$emit('denied');
+				this.$emit("denied");
 			});
 		},
 
 		accept() {
-			os.api('auth/accept', {
-				token: this.session.token
+			os.api("auth/accept", {
+				token: this.session.token,
 			}).then(() => {
-				this.$emit('accepted');
+				this.$emit("accepted");
 			});
-		}
-	}
+		},
+	},
 });
 </script>

@@ -1,32 +1,32 @@
 export const packedAppSchema = {
-	type: 'object',
+	type: "object",
 	properties: {
 		id: {
-			type: 'string',
+			type: "string",
 			optional: false, nullable: false,
 		},
 		name: {
-			type: 'string',
+			type: "string",
 			optional: false, nullable: false,
 		},
 		callbackUrl: {
-			type: 'string',
+			type: "string",
 			optional: false, nullable: true,
 		},
 		permission: {
-			type: 'array',
+			type: "array",
 			optional: false, nullable: false,
 			items: {
-				type: 'string',
+				type: "string",
 				optional: false, nullable: false,
 			},
 		},
 		secret: {
-			type: 'string',
+			type: "string",
 			optional: true, nullable: false,
 		},
 		isAuthorized: {
-			type: 'boolean',
+			type: "boolean",
 			optional: true, nullable: false,
 		},
 	},

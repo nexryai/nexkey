@@ -37,22 +37,22 @@
 </template>
 
 <script lang="ts" setup>
-import { nextTick, ref } from 'vue';
-import FormLink from '@/components/form/link.vue';
-import FormSwitch from '@/components/form/switch.vue';
-import FormSection from '@/components/form/section.vue';
-import MkButton from '@/components/MkButton.vue';
-import MkKeyValue from '@/components/MkKeyValue.vue';
-import * as os from '@/os';
-import { ColdDeviceStorage } from '@/store';
-import { unisonReload } from '@/scripts/unison-reload';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { nextTick, ref } from "vue";
+import FormLink from "@/components/form/link.vue";
+import FormSwitch from "@/components/form/switch.vue";
+import FormSection from "@/components/form/section.vue";
+import MkButton from "@/components/MkButton.vue";
+import MkKeyValue from "@/components/MkKeyValue.vue";
+import * as os from "@/os";
+import { ColdDeviceStorage } from "@/store";
+import { unisonReload } from "@/scripts/unison-reload";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
-const plugins = ref(ColdDeviceStorage.get('plugins'));
+const plugins = ref(ColdDeviceStorage.get("plugins"));
 
 function uninstall(plugin) {
-	ColdDeviceStorage.set('plugins', plugins.value.filter(x => x.id !== plugin.id));
+	ColdDeviceStorage.set("plugins", plugins.value.filter(x => x.id !== plugin.id));
 	os.success();
 	nextTick(() => {
 		unisonReload();
@@ -69,9 +69,9 @@ async function config(plugin) {
 	const { canceled, result } = await os.form(plugin.name, config);
 	if (canceled) return;
 
-	const coldPlugins = ColdDeviceStorage.get('plugins');
+	const coldPlugins = ColdDeviceStorage.get("plugins");
 	coldPlugins.find(p => p.id === plugin.id)!.configData = result;
-	ColdDeviceStorage.set('plugins', coldPlugins);
+	ColdDeviceStorage.set("plugins", coldPlugins);
 
 	nextTick(() => {
 		location.reload();
@@ -79,9 +79,9 @@ async function config(plugin) {
 }
 
 function changeActive(plugin, active) {
-	const coldPlugins = ColdDeviceStorage.get('plugins');
+	const coldPlugins = ColdDeviceStorage.get("plugins");
 	coldPlugins.find(p => p.id === plugin.id)!.active = active;
-	ColdDeviceStorage.set('plugins', coldPlugins);
+	ColdDeviceStorage.set("plugins", coldPlugins);
 
 	nextTick(() => {
 		location.reload();
@@ -94,7 +94,7 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
 	title: i18n.ts.plugins,
-	icon: 'ti ti-plug',
+	icon: "ti ti-plug",
 });
 </script>
 

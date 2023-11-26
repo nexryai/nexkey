@@ -19,47 +19,47 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, ref, watch } from 'vue';
-import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from './widget';
-import MarqueeText from '@/components/MkMarquee.vue';
-import { GetFormResultType } from '@/scripts/form';
-import * as os from '@/os';
-import MkContainer from '@/components/MkContainer.vue';
-import { useInterval } from '@/scripts/use-interval';
-import { shuffle } from '@/scripts/shuffle';
+import { onMounted, onUnmounted, ref, watch } from "vue";
+import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from "./widget";
+import MarqueeText from "@/components/MkMarquee.vue";
+import { GetFormResultType } from "@/scripts/form";
+import * as os from "@/os";
+import MkContainer from "@/components/MkContainer.vue";
+import { useInterval } from "@/scripts/use-interval";
+import { shuffle } from "@/scripts/shuffle";
 
-const name = 'rssTicker';
+const name = "rssTicker";
 
 const widgetPropsDef = {
 	url: {
-		type: 'string' as const,
-		default: 'http://feeds.afpbb.com/rss/afpbb/afpbbnews',
+		type: "string" as const,
+		default: "http://feeds.afpbb.com/rss/afpbb/afpbbnews",
 	},
 	shuffle: {
-		type: 'boolean' as const,
+		type: "boolean" as const,
 		default: true,
 	},
 	refreshIntervalSec: {
-		type: 'number' as const,
+		type: "number" as const,
 		default: 60,
 	},
 	duration: {
-		type: 'range' as const,
+		type: "range" as const,
 		default: 70,
 		step: 1,
 		min: 5,
 		max: 200,
 	},
 	reverse: {
-		type: 'boolean' as const,
+		type: "boolean" as const,
 		default: false,
 	},
 	showHeader: {
-		type: 'boolean' as const,
+		type: "boolean" as const,
 		default: false,
 	},
 	transparent: {
-		type: 'boolean' as const,
+		type: "boolean" as const,
 		default: false,
 	},
 };
@@ -70,7 +70,7 @@ type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
 //const props = defineProps<WidgetComponentProps<WidgetProps>>();
 //const emit = defineEmits<WidgetComponentEmits<WidgetProps>>();
 const props = defineProps<{ widget?: Widget<WidgetProps>; }>();
-const emit = defineEmits<{ (ev: 'updateProps', props: WidgetProps); }>();
+const emit = defineEmits<{ (ev: "updateProps", props: WidgetProps); }>();
 
 const { widgetProps, configure } = useWidgetPropsManager(name,
 	widgetPropsDef,

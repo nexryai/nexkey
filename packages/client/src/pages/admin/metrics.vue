@@ -51,45 +51,45 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, markRaw } from 'vue';
+import { defineComponent, markRaw } from "vue";
 import {
-  Chart,
-  ArcElement,
-  LineElement,
-  BarElement,
-  PointElement,
-  BarController,
-  LineController,
-  CategoryScale,
-  LinearScale,
-  Legend,
-  Title,
-  Tooltip,
-  SubTitle
-} from 'chart.js';
-import MkButton from '@/components/MkButton.vue';
-import MkSelect from '@/components/form/select.vue';
-import MkInput from '@/components/form/input.vue';
-import MkContainer from '@/components/MkContainer.vue';
-import MkFolder from '@/components/MkFolder.vue';
-import MkwFederation from '../../widgets/federation.vue';
-import { version, url } from '@/config';
-import bytes from '@/filters/bytes';
-import number from '@/filters/number';
+	Chart,
+	ArcElement,
+	LineElement,
+	BarElement,
+	PointElement,
+	BarController,
+	LineController,
+	CategoryScale,
+	LinearScale,
+	Legend,
+	Title,
+	Tooltip,
+	SubTitle,
+} from "chart.js";
+import MkwFederation from "../../widgets/federation.vue";
+import MkButton from "@/components/MkButton.vue";
+import MkSelect from "@/components/form/select.vue";
+import MkInput from "@/components/form/input.vue";
+import MkContainer from "@/components/MkContainer.vue";
+import MkFolder from "@/components/MkFolder.vue";
+import { version, url } from "@/config";
+import bytes from "@/filters/bytes";
+import number from "@/filters/number";
 
 Chart.register(
-  ArcElement,
-  LineElement,
-  BarElement,
-  PointElement,
-  BarController,
-  LineController,
-  CategoryScale,
-  LinearScale,
-  Legend,
-  Title,
-  Tooltip,
-  SubTitle
+	ArcElement,
+	LineElement,
+	BarElement,
+	PointElement,
+	BarController,
+	LineController,
+	CategoryScale,
+	LinearScale,
+	Legend,
+	Title,
+	Tooltip,
+	SubTitle,
 );
 
 const alpha = (hex, a) => {
@@ -99,8 +99,8 @@ const alpha = (hex, a) => {
 	const b = parseInt(result[3], 16);
 	return `rgba(${r}, ${g}, ${b}, ${a})`;
 };
-import * as os from '@/os';
-import { stream } from '@/stream';
+import * as os from "@/os";
+import { stream } from "@/stream";
 
 export default defineComponent({
 	components: {
@@ -119,18 +119,18 @@ export default defineComponent({
 			stats: null,
 			serverInfo: null,
 			connection: null,
-			queueConnection: markRaw(stream.useChannel('queueStats')),
+			queueConnection: markRaw(stream.useChannel("queueStats")),
 			memUsage: 0,
 			chartCpuMem: null,
 			chartNet: null,
 			jobs: [],
 			logs: [],
-			logLevel: 'all',
-			logDomain: '',
+			logLevel: "all",
+			logDomain: "",
 			modLogs: [],
 			dbInfo: null,
-			overviewHeight: '1fr',
-			queueHeight: '1fr',
+			overviewHeight: "1fr",
+			queueHeight: "1fr",
 			paused: false,
 		};
 	},
@@ -138,30 +138,30 @@ export default defineComponent({
 	computed: {
 		gridColor() {
 			// TODO: var(--panel)の色が暗いか明るいかで判定する
-			return this.$store.state.darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+			return this.$store.state.darkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)";
 		},
 	},
 
 	mounted() {
 		this.fetchJobs();
 
-		Chart.defaults.color = getComputedStyle(document.documentElement).getPropertyValue('--fg');
+		Chart.defaults.color = getComputedStyle(document.documentElement).getPropertyValue("--fg");
 
-		os.api('admin/server-info', {}).then(res => {
+		os.api("admin/server-info", {}).then(res => {
 			this.serverInfo = res;
 
-			this.connection = markRaw(stream.useChannel('serverStats'));
-			this.connection.on('stats', this.onStats);
-			this.connection.on('statsLog', this.onStatsLog);
-			this.connection.send('requestLog', {
+			this.connection = markRaw(stream.useChannel("serverStats"));
+			this.connection.on("stats", this.onStats);
+			this.connection.on("statsLog", this.onStatsLog);
+			this.connection.send("requestLog", {
 				id: Math.random().toString().substr(2, 8),
-				length: 150
+				length: 150,
 			});
 
 			this.$nextTick(() => {
-				this.queueConnection.send('requestLog', {
+				this.queueConnection.send("requestLog", {
 					id: Math.random().toString().substr(2, 8),
-					length: 200
+					length: 200,
 				});
 			});
 		});
@@ -169,8 +169,8 @@ export default defineComponent({
 
 	beforeUnmount() {
 		if (this.connection) {
-			this.connection.off('stats', this.onStats);
-			this.connection.off('statsLog', this.onStatsLog);
+			this.connection.off("stats", this.onStats);
+			this.connection.off("statsLog", this.onStatsLog);
 			this.connection.dispose();
 		}
 		this.queueConnection.dispose();
@@ -180,35 +180,35 @@ export default defineComponent({
 		cpumem(el) {
 			if (this.chartCpuMem != null) return;
 			this.chartCpuMem = markRaw(new Chart(el, {
-				type: 'line',
+				type: "line",
 				data: {
 					labels: [],
 					datasets: [{
-						label: 'CPU',
+						label: "CPU",
 						pointRadius: 0,
 						tension: 0,
 						borderWidth: 2,
-						borderColor: '#86b300',
-						backgroundColor: alpha('#86b300', 0.1),
-						data: []
+						borderColor: "#86b300",
+						backgroundColor: alpha("#86b300", 0.1),
+						data: [],
 					}, {
-						label: 'MEM (active)',
+						label: "MEM (active)",
 						pointRadius: 0,
 						tension: 0,
 						borderWidth: 2,
-						borderColor: '#935dbf',
-						backgroundColor: alpha('#935dbf', 0.02),
-						data: []
+						borderColor: "#935dbf",
+						backgroundColor: alpha("#935dbf", 0.02),
+						data: [],
 					}, {
-						label: 'MEM (used)',
+						label: "MEM (used)",
 						pointRadius: 0,
 						tension: 0,
 						borderWidth: 2,
-						borderColor: '#935dbf',
+						borderColor: "#935dbf",
 						borderDash: [5, 5],
 						fill: false,
-						data: []
-					}]
+						data: [],
+					}],
 				},
 				options: {
 					aspectRatio: 3,
@@ -217,14 +217,14 @@ export default defineComponent({
 							left: 16,
 							right: 16,
 							top: 16,
-							bottom: 0
-						}
+							bottom: 0,
+						},
 					},
 					legend: {
-						position: 'bottom',
+						position: "bottom",
 						labels: {
 							boxWidth: 16,
-						}
+						},
 					},
 					scales: {
 						x: {
@@ -235,10 +235,10 @@ export default defineComponent({
 							},
 							ticks: {
 								display: false,
-							}
+							},
 						},
 						y: {
-							position: 'right',
+							position: "right",
 							gridLines: {
 								display: true,
 								color: this.gridColor,
@@ -246,41 +246,41 @@ export default defineComponent({
 							},
 							ticks: {
 								display: false,
-								max: 100
-							}
-						}
+								max: 100,
+							},
+						},
 					},
 					tooltips: {
 						intersect: false,
-						mode: 'index',
-					}
-				}
+						mode: "index",
+					},
+				},
 			}));
 		},
 
 		net(el) {
 			if (this.chartNet != null) return;
 			this.chartNet = markRaw(new Chart(el, {
-				type: 'line',
+				type: "line",
 				data: {
 					labels: [],
 					datasets: [{
-						label: 'In',
+						label: "In",
 						pointRadius: 0,
 						tension: 0,
 						borderWidth: 2,
-						borderColor: '#94a029',
-						backgroundColor: alpha('#94a029', 0.1),
-						data: []
+						borderColor: "#94a029",
+						backgroundColor: alpha("#94a029", 0.1),
+						data: [],
 					}, {
-						label: 'Out',
+						label: "Out",
 						pointRadius: 0,
 						tension: 0,
 						borderWidth: 2,
-						borderColor: '#ff9156',
-						backgroundColor: alpha('#ff9156', 0.1),
-						data: []
-					}]
+						borderColor: "#ff9156",
+						backgroundColor: alpha("#ff9156", 0.1),
+						data: [],
+					}],
 				},
 				options: {
 					aspectRatio: 3,
@@ -289,14 +289,14 @@ export default defineComponent({
 							left: 16,
 							right: 16,
 							top: 16,
-							bottom: 0
-						}
+							bottom: 0,
+						},
 					},
 					legend: {
-						position: 'bottom',
+						position: "bottom",
 						labels: {
 							boxWidth: 16,
-						}
+						},
 					},
 					scales: {
 						x: {
@@ -306,11 +306,11 @@ export default defineComponent({
 								zeroLineColor: this.gridColor,
 							},
 							ticks: {
-								display: false
-							}
+								display: false,
+							},
 						},
 						y: {
-							position: 'right',
+							position: "right",
 							gridLines: {
 								display: true,
 								color: this.gridColor,
@@ -318,40 +318,40 @@ export default defineComponent({
 							},
 							ticks: {
 								display: false,
-							}
-						}
+							},
+						},
 					},
 					tooltips: {
 						intersect: false,
-						mode: 'index',
-					}
-				}
+						mode: "index",
+					},
+				},
 			}));
 		},
 
 		disk(el) {
 			if (this.chartDisk != null) return;
 			this.chartDisk = markRaw(new Chart(el, {
-				type: 'line',
+				type: "line",
 				data: {
 					labels: [],
 					datasets: [{
-						label: 'Read',
+						label: "Read",
 						pointRadius: 0,
 						tension: 0,
 						borderWidth: 2,
-						borderColor: '#94a029',
-						backgroundColor: alpha('#94a029', 0.1),
-						data: []
+						borderColor: "#94a029",
+						backgroundColor: alpha("#94a029", 0.1),
+						data: [],
 					}, {
-						label: 'Write',
+						label: "Write",
 						pointRadius: 0,
 						tension: 0,
 						borderWidth: 2,
-						borderColor: '#ff9156',
-						backgroundColor: alpha('#ff9156', 0.1),
-						data: []
-					}]
+						borderColor: "#ff9156",
+						backgroundColor: alpha("#ff9156", 0.1),
+						data: [],
+					}],
 				},
 				options: {
 					aspectRatio: 3,
@@ -360,14 +360,14 @@ export default defineComponent({
 							left: 16,
 							right: 16,
 							top: 16,
-							bottom: 0
-						}
+							bottom: 0,
+						},
 					},
 					legend: {
-						position: 'bottom',
+						position: "bottom",
 						labels: {
 							boxWidth: 16,
-						}
+						},
 					},
 					scales: {
 						x: {
@@ -377,11 +377,11 @@ export default defineComponent({
 								zeroLineColor: this.gridColor,
 							},
 							ticks: {
-								display: false
-							}
+								display: false,
+							},
 						},
 						y: {
-							position: 'right',
+							position: "right",
 							gridLines: {
 								display: true,
 								color: this.gridColor,
@@ -389,19 +389,19 @@ export default defineComponent({
 							},
 							ticks: {
 								display: false,
-							}
-						}
+							},
+						},
 					},
 					tooltips: {
 						intersect: false,
-						mode: 'index',
-					}
-				}
+						mode: "index",
+					},
+				},
 			}));
 		},
 
 		fetchJobs() {
-			os.api('admin/queue/deliver-delayed', {}).then(jobs => {
+			os.api("admin/queue/deliver-delayed", {}).then(jobs => {
 				this.jobs = jobs;
 			});
 		},
@@ -414,14 +414,14 @@ export default defineComponent({
 			const memUsed = (stats.mem.used / this.serverInfo.mem.total * 100).toFixed(0);
 			this.memUsage = stats.mem.active;
 
-			this.chartCpuMem.data.labels.push('');
+			this.chartCpuMem.data.labels.push("");
 			this.chartCpuMem.data.datasets[0].data.push(cpu);
 			this.chartCpuMem.data.datasets[1].data.push(memActive);
 			this.chartCpuMem.data.datasets[2].data.push(memUsed);
-			this.chartNet.data.labels.push('');
+			this.chartNet.data.labels.push("");
 			this.chartNet.data.datasets[0].data.push(stats.net.rx);
 			this.chartNet.data.datasets[1].data.push(stats.net.tx);
-			this.chartDisk.data.labels.push('');
+			this.chartDisk.data.labels.push("");
 			this.chartDisk.data.datasets[0].data.push(stats.fs.r);
 			this.chartDisk.data.datasets[1].data.push(stats.fs.w);
 			if (this.chartCpuMem.data.datasets[0].data.length > 150) {
@@ -458,7 +458,7 @@ export default defineComponent({
 		resume() {
 			this.paused = false;
 		},
-	}
+	},
 });
 </script>
 
