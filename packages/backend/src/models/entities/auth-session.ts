@@ -6,28 +6,28 @@ import { App } from "./app.js";
 @Entity()
 export class AuthSession {
 	@PrimaryColumn(id())
-	public id: string;
+    public id: string;
 
 	@Column("timestamp with time zone", {
-		comment: "The created date of the AuthSession.",
+	    comment: "The created date of the AuthSession.",
 	})
 	public createdAt: Date;
 
 	@Index()
 	@Column("varchar", {
-		length: 128,
+	    length: 128,
 	})
 	public token: string;
 
 	@Column({
-		...id(),
-		nullable: true,
+	    ...id(),
+	    nullable: true,
 	})
 	public userId: User["id"] | null;
 
 	@ManyToOne(type => User, {
-		onDelete: "CASCADE",
-		nullable: true,
+	    onDelete: "CASCADE",
+	    nullable: true,
 	})
 	@JoinColumn()
 	public user: User | null;
@@ -36,7 +36,7 @@ export class AuthSession {
 	public appId: App["id"];
 
 	@ManyToOne(type => App, {
-		onDelete: "CASCADE",
+	    onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public app: App | null;

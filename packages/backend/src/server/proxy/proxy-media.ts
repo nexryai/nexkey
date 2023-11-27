@@ -4,21 +4,21 @@ import config from "@/config/index.js";
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export async function proxyMedia(ctx: Koa.Context) {
-	let redirectUrl: string;
+    let redirectUrl: string;
 
-	// 本家仕様にするの面倒なのでとりあえず未設定でもどっかのプロキシに投げる
-	if (config.mediaProxy == null) {
-		redirectUrl = "https://proxy.sda1.net/";
-	} else {
-		redirectUrl = config.mediaProxy;
-	}
+    // 本家仕様にするの面倒なのでとりあえず未設定でもどっかのプロキシに投げる
+    if (config.mediaProxy == null) {
+        redirectUrl = "https://proxy.sda1.net/";
+    } else {
+        redirectUrl = config.mediaProxy;
+    }
 
-	// パスとパラメータを取得
-	const { path, query } = ctx.request;
-	const queryString = querystring.stringify(query);
+    // パスとパラメータを取得
+    const { path, query } = ctx.request;
+    const queryString = querystring.stringify(query);
 
-	// パスとパラメータを維持してリダイレクト
-	const targetUrl = redirectUrl + path + (queryString ? `?${queryString}` : "");
+    // パスとパラメータを維持してリダイレクト
+    const targetUrl = redirectUrl + path + (queryString ? `?${queryString}` : "");
 
-	ctx.redirect(targetUrl);
+    ctx.redirect(targetUrl);
 }

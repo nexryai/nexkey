@@ -3,7 +3,7 @@ import { Users } from "@/models/index.js";
 import { fetchMeta } from "./fetch-meta.js";
 
 export async function fetchProxyAccount(): Promise<ILocalUser | null> {
-	const meta = await fetchMeta();
-	if (meta.proxyAccountId == null) return null;
-	return await Users.findOneByOrFail({ id: meta.proxyAccountId }) as ILocalUser;
+    const meta = await fetchMeta();
+    if (meta.proxyAccountId == null) return null;
+    return await Users.findOneByOrFail({ id: meta.proxyAccountId }) as ILocalUser;
 }

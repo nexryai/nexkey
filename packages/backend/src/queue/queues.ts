@@ -13,12 +13,12 @@ export const backgroundQueue = initializeQueue<Record<string, unknown>>("bg");
 export const emailDeliverQueue = initializeQueue<EmailJobData>("emailDeliver");
 
 export const queues = [
-	systemQueue,
-	endedPollNotificationQueue,
-	deliverQueue,
-	inboxQueue,
-	dbQueue,
-	objectStorageQueue,
-	webhookDeliverQueue,
-	emailDeliverQueue,
+    systemQueue,
+    endedPollNotificationQueue,
+    deliverQueue,
+    inboxQueue,
+    dbQueue,
+    objectStorageQueue,
+    webhookDeliverQueue,
+    emailDeliverQueue,
 ];

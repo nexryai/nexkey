@@ -8,30 +8,30 @@ import { User } from "./user.js";
 @Index(["noteId", "userId"], { unique: true })
 export class MutedNote {
 	@PrimaryColumn(id())
-	public id: string;
+    public id: string;
 
 	@Index()
 	@Column({
-		...id(),
-		comment: "The note ID.",
+	    ...id(),
+	    comment: "The note ID.",
 	})
 	public noteId: Note["id"];
 
 	@ManyToOne(type => Note, {
-		onDelete: "CASCADE",
+	    onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public note: Note | null;
 
 	@Index()
 	@Column({
-		...id(),
-		comment: "The user ID.",
+	    ...id(),
+	    comment: "The user ID.",
 	})
 	public userId: User["id"];
 
 	@ManyToOne(type => User, {
-		onDelete: "CASCADE",
+	    onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public user: User | null;
@@ -41,8 +41,8 @@ export class MutedNote {
 	 */
 	@Index()
 	@Column("enum", {
-		enum: mutedNoteReasons,
-		comment: "The reason of the MutedNote.",
+	    enum: mutedNoteReasons,
+	    comment: "The reason of the MutedNote.",
 	})
 	public reason: typeof mutedNoteReasons[number];
 }

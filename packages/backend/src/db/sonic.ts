@@ -7,23 +7,23 @@ const logger = dbLogger.createSubLogger("sonic", "gray", false);
 logger.info("Connecting to Sonic");
 
 const handlers = (type: string): SonicChannel.Handlers => (
-	{
-		connected: () => {
-			logger.succ(`Connected to Sonic ${type}`);
-		},
-		disconnected: (error) => {
-			logger.warn(`Disconnected from Sonic ${type}, error: ${error}`);
-		},
-		error: (error) => {
-			logger.warn(`Sonic ${type} error: ${error}`);
-		},
-		retrying: () => {
-			logger.info(`Sonic ${type} retrying`);
-		},
-		timeout: () => {
-			logger.warn(`Sonic ${type} timeout`);
-		},
-	}
+    {
+        connected: () => {
+            logger.succ(`Connected to Sonic ${type}`);
+        },
+        disconnected: (error) => {
+            logger.warn(`Disconnected from Sonic ${type}, error: ${error}`);
+        },
+        error: (error) => {
+            logger.warn(`Sonic ${type} error: ${error}`);
+        },
+        retrying: () => {
+            logger.info(`Sonic ${type} retrying`);
+        },
+        timeout: () => {
+            logger.warn(`Sonic ${type} timeout`);
+        },
+    }
 );
 
 const hasConfig =
@@ -40,11 +40,11 @@ const collection = hasConfig ? config.sonic.collection ?? "main" : "";
 const bucket = hasConfig ? config.sonic.bucket ?? "default" : "";
 
 export default hasConfig
-	? {
-		search: new SonicChannel.Search({ host, port, auth }).connect(handlers("search")),
-		ingest: new SonicChannel.Ingest({ host, port, auth }).connect(handlers("ingest")),
+    ? {
+        search: new SonicChannel.Search({ host, port, auth }).connect(handlers("search")),
+        ingest: new SonicChannel.Ingest({ host, port, auth }).connect(handlers("ingest")),
 
-		collection,
-		bucket,
-	}
-	: null;
+        collection,
+        bucket,
+    }
+    : null;

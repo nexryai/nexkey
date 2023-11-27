@@ -6,22 +6,22 @@ import { IAccept } from "../../type.js";
 import DbResolver from "../../db-resolver.js";
 
 export default async (actor: CacheableRemoteUser, activity: IAccept): Promise<string> => {
-	const dbResolver = new DbResolver();
+    const dbResolver = new DbResolver();
 
-	const follower = await dbResolver.getUserFromApId(activity.object);
-	if (follower == null) {
-		return "skip: follower not found";
-	}
+    const follower = await dbResolver.getUserFromApId(activity.object);
+    if (follower == null) {
+        return "skip: follower not found";
+    }
 
-	const following = await Followings.findOneBy({
-		followerId: follower.id,
-		followeeId: actor.id,
-	});
+    const following = await Followings.findOneBy({
+        followerId: follower.id,
+        followeeId: actor.id,
+    });
 
-	if (following) {
-		await unfollow(follower, actor);
-		return "ok: unfollowed";
-	}
+    if (following) {
+        await unfollow(follower, actor);
+        return "ok: unfollowed";
+    }
 
-	return "skip: フォローされていない";
+    return "skip: フォローされていない";
 };

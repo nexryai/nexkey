@@ -5,10 +5,10 @@ import { User } from "./user.js";
 @Entity()
 export class Signin {
 	@PrimaryColumn(id())
-	public id: string;
+    public id: string;
 
 	@Column("timestamp with time zone", {
-		comment: "The created date of the Signin.",
+	    comment: "The created date of the Signin.",
 	})
 	public createdAt: Date;
 
@@ -17,13 +17,13 @@ export class Signin {
 	public userId: User["id"];
 
 	@ManyToOne(type => User, {
-		onDelete: "CASCADE",
+	    onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public user: User | null;
 
 	@Column("varchar", {
-		length: 128,
+	    length: 128,
 	})
 	public ip: string;
 

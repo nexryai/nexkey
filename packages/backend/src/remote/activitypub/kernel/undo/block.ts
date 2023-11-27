@@ -5,17 +5,17 @@ import DbResolver from "../../db-resolver.js";
 import { IBlock } from "../../type.js";
 
 export default async (actor: CacheableRemoteUser, activity: IBlock): Promise<string> => {
-	const dbResolver = new DbResolver();
-	const blockee = await dbResolver.getUserFromApId(activity.object);
+    const dbResolver = new DbResolver();
+    const blockee = await dbResolver.getUserFromApId(activity.object);
 
-	if (blockee == null) {
-		return "skip: blockee not found";
-	}
+    if (blockee == null) {
+        return "skip: blockee not found";
+    }
 
-	if (blockee.host != null) {
-		return "skip: ブロック解除しようとしているユーザーはローカルユーザーではありません";
-	}
+    if (blockee.host != null) {
+        return "skip: ブロック解除しようとしているユーザーはローカルユーザーではありません";
+    }
 
-	await unblock(await Users.findOneByOrFail({ id: actor.id }), blockee);
-	return "ok";
+    await unblock(await Users.findOneByOrFail({ id: actor.id }), blockee);
+    return "ok";
 };

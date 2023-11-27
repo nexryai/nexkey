@@ -14,46 +14,46 @@ type executor<T extends IEndpointMeta, Ps extends Schema> =
 		Promise<T["res"] extends undefined ? Response : SchemaType<NonNullable<T["res"]>>>;
 
 const ajv = new Ajv({
-	useDefaults: true,
+    useDefaults: true,
 });
 
 ajv.addFormat("misskey:id", /^[a-zA-Z0-9]+$/);
 
 export default function <T extends IEndpointMeta, Ps extends Schema>(meta: T, paramDef: Ps, cb: executor<T, Ps>)
 		: (params: any, user: T["requireCredential"] extends true ? CacheableLocalUser : CacheableLocalUser | null, token: AccessToken | null, file?: any, ip?: string | null, headers?: Record<string, string> | null) => Promise<any> {
-	const validate = ajv.compile(paramDef);
+    const validate = ajv.compile(paramDef);
 
-	return (params: any, user: T["requireCredential"] extends true ? CacheableLocalUser : CacheableLocalUser | null, token: AccessToken | null, file?: any, ip?: string | null, headers?: Record<string, string> | null) => {
-		let cleanup: undefined | (() => void) = undefined;
+    return (params: any, user: T["requireCredential"] extends true ? CacheableLocalUser : CacheableLocalUser | null, token: AccessToken | null, file?: any, ip?: string | null, headers?: Record<string, string> | null) => {
+        let cleanup: undefined | (() => void) = undefined;
 
-		if (meta.requireFile) {
-			cleanup = () => {
-				fs.unlink(file.path, () => {});
-			};
+        if (meta.requireFile) {
+            cleanup = () => {
+                fs.unlink(file.path, () => {});
+            };
 
-			if (file == null) return Promise.reject(new ApiError({
-				message: "File required.",
-				code: "FILE_REQUIRED",
-				id: "4267801e-70d1-416a-b011-4ee502885d8b",
-			}));
-		}
+            if (file == null) return Promise.reject(new ApiError({
+                message: "File required.",
+                code: "FILE_REQUIRED",
+                id: "4267801e-70d1-416a-b011-4ee502885d8b",
+            }));
+        }
 
-		const valid = validate(params);
-		if (!valid) {
-			if (file) cleanup!();
+        const valid = validate(params);
+        if (!valid) {
+            if (file) cleanup!();
 
-			const errors = validate.errors!;
-			const err = new ApiError({
-				message: "Invalid param.",
-				code: "INVALID_PARAM",
-				id: "3d81ceae-475f-4600-b2a8-2bc116157532",
-			}, {
-				param: errors[0].schemaPath,
-				reason: errors[0].message,
-			});
-			return Promise.reject(err);
-		}
+            const errors = validate.errors!;
+            const err = new ApiError({
+                message: "Invalid param.",
+                code: "INVALID_PARAM",
+                id: "3d81ceae-475f-4600-b2a8-2bc116157532",
+            }, {
+                param: errors[0].schemaPath,
+                reason: errors[0].message,
+            });
+            return Promise.reject(err);
+        }
 
-		return cb(params as SchemaType<Ps>, user, token, file, cleanup, ip, headers);
-	};
+        return cb(params as SchemaType<Ps>, user, token, file, cleanup, ip, headers);
+    };
 }

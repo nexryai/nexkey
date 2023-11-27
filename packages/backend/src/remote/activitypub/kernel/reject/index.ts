@@ -7,18 +7,18 @@ import rejectFollow from "./follow.js";
 const logger = apLogger;
 
 export default async (actor: CacheableRemoteUser, activity: IReject): Promise<string> => {
-	const uri = activity.id || activity;
+    const uri = activity.id || activity;
 
-	logger.info(`Reject: ${uri}`);
+    logger.info(`Reject: ${uri}`);
 
-	const resolver = new Resolver();
+    const resolver = new Resolver();
 
-	const object = await resolver.resolve(activity.object).catch(e => {
-		logger.error(`Resolution failed: ${e}`);
-		throw e;
-	});
+    const object = await resolver.resolve(activity.object).catch(e => {
+        logger.error(`Resolution failed: ${e}`);
+        throw e;
+    });
 
-	if (isFollow(object)) return await rejectFollow(actor, object);
+    if (isFollow(object)) return await rejectFollow(actor, object);
 
-	return `skip: Unknown Reject type: ${getApType(object)}`;
+    return `skip: Unknown Reject type: ${getApType(object)}`;
 };

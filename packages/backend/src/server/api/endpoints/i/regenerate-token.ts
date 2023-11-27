@@ -5,45 +5,45 @@ import generateUserToken from "../../common/generate-native-user-token.js";
 import define from "../../define.js";
 
 export const meta = {
-	requireCredential: true,
+    requireCredential: true,
 
-	secure: true,
+    secure: true,
 } as const;
 
 export const paramDef = {
-	type: "object",
-	properties: {
-		password: { type: "string" },
-	},
-	required: ["password"],
+    type: "object",
+    properties: {
+        password: { type: "string" },
+    },
+    required: ["password"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	const freshUser = await Users.findOneByOrFail({ id: user.id });
-	const oldToken = freshUser.token;
+    const freshUser = await Users.findOneByOrFail({ id: user.id });
+    const oldToken = freshUser.token;
 
-	const profile = await UserProfiles.findOneByOrFail({ userId: user.id });
+    const profile = await UserProfiles.findOneByOrFail({ userId: user.id });
 
-	// Compare password
-	const same = await comparePassword(ps.password, profile.password!);
+    // Compare password
+    const same = await comparePassword(ps.password, profile.password!);
 
-	if (!same) {
-		throw new Error("incorrect password");
-	}
+    if (!same) {
+        throw new Error("incorrect password");
+    }
 
-	const newToken = generateUserToken();
+    const newToken = generateUserToken();
 
-	await Users.update(user.id, {
-		token: newToken,
-	});
+    await Users.update(user.id, {
+        token: newToken,
+    });
 
-	// Publish event
-	publishInternalEvent("userTokenRegenerated", { id: user.id, oldToken, newToken });
-	publishMainStream(user.id, "myTokenRegenerated");
+    // Publish event
+    publishInternalEvent("userTokenRegenerated", { id: user.id, oldToken, newToken });
+    publishMainStream(user.id, "myTokenRegenerated");
 
-	// Terminate streaming
-	setTimeout(() => {
-		publishUserEvent(user.id, "terminate", {});
-	}, 5000);
+    // Terminate streaming
+    setTimeout(() => {
+        publishUserEvent(user.id, "terminate", {});
+    }, 5000);
 });

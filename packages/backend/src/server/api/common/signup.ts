@@ -18,96 +18,96 @@ export async function signup(opts: {
 	passwordHash?: UserProfile["password"] | null;
 	host?: string | null;
 }) {
-	const { username, password, passwordHash, host } = opts;
-	let hash = passwordHash;
+    const { username, password, passwordHash, host } = opts;
+    let hash = passwordHash;
 
-	// Validate username
-	if (!Users.validateLocalUsername(username)) {
-		throw new Error("INVALID_USERNAME");
-	}
+    // Validate username
+    if (!Users.validateLocalUsername(username)) {
+        throw new Error("INVALID_USERNAME");
+    }
 
-	if (password != null && passwordHash == null) {
-		// Validate password
-		if (!Users.validatePassword(password)) {
-			throw new Error("INVALID_PASSWORD");
-		}
+    if (password != null && passwordHash == null) {
+        // Validate password
+        if (!Users.validatePassword(password)) {
+            throw new Error("INVALID_PASSWORD");
+        }
 
-		// Generate hash of password
-		hash = await hashPassword(password);
-	}
+        // Generate hash of password
+        hash = await hashPassword(password);
+    }
 
-	// Generate secret
-	const secret = generateUserToken();
+    // Generate secret
+    const secret = generateUserToken();
 
-	// Check username duplication
-	if (await Users.findOneBy({ usernameLower: username.toLowerCase(), host: IsNull() })) {
-		throw new Error("DUPLICATED_USERNAME");
-	}
+    // Check username duplication
+    if (await Users.findOneBy({ usernameLower: username.toLowerCase(), host: IsNull() })) {
+        throw new Error("DUPLICATED_USERNAME");
+    }
 
-	// Check deleted username duplication
-	if (await UsedUsernames.findOneBy({ username: username.toLowerCase() })) {
-		throw new Error("USED_USERNAME");
-	}
+    // Check deleted username duplication
+    if (await UsedUsernames.findOneBy({ username: username.toLowerCase() })) {
+        throw new Error("USED_USERNAME");
+    }
 
-	const keyPair = await new Promise<string[]>((res, rej) =>
-		generateKeyPair("rsa", {
-			modulusLength: 4096,
-			publicKeyEncoding: {
-				type: "spki",
-				format: "pem",
-			},
-			privateKeyEncoding: {
-				type: "pkcs8",
-				format: "pem",
-				cipher: undefined,
-				passphrase: undefined,
-			},
-		} as any, (err, publicKey, privateKey) =>
-			err ? rej(err) : res([publicKey, privateKey]),
-		));
+    const keyPair = await new Promise<string[]>((res, rej) =>
+        generateKeyPair("rsa", {
+            modulusLength: 4096,
+            publicKeyEncoding: {
+                type: "spki",
+                format: "pem",
+            },
+            privateKeyEncoding: {
+                type: "pkcs8",
+                format: "pem",
+                cipher: undefined,
+                passphrase: undefined,
+            },
+        } as any, (err, publicKey, privateKey) =>
+            err ? rej(err) : res([publicKey, privateKey]),
+        ));
 
-	let account!: User;
+    let account!: User;
 
-	// Start transaction
-	await db.transaction(async transactionalEntityManager => {
-		const exist = await transactionalEntityManager.findOneBy(User, {
-			usernameLower: username.toLowerCase(),
-			host: IsNull(),
-		});
+    // Start transaction
+    await db.transaction(async transactionalEntityManager => {
+        const exist = await transactionalEntityManager.findOneBy(User, {
+            usernameLower: username.toLowerCase(),
+            host: IsNull(),
+        });
 
-		if (exist) throw new Error(" the username is already used");
+        if (exist) throw new Error(" the username is already used");
 
-		account = await transactionalEntityManager.save(new User({
-			id: genId(),
-			createdAt: new Date(),
-			username: username,
-			usernameLower: username.toLowerCase(),
-			host: toPunyNullable(host),
-			token: secret,
-			isAdmin: (await Users.countBy({
-				host: IsNull(),
-			})) === 0,
-		}));
+        account = await transactionalEntityManager.save(new User({
+            id: genId(),
+            createdAt: new Date(),
+            username: username,
+            usernameLower: username.toLowerCase(),
+            host: toPunyNullable(host),
+            token: secret,
+            isAdmin: (await Users.countBy({
+                host: IsNull(),
+            })) === 0,
+        }));
 
-		await transactionalEntityManager.save(new UserKeypair({
-			publicKey: keyPair[0],
-			privateKey: keyPair[1],
-			userId: account.id,
-		}));
+        await transactionalEntityManager.save(new UserKeypair({
+            publicKey: keyPair[0],
+            privateKey: keyPair[1],
+            userId: account.id,
+        }));
 
-		await transactionalEntityManager.save(new UserProfile({
-			userId: account.id,
-			autoAcceptFollowed: true,
-			password: hash,
-		}));
+        await transactionalEntityManager.save(new UserProfile({
+            userId: account.id,
+            autoAcceptFollowed: true,
+            password: hash,
+        }));
 
-		await transactionalEntityManager.save(new UsedUsername({
-			createdAt: new Date(),
-			username: username.toLowerCase(),
-		}));
-	});
+        await transactionalEntityManager.save(new UsedUsername({
+            createdAt: new Date(),
+            username: username.toLowerCase(),
+        }));
+    });
 
-	usersChart.update(account, true);
+    usersChart.update(account, true);
 
-	return { account, secret };
+    return { account, secret };
 }

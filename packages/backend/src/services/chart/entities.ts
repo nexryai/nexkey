@@ -17,23 +17,23 @@ import { entity as TestUniqueChart } from "./charts/entities/test-unique.js";
 import { entity as TestIntersectionChart } from "./charts/entities/test-intersection.js";
 
 export const entities = [
-	FederationChart.hour, FederationChart.day,
-	NotesChart.hour, NotesChart.day,
-	UsersChart.hour, UsersChart.day,
-	ActiveUsersChart.hour, ActiveUsersChart.day,
-	InstanceChart.hour, InstanceChart.day,
-	PerUserNotesChart.hour, PerUserNotesChart.day,
-	DriveChart.hour, DriveChart.day,
-	PerUserReactionsChart.hour, PerUserReactionsChart.day,
-	HashtagChart.hour, HashtagChart.day,
-	PerUserFollowingChart.hour, PerUserFollowingChart.day,
-	PerUserDriveChart.hour, PerUserDriveChart.day,
-	ApRequestChart.hour, ApRequestChart.day,
+    FederationChart.hour, FederationChart.day,
+    NotesChart.hour, NotesChart.day,
+    UsersChart.hour, UsersChart.day,
+    ActiveUsersChart.hour, ActiveUsersChart.day,
+    InstanceChart.hour, InstanceChart.day,
+    PerUserNotesChart.hour, PerUserNotesChart.day,
+    DriveChart.hour, DriveChart.day,
+    PerUserReactionsChart.hour, PerUserReactionsChart.day,
+    HashtagChart.hour, HashtagChart.day,
+    PerUserFollowingChart.hour, PerUserFollowingChart.day,
+    PerUserDriveChart.hour, PerUserDriveChart.day,
+    ApRequestChart.hour, ApRequestChart.day,
 
-	...(process.env.NODE_ENV === "test" ? [
-		TestChart.hour, TestChart.day,
-		TestGroupedChart.hour, TestGroupedChart.day,
-		TestUniqueChart.hour, TestUniqueChart.day,
-		TestIntersectionChart.hour, TestIntersectionChart.day,
-	] : []),
+    ...(process.env.NODE_ENV === "test" ? [
+        TestChart.hour, TestChart.day,
+        TestGroupedChart.hour, TestGroupedChart.day,
+        TestUniqueChart.hour, TestUniqueChart.day,
+        TestIntersectionChart.hour, TestIntersectionChart.day,
+    ] : []),
 ];

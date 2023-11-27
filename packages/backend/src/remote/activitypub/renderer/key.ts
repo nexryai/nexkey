@@ -4,11 +4,11 @@ import { ILocalUser } from "@/models/entities/user.js";
 import { UserKeypair } from "@/models/entities/user-keypair.js";
 
 export default (user: ILocalUser, key: UserKeypair, postfix?: string) => ({
-	id: `${config.url}/users/${user.id}${postfix || "/publickey"}`,
-	type: "Key",
-	owner: `${config.url}/users/${user.id}`,
-	publicKeyPem: createPublicKey(key.publicKey).export({
-		type: "spki",
-		format: "pem",
-	}),
+    id: `${config.url}/users/${user.id}${postfix || "/publickey"}`,
+    type: "Key",
+    owner: `${config.url}/users/${user.id}`,
+    publicKeyPem: createPublicKey(key.publicKey).export({
+        type: "spki",
+        format: "pem",
+    }),
 });

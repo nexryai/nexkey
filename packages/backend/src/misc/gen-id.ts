@@ -9,15 +9,15 @@ import { genNexryaid } from "./id/nexryaid.js";
 const metohd = config.id.toLowerCase();
 
 export function genId(date?: Date): string {
-	if (!date || (date > new Date())) date = new Date();
+    if (!date || (date > new Date())) date = new Date();
 
-	switch (metohd) {
-		case "aid": return genAid(date);
-		case "meid": return genMeid(date);
-		case "meidg": return genMeidg(date);
-		case "ulid": return ulid(date.getTime());
-		case "objectid": return genObjectId(date);
-		case "nexryaid": return genNexryaid(date);
-		default: throw new Error("unrecognized id generation method");
-	}
+    switch (metohd) {
+        case "aid": return genAid(date);
+        case "meid": return genMeid(date);
+        case "meidg": return genMeidg(date);
+        case "ulid": return ulid(date.getTime());
+        case "objectid": return genObjectId(date);
+        case "nexryaid": return genNexryaid(date);
+        default: throw new Error("unrecognized id generation method");
+    }
 }

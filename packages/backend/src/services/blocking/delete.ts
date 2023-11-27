@@ -10,30 +10,30 @@ import Logger from "../logger.js";
 const logger = new Logger("blocking/delete");
 
 export default async function(blocker: CacheableUser, blockee: CacheableUser) {
-	const blocking = await Blockings.findOneBy({
-		blockerId: blocker.id,
-		blockeeId: blockee.id,
-	});
+    const blocking = await Blockings.findOneBy({
+        blockerId: blocker.id,
+        blockeeId: blockee.id,
+    });
 
-	if (blocking == null) {
-		logger.warn("ブロック解除がリクエストされましたがブロックしていませんでした");
-		return;
-	}
+    if (blocking == null) {
+        logger.warn("ブロック解除がリクエストされましたがブロックしていませんでした");
+        return;
+    }
 
-	// Since we already have the blocker and blockee, we do not need to fetch
-	// them in the query above and can just manually insert them here.
-	blocking.blocker = blocker;
-	blocking.blockee = blockee;
+    // Since we already have the blocker and blockee, we do not need to fetch
+    // them in the query above and can just manually insert them here.
+    blocking.blocker = blocker;
+    blocking.blockee = blockee;
 
-	Blockings.delete(blocking.id);
+    Blockings.delete(blocking.id);
 
-	// deliver if remote bloking
-	if (Users.isLocalUser(blocker) && Users.isRemoteUser(blockee)) {
-		const content = renderActivity(renderUndo(renderBlock(blocking), blocker));
-		deliver(blocker, content, blockee.inbox);
-	}
+    // deliver if remote bloking
+    if (Users.isLocalUser(blocker) && Users.isRemoteUser(blockee)) {
+        const content = renderActivity(renderUndo(renderBlock(blocking), blocker));
+        deliver(blocker, content, blockee.inbox);
+    }
 
-	if (Users.isLocalUser(blockee)) {
-		publishUserEvent(blockee.id, "unblock", blocker);
-	}
+    if (Users.isLocalUser(blockee)) {
+        publishUserEvent(blockee.id, "unblock", blocker);
+    }
 }

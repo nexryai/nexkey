@@ -7,35 +7,35 @@ import { UserGroup } from "./user-group.js";
 @Index(["userId", "userGroupId"], { unique: true })
 export class UserGroupInvitation {
 	@PrimaryColumn(id())
-	public id: string;
+    public id: string;
 
 	@Column("timestamp with time zone", {
-		comment: "The created date of the UserGroupInvitation.",
+	    comment: "The created date of the UserGroupInvitation.",
 	})
 	public createdAt: Date;
 
 	@Index()
 	@Column({
-		...id(),
-		comment: "The user ID.",
+	    ...id(),
+	    comment: "The user ID.",
 	})
 	public userId: User["id"];
 
 	@ManyToOne(type => User, {
-		onDelete: "CASCADE",
+	    onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public user: User | null;
 
 	@Index()
 	@Column({
-		...id(),
-		comment: "The group ID.",
+	    ...id(),
+	    comment: "The group ID.",
 	})
 	public userGroupId: UserGroup["id"];
 
 	@ManyToOne(type => UserGroup, {
-		onDelete: "CASCADE",
+	    onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public userGroup: UserGroup | null;

@@ -4,58 +4,58 @@ import Connection from ".";
  * Stream channel
  */
 export default abstract class Channel {
-	protected connection: Connection;
-	public id: string;
+    protected connection: Connection;
+    public id: string;
 	public abstract readonly chName: string;
 	public static readonly shouldShare: boolean;
 	public static readonly requireCredential: boolean;
 
 	protected get user() {
-		return this.connection.user;
+	    return this.connection.user;
 	}
 
 	protected get userProfile() {
-		return this.connection.userProfile;
+	    return this.connection.userProfile;
 	}
 
 	protected get following() {
-		return this.connection.following;
+	    return this.connection.following;
 	}
 
 	protected get muting() {
-		return this.connection.muting;
+	    return this.connection.muting;
 	}
 
 	protected get blocking() {
-		return this.connection.blocking;
+	    return this.connection.blocking;
 	}
 
 	protected get renoteMuting() {
-		return this.connection.renoteMuting;
+	    return this.connection.renoteMuting;
 	}
 
 	protected get followingChannels() {
-		return this.connection.followingChannels;
+	    return this.connection.followingChannels;
 	}
 
 	protected get subscriber() {
-		return this.connection.subscriber;
+	    return this.connection.subscriber;
 	}
 
 	constructor(id: string, connection: Connection) {
-		this.id = id;
-		this.connection = connection;
+	    this.id = id;
+	    this.connection = connection;
 	}
 
 	public send(typeOrPayload: any, payload?: any) {
-		const type = payload === undefined ? typeOrPayload.type : typeOrPayload;
-		const body = payload === undefined ? typeOrPayload.body : payload;
+	    const type = payload === undefined ? typeOrPayload.type : typeOrPayload;
+	    const body = payload === undefined ? typeOrPayload.body : payload;
 
-		this.connection.sendMessageToWs("channel", {
-			id: this.id,
-			type: type,
-			body: body,
-		});
+	    this.connection.sendMessageToWs("channel", {
+	        id: this.id,
+	        type: type,
+	        body: body,
+	    });
 	}
 
 	public abstract init(params: any): void;

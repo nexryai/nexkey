@@ -11,56 +11,56 @@ import { generateBlockedUserQuery } from "../../common/generate-block-query.js";
 import { generateMutedRenotesQuery } from "../../common/generated-muted-renote-query.js";
 
 export const meta = {
-	tags: ["notes"],
+    tags: ["notes"],
 
-	res: {
-		type: "array",
-		optional: false, nullable: false,
-		items: {
-			type: "object",
-			optional: false, nullable: false,
-			ref: "Note",
-		},
-	},
+    res: {
+        type: "array",
+        optional: false, nullable: false,
+        items: {
+            type: "object",
+            optional: false, nullable: false,
+            ref: "Note",
+        },
+    },
 
-	errors: {
-		gtlDisabled: {
-			message: "Global timeline has been disabled.",
-			code: "GTL_DISABLED",
-			id: "0332fc13-6ab2-4427-ae80-a9fadffd1a6b",
-		},
-	},
+    errors: {
+        gtlDisabled: {
+            message: "Global timeline has been disabled.",
+            code: "GTL_DISABLED",
+            id: "0332fc13-6ab2-4427-ae80-a9fadffd1a6b",
+        },
+    },
 } as const;
 
 export const paramDef = {
-	type: "object",
-	properties: {
-		withFiles: {
-			type: "boolean",
-			default: false,
-			description: "Only show notes that have attached files.",
-		},
-		limit: { type: "integer", minimum: 1, maximum: 100, default: 10 },
-		sinceId: { type: "string", format: "misskey:id" },
-		untilId: { type: "string", format: "misskey:id" },
-		sinceDate: { type: "integer" },
-		untilDate: { type: "integer" },
-	},
-	required: [],
+    type: "object",
+    properties: {
+        withFiles: {
+            type: "boolean",
+            default: false,
+            description: "Only show notes that have attached files.",
+        },
+        limit: { type: "integer", minimum: 1, maximum: 100, default: 10 },
+        sinceId: { type: "string", format: "misskey:id" },
+        untilId: { type: "string", format: "misskey:id" },
+        sinceDate: { type: "integer" },
+        untilDate: { type: "integer" },
+    },
+    required: [],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	const m = await fetchMeta();
-	if (m.disableGlobalTimeline) {
-		if (user == null || (!user.isAdmin && !user.isModerator)) {
-			throw new ApiError(meta.errors.gtlDisabled);
-		}
-	}
+    const m = await fetchMeta();
+    if (m.disableGlobalTimeline) {
+        if (user == null || (!user.isAdmin && !user.isModerator)) {
+            throw new ApiError(meta.errors.gtlDisabled);
+        }
+    }
 
-	//#region Construct query
-	const query = makePaginationQuery(Notes.createQueryBuilder("note"),
-		ps.sinceId, ps.untilId, ps.sinceDate, ps.untilDate)
+    //#region Construct query
+    const query = makePaginationQuery(Notes.createQueryBuilder("note"),
+        ps.sinceId, ps.untilId, ps.sinceDate, ps.untilDate)
 		.andWhere("note.visibility = 'public'")
 		.andWhere("note.channelId IS NULL")
 		.innerJoinAndSelect("note.user", "user")
@@ -75,26 +75,26 @@ export default define(meta, paramDef, async (ps, user) => {
 		.leftJoinAndSelect("renoteUser.avatar", "renoteUserAvatar")
 		.leftJoinAndSelect("renoteUser.banner", "renoteUserBanner");
 
-	generateRepliesQuery(query, user);
-	if (user) {
-		generateMutedUserQuery(query, user);
-		generateMutedNoteQuery(query, user);
-		generateBlockedUserQuery(query, user);
-		generateMutedRenotesQuery(query, user);
-	}
+    generateRepliesQuery(query, user);
+    if (user) {
+        generateMutedUserQuery(query, user);
+        generateMutedNoteQuery(query, user);
+        generateBlockedUserQuery(query, user);
+        generateMutedRenotesQuery(query, user);
+    }
 
-	if (ps.withFiles) {
-		query.andWhere("note.fileIds != '{}'");
-	}
-	//#endregion
+    if (ps.withFiles) {
+        query.andWhere("note.fileIds != '{}'");
+    }
+    //#endregion
 
-	const timeline = await query.take(ps.limit).getMany();
+    const timeline = await query.take(ps.limit).getMany();
 
-	process.nextTick(() => {
-		if (user) {
-			activeUsersChart.read(user);
-		}
-	});
+    process.nextTick(() => {
+        if (user) {
+            activeUsersChart.read(user);
+        }
+    });
 
-	return await Notes.packMany(timeline, user);
+    return await Notes.packMany(timeline, user);
 });

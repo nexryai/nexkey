@@ -7,17 +7,17 @@ export async function deleteAccount(user: {
 	id: string;
 	host: string | null;
 }): Promise<void> {
-	// 物理削除する前にDelete activityを送信する
-	await doPostSuspend(user).catch(e => {});
+    // 物理削除する前にDelete activityを送信する
+    await doPostSuspend(user).catch(e => {});
 
-	createDeleteAccountJob(user, {
-		soft: false,
-	});
+    createDeleteAccountJob(user, {
+        soft: false,
+    });
 
-	await Users.update(user.id, {
-		isDeleted: true,
-	});
+    await Users.update(user.id, {
+        isDeleted: true,
+    });
 
-	// Terminate streaming
-	publishUserEvent(user.id, "terminate", {});
+    // Terminate streaming
+    publishUserEvent(user.id, "terminate", {});
 }

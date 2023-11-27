@@ -8,20 +8,20 @@ import { fetchProxyAccount } from "@/misc/fetch-proxy-account.js";
 import createFollowing from "../following/create.js";
 
 export async function pushUserToUserList(target: User, list: UserList) {
-	await UserListJoinings.insert({
-		id: genId(),
-		createdAt: new Date(),
-		userId: target.id,
-		userListId: list.id,
-	} as UserListJoining);
+    await UserListJoinings.insert({
+        id: genId(),
+        createdAt: new Date(),
+        userId: target.id,
+        userListId: list.id,
+    } as UserListJoining);
 
-	publishUserListStream(list.id, "userAdded", await Users.pack(target));
+    publishUserListStream(list.id, "userAdded", await Users.pack(target));
 
-	// このインスタンス内にこのリモートユーザーをフォローしているユーザーがいなくても投稿を受け取るためにダミーのユーザーがフォローしたということにする
-	if (Users.isRemoteUser(target)) {
-		const proxy = await fetchProxyAccount();
-		if (proxy) {
-			createFollowing(proxy, target);
-		}
-	}
+    // このインスタンス内にこのリモートユーザーをフォローしているユーザーがいなくても投稿を受け取るためにダミーのユーザーがフォローしたということにする
+    if (Users.isRemoteUser(target)) {
+        const proxy = await fetchProxyAccount();
+        if (proxy) {
+            createFollowing(proxy, target);
+        }
+    }
 }

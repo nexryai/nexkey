@@ -7,14 +7,14 @@ import { deliverToFollowers } from "@/remote/activitypub/deliver-manager.js";
 import { deliverToRelays } from "../relay.js";
 
 export async function publishToFollowers(userId: User["id"]) {
-	const user = await Users.findOneBy({ id: userId });
-	if (user == null) throw new Error("user not found");
+    const user = await Users.findOneBy({ id: userId });
+    if (user == null) throw new Error("user not found");
 
-	// フォロワーがリモートユーザーかつ投稿者がローカルユーザーならUpdateを配信
-	if (Users.isLocalUser(user)) {
-		const content = renderActivity(renderUpdate(await renderPerson(user), user));
-		const retryable = true;
-		deliverToFollowers(user, content);
-		deliverToRelays(user, content, retryable);
-	}
+    // フォロワーがリモートユーザーかつ投稿者がローカルユーザーならUpdateを配信
+    if (Users.isLocalUser(user)) {
+        const content = renderActivity(renderUpdate(await renderPerson(user), user));
+        const retryable = true;
+        deliverToFollowers(user, content);
+        deliverToRelays(user, content, retryable);
+    }
 }

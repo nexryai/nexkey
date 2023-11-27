@@ -11,96 +11,96 @@ import { Following } from "@/models/entities/following.js";
 import { setResponseType } from "../activitypub.js";
 
 export default async (ctx: Router.RouterContext) => {
-	const userId = ctx.params.user;
+    const userId = ctx.params.user;
 
-	const cursor = ctx.request.query.cursor;
-	if (cursor != null && typeof cursor !== "string") {
-		ctx.status = 400;
-		return;
-	}
+    const cursor = ctx.request.query.cursor;
+    if (cursor != null && typeof cursor !== "string") {
+        ctx.status = 400;
+        return;
+    }
 
-	const page = ctx.request.query.page === "true";
+    const page = ctx.request.query.page === "true";
 
-	const user = await Users.findOneBy({
-		id: userId,
-		host: IsNull(),
-	});
+    const user = await Users.findOneBy({
+        id: userId,
+        host: IsNull(),
+    });
 
-	if (user == null) {
-		ctx.status = 404;
-		return;
-	}
+    if (user == null) {
+        ctx.status = 404;
+        return;
+    }
 
-	//#region Check ff visibility
-	const profile = await UserProfiles.findOneByOrFail({ userId: user.id });
+    //#region Check ff visibility
+    const profile = await UserProfiles.findOneByOrFail({ userId: user.id });
 
-	//if (profile.ffVisibility === 'private') {
-	//	ctx.status = 403;
-	//	ctx.set('Cache-Control', 'public, max-age=30');
-	//	return;
-	//} else if (profile.ffVisibility === 'followers') {
-	//	ctx.status = 403;
-	//	ctx.set('Cache-Control', 'public, max-age=30');
-	//	return;
-	//}
+    //if (profile.ffVisibility === 'private') {
+    //	ctx.status = 403;
+    //	ctx.set('Cache-Control', 'public, max-age=30');
+    //	return;
+    //} else if (profile.ffVisibility === 'followers') {
+    //	ctx.status = 403;
+    //	ctx.set('Cache-Control', 'public, max-age=30');
+    //	return;
+    //}
 
-	const followingCount = profile == null ? 0 :
-		(profile.ffVisibility === "public") ? user.followingCount :
-		0;
+    const followingCount = profile == null ? 0 :
+        (profile.ffVisibility === "public") ? user.followingCount :
+        0;
 
-	//#endregion
+    //#endregion
 
-	const limit = 10;
-	const partOf = `${config.url}/users/${userId}/following`;
+    const limit = 10;
+    const partOf = `${config.url}/users/${userId}/following`;
 
-	if (page) {
-		if (profile.ffVisibility !== "public") {
-			ctx.status = 403;
-			ctx.set("Cache-Control", "public, max-age=30");
-			return;
-		}
+    if (page) {
+        if (profile.ffVisibility !== "public") {
+            ctx.status = 403;
+            ctx.set("Cache-Control", "public, max-age=30");
+            return;
+        }
 
-		const query = {
-			followerId: user.id,
-		} as FindOptionsWhere<Following>;
+        const query = {
+            followerId: user.id,
+        } as FindOptionsWhere<Following>;
 
-		// カーソルが指定されている場合
-		if (cursor) {
-			query.id = LessThan(cursor);
-		}
+        // カーソルが指定されている場合
+        if (cursor) {
+            query.id = LessThan(cursor);
+        }
 
-		// Get followings
-		const followings = await Followings.find({
-			where: query,
-			take: limit + 1,
-			order: { id: -1 },
-		});
+        // Get followings
+        const followings = await Followings.find({
+            where: query,
+            take: limit + 1,
+            order: { id: -1 },
+        });
 
-		// 「次のページ」があるかどうか
-		const inStock = followings.length === limit + 1;
-		if (inStock) followings.pop();
+        // 「次のページ」があるかどうか
+        const inStock = followings.length === limit + 1;
+        if (inStock) followings.pop();
 
-		const renderedFollowees = await Promise.all(followings.map(following => renderFollowUser(following.followeeId)));
-		const rendered = renderOrderedCollectionPage(
-			`${partOf}?${url.query({
-				page: "true",
-				cursor,
-			})}`,
-			followingCount, renderedFollowees, partOf,
-			undefined,
-			inStock ? `${partOf}?${url.query({
-				page: "true",
-				cursor: followings[followings.length - 1].id,
-			})}` : undefined,
-		);
+        const renderedFollowees = await Promise.all(followings.map(following => renderFollowUser(following.followeeId)));
+        const rendered = renderOrderedCollectionPage(
+            `${partOf}?${url.query({
+                page: "true",
+                cursor,
+            })}`,
+            followingCount, renderedFollowees, partOf,
+            undefined,
+            inStock ? `${partOf}?${url.query({
+                page: "true",
+                cursor: followings[followings.length - 1].id,
+            })}` : undefined,
+        );
 
-		ctx.body = renderActivity(rendered);
-		setResponseType(ctx);
-	} else {
-		// index page
-		const rendered = renderOrderedCollection(partOf, followingCount, (profile.ffVisibility === "public") ? `${partOf}?page=true` : undefined);
-		ctx.body = renderActivity(rendered);
-		ctx.set("Cache-Control", "public, max-age=180");
-		setResponseType(ctx);
-	}
+        ctx.body = renderActivity(rendered);
+        setResponseType(ctx);
+    } else {
+        // index page
+        const rendered = renderOrderedCollection(partOf, followingCount, (profile.ffVisibility === "public") ? `${partOf}?page=true` : undefined);
+        ctx.body = renderActivity(rendered);
+        ctx.set("Cache-Control", "public, max-age=180");
+        setResponseType(ctx);
+    }
 };

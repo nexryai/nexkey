@@ -7,33 +7,33 @@ import { DriveFile } from "./drive-file.js";
 @Index(["userId", "name"], { unique: true })
 export class Page {
 	@PrimaryColumn(id())
-	public id: string;
+    public id: string;
 
 	@Index()
 	@Column("timestamp with time zone", {
-		comment: "The created date of the Page.",
+	    comment: "The created date of the Page.",
 	})
 	public createdAt: Date;
 
 	@Index()
 	@Column("timestamp with time zone", {
-		comment: "The updated date of the Page.",
+	    comment: "The updated date of the Page.",
 	})
 	public updatedAt: Date;
 
 	@Column("varchar", {
-		length: 256,
+	    length: 256,
 	})
 	public title: string;
 
 	@Index()
 	@Column("varchar", {
-		length: 256,
+	    length: 256,
 	})
 	public name: string;
 
 	@Column("varchar", {
-		length: 256, nullable: true,
+	    length: 256, nullable: true,
 	})
 	public summary: string | null;
 
@@ -41,53 +41,53 @@ export class Page {
 	public alignCenter: boolean;
 
 	@Column("boolean", {
-		default: false,
+	    default: false,
 	})
 	public hideTitleWhenPinned: boolean;
 
 	@Column("varchar", {
-		length: 32,
+	    length: 32,
 	})
 	public font: string;
 
 	@Index()
 	@Column({
-		...id(),
-		comment: "The ID of author.",
+	    ...id(),
+	    comment: "The ID of author.",
 	})
 	public userId: User["id"];
 
 	@ManyToOne(type => User, {
-		onDelete: "CASCADE",
+	    onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public user: User | null;
 
 	@Column({
-		...id(),
-		nullable: true,
+	    ...id(),
+	    nullable: true,
 	})
 	public eyeCatchingImageId: DriveFile["id"] | null;
 
 	@ManyToOne(type => DriveFile, {
-		onDelete: "CASCADE",
+	    onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public eyeCatchingImage: DriveFile | null;
 
 	@Column("jsonb", {
-		default: [],
+	    default: [],
 	})
 	public content: Record<string, any>[];
 
 	@Column("jsonb", {
-		default: [],
+	    default: [],
 	})
 	public variables: Record<string, any>[];
 
 	@Column("varchar", {
-		length: 16384,
-		default: "",
+	    length: 16384,
+	    default: "",
 	})
 	public script: string;
 
@@ -101,21 +101,21 @@ export class Page {
 
 	@Index()
 	@Column({
-		...id(),
-		array: true, default: "{}",
+	    ...id(),
+	    array: true, default: "{}",
 	})
 	public visibleUserIds: User["id"][];
 
 	@Column("integer", {
-		default: 0,
+	    default: 0,
 	})
 	public likedCount: number;
 
 	constructor(data: Partial<Page>) {
-		if (data == null) return;
+	    if (data == null) return;
 
-		for (const [k, v] of Object.entries(data)) {
-			(this as any)[k] = v;
-		}
+	    for (const [k, v] of Object.entries(data)) {
+	        (this as any)[k] = v;
+	    }
 	}
 }

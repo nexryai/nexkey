@@ -2,34 +2,34 @@ import { Clips } from "@/models/index.js";
 import define from "../../define.js";
 
 export const meta = {
-	tags: ["clips", "account"],
+    tags: ["clips", "account"],
 
-	requireCredential: true,
+    requireCredential: true,
 
-	kind: "read:account",
+    kind: "read:account",
 
-	res: {
-		type: "array",
-		optional: false, nullable: false,
-		items: {
-			type: "object",
-			optional: false, nullable: false,
-			ref: "Clip",
-		},
-	},
+    res: {
+        type: "array",
+        optional: false, nullable: false,
+        items: {
+            type: "object",
+            optional: false, nullable: false,
+            ref: "Clip",
+        },
+    },
 } as const;
 
 export const paramDef = {
-	type: "object",
-	properties: {},
-	required: [],
+    type: "object",
+    properties: {},
+    required: [],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, me) => {
-	const clips = await Clips.findBy({
-		userId: me.id,
-	});
+    const clips = await Clips.findBy({
+        userId: me.id,
+    });
 
-	return await Promise.all(clips.map(x => Clips.pack(x)));
+    return await Promise.all(clips.map(x => Clips.pack(x)));
 });

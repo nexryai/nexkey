@@ -7,7 +7,7 @@ import { Note } from "./note.js";
 @Index(["userId", "threadId"], { unique: true })
 export class NoteThreadMuting {
 	@PrimaryColumn(id())
-	public id: string;
+    public id: string;
 
 	@Column("timestamp with time zone", {
 	})
@@ -15,19 +15,19 @@ export class NoteThreadMuting {
 
 	@Index()
 	@Column({
-		...id(),
+	    ...id(),
 	})
 	public userId: User["id"];
 
 	@ManyToOne(type => User, {
-		onDelete: "CASCADE",
+	    onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public user: User | null;
 
 	@Index()
 	@Column("varchar", {
-		length: 256,
+	    length: 256,
 	})
 	public threadId: string;
 }

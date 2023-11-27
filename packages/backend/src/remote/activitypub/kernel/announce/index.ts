@@ -7,13 +7,13 @@ import announceNote from "./note.js";
 const logger = apLogger;
 
 export default async (actor: CacheableRemoteUser, activity: IAnnounce): Promise<void> => {
-	const uri = getApId(activity);
+    const uri = getApId(activity);
 
-	logger.info(`Announce: ${uri}`);
+    logger.info(`Announce: ${uri}`);
 
-	const resolver = new Resolver();
+    const resolver = new Resolver();
 
-	const targetUri = getApId(activity.object);
+    const targetUri = getApId(activity.object);
 
-	announceNote(resolver, actor, activity, targetUri);
+    announceNote(resolver, actor, activity, targetUri);
 };

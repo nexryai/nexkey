@@ -3,30 +3,30 @@ import { publishUserEvent } from "@/services/stream.js";
 import define from "../../define.js";
 
 export const meta = {
-	requireCredential: true,
+    requireCredential: true,
 
-	secure: true,
+    secure: true,
 } as const;
 
 export const paramDef = {
-	type: "object",
-	properties: {
-		tokenId: { type: "string", format: "misskey:id" },
-	},
-	required: ["tokenId"],
+    type: "object",
+    properties: {
+        tokenId: { type: "string", format: "misskey:id" },
+    },
+    required: ["tokenId"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	const token = await AccessTokens.findOneBy({ id: ps.tokenId });
+    const token = await AccessTokens.findOneBy({ id: ps.tokenId });
 
-	if (token) {
-		await AccessTokens.delete({
-			id: ps.tokenId,
-			userId: user.id,
-		});
+    if (token) {
+        await AccessTokens.delete({
+            id: ps.tokenId,
+            userId: user.id,
+        });
 
-		// Terminate streaming
-		publishUserEvent(user.id, "terminate");
-	}
+        // Terminate streaming
+        publishUserEvent(user.id, "terminate");
+    }
 });

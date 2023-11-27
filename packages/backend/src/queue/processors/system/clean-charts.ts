@@ -6,18 +6,18 @@ import { queueLogger } from "../../logger.js";
 const logger = queueLogger.createSubLogger("clean-charts");
 
 export async function cleanCharts(job: Bull.Job<Record<string, unknown>>, done: any): Promise<void> {
-	logger.info("Clean charts...");
+    logger.info("Clean charts...");
 
-	await Promise.all([
-		federationChart.clean(),
-		notesChart.clean(),
-		usersChart.clean(),
-		activeUsersChart.clean(),
-		instanceChart.clean(),
-		perUserNotesChart.clean(),
-		apRequestChart.clean(),
-	]);
+    await Promise.all([
+        federationChart.clean(),
+        notesChart.clean(),
+        usersChart.clean(),
+        activeUsersChart.clean(),
+        instanceChart.clean(),
+        perUserNotesChart.clean(),
+        apRequestChart.clean(),
+    ]);
 
-	logger.succ("All charts successfully cleaned.");
-	done();
+    logger.succ("All charts successfully cleaned.");
+    done();
 }

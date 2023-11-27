@@ -3,18 +3,18 @@ import { User } from "@/models/entities/user.js";
 import { Followings } from "@/models/index.js";
 
 export function generateVisibilityQuery(q: SelectQueryBuilder<any>, me?: { id: User["id"] } | null) {
-	// This code must always be synchronized with the checks in Notes.isVisibleForMe.
-	if (me == null) {
-		q.andWhere(new Brackets(qb => { qb
+    // This code must always be synchronized with the checks in Notes.isVisibleForMe.
+    if (me == null) {
+        q.andWhere(new Brackets(qb => { qb
 			.where("note.visibility = 'public'")
 			.orWhere("note.visibility = 'home'");
-		}));
-	} else {
-		const followingQuery = Followings.createQueryBuilder("following")
+        }));
+    } else {
+        const followingQuery = Followings.createQueryBuilder("following")
 			.select("following.followeeId")
 			.where("following.followerId = :meId");
 
-		q.andWhere(new Brackets(qb => { qb
+        q.andWhere(new Brackets(qb => { qb
 			// 公開投稿である
 			.where(new Brackets(qb => { qb
 				.where("note.visibility = 'public'")
@@ -35,8 +35,8 @@ export function generateVisibilityQuery(q: SelectQueryBuilder<any>, me?: { id: U
 					.orWhere("note.replyUserId = :meId");
 				}));
 			}));
-		}));
+        }));
 
-		q.setParameters({ meId: me.id });
-	}
+        q.setParameters({ meId: me.id });
+    }
 }

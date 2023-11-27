@@ -4,37 +4,37 @@ import { toPuny } from "@/misc/convert-host.js";
 import define from "../../../define.js";
 
 export const meta = {
-	tags: ["admin"],
+    tags: ["admin"],
 
-	requireCredential: true,
-	requireAdmin: true,
+    requireCredential: true,
+    requireAdmin: true,
 } as const;
 
 export const paramDef = {
-	type: "object",
-	properties: {
-		host: { type: "string" },
-	},
-	required: ["host"],
+    type: "object",
+    properties: {
+        host: { type: "string" },
+    },
+    required: ["host"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, me) => {
-	const instance = await Instances.findOneBy({ host: toPuny(ps.host) });
+    const instance = await Instances.findOneBy({ host: toPuny(ps.host) });
 
-	if (instance.isBlocked || instance.isSuspended) throw new Error("instance is either blocked or suspended");
-	if (instance == null) throw new Error("instance not found");
+    if (instance.isBlocked || instance.isSuspended) throw new Error("instance is either blocked or suspended");
+    if (instance == null) throw new Error("instance not found");
 
-	const followings = await Followings.findBy({
-		followerHost: ps.host,
-	});
+    const followings = await Followings.findBy({
+        followerHost: ps.host,
+    });
 
-	const pairs = await Promise.all(followings.map(f => Promise.all([
-		Users.findOneByOrFail({ id: f.followerId }),
-		Users.findOneByOrFail({ id: f.followeeId }),
-	])));
+    const pairs = await Promise.all(followings.map(f => Promise.all([
+        Users.findOneByOrFail({ id: f.followerId }),
+        Users.findOneByOrFail({ id: f.followeeId }),
+    ])));
 
-	for (const pair of pairs) {
-		deleteFollowing(pair[0], pair[1]);
-	}
+    for (const pair of pairs) {
+        deleteFollowing(pair[0], pair[1]);
+    }
 });

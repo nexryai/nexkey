@@ -15,23 +15,23 @@ import { importBlocking } from "./import-blocking.js";
 import { importCustomEmojis } from "./import-custom-emojis.js";
 
 const jobs = {
-	deleteDriveFiles,
-	exportCustomEmojis,
-	exportNotes,
-	exportFollowing,
-	exportMute,
-	exportBlocking,
-	exportUserLists,
-	importFollowing,
-	importMuting,
-	importBlocking,
-	importUserLists,
-	importCustomEmojis,
-	deleteAccount,
+    deleteDriveFiles,
+    exportCustomEmojis,
+    exportNotes,
+    exportFollowing,
+    exportMute,
+    exportBlocking,
+    exportUserLists,
+    importFollowing,
+    importMuting,
+    importBlocking,
+    importUserLists,
+    importCustomEmojis,
+    deleteAccount,
 } as Record<string, Bull.ProcessCallbackFunction<DbJobData> | Bull.ProcessPromiseFunction<DbJobData>>;
 
 export default function(dbQueue: Bull.Queue<DbJobData>) {
-	for (const [k, v] of Object.entries(jobs)) {
-		dbQueue.process(k, v);
-	}
+    for (const [k, v] of Object.entries(jobs)) {
+        dbQueue.process(k, v);
+    }
 }

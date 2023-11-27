@@ -6,22 +6,22 @@ import { apLogger } from "../../logger.js";
 const logger = apLogger;
 
 export async function deleteActor(actor: CacheableRemoteUser, uri: string): Promise<string> {
-	logger.info(`Deleting the Actor: ${uri}`);
+    logger.info(`Deleting the Actor: ${uri}`);
 
-	if (actor.uri !== uri) {
-		return `skip: delete actor ${actor.uri} !== ${uri}`;
-	}
+    if (actor.uri !== uri) {
+        return `skip: delete actor ${actor.uri} !== ${uri}`;
+    }
 
-	const user = await Users.findOneByOrFail({ id: actor.id });
-	if (user.isDeleted) {
-		logger.info("skip: already deleted");
-	}
+    const user = await Users.findOneByOrFail({ id: actor.id });
+    if (user.isDeleted) {
+        logger.info("skip: already deleted");
+    }
 
-	const job = await createDeleteAccountJob(actor);
+    const job = await createDeleteAccountJob(actor);
 
-	await Users.update(actor.id, {
-		isDeleted: true,
-	});
+    await Users.update(actor.id, {
+        isDeleted: true,
+    });
 
-	return `ok: queued ${job.name} ${job.id}`;
+    return `ok: queued ${job.name} ${job.id}`;
 }

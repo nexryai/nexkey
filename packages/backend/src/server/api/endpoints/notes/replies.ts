@@ -6,35 +6,35 @@ import { generateMutedUserQuery } from "../../common/generate-muted-user-query.j
 import { generateBlockedUserQuery } from "../../common/generate-block-query.js";
 
 export const meta = {
-	tags: ["notes"],
+    tags: ["notes"],
 
-	requireCredential: false,
+    requireCredential: false,
 
-	res: {
-		type: "array",
-		optional: false, nullable: false,
-		items: {
-			type: "object",
-			optional: false, nullable: false,
-			ref: "Note",
-		},
-	},
+    res: {
+        type: "array",
+        optional: false, nullable: false,
+        items: {
+            type: "object",
+            optional: false, nullable: false,
+            ref: "Note",
+        },
+    },
 } as const;
 
 export const paramDef = {
-	type: "object",
-	properties: {
-		noteId: { type: "string", format: "misskey:id" },
-		sinceId: { type: "string", format: "misskey:id" },
-		untilId: { type: "string", format: "misskey:id" },
-		limit: { type: "integer", minimum: 1, maximum: 100, default: 10 },
-	},
-	required: ["noteId"],
+    type: "object",
+    properties: {
+        noteId: { type: "string", format: "misskey:id" },
+        sinceId: { type: "string", format: "misskey:id" },
+        untilId: { type: "string", format: "misskey:id" },
+        limit: { type: "integer", minimum: 1, maximum: 100, default: 10 },
+    },
+    required: ["noteId"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	const query = makePaginationQuery(Notes.createQueryBuilder("note"), ps.sinceId, ps.untilId)
+    const query = makePaginationQuery(Notes.createQueryBuilder("note"), ps.sinceId, ps.untilId)
 		.andWhere("note.replyId = :replyId", { replyId: ps.noteId })
 		.innerJoinAndSelect("note.user", "user")
 		.leftJoinAndSelect("user.avatar", "avatar")
@@ -48,11 +48,11 @@ export default define(meta, paramDef, async (ps, user) => {
 		.leftJoinAndSelect("renoteUser.avatar", "renoteUserAvatar")
 		.leftJoinAndSelect("renoteUser.banner", "renoteUserBanner");
 
-	generateVisibilityQuery(query, user);
-	if (user) generateMutedUserQuery(query, user);
-	if (user) generateBlockedUserQuery(query, user);
+    generateVisibilityQuery(query, user);
+    if (user) generateMutedUserQuery(query, user);
+    if (user) generateBlockedUserQuery(query, user);
 
-	const timeline = await query.take(ps.limit).getMany();
+    const timeline = await query.take(ps.limit).getMany();
 
-	return await Notes.packMany(timeline, user);
+    return await Notes.packMany(timeline, user);
 });

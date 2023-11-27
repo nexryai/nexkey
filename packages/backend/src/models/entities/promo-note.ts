@@ -6,10 +6,10 @@ import { User } from "./user.js";
 @Entity()
 export class PromoNote {
 	@PrimaryColumn(id())
-	public noteId: Note["id"];
+    public noteId: Note["id"];
 
 	@OneToOne(type => Note, {
-		onDelete: "CASCADE",
+	    onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public note: Note | null;
@@ -20,9 +20,9 @@ export class PromoNote {
 	//#region Denormalized fields
 	@Index()
 	@Column({
-		...id(),
-		comment: "[Denormalized]",
+	    ...id(),
+	    comment: "[Denormalized]",
 	})
 	public userId: User["id"];
-	//#endregion
+    //#endregion
 }

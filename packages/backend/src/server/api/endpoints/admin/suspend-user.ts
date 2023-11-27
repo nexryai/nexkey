@@ -7,79 +7,79 @@ import { publishUserEvent } from "@/services/stream.js";
 import define from "../../define.js";
 
 export const meta = {
-	tags: ["admin"],
+    tags: ["admin"],
 
-	requireCredential: true,
-	requireModerator: true,
+    requireCredential: true,
+    requireModerator: true,
 } as const;
 
 export const paramDef = {
-	type: "object",
-	properties: {
-		userId: { type: "string", format: "misskey:id" },
-	},
-	required: ["userId"],
+    type: "object",
+    properties: {
+        userId: { type: "string", format: "misskey:id" },
+    },
+    required: ["userId"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, me) => {
-	const user = await Users.findOneBy({ id: ps.userId });
+    const user = await Users.findOneBy({ id: ps.userId });
 
-	if (user == null) {
-		throw new Error("user not found");
-	}
+    if (user == null) {
+        throw new Error("user not found");
+    }
 
-	if (user.isAdmin) {
-		throw new Error("cannot suspend admin");
-	}
+    if (user.isAdmin) {
+        throw new Error("cannot suspend admin");
+    }
 
-	if (user.isModerator) {
-		throw new Error("cannot suspend moderator");
-	}
+    if (user.isModerator) {
+        throw new Error("cannot suspend moderator");
+    }
 
-	await Users.update(user.id, {
-		isSuspended: true,
-	});
+    await Users.update(user.id, {
+        isSuspended: true,
+    });
 
-	insertModerationLog(me, "suspend", {
-		targetId: user.id,
-	});
+    insertModerationLog(me, "suspend", {
+        targetId: user.id,
+    });
 
-	// Terminate streaming
-	if (Users.isLocalUser(user)) {
-		publishUserEvent(user.id, "terminate", {});
-	}
+    // Terminate streaming
+    if (Users.isLocalUser(user)) {
+        publishUserEvent(user.id, "terminate", {});
+    }
 
-	(async () => {
-		await doPostSuspend(user).catch(e => {});
-		await unFollowAll(user).catch(e => {});
-		await readAllNotify(user).catch(e => {});
-	})();
+    (async () => {
+        await doPostSuspend(user).catch(e => {});
+        await unFollowAll(user).catch(e => {});
+        await readAllNotify(user).catch(e => {});
+    })();
 });
 
 async function unFollowAll(follower: User) {
-	const followings = await Followings.findBy({
-		followerId: follower.id,
-	});
+    const followings = await Followings.findBy({
+        followerId: follower.id,
+    });
 
-	for (const following of followings) {
-		const followee = await Users.findOneBy({
-			id: following.followeeId,
-		});
+    for (const following of followings) {
+        const followee = await Users.findOneBy({
+            id: following.followeeId,
+        });
 
-		if (followee == null) {
-			throw `Cant find followee ${following.followeeId}`;
-		}
+        if (followee == null) {
+            throw `Cant find followee ${following.followeeId}`;
+        }
 
-		await deleteFollowing(follower, followee, true);
-	}
+        await deleteFollowing(follower, followee, true);
+    }
 }
 
 async function readAllNotify(notifier: User) {
-	await Notifications.update({
-		notifierId: notifier.id,
-		isRead: false,
-	}, {
-		isRead: true,
-	});
+    await Notifications.update({
+        notifierId: notifier.id,
+        isRead: false,
+    }, {
+        isRead: true,
+    });
 }

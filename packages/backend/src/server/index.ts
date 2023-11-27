@@ -36,26 +36,26 @@ const app = new Koa();
 app.proxy = true;
 
 if (!["production", "test"].includes(process.env.NODE_ENV || "")) {
-	// Logger
-	app.use(koaLogger(str => {
-		serverLogger.info(str);
-	}));
+    // Logger
+    app.use(koaLogger(str => {
+        serverLogger.info(str);
+    }));
 
-	// Delay
-	if (envOption.slow) {
-		app.use(slow({
-			delay: 3000,
-		}));
-	}
+    // Delay
+    if (envOption.slow) {
+        app.use(slow({
+            delay: 3000,
+        }));
+    }
 }
 
 // HSTS
 // 6months (15552000sec)
 if (config.url.startsWith("https") && !config.disableHsts) {
-	app.use(async (ctx, next) => {
-		ctx.set("strict-transport-security", "max-age=15552000; preload");
-		await next();
-	});
+    app.use(async (ctx, next) => {
+        ctx.set("strict-transport-security", "max-age=15552000; preload");
+        await next();
+    });
 }
 
 app.use(mount("/api", apiServer));
@@ -71,51 +71,51 @@ router.use(nodeinfo.routes());
 router.use(wellKnown.routes());
 
 router.get("/avatar/@:acct", async ctx => {
-	const { username, host } = Acct.parse(ctx.params.acct);
-	const user = await Users.findOne({
-		where: {
-			usernameLower: username.toLowerCase(),
-			host: (host == null) || (host === config.host) ? IsNull() : host,
-			isSuspended: false,
-		},
-		relations: ["avatar"],
-	});
+    const { username, host } = Acct.parse(ctx.params.acct);
+    const user = await Users.findOne({
+        where: {
+            usernameLower: username.toLowerCase(),
+            host: (host == null) || (host === config.host) ? IsNull() : host,
+            isSuspended: false,
+        },
+        relations: ["avatar"],
+    });
 
-	if (user) {
-		ctx.redirect(Users.getAvatarUrlSync(user));
-	} else {
-		ctx.redirect("/static-assets/user-unknown.png");
-	}
+    if (user) {
+        ctx.redirect(Users.getAvatarUrlSync(user));
+    } else {
+        ctx.redirect("/static-assets/user-unknown.png");
+    }
 });
 
 router.get("/identicon/:x", async ctx => {
-	const [temp, cleanup] = await createTemp();
-	await genIdenticon(ctx.params.x, fs.createWriteStream(temp));
-	ctx.set("Content-Type", "image/png");
-	ctx.body = fs.createReadStream(temp).on("close", () => cleanup());
+    const [temp, cleanup] = await createTemp();
+    await genIdenticon(ctx.params.x, fs.createWriteStream(temp));
+    ctx.set("Content-Type", "image/png");
+    ctx.body = fs.createReadStream(temp).on("close", () => cleanup());
 });
 
 router.get("/verify-email/:code", async ctx => {
-	const profile = await UserProfiles.findOneBy({
-		emailVerifyCode: ctx.params.code,
-	});
+    const profile = await UserProfiles.findOneBy({
+        emailVerifyCode: ctx.params.code,
+    });
 
-	if (profile != null) {
-		ctx.body = "Verify succeeded!";
-		ctx.status = 200;
+    if (profile != null) {
+        ctx.body = "Verify succeeded!";
+        ctx.status = 200;
 
-		await UserProfiles.update({ userId: profile.userId }, {
-			emailVerified: true,
-			emailVerifyCode: null,
-		});
+        await UserProfiles.update({ userId: profile.userId }, {
+            emailVerified: true,
+            emailVerifyCode: null,
+        });
 
-		publishMainStream(profile.userId, "meUpdated", await Users.pack(profile.userId, { id: profile.userId }, {
-			detail: true,
-			includeSecrets: true,
-		}));
-	} else {
-		ctx.status = 404;
-	}
+        publishMainStream(profile.userId, "meUpdated", await Users.pack(profile.userId, { id: profile.userId }, {
+            detail: true,
+            includeSecrets: true,
+        }));
+    } else {
+        ctx.status = 404;
+    }
 });
 
 // Register router
@@ -124,45 +124,45 @@ app.use(router.routes());
 app.use(mount(webServer));
 
 function createServer() {
-	return http.createServer(app.callback());
+    return http.createServer(app.callback());
 }
 
 // For testing
 export const startServer = () => {
-	const server = createServer();
+    const server = createServer();
 
-	initializeStreamingServer(server);
+    initializeStreamingServer(server);
 
-	server.listen(config.port);
+    server.listen(config.port);
 
-	return server;
+    return server;
 };
 
 export default () => new Promise(resolve => {
-	const server = createServer();
+    const server = createServer();
 
-	initializeStreamingServer(server);
+    initializeStreamingServer(server);
 
-	server.on("error", e => {
-		switch ((e as any).code) {
-			case "EACCES":
-				serverLogger.error(`You do not have permission to listen on port ${config.port}.`);
-				break;
-			case "EADDRINUSE":
-				serverLogger.error(`Port ${config.port} is already in use by another process.`);
-				break;
-			default:
-				serverLogger.error(e);
-				break;
-		}
+    server.on("error", e => {
+        switch ((e as any).code) {
+            case "EACCES":
+                serverLogger.error(`You do not have permission to listen on port ${config.port}.`);
+                break;
+            case "EADDRINUSE":
+                serverLogger.error(`Port ${config.port} is already in use by another process.`);
+                break;
+            default:
+                serverLogger.error(e);
+                break;
+        }
 
-		if (cluster.isWorker) {
+        if (cluster.isWorker) {
 			process.send!("listenFailed");
-		} else {
-			// disableClustering
-			process.exit(1);
-		}
-	});
+        } else {
+            // disableClustering
+            process.exit(1);
+        }
+    });
 
-	server.listen(config.port, resolve);
+    server.listen(config.port, resolve);
 });

@@ -5,16 +5,16 @@ import { genId } from "@/misc/gen-id.js";
 import { NoteWatching } from "@/models/entities/note-watching.js";
 
 export default async (me: User["id"], note: Note) => {
-	// 自分の投稿はwatchできない
-	if (me === note.userId) {
-		return;
-	}
+    // 自分の投稿はwatchできない
+    if (me === note.userId) {
+        return;
+    }
 
-	await NoteWatchings.insert({
-		id: genId(),
-		createdAt: new Date(),
-		noteId: note.id,
-		userId: me,
-		noteUserId: note.userId,
-	} as NoteWatching);
+    await NoteWatchings.insert({
+        id: genId(),
+        createdAt: new Date(),
+        noteId: note.id,
+        userId: me,
+        noteUserId: note.userId,
+    } as NoteWatching);
 };

@@ -9,53 +9,53 @@ import { hash } from "../../../2fa.js";
 const randomBytes = promisify(crypto.randomBytes);
 
 export const meta = {
-	requireCredential: true,
+    requireCredential: true,
 
-	secure: true,
+    secure: true,
 } as const;
 
 export const paramDef = {
-	type: "object",
-	properties: {
-		password: { type: "string" },
-	},
-	required: ["password"],
+    type: "object",
+    properties: {
+        password: { type: "string" },
+    },
+    required: ["password"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	const profile = await UserProfiles.findOneByOrFail({ userId: user.id });
+    const profile = await UserProfiles.findOneByOrFail({ userId: user.id });
 
-	// Compare password
-	const same = await comparePassword(ps.password, profile.password!);
+    // Compare password
+    const same = await comparePassword(ps.password, profile.password!);
 
-	if (!same) {
-		throw new Error("incorrect password");
-	}
+    if (!same) {
+        throw new Error("incorrect password");
+    }
 
-	if (!profile.twoFactorEnabled) {
-		throw new Error("2fa not enabled");
-	}
+    if (!profile.twoFactorEnabled) {
+        throw new Error("2fa not enabled");
+    }
 
-	// 32 byte challenge
-	const entropy = await randomBytes(32);
-	const challenge = entropy.toString("base64")
+    // 32 byte challenge
+    const entropy = await randomBytes(32);
+    const challenge = entropy.toString("base64")
 		.replace(/=/g, "")
 		.replace(/\+/g, "-")
 		.replace(/\//g, "_");
 
-	const challengeId = genId();
+    const challengeId = genId();
 
-	await AttestationChallenges.insert({
-		userId: user.id,
-		id: challengeId,
-		challenge: hash(Buffer.from(challenge, "utf-8")).toString("hex"),
-		createdAt: new Date(),
-		registrationChallenge: true,
-	});
+    await AttestationChallenges.insert({
+        userId: user.id,
+        id: challengeId,
+        challenge: hash(Buffer.from(challenge, "utf-8")).toString("hex"),
+        createdAt: new Date(),
+        registrationChallenge: true,
+    });
 
-	return {
-		challengeId,
-		challenge,
-	};
+    return {
+        challengeId,
+        challenge,
+    };
 });

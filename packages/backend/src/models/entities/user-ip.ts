@@ -7,7 +7,7 @@ import { User } from "./user.js";
 @Index(["userId", "ip"], { unique: true })
 export class UserIp {
 	@PrimaryGeneratedColumn()
-	public id: string;
+    public id: string;
 
 	@Column("timestamp with time zone", {
 	})
@@ -18,7 +18,7 @@ export class UserIp {
 	public userId: User["id"];
 
 	@Column("varchar", {
-		length: 128,
+	    length: 128,
 	})
 	public ip: string;
 }

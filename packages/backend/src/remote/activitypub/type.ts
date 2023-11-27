@@ -29,46 +29,46 @@ export interface IObject {
  * Get array of ActivityStreams Objects id
  */
 export function getApIds(value: ApObject | undefined): string[] {
-	if (value == null) return [];
-	const array = Array.isArray(value) ? value : [value];
-	return array.map(x => getApId(x));
+    if (value == null) return [];
+    const array = Array.isArray(value) ? value : [value];
+    return array.map(x => getApId(x));
 }
 
 /**
  * Get first ActivityStreams Object id
  */
 export function getOneApId(value: ApObject): string {
-	const firstOne = Array.isArray(value) ? value[0] : value;
-	return getApId(firstOne);
+    const firstOne = Array.isArray(value) ? value[0] : value;
+    return getApId(firstOne);
 }
 
 /**
  * Get ActivityStreams Object id
  */
 export function getApId(value: string | IObject): string {
-	if (typeof value === "string") return value;
-	if (typeof value.id === "string") return value.id;
-	throw new Error("cannot detemine id");
+    if (typeof value === "string") return value;
+    if (typeof value.id === "string") return value.id;
+    throw new Error("cannot detemine id");
 }
 
 /**
  * Get ActivityStreams Object type
  */
 export function getApType(value: IObject): string {
-	if (typeof value.type === "string") return value.type;
-	if (Array.isArray(value.type) && typeof value.type[0] === "string") return value.type[0];
-	throw new Error("cannot detect type");
+    if (typeof value.type === "string") return value.type;
+    if (Array.isArray(value.type) && typeof value.type[0] === "string") return value.type[0];
+    throw new Error("cannot detect type");
 }
 
 export function getOneApHrefNullable(value: ApObject | undefined): string | undefined {
-	const firstOne = Array.isArray(value) ? value[0] : value;
-	return getApHrefNullable(firstOne);
+    const firstOne = Array.isArray(value) ? value[0] : value;
+    return getApHrefNullable(firstOne);
 }
 
 export function getApHrefNullable(value: string | IObject | undefined): string | undefined {
-	if (typeof value === "string") return value;
-	if (typeof value?.href === "string") return value.href;
-	return undefined;
+    if (typeof value === "string") return value;
+    if (typeof value?.href === "string") return value.href;
+    return undefined;
 }
 
 export interface IActivity extends IObject {
@@ -102,7 +102,7 @@ export interface IOrderedCollection extends IObject {
 export const validPost = ["Note", "Question", "Article", "Audio", "Document", "Image", "Page", "Video", "Event"];
 
 export const isPost = (object: IObject): object is IPost =>
-	validPost.includes(getApType(object));
+    validPost.includes(getApType(object));
 
 export interface IPost extends IObject {
 	type: "Note" | "Question" | "Article" | "Audio" | "Document" | "Image" | "Page" | "Video" | "Event";
@@ -130,7 +130,7 @@ export interface IQuestion extends IObject {
 }
 
 export const isQuestion = (object: IObject): object is IQuestion =>
-	getApType(object) === "Note" || getApType(object) === "Question";
+    getApType(object) === "Note" || getApType(object) === "Question";
 
 interface IQuestionChoice {
 	name?: string;
@@ -144,12 +144,12 @@ export interface ITombstone extends IObject {
 }
 
 export const isTombstone = (object: IObject): object is ITombstone =>
-	getApType(object) === "Tombstone";
+    getApType(object) === "Tombstone";
 
 export const validActor = ["Person", "Service", "Group", "Organization", "Application"];
 
 export const isActor = (object: IObject): object is IActor =>
-	validActor.includes(getApType(object));
+    validActor.includes(getApType(object));
 
 export interface IActor extends IObject {
 	type: "Person" | "Service" | "Organization" | "Group" | "Application";
@@ -175,13 +175,13 @@ export interface IActor extends IObject {
 }
 
 export const isCollection = (object: IObject): object is ICollection =>
-	getApType(object) === "Collection";
+    getApType(object) === "Collection";
 
 export const isOrderedCollection = (object: IObject): object is IOrderedCollection =>
-	getApType(object) === "OrderedCollection";
+    getApType(object) === "OrderedCollection";
 
 export const isCollectionOrOrderedCollection = (object: IObject): object is ICollection | IOrderedCollection =>
-	isCollection(object) || isOrderedCollection(object);
+    isCollection(object) || isOrderedCollection(object);
 
 export interface IApPropertyValue extends IObject {
 	type: "PropertyValue";
@@ -191,7 +191,7 @@ export interface IApPropertyValue extends IObject {
 }
 
 export const isPropertyValue = (object: IObject): object is IApPropertyValue =>
-	object &&
+    object &&
 	getApType(object) === "PropertyValue" &&
 	typeof object.name === "string" &&
 	typeof (object as any).value === "string";
@@ -202,7 +202,7 @@ export interface IApMention extends IObject {
 }
 
 export const isMention = (object: IObject): object is IApMention =>
-	getApType(object) === "Mention" &&
+    getApType(object) === "Mention" &&
 	typeof object.href === "string";
 
 export interface IApHashtag extends IObject {
@@ -211,7 +211,7 @@ export interface IApHashtag extends IObject {
 }
 
 export const isHashtag = (object: IObject): object is IApHashtag =>
-	getApType(object) === "Hashtag" &&
+    getApType(object) === "Hashtag" &&
 	typeof object.name === "string";
 
 export interface IApEmoji extends IObject {
@@ -220,7 +220,7 @@ export interface IApEmoji extends IObject {
 }
 
 export const isEmoji = (object: IObject): object is IApEmoji =>
-	getApType(object) === "Emoji" && !Array.isArray(object.icon) && object.icon.url != null;
+    getApType(object) === "Emoji" && !Array.isArray(object.icon) && object.icon.url != null;
 
 export interface ICreate extends IActivity {
 	type: "Create";

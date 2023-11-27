@@ -80,195 +80,195 @@ import { redisClient } from "./redis.js";
 const sqlLogger = dbLogger.createSubLogger("sql", "gray", false);
 
 class MyCustomLogger implements Logger {
-	private highlight(sql: string) {
-		return highlight.highlight(sql, {
-			language: "sql", ignoreIllegals: true,
-		});
-	}
+    private highlight(sql: string) {
+        return highlight.highlight(sql, {
+            language: "sql", ignoreIllegals: true,
+        });
+    }
 
-	public logQuery(query: string, parameters?: any[]) {
-		sqlLogger.info(this.highlight(query).substring(0, 100));
-	}
+    public logQuery(query: string, parameters?: any[]) {
+        sqlLogger.info(this.highlight(query).substring(0, 100));
+    }
 
-	public logQueryError(error: string, query: string, parameters?: any[]) {
-		sqlLogger.error(this.highlight(query));
-	}
+    public logQueryError(error: string, query: string, parameters?: any[]) {
+        sqlLogger.error(this.highlight(query));
+    }
 
-	public logQuerySlow(time: number, query: string, parameters?: any[]) {
-		sqlLogger.warn(this.highlight(query));
-	}
+    public logQuerySlow(time: number, query: string, parameters?: any[]) {
+        sqlLogger.warn(this.highlight(query));
+    }
 
-	public logSchemaBuild(message: string) {
-		sqlLogger.info(message);
-	}
+    public logSchemaBuild(message: string) {
+        sqlLogger.info(message);
+    }
 
-	public log(message: string) {
-		sqlLogger.info(message);
-	}
+    public log(message: string) {
+        sqlLogger.info(message);
+    }
 
-	public logMigration(message: string) {
-		sqlLogger.info(message);
-	}
+    public logMigration(message: string) {
+        sqlLogger.info(message);
+    }
 }
 
 export const entities = [
-	Announcement,
-	AnnouncementRead,
-	Meta,
-	Instance,
-	App,
-	AuthSession,
-	AccessToken,
-	User,
-	UserProfile,
-	UserKeypair,
-	UserPublickey,
-	UserList,
-	UserListJoining,
-	UserGroup,
-	UserGroupJoining,
-	UserGroupInvitation,
-	UserNotePining,
-	UserSecurityKey,
-	UsedUsername,
-	AttestationChallenge,
-	Following,
-	FollowRequest,
-	Muting,
-	RenoteMuting,
-	Blocking,
-	Note,
-	NoteFavorite,
-	NoteReaction,
-	NoteWatching,
-	NoteThreadMuting,
-	NoteUnread,
-	Page,
-	PageLike,
-	GalleryPost,
-	GalleryLike,
-	DriveFile,
-	DriveFolder,
-	Poll,
-	PollVote,
-	Notification,
-	Emoji,
-	Hashtag,
-	SwSubscription,
-	AbuseUserReport,
-	RegistrationTicket,
-	MessagingMessage,
-	Signin,
-	ModerationLog,
-	Clip,
-	ClipNote,
-	Antenna,
-	AntennaNote,
-	PromoNote,
-	PromoRead,
-	Relay,
-	MutedNote,
-	Channel,
-	ChannelFollowing,
-	ChannelNotePining,
-	RegistryItem,
-	Ad,
-	PasswordResetRequest,
-	UserPending,
-	Webhook,
-	UserIp,
-	...charts,
+    Announcement,
+    AnnouncementRead,
+    Meta,
+    Instance,
+    App,
+    AuthSession,
+    AccessToken,
+    User,
+    UserProfile,
+    UserKeypair,
+    UserPublickey,
+    UserList,
+    UserListJoining,
+    UserGroup,
+    UserGroupJoining,
+    UserGroupInvitation,
+    UserNotePining,
+    UserSecurityKey,
+    UsedUsername,
+    AttestationChallenge,
+    Following,
+    FollowRequest,
+    Muting,
+    RenoteMuting,
+    Blocking,
+    Note,
+    NoteFavorite,
+    NoteReaction,
+    NoteWatching,
+    NoteThreadMuting,
+    NoteUnread,
+    Page,
+    PageLike,
+    GalleryPost,
+    GalleryLike,
+    DriveFile,
+    DriveFolder,
+    Poll,
+    PollVote,
+    Notification,
+    Emoji,
+    Hashtag,
+    SwSubscription,
+    AbuseUserReport,
+    RegistrationTicket,
+    MessagingMessage,
+    Signin,
+    ModerationLog,
+    Clip,
+    ClipNote,
+    Antenna,
+    AntennaNote,
+    PromoNote,
+    PromoRead,
+    Relay,
+    MutedNote,
+    Channel,
+    ChannelFollowing,
+    ChannelNotePining,
+    RegistryItem,
+    Ad,
+    PasswordResetRequest,
+    UserPending,
+    Webhook,
+    UserIp,
+    ...charts,
 ];
 
 const log = process.env.NODE_ENV !== "production";
 
 export const db = new DataSource({
-	type: "postgres",
-	host: config.db.host,
-	port: config.db.port,
-	username: config.db.user,
-	password: config.db.pass,
-	database: config.db.db,
-	extra: {
-		statement_timeout: 30000 * 10,
-		...config.db.extra,
-	},
-	replication: config.dbReplications ? {
-		master: {
-			host: config.db.host,
-			port: config.db.port,
-			username: config.db.user,
-			password: config.db.pass,
-			database: config.db.db,
-		},
-		slaves: config.dbSlaves!.map(rep => ({
-			host: rep.host,
-			port: rep.port,
-			username: rep.user,
-			password: rep.pass,
-			database: rep.db,
-		})),
-	} : undefined,
-	synchronize: process.env.NODE_ENV === "test",
-	dropSchema: process.env.NODE_ENV === "test",
-	cache: !config.db.disableCache ? {
-		type: "ioredis",
-		options: {
-			host: config.redis.host,
-			port: config.redis.port,
-			family: config.redis.family == null ? 0 : config.redis.family,
-			password: config.redis.pass,
-			keyPrefix: `${config.redis.prefix}:query:`,
-			db: config.redis.db || 0,
-		},
-	} : false,
-	logging: log,
-	logger: log ? new MyCustomLogger() : undefined,
-	maxQueryExecutionTime: 300,
-	entities: entities,
-	migrations: ["../../migration/*.js"],
+    type: "postgres",
+    host: config.db.host,
+    port: config.db.port,
+    username: config.db.user,
+    password: config.db.pass,
+    database: config.db.db,
+    extra: {
+        statement_timeout: 30000 * 10,
+        ...config.db.extra,
+    },
+    replication: config.dbReplications ? {
+        master: {
+            host: config.db.host,
+            port: config.db.port,
+            username: config.db.user,
+            password: config.db.pass,
+            database: config.db.db,
+        },
+        slaves: config.dbSlaves!.map(rep => ({
+            host: rep.host,
+            port: rep.port,
+            username: rep.user,
+            password: rep.pass,
+            database: rep.db,
+        })),
+    } : undefined,
+    synchronize: process.env.NODE_ENV === "test",
+    dropSchema: process.env.NODE_ENV === "test",
+    cache: !config.db.disableCache ? {
+        type: "ioredis",
+        options: {
+            host: config.redis.host,
+            port: config.redis.port,
+            family: config.redis.family == null ? 0 : config.redis.family,
+            password: config.redis.pass,
+            keyPrefix: `${config.redis.prefix}:query:`,
+            db: config.redis.db || 0,
+        },
+    } : false,
+    logging: log,
+    logger: log ? new MyCustomLogger() : undefined,
+    maxQueryExecutionTime: 300,
+    entities: entities,
+    migrations: ["../../migration/*.js"],
 });
 
 export async function initDb(force = false) {
-	if (force) {
-		if (db.isInitialized) {
-			await db.destroy();
-		}
-		await db.initialize();
-		return;
-	}
+    if (force) {
+        if (db.isInitialized) {
+            await db.destroy();
+        }
+        await db.initialize();
+        return;
+    }
 
-	if (db.isInitialized) {
-		// nop
-	} else {
-		await db.initialize();
-	}
+    if (db.isInitialized) {
+        // nop
+    } else {
+        await db.initialize();
+    }
 }
 
 export async function resetDb() {
-	const reset = async () => {
-		await redisClient.flushdb();
-		const tables = await db.query(`SELECT relname AS "table"
+    const reset = async () => {
+        await redisClient.flushdb();
+        const tables = await db.query(`SELECT relname AS "table"
 		FROM pg_class C LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace)
 		WHERE nspname NOT IN ('pg_catalog', 'information_schema')
 			AND C.relkind = 'r'
 			AND nspname !~ '^pg_toast';`);
-		for (const table of tables) {
-			await db.query(`DELETE FROM "${table.table}" CASCADE`);
-		}
-	};
+        for (const table of tables) {
+            await db.query(`DELETE FROM "${table.table}" CASCADE`);
+        }
+    };
 
-	for (let i = 1; i <= 3; i++) {
-		try {
-			await reset();
-		} catch (e) {
-			if (i === 3) {
-				throw e;
-			} else {
-				await new Promise(resolve => setTimeout(resolve, 1000));
-				continue;
-			}
-		}
-		break;
-	}
+    for (let i = 1; i <= 3; i++) {
+        try {
+            await reset();
+        } catch (e) {
+            if (i === 3) {
+                throw e;
+            } else {
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                continue;
+            }
+        }
+        break;
+    }
 }

@@ -10,63 +10,63 @@ import { generateMutedNoteQuery } from "../../common/generate-muted-note-query.j
 import { generateBlockedUserQuery } from "../../common/generate-block-query.js";
 
 export const meta = {
-	tags: ["notes", "lists"],
+    tags: ["notes", "lists"],
 
-	requireCredential: true,
+    requireCredential: true,
 
-	res: {
-		type: "array",
-		optional: false, nullable: false,
-		items: {
-			type: "object",
-			optional: false, nullable: false,
-			ref: "Note",
-		},
-	},
+    res: {
+        type: "array",
+        optional: false, nullable: false,
+        items: {
+            type: "object",
+            optional: false, nullable: false,
+            ref: "Note",
+        },
+    },
 
-	errors: {
-		noSuchList: {
-			message: "No such list.",
-			code: "NO_SUCH_LIST",
-			id: "8fb1fbd5-e476-4c37-9fb0-43d55b63a2ff",
-		},
-	},
+    errors: {
+        noSuchList: {
+            message: "No such list.",
+            code: "NO_SUCH_LIST",
+            id: "8fb1fbd5-e476-4c37-9fb0-43d55b63a2ff",
+        },
+    },
 } as const;
 
 export const paramDef = {
-	type: "object",
-	properties: {
-		listId: { type: "string", format: "misskey:id" },
-		limit: { type: "integer", minimum: 1, maximum: 100, default: 10 },
-		sinceId: { type: "string", format: "misskey:id" },
-		untilId: { type: "string", format: "misskey:id" },
-		sinceDate: { type: "integer" },
-		untilDate: { type: "integer" },
-		includeMyRenotes: { type: "boolean", default: true },
-		includeRenotedMyNotes: { type: "boolean", default: true },
-		includeLocalRenotes: { type: "boolean", default: true },
-		withFiles: {
-			type: "boolean",
-			default: false,
-			description: "Only show notes that have attached files.",
-		},
-	},
-	required: ["listId"],
+    type: "object",
+    properties: {
+        listId: { type: "string", format: "misskey:id" },
+        limit: { type: "integer", minimum: 1, maximum: 100, default: 10 },
+        sinceId: { type: "string", format: "misskey:id" },
+        untilId: { type: "string", format: "misskey:id" },
+        sinceDate: { type: "integer" },
+        untilDate: { type: "integer" },
+        includeMyRenotes: { type: "boolean", default: true },
+        includeRenotedMyNotes: { type: "boolean", default: true },
+        includeLocalRenotes: { type: "boolean", default: true },
+        withFiles: {
+            type: "boolean",
+            default: false,
+            description: "Only show notes that have attached files.",
+        },
+    },
+    required: ["listId"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	const list = await UserLists.findOneBy({
-		id: ps.listId,
-		userId: user.id,
-	});
+    const list = await UserLists.findOneBy({
+        id: ps.listId,
+        userId: user.id,
+    });
 
-	if (list == null) {
-		throw new ApiError(meta.errors.noSuchList);
-	}
+    if (list == null) {
+        throw new ApiError(meta.errors.noSuchList);
+    }
 
-	//#region Construct query
-	const query = makePaginationQuery(Notes.createQueryBuilder("note"), ps.sinceId, ps.untilId)
+    //#region Construct query
+    const query = makePaginationQuery(Notes.createQueryBuilder("note"), ps.sinceId, ps.untilId)
 		.innerJoin(UserListJoinings.metadata.targetName, "userListJoining", "userListJoining.userId = note.userId")
 		.innerJoinAndSelect("note.user", "user")
 		.leftJoinAndSelect("user.avatar", "avatar")
@@ -81,49 +81,49 @@ export default define(meta, paramDef, async (ps, user) => {
 		.leftJoinAndSelect("renoteUser.banner", "renoteUserBanner")
 		.andWhere("userListJoining.userListId = :userListId", { userListId: list.id });
 
-	generateVisibilityQuery(query, user);
-	generateMutedUserQuery(query, user);
-	generateMutedNoteQuery(query, user);
-	generateBlockedUserQuery(query, user);
+    generateVisibilityQuery(query, user);
+    generateMutedUserQuery(query, user);
+    generateMutedNoteQuery(query, user);
+    generateBlockedUserQuery(query, user);
 
-	if (ps.includeMyRenotes === false) {
-		query.andWhere(new Brackets(qb => {
-			qb.orWhere("note.userId != :meId", { meId: user.id });
-			qb.orWhere("note.renoteId IS NULL");
-			qb.orWhere("note.text IS NOT NULL");
-			qb.orWhere("note.fileIds != '{}'");
-			qb.orWhere("0 < (SELECT COUNT(*) FROM poll WHERE poll.\"noteId\" = note.id)");
-		}));
-	}
+    if (ps.includeMyRenotes === false) {
+        query.andWhere(new Brackets(qb => {
+            qb.orWhere("note.userId != :meId", { meId: user.id });
+            qb.orWhere("note.renoteId IS NULL");
+            qb.orWhere("note.text IS NOT NULL");
+            qb.orWhere("note.fileIds != '{}'");
+            qb.orWhere("0 < (SELECT COUNT(*) FROM poll WHERE poll.\"noteId\" = note.id)");
+        }));
+    }
 
-	if (ps.includeRenotedMyNotes === false) {
-		query.andWhere(new Brackets(qb => {
-			qb.orWhere("note.renoteUserId != :meId", { meId: user.id });
-			qb.orWhere("note.renoteId IS NULL");
-			qb.orWhere("note.text IS NOT NULL");
-			qb.orWhere("note.fileIds != '{}'");
-			qb.orWhere("0 < (SELECT COUNT(*) FROM poll WHERE poll.\"noteId\" = note.id)");
-		}));
-	}
+    if (ps.includeRenotedMyNotes === false) {
+        query.andWhere(new Brackets(qb => {
+            qb.orWhere("note.renoteUserId != :meId", { meId: user.id });
+            qb.orWhere("note.renoteId IS NULL");
+            qb.orWhere("note.text IS NOT NULL");
+            qb.orWhere("note.fileIds != '{}'");
+            qb.orWhere("0 < (SELECT COUNT(*) FROM poll WHERE poll.\"noteId\" = note.id)");
+        }));
+    }
 
-	if (ps.includeLocalRenotes === false) {
-		query.andWhere(new Brackets(qb => {
-			qb.orWhere("note.renoteUserHost IS NOT NULL");
-			qb.orWhere("note.renoteId IS NULL");
-			qb.orWhere("note.text IS NOT NULL");
-			qb.orWhere("note.fileIds != '{}'");
-			qb.orWhere("0 < (SELECT COUNT(*) FROM poll WHERE poll.\"noteId\" = note.id)");
-		}));
-	}
+    if (ps.includeLocalRenotes === false) {
+        query.andWhere(new Brackets(qb => {
+            qb.orWhere("note.renoteUserHost IS NOT NULL");
+            qb.orWhere("note.renoteId IS NULL");
+            qb.orWhere("note.text IS NOT NULL");
+            qb.orWhere("note.fileIds != '{}'");
+            qb.orWhere("0 < (SELECT COUNT(*) FROM poll WHERE poll.\"noteId\" = note.id)");
+        }));
+    }
 
-	if (ps.withFiles) {
-		query.andWhere("note.fileIds != '{}'");
-	}
-	//#endregion
+    if (ps.withFiles) {
+        query.andWhere("note.fileIds != '{}'");
+    }
+    //#endregion
 
-	const timeline = await query.take(ps.limit).getMany();
+    const timeline = await query.take(ps.limit).getMany();
 
-	activeUsersChart.read(user);
+    activeUsersChart.read(user);
 
-	return await Notes.packMany(timeline, user);
+    return await Notes.packMany(timeline, user);
 });

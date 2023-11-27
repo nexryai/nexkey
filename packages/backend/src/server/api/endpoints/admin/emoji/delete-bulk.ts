@@ -6,35 +6,35 @@ import { ApiError } from "../../../error.js";
 import define from "../../../define.js";
 
 export const meta = {
-	tags: ["admin"],
+    tags: ["admin"],
 
-	requireCredential: true,
-	requireModerator: true,
+    requireCredential: true,
+    requireModerator: true,
 } as const;
 
 export const paramDef = {
-	type: "object",
-	properties: {
-		ids: { type: "array", items: {
-			type: "string", format: "misskey:id",
-		} },
-	},
-	required: ["ids"],
+    type: "object",
+    properties: {
+        ids: { type: "array", items: {
+            type: "string", format: "misskey:id",
+        } },
+    },
+    required: ["ids"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, me) => {
-	const emojis = await Emojis.findBy({
-		id: In(ps.ids),
-	});
+    const emojis = await Emojis.findBy({
+        id: In(ps.ids),
+    });
 
-	for (const emoji of emojis) {
-		await Emojis.delete(emoji.id);
+    for (const emoji of emojis) {
+        await Emojis.delete(emoji.id);
 	
-		await db.queryResultCache!.remove(["meta_emojis"]);
+        await db.queryResultCache!.remove(["meta_emojis"]);
 	
-		insertModerationLog(me, "deleteEmoji", {
-			emoji: emoji,
-		});
-	}
+        insertModerationLog(me, "deleteEmoji", {
+            emoji: emoji,
+        });
+    }
 });

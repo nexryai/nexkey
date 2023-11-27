@@ -7,30 +7,30 @@ import { Clip } from "./clip.js";
 @Index(["noteId", "clipId"], { unique: true })
 export class ClipNote {
 	@PrimaryColumn(id())
-	public id: string;
+    public id: string;
 
 	@Index()
 	@Column({
-		...id(),
-		comment: "The note ID.",
+	    ...id(),
+	    comment: "The note ID.",
 	})
 	public noteId: Note["id"];
 
 	@ManyToOne(type => Note, {
-		onDelete: "CASCADE",
+	    onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public note: Note | null;
 
 	@Index()
 	@Column({
-		...id(),
-		comment: "The clip ID.",
+	    ...id(),
+	    comment: "The clip ID.",
 	})
 	public clipId: Clip["id"];
 
 	@ManyToOne(type => Clip, {
-		onDelete: "CASCADE",
+	    onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public clip: Clip | null;

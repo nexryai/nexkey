@@ -4,16 +4,16 @@ import { id } from "../id.js";
 @Entity()
 export class Relay {
 	@PrimaryColumn(id())
-	public id: string;
+    public id: string;
 
 	@Index({ unique: true })
 	@Column("varchar", {
-		length: 512, nullable: false,
+	    length: 512, nullable: false,
 	})
 	public inbox: string;
 
 	@Column("enum", {
-		enum: ["requesting", "accepted", "rejected"],
+	    enum: ["requesting", "accepted", "rejected"],
 	})
 	public status: "requesting" | "accepted" | "rejected";
 }

@@ -7,36 +7,36 @@ import { Note } from "./note.js";
 @Index(["userId", "noteId"], { unique: true })
 export class NoteWatching {
 	@PrimaryColumn(id())
-	public id: string;
+    public id: string;
 
 	@Index()
 	@Column("timestamp with time zone", {
-		comment: "The created date of the NoteWatching.",
+	    comment: "The created date of the NoteWatching.",
 	})
 	public createdAt: Date;
 
 	@Index()
 	@Column({
-		...id(),
-		comment: "The watcher ID.",
+	    ...id(),
+	    comment: "The watcher ID.",
 	})
 	public userId: User["id"];
 
 	@ManyToOne(type => User, {
-		onDelete: "CASCADE",
+	    onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public user: User | null;
 
 	@Index()
 	@Column({
-		...id(),
-		comment: "The target Note ID.",
+	    ...id(),
+	    comment: "The target Note ID.",
 	})
 	public noteId: Note["id"];
 
 	@ManyToOne(type => Note, {
-		onDelete: "CASCADE",
+	    onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public note: Note | null;
@@ -44,9 +44,9 @@ export class NoteWatching {
 	//#region Denormalized fields
 	@Index()
 	@Column({
-		...id(),
-		comment: "[Denormalized]",
+	    ...id(),
+	    comment: "[Denormalized]",
 	})
 	public noteUserId: Note["userId"];
-	//#endregion
+    //#endregion
 }

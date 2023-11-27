@@ -17,20 +17,20 @@ export const perUserNotesChart = new PerUserNotesChart();
 export const apRequestChart = new ApRequestChart();
 
 const charts = [
-	federationChart,
-	notesChart,
-	usersChart,
-	activeUsersChart,
-	instanceChart,
-	perUserNotesChart,
-	apRequestChart,
+    federationChart,
+    notesChart,
+    usersChart,
+    activeUsersChart,
+    instanceChart,
+    perUserNotesChart,
+    apRequestChart,
 ];
 
 // 20分おきにメモリ情報をDBに書き込み
 setInterval(() => {
-	for (const chart of charts) {
-		chart.save();
-	}
+    for (const chart of charts) {
+        chart.save();
+    }
 }, 1000 * 60 * 20);
 
 beforeShutdown(() => Promise.all(charts.map(chart => chart.save())));

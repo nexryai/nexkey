@@ -10,67 +10,67 @@ import { ApiError } from "../error.js";
 import define from "../define.js";
 
 export const meta = {
-	tags: ["reset password"],
+    tags: ["reset password"],
 
-	requireCredential: false,
+    requireCredential: false,
 
-	description: "Request a users password to be reset.",
+    description: "Request a users password to be reset.",
 
-	limit: {
-		duration: ms("1hour"),
-		max: 3,
-	},
+    limit: {
+        duration: ms("1hour"),
+        max: 3,
+    },
 
-	errors: {
+    errors: {
 
-	},
+    },
 } as const;
 
 export const paramDef = {
-	type: "object",
-	properties: {
-		username: { type: "string" },
-		email: { type: "string" },
-	},
-	required: ["username", "email"],
+    type: "object",
+    properties: {
+        username: { type: "string" },
+        email: { type: "string" },
+    },
+    required: ["username", "email"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps) => {
-	const user = await Users.findOneBy({
-		usernameLower: ps.username.toLowerCase(),
-		host: IsNull(),
-	});
+    const user = await Users.findOneBy({
+        usernameLower: ps.username.toLowerCase(),
+        host: IsNull(),
+    });
 
-	// 合致するユーザーが登録されていなかったら無視
-	if (user == null) {
-		return;
-	}
+    // 合致するユーザーが登録されていなかったら無視
+    if (user == null) {
+        return;
+    }
 
-	const profile = await UserProfiles.findOneByOrFail({ userId: user.id });
+    const profile = await UserProfiles.findOneByOrFail({ userId: user.id });
 
-	// 合致するメアドが登録されていなかったら無視
-	if (profile.email !== ps.email) {
-		return;
-	}
+    // 合致するメアドが登録されていなかったら無視
+    if (profile.email !== ps.email) {
+        return;
+    }
 
-	// メアドが認証されていなかったら無視
-	if (!profile.emailVerified) {
-		return;
-	}
+    // メアドが認証されていなかったら無視
+    if (!profile.emailVerified) {
+        return;
+    }
 
-	const token = rndstr("a-z0-9", 64);
+    const token = rndstr("a-z0-9", 64);
 
-	await PasswordResetRequests.insert({
-		id: genId(),
-		createdAt: new Date(),
-		userId: profile.userId,
-		token,
-	});
+    await PasswordResetRequests.insert({
+        id: genId(),
+        createdAt: new Date(),
+        userId: profile.userId,
+        token,
+    });
 
-	const link = `${config.url}/reset-password/${token}`;
+    const link = `${config.url}/reset-password/${token}`;
 
-	sendEmail(ps.email, "Password reset requested",
-		`To reset password, please click this link:<br><a href="${link}">${link}</a>`,
-		`To reset password, please click this link: ${link}`);
+    sendEmail(ps.email, "Password reset requested",
+        `To reset password, please click this link:<br><a href="${link}">${link}</a>`,
+        `To reset password, please click this link: ${link}`);
 });

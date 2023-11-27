@@ -8,14 +8,14 @@ import { Channel } from "./channel.js";
 @Index(["userId", "noteId"], { unique: true })
 export class NoteUnread {
 	@PrimaryColumn(id())
-	public id: string;
+    public id: string;
 
 	@Index()
 	@Column(id())
 	public userId: User["id"];
 
 	@ManyToOne(type => User, {
-		onDelete: "CASCADE",
+	    onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public user: User | null;
@@ -25,7 +25,7 @@ export class NoteUnread {
 	public noteId: Note["id"];
 
 	@ManyToOne(type => Note, {
-		onDelete: "CASCADE",
+	    onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public note: Note | null;
@@ -47,17 +47,17 @@ export class NoteUnread {
 	//#region Denormalized fields
 	@Index()
 	@Column({
-		...id(),
-		comment: "[Denormalized]",
+	    ...id(),
+	    comment: "[Denormalized]",
 	})
 	public noteUserId: User["id"];
 
 	@Index()
 	@Column({
-		...id(),
-		nullable: true,
-		comment: "[Denormalized]",
+	    ...id(),
+	    nullable: true,
+	    comment: "[Denormalized]",
 	})
 	public noteChannelId: Channel["id"] | null;
-	//#endregion
+    //#endregion
 }

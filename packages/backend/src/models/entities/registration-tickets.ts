@@ -4,14 +4,14 @@ import { id } from "../id.js";
 @Entity()
 export class RegistrationTicket {
 	@PrimaryColumn(id())
-	public id: string;
+    public id: string;
 
 	@Column("timestamp with time zone")
 	public createdAt: Date;
 
 	@Index({ unique: true })
 	@Column("varchar", {
-		length: 64,
+	    length: 64,
 	})
 	public code: string;
 }

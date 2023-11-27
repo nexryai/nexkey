@@ -8,16 +8,16 @@
  * @param next URL of next page (optional)
  */
 export default function(id: string, totalItems: any, orderedItems: any, partOf: string, prev?: string, next?: string) {
-	const page = {
-		id,
-		partOf,
-		type: "OrderedCollectionPage",
-		totalItems,
-		orderedItems,
-	} as any;
+    const page = {
+        id,
+        partOf,
+        type: "OrderedCollectionPage",
+        totalItems,
+        orderedItems,
+    } as any;
 
-	if (prev) page.prev = prev;
-	if (next) page.next = next;
+    if (prev) page.prev = prev;
+    if (next) page.next = next;
 
-	return page;
+    return page;
 }

@@ -5,25 +5,25 @@ import { User } from "./user.js";
 @Entity()
 export class PasswordResetRequest {
 	@PrimaryColumn(id())
-	public id: string;
+    public id: string;
 
 	@Column("timestamp with time zone")
 	public createdAt: Date;
 
 	@Index({ unique: true })
 	@Column("varchar", {
-		length: 256,
+	    length: 256,
 	})
 	public token: string;
 
 	@Index()
 	@Column({
-		...id(),
+	    ...id(),
 	})
 	public userId: User["id"];
 
 	@ManyToOne(type => User, {
-		onDelete: "CASCADE",
+	    onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public user: User | null;

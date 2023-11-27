@@ -7,74 +7,74 @@ import define from "../../define.js";
 import { makePaginationQuery } from "../../common/make-pagination-query.js";
 
 export const meta = {
-	tags: ["account", "notifications"],
+    tags: ["account", "notifications"],
 
-	requireCredential: true,
+    requireCredential: true,
 
-	limit: {
-		duration: 60000,
-		max: 15,
-	},
+    limit: {
+        duration: 60000,
+        max: 15,
+    },
 
-	kind: "read:notifications",
+    kind: "read:notifications",
 
-	res: {
-		type: "array",
-		optional: false, nullable: false,
-		items: {
-			type: "object",
-			optional: false, nullable: false,
-			ref: "Notification",
-		},
-	},
+    res: {
+        type: "array",
+        optional: false, nullable: false,
+        items: {
+            type: "object",
+            optional: false, nullable: false,
+            ref: "Notification",
+        },
+    },
 } as const;
 
 export const paramDef = {
-	type: "object",
-	properties: {
-		limit: { type: "integer", minimum: 1, maximum: 100, default: 10 },
-		sinceId: { type: "string", format: "misskey:id" },
-		untilId: { type: "string", format: "misskey:id" },
-		following: { type: "boolean", default: false },
-		unreadOnly: { type: "boolean", default: false },
-		markAsRead: { type: "boolean", default: true },
-		includeTypes: { type: "array", items: {
-			type: "string", enum: notificationTypes,
-		} },
-		excludeTypes: { type: "array", items: {
-			type: "string", enum: notificationTypes,
-		} },
-	},
-	required: [],
+    type: "object",
+    properties: {
+        limit: { type: "integer", minimum: 1, maximum: 100, default: 10 },
+        sinceId: { type: "string", format: "misskey:id" },
+        untilId: { type: "string", format: "misskey:id" },
+        following: { type: "boolean", default: false },
+        unreadOnly: { type: "boolean", default: false },
+        markAsRead: { type: "boolean", default: true },
+        includeTypes: { type: "array", items: {
+            type: "string", enum: notificationTypes,
+        } },
+        excludeTypes: { type: "array", items: {
+            type: "string", enum: notificationTypes,
+        } },
+    },
+    required: [],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	// includeTypes が空の場合はクエリしない
-	if (ps.includeTypes && ps.includeTypes.length === 0) {
-		return [];
-	}
-	// excludeTypes に全指定されている場合はクエリしない
-	if (notificationTypes.every(type => ps.excludeTypes?.includes(type))) {
-		return [];
-	}
-	const followingQuery = Followings.createQueryBuilder("following")
+    // includeTypes が空の場合はクエリしない
+    if (ps.includeTypes && ps.includeTypes.length === 0) {
+        return [];
+    }
+    // excludeTypes に全指定されている場合はクエリしない
+    if (notificationTypes.every(type => ps.excludeTypes?.includes(type))) {
+        return [];
+    }
+    const followingQuery = Followings.createQueryBuilder("following")
 		.select("following.followeeId")
 		.where("following.followerId = :followerId", { followerId: user.id });
 
-	const mutingQuery = Mutings.createQueryBuilder("muting")
+    const mutingQuery = Mutings.createQueryBuilder("muting")
 		.select("muting.muteeId")
 		.where("muting.muterId = :muterId", { muterId: user.id });
 
-	const mutingInstanceQuery = UserProfiles.createQueryBuilder("user_profile")
+    const mutingInstanceQuery = UserProfiles.createQueryBuilder("user_profile")
 		.select("user_profile.mutedInstances")
 		.where("user_profile.userId = :muterId", { muterId: user.id });
 
-	const suspendedQuery = Users.createQueryBuilder("users")
+    const suspendedQuery = Users.createQueryBuilder("users")
 		.select("users.id")
 		.where("users.isSuspended = TRUE");
 
-	const query = makePaginationQuery(Notifications.createQueryBuilder("notification"), ps.sinceId, ps.untilId)
+    const query = makePaginationQuery(Notifications.createQueryBuilder("notification"), ps.sinceId, ps.untilId)
 		.andWhere("notification.notifieeId = :meId", { meId: user.id })
 		.leftJoinAndSelect("notification.notifier", "notifier")
 		.leftJoinAndSelect("notification.note", "note")
@@ -92,53 +92,53 @@ export default define(meta, paramDef, async (ps, user) => {
 		.leftJoinAndSelect("renoteUser.avatar", "renoteUserAvatar")
 		.leftJoinAndSelect("renoteUser.banner", "renoteUserBanner");
 
-	// muted users
-	query.andWhere(new Brackets(qb => { qb
+    // muted users
+    query.andWhere(new Brackets(qb => { qb
 		.where(`notification.notifierId NOT IN (${ mutingQuery.getQuery() })`)
 		.orWhere("notification.notifierId IS NULL");
-	}));
-	query.setParameters(mutingQuery.getParameters());
+    }));
+    query.setParameters(mutingQuery.getParameters());
 
-	// muted instances
-	query.andWhere(new Brackets(qb => { qb
+    // muted instances
+    query.andWhere(new Brackets(qb => { qb
 		.andWhere("notifier.host IS NULL")
 		.orWhere(`NOT (( ${mutingInstanceQuery.getQuery()} )::jsonb ? notifier.host)`);
-	}));
-	query.setParameters(mutingInstanceQuery.getParameters());
+    }));
+    query.setParameters(mutingInstanceQuery.getParameters());
 
-	// suspended users
-	query.andWhere(new Brackets(qb => { qb
+    // suspended users
+    query.andWhere(new Brackets(qb => { qb
 		.where(`notification.notifierId NOT IN (${ suspendedQuery.getQuery() })`)
 		.orWhere("notification.notifierId IS NULL");
-	}));
+    }));
 
-	if (ps.following) {
-		query.andWhere(`((notification.notifierId IN (${ followingQuery.getQuery() })) OR (notification.notifierId = :meId))`, { meId: user.id });
-		query.setParameters(followingQuery.getParameters());
-	}
+    if (ps.following) {
+        query.andWhere(`((notification.notifierId IN (${ followingQuery.getQuery() })) OR (notification.notifierId = :meId))`, { meId: user.id });
+        query.setParameters(followingQuery.getParameters());
+    }
 
-	if (ps.includeTypes && ps.includeTypes.length > 0) {
-		query.andWhere("notification.type IN (:...includeTypes)", { includeTypes: ps.includeTypes });
-	} else if (ps.excludeTypes && ps.excludeTypes.length > 0) {
-		query.andWhere("notification.type NOT IN (:...excludeTypes)", { excludeTypes: ps.excludeTypes });
-	}
+    if (ps.includeTypes && ps.includeTypes.length > 0) {
+        query.andWhere("notification.type IN (:...includeTypes)", { includeTypes: ps.includeTypes });
+    } else if (ps.excludeTypes && ps.excludeTypes.length > 0) {
+        query.andWhere("notification.type NOT IN (:...excludeTypes)", { excludeTypes: ps.excludeTypes });
+    }
 
-	if (ps.unreadOnly) {
-		query.andWhere("notification.isRead = false");
-	}
+    if (ps.unreadOnly) {
+        query.andWhere("notification.isRead = false");
+    }
 
-	const notifications = await query.take(ps.limit).getMany();
+    const notifications = await query.take(ps.limit).getMany();
 
-	// Mark all as read
-	if (notifications.length > 0 && ps.markAsRead) {
-		readNotification(user.id, notifications.map(x => x.id));
-	}
+    // Mark all as read
+    if (notifications.length > 0 && ps.markAsRead) {
+        readNotification(user.id, notifications.map(x => x.id));
+    }
 
-	const notes = notifications.filter(notification => ["mention", "reply", "quote"].includes(notification.type)).map(notification => notification.note!);
+    const notes = notifications.filter(notification => ["mention", "reply", "quote"].includes(notification.type)).map(notification => notification.note!);
 
-	if (notes.length > 0) {
-		read(user.id, notes);
-	}
+    if (notes.length > 0) {
+        read(user.id, notes);
+    }
 
-	return await Notifications.packMany(notifications, user.id);
+    return await Notifications.packMany(notifications, user.id);
 });

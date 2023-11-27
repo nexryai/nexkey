@@ -30,56 +30,56 @@ type RemoteFolloweeFollowing = Following & {
 };
 
 export const FollowingRepository = db.getRepository(Following).extend({
-	isLocalFollower(following: Following): following is LocalFollowerFollowing {
-		return following.followerHost == null;
-	},
+    isLocalFollower(following: Following): following is LocalFollowerFollowing {
+        return following.followerHost == null;
+    },
 
-	isRemoteFollower(following: Following): following is RemoteFollowerFollowing {
-		return following.followerHost != null;
-	},
+    isRemoteFollower(following: Following): following is RemoteFollowerFollowing {
+        return following.followerHost != null;
+    },
 
-	isLocalFollowee(following: Following): following is LocalFolloweeFollowing {
-		return following.followeeHost == null;
-	},
+    isLocalFollowee(following: Following): following is LocalFolloweeFollowing {
+        return following.followeeHost == null;
+    },
 
-	isRemoteFollowee(following: Following): following is RemoteFolloweeFollowing {
-		return following.followeeHost != null;
-	},
+    isRemoteFollowee(following: Following): following is RemoteFolloweeFollowing {
+        return following.followeeHost != null;
+    },
 
-	async pack(
-		src: Following["id"] | Following,
-		me?: { id: User["id"] } | null | undefined,
-		opts?: {
+    async pack(
+        src: Following["id"] | Following,
+        me?: { id: User["id"] } | null | undefined,
+        opts?: {
 			populateFollowee?: boolean;
 			populateFollower?: boolean;
 		},
-	): Promise<Packed<"Following">> {
-		const following = typeof src === "object" ? src : await this.findOneByOrFail({ id: src });
+    ): Promise<Packed<"Following">> {
+        const following = typeof src === "object" ? src : await this.findOneByOrFail({ id: src });
 
-		if (opts == null) opts = {};
+        if (opts == null) opts = {};
 
-		return await awaitAll({
-			id: following.id,
-			createdAt: following.createdAt.toISOString(),
-			followeeId: following.followeeId,
-			followerId: following.followerId,
-			followee: opts.populateFollowee ? Users.pack(following.followee || following.followeeId, me, {
-				detail: true,
-			}) : undefined,
-			follower: opts.populateFollower ? Users.pack(following.follower || following.followerId, me, {
-				detail: true,
-			}) : undefined,
-		});
-	},
+        return await awaitAll({
+            id: following.id,
+            createdAt: following.createdAt.toISOString(),
+            followeeId: following.followeeId,
+            followerId: following.followerId,
+            followee: opts.populateFollowee ? Users.pack(following.followee || following.followeeId, me, {
+                detail: true,
+            }) : undefined,
+            follower: opts.populateFollower ? Users.pack(following.follower || following.followerId, me, {
+                detail: true,
+            }) : undefined,
+        });
+    },
 
-	packMany(
-		followings: any[],
-		me?: { id: User["id"] } | null | undefined,
-		opts?: {
+    packMany(
+        followings: any[],
+        me?: { id: User["id"] } | null | undefined,
+        opts?: {
 			populateFollowee?: boolean;
 			populateFollower?: boolean;
 		},
-	) {
-		return Promise.all(followings.map(x => this.pack(x, me, opts)));
-	},
+    ) {
+        return Promise.all(followings.map(x => this.pack(x, me, opts)));
+    },
 });

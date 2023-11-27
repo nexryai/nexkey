@@ -6,42 +6,42 @@ import { User } from "./user.js";
 @Index(["muterId", "muteeId"], { unique: true })
 export class Muting {
 	@PrimaryColumn(id())
-	public id: string;
+    public id: string;
 
 	@Index()
 	@Column("timestamp with time zone", {
-		comment: "The created date of the Muting.",
+	    comment: "The created date of the Muting.",
 	})
 	public createdAt: Date;
 
 	@Index()
 	@Column("timestamp with time zone", {
-		nullable: true,
+	    nullable: true,
 	})
 	public expiresAt: Date | null;
 
 	@Index()
 	@Column({
-		...id(),
-		comment: "The mutee user ID.",
+	    ...id(),
+	    comment: "The mutee user ID.",
 	})
 	public muteeId: User["id"];
 
 	@ManyToOne(type => User, {
-		onDelete: "CASCADE",
+	    onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public mutee: User | null;
 
 	@Index()
 	@Column({
-		...id(),
-		comment: "The muter user ID.",
+	    ...id(),
+	    comment: "The muter user ID.",
 	})
 	public muterId: User["id"];
 
 	@ManyToOne(type => User, {
-		onDelete: "CASCADE",
+	    onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public muter: User | null;

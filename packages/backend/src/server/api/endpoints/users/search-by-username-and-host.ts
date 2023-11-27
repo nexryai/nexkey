@@ -6,67 +6,67 @@ import { sqlLikeEscape } from "@/misc/sql-like-escape.js";
 import define from "../../define.js";
 
 export const meta = {
-	tags: ["users"],
+    tags: ["users"],
 
-	requireCredential: true,
+    requireCredential: true,
 
-	description: "Search for a user by username and/or host.",
+    description: "Search for a user by username and/or host.",
 
-	res: {
-		type: "array",
-		optional: false, nullable: false,
-		items: {
-			type: "object",
-			optional: false, nullable: false,
-			ref: "User",
-		},
-	},
+    res: {
+        type: "array",
+        optional: false, nullable: false,
+        items: {
+            type: "object",
+            optional: false, nullable: false,
+            ref: "User",
+        },
+    },
 } as const;
 
 export const paramDef = {
-	type: "object",
-	properties: {
-		username: { type: "string", nullable: true },
-		host: { type: "string", nullable: true },
-		limit: { type: "integer", minimum: 1, maximum: 100, default: 10 },
-		detail: { type: "boolean", default: true },
-	},
-	anyOf: [
-		{ required: ["username"] },
-		{ required: ["host"] },
-	],
+    type: "object",
+    properties: {
+        username: { type: "string", nullable: true },
+        host: { type: "string", nullable: true },
+        limit: { type: "integer", minimum: 1, maximum: 100, default: 10 },
+        detail: { type: "boolean", default: true },
+    },
+    anyOf: [
+        { required: ["username"] },
+        { required: ["host"] },
+    ],
 } as const;
 
 // TODO: avatar,bannerをJOINしたいけどエラーになる
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, me) => {
-	const activeThreshold = new Date(Date.now() - (1000 * 60 * 60 * 24 * 30)); // 30日
+    const activeThreshold = new Date(Date.now() - (1000 * 60 * 60 * 24 * 30)); // 30日
 
-	if (ps.host) {
-		const q = Users.createQueryBuilder("user")
+    if (ps.host) {
+        const q = Users.createQueryBuilder("user")
 			.where("user.isSuspended = FALSE")
 			.andWhere("user.host LIKE :host", { host: sqlLikeEscape(ps.host.toLowerCase()) + "%" });
 
-		if (ps.username) {
-			q.andWhere("user.usernameLower LIKE :username", { username: sqlLikeEscape(ps.username.toLowerCase()) + "%" });
-		}
+        if (ps.username) {
+            q.andWhere("user.usernameLower LIKE :username", { username: sqlLikeEscape(ps.username.toLowerCase()) + "%" });
+        }
 
-		q.andWhere("user.updatedAt IS NOT NULL");
-		q.orderBy("user.updatedAt", "DESC");
+        q.andWhere("user.updatedAt IS NOT NULL");
+        q.orderBy("user.updatedAt", "DESC");
 
-		const users = await q.take(ps.limit).getMany();
+        const users = await q.take(ps.limit).getMany();
 
-		return await Users.packMany(users, me, { detail: ps.detail });
-	} else if (ps.username) {
-		let users: User[] = [];
+        return await Users.packMany(users, me, { detail: ps.detail });
+    } else if (ps.username) {
+        let users: User[] = [];
 
-		if (me) {
-			const followingQuery = Followings.createQueryBuilder("following")
+        if (me) {
+            const followingQuery = Followings.createQueryBuilder("following")
 				.select("following.followeeId")
 				.where("following.followerId = :followerId", { followerId: me.id });
 
-			const query = Users.createQueryBuilder("user")
+            const query = Users.createQueryBuilder("user")
 				.where(`user.id IN (${ followingQuery.getQuery() })`)
 				.andWhere("user.id != :meId", { meId: me.id })
 				.andWhere("user.isSuspended = FALSE")
@@ -76,42 +76,42 @@ export default define(meta, paramDef, async (ps, me) => {
 					.orWhere("user.updatedAt > :activeThreshold", { activeThreshold: activeThreshold });
 				}));
 
-			query.setParameters(followingQuery.getParameters());
+            query.setParameters(followingQuery.getParameters());
 
-			users = await query
+            users = await query
 				.orderBy("user.usernameLower", "ASC")
 				.take(ps.limit)
 				.getMany();
 
-			if (users.length < ps.limit) {
-				const otherQuery = await Users.createQueryBuilder("user")
+            if (users.length < ps.limit) {
+                const otherQuery = await Users.createQueryBuilder("user")
 					.where(`user.id NOT IN (${ followingQuery.getQuery() })`)
 					.andWhere("user.id != :meId", { meId: me.id })
 					.andWhere("user.isSuspended = FALSE")
 					.andWhere("user.usernameLower LIKE :username", { username: sqlLikeEscape(ps.username.toLowerCase()) + "%" })
 					.andWhere("user.updatedAt IS NOT NULL");
 
-				otherQuery.setParameters(followingQuery.getParameters());
+                otherQuery.setParameters(followingQuery.getParameters());
 
-				const otherUsers = await otherQuery
+                const otherUsers = await otherQuery
 					.orderBy("user.updatedAt", "DESC")
 					.take(ps.limit - users.length)
 					.getMany();
 
-				users = users.concat(otherUsers);
-			}
-		} else {
-			users = await Users.createQueryBuilder("user")
+                users = users.concat(otherUsers);
+            }
+        } else {
+            users = await Users.createQueryBuilder("user")
 				.where("user.isSuspended = FALSE")
 				.andWhere("user.usernameLower LIKE :username", { username: sqlLikeEscape(ps.username.toLowerCase()) + "%" })
 				.andWhere("user.updatedAt IS NOT NULL")
 				.orderBy("user.updatedAt", "DESC")
 				.take(ps.limit - users.length)
 				.getMany();
-		}
+        }
 
-		return await Users.packMany(users, me, { detail: !!ps.detail });
-	}
+        return await Users.packMany(users, me, { detail: !!ps.detail });
+    }
 
-	return [];
+    return [];
 });

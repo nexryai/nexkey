@@ -11,8 +11,8 @@ import { proxyMedia } from "./proxy-media.js";
 const app = new Koa();
 app.use(cors());
 app.use(async (ctx, next) => {
-	ctx.set("Content-Security-Policy", "default-src 'none'; img-src 'self'; media-src 'self'; style-src 'unsafe-inline'");
-	await next();
+    ctx.set("Content-Security-Policy", "default-src 'none'; img-src 'self'; media-src 'self'; style-src 'unsafe-inline'");
+    await next();
 });
 
 // Init router

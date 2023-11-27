@@ -5,24 +5,24 @@ const CHARS = "0123456789abcdef";
 // 48bit Random value in Hex
 
 function getTime(time: number) {
-	if (time < 0) time = 0;
-	if (time === 0) {
-		return CHARS[0];
-	}
+    if (time < 0) time = 0;
+    if (time === 0) {
+        return CHARS[0];
+    }
 
-	return time.toString(16).padStart(11, CHARS[0]);
+    return time.toString(16).padStart(11, CHARS[0]);
 }
 
 function getRandom() {
-	let str = "";
+    let str = "";
 
-	for (let i = 0; i < 12; i++) {
-		str += CHARS[Math.floor(Math.random() * CHARS.length)];
-	}
+    for (let i = 0; i < 12; i++) {
+        str += CHARS[Math.floor(Math.random() * CHARS.length)];
+    }
 
-	return str;
+    return str;
 }
 
 export function genMeidg(date: Date): string {
-	return "g" + getTime(date.getTime()) + getRandom();
+    return "g" + getTime(date.getTime()) + getRandom();
 }

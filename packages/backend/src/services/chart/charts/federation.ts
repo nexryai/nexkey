@@ -8,50 +8,50 @@ import { name, schema } from "./entities/federation.js";
  */
 // eslint-disable-next-line import/no-default-export
 export default class FederationChart extends Chart<typeof schema> {
-	constructor() {
-		super(name, schema);
-	}
+    constructor() {
+        super(name, schema);
+    }
 
-	protected async tickMajor(): Promise<Partial<KVs<typeof schema>>> {
-		return {
-		};
-	}
+    protected async tickMajor(): Promise<Partial<KVs<typeof schema>>> {
+        return {
+        };
+    }
 
-	protected async tickMinor(): Promise<Partial<KVs<typeof schema>>> {
-		const meta = await fetchMeta();
+    protected async tickMinor(): Promise<Partial<KVs<typeof schema>>> {
+        const meta = await fetchMeta();
 
-		const suspendedInstancesQuery = Instances.createQueryBuilder("instance")
+        const suspendedInstancesQuery = Instances.createQueryBuilder("instance")
 			.select("instance.host")
 			.where("instance.isSuspended = true");
 
-		const pubsubSubQuery = Followings.createQueryBuilder("f")
+        const pubsubSubQuery = Followings.createQueryBuilder("f")
 			.select("f.followerHost")
 			.where("f.followerHost IS NOT NULL");
 
-		const subInstancesQuery = Followings.createQueryBuilder("f")
+        const subInstancesQuery = Followings.createQueryBuilder("f")
 			.select("f.followeeHost")
 			.where("f.followeeHost IS NOT NULL");
 
-		const pubInstancesQuery = Followings.createQueryBuilder("f")
+        const pubInstancesQuery = Followings.createQueryBuilder("f")
 			.select("f.followerHost")
 			.where("f.followerHost IS NOT NULL");
 
-		const [sub, pub, pubsub, subActive, pubActive] = await Promise.all([
-			Followings.createQueryBuilder("following")
+        const [sub, pub, pubsub, subActive, pubActive] = await Promise.all([
+            Followings.createQueryBuilder("following")
 				.select("COUNT(DISTINCT following.followeeHost)")
 				.where("following.followeeHost IS NOT NULL")
 				.andWhere(meta.blockedHosts.length === 0 ? "1=1" : "following.followeeHost NOT ILIKE ANY(ARRAY[:...blocked]", { blocked: meta.blockedHosts.flatMap(x => [x, `%.${x}`]) })
 				.andWhere(`following.followeeHost NOT IN (${ suspendedInstancesQuery.getQuery() })`)
 				.getRawOne()
 				.then(x => parseInt(x.count, 10)),
-			Followings.createQueryBuilder("following")
+            Followings.createQueryBuilder("following")
 				.select("COUNT(DISTINCT following.followerHost)")
 				.where("following.followerHost IS NOT NULL")
 				.andWhere(meta.blockedHosts.length === 0 ? "1=1" : "following.followerHost NOT ILIKE ANY(ARRAY[:...blocked]", { blocked: meta.blockedHosts.flatMap(x => [x, `%.${x}`]) })
 				.andWhere(`following.followerHost NOT IN (${ suspendedInstancesQuery.getQuery() })`)
 				.getRawOne()
 				.then(x => parseInt(x.count, 10)),
-			Followings.createQueryBuilder("following")
+            Followings.createQueryBuilder("following")
 				.select("COUNT(DISTINCT following.followeeHost)")
 				.where("following.followeeHost IS NOT NULL")
 				.andWhere(meta.blockedHosts.length === 0 ? "1=1" : "following.followeeHost NOT ILIKE ANY(ARRAY[:...blocked]", { blocked: meta.blockedHosts.flatMap(x => [x, `%.${x}`]) })
@@ -60,7 +60,7 @@ export default class FederationChart extends Chart<typeof schema> {
 				.setParameters(pubsubSubQuery.getParameters())
 				.getRawOne()
 				.then(x => parseInt(x.count, 10)),
-			Instances.createQueryBuilder("instance")
+            Instances.createQueryBuilder("instance")
 				.select("COUNT(instance.id)")
 				.where(`instance.host IN (${ subInstancesQuery.getQuery() })`)
 				.andWhere(meta.blockedHosts.length === 0 ? "1=1" : "instance.host NOT ILIKE ANY(ARRAY[:...blocked]", { blocked: meta.blockedHosts.flatMap(x => [x, `%.${x}`]) })
@@ -68,7 +68,7 @@ export default class FederationChart extends Chart<typeof schema> {
 				.andWhere("instance.lastCommunicatedAt > :gt", { gt: new Date(Date.now() - (1000 * 60 * 60 * 24 * 30)) })
 				.getRawOne()
 				.then(x => parseInt(x.count, 10)),
-			Instances.createQueryBuilder("instance")
+            Instances.createQueryBuilder("instance")
 				.select("COUNT(instance.id)")
 				.where(`instance.host IN (${ pubInstancesQuery.getQuery() })`)
 				.andWhere(meta.blockedHosts.length === 0 ? "1=1" : "instance.host NOT ILIKE ANY(ARRAY[:...blocked]", { blocked: meta.blockedHosts.flatMap(x => [x, `%.${x}`]) })
@@ -76,28 +76,28 @@ export default class FederationChart extends Chart<typeof schema> {
 				.andWhere("instance.lastCommunicatedAt > :gt", { gt: new Date(Date.now() - (1000 * 60 * 60 * 24 * 30)) })
 				.getRawOne()
 				.then(x => parseInt(x.count, 10)),
-		]);
+        ]);
 
-		return {
-			"sub": sub,
-			"pub": pub,
-			"pubsub": pubsub,
-			"subActive": subActive,
-			"pubActive": pubActive,
-		};
-	}
+        return {
+            "sub": sub,
+            "pub": pub,
+            "pubsub": pubsub,
+            "subActive": subActive,
+            "pubActive": pubActive,
+        };
+    }
 
-	public async deliverd(host: string, succeeded: boolean): Promise<void> {
-		await this.commit(succeeded ? {
-			"deliveredInstances": [host],
-		} : {
-			"stalled": [host],
-		});
-	}
+    public async deliverd(host: string, succeeded: boolean): Promise<void> {
+        await this.commit(succeeded ? {
+            "deliveredInstances": [host],
+        } : {
+            "stalled": [host],
+        });
+    }
 
-	public async inbox(host: string): Promise<void> {
-		await this.commit({
-			"inboxInstances": [host],
-		});
-	}
+    public async inbox(host: string): Promise<void> {
+        await this.commit({
+            "inboxInstances": [host],
+        });
+    }
 }

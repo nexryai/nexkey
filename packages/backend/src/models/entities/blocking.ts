@@ -6,36 +6,36 @@ import { User } from "./user.js";
 @Index(["blockerId", "blockeeId"], { unique: true })
 export class Blocking {
 	@PrimaryColumn(id())
-	public id: string;
+    public id: string;
 
 	@Index()
 	@Column("timestamp with time zone", {
-		comment: "The created date of the Blocking.",
+	    comment: "The created date of the Blocking.",
 	})
 	public createdAt: Date;
 
 	@Index()
 	@Column({
-		...id(),
-		comment: "The blockee user ID.",
+	    ...id(),
+	    comment: "The blockee user ID.",
 	})
 	public blockeeId: User["id"];
 
 	@ManyToOne(type => User, {
-		onDelete: "CASCADE",
+	    onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public blockee: User | null;
 
 	@Index()
 	@Column({
-		...id(),
-		comment: "The blocker user ID.",
+	    ...id(),
+	    comment: "The blocker user ID.",
 	})
 	public blockerId: User["id"];
 
 	@ManyToOne(type => User, {
-		onDelete: "CASCADE",
+	    onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public blocker: User | null;

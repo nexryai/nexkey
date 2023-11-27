@@ -14,105 +14,105 @@ import { queueLogger } from "../../logger.js";
 const logger = queueLogger.createSubLogger("export-notes");
 
 export async function exportNotes(job: Bull.Job<DbUserJobData>, done: any): Promise<void> {
-	logger.info(`Exporting notes of ${job.data.user.id} ...`);
+    logger.info(`Exporting notes of ${job.data.user.id} ...`);
 
-	const user = await Users.findOneBy({ id: job.data.user.id });
-	if (user == null) {
-		done();
-		return;
-	}
+    const user = await Users.findOneBy({ id: job.data.user.id });
+    if (user == null) {
+        done();
+        return;
+    }
 
-	// Create temp file
-	const [path, cleanup] = await createTemp();
+    // Create temp file
+    const [path, cleanup] = await createTemp();
 
-	logger.info(`Temp file is ${path}`);
+    logger.info(`Temp file is ${path}`);
 
-	try {
-		const stream = fs.createWriteStream(path, { flags: "a" });
+    try {
+        const stream = fs.createWriteStream(path, { flags: "a" });
 
-		const write = (text: string): Promise<void> => {
-			return new Promise<void>((res, rej) => {
-				stream.write(text, err => {
-					if (err) {
-						logger.error(err);
-						rej(err);
-					} else {
-						res();
-					}
-				});
-			});
-		};
+        const write = (text: string): Promise<void> => {
+            return new Promise<void>((res, rej) => {
+                stream.write(text, err => {
+                    if (err) {
+                        logger.error(err);
+                        rej(err);
+                    } else {
+                        res();
+                    }
+                });
+            });
+        };
 
-		await write("[");
+        await write("[");
 
-		let exportedNotesCount = 0;
-		let cursor: Note["id"] | null = null;
+        let exportedNotesCount = 0;
+        let cursor: Note["id"] | null = null;
 
-		while (true) {
-			const notes = await Notes.find({
-				where: {
-					userId: user.id,
-					...(cursor ? { id: MoreThan(cursor) } : {}),
-				},
-				take: 100,
-				order: {
-					id: 1,
-				},
-			}) as Note[];
+        while (true) {
+            const notes = await Notes.find({
+                where: {
+                    userId: user.id,
+                    ...(cursor ? { id: MoreThan(cursor) } : {}),
+                },
+                take: 100,
+                order: {
+                    id: 1,
+                },
+            }) as Note[];
 
-			if (notes.length === 0) {
-				job.progress(100);
-				break;
-			}
+            if (notes.length === 0) {
+                job.progress(100);
+                break;
+            }
 
-			cursor = notes[notes.length - 1].id;
+            cursor = notes[notes.length - 1].id;
 
-			for (const note of notes) {
-				let poll: Poll | undefined;
-				if (note.hasPoll) {
-					poll = await Polls.findOneByOrFail({ noteId: note.id });
-				}
-				const content = JSON.stringify(serialize(note, poll));
-				const isFirst = exportedNotesCount === 0;
-				await write(isFirst ? content : ",\n" + content);
-				exportedNotesCount++;
-			}
+            for (const note of notes) {
+                let poll: Poll | undefined;
+                if (note.hasPoll) {
+                    poll = await Polls.findOneByOrFail({ noteId: note.id });
+                }
+                const content = JSON.stringify(serialize(note, poll));
+                const isFirst = exportedNotesCount === 0;
+                await write(isFirst ? content : ",\n" + content);
+                exportedNotesCount++;
+            }
 
-			const total = await Notes.countBy({
-				userId: user.id,
-			});
+            const total = await Notes.countBy({
+                userId: user.id,
+            });
 
-			job.progress(exportedNotesCount / total);
-		}
+            job.progress(exportedNotesCount / total);
+        }
 
-		await write("]");
+        await write("]");
 
-		stream.end();
-		logger.succ(`Exported to: ${path}`);
+        stream.end();
+        logger.succ(`Exported to: ${path}`);
 
-		const fileName = "notes-" + dateFormat(new Date(), "yyyy-MM-dd-HH-mm-ss") + ".json";
-		const driveFile = await addFile({ user, path, name: fileName, force: true });
+        const fileName = "notes-" + dateFormat(new Date(), "yyyy-MM-dd-HH-mm-ss") + ".json";
+        const driveFile = await addFile({ user, path, name: fileName, force: true });
 
-		logger.succ(`Exported to: ${driveFile.id}`);
-	} finally {
-		cleanup();
-	}
+        logger.succ(`Exported to: ${driveFile.id}`);
+    } finally {
+        cleanup();
+    }
 
-	done();
+    done();
 }
 
 function serialize(note: Note, poll: Poll | null = null): Record<string, unknown> {
-	return {
-		id: note.id,
-		text: note.text,
-		createdAt: note.createdAt,
-		fileIds: note.fileIds,
-		replyId: note.replyId,
-		renoteId: note.renoteId,
-		poll: poll,
-		cw: note.cw,
-		visibility: note.visibility,
-		visibleUserIds: note.visibleUserIds,
-		localOnly: note.localOnly,
-	};
+    return {
+        id: note.id,
+        text: note.text,
+        createdAt: note.createdAt,
+        fileIds: note.fileIds,
+        replyId: note.replyId,
+        renoteId: note.renoteId,
+        poll: poll,
+        cw: note.cw,
+        visibility: note.visibility,
+        visibleUserIds: note.visibleUserIds,
+        localOnly: note.localOnly,
+    };
 }

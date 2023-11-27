@@ -16,123 +16,123 @@ import { IObject, isCollectionOrOrderedCollection, ICollection, IOrderedCollecti
 import { signedGet } from "./request.js";
 
 export default class Resolver {
-	private history: Set<string>;
-	private user?: ILocalUser;
-	private recursionLimit?: number;
+    private history: Set<string>;
+    private user?: ILocalUser;
+    private recursionLimit?: number;
 
-	constructor(recursionLimit = 100) {
-		this.history = new Set();
-		this.recursionLimit = recursionLimit;
-	}
+    constructor(recursionLimit = 100) {
+        this.history = new Set();
+        this.recursionLimit = recursionLimit;
+    }
 
-	public getHistory(): string[] {
-		return Array.from(this.history);
-	}
+    public getHistory(): string[] {
+        return Array.from(this.history);
+    }
 
-	public async resolveCollection(value: string | IObject): Promise<ICollection | IOrderedCollection> {
-		const collection = typeof value === "string"
-			? await this.resolve(value)
-			: value;
+    public async resolveCollection(value: string | IObject): Promise<ICollection | IOrderedCollection> {
+        const collection = typeof value === "string"
+            ? await this.resolve(value)
+            : value;
 
-		if (isCollectionOrOrderedCollection(collection)) {
-			return collection;
-		} else {
-			throw new Error(`unrecognized collection type: ${collection.type}`);
-		}
-	}
+        if (isCollectionOrOrderedCollection(collection)) {
+            return collection;
+        } else {
+            throw new Error(`unrecognized collection type: ${collection.type}`);
+        }
+    }
 
-	public async resolve(value: string | IObject): Promise<IObject> {
-		if (value == null) {
-			throw new Error("resolvee is null (or undefined)");
-		}
+    public async resolve(value: string | IObject): Promise<IObject> {
+        if (value == null) {
+            throw new Error("resolvee is null (or undefined)");
+        }
 
-		if (typeof value !== "string") {
-			return value;
-		}
+        if (typeof value !== "string") {
+            return value;
+        }
 
-		if (value.includes("#")) {
-			// URLs with fragment parts cannot be resolved correctly because
-			// the fragment part does not get transmitted over HTTP(S).
-			// Avoid strange behaviour by not trying to resolve these at all.
-			throw new Error(`cannot resolve URL with fragment: ${value}`);
-		}
+        if (value.includes("#")) {
+            // URLs with fragment parts cannot be resolved correctly because
+            // the fragment part does not get transmitted over HTTP(S).
+            // Avoid strange behaviour by not trying to resolve these at all.
+            throw new Error(`cannot resolve URL with fragment: ${value}`);
+        }
 
-		if (this.history.has(value)) {
-			throw new Error("cannot resolve already resolved one");
-		}
+        if (this.history.has(value)) {
+            throw new Error("cannot resolve already resolved one");
+        }
 
-		if (this.recursionLimit && this.history.size > this.recursionLimit) {
-			throw new Error("hit recursion limit");
-		}
+        if (this.recursionLimit && this.history.size > this.recursionLimit) {
+            throw new Error("hit recursion limit");
+        }
 
-		this.history.add(value);
+        this.history.add(value);
 
-		const host = extractDbHost(value);
-		if (isSelfHost(host)) {
-			return await this.resolveLocal(value);
-		}
+        const host = extractDbHost(value);
+        if (isSelfHost(host)) {
+            return await this.resolveLocal(value);
+        }
 
-		const meta = await fetchMeta();
-		if (meta.blockedHosts.some(x => host.endsWith(x))) {
-			throw new Error("Instance is blocked");
-		}
+        const meta = await fetchMeta();
+        if (meta.blockedHosts.some(x => host.endsWith(x))) {
+            throw new Error("Instance is blocked");
+        }
 
-		if (!this.user) {
-			this.user = await getInstanceActor();
-		}
+        if (!this.user) {
+            this.user = await getInstanceActor();
+        }
 
-		const object = (this.user
-			? await signedGet(value, this.user)
-			: await getJson(value, "application/activity+json, application/ld+json")) as IObject;
+        const object = (this.user
+            ? await signedGet(value, this.user)
+            : await getJson(value, "application/activity+json, application/ld+json")) as IObject;
 
-		if (object == null || (
-			Array.isArray(object["@context"]) ?
-				!(object["@context"] as unknown[]).includes("https://www.w3.org/ns/activitystreams") :
-				object["@context"] !== "https://www.w3.org/ns/activitystreams"
-		)) {
-			throw new Error("invalid response");
-		}
+        if (object == null || (
+            Array.isArray(object["@context"]) ?
+                !(object["@context"] as unknown[]).includes("https://www.w3.org/ns/activitystreams") :
+                object["@context"] !== "https://www.w3.org/ns/activitystreams"
+        )) {
+            throw new Error("invalid response");
+        }
 
-		return object;
-	}
+        return object;
+    }
 
-	private resolveLocal(url: string): Promise<IObject> {
-		const parsed = parseUri(url);
-		if (!parsed.local) throw new Error("resolveLocal: not local");
+    private resolveLocal(url: string): Promise<IObject> {
+        const parsed = parseUri(url);
+        if (!parsed.local) throw new Error("resolveLocal: not local");
 
-		switch (parsed.type) {
-			case "notes":
-				return Notes.findOneByOrFail({ id: parsed.id })
+        switch (parsed.type) {
+            case "notes":
+                return Notes.findOneByOrFail({ id: parsed.id })
 				.then(note => {
-					if (parsed.rest === "activity") {
-						// this refers to the create activity and not the note itself
-						return renderActivity(renderCreate(renderNote(note)));
-					} else {
-						return renderNote(note);
-					}
+				    if (parsed.rest === "activity") {
+				        // this refers to the create activity and not the note itself
+				        return renderActivity(renderCreate(renderNote(note)));
+				    } else {
+				        return renderNote(note);
+				    }
 				});
-			case "users":
-				return Users.findOneByOrFail({ id: parsed.id })
+            case "users":
+                return Users.findOneByOrFail({ id: parsed.id })
 				.then(user => renderPerson(user as ILocalUser));
-			case "questions":
-				// Polls are indexed by the note they are attached to.
-				return Promise.all([
-					Notes.findOneByOrFail({ id: parsed.id }),
-					Polls.findOneByOrFail({ noteId: parsed.id }),
-				])
+            case "questions":
+                // Polls are indexed by the note they are attached to.
+                return Promise.all([
+                    Notes.findOneByOrFail({ id: parsed.id }),
+                    Polls.findOneByOrFail({ noteId: parsed.id }),
+                ])
 				.then(([note, poll]) => renderQuestion({ id: note.userId }, note, poll));
-			case "likes":
-				return NoteReactions.findOneByOrFail({ id: parsed.id }).then(reaction => renderActivity(renderLike(reaction, { uri: null })));
-			case "follows":
-				// rest should be <followee id>
-				if (parsed.rest == null || !/^\w+$/.test(parsed.rest)) throw new Error("resolveLocal: invalid follow URI");
+            case "likes":
+                return NoteReactions.findOneByOrFail({ id: parsed.id }).then(reaction => renderActivity(renderLike(reaction, { uri: null })));
+            case "follows":
+                // rest should be <followee id>
+                if (parsed.rest == null || !/^\w+$/.test(parsed.rest)) throw new Error("resolveLocal: invalid follow URI");
 
-				return Promise.all(
-					[parsed.id, parsed.rest].map(id => Users.findOneByOrFail({ id })),
-				)
+                return Promise.all(
+                    [parsed.id, parsed.rest].map(id => Users.findOneByOrFail({ id })),
+                )
 				.then(([follower, followee]) => renderActivity(renderFollow(follower, followee, url)));
-			default:
-				throw new Error(`resolveLocal: type ${type} unhandled`);
-		}
-	}
+            default:
+                throw new Error(`resolveLocal: type ${type} unhandled`);
+        }
+    }
 }

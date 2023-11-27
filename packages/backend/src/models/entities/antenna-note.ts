@@ -7,37 +7,37 @@ import { Antenna } from "./antenna.js";
 @Index(["noteId", "antennaId"], { unique: true })
 export class AntennaNote {
 	@PrimaryColumn(id())
-	public id: string;
+    public id: string;
 
 	@Index()
 	@Column({
-		...id(),
-		comment: "The note ID.",
+	    ...id(),
+	    comment: "The note ID.",
 	})
 	public noteId: Note["id"];
 
 	@ManyToOne(type => Note, {
-		onDelete: "CASCADE",
+	    onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public note: Note | null;
 
 	@Index()
 	@Column({
-		...id(),
-		comment: "The antenna ID.",
+	    ...id(),
+	    comment: "The antenna ID.",
 	})
 	public antennaId: Antenna["id"];
 
 	@ManyToOne(type => Antenna, {
-		onDelete: "CASCADE",
+	    onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public antenna: Antenna | null;
 
 	@Index()
 	@Column("boolean", {
-		default: false,
+	    default: false,
 	})
 	public read: boolean;
 }

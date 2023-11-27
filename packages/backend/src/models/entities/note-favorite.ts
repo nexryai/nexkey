@@ -7,10 +7,10 @@ import { User } from "./user.js";
 @Index(["userId", "noteId"], { unique: true })
 export class NoteFavorite {
 	@PrimaryColumn(id())
-	public id: string;
+    public id: string;
 
 	@Column("timestamp with time zone", {
-		comment: "The created date of the NoteFavorite.",
+	    comment: "The created date of the NoteFavorite.",
 	})
 	public createdAt: Date;
 
@@ -19,7 +19,7 @@ export class NoteFavorite {
 	public userId: User["id"];
 
 	@ManyToOne(type => User, {
-		onDelete: "CASCADE",
+	    onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public user: User | null;
@@ -28,7 +28,7 @@ export class NoteFavorite {
 	public noteId: Note["id"];
 
 	@ManyToOne(type => Note, {
-		onDelete: "CASCADE",
+	    onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public note: Note | null;

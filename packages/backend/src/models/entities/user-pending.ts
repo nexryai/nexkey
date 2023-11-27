@@ -4,29 +4,29 @@ import { id } from "../id.js";
 @Entity()
 export class UserPending {
 	@PrimaryColumn(id())
-	public id: string;
+    public id: string;
 
 	@Column("timestamp with time zone")
 	public createdAt: Date;
 
 	@Index({ unique: true })
 	@Column("varchar", {
-		length: 128,
+	    length: 128,
 	})
 	public code: string;
 
 	@Column("varchar", {
-		length: 128,
+	    length: 128,
 	})
 	public username: string;
 
 	@Column("varchar", {
-		length: 128,
+	    length: 128,
 	})
 	public email: string;
 
 	@Column("varchar", {
-		length: 128,
+	    length: 128,
 	})
 	public password: string;
 }
