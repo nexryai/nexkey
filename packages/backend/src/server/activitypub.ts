@@ -1,11 +1,11 @@
 import Router from "@koa/router";
 import bodyParser from "koa-bodyparser";
-import * as crypto from 'crypto';
+import * as crypto from "crypto";
 import httpSignature from "@peertube/http-signature";
 
 import { In, IsNull, Not } from "typeorm";
 import config from "@/config/index.js";
-import { apLogger } from '@/remote/activitypub/logger.js';
+import { apLogger } from "@/remote/activitypub/logger.js";
 import { renderActivity } from "@/remote/activitypub/renderer/index.js";
 import renderNote from "@/remote/activitypub/renderer/note.js";
 import renderKey from "@/remote/activitypub/renderer/key.js";
