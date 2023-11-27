@@ -12,7 +12,7 @@ module.exports = {
 		'plugin:import/typescript'
 	],
 	rules: {
-		'indent': ['error', 4, {
+		'indent': ['warn', 4, {
 			'SwitchCase': 1,
 			'MemberExpression': 'off',
 			'flatTernaryExpressions': true,

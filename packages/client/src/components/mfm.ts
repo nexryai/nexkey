@@ -12,6 +12,7 @@ import MkGoogle from "@/components/MkGoogle.vue";
 import MkSparkle from "@/components/MkSparkle.vue";
 import MkA from "@/components/global/MkA.vue";
 import { host } from "@/config";
+import MkTime from "@/components/global/MkTime.vue";
 
 export default defineComponent({
     props: {
@@ -312,6 +313,25 @@ export default defineComponent({
                                         },
                                         genEl(token.children),
                                     );
+                                }
+                                case "ruby": {
+                                    const child = token.children[0];
+                                    const text = child.type === "text" ? child.props.text : "";
+                                    return h("ruby", {
+                                    }, [text.split(" ")[0], h("rt", text.split(" ")[1])]);
+                                }
+                                case "unixtime": {
+                                    const child = token.children[0];
+                                    const unixtime = parseInt(child.type === "text" ? child.props.text : "");
+                                    return h("span", {
+                                        style: "display: inline-block; font-size: 90%; border: solid 1px var(--divider); border-radius: 999px; padding: 4px 10px 4px 6px;",
+                                    }, [
+                                        h("i", {
+                                            class: "ti ti-clock",
+                                            style: "margin-right: 0.25em;",
+                                        }),
+                                        h(MkTime, { time: unixtime * 1000, mode: "detail" }),
+                                    ]);
                                 }
                             }
                             if (style == null) {

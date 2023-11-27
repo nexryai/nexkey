@@ -5,7 +5,7 @@ import config from "@/config/index.js";
 import { DriveFile } from "@/models/entities/drive-file.js";
 import { IActivity } from "@/remote/activitypub/type.js";
 import { Webhook, webhookEventTypes } from "@/models/entities/webhook.js";
-import { envOption } from "@/env";
+import { envOption } from "@/env.js";
 
 import processDeliver from "./processors/deliver.js";
 import processInbox from "./processors/inbox.js";
