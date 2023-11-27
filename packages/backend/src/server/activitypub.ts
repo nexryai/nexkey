@@ -1,5 +1,6 @@
 import Router from "@koa/router";
 import bodyParser from "koa-bodyparser";
+import * as coBody from 'co-body';
 import * as crypto from "crypto";
 import httpSignature from "@peertube/http-signature";
 
@@ -32,9 +33,15 @@ const router = new Router();
 
 //#region Routing
 
-function inbox(ctx: Router.RouterContext) {
+async function inbox(ctx: Router.RouterContext) {
 	// 署名の検証
 	// referenced: https://github.com/mei23/misskey/pull/4749
+	const { parsed, raw } = await coBody.json(ctx, {
+		limit: "64kb",
+		returnRawBody: true,
+	});
+	ctx.request.body = parsed;
+
 	let signature: httpSignature.IParsedSignature;
 
 	try {
@@ -72,7 +79,7 @@ function inbox(ctx: Router.RouterContext) {
 		return;
 	}
 
-	const digestActual = crypto.createHash("sha256").update(ctx.request.rawBody).digest("base64")
+	const digestActual = crypto.createHash("sha256").update(raw).digest("base64")
 
 	if (digestExpected !== digestActual) {
 		// 不正なダイジェスト
@@ -90,7 +97,7 @@ function inbox(ctx: Router.RouterContext) {
 	}
 
 	const activity = ctx.request.body as IActivity;
-	processInbox(activity, signature);
+	await processInbox(activity, signature);
 
 	ctx.status = 202;
 }
@@ -113,6 +120,7 @@ export function setResponseType(ctx: Router.RouterContext) {
 	}
 }
 
+/*
 async function parseJsonBodyOrFail(ctx: Router.RouterContext, next: Koa.Next) {
 	const koaBodyParser = bodyParser({
 		enableTypes: ["json"],
@@ -127,11 +135,11 @@ async function parseJsonBodyOrFail(ctx: Router.RouterContext, next: Koa.Next) {
 		return;
 	}
 }
-
+*/
 
 // inbox
-router.post("/inbox", parseJsonBodyOrFail, inbox);
-router.post("/users/:user/inbox", parseJsonBodyOrFail, inbox);
+router.post("/inbox", inbox);
+router.post("/users/:user/inbox", inbox);
 
 // note
 router.get("/notes/:note", async (ctx, next) => {
