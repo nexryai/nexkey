@@ -53,6 +53,7 @@ import { stream } from '@/stream';
 import number from '@/filters/number';
 import * as sound from '@/scripts/sound';
 import * as os from '@/os';
+import { ColdDeviceStorage } from '@/store';
 
 const name = 'jobQueue';
 
@@ -99,7 +100,9 @@ const current = reactive({
 const prev = reactive({} as typeof current);
 let jammedAudioBuffer: AudioBuffer | null = $ref(null);
 let jammedSoundNodePlaying: boolean = $ref(false);
-sound.loadAudio('syuilo/queue-jammed').then(buf => jammedAudioBuffer = buf);
+if (ColdDeviceStorage.get('sound_masterVolume')) {
+	sound.loadAudio('syuilo/queue-jammed').then(buf => jammedAudioBuffer = buf);
+}
 
 for (const domain of ['inbox', 'deliver']) {
 	prev[domain] = JSON.parse(JSON.stringify(current[domain]));

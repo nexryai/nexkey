@@ -308,6 +308,8 @@ export class ColdDeviceStorage {
 		plugins: [] as Plugin[],
 		mediaVolume: 0,
 		sound_masterVolume: 0,
+		sound_notUseSound: false,
+		sound_useSoundOnlyWhenActive: false,
 		sound_note: { type: 'syuilo/down', volume: 1 },
 		sound_noteMy: { type: 'syuilo/up', volume: 1 },
 		sound_notification: { type: 'syuilo/pope2', volume: 1 },
