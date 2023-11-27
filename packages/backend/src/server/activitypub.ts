@@ -1,10 +1,12 @@
 import Router from "@koa/router";
 import json from "koa-json-body";
+import * as coBody from 'co-body';
+import * as crypto from 'crypto';
 import httpSignature from "@peertube/http-signature";
 
-import * as crypto from 'node:crypto';
 import { In, IsNull, Not } from "typeorm";
 import config from "@/config/index.js";
+import { apLogger } from '@/remote/activitypub/logger.js';
 import { renderActivity } from "@/remote/activitypub/renderer/index.js";
 import renderNote from "@/remote/activitypub/renderer/note.js";
 import renderKey from "@/remote/activitypub/renderer/key.js";
@@ -21,78 +23,80 @@ import Featured from "./activitypub/featured.js";
 import Following from "./activitypub/following.js";
 import Followers from "./activitypub/followers.js";
 import Outbox, { packActivity } from "./activitypub/outbox.js";
+import { IActivity } from "@/remote/activitypub/type.js";
+
+const logger = apLogger;
 
 // Init router
 const router = new Router();
 
 //#region Routing
 
-function inbox(ctx: Router.RouterContext) {
-	let signature;
+async function inbox(ctx: Router.RouterContext) {
+	// 署名の検証
+	// referenced: https://github.com/mei23/misskey/pull/4749
+	const { parsed, raw } = await coBody.json(ctx, {
+		limit: '64kb',
+		returnRawBody: true,
+	});
+	ctx.request.body = parsed;
+
+	let signature: httpSignature.IParsedSignature;
 
 	try {
-		signature = httpSignature.parseRequest(ctx.req, { "headers": [] });
+		// ヘッダーの検証はライブラリに投げる
+		signature = httpSignature.parseRequest(ctx.req, { "headers": ["(request-target)", "digest", "host", "date"] });
 	} catch (e) {
+		logger.warn("inbox: signature parse error");
 		ctx.status = 401;
 		return;
 	}
 
-	if (signature.params.headers.indexOf("host") === -1
-		|| ctx.headers.host !== config.host) {
+	// Digestヘッダーの検証
+	const digest = ctx.req.headers.digest;
+	if (typeof digest !== "string") {
+		//logger.warn("Invalid digest (not string)")
+		ctx.status = 401;
+		return;
+	}
+
+	const match = digest.match(/^([0-9A-Za-z-]+)=(.+)$/);
+
+	if (match == null) {
+		logger.warn("Invalid digest (match == null)")
+		ctx.status = 401;
+		return;
+	}
+
+	const digestAlgo = match[1];
+	const digestExpected = match[2];
+
+	if (digestAlgo.toUpperCase() !== "SHA-256") {
+		// アルゴリズムをサポートしていない
+		logger.warn("digestAlgo is not supported")
+		ctx.status = 401;
+		return;
+	}
+
+	const digestActual = crypto.createHash("sha256").update(raw).digest("base64")
+
+	if (digestExpected !== digestActual) {
+		// 不正なダイジェスト
+		logger.warn("Invalid digest (digestExpected !== digestActual)")
+		ctx.status = 401;
+		return;
+	}
+
+
+	if (!signature.params.headers.includes("host") || ctx.headers.host !== config.host) {
 		// Host not specified or not match.
-		ctx.status = 401;
+		logger.warn("Invalid host header")
+		ctx.status = 400;
 		return;
 	}
 
-	if (signature.params.headers.indexOf("digest") === -1) {
-		// Digest not found.
-		ctx.status = 401;
-	} else {
-		const digest = ctx.headers.digest;
-
-		if (typeof digest !== "string") {
-			// Huh?
-			ctx.status = 401;
-			return;
-		}
-
-		const re = /^([a-zA-Z0-9\-]+)=(.+)$/;
-		const match = digest.match(re);
-
-		if (match == null) {
-			// Invalid digest
-			ctx.status = 401;
-			return;
-		}
-
-		const algo = match[1];
-		const digestValue = match[2];
-
-		if (algo !== "SHA-256") {
-			// Unsupported digest algorithm
-			ctx.status = 401;
-			return;
-		}
-
-		/* ctx.request.rawBodyが何故かnullになるので保留
-		if (ctx.request.rawBody == null) {
-			// Bad request
-			console.log("RawBody is Null")
-			ctx.status = 400;
-			return;
-		}
-
-		const hash = crypto.createHash("sha256").update(ctx.request.rawBody).digest("base64");
-
-		if (hash !== digestValue) {
-			// Invalid digest
-			console.log("Invalid digest")
-			ctx.status = 401;
-			return;
-		}*/
-	}
-
-	processInbox(ctx.request.body, signature);
+	const activity = ctx.request.body as IActivity;
+	processInbox(activity, signature);
 
 	ctx.status = 202;
 }

@@ -717,6 +717,14 @@
   dependencies:
     cbor "*"
 
+"@types/co-body@6.1.3":
+  version "6.1.3"
+  resolved "https://registry.yarnpkg.com/@types/co-body/-/co-body-6.1.3.tgz#201796c6389066b400cfcb4e1ec5c3db798265a2"
+  integrity sha512-UhuhrQ5hclX6UJctv5m4Rfp52AfG9o9+d9/HwjxhVB5NjXxr5t9oKgJxN8xRHgr35oo8meUEHUPFWiKg6y71aA==
+  dependencies:
+    "@types/node" "*"
+    "@types/qs" "*"
+
 "@types/connect@*":
   version "3.4.35"
   resolved "https://registry.yarnpkg.com/@types/connect/-/connect-3.4.35.tgz#5fcf6ae445e4021d1fc2219a4873cc73a3bb2ad1"
@@ -1962,6 +1970,16 @@ cluster-key-slot@1.1.2, cluster-key-slot@^1.1.0:
   resolved "https://registry.yarnpkg.com/cluster-key-slot/-/cluster-key-slot-1.1.2.tgz#88ddaa46906e303b5de30d3153b7d9fe0a0c19ac"
   integrity sha512-RMr0FhtfXemyinomL4hrWcYJxmX6deFdCxpJzhDttxgO1+bcCnkk+9drydLVDmAMG7NE6aN/fl4F7ucU/90gAA==
 
+co-body@6.1.0, co-body@^6.0.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/co-body/-/co-body-6.1.0.tgz#d87a8efc3564f9bfe3aced8ef5cd04c7a8766547"
+  integrity sha512-m7pOT6CdLN7FuXUcpuz/8lfQ/L77x8SchHCF4G0RBTJO20Wzmhn5Sp4/5WsKy8OSpifBSUrmg83qEqaDHdyFuQ==
+  dependencies:
+    inflation "^2.0.0"
+    qs "^6.5.2"
+    raw-body "^2.3.3"
+    type-is "^1.6.16"
+
 co-body@^5.0.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/co-body/-/co-body-5.2.0.tgz#5a0a658c46029131e0e3a306f67647302f71c124"
@@ -1971,16 +1989,6 @@ co-body@^5.0.0:
     qs "^6.4.0"
     raw-body "^2.2.0"
     type-is "^1.6.14"
-
-co-body@^6.0.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/co-body/-/co-body-6.1.0.tgz#d87a8efc3564f9bfe3aced8ef5cd04c7a8766547"
-  integrity sha512-m7pOT6CdLN7FuXUcpuz/8lfQ/L77x8SchHCF4G0RBTJO20Wzmhn5Sp4/5WsKy8OSpifBSUrmg83qEqaDHdyFuQ==
-  dependencies:
-    inflation "^2.0.0"
-    qs "^6.5.2"
-    raw-body "^2.3.3"
-    type-is "^1.6.16"
 
 co@^4.6.0:
   version "4.6.0"
