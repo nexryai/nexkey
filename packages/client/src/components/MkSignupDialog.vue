@@ -1,19 +1,19 @@
 <template>
 <XModalWindow
-	ref="dialog"
-	:width="366"
-	:height="500"
-	@close="dialog.close()"
-	@closed="$emit('closed')"
+    ref="dialog"
+    :width="366"
+    :height="500"
+    @close="dialog.close()"
+    @closed="$emit('closed')"
 >
-	<template #header>{{ i18n.ts.signup }}</template>
+    <template #header>{{ i18n.ts.signup }}</template>
 
-	<div class="_monolithic_">
-		<div class="_section">
-			<MkAnimBg style="position: absolute; top: 0; left: 0;" :scale="1.5"/>
-			<XSignup :auto-set="autoSet" @signup="onSignup" @signupEmailPending="onSignupEmailPending"/>
-		</div>
-	</div>
+    <div class="_monolithic_">
+        <div class="_section">
+            <MkAnimBg style="position: absolute; top: 0; left: 0;" :scale="1.5"/>
+            <XSignup :auto-set="autoSet" @signup="onSignup" @signupEmailPending="onSignupEmailPending"/>
+        </div>
+    </div>
 </XModalWindow>
 </template>
 
@@ -27,7 +27,7 @@ import MkAnimBg from "@/components/MkAnimBg.vue";
 const props = withDefaults(defineProps<{
 	autoSet?: boolean;
 }>(), {
-	autoSet: false,
+    autoSet: false,
 });
 
 const emit = defineEmits<{
@@ -38,11 +38,11 @@ const emit = defineEmits<{
 const dialog = $ref<InstanceType<typeof XModalWindow>>();
 
 function onSignup(res) {
-	emit("done", res);
-	dialog.close();
+    emit("done", res);
+    dialog.close();
 }
 
 function onSignupEmailPending() {
-	dialog.close();
+    dialog.close();
 }
 </script>

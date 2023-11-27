@@ -22,14 +22,14 @@ const props = defineProps<{ widget?: Widget<WidgetProps>; }>();
 const emit = defineEmits<{ (ev: "updateProps", props: WidgetProps); }>();
 
 const { widgetProps, configure } = useWidgetPropsManager(name,
-	widgetPropsDef,
-	props,
-	emit,
+    widgetPropsDef,
+    props,
+    emit,
 );
 
 defineExpose<WidgetComponentExpose>({
-	name,
-	configure,
-	id: props.widget ? props.widget.id : null,
+    name,
+    configure,
+    id: props.widget ? props.widget.id : null,
 });
 </script>

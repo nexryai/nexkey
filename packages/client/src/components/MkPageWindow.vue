@@ -1,25 +1,25 @@
 <template>
 <XWindow
-	ref="windowEl"
-	:initial-width="500"
-	:initial-height="500"
-	:can-resize="true"
-	:close-button="true"
-	:buttons-left="buttonsLeft"
-	:buttons-right="buttonsRight"
-	:contextmenu="contextmenu"
-	@closed="$emit('closed')"
+    ref="windowEl"
+    :initial-width="500"
+    :initial-height="500"
+    :can-resize="true"
+    :close-button="true"
+    :buttons-left="buttonsLeft"
+    :buttons-right="buttonsRight"
+    :contextmenu="contextmenu"
+    @closed="$emit('closed')"
 >
-	<template #header>
-		<template v-if="pageMetadata?.value">
-			<i v-if="pageMetadata.value.icon" class="icon" :class="pageMetadata.value.icon" style="margin-right: 0.5em;"></i>
-			<span>{{ pageMetadata.value.title }}</span>
-		</template>
-	</template>
+    <template #header>
+        <template v-if="pageMetadata?.value">
+            <i v-if="pageMetadata.value.icon" class="icon" :class="pageMetadata.value.icon" style="margin-right: 0.5em;"></i>
+            <span>{{ pageMetadata.value.title }}</span>
+        </template>
+    </template>
 
-	<div class="yrolvcoq" :style="{ background: pageMetadata?.value?.bg }">
-		<RouterView :router="router"/>
-	</div>
+    <div class="yrolvcoq" :style="{ background: pageMetadata?.value?.bg }">
+        <RouterView :router="router"/>
+    </div>
 </XWindow>
 </template>
 
@@ -49,86 +49,86 @@ const router = new Router(routes, props.initialPath);
 let pageMetadata = $ref<null | ComputedRef<PageMetadata>>();
 let windowEl = $ref<InstanceType<typeof XWindow>>();
 const history = $ref<{ path: string; key: any; }[]>([{
-	path: router.getCurrentPath(),
-	key: router.getCurrentKey(),
+    path: router.getCurrentPath(),
+    key: router.getCurrentKey(),
 }]);
 const buttonsLeft = $computed(() => {
-	const buttons = [];
+    const buttons = [];
 
-	if (history.length > 1) {
-		buttons.push({
-			icon: "ti ti-arrow-left",
-			onClick: back,
-		});
-	}
+    if (history.length > 1) {
+        buttons.push({
+            icon: "ti ti-arrow-left",
+            onClick: back,
+        });
+    }
 
-	return buttons;
+    return buttons;
 });
 const buttonsRight = $computed(() => {
-	const buttons = [{
-		icon: "ti ti-player-eject",
-		title: i18n.ts.showInPage,
-		onClick: expand,
-	}];
+    const buttons = [{
+        icon: "ti ti-player-eject",
+        title: i18n.ts.showInPage,
+        onClick: expand,
+    }];
 
-	return buttons;
+    return buttons;
 });
 
 router.addListener("push", ctx => {
-	history.push({ path: ctx.path, key: ctx.key });
+    history.push({ path: ctx.path, key: ctx.key });
 });
 
 provide("router", router);
 provideMetadataReceiver((info) => {
-	pageMetadata = info;
+    pageMetadata = info;
 });
 provide("shouldOmitHeaderTitle", true);
 provide("shouldHeaderThin", true);
 
 const contextmenu = $computed(() => ([{
-	icon: "ti ti-player-eject",
-	text: i18n.ts.showInPage,
-	action: expand,
+    icon: "ti ti-player-eject",
+    text: i18n.ts.showInPage,
+    action: expand,
 }, {
-	icon: "ti ti-window-maximize",
-	text: i18n.ts.popout,
-	action: popout,
+    icon: "ti ti-window-maximize",
+    text: i18n.ts.popout,
+    action: popout,
 }, {
-	icon: "ti ti-external-link",
-	text: i18n.ts.openInNewTab,
-	action: () => {
-		window.open(url + router.getCurrentPath(), "_blank");
-		windowEl.close();
-	},
+    icon: "ti ti-external-link",
+    text: i18n.ts.openInNewTab,
+    action: () => {
+        window.open(url + router.getCurrentPath(), "_blank");
+        windowEl.close();
+    },
 }, {
-	icon: "ti ti-link",
-	text: i18n.ts.copyLink,
-	action: () => {
-		copyToClipboard(url + router.getCurrentPath());
-	},
+    icon: "ti ti-link",
+    text: i18n.ts.copyLink,
+    action: () => {
+        copyToClipboard(url + router.getCurrentPath());
+    },
 }]));
 
 function back() {
-	history.pop();
-	router.replace(history[history.length - 1].path, history[history.length - 1].key);
+    history.pop();
+    router.replace(history[history.length - 1].path, history[history.length - 1].key);
 }
 
 function close() {
-	windowEl.close();
+    windowEl.close();
 }
 
 function expand() {
-	mainRouter.push(router.getCurrentPath(), "forcePage");
-	windowEl.close();
+    mainRouter.push(router.getCurrentPath(), "forcePage");
+    windowEl.close();
 }
 
 function popout() {
-	_popout(router.getCurrentPath(), windowEl.$el);
-	windowEl.close();
+    _popout(router.getCurrentPath(), windowEl.$el);
+    windowEl.close();
 }
 
 defineExpose({
-	close,
+    close,
 });
 </script>
 

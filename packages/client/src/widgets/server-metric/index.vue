@@ -1,15 +1,15 @@
 <template>
 <MkContainer :show-header="widgetProps.showHeader" :naked="widgetProps.transparent">
-	<template #header><i class="ti ti-server"></i>{{ i18n.ts._widgets.serverMetric }}</template>
-	<template #func><button class="_button" @click="toggleView()"><i class="ti ti-selector"></i></button></template>
+    <template #header><i class="ti ti-server"></i>{{ i18n.ts._widgets.serverMetric }}</template>
+    <template #func><button class="_button" @click="toggleView()"><i class="ti ti-selector"></i></button></template>
 
-	<div v-if="meta" class="mkw-serverMetric">
-		<XCpuMemory v-if="widgetProps.view === 0" :connection="connection" :meta="meta"/>
-		<XNet v-else-if="widgetProps.view === 1" :connection="connection" :meta="meta"/>
-		<XCpu v-else-if="widgetProps.view === 2" :connection="connection" :meta="meta"/>
-		<XMemory v-else-if="widgetProps.view === 3" :connection="connection" :meta="meta"/>
-		<XDisk v-else-if="widgetProps.view === 4" :connection="connection" :meta="meta"/>
-	</div>
+    <div v-if="meta" class="mkw-serverMetric">
+        <XCpuMemory v-if="widgetProps.view === 0" :connection="connection" :meta="meta"/>
+        <XNet v-else-if="widgetProps.view === 1" :connection="connection" :meta="meta"/>
+        <XCpu v-else-if="widgetProps.view === 2" :connection="connection" :meta="meta"/>
+        <XMemory v-else-if="widgetProps.view === 3" :connection="connection" :meta="meta"/>
+        <XDisk v-else-if="widgetProps.view === 4" :connection="connection" :meta="meta"/>
+    </div>
 </MkContainer>
 </template>
 
@@ -30,19 +30,19 @@ import { i18n } from "@/i18n";
 const name = "serverMetric";
 
 const widgetPropsDef = {
-	showHeader: {
-		type: "boolean" as const,
-		default: true,
-	},
-	transparent: {
-		type: "boolean" as const,
-		default: false,
-	},
-	view: {
-		type: "number" as const,
-		default: 0,
-		hidden: true,
-	},
+    showHeader: {
+        type: "boolean" as const,
+        default: true,
+    },
+    transparent: {
+        type: "boolean" as const,
+        default: false,
+    },
+    view: {
+        type: "number" as const,
+        default: 0,
+        hidden: true,
+    },
 };
 
 type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
@@ -54,34 +54,34 @@ const props = defineProps<{ widget?: Widget<WidgetProps>; }>();
 const emit = defineEmits<{ (ev: "updateProps", props: WidgetProps); }>();
 
 const { widgetProps, configure, save } = useWidgetPropsManager(name,
-	widgetPropsDef,
-	props,
-	emit,
+    widgetPropsDef,
+    props,
+    emit,
 );
 
 const meta = ref(null);
 
 os.api("server-info", {}).then(res => {
-	meta.value = res;
+    meta.value = res;
 });
 
 const toggleView = () => {
-	if (widgetProps.view === 4) {
-		widgetProps.view = 0;
-	} else {
-		widgetProps.view++;
-	}
-	save();
+    if (widgetProps.view === 4) {
+        widgetProps.view = 0;
+    } else {
+        widgetProps.view++;
+    }
+    save();
 };
 
 const connection = stream.useChannel("serverStats");
 onUnmounted(() => {
-	connection.dispose();
+    connection.dispose();
 });
 
 defineExpose<WidgetComponentExpose>({
-	name,
-	configure,
-	id: props.widget ? props.widget.id : null,
+    name,
+    configure,
+    id: props.widget ? props.widget.id : null,
 });
 </script>

@@ -1,6 +1,6 @@
 <template>
 <div>
-	<XDrive ref="drive" @cd="x => folder = x"/>
+    <XDrive ref="drive" @cd="x => folder = x"/>
 </div>
 </template>
 
@@ -18,8 +18,8 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
 
 definePageMetadata(computed(() => ({
-	title: folder ? folder.name : i18n.ts.drive,
-	icon: "ti ti-cloud",
-	hideHeader: true,
+    title: folder ? folder.name : i18n.ts.drive,
+    icon: "ti ti-cloud",
+    hideHeader: true,
 })));
 </script>

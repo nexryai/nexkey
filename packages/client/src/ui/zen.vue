@@ -1,8 +1,8 @@
 <template>
 <div class="mk-app">
-	<RouterView/>
+    <RouterView/>
 
-	<XCommon/>
+    <XCommon/>
 </div>
 </template>
 
@@ -17,10 +17,10 @@ let pageMetadata = $ref<null | ComputedRef<PageMetadata>>();
 
 provide("router", mainRouter);
 provideMetadataReceiver((info) => {
-	pageMetadata = info;
-	if (pageMetadata.value) {
-		document.title = `${pageMetadata.value.title} | ${instanceName}`;
-	}
+    pageMetadata = info;
+    if (pageMetadata.value) {
+        document.title = `${pageMetadata.value.title} | ${instanceName}`;
+    }
 });
 
 document.documentElement.style.overflowY = "scroll";

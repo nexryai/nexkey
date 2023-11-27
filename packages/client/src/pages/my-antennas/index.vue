@@ -1,19 +1,19 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
-	<MkSpacer :content-max="700">
-		<div class="ieepwinx">
-			<MkButton :link="true" to="/my/antennas/create" primary class="add"><i class="ti ti-plus"></i> {{ i18n.ts.add }}</MkButton>
+    <template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+    <MkSpacer :content-max="700">
+        <div class="ieepwinx">
+            <MkButton :link="true" to="/my/antennas/create" primary class="add"><i class="ti ti-plus"></i> {{ i18n.ts.add }}</MkButton>
 
-			<div class="">
-				<MkPagination v-slot="{items}" ref="list" :pagination="pagination">
-					<MkA v-for="antenna in items" :key="antenna.id" class="ljoevbzj" :to="`/my/antennas/${antenna.id}`">
-						<div class="name">{{ antenna.name }}</div>
-					</MkA>
-				</MkPagination>
-			</div>
-		</div>
-	</MkSpacer>
+            <div class="">
+                <MkPagination v-slot="{items}" ref="list" :pagination="pagination">
+                    <MkA v-for="antenna in items" :key="antenna.id" class="ljoevbzj" :to="`/my/antennas/${antenna.id}`">
+                        <div class="name">{{ antenna.name }}</div>
+                    </MkA>
+                </MkPagination>
+            </div>
+        </div>
+    </MkSpacer>
 </MkStickyContainer>
 </template>
 
@@ -25,8 +25,8 @@ import { i18n } from "@/i18n";
 import { definePageMetadata } from "@/scripts/page-metadata";
 
 const pagination = {
-	endpoint: "antennas/list" as const,
-	limit: 10,
+    endpoint: "antennas/list" as const,
+    limit: 10,
 };
 
 const headerActions = $computed(() => []);
@@ -34,8 +34,8 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
 
 definePageMetadata({
-	title: i18n.ts.manageAntennas,
-	icon: "ti ti-antenna",
+    title: i18n.ts.manageAntennas,
+    icon: "ti ti-antenna",
 });
 </script>
 

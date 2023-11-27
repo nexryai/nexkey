@@ -57,9 +57,9 @@ export type Value =
 	EmptyValue | TextValue | MultiLineTextValue | TextListValue | NumberValue | RefValue | AiScriptRefValue | UserFnValue;
 
 export function isLiteralValue(expr: Expr): expr is Value {
-	if (expr.type == null) return true;
-	if (literalDefs[expr.type]) return true;
-	return false;
+    if (expr.type == null) return true;
+    if (literalDefs[expr.type]) return true;
+    return false;
 }
 
 // call function

@@ -1,17 +1,17 @@
 <template>
 <MkContainer :show-header="widgetProps.showHeader" :naked="widgetProps.transparent" :class="$style.root" :data-transparent="widgetProps.transparent ? true : null" class="mkw-photos">
-	<template #header><i class="ti ti-camera"></i>{{ i18n.ts._widgets.photos }}</template>
+    <template #header><i class="ti ti-camera"></i>{{ i18n.ts._widgets.photos }}</template>
 
-	<div class="">
-		<MkLoading v-if="fetching"/>
-		<div v-else :class="$style.stream">
-			<div
-				v-for="(image, i) in images" :key="i"
-				:class="$style.img"
-				:style="`background-image: url(${thumbnail(image)})`"
-			></div>
-		</div>
-	</div>
+    <div class="">
+        <MkLoading v-if="fetching"/>
+        <div v-else :class="$style.stream">
+            <div
+                v-for="(image, i) in images" :key="i"
+                :class="$style.img"
+                :style="`background-image: url(${thumbnail(image)})`"
+            ></div>
+        </div>
+    </div>
 </MkContainer>
 </template>
 
@@ -29,14 +29,14 @@ import { i18n } from "@/i18n";
 const name = "photos";
 
 const widgetPropsDef = {
-	showHeader: {
-		type: "boolean" as const,
-		default: true,
-	},
-	transparent: {
-		type: "boolean" as const,
-		default: false,
-	},
+    showHeader: {
+        type: "boolean" as const,
+        default: true,
+    },
+    transparent: {
+        type: "boolean" as const,
+        default: false,
+    },
 };
 
 type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
@@ -48,9 +48,9 @@ const props = defineProps<{ widget?: Widget<WidgetProps>; }>();
 const emit = defineEmits<{ (ev: "updateProps", props: WidgetProps); }>();
 
 const { widgetProps, configure } = useWidgetPropsManager(name,
-	widgetPropsDef,
-	props,
-	emit,
+    widgetPropsDef,
+    props,
+    emit,
 );
 
 const connection = stream.useChannel("main");
@@ -58,35 +58,35 @@ const images = ref([]);
 const fetching = ref(true);
 
 const onDriveFileCreated = (file) => {
-	if (/^image\/.+$/.test(file.type)) {
-		images.value.unshift(file);
-		if (images.value.length > 9) images.value.pop();
-	}
+    if (/^image\/.+$/.test(file.type)) {
+        images.value.unshift(file);
+        if (images.value.length > 9) images.value.pop();
+    }
 };
 
 const thumbnail = (image: any): string => {
-	return defaultStore.state.disableShowingAnimatedImages
-		? getStaticImageUrl(image.thumbnailUrl)
-		: image.thumbnailUrl;
+    return defaultStore.state.disableShowingAnimatedImages
+        ? getStaticImageUrl(image.thumbnailUrl)
+        : image.thumbnailUrl;
 };
 
 os.api("drive/stream", {
-	type: "image/*",
-	limit: 9,
+    type: "image/*",
+    limit: 9,
 }).then(res => {
-	images.value = res;
-	fetching.value = false;
+    images.value = res;
+    fetching.value = false;
 });
 
 connection.on("driveFileCreated", onDriveFileCreated);
 onUnmounted(() => {
-	connection.dispose();
+    connection.dispose();
 });
 
 defineExpose<WidgetComponentExpose>({
-	name,
-	configure,
-	id: props.widget ? props.widget.id : null,
+    name,
+    configure,
+    id: props.widget ? props.widget.id : null,
 });
 </script>
 

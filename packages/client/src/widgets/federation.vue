@@ -1,20 +1,20 @@
 <template>
 <MkContainer :show-header="widgetProps.showHeader" :foldable="foldable" :scrollable="scrollable" class="mkw-federation">
-	<template #header><i class="ti ti-whirl"></i>{{ i18n.ts._widgets.federation }}</template>
+    <template #header><i class="ti ti-whirl"></i>{{ i18n.ts._widgets.federation }}</template>
 
-	<div class="wbrkwalb">
-		<MkLoading v-if="fetching"/>
-		<transition-group v-else tag="div" :name="$store.state.animation ? 'chart' : ''" class="instances">
-			<div v-for="(instance, i) in instances" :key="instance.id" class="instance">
-				<img v-if="instance.iconUrl" :src="instance.iconUrl" alt=""/>
-				<div class="body">
-					<a class="a" :href="'https://' + instance.host" target="_blank" :title="instance.host">{{ instance.host }}</a>
-					<p>{{ instance.softwareName || '?' }} {{ instance.softwareVersion }}</p>
-				</div>
-				<MkMiniChart class="chart" :src="charts[i].requests.received"/>
-			</div>
-		</transition-group>
-	</div>
+    <div class="wbrkwalb">
+        <MkLoading v-if="fetching"/>
+        <transition-group v-else tag="div" :name="$store.state.animation ? 'chart' : ''" class="instances">
+            <div v-for="(instance, i) in instances" :key="instance.id" class="instance">
+                <img v-if="instance.iconUrl" :src="instance.iconUrl" alt=""/>
+                <div class="body">
+                    <a class="a" :href="'https://' + instance.host" target="_blank" :title="instance.host">{{ instance.host }}</a>
+                    <p>{{ instance.softwareName || '?' }} {{ instance.softwareVersion }}</p>
+                </div>
+                <MkMiniChart class="chart" :src="charts[i].requests.received"/>
+            </div>
+        </transition-group>
+    </div>
 </MkContainer>
 </template>
 
@@ -31,10 +31,10 @@ import { i18n } from "@/i18n";
 const name = "federation";
 
 const widgetPropsDef = {
-	showHeader: {
-		type: "boolean" as const,
-		default: true,
-	},
+    showHeader: {
+        type: "boolean" as const,
+        default: true,
+    },
 };
 
 type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
@@ -46,9 +46,9 @@ const props = defineProps<{ widget?: Widget<WidgetProps>; foldable?: boolean; sc
 const emit = defineEmits<{ (ev: "updateProps", props: WidgetProps); }>();
 
 const { widgetProps, configure } = useWidgetPropsManager(name,
-	widgetPropsDef,
-	props,
-	emit,
+    widgetPropsDef,
+    props,
+    emit,
 );
 
 const instances = ref([]);
@@ -56,25 +56,25 @@ const charts = ref([]);
 const fetching = ref(true);
 
 const fetch = async () => {
-	const fetchedInstances = await os.api("federation/instances", {
-		sort: "+lastCommunicatedAt",
-		limit: 5,
-	});
-	const fetchedCharts = await Promise.all(fetchedInstances.map(i => os.apiGet("charts/instance", { host: i.host, limit: 16, span: "hour" })));
-	instances.value = fetchedInstances;
-	charts.value = fetchedCharts;
-	fetching.value = false;
+    const fetchedInstances = await os.api("federation/instances", {
+        sort: "+lastCommunicatedAt",
+        limit: 5,
+    });
+    const fetchedCharts = await Promise.all(fetchedInstances.map(i => os.apiGet("charts/instance", { host: i.host, limit: 16, span: "hour" })));
+    instances.value = fetchedInstances;
+    charts.value = fetchedCharts;
+    fetching.value = false;
 };
 
 useInterval(fetch, 1000 * 60, {
-	immediate: true,
-	afterMounted: true,
+    immediate: true,
+    afterMounted: true,
 });
 
 defineExpose<WidgetComponentExpose>({
-	name,
-	configure,
-	id: props.widget ? props.widget.id : null,
+    name,
+    configure,
+    id: props.widget ? props.widget.id : null,
 });
 </script>
 

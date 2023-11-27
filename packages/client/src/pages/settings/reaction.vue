@@ -1,55 +1,55 @@
 <template>
 <div class="_formRoot">
-	<FromSlot class="_formBlock">
-		<template #label>{{ i18n.ts.reactionSettingDescription }}</template>
-		<div v-panel style="border-radius: 6px;">
-			<XDraggable v-model="reactions" class="zoaiodol" :item-key="item => item" animation="150" delay="100" delay-on-touch-only="true">
-				<template #item="{element}">
-					<button class="_button item" @click="remove(element, $event)">
-						<MkEmoji :emoji="element" :normal="true"/>
-					</button>
-				</template>
-				<template #footer>
-					<button class="_button add" @click="chooseEmoji"><i class="ti ti-plus"></i></button>
-				</template>
-			</XDraggable>
-		</div>
-		<template #caption>{{ i18n.ts.reactionSettingDescription2 }} <button class="_textButton" @click="preview">{{ i18n.ts.preview }}</button></template>
-	</FromSlot>
+    <FromSlot class="_formBlock">
+        <template #label>{{ i18n.ts.reactionSettingDescription }}</template>
+        <div v-panel style="border-radius: 6px;">
+            <XDraggable v-model="reactions" class="zoaiodol" :item-key="item => item" animation="150" delay="100" delay-on-touch-only="true">
+                <template #item="{element}">
+                    <button class="_button item" @click="remove(element, $event)">
+                        <MkEmoji :emoji="element" :normal="true"/>
+                    </button>
+                </template>
+                <template #footer>
+                    <button class="_button add" @click="chooseEmoji"><i class="ti ti-plus"></i></button>
+                </template>
+            </XDraggable>
+        </div>
+        <template #caption>{{ i18n.ts.reactionSettingDescription2 }} <button class="_textButton" @click="preview">{{ i18n.ts.preview }}</button></template>
+    </FromSlot>
 
-	<FormRadios v-model="reactionPickerSize" class="_formBlock">
-		<template #label>{{ i18n.ts.size }}</template>
-		<option :value="1">{{ i18n.ts.small }}</option>
-		<option :value="2">{{ i18n.ts.medium }}</option>
-		<option :value="3">{{ i18n.ts.large }}</option>
-	</FormRadios>
-	<FormRadios v-model="reactionPickerWidth" class="_formBlock">
-		<template #label>{{ i18n.ts.numberOfColumn }}</template>
-		<option :value="1">5</option>
-		<option :value="2">6</option>
-		<option :value="3">7</option>
-		<option :value="4">8</option>
-		<option :value="5">9</option>
-	</FormRadios>
-	<FormRadios v-model="reactionPickerHeight" class="_formBlock">
-		<template #label>{{ i18n.ts.height }}</template>
-		<option :value="1">{{ i18n.ts.small }}</option>
-		<option :value="2">{{ i18n.ts.medium }}</option>
-		<option :value="3">{{ i18n.ts.large }}</option>
-		<option :value="4">{{ i18n.ts.large }}+</option>
-	</FormRadios>
+    <FormRadios v-model="reactionPickerSize" class="_formBlock">
+        <template #label>{{ i18n.ts.size }}</template>
+        <option :value="1">{{ i18n.ts.small }}</option>
+        <option :value="2">{{ i18n.ts.medium }}</option>
+        <option :value="3">{{ i18n.ts.large }}</option>
+    </FormRadios>
+    <FormRadios v-model="reactionPickerWidth" class="_formBlock">
+        <template #label>{{ i18n.ts.numberOfColumn }}</template>
+        <option :value="1">5</option>
+        <option :value="2">6</option>
+        <option :value="3">7</option>
+        <option :value="4">8</option>
+        <option :value="5">9</option>
+    </FormRadios>
+    <FormRadios v-model="reactionPickerHeight" class="_formBlock">
+        <template #label>{{ i18n.ts.height }}</template>
+        <option :value="1">{{ i18n.ts.small }}</option>
+        <option :value="2">{{ i18n.ts.medium }}</option>
+        <option :value="3">{{ i18n.ts.large }}</option>
+        <option :value="4">{{ i18n.ts.large }}+</option>
+    </FormRadios>
 
-	<FormSwitch v-model="reactionPickerUseDrawerForMobile" class="_formBlock">
-		{{ i18n.ts.useDrawerReactionPickerForMobile }}
-		<template #caption>{{ i18n.ts.needReloadToApply }}</template>
-	</FormSwitch>
+    <FormSwitch v-model="reactionPickerUseDrawerForMobile" class="_formBlock">
+        {{ i18n.ts.useDrawerReactionPickerForMobile }}
+        <template #caption>{{ i18n.ts.needReloadToApply }}</template>
+    </FormSwitch>
 
-	<FormSection>
-		<div style="display: flex; gap: var(--margin); flex-wrap: wrap;">
-			<FormButton inline @click="preview"><i class="ti ti-eye"></i> {{ i18n.ts.preview }}</FormButton>
-			<FormButton inline danger @click="setDefault"><i class="ti ti-reload"></i> {{ i18n.ts.default }}</FormButton>
-		</div>
-	</FormSection>
+    <FormSection>
+        <div style="display: flex; gap: var(--margin); flex-wrap: wrap;">
+            <FormButton inline @click="preview"><i class="ti ti-eye"></i> {{ i18n.ts.preview }}</FormButton>
+            <FormButton inline danger @click="setDefault"><i class="ti ti-reload"></i> {{ i18n.ts.default }}</FormButton>
+        </div>
+    </FormSection>
 </div>
 </template>
 
@@ -75,49 +75,49 @@ const reactionPickerHeight = $computed(defaultStore.makeGetterSetter("reactionPi
 const reactionPickerUseDrawerForMobile = $computed(defaultStore.makeGetterSetter("reactionPickerUseDrawerForMobile"));
 
 function save() {
-	defaultStore.set("reactions", reactions);
+    defaultStore.set("reactions", reactions);
 }
 
 function remove(reaction, ev: MouseEvent) {
-	os.popupMenu([{
-		text: i18n.ts.remove,
-		action: () => {
-			reactions = reactions.filter(x => x !== reaction);
-		},
-	}], ev.currentTarget ?? ev.target);
+    os.popupMenu([{
+        text: i18n.ts.remove,
+        action: () => {
+            reactions = reactions.filter(x => x !== reaction);
+        },
+    }], ev.currentTarget ?? ev.target);
 }
 
 function preview(ev: MouseEvent) {
-	os.popup(defineAsyncComponent(() => import("@/components/MkEmojiPickerDialog.vue")), {
-		asReactionPicker: true,
-		src: ev.currentTarget ?? ev.target,
-	}, {}, "closed");
+    os.popup(defineAsyncComponent(() => import("@/components/MkEmojiPickerDialog.vue")), {
+        asReactionPicker: true,
+        src: ev.currentTarget ?? ev.target,
+    }, {}, "closed");
 }
 
 async function setDefault() {
-	const { canceled } = await os.confirm({
-		type: "warning",
-		text: i18n.ts.resetAreYouSure,
-	});
-	if (canceled) return;
+    const { canceled } = await os.confirm({
+        type: "warning",
+        text: i18n.ts.resetAreYouSure,
+    });
+    if (canceled) return;
 
-	reactions = JSON.parse(JSON.stringify(defaultStore.def.reactions.default));
+    reactions = JSON.parse(JSON.stringify(defaultStore.def.reactions.default));
 }
 
 function chooseEmoji(ev: MouseEvent) {
-	os.pickEmoji(ev.currentTarget ?? ev.target, {
-		showPinned: false,
-	}).then(emoji => {
-		if (!reactions.includes(emoji)) {
-			reactions.push(emoji);
-		}
-	});
+    os.pickEmoji(ev.currentTarget ?? ev.target, {
+        showPinned: false,
+    }).then(emoji => {
+        if (!reactions.includes(emoji)) {
+            reactions.push(emoji);
+        }
+    });
 }
 
 watch($$(reactions), () => {
-	save();
+    save();
 }, {
-	deep: true,
+    deep: true,
 });
 
 const headerActions = $computed(() => []);
@@ -125,12 +125,12 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
 
 definePageMetadata({
-	title: i18n.ts.reaction,
-	icon: "ti ti-mood-happy",
-	action: {
-		icon: "ti ti-eye",
-		handler: preview,
-	},
+    title: i18n.ts.reaction,
+    icon: "ti ti-mood-happy",
+    action: {
+        icon: "ti ti-eye",
+        handler: preview,
+    },
 });
 </script>
 

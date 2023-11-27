@@ -1,26 +1,26 @@
 <template>
 <button
-	v-if="!link" class="bghgjjyj _button"
-	:class="{ inline, primary, gradate, danger, rounded, full }"
-	:type="type"
-	@click="emit('click', $event)"
-	@mousedown="onMousedown"
+    v-if="!link" class="bghgjjyj _button"
+    :class="{ inline, primary, gradate, danger, rounded, full }"
+    :type="type"
+    @click="emit('click', $event)"
+    @mousedown="onMousedown"
 >
-	<div ref="ripples" class="ripples"></div>
-	<div class="content">
-		<slot></slot>
-	</div>
+    <div ref="ripples" class="ripples"></div>
+    <div class="content">
+        <slot></slot>
+    </div>
 </button>
 <MkA
-	v-else class="bghgjjyj _button"
-	:class="{ inline, primary, gradate, danger, rounded, full }"
-	:to="to"
-	@mousedown="onMousedown"
+    v-else class="bghgjjyj _button"
+    :class="{ inline, primary, gradate, danger, rounded, full }"
+    :to="to"
+    @mousedown="onMousedown"
 >
-	<div ref="ripples" class="ripples"></div>
-	<div class="content">
-		<slot></slot>
-	</div>
+    <div ref="ripples" class="ripples"></div>
+    <div class="content">
+        <slot></slot>
+    </div>
 </MkA>
 </template>
 
@@ -49,33 +49,33 @@ let el = $ref<HTMLElement | null>(null);
 let ripples = $ref<HTMLElement | null>(null);
 
 onMounted(() => {
-	if (props.autofocus) {
-		nextTick(() => {
+    if (props.autofocus) {
+        nextTick(() => {
 			el!.focus();
-		});
-	}
+        });
+    }
 });
 
 function distance(p, q): number {
-	return Math.hypot(p.x - q.x, p.y - q.y);
+    return Math.hypot(p.x - q.x, p.y - q.y);
 }
 
 function calcCircleScale(boxW, boxH, circleCenterX, circleCenterY): number {
-	const origin = { x: circleCenterX, y: circleCenterY };
-	const dist1 = distance({ x: 0, y: 0 }, origin);
-	const dist2 = distance({ x: boxW, y: 0 }, origin);
-	const dist3 = distance({ x: 0, y: boxH }, origin);
-	const dist4 = distance({ x: boxW, y: boxH }, origin);
-	return Math.max(dist1, dist2, dist3, dist4) * 2;
+    const origin = { x: circleCenterX, y: circleCenterY };
+    const dist1 = distance({ x: 0, y: 0 }, origin);
+    const dist2 = distance({ x: boxW, y: 0 }, origin);
+    const dist3 = distance({ x: 0, y: boxH }, origin);
+    const dist4 = distance({ x: boxW, y: boxH }, origin);
+    return Math.max(dist1, dist2, dist3, dist4) * 2;
 }
 
 function onMousedown(evt: MouseEvent): void {
-	const target = evt.target! as HTMLElement;
-	const rect = target.getBoundingClientRect();
+    const target = evt.target! as HTMLElement;
+    const rect = target.getBoundingClientRect();
 
-	const ripple = document.createElement("div");
-	ripple.style.top = (evt.clientY - rect.top - 1).toString() + "px";
-	ripple.style.left = (evt.clientX - rect.left - 1).toString() + "px";
+    const ripple = document.createElement("div");
+    ripple.style.top = (evt.clientY - rect.top - 1).toString() + "px";
+    ripple.style.left = (evt.clientX - rect.left - 1).toString() + "px";
 
 	ripples!.appendChild(ripple);
 
@@ -85,14 +85,14 @@ function onMousedown(evt: MouseEvent): void {
 	const scale = calcCircleScale(target.clientWidth, target.clientHeight, circleCenterX, circleCenterY);
 
 	window.setTimeout(() => {
-		ripple.style.transform = "scale(" + (scale / 2) + ")";
+	    ripple.style.transform = "scale(" + (scale / 2) + ")";
 	}, 1);
 	window.setTimeout(() => {
-		ripple.style.transition = "all 1s ease";
-		ripple.style.opacity = "0";
+	    ripple.style.transition = "all 1s ease";
+	    ripple.style.opacity = "0";
 	}, 1000);
 	window.setTimeout(() => {
-		if (ripples) ripples.removeChild(ripple);
+	    if (ripples) ripples.removeChild(ripple);
 	}, 2000);
 }
 </script>

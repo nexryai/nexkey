@@ -1,12 +1,12 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader/></template>
+    <template #header><MkPageHeader/></template>
 
-	<MkSpacer :content-max="500">
-		<div class="_gaps">
-			<MkAd v-for="ad in instance.ads" :key="ad.id" :specify="ad"/>
-		</div>
-	</MkSpacer>
+    <MkSpacer :content-max="500">
+        <div class="_gaps">
+            <MkAd v-for="ad in instance.ads" :key="ad.id" :specify="ad"/>
+        </div>
+    </MkSpacer>
 </MkStickyContainer>
 </template>
 
@@ -17,7 +17,7 @@ import { definePageMetadata } from "@/scripts/page-metadata";
 import { i18n } from "@/i18n";
 import { instance } from "@/instance";
 definePageMetadata({
-	title: i18n.ts.ads,
-	icon: "fas fa-rectangle-ad",
+    title: i18n.ts.ads,
+    icon: "fas fa-rectangle-ad",
 });
 </script>

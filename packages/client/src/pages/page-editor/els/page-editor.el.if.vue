@@ -1,27 +1,27 @@
 <template>
 <!-- eslint-disable vue/no-mutating-props -->
 <XContainer :draggable="true" @remove="() => $emit('remove')">
-	<template #header><i class="ti ti-question-mark"></i> {{ $ts._pages.blocks.if }}</template>
-	<template #func>
-		<button class="_button" @click="add()">
-			<i class="ti ti-plus"></i>
-		</button>
-	</template>
+    <template #header><i class="ti ti-question-mark"></i> {{ $ts._pages.blocks.if }}</template>
+    <template #func>
+        <button class="_button" @click="add()">
+            <i class="ti ti-plus"></i>
+        </button>
+    </template>
 
-	<section class="romcojzs">
-		<MkSelect v-model="value.var">
-			<template #label>{{ $ts._pages.blocks._if.variable }}</template>
-			<option v-for="v in hpml.getVarsByType('boolean')" :value="v.name">{{ v.name }}</option>
-			<optgroup :label="$ts._pages.script.pageVariables">
-				<option v-for="v in hpml.getPageVarsByType('boolean')" :value="v">{{ v }}</option>
-			</optgroup>
-			<optgroup :label="$ts._pages.script.enviromentVariables">
-				<option v-for="v in hpml.getEnvVarsByType('boolean')" :value="v">{{ v }}</option>
-			</optgroup>
-		</MkSelect>
+    <section class="romcojzs">
+        <MkSelect v-model="value.var">
+            <template #label>{{ $ts._pages.blocks._if.variable }}</template>
+            <option v-for="v in hpml.getVarsByType('boolean')" :value="v.name">{{ v.name }}</option>
+            <optgroup :label="$ts._pages.script.pageVariables">
+                <option v-for="v in hpml.getPageVarsByType('boolean')" :value="v">{{ v }}</option>
+            </optgroup>
+            <optgroup :label="$ts._pages.script.enviromentVariables">
+                <option v-for="v in hpml.getEnvVarsByType('boolean')" :value="v">{{ v }}</option>
+            </optgroup>
+        </MkSelect>
 
-		<XBlocks v-model="value.children" class="children" :hpml="hpml"/>
-	</section>
+        <XBlocks v-model="value.children" class="children" :hpml="hpml"/>
+    </section>
 </XContainer>
 </template>
 
@@ -40,23 +40,23 @@ const props = withDefaults(defineProps<{
 	value: any,
 	hpml: any
 }>(), {
-	value: {
-		children: [],
-		var: null,
-	},
+    value: {
+        children: [],
+        var: null,
+    },
 });
 
 const getPageBlockList = inject<(any) => any>("getPageBlockList");
 
 async function add() {
-	const { canceled, result: type } = await os.select({
-		title: i18n.ts._pages.chooseBlock,
-		groupedItems: getPageBlockList(),
-	});
-	if (canceled) return;
+    const { canceled, result: type } = await os.select({
+        title: i18n.ts._pages.chooseBlock,
+        groupedItems: getPageBlockList(),
+    });
+    if (canceled) return;
 
-	const id = uuid();
-	props.value.children.push({ id, type });
+    const id = uuid();
+    props.value.children.push({ id, type });
 }
 </script>
 

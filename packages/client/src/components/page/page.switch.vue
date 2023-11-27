@@ -1,6 +1,6 @@
 <template>
 <div class="hkcxmtwj">
-	<MkSwitch :model-value="value" @update:modelValue="updateValue($event)">{{ hpml.interpolate(block.text) }}</MkSwitch>
+    <MkSwitch :model-value="value" @update:modelValue="updateValue($event)">{{ hpml.interpolate(block.text) }}</MkSwitch>
 </div>
 </template>
 
@@ -12,34 +12,34 @@ import { Hpml } from "@/scripts/hpml/evaluator";
 import { SwitchVarBlock } from "@/scripts/hpml/block";
 
 export default defineComponent({
-	components: {
-		MkSwitch,
-	},
-	props: {
-		block: {
-			type: Object as PropType<SwitchVarBlock>,
-			required: true,
-		},
-		hpml: {
-			type: Object as PropType<Hpml>,
-			required: true,
-		},
-	},
-	setup(props, ctx) {
-		const value = computed(() => {
-			return props.hpml.vars.value[props.block.name];
-		});
+    components: {
+        MkSwitch,
+    },
+    props: {
+        block: {
+            type: Object as PropType<SwitchVarBlock>,
+            required: true,
+        },
+        hpml: {
+            type: Object as PropType<Hpml>,
+            required: true,
+        },
+    },
+    setup(props, ctx) {
+        const value = computed(() => {
+            return props.hpml.vars.value[props.block.name];
+        });
 
-		function updateValue(newValue: boolean) {
-			props.hpml.updatePageVar(props.block.name, newValue);
-			props.hpml.eval();
-		}
+        function updateValue(newValue: boolean) {
+            props.hpml.updatePageVar(props.block.name, newValue);
+            props.hpml.eval();
+        }
 
-		return {
-			value,
-			updateValue,
-		};
-	},
+        return {
+            value,
+            updateValue,
+        };
+    },
 });
 </script>
 

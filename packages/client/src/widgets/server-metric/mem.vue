@@ -1,12 +1,12 @@
 <template>
 <div class="zlxnikvl">
-	<XPie class="pie" :value="usage"/>
-	<div>
-		<p><i class="ti ti-section"></i>RAM</p>
-		<p>Total: {{ bytes(total, 1) }}</p>
-		<p>Used: {{ bytes(used, 1) }}</p>
-		<p>Free: {{ bytes(free, 1) }}</p>
-	</div>
+    <XPie class="pie" :value="usage"/>
+    <div>
+        <p><i class="ti ti-section"></i>RAM</p>
+        <p>Total: {{ bytes(total, 1) }}</p>
+        <p>Used: {{ bytes(used, 1) }}</p>
+        <p>Free: {{ bytes(free, 1) }}</p>
+    </div>
 </div>
 </template>
 
@@ -26,18 +26,18 @@ let used: number = $ref(0);
 let free: number = $ref(0);
 
 function onStats(stats) {
-	usage = stats.mem.active / props.meta.mem.total;
-	total = props.meta.mem.total;
-	used = stats.mem.active;
-	free = total - used;
+    usage = stats.mem.active / props.meta.mem.total;
+    total = props.meta.mem.total;
+    used = stats.mem.active;
+    free = total - used;
 }
 
 onMounted(() => {
-	props.connection.on("stats", onStats);
+    props.connection.on("stats", onStats);
 });
 
 onBeforeUnmount(() => {
-	props.connection.off("stats", onStats);
+    props.connection.off("stats", onStats);
 });
 </script>
 

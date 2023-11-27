@@ -1,16 +1,16 @@
 <template>
 <MkA :to="`/@${page.user.username}/pages/${page.name}`" class="vhpxefrj _block" tabindex="-1">
-	<div v-if="page.eyeCatchingImage" class="thumbnail" :style="`background-image: url('${page.eyeCatchingImage.thumbnailUrl}')`"></div>
-	<article>
-		<header>
-			<h1 :title="page.title">{{ page.title }}</h1>
-		</header>
-		<p v-if="page.summary" :title="page.summary">{{ page.summary.length > 85 ? page.summary.slice(0, 85) + '…' : page.summary }}</p>
-		<footer>
-			<img class="icon" :src="page.user.avatarUrl"/>
-			<p>{{ userName(page.user) }}</p>
-		</footer>
-	</article>
+    <div v-if="page.eyeCatchingImage" class="thumbnail" :style="`background-image: url('${page.eyeCatchingImage.thumbnailUrl}')`"></div>
+    <article>
+        <header>
+            <h1 :title="page.title">{{ page.title }}</h1>
+        </header>
+        <p v-if="page.summary" :title="page.summary">{{ page.summary.length > 85 ? page.summary.slice(0, 85) + '…' : page.summary }}</p>
+        <footer>
+            <img class="icon" :src="page.user.avatarUrl"/>
+            <p>{{ userName(page.user) }}</p>
+        </footer>
+    </article>
 </MkA>
 </template>
 
@@ -20,15 +20,15 @@ import { userName } from "@/filters/user";
 import * as os from "@/os";
 
 export default defineComponent({
-	props: {
-		page: {
-			type: Object,
-			required: true,
-		},
-	},
-	methods: {
-		userName,
-	},
+    props: {
+        page: {
+            type: Object,
+            required: true,
+        },
+    },
+    methods: {
+        userName,
+    },
 });
 </script>
 

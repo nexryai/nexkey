@@ -1,15 +1,15 @@
 <template>
 <button
-	v-if="canRenote"
-	ref="buttonRef"
-	class="eddddedb _button canRenote"
-	@click="renote()"
+    v-if="canRenote"
+    ref="buttonRef"
+    class="eddddedb _button canRenote"
+    @click="renote()"
 >
-	<i class="ti ti-repeat"></i>
-	<p v-if="count > 0" class="count">{{ count }}</p>
+    <i class="ti ti-repeat"></i>
+    <p v-if="count > 0" class="count">{{ count }}</p>
 </button>
 <button v-else class="eddddedb _button">
-	<i class="ti ti-ban"></i>
+    <i class="ti ti-ban"></i>
 </button>
 </template>
 
@@ -34,50 +34,50 @@ const buttonRef = ref<HTMLElement>();
 const canRenote = computed(() => ["public", "home"].includes(props.note.visibility) || (props.note.visibility === "followers" && props.note.userId === $i?.id));
 
 useTooltip(buttonRef, async (showing) => {
-	const renotes = await os.api("notes/renotes", {
-		noteId: props.note.id,
-		limit: 11,
-	});
+    const renotes = await os.api("notes/renotes", {
+        noteId: props.note.id,
+        limit: 11,
+    });
 
-	const users = renotes.map(x => x.user);
+    const users = renotes.map(x => x.user);
 
-	if (users.length < 1) return;
+    if (users.length < 1) return;
 
-	os.popup(XDetails, {
-		showing,
-		users,
-		count: props.count,
-		targetElement: buttonRef.value,
-	}, {}, "closed");
+    os.popup(XDetails, {
+        showing,
+        users,
+        count: props.count,
+        targetElement: buttonRef.value,
+    }, {}, "closed");
 });
 
 const renote = (viaKeyboard = false) => {
-	pleaseLogin();
+    pleaseLogin();
 
-	const visibility = defaultStore.state.rememberNoteVisibility ? defaultStore.state.visibility : defaultStore.state.defaultNoteVisibility;
-	const localOnly = defaultStore.state.rememberNoteVisibility ? defaultStore.state.localOnly : defaultStore.state.defaultNoteLocalOnly;
+    const visibility = defaultStore.state.rememberNoteVisibility ? defaultStore.state.visibility : defaultStore.state.defaultNoteVisibility;
+    const localOnly = defaultStore.state.rememberNoteVisibility ? defaultStore.state.localOnly : defaultStore.state.defaultNoteLocalOnly;
 
-	os.popupMenu([{
-		text: i18n.ts.renote,
-		icon: "ti ti-repeat",
-		action: () => {
-			os.api("notes/create", {
-				renoteId: props.note.id,
-				visibility: visibility as never,
-				localOnly,
-			});
-		},
-	}, {
-		text: i18n.ts.quote,
-		icon: "ti ti-quote",
-		action: () => {
-			os.post({
-				renote: props.note,
-			});
-		},
-	}], buttonRef.value, {
-		viaKeyboard,
-	});
+    os.popupMenu([{
+        text: i18n.ts.renote,
+        icon: "ti ti-repeat",
+        action: () => {
+            os.api("notes/create", {
+                renoteId: props.note.id,
+                visibility: visibility as never,
+                localOnly,
+            });
+        },
+    }, {
+        text: i18n.ts.quote,
+        icon: "ti ti-quote",
+        action: () => {
+            os.post({
+                renote: props.note,
+            });
+        },
+    }], buttonRef.value, {
+        viaKeyboard,
+    });
 };
 </script>
 

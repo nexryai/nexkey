@@ -1,11 +1,11 @@
 <template>
 <!-- eslint-disable vue/no-mutating-props -->
 <XContainer :draggable="true" @remove="() => $emit('remove')">
-	<template #header><i class="ti ti-align-left"></i> {{ $ts._pages.blocks.textarea }}</template>
+    <template #header><i class="ti ti-align-left"></i> {{ $ts._pages.blocks.textarea }}</template>
 
-	<section class="ihymsbbe">
-		<textarea v-model="value.text"></textarea>
-	</section>
+    <section class="ihymsbbe">
+        <textarea v-model="value.text"></textarea>
+    </section>
 </XContainer>
 </template>
 
@@ -17,9 +17,9 @@ import XContainer from "../page-editor.container.vue";
 withDefaults(defineProps<{
 	value: any
 }>(), {
-	value: {
-		text: "",
-	},
+    value: {
+        text: "",
+    },
 });
 </script>
 

@@ -1,7 +1,7 @@
 <template>
 <div class="hpaizdrt">
-	<div class="distorted-circle" :style="bg"></div>
-	<img v-if="faviconUrl" class="icon instance-icon" :src="faviconUrl"/>
+    <div class="distorted-circle" :style="bg"></div>
+    <img v-if="faviconUrl" class="icon instance-icon" :src="faviconUrl"/>
 </div>
 </template>
 
@@ -21,17 +21,17 @@ const props = defineProps<{
 
 // if no instance data is given, this is for the local instance
 const instance = props.instance ?? {
-	name: instanceName,
-	themeColor: (document.querySelector("meta[name=\"theme-color-orig\"]") as HTMLMetaElement).content,
+    name: instanceName,
+    themeColor: (document.querySelector("meta[name=\"theme-color-orig\"]") as HTMLMetaElement).content,
 };
 
 const themeColor = instance.themeColor ?? "#777777";
 const bg = {
-	background: `linear-gradient(90deg, ${themeColor}, ${themeColor}00)`,
+    background: `linear-gradient(90deg, ${themeColor}, ${themeColor}00)`,
 };
 
 const faviconUrl = $computed(() => props.instance ? getProxiedImageUrlNullable(props.instance.faviconUrl, "ticker")
-	: getProxiedImageUrlNullable(Instance.iconUrl, "ticker")
+    : getProxiedImageUrlNullable(Instance.iconUrl, "ticker")
 	?? getProxiedImageUrlNullable(Instance.faviconUrl, "ticker") ?? "/favicon.ico");
 // const themeColor = instance.themeColor ?? '#777777';
 </script>

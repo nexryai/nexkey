@@ -1,6 +1,6 @@
 <template>
 <div class="tdflqwzn" :class="{ isMe }">
-	<XReaction v-for="(count, reaction) in note.reactions" :key="reaction" :reaction="reaction" :count="count" :is-initial="initialReactions.has(reaction)" :note="note"/>
+    <XReaction v-for="(count, reaction) in note.reactions" :key="reaction" :reaction="reaction" :count="count" :is-initial="initialReactions.has(reaction)" :note="note"/>
 </div>
 </template>
 

@@ -1,27 +1,27 @@
 <template>
 <MkModal
-	ref="modal"
-	v-slot="{ type, maxHeight }"
-	:z-priority="'middle'"
-	:prefer-type="asReactionPicker && defaultStore.state.reactionPickerUseDrawerForMobile === false ? 'popup' : 'auto'"
-	:transparent-bg="true"
-	:manual-showing="manualShowing"
-	:src="src"
-	@click="modal?.close()"
-	@opening="opening"
-	@close="emit('close')"
-	@closed="emit('closed')"
+    ref="modal"
+    v-slot="{ type, maxHeight }"
+    :z-priority="'middle'"
+    :prefer-type="asReactionPicker && defaultStore.state.reactionPickerUseDrawerForMobile === false ? 'popup' : 'auto'"
+    :transparent-bg="true"
+    :manual-showing="manualShowing"
+    :src="src"
+    @click="modal?.close()"
+    @opening="opening"
+    @close="emit('close')"
+    @closed="emit('closed')"
 >
-	<MkEmojiPicker
-		ref="picker"
-		class="ryghynhb _popup _shadow"
-		:class="{ drawer: type === 'drawer' }"
-		:show-pinned="showPinned"
-		:as-reaction-picker="asReactionPicker"
-		:as-drawer="type === 'drawer'"
-		:max-height="maxHeight"
-		@chosen="chosen"
-	/>
+    <MkEmojiPicker
+        ref="picker"
+        class="ryghynhb _popup _shadow"
+        :class="{ drawer: type === 'drawer' }"
+        :show-pinned="showPinned"
+        :as-reaction-picker="asReactionPicker"
+        :as-drawer="type === 'drawer'"
+        :max-height="maxHeight"
+        @chosen="chosen"
+    />
 </MkModal>
 </template>
 
@@ -37,9 +37,9 @@ withDefaults(defineProps<{
 	showPinned?: boolean;
 	asReactionPicker?: boolean;
 }>(), {
-	manualShowing: null,
-	showPinned: true,
-	asReactionPicker: false,
+    manualShowing: null,
+    showPinned: true,
+    asReactionPicker: false,
 });
 
 const emit = defineEmits<{
@@ -52,13 +52,13 @@ const modal = ref<InstanceType<typeof MkModal>>();
 const picker = ref<InstanceType<typeof MkEmojiPicker>>();
 
 function chosen(emoji: any) {
-	emit("done", emoji);
-	modal.value?.close();
+    emit("done", emoji);
+    modal.value?.close();
 }
 
 function opening() {
-	picker.value?.reset();
-	picker.value?.focus();
+    picker.value?.reset();
+    picker.value?.focus();
 }
 </script>
 

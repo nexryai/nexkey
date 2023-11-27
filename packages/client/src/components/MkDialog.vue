@@ -1,42 +1,42 @@
 <template>
 <MkModal ref="modal" :prefer-type="'dialog'" :z-priority="'high'" @click="done(true)" @closed="emit('closed')">
-	<div class="mk-dialog">
-		<div v-if="icon" class="icon">
-			<i :class="icon"></i>
-		</div>
-		<div v-else-if="!select" class="icon" :class="type">
-			<i v-if="title==i18n.ts.currentPassword" class="ti ti-shield-lock security"></i>
-			<i v-else-if="input" class="ti ti-question-circle"></i>
-			<i v-else-if="type === 'success'" class="ti ti-check"></i>
-			<i v-else-if="type === 'error'" class="ti ti-circle-x"></i>
-			<i v-else-if="type === 'warning'" class="ti ti-alert-triangle"></i>
-			<i v-else-if="type === 'info'" class="ti ti-info-circle"></i>
-			<i v-else-if="type === 'question'" class="ti ti-question-circle"></i>
-			<MkLoading v-else-if="type === 'waiting'" :em="true"/>
-		</div>
-		<header v-if="title"><Mfm :text="title"/></header>
-		<div v-if="text" class="body"><Mfm :text="text"/></div>
-		<MkInput v-if="input" v-model="inputValue" autofocus :type="input.type || 'text'" :placeholder="input.placeholder || undefined" @keydown="onInputKeydown">
-			<template v-if="input.type === 'password'" #prefix><i class="ti ti-lock"></i></template>
-		</MkInput>
-		<MkSelect v-if="select" v-model="selectedValue" autofocus>
-			<template v-if="select.items">
-				<option v-for="item in select.items" :value="item.value">{{ item.text }}</option>
-			</template>
-			<template v-else>
-				<optgroup v-for="groupedItem in select.groupedItems" :label="groupedItem.label">
-					<option v-for="item in groupedItem.items" :value="item.value">{{ item.text }}</option>
-				</optgroup>
-			</template>
-		</MkSelect>
-		<div v-if="(showOkButton || showCancelButton) && !actions" class="buttons">
-			<MkButton v-if="showOkButton" rounded inline primary :autofocus="!input && !select" @click="ok">{{ (showCancelButton || input || select) ? i18n.ts.ok : i18n.ts.gotIt }}</MkButton>
-			<MkButton v-if="showCancelButton || input || select" rounded inline @click="cancel">{{ i18n.ts.cancel }}</MkButton>
-		</div>
-		<div v-if="actions" class="buttons">
-			<MkButton v-for="action in actions" :key="action.text" rounded inline :primary="action.primary" @click="() => { action.callback(); close(); }">{{ action.text }}</MkButton>
-		</div>
-	</div>
+    <div class="mk-dialog">
+        <div v-if="icon" class="icon">
+            <i :class="icon"></i>
+        </div>
+        <div v-else-if="!select" class="icon" :class="type">
+            <i v-if="title==i18n.ts.currentPassword" class="ti ti-shield-lock security"></i>
+            <i v-else-if="input" class="ti ti-question-circle"></i>
+            <i v-else-if="type === 'success'" class="ti ti-check"></i>
+            <i v-else-if="type === 'error'" class="ti ti-circle-x"></i>
+            <i v-else-if="type === 'warning'" class="ti ti-alert-triangle"></i>
+            <i v-else-if="type === 'info'" class="ti ti-info-circle"></i>
+            <i v-else-if="type === 'question'" class="ti ti-question-circle"></i>
+            <MkLoading v-else-if="type === 'waiting'" :em="true"/>
+        </div>
+        <header v-if="title"><Mfm :text="title"/></header>
+        <div v-if="text" class="body"><Mfm :text="text"/></div>
+        <MkInput v-if="input" v-model="inputValue" autofocus :type="input.type || 'text'" :placeholder="input.placeholder || undefined" @keydown="onInputKeydown">
+            <template v-if="input.type === 'password'" #prefix><i class="ti ti-lock"></i></template>
+        </MkInput>
+        <MkSelect v-if="select" v-model="selectedValue" autofocus>
+            <template v-if="select.items">
+                <option v-for="item in select.items" :value="item.value">{{ item.text }}</option>
+            </template>
+            <template v-else>
+                <optgroup v-for="groupedItem in select.groupedItems" :label="groupedItem.label">
+                    <option v-for="item in groupedItem.items" :value="item.value">{{ item.text }}</option>
+                </optgroup>
+            </template>
+        </MkSelect>
+        <div v-if="(showOkButton || showCancelButton) && !actions" class="buttons">
+            <MkButton v-if="showOkButton" rounded inline primary :autofocus="!input && !select" @click="ok">{{ (showCancelButton || input || select) ? i18n.ts.ok : i18n.ts.gotIt }}</MkButton>
+            <MkButton v-if="showCancelButton || input || select" rounded inline @click="cancel">{{ i18n.ts.cancel }}</MkButton>
+        </div>
+        <div v-if="actions" class="buttons">
+            <MkButton v-for="action in actions" :key="action.text" rounded inline :primary="action.primary" @click="() => { action.callback(); close(); }">{{ action.text }}</MkButton>
+        </div>
+    </div>
 </MkModal>
 </template>
 
@@ -85,10 +85,10 @@ const props = withDefaults(defineProps<{
 	showCancelButton?: boolean;
 	cancelableByBgClick?: boolean;
 }>(), {
-	type: "info",
-	showOkButton: true,
-	showCancelButton: false,
-	cancelableByBgClick: true,
+    type: "info",
+    showOkButton: true,
+    showCancelButton: false,
+    cancelableByBgClick: true,
 });
 
 const emit = defineEmits<{
@@ -102,22 +102,22 @@ const inputValue = ref(props.input?.default || null);
 const selectedValue = ref(props.select?.default || null);
 
 function done(canceled: boolean, result?) {
-	emit("done", { canceled, result });
-	modal.value?.close();
+    emit("done", { canceled, result });
+    modal.value?.close();
 }
 
 async function ok() {
-	if (!props.showOkButton) return;
+    if (!props.showOkButton) return;
 
-	const result =
+    const result =
 		props.input ? inputValue.value :
 		props.select ? selectedValue.value :
 		true;
-	done(false, result);
+    done(false, result);
 }
 
 function cancel() {
-	done(true);
+    done(true);
 }
 /*
 function onBgClick() {
@@ -125,23 +125,23 @@ function onBgClick() {
 }
 */
 function onKeydown(evt: KeyboardEvent) {
-	if (evt.key === "Escape") cancel();
+    if (evt.key === "Escape") cancel();
 }
 
 function onInputKeydown(evt: KeyboardEvent) {
-	if (evt.key === "Enter") {
-		evt.preventDefault();
-		evt.stopPropagation();
-		ok();
-	}
+    if (evt.key === "Enter") {
+        evt.preventDefault();
+        evt.stopPropagation();
+        ok();
+    }
 }
 
 onMounted(() => {
-	document.addEventListener("keydown", onKeydown);
+    document.addEventListener("keydown", onKeydown);
 });
 
 onBeforeUnmount(() => {
-	document.removeEventListener("keydown", onKeydown);
+    document.removeEventListener("keydown", onKeydown);
 });
 </script>
 

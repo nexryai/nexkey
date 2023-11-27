@@ -1,18 +1,18 @@
 <template>
 <div class="_panel">
-	<div :class="$style.container" :style="{ backgroundImage: $i.bannerUrl ? `url(${ $i.bannerUrl })` : null }">
-		<div :class="$style.avatarContainer">
-			<MkAvatar :class="$style.avatar" :user="$i"/>
-		</div>
-		<div :class="$style.bodyContainer">
-			<div :class="$style.body">
-				<MkA :class="$style.name" :to="userPage($i)">
-					<MkUserName :user="$i"/>
-				</MkA>
-				<div :class="$style.username"><MkAcct :user="$i" detail/></div>
-			</div>
-		</div>
-	</div>
+    <div :class="$style.container" :style="{ backgroundImage: $i.bannerUrl ? `url(${ $i.bannerUrl })` : null }">
+        <div :class="$style.avatarContainer">
+            <MkAvatar :class="$style.avatar" :user="$i"/>
+        </div>
+        <div :class="$style.bodyContainer">
+            <div :class="$style.body">
+                <MkA :class="$style.name" :to="userPage($i)">
+                    <MkUserName :user="$i"/>
+                </MkA>
+                <div :class="$style.username"><MkAcct :user="$i" detail/></div>
+            </div>
+        </div>
+    </div>
 </div>
 </template>
 
@@ -31,14 +31,14 @@ type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
 const props = defineProps<{ widget?: Widget<WidgetProps>; }>();
 const emit = defineEmits<{ (ev: "updateProps", props: WidgetProps); }>();
 const { widgetProps, configure } = useWidgetPropsManager(name,
-	widgetPropsDef,
-	props,
-	emit,
+    widgetPropsDef,
+    props,
+    emit,
 );
 defineExpose<WidgetComponentExpose>({
-	name,
-	configure,
-	id: props.widget ? props.widget.id : null,
+    name,
+    configure,
+    id: props.widget ? props.widget.id : null,
 });
 </script>
 

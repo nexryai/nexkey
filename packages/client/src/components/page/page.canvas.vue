@@ -1,6 +1,6 @@
 <template>
 <div class="ysrxegms">
-	<canvas ref="canvas" :width="block.width" :height="block.height"/>
+    <canvas ref="canvas" :width="block.width" :height="block.height"/>
 </div>
 </template>
 
@@ -11,27 +11,27 @@ import { CanvasBlock } from "@/scripts/hpml/block";
 import { Hpml } from "@/scripts/hpml/evaluator";
 
 export default defineComponent({
-	props: {
-		block: {
-			type: Object as PropType<CanvasBlock>,
-			required: true,
-		},
-		hpml: {
-			type: Object as PropType<Hpml>,
-			required: true,
-		},
-	},
-	setup(props, ctx) {
-		const canvas: Ref<any> = ref(null);
+    props: {
+        block: {
+            type: Object as PropType<CanvasBlock>,
+            required: true,
+        },
+        hpml: {
+            type: Object as PropType<Hpml>,
+            required: true,
+        },
+    },
+    setup(props, ctx) {
+        const canvas: Ref<any> = ref(null);
 
-		onMounted(() => {
-			props.hpml.registerCanvas(props.block.name, canvas.value);
-		});
+        onMounted(() => {
+            props.hpml.registerCanvas(props.block.name, canvas.value);
+        });
 
-		return {
-			canvas,
-		};
-	},
+        return {
+            canvas,
+        };
+    },
 });
 </script>
 

@@ -1,34 +1,34 @@
 <template>
 <div class="mkw-calendar" :class="{ _panel: !widgetProps.transparent }">
-	<div class="calendar" :class="{ isHoliday }">
-		<p class="month-and-year">
-			<span class="year">{{ $t('yearX', { year }) }}</span>
-			<span class="month">{{ $t('monthX', { month }) }}</span>
-		</p>
-		<p v-if="month === 1 && day === 1" class="day">🎉{{ $t('dayX', { day }) }}<span style="display: inline-block; transform: scaleX(-1);">🎉</span></p>
-		<p v-else class="day">{{ $t('dayX', { day }) }}</p>
-		<p class="week-day">{{ weekDay }}</p>
-	</div>
-	<div class="info">
-		<div>
-			<p>{{ i18n.ts.today }}: <b>{{ dayP.toFixed(1) }}%</b></p>
-			<div class="meter">
-				<div class="val" :style="{ width: `${dayP}%` }"></div>
-			</div>
-		</div>
-		<div>
-			<p>{{ i18n.ts.thisMonth }}: <b>{{ monthP.toFixed(1) }}%</b></p>
-			<div class="meter">
-				<div class="val" :style="{ width: `${monthP}%` }"></div>
-			</div>
-		</div>
-		<div>
-			<p>{{ i18n.ts.thisYear }}: <b>{{ yearP.toFixed(1) }}%</b></p>
-			<div class="meter">
-				<div class="val" :style="{ width: `${yearP}%` }"></div>
-			</div>
-		</div>
-	</div>
+    <div class="calendar" :class="{ isHoliday }">
+        <p class="month-and-year">
+            <span class="year">{{ $t('yearX', { year }) }}</span>
+            <span class="month">{{ $t('monthX', { month }) }}</span>
+        </p>
+        <p v-if="month === 1 && day === 1" class="day">🎉{{ $t('dayX', { day }) }}<span style="display: inline-block; transform: scaleX(-1);">🎉</span></p>
+        <p v-else class="day">{{ $t('dayX', { day }) }}</p>
+        <p class="week-day">{{ weekDay }}</p>
+    </div>
+    <div class="info">
+        <div>
+            <p>{{ i18n.ts.today }}: <b>{{ dayP.toFixed(1) }}%</b></p>
+            <div class="meter">
+                <div class="val" :style="{ width: `${dayP}%` }"></div>
+            </div>
+        </div>
+        <div>
+            <p>{{ i18n.ts.thisMonth }}: <b>{{ monthP.toFixed(1) }}%</b></p>
+            <div class="meter">
+                <div class="val" :style="{ width: `${monthP}%` }"></div>
+            </div>
+        </div>
+        <div>
+            <p>{{ i18n.ts.thisYear }}: <b>{{ yearP.toFixed(1) }}%</b></p>
+            <div class="meter">
+                <div class="val" :style="{ width: `${yearP}%` }"></div>
+            </div>
+        </div>
+    </div>
 </div>
 </template>
 
@@ -42,10 +42,10 @@ import { useInterval } from "@/scripts/use-interval";
 const name = "calendar";
 
 const widgetPropsDef = {
-	transparent: {
-		type: "boolean" as const,
-		default: false,
-	},
+    transparent: {
+        type: "boolean" as const,
+        default: false,
+    },
 };
 
 type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
@@ -57,9 +57,9 @@ const props = defineProps<{ widget?: Widget<WidgetProps>; }>();
 const emit = defineEmits<{ (ev: "updateProps", props: WidgetProps); }>();
 
 const { widgetProps, configure } = useWidgetPropsManager(name,
-	widgetPropsDef,
-	props,
-	emit,
+    widgetPropsDef,
+    props,
+    emit,
 );
 
 const year = ref(0);
@@ -71,47 +71,47 @@ const monthP = ref(0);
 const dayP = ref(0);
 const isHoliday = ref(false);
 const tick = () => {
-	const now = new Date();
-	const nd = now.getDate();
-	const nm = now.getMonth();
-	const ny = now.getFullYear();
+    const now = new Date();
+    const nd = now.getDate();
+    const nm = now.getMonth();
+    const ny = now.getFullYear();
 
-	year.value = ny;
-	month.value = nm + 1;
-	day.value = nd;
-	weekDay.value = [
-		i18n.ts._weekday.sunday,
-		i18n.ts._weekday.monday,
-		i18n.ts._weekday.tuesday,
-		i18n.ts._weekday.wednesday,
-		i18n.ts._weekday.thursday,
-		i18n.ts._weekday.friday,
-		i18n.ts._weekday.saturday,
-	][now.getDay()];
+    year.value = ny;
+    month.value = nm + 1;
+    day.value = nd;
+    weekDay.value = [
+        i18n.ts._weekday.sunday,
+        i18n.ts._weekday.monday,
+        i18n.ts._weekday.tuesday,
+        i18n.ts._weekday.wednesday,
+        i18n.ts._weekday.thursday,
+        i18n.ts._weekday.friday,
+        i18n.ts._weekday.saturday,
+    ][now.getDay()];
 
-	const dayNumer = now.getTime() - new Date(ny, nm, nd).getTime();
-	const dayDenom = 1000/*ms*/ * 60/*s*/ * 60/*m*/ * 24/*h*/;
-	const monthNumer = now.getTime() - new Date(ny, nm, 1).getTime();
-	const monthDenom = new Date(ny, nm + 1, 1).getTime() - new Date(ny, nm, 1).getTime();
-	const yearNumer = now.getTime() - new Date(ny, 0, 1).getTime();
-	const yearDenom = new Date(ny + 1, 0, 1).getTime() - new Date(ny, 0, 1).getTime();
+    const dayNumer = now.getTime() - new Date(ny, nm, nd).getTime();
+    const dayDenom = 1000/*ms*/ * 60/*s*/ * 60/*m*/ * 24/*h*/;
+    const monthNumer = now.getTime() - new Date(ny, nm, 1).getTime();
+    const monthDenom = new Date(ny, nm + 1, 1).getTime() - new Date(ny, nm, 1).getTime();
+    const yearNumer = now.getTime() - new Date(ny, 0, 1).getTime();
+    const yearDenom = new Date(ny + 1, 0, 1).getTime() - new Date(ny, 0, 1).getTime();
 
-	dayP.value = dayNumer / dayDenom * 100;
-	monthP.value = monthNumer / monthDenom * 100;
-	yearP.value = yearNumer / yearDenom * 100;
+    dayP.value = dayNumer / dayDenom * 100;
+    monthP.value = monthNumer / monthDenom * 100;
+    yearP.value = yearNumer / yearDenom * 100;
 
-	isHoliday.value = now.getDay() === 0 || now.getDay() === 6;
+    isHoliday.value = now.getDay() === 0 || now.getDay() === 6;
 };
 
 useInterval(tick, 1000, {
-	immediate: true,
-	afterMounted: false,
+    immediate: true,
+    afterMounted: false,
 });
 
 defineExpose<WidgetComponentExpose>({
-	name,
-	configure,
-	id: props.widget ? props.widget.id : null,
+    name,
+    configure,
+    id: props.widget ? props.widget.id : null,
 });
 </script>
 

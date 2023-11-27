@@ -9,23 +9,23 @@ import { defineComponent } from "vue";
 import katex from "katex";
 
 export default defineComponent({
-	props: {
-		formula: {
-			type: String,
-			required: true,
-		},
-		block: {
-			type: Boolean,
-			required: true,
-		},
-	},
-	computed: {
-		compiledFormula(): any {
-			return katex.renderToString(this.formula, {
-				throwOnError: false,
-			} as any);
-		},
-	},
+    props: {
+        formula: {
+            type: String,
+            required: true,
+        },
+        block: {
+            type: Boolean,
+            required: true,
+        },
+    },
+    computed: {
+        compiledFormula(): any {
+            return katex.renderToString(this.formula, {
+                throwOnError: false,
+            } as any);
+        },
+    },
 });
 </script>
 

@@ -23,50 +23,50 @@ export type WidgetComponentExpose = {
 };
 
 export const useWidgetPropsManager = <F extends Form & Record<string, { default: any; }>>(
-	name: string,
-	propsDef: F,
-	props: Readonly<WidgetComponentProps<GetFormResultType<F>>>,
-	emit: WidgetComponentEmits<GetFormResultType<F>>,
+    name: string,
+    propsDef: F,
+    props: Readonly<WidgetComponentProps<GetFormResultType<F>>>,
+    emit: WidgetComponentEmits<GetFormResultType<F>>,
 ): {
 	widgetProps: GetFormResultType<F>;
 	save: () => void;
 	configure: () => void;
 } => {
-	const widgetProps = reactive(props.widget ? JSON.parse(JSON.stringify(props.widget.data)) : {});
+    const widgetProps = reactive(props.widget ? JSON.parse(JSON.stringify(props.widget.data)) : {});
 
-	const mergeProps = () => {
-		for (const prop of Object.keys(propsDef)) {
-			if (typeof widgetProps[prop] === "undefined") {
-				widgetProps[prop] = propsDef[prop].default;
-			}
-		}
-	};
-	watch(widgetProps, () => {
-		mergeProps();
-	}, { deep: true, immediate: true });
+    const mergeProps = () => {
+        for (const prop of Object.keys(propsDef)) {
+            if (typeof widgetProps[prop] === "undefined") {
+                widgetProps[prop] = propsDef[prop].default;
+            }
+        }
+    };
+    watch(widgetProps, () => {
+        mergeProps();
+    }, { deep: true, immediate: true });
 
-	const save = throttle(3000, () => {
-		emit("updateProps", widgetProps);
-	});
+    const save = throttle(3000, () => {
+        emit("updateProps", widgetProps);
+    });
 
-	const configure = async () => {
-		const form = JSON.parse(JSON.stringify(propsDef));
-		for (const item of Object.keys(form)) {
-			form[item].default = widgetProps[item];
-		}
-		const { canceled, result } = await os.form(name, form);
-		if (canceled) return;
+    const configure = async () => {
+        const form = JSON.parse(JSON.stringify(propsDef));
+        for (const item of Object.keys(form)) {
+            form[item].default = widgetProps[item];
+        }
+        const { canceled, result } = await os.form(name, form);
+        if (canceled) return;
 
-		for (const key of Object.keys(result)) {
-			widgetProps[key] = result[key];
-		}
+        for (const key of Object.keys(result)) {
+            widgetProps[key] = result[key];
+        }
 
-		save();
-	};
+        save();
+    };
 
-	return {
-		widgetProps,
-		save,
-		configure,
-	};
+    return {
+        widgetProps,
+        save,
+        configure,
+    };
 };

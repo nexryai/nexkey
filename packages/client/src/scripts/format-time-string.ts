@@ -1,27 +1,27 @@
 const defaultLocaleStringFormats: {[index: string]: string} = {
-	"weekday": "narrow",
-	"era": "narrow",
-	"year": "numeric",
-	"month": "numeric",
-	"day": "numeric",
-	"hour": "numeric",
-	"minute": "numeric",
-	"second": "numeric",
-	"timeZoneName": "short",
+    "weekday": "narrow",
+    "era": "narrow",
+    "year": "numeric",
+    "month": "numeric",
+    "day": "numeric",
+    "hour": "numeric",
+    "minute": "numeric",
+    "second": "numeric",
+    "timeZoneName": "short",
 };
 
 function formatLocaleString(date: Date, format: string): string {
-	return format.replace(/\{\{(\w+)(:(\w+))?\}\}/g, (match: string, kind: string, unused?, option?: string) => {
-		if (["weekday", "era", "year", "month", "day", "hour", "minute", "second", "timeZoneName"].includes(kind)) {
-			return date.toLocaleString(window.navigator.language, { [kind]: option ? option : defaultLocaleStringFormats[kind] });
-		} else {
-			return match;
-		}
-	});
+    return format.replace(/\{\{(\w+)(:(\w+))?\}\}/g, (match: string, kind: string, unused?, option?: string) => {
+        if (["weekday", "era", "year", "month", "day", "hour", "minute", "second", "timeZoneName"].includes(kind)) {
+            return date.toLocaleString(window.navigator.language, { [kind]: option ? option : defaultLocaleStringFormats[kind] });
+        } else {
+            return match;
+        }
+    });
 }
 
 export function formatDateTimeString(date: Date, format: string): string {
-	return format
+    return format
 		.replace(/yyyy/g, date.getFullYear().toString())
 		.replace(/yy/g, date.getFullYear().toString().slice(-2))
 		.replace(/MMMM/g, date.toLocaleString(window.navigator.language, { month: "long" }))
@@ -42,9 +42,9 @@ export function formatDateTimeString(date: Date, format: string): string {
 }
 
 export function formatTimeString(date: Date, format: string): string {
-	return format.replace(/\[(([^\[]|\[\])*)\]|(([yMdHhmst])\4{0,3})/g, (match: string, localeformat?: string, unused?, datetimeformat?: string) => {
-		if (localeformat) return formatLocaleString(date, localeformat);
-		if (datetimeformat) return formatDateTimeString(date, datetimeformat);
-		return match;
-	});
+    return format.replace(/\[(([^\[]|\[\])*)\]|(([yMdHhmst])\4{0,3})/g, (match: string, localeformat?: string, unused?, datetimeformat?: string) => {
+        if (localeformat) return formatLocaleString(date, localeformat);
+        if (datetimeformat) return formatDateTimeString(date, datetimeformat);
+        return match;
+    });
 }

@@ -1,53 +1,53 @@
 <template>
 <XModalWindow
-	ref="dialogEl"
-	:with-ok-button="true"
-	:ok-button-disabled="selected == null"
-	@click="cancel()"
-	@close="cancel()"
-	@ok="ok()"
-	@closed="$emit('closed')"
+    ref="dialogEl"
+    :with-ok-button="true"
+    :ok-button-disabled="selected == null"
+    @click="cancel()"
+    @close="cancel()"
+    @ok="ok()"
+    @closed="$emit('closed')"
 >
-	<template #header>{{ i18n.ts.selectUser }}</template>
-	<div class="tbhwbxda">
-		<div class="form">
-			<FormSplit :min-width="170">
-				<MkInput v-model="username" :autofocus="true" @update:modelValue="search">
-					<template #label>{{ i18n.ts.username }}</template>
-					<template #prefix>@</template>
-				</MkInput>
-				<MkInput v-model="host" @update:modelValue="search">
-					<template #label>{{ i18n.ts.host }}</template>
-					<template #prefix>@</template>
-				</MkInput>
-			</FormSplit>
-		</div>
-		<div v-if="username != '' || host != ''" class="result" :class="{ hit: users.length > 0 }">
-			<div v-if="users.length > 0" class="users">
-				<div v-for="user in users" :key="user.id" class="user" :class="{ selected: selected && selected.id === user.id }" @click="selected = user" @dblclick="ok()">
-					<MkAvatar :user="user" class="avatar" :show-indicator="true"/>
-					<div class="body">
-						<MkUserName :user="user" class="name"/>
-						<MkAcct :user="user" class="acct"/>
-					</div>
-				</div>
-			</div>
-			<div v-else class="empty">
-				<span>{{ i18n.ts.noUsers }}</span>
-			</div>
-		</div>
-		<div v-if="username == '' && host == ''" class="recent">
-			<div class="users">
-				<div v-for="user in recentUsers" :key="user.id" class="user" :class="{ selected: selected && selected.id === user.id }" @click="selected = user" @dblclick="ok()">
-					<MkAvatar :user="user" class="avatar" :show-indicator="true"/>
-					<div class="body">
-						<MkUserName :user="user" class="name"/>
-						<MkAcct :user="user" class="acct"/>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <template #header>{{ i18n.ts.selectUser }}</template>
+    <div class="tbhwbxda">
+        <div class="form">
+            <FormSplit :min-width="170">
+                <MkInput v-model="username" :autofocus="true" @update:modelValue="search">
+                    <template #label>{{ i18n.ts.username }}</template>
+                    <template #prefix>@</template>
+                </MkInput>
+                <MkInput v-model="host" @update:modelValue="search">
+                    <template #label>{{ i18n.ts.host }}</template>
+                    <template #prefix>@</template>
+                </MkInput>
+            </FormSplit>
+        </div>
+        <div v-if="username != '' || host != ''" class="result" :class="{ hit: users.length > 0 }">
+            <div v-if="users.length > 0" class="users">
+                <div v-for="user in users" :key="user.id" class="user" :class="{ selected: selected && selected.id === user.id }" @click="selected = user" @dblclick="ok()">
+                    <MkAvatar :user="user" class="avatar" :show-indicator="true"/>
+                    <div class="body">
+                        <MkUserName :user="user" class="name"/>
+                        <MkAcct :user="user" class="acct"/>
+                    </div>
+                </div>
+            </div>
+            <div v-else class="empty">
+                <span>{{ i18n.ts.noUsers }}</span>
+            </div>
+        </div>
+        <div v-if="username == '' && host == ''" class="recent">
+            <div class="users">
+                <div v-for="user in recentUsers" :key="user.id" class="user" :class="{ selected: selected && selected.id === user.id }" @click="selected = user" @dblclick="ok()">
+                    <MkAvatar :user="user" class="avatar" :show-indicator="true"/>
+                    <div class="body">
+                        <MkUserName :user="user" class="name"/>
+                        <MkAcct :user="user" class="acct"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </XModalWindow>
 </template>
 
@@ -75,43 +75,43 @@ let selected: misskey.entities.UserDetailed | null = $ref(null);
 let dialogEl = $ref();
 
 const search = () => {
-	if (username === "" && host === "") {
-		users = [];
-		return;
-	}
-	os.api("users/search-by-username-and-host", {
-		username: username,
-		host: host,
-		limit: 10,
-		detail: false,
-	}).then(_users => {
-		users = _users;
-	});
+    if (username === "" && host === "") {
+        users = [];
+        return;
+    }
+    os.api("users/search-by-username-and-host", {
+        username: username,
+        host: host,
+        limit: 10,
+        detail: false,
+    }).then(_users => {
+        users = _users;
+    });
 };
 
 const ok = () => {
-	if (selected == null) return;
-	emit("ok", selected);
-	dialogEl.close();
+    if (selected == null) return;
+    emit("ok", selected);
+    dialogEl.close();
 
-	// 最近使ったユーザー更新
-	let recents = defaultStore.state.recentlyUsedUsers;
-	recents = recents.filter(x => x !== selected.id);
-	recents.unshift(selected.id);
-	defaultStore.set("recentlyUsedUsers", recents.splice(0, 16));
+    // 最近使ったユーザー更新
+    let recents = defaultStore.state.recentlyUsedUsers;
+    recents = recents.filter(x => x !== selected.id);
+    recents.unshift(selected.id);
+    defaultStore.set("recentlyUsedUsers", recents.splice(0, 16));
 };
 
 const cancel = () => {
-	emit("cancel");
-	dialogEl.close();
+    emit("cancel");
+    dialogEl.close();
 };
 
 onMounted(() => {
-	os.api("users/show", {
-		userIds: defaultStore.state.recentlyUsedUsers,
-	}).then(users => {
-		recentUsers = users;
-	});
+    os.api("users/show", {
+        userIds: defaultStore.state.recentlyUsedUsers,
+    }).then(users => {
+        recentUsers = users;
+    });
 });
 </script>
 

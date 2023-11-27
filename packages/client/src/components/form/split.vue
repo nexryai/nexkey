@@ -1,6 +1,6 @@
 <template>
 <div class="terlnhxf _formBlock">
-	<slot></slot>
+    <slot></slot>
 </div>
 </template>
 
@@ -8,7 +8,7 @@
 const props = withDefaults(defineProps<{
 	minWidth?: number;
 }>(), {
-	minWidth: 210,
+    minWidth: 210,
 });
 
 const minWidth = props.minWidth + "px";

@@ -1,8 +1,8 @@
 <template>
 <div class="fgmtyycl" :style="{ zIndex, top: top + 'px', left: left + 'px' }">
-	<transition :name="$store.state.animation ? 'zoom' : ''" @after-leave="emit('closed')">
-		<MkUrlPreview v-if="showing" class="_popup _shadow" :url="url"/>
-	</transition>
+    <transition :name="$store.state.animation ? 'zoom' : ''" @after-leave="emit('closed')">
+        <MkUrlPreview v-if="showing" class="_popup _shadow" :url="url"/>
+    </transition>
 </div>
 </template>
 
@@ -26,12 +26,12 @@ let top = $ref(0);
 let left = $ref(0);
 
 onMounted(() => {
-	const rect = props.source.getBoundingClientRect();
-	const x = Math.max((rect.left + (props.source.offsetWidth / 2)) - (300 / 2), 6) + window.pageXOffset;
-	const y = rect.top + props.source.offsetHeight + window.pageYOffset;
+    const rect = props.source.getBoundingClientRect();
+    const x = Math.max((rect.left + (props.source.offsetWidth / 2)) - (300 / 2), 6) + window.pageXOffset;
+    const y = rect.top + props.source.offsetHeight + window.pageYOffset;
 
-	top = y;
-	left = x;
+    top = y;
+    left = x;
 });
 </script>
 

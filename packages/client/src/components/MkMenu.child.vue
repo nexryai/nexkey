@@ -1,6 +1,6 @@
 <template>
 <div ref="el" class="sfhdhdhr">
-	<MkMenu ref="menu" :items="items" :align="align" :width="width" :as-drawer="false" @close="onChildClosed"/>
+    <MkMenu ref="menu" :items="items" :align="align" :width="width" :as-drawer="false" @close="onChildClosed"/>
 </div>
 </template>
 
@@ -28,33 +28,33 @@ const el = ref<HTMLElement>();
 const align = "left";
 
 function setPosition() {
-	const rootRect = props.rootElement.getBoundingClientRect();
-	const rect = props.targetElement.getBoundingClientRect();
-	const left = props.targetElement.offsetWidth;
-	const top = (rect.top - rootRect.top) - 8;
-	el.value.style.left = left + "px";
-	el.value.style.top = top + "px";
+    const rootRect = props.rootElement.getBoundingClientRect();
+    const rect = props.targetElement.getBoundingClientRect();
+    const left = props.targetElement.offsetWidth;
+    const top = (rect.top - rootRect.top) - 8;
+    el.value.style.left = left + "px";
+    el.value.style.top = top + "px";
 }
 
 function onChildClosed(actioned?: boolean) {
-	if (actioned) {
-		emit("actioned");
-	} else {
-		emit("closed");
-	}
+    if (actioned) {
+        emit("actioned");
+    } else {
+        emit("closed");
+    }
 }
 
 onMounted(() => {
-	setPosition();
-	nextTick(() => {
-		setPosition();
-	});
+    setPosition();
+    nextTick(() => {
+        setPosition();
+    });
 });
 
 defineExpose({
-	checkHit: (ev: MouseEvent) => {
-		return (ev.target === el.value || el.value.contains(ev.target));
-	},
+    checkHit: (ev: MouseEvent) => {
+        return (ev.target === el.value || el.value.contains(ev.target));
+    },
 });
 </script>
 

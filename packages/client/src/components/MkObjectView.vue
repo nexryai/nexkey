@@ -1,6 +1,6 @@
 <template>
 <div class="zhyxdalp">
-	<XValue :value="value" :collapsed="false"/>
+    <XValue :value="value" :collapsed="false"/>
 </div>
 </template>
 

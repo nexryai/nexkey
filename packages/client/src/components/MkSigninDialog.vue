@@ -1,14 +1,14 @@
 <template>
 <XModalWindow
-	ref="dialog"
-	:width="370"
-	:height="400"
-	@close="onClose"
-	@closed="emit('closed')"
+    ref="dialog"
+    :width="370"
+    :height="400"
+    @close="onClose"
+    @closed="emit('closed')"
 >
-	<template #header>{{ i18n.ts.login }}</template>
-	<MkAnimBg style="position: absolute; top: 0; left: 0;" :scale="1.5"/>
-	<MkSignin :auto-set="autoSet" :message="message" @login="onLogin"/>
+    <template #header>{{ i18n.ts.login }}</template>
+    <MkAnimBg style="position: absolute; top: 0; left: 0;" :scale="1.5"/>
+    <MkSignin :auto-set="autoSet" :message="message" @login="onLogin"/>
 </XModalWindow>
 </template>
 
@@ -23,8 +23,8 @@ const props = withDefaults(defineProps<{
 	autoSet?: boolean;
 	message?: string,
 }>(), {
-	autoSet: false,
-	message: "",
+    autoSet: false,
+    message: "",
 });
 
 const emit = defineEmits<{
@@ -36,12 +36,12 @@ const emit = defineEmits<{
 const dialog = $ref<InstanceType<typeof XModalWindow>>();
 
 function onClose() {
-	emit("cancelled");
-	dialog.close();
+    emit("cancelled");
+    dialog.close();
 }
 
 function onLogin(res) {
-	emit("done", res);
-	dialog.close();
+    emit("done", res);
+    dialog.close();
 }
 </script>

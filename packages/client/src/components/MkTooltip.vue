@@ -1,11 +1,11 @@
 <template>
 <transition :name="$store.state.animation ? 'tooltip' : ''" appear @after-leave="emit('closed')">
-	<div v-show="showing" ref="el" class="buebdbiu _acrylic _shadow" :style="{ zIndex, maxWidth: maxWidth + 'px' }">
-		<slot>
-			<Mfm v-if="asMfm" :text="text"/>
-			<span v-else>{{ text }}</span>
-		</slot>
-	</div>
+    <div v-show="showing" ref="el" class="buebdbiu _acrylic _shadow" :style="{ zIndex, maxWidth: maxWidth + 'px' }">
+        <slot>
+            <Mfm v-if="asMfm" :text="text"/>
+            <span v-else>{{ text }}</span>
+        </slot>
+    </div>
 </transition>
 </template>
 
@@ -25,9 +25,9 @@ const props = withDefaults(defineProps<{
 	direction?: "top" | "bottom" | "right" | "left";
 	innerMargin?: number;
 }>(), {
-	maxWidth: 250,
-	direction: "top",
-	innerMargin: 0,
+    maxWidth: 250,
+    direction: "top",
+    innerMargin: 0,
 });
 
 const emit = defineEmits<{
@@ -38,39 +38,39 @@ const el = ref<HTMLElement>();
 const zIndex = os.claimZIndex("high");
 
 function setPosition() {
-	const data = calcPopupPosition(el.value, {
-		anchorElement: props.targetElement,
-		direction: props.direction,
-		align: "center",
-		innerMargin: props.innerMargin,
-		x: props.x,
-		y: props.y,
-	});
+    const data = calcPopupPosition(el.value, {
+        anchorElement: props.targetElement,
+        direction: props.direction,
+        align: "center",
+        innerMargin: props.innerMargin,
+        x: props.x,
+        y: props.y,
+    });
 
-	el.value.style.transformOrigin = data.transformOrigin;
-	el.value.style.left = data.left + "px";
-	el.value.style.top = data.top + "px";
+    el.value.style.transformOrigin = data.transformOrigin;
+    el.value.style.left = data.left + "px";
+    el.value.style.top = data.top + "px";
 }
 
 let loopHandler;
 
 onMounted(() => {
-	nextTick(() => {
-		setPosition();
+    nextTick(() => {
+        setPosition();
 
-		const loop = () => {
-			loopHandler = window.requestAnimationFrame(() => {
-				setPosition();
-				loop();
-			});
-		};
+        const loop = () => {
+            loopHandler = window.requestAnimationFrame(() => {
+                setPosition();
+                loop();
+            });
+        };
 
-		loop();
-	});
+        loop();
+    });
 });
 
 onUnmounted(() => {
-	window.cancelAnimationFrame(loopHandler);
+    window.cancelAnimationFrame(loopHandler);
 });
 </script>
 

@@ -1,56 +1,56 @@
 <template>
 <div v-if="meta" class="rsqzvsbo">
-	<div class="top">
-		<MkFeaturedPhotos class="bg"/>
-		<div class="fade"></div>
-		<div class="emojis">
-			<MkEmoji :normal="true" :no-style="true" emoji="👍"/>
-			<MkEmoji :normal="true" :no-style="true" emoji="❤"/>
-			<MkEmoji :normal="true" :no-style="true" emoji="😆"/>
-			<MkEmoji :normal="true" :no-style="true" emoji="🎉"/>
-			<MkEmoji :normal="true" :no-style="true" emoji="🍮"/>
-		</div>
-		<div class="main">
-			<img src="/client-assets/misskey.svg" class="misskey"/>
-			<div class="form _panel">
-				<div class="bg">
-					<div class="fade"></div>
-				</div>
-				<div class="fg">
-					<h1>
-						<img v-if="meta.logoImageUrl" class="logo" :src="meta.logoImageUrl"><span v-else class="text">{{ instanceName }}</span>
-					</h1>
-					<div class="about">
-						<!-- eslint-disable-next-line vue/no-v-html -->
-						<div class="desc" v-html="meta.description || $ts.headlineMisskey"></div>
-					</div>
-					<div class="action">
-						<MkButton inline gradate @click="signup()">{{ $ts.signup }}</MkButton>
-						<MkButton inline @click="signin()">{{ $ts.login }}</MkButton>
-					</div>
-					<div v-if="onlineUsersCount && stats" class="status">
-						<div>
-							<I18n :src="$ts.nUsers" text-tag="span" class="users">
-								<template #n><b>{{ number(stats.originalUsersCount) }}</b></template>
-							</I18n>
-							<I18n :src="$ts.nNotes" text-tag="span" class="notes">
-								<template #n><b>{{ number(stats.originalNotesCount) }}</b></template>
-							</I18n>
-						</div>
-						<I18n :src="$ts.onlineUsersCount" text-tag="span" class="online">
-							<template #n><b>{{ onlineUsersCount }}</b></template>
-						</I18n>
-					</div>
-					<button class="_button _acrylic menu" @click="showMenu"><i class="ti ti-dots"></i></button>
-				</div>
-			</div>
-			<nav class="nav">
-				<MkA to="/announcements">{{ $ts.announcements }}</MkA>
-				<MkA to="/explore">{{ $ts.explore }}</MkA>
-				<MkA to="/channels">{{ $ts.channel }}</MkA>
-			</nav>
-		</div>
-	</div>
+    <div class="top">
+        <MkFeaturedPhotos class="bg"/>
+        <div class="fade"></div>
+        <div class="emojis">
+            <MkEmoji :normal="true" :no-style="true" emoji="👍"/>
+            <MkEmoji :normal="true" :no-style="true" emoji="❤"/>
+            <MkEmoji :normal="true" :no-style="true" emoji="😆"/>
+            <MkEmoji :normal="true" :no-style="true" emoji="🎉"/>
+            <MkEmoji :normal="true" :no-style="true" emoji="🍮"/>
+        </div>
+        <div class="main">
+            <img src="/client-assets/misskey.svg" class="misskey"/>
+            <div class="form _panel">
+                <div class="bg">
+                    <div class="fade"></div>
+                </div>
+                <div class="fg">
+                    <h1>
+                        <img v-if="meta.logoImageUrl" class="logo" :src="meta.logoImageUrl"><span v-else class="text">{{ instanceName }}</span>
+                    </h1>
+                    <div class="about">
+                        <!-- eslint-disable-next-line vue/no-v-html -->
+                        <div class="desc" v-html="meta.description || $ts.headlineMisskey"></div>
+                    </div>
+                    <div class="action">
+                        <MkButton inline gradate @click="signup()">{{ $ts.signup }}</MkButton>
+                        <MkButton inline @click="signin()">{{ $ts.login }}</MkButton>
+                    </div>
+                    <div v-if="onlineUsersCount && stats" class="status">
+                        <div>
+                            <I18n :src="$ts.nUsers" text-tag="span" class="users">
+                                <template #n><b>{{ number(stats.originalUsersCount) }}</b></template>
+                            </I18n>
+                            <I18n :src="$ts.nNotes" text-tag="span" class="notes">
+                                <template #n><b>{{ number(stats.originalNotesCount) }}</b></template>
+                            </I18n>
+                        </div>
+                        <I18n :src="$ts.onlineUsersCount" text-tag="span" class="online">
+                            <template #n><b>{{ onlineUsersCount }}</b></template>
+                        </I18n>
+                    </div>
+                    <button class="_button _acrylic menu" @click="showMenu"><i class="ti ti-dots"></i></button>
+                </div>
+            </div>
+            <nav class="nav">
+                <MkA to="/announcements">{{ $ts.announcements }}</MkA>
+                <MkA to="/explore">{{ $ts.explore }}</MkA>
+                <MkA to="/channels">{{ $ts.channel }}</MkA>
+            </nav>
+        </div>
+    </div>
 </div>
 </template>
 
@@ -67,81 +67,81 @@ import * as os from "@/os";
 import number from "@/filters/number";
 
 export default defineComponent({
-	components: {
-		MkButton,
-		XNote,
-		MkFeaturedPhotos,
-	},
+    components: {
+        MkButton,
+        XNote,
+        MkFeaturedPhotos,
+    },
 
-	data() {
-		return {
-			host: toUnicode(host),
-			instanceName,
-			meta: null,
-			stats: null,
-			tags: [],
-			onlineUsersCount: null,
-		};
-	},
+    data() {
+        return {
+            host: toUnicode(host),
+            instanceName,
+            meta: null,
+            stats: null,
+            tags: [],
+            onlineUsersCount: null,
+        };
+    },
 
-	created() {
-		os.api("meta", { detail: true }).then(meta => {
-			this.meta = meta;
-		});
+    created() {
+        os.api("meta", { detail: true }).then(meta => {
+            this.meta = meta;
+        });
 
-		os.api("stats").then(stats => {
-			this.stats = stats;
-		});
+        os.api("stats").then(stats => {
+            this.stats = stats;
+        });
 
-		os.api("get-online-users-count").then(res => {
-			this.onlineUsersCount = res.count;
-		});
+        os.api("get-online-users-count").then(res => {
+            this.onlineUsersCount = res.count;
+        });
 
-		os.api("hashtags/list", {
-			sort: "+mentionedLocalUsers",
-			limit: 8,
-		}).then(tags => {
-			this.tags = tags;
-		});
-	},
+        os.api("hashtags/list", {
+            sort: "+mentionedLocalUsers",
+            limit: 8,
+        }).then(tags => {
+            this.tags = tags;
+        });
+    },
 
-	methods: {
-		signin() {
-			os.popup(XSigninDialog, {
-				autoSet: true,
-			}, {}, "closed");
-		},
+    methods: {
+        signin() {
+            os.popup(XSigninDialog, {
+                autoSet: true,
+            }, {}, "closed");
+        },
 
-		signup() {
-			os.popup(XSignupDialog, {
-				autoSet: true,
-			}, {}, "closed");
-		},
+        signup() {
+            os.popup(XSignupDialog, {
+                autoSet: true,
+            }, {}, "closed");
+        },
 
-		showMenu(ev) {
-			os.popupMenu([{
-				text: this.$t("aboutX", { x: instanceName }),
-				icon: "ti ti-info-circle",
-				action: () => {
-					os.pageWindow("/about");
-				},
-			}, {
-				text: this.$ts.aboutMisskey,
-				icon: "ti ti-info-circle",
-				action: () => {
-					os.pageWindow("/about-misskey");
-				},
-			}, null, {
-				text: this.$ts.help,
-				icon: "ti ti-question-circle",
-				action: () => {
-					window.open("https://misskey-hub.net/help.md", "_blank");
-				},
-			}], ev.currentTarget ?? ev.target);
-		},
+        showMenu(ev) {
+            os.popupMenu([{
+                text: this.$t("aboutX", { x: instanceName }),
+                icon: "ti ti-info-circle",
+                action: () => {
+                    os.pageWindow("/about");
+                },
+            }, {
+                text: this.$ts.aboutMisskey,
+                icon: "ti ti-info-circle",
+                action: () => {
+                    os.pageWindow("/about-misskey");
+                },
+            }, null, {
+                text: this.$ts.help,
+                icon: "ti ti-question-circle",
+                action: () => {
+                    window.open("https://misskey-hub.net/help.md", "_blank");
+                },
+            }], ev.currentTarget ?? ev.target);
+        },
 
-		number,
-	},
+        number,
+    },
 });
 </script>
 

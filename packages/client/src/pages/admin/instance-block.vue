@@ -1,19 +1,19 @@
 <template>
 <MkStickyContainer>
-	<template #header><XHeader :actions="headerActions" :tabs="headerTabs"/></template>
-	<MkSpacer v-if="streamModeEnabled">
-		<MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
-	</MkSpacer>
-	<MkSpacer v-if="!streamModeEnabled" :content-max="700" :margin-min="16" :margin-max="32">
-		<FormSuspense :p="init">
-			<FormTextarea v-model="blockedHosts" class="_formBlock">
-				<span>{{ i18n.ts.blockedInstances }}</span>
-				<template #caption>{{ i18n.ts.blockedInstancesDescription }}</template>
-			</FormTextarea>
+    <template #header><XHeader :actions="headerActions" :tabs="headerTabs"/></template>
+    <MkSpacer v-if="streamModeEnabled">
+        <MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
+    </MkSpacer>
+    <MkSpacer v-if="!streamModeEnabled" :content-max="700" :margin-min="16" :margin-max="32">
+        <FormSuspense :p="init">
+            <FormTextarea v-model="blockedHosts" class="_formBlock">
+                <span>{{ i18n.ts.blockedInstances }}</span>
+                <template #caption>{{ i18n.ts.blockedInstancesDescription }}</template>
+            </FormTextarea>
 
-			<FormButton primary class="_formBlock" @click="save"><i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}</FormButton>
-		</FormSuspense>
-	</MkSpacer>
+            <FormButton primary class="_formBlock" @click="save"><i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}</FormButton>
+        </FormSuspense>
+    </MkSpacer>
 </MkStickyContainer>
 </template>
 
@@ -35,16 +35,16 @@ const streamModeEnabled = ref(defaultStore.state.streamModeEnabled);
 let blockedHosts: string = $ref("");
 
 async function init() {
-	const meta = await os.api("admin/meta");
-	blockedHosts = meta.blockedHosts.join("\n");
+    const meta = await os.api("admin/meta");
+    blockedHosts = meta.blockedHosts.join("\n");
 }
 
 function save() {
-	os.apiWithDialog("admin/update-meta", {
-		blockedHosts: blockedHosts.split("\n") || [],
-	}).then(() => {
-		fetchInstance();
-	});
+    os.apiWithDialog("admin/update-meta", {
+        blockedHosts: blockedHosts.split("\n") || [],
+    }).then(() => {
+        fetchInstance();
+    });
 }
 
 const headerActions = $computed(() => []);
@@ -52,7 +52,7 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
 
 definePageMetadata({
-	title: i18n.ts.instanceBlocking,
-	icon: "ti ti-ban",
+    title: i18n.ts.instanceBlocking,
+    icon: "ti ti-ban",
 });
 </script>

@@ -1,8 +1,8 @@
 <template>
 <div class="fpezltsf" :class="{ warn }">
-	<i v-if="warn" class="ti ti-alert-triangle"></i>
-	<i v-else class="ti ti-info-circle"></i>
-	<slot></slot>
+    <i v-if="warn" class="ti ti-alert-triangle"></i>
+    <i v-else class="ti ti-info-circle"></i>
+    <slot></slot>
 </div>
 </template>
 

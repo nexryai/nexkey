@@ -1,11 +1,11 @@
 <template>
 <div ref="rootEl">
-	<div ref="headerEl">
-		<slot name="header"></slot>
-	</div>
-	<div ref="bodyEl" :data-sticky-container-header-height="headerHeight">
-		<slot></slot>
-	</div>
+    <div ref="headerEl">
+        <slot name="header"></slot>
+    </div>
+    <div ref="bodyEl" :data-sticky-container-header-height="headerHeight">
+        <slot></slot>
+    </div>
 </div>
 </template>
 
@@ -28,36 +28,36 @@ const parentStickyTop = inject<Ref<number>>(CURRENT_STICKY_TOP, ref(0));
 provide(CURRENT_STICKY_TOP, $$(childStickyTop));
 
 const calc = () => {
-	childStickyTop = parentStickyTop.value + headerEl.offsetHeight;
-	headerHeight = headerEl.offsetHeight.toString();
+    childStickyTop = parentStickyTop.value + headerEl.offsetHeight;
+    headerHeight = headerEl.offsetHeight.toString();
 };
 
 const observer = new ResizeObserver(() => {
-	window.setTimeout(() => {
-		calc();
-	}, 100);
+    window.setTimeout(() => {
+        calc();
+    }, 100);
 });
 
 onMounted(() => {
-	calc();
+    calc();
 
-	watch(parentStickyTop, calc);
+    watch(parentStickyTop, calc);
 
-	watch($$(childStickyTop), () => {
-		bodyEl.style.setProperty("--stickyTop", `${childStickyTop}px`);
-	}, {
-		immediate: true,
-	});
+    watch($$(childStickyTop), () => {
+        bodyEl.style.setProperty("--stickyTop", `${childStickyTop}px`);
+    }, {
+        immediate: true,
+    });
 
-	headerEl.style.position = "sticky";
-	headerEl.style.top = "var(--stickyTop, 0)";
-	headerEl.style.zIndex = "1000";
+    headerEl.style.position = "sticky";
+    headerEl.style.top = "var(--stickyTop, 0)";
+    headerEl.style.zIndex = "1000";
 
-	observer.observe(headerEl);
+    observer.observe(headerEl);
 });
 
 onUnmounted(() => {
-	observer.disconnect();
+    observer.disconnect();
 });
 </script>
 

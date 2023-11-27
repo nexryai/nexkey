@@ -1,10 +1,10 @@
 <template>
 <button class="zuvgdzyu _button" @click="menu">
-	<img :src="emoji.url" class="img" :alt="emoji.name"/>
-	<div class="body">
-		<div class="name _monospace">{{ emoji.name }}</div>
-		<div class="info">{{ emoji.aliases.join(' ') }}</div>
-	</div>
+    <img :src="emoji.url" class="img" :alt="emoji.name"/>
+    <div class="body">
+        <div class="name _monospace">{{ emoji.name }}</div>
+        <div class="info">{{ emoji.aliases.join(' ') }}</div>
+    </div>
 </button>
 </template>
 
@@ -19,17 +19,17 @@ const props = defineProps<{
 }>();
 
 function menu(ev) {
-	os.popupMenu([{
-		type: "label",
-		text: ":" + props.emoji.name + ":",
-	}, {
-		text: i18n.ts.copy,
-		icon: "ti ti-copy",
-		action: () => {
-			copyToClipboard(`:${props.emoji.name}:`);
-			os.success();
-		},
-	}], ev.currentTarget ?? ev.target);
+    os.popupMenu([{
+        type: "label",
+        text: ":" + props.emoji.name + ":",
+    }, {
+        text: i18n.ts.copy,
+        icon: "ti ti-copy",
+        action: () => {
+            copyToClipboard(`:${props.emoji.name}:`);
+            os.success();
+        },
+    }], ev.currentTarget ?? ev.target);
 }
 </script>
 

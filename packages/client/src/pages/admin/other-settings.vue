@@ -1,11 +1,11 @@
 <template>
 <MkStickyContainer>
-	<template #header><XHeader :actions="headerActions" :tabs="headerTabs"/></template>
-	<MkSpacer :content-max="700" :margin-min="16" :margin-max="32">
-		<FormSuspense :p="init">
-			none
-		</FormSuspense>
-	</MkSpacer>
+    <template #header><XHeader :actions="headerActions" :tabs="headerTabs"/></template>
+    <MkSpacer :content-max="700" :margin-min="16" :margin-max="32">
+        <FormSuspense :p="init">
+            none
+        </FormSuspense>
+    </MkSpacer>
 </MkStickyContainer>
 </template>
 
@@ -19,26 +19,26 @@ import { i18n } from "@/i18n";
 import { definePageMetadata } from "@/scripts/page-metadata";
 
 async function init() {
-	await os.api("admin/meta");
+    await os.api("admin/meta");
 }
 
 function save() {
-	os.apiWithDialog("admin/update-meta").then(() => {
-		fetchInstance();
-	});
+    os.apiWithDialog("admin/update-meta").then(() => {
+        fetchInstance();
+    });
 }
 
 const headerActions = $computed(() => [{
-	asFullButton: true,
-	icon: "ti ti-check",
-	text: i18n.ts.save,
-	handler: save,
+    asFullButton: true,
+    icon: "ti ti-check",
+    text: i18n.ts.save,
+    handler: save,
 }]);
 
 const headerTabs = $computed(() => []);
 
 definePageMetadata({
-	title: i18n.ts.other,
-	icon: "ti ti-adjustments",
+    title: i18n.ts.other,
+    icon: "ti ti-adjustments",
 });
 </script>

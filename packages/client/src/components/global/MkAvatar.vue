@@ -1,11 +1,11 @@
 <template>
 <span v-if="disableLink" v-user-preview="disablePreview ? undefined : user.id" class="eiwwqkts _noSelect" :class="{ cat: user.isCat, square: $store.state.squareAvatars }" :style="{ color }" :title="acct(user)" @click="onClick">
-	<img class="inner" :src="url" decoding="async"/>
-	<MkUserOnlineIndicator v-if="showIndicator" class="indicator" :user="user"/>
+    <img class="inner" :src="url" decoding="async"/>
+    <MkUserOnlineIndicator v-if="showIndicator" class="indicator" :user="user"/>
 </span>
 <MkA v-else v-user-preview="disablePreview ? undefined : user.id" class="eiwwqkts _noSelect" :class="{ cat: user.isCat, square: $store.state.squareAvatars }" :style="{ color }" :to="userPage(user)" :title="acct(user)" :target="target">
-	<img class="inner" :src="url" decoding="async"/>
-	<MkUserOnlineIndicator v-if="showIndicator" class="indicator" :user="user"/>
+    <img class="inner" :src="url" decoding="async"/>
+    <MkUserOnlineIndicator v-if="showIndicator" class="indicator" :user="user"/>
 </MkA>
 </template>
 
@@ -25,10 +25,10 @@ const props = withDefaults(defineProps<{
 	disablePreview?: boolean;
 	showIndicator?: boolean;
 }>(), {
-	target: null,
-	disableLink: false,
-	disablePreview: false,
-	showIndicator: false,
+    target: null,
+    disableLink: false,
+    disablePreview: false,
+    showIndicator: false,
 });
 
 const emit = defineEmits<{
@@ -36,19 +36,19 @@ const emit = defineEmits<{
 }>();
 
 const url = $computed(() => defaultStore.state.disableShowingAnimatedImages
-	? getStaticImageUrl(props.user.avatarUrl)
-	: props.user.avatarUrl);
+    ? getStaticImageUrl(props.user.avatarUrl)
+    : props.user.avatarUrl);
 
 function onClick(ev: MouseEvent) {
-	emit("click", ev);
+    emit("click", ev);
 }
 
 let color = $ref();
 
 watch(() => props.user.avatarBlurhash, () => {
-	color = extractAvgColorFromBlurhash(props.user.avatarBlurhash);
+    color = extractAvgColorFromBlurhash(props.user.avatarBlurhash);
 }, {
-	immediate: true,
+    immediate: true,
 });
 </script>
 

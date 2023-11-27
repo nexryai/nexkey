@@ -1,7 +1,7 @@
 <template>
 <div class="_formRoot">
-	<FormSwitch v-model="enableLTL" class="_formBlock">{{ i18n.ts.enableLocalTimeline }}</FormSwitch>
-	<FormSwitch v-model="enableGTL" class="_formBlock">{{ i18n.ts.enableGlobalTimeline }}</FormSwitch>
+    <FormSwitch v-model="enableLTL" class="_formBlock">{{ i18n.ts.enableLocalTimeline }}</FormSwitch>
+    <FormSwitch v-model="enableGTL" class="_formBlock">{{ i18n.ts.enableGlobalTimeline }}</FormSwitch>
 </div>
 </template>
 
@@ -24,7 +24,7 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
 
 definePageMetadata({
-	title: i18n.ts.timeline,
-	icon: "ti ti-list",
+    title: i18n.ts.timeline,
+    icon: "ti ti-list",
 });
 </script>

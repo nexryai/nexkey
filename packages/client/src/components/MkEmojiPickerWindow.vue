@@ -1,14 +1,14 @@
 <template>
 <MkWindow
-	ref="window"
-	:initial-width="null"
-	:initial-height="null"
-	:can-resize="false"
-	:mini="true"
-	:front="true"
-	@closed="emit('closed')"
+    ref="window"
+    :initial-width="null"
+    :initial-height="null"
+    :can-resize="false"
+    :mini="true"
+    :front="true"
+    @closed="emit('closed')"
 >
-	<MkEmojiPicker :show-pinned="showPinned" :as-reaction-picker="asReactionPicker" @chosen="chosen"/>
+    <MkEmojiPicker :show-pinned="showPinned" :as-reaction-picker="asReactionPicker" @chosen="chosen"/>
 </MkWindow>
 </template>
 
@@ -22,7 +22,7 @@ withDefaults(defineProps<{
 	showPinned?: boolean;
 	asReactionPicker?: boolean;
 }>(), {
-	showPinned: true,
+    showPinned: true,
 });
 
 const emit = defineEmits<{
@@ -31,7 +31,7 @@ const emit = defineEmits<{
 }>();
 
 function chosen(emoji: any) {
-	emit("chosen", emoji);
+    emit("chosen", emoji);
 }
 </script>
 

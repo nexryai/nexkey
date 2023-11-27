@@ -1,42 +1,42 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
 <div class="rwqkcmrc" :style="{ backgroundImage: transparent ? 'none' : `url(${ $instance.backgroundImageUrl })` }">
-	<div class="back" :class="{ transparent }"></div>
-	<div class="contents">
-		<div class="wrapper">
-			<h1 v-if="meta" :class="{ full }">
-				<MkA to="/" class="link"><img v-if="meta.logoImageUrl" class="logo" :src="meta.logoImageUrl" alt="logo"><span v-else class="text">{{ instanceName }}</span></MkA>
-			</h1>
-			<template v-if="full">
-				<div v-if="meta" class="about">
-					<div class="desc" v-html="meta.description || $ts.introMisskey"></div>
-				</div>
-				<div class="action">
-					<button class="_buttonPrimary" @click="signup()">{{ $ts.signup }}</button>
-					<button class="_button" @click="signin()">{{ $ts.login }}</button>
-				</div>
-				<div class="announcements panel">
-					<header>{{ $ts.announcements }}</header>
-					<MkPagination v-slot="{items}" :pagination="announcements" class="list">
-						<section v-for="announcement in items" :key="announcement.id" class="item">
-							<div class="title">{{ announcement.title }}</div>
-							<div class="content">
-								<Mfm :text="announcement.text"/>
-								<img v-if="announcement.imageUrl" :src="announcement.imageUrl" alt="announcement image"/>
-							</div>
-							<div class="footer">
-								<div><i class="far fa-clock"></i> {{ $ts.createdAt }}: <MkTime :time="announcement.createdAt" mode="detail"/></div>
-							</div>
-						</section>
-					</MkPagination>
-				</div>
-				<div v-if="poweredBy" class="powered-by">
-					<b><MkA to="/">{{ host }}</MkA></b>
-					<small>Powered by <a href="https://github.com/nexryai/nexkey/" target="_blank">Nexkey</a></small>
-				</div>
-			</template>
-		</div>
-	</div>
+    <div class="back" :class="{ transparent }"></div>
+    <div class="contents">
+        <div class="wrapper">
+            <h1 v-if="meta" :class="{ full }">
+                <MkA to="/" class="link"><img v-if="meta.logoImageUrl" class="logo" :src="meta.logoImageUrl" alt="logo"><span v-else class="text">{{ instanceName }}</span></MkA>
+            </h1>
+            <template v-if="full">
+                <div v-if="meta" class="about">
+                    <div class="desc" v-html="meta.description || $ts.introMisskey"></div>
+                </div>
+                <div class="action">
+                    <button class="_buttonPrimary" @click="signup()">{{ $ts.signup }}</button>
+                    <button class="_button" @click="signin()">{{ $ts.login }}</button>
+                </div>
+                <div class="announcements panel">
+                    <header>{{ $ts.announcements }}</header>
+                    <MkPagination v-slot="{items}" :pagination="announcements" class="list">
+                        <section v-for="announcement in items" :key="announcement.id" class="item">
+                            <div class="title">{{ announcement.title }}</div>
+                            <div class="content">
+                                <Mfm :text="announcement.text"/>
+                                <img v-if="announcement.imageUrl" :src="announcement.imageUrl" alt="announcement image"/>
+                            </div>
+                            <div class="footer">
+                                <div><i class="far fa-clock"></i> {{ $ts.createdAt }}: <MkTime :time="announcement.createdAt" mode="detail"/></div>
+                            </div>
+                        </section>
+                    </MkPagination>
+                </div>
+                <div v-if="poweredBy" class="powered-by">
+                    <b><MkA to="/">{{ host }}</MkA></b>
+                    <small>Powered by <a href="https://github.com/nexryai/nexkey/" target="_blank">Nexkey</a></small>
+                </div>
+            </template>
+        </div>
+    </div>
 </div>
 </template>
 
@@ -50,62 +50,62 @@ import XSignupDialog from "@/components/MkSignupDialog.vue";
 import MkButton from "@/components/MkButton.vue";
 
 export default defineComponent({
-	components: {
-		MkPagination,
-		MkButton,
-	},
+    components: {
+        MkPagination,
+        MkButton,
+    },
 
-	props: {
-		full: {
-			type: Boolean,
-			required: false,
-			default: false,
-		},
-		transparent: {
-			type: Boolean,
-			required: false,
-			default: false,
-		},
-		poweredBy: {
-			type: Boolean,
-			required: false,
-			default: false,
-		},
-	},
+    props: {
+        full: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+        transparent: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+        poweredBy: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+    },
 
-	data() {
-		return {
-			host,
-			instanceName,
-			pageInfo: null,
-			meta: null,
-			narrow: window.innerWidth < 1280,
-			announcements: {
-				endpoint: "announcements",
-				limit: 10,
-			},
-		};
-	},
+    data() {
+        return {
+            host,
+            instanceName,
+            pageInfo: null,
+            meta: null,
+            narrow: window.innerWidth < 1280,
+            announcements: {
+                endpoint: "announcements",
+                limit: 10,
+            },
+        };
+    },
 
-	created() {
-		os.api("meta", { detail: true }).then(meta => {
-			this.meta = meta;
-		});
-	},
+    created() {
+        os.api("meta", { detail: true }).then(meta => {
+            this.meta = meta;
+        });
+    },
 
-	methods: {
-		signin() {
-			os.popup(XSigninDialog, {
-				autoSet: true,
-			}, {}, "closed");
-		},
+    methods: {
+        signin() {
+            os.popup(XSigninDialog, {
+                autoSet: true,
+            }, {}, "closed");
+        },
 
-		signup() {
-			os.popup(XSignupDialog, {
-				autoSet: true,
-			}, {}, "closed");
-		},
-	},
+        signup() {
+            os.popup(XSignupDialog, {
+                autoSet: true,
+            }, {}, "closed");
+        },
+    },
 });
 </script>
 

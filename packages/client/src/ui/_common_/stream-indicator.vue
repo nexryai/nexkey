@@ -1,10 +1,10 @@
 <template>
 <div v-if="hasDisconnected && $store.state.serverDisconnectedBehavior === 'quiet'" class="nsbbhtug _panel _shadow" @click="resetDisconnected">
-	<div><i class="ti ti-alert-triangle"></i> {{ i18n.ts.disconnectedFromServer }}</div>
-	<div class="command _buttons">
-		<MkButton class="commandButton" small primary @click="reload">{{ i18n.ts.reload }}</MkButton>
-		<MkButton class="commandButton" small>{{ i18n.ts.doNothing }}</MkButton>
-	</div>
+    <div><i class="ti ti-alert-triangle"></i> {{ i18n.ts.disconnectedFromServer }}</div>
+    <div class="command _buttons">
+        <MkButton class="commandButton" small primary @click="reload">{{ i18n.ts.reload }}</MkButton>
+        <MkButton class="commandButton" small>{{ i18n.ts.doNothing }}</MkButton>
+    </div>
 </div>
 </template>
 
@@ -19,22 +19,22 @@ const zIndex = os.claimZIndex("high");
 let hasDisconnected = $ref(false);
 
 function onDisconnected() {
-	if (isReloading) return;
-	hasDisconnected = true;
+    if (isReloading) return;
+    hasDisconnected = true;
 }
 
 function resetDisconnected() {
-	hasDisconnected = false;
+    hasDisconnected = false;
 }
 
 function reload() {
-	location.reload();
+    location.reload();
 }
 
 stream.on("_disconnected_", onDisconnected);
 
 onUnmounted(() => {
-	stream.off("_disconnected_", onDisconnected);
+    stream.off("_disconnected_", onDisconnected);
 });
 </script>
 

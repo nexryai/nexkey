@@ -1,19 +1,19 @@
 <template>
 <MkContainer :show-header="widgetProps.showHeader" class="mkw-trends">
-	<template #header><i class="ti ti-hash"></i>{{ i18n.ts._widgets.trends }}</template>
+    <template #header><i class="ti ti-hash"></i>{{ i18n.ts._widgets.trends }}</template>
 
-	<div class="wbrkwala">
-		<MkLoading v-if="fetching"/>
-		<transition-group v-else tag="div" :name="$store.state.animation ? 'chart' : ''" class="tags">
-			<div v-for="stat in stats" :key="stat.tag">
-				<div class="tag">
-					<MkA class="a" :to="`/tags/${ encodeURIComponent(stat.tag) }`" :title="stat.tag">#{{ stat.tag }}</MkA>
-					<p>{{ $t('nUsersMentioned', { n: stat.usersCount }) }}</p>
-				</div>
-				<MkMiniChart class="chart" :src="stat.chart"/>
-			</div>
-		</transition-group>
-	</div>
+    <div class="wbrkwala">
+        <MkLoading v-if="fetching"/>
+        <transition-group v-else tag="div" :name="$store.state.animation ? 'chart' : ''" class="tags">
+            <div v-for="stat in stats" :key="stat.tag">
+                <div class="tag">
+                    <MkA class="a" :to="`/tags/${ encodeURIComponent(stat.tag) }`" :title="stat.tag">#{{ stat.tag }}</MkA>
+                    <p>{{ $t('nUsersMentioned', { n: stat.usersCount }) }}</p>
+                </div>
+                <MkMiniChart class="chart" :src="stat.chart"/>
+            </div>
+        </transition-group>
+    </div>
 </MkContainer>
 </template>
 
@@ -30,10 +30,10 @@ import { i18n } from "@/i18n";
 const name = "hashtags";
 
 const widgetPropsDef = {
-	showHeader: {
-		type: "boolean" as const,
-		default: true,
-	},
+    showHeader: {
+        type: "boolean" as const,
+        default: true,
+    },
 };
 
 type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
@@ -45,30 +45,30 @@ const props = defineProps<{ widget?: Widget<WidgetProps>; }>();
 const emit = defineEmits<{ (ev: "updateProps", props: WidgetProps); }>();
 
 const { widgetProps, configure } = useWidgetPropsManager(name,
-	widgetPropsDef,
-	props,
-	emit,
+    widgetPropsDef,
+    props,
+    emit,
 );
 
 const stats = ref([]);
 const fetching = ref(true);
 
 const fetch = () => {
-	os.api("hashtags/trend").then(res => {
-		stats.value = res;
-		fetching.value = false;
-	});
+    os.api("hashtags/trend").then(res => {
+        stats.value = res;
+        fetching.value = false;
+    });
 };
 
 useInterval(fetch, 1000 * 60, {
-	immediate: true,
-	afterMounted: true,
+    immediate: true,
+    afterMounted: true,
 });
 
 defineExpose<WidgetComponentExpose>({
-	name,
-	configure,
-	id: props.widget ? props.widget.id : null,
+    name,
+    configure,
+    id: props.widget ? props.widget.id : null,
 });
 </script>
 

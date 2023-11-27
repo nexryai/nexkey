@@ -1,23 +1,23 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
-	<MkSpacer :content-max="800">
-		<XPostForm
-			v-if="state === 'writing'"
-			fixed
-			:instant="true"
-			:initial-text="initialText"
-			:initial-visibility="visibility"
-			:initial-files="files"
-			:initial-local-only="localOnly"
-			:reply="reply"
-			:renote="renote"
-			:initial-visible-users="visibleUsers"
-			class="_panel"
-			@posted="state = 'posted'"
-		/>
-		<MkButton v-else-if="state === 'posted'" primary class="close" @click="close()">{{ i18n.ts.close }}</MkButton>
-	</MkSpacer>
+    <template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+    <MkSpacer :content-max="800">
+        <XPostForm
+            v-if="state === 'writing'"
+            fixed
+            :instant="true"
+            :initial-text="initialText"
+            :initial-visibility="visibility"
+            :initial-files="files"
+            :initial-local-only="localOnly"
+            :reply="reply"
+            :renote="renote"
+            :initial-visible-users="visibleUsers"
+            class="_panel"
+            @posted="state = 'posted'"
+        />
+        <MkButton v-else-if="state === 'posted'" primary class="close" @click="close()">{{ i18n.ts.close }}</MkButton>
+    </MkSpacer>
 </MkStickyContainer>
 </template>
 
@@ -52,104 +52,104 @@ let files = $ref([] as Misskey.entities.DriveFile[]);
 let visibleUsers = $ref([] as Misskey.entities.User[]);
 
 async function init() {
-	let noteText = "";
-	if (title) noteText += `[ ${title} ]\n`;
-	// Googleニュース対策
-	if (text?.startsWith(`${title}.\n`)) noteText += text.replace(`${title}.\n`, "");
-	else if (text && title !== text) noteText += `${text}\n`;
-	if (url) noteText += `${url}`;
-	initialText = noteText.trim();
+    let noteText = "";
+    if (title) noteText += `[ ${title} ]\n`;
+    // Googleニュース対策
+    if (text?.startsWith(`${title}.\n`)) noteText += text.replace(`${title}.\n`, "");
+    else if (text && title !== text) noteText += `${text}\n`;
+    if (url) noteText += `${url}`;
+    initialText = noteText.trim();
 
-	if (visibility === "specified") {
-		const visibleUserIds = urlParams.get("visibleUserIds");
-		const visibleAccts = urlParams.get("visibleAccts");
-		await Promise.all(
-			[
-				...(visibleUserIds ? visibleUserIds.split(",").map(userId => ({ userId })) : []),
-				...(visibleAccts ? visibleAccts.split(",").map(Acct.parse) : []),
-			]
+    if (visibility === "specified") {
+        const visibleUserIds = urlParams.get("visibleUserIds");
+        const visibleAccts = urlParams.get("visibleAccts");
+        await Promise.all(
+            [
+                ...(visibleUserIds ? visibleUserIds.split(",").map(userId => ({ userId })) : []),
+                ...(visibleAccts ? visibleAccts.split(",").map(Acct.parse) : []),
+            ]
 			// TypeScriptの指示通りに変換する
 			.map(q => "username" in q ? { username: q.username, host: q.host === null ? undefined : q.host } : q)
 			.map(q => os.api("users/show", q)
 				.then(user => {
-					visibleUsers.push(user);
+				    visibleUsers.push(user);
 				}, () => {
-					console.error(`Invalid user query: ${JSON.stringify(q)}`);
+				    console.error(`Invalid user query: ${JSON.stringify(q)}`);
 				}),
 			),
-		);
-	}
+        );
+    }
 
-	try {
-		//#region Reply
-		const replyId = urlParams.get("replyId");
-		const replyUri = urlParams.get("replyUri");
-		if (replyId) {
-			reply = await os.api("notes/show", {
-				noteId: replyId,
-			});
-		} else if (replyUri) {
-			const obj = await os.api("ap/show", {
-				uri: replyUri,
-			});
-			if (obj.type === "Note") {
-				reply = obj.object;
-			}
-		}
-		//#endregion
+    try {
+        //#region Reply
+        const replyId = urlParams.get("replyId");
+        const replyUri = urlParams.get("replyUri");
+        if (replyId) {
+            reply = await os.api("notes/show", {
+                noteId: replyId,
+            });
+        } else if (replyUri) {
+            const obj = await os.api("ap/show", {
+                uri: replyUri,
+            });
+            if (obj.type === "Note") {
+                reply = obj.object;
+            }
+        }
+        //#endregion
 
-		//#region Renote
-		const renoteId = urlParams.get("renoteId");
-		const renoteUri = urlParams.get("renoteUri");
-		if (renoteId) {
-			renote = await os.api("notes/show", {
-				noteId: renoteId,
-			});
-		} else if (renoteUri) {
-			const obj = await os.api("ap/show", {
-				uri: renoteUri,
-			});
-			if (obj.type === "Note") {
-				renote = obj.object;
-			}
-		}
-		//#endregion
+        //#region Renote
+        const renoteId = urlParams.get("renoteId");
+        const renoteUri = urlParams.get("renoteUri");
+        if (renoteId) {
+            renote = await os.api("notes/show", {
+                noteId: renoteId,
+            });
+        } else if (renoteUri) {
+            const obj = await os.api("ap/show", {
+                uri: renoteUri,
+            });
+            if (obj.type === "Note") {
+                renote = obj.object;
+            }
+        }
+        //#endregion
 
-		//#region Drive files
-		const fileIds = urlParams.get("fileIds");
-		if (fileIds) {
-			await Promise.all(
-				fileIds.split(",")
+        //#region Drive files
+        const fileIds = urlParams.get("fileIds");
+        if (fileIds) {
+            await Promise.all(
+                fileIds.split(",")
 				.map(fileId => os.api("drive/files/show", { fileId })
 					.then(file => {
-						files.push(file);
+					    files.push(file);
 					}, () => {
-						console.error(`Failed to fetch a file ${fileId}`);
+					    console.error(`Failed to fetch a file ${fileId}`);
 					}),
 				),
-			);
-		}
-		//#endregion
-	} catch (err) {
-		os.alert({
-			type: "error",
-			title: err.message,
-			text: err.name,
-		});
-	}
+            );
+        }
+        //#endregion
+    } catch (err) {
+        os.alert({
+            type: "error",
+            title: err.message,
+            text: err.name,
+        });
+    }
 
-	state = "writing";
+    state = "writing";
 }
 
 init();
 
 function close(): void {
-	window.close();
+    window.close();
 
-	// 閉じなければ100ms後タイムラインに
-	window.setTimeout(() => {
-		mainRouter.push("/");
-	}, 100);
+    // 閉じなければ100ms後タイムラインに
+    window.setTimeout(() => {
+        mainRouter.push("/");
+    }, 100);
 }
 
 const headerActions = $computed(() => []);
@@ -157,8 +157,8 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
 
 definePageMetadata({
-	title: i18n.ts.share,
-	icon: "ti ti-share",
+    title: i18n.ts.share,
+    icon: "ti ti-share",
 });
 </script>
 

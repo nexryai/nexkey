@@ -23,22 +23,22 @@ import { Hpml } from "@/scripts/hpml/evaluator";
 import { Block } from "@/scripts/hpml/block";
 
 export default defineComponent({
-	components: {
-		XText, XSection, XImage, XButton, XNumberInput, XTextInput, XTextareaInput, XTextarea, XPost, XSwitch, XIf, XCounter, XRadioButton, XCanvas, XNote,
-	},
-	props: {
-		block: {
-			type: Object as PropType<Block>,
-			required: true,
-		},
-		hpml: {
-			type: Object as PropType<Hpml>,
-			required: true,
-		},
-		h: {
-			type: Number,
-			required: true,
-		},
-	},
+    components: {
+        XText, XSection, XImage, XButton, XNumberInput, XTextInput, XTextareaInput, XTextarea, XPost, XSwitch, XIf, XCounter, XRadioButton, XCanvas, XNote,
+    },
+    props: {
+        block: {
+            type: Object as PropType<Block>,
+            required: true,
+        },
+        hpml: {
+            type: Object as PropType<Hpml>,
+            required: true,
+        },
+        h: {
+            type: Number,
+            required: true,
+        },
+    },
 });
 </script>

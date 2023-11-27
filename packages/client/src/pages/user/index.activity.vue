@@ -1,15 +1,15 @@
 <template>
 <MkContainer>
-	<template #header><i class="ti ti-chart-line" style="margin-right: 0.5em;"></i>{{ $ts.activity }}</template>
-	<template #func>
-		<button class="_button" @click="showMenu">
-			<i class="ti ti-dots"></i>
-		</button>
-	</template>
+    <template #header><i class="ti ti-chart-line" style="margin-right: 0.5em;"></i>{{ $ts.activity }}</template>
+    <template #func>
+        <button class="_button" @click="showMenu">
+            <i class="ti ti-dots"></i>
+        </button>
+    </template>
 
-	<div style="padding: 8px;">
-		<MkChart :src="chartSrc" :args="{ user, withoutAll: true }" span="day" :limit="limit" :bar="true" :stacked="true" :detailed="false" :aspect-ratio="5"/>
-	</div>
+    <div style="padding: 8px;">
+        <MkChart :src="chartSrc" :args="{ user, withoutAll: true }" span="day" :limit="limit" :bar="true" :stacked="true" :detailed="false" :aspect-ratio="5"/>
+    </div>
 </MkContainer>
 </template>
 
@@ -25,19 +25,19 @@ const props = withDefaults(defineProps<{
 	user: misskey.entities.User;
 	limit?: number;
 }>(), {
-	limit: 50,
+    limit: 50,
 });
 
 let chartSrc = $ref("per-user-notes");
 
 function showMenu(ev: MouseEvent) {
-	os.popupMenu([{
-		text: i18n.ts.notes,
-		active: true,
-		action: () => {
-			chartSrc = "per-user-notes";
-		},
-	},/*, {
+    os.popupMenu([{
+        text: i18n.ts.notes,
+        active: true,
+        action: () => {
+            chartSrc = "per-user-notes";
+        },
+    },/*, {
 		text: i18n.ts.following,
 		action: () => {
 			chartSrc = 'per-user-following';

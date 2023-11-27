@@ -1,9 +1,9 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
-	<MkSpacer :content-max="800">
-		<XNotes ref="notes" :pagination="pagination"/>
-	</MkSpacer>
+    <template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+    <MkSpacer :content-max="800">
+        <XNotes ref="notes" :pagination="pagination"/>
+    </MkSpacer>
 </MkStickyContainer>
 </template>
 
@@ -19,12 +19,12 @@ const props = defineProps<{
 }>();
 
 const pagination = {
-	endpoint: "notes/search" as const,
-	limit: 10,
-	params: computed(() => ({
-		query: props.query,
-		channelId: props.channel,
-	})),
+    endpoint: "notes/search" as const,
+    limit: 10,
+    params: computed(() => ({
+        query: props.query,
+        channelId: props.channel,
+    })),
 };
 
 const headerActions = $computed(() => []);
@@ -32,7 +32,7 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
 
 definePageMetadata(computed(() => ({
-	title: i18n.t("searchWith", { q: props.query }),
-	icon: "ti ti-search",
+    title: i18n.t("searchWith", { q: props.query }),
+    icon: "ti ti-search",
 })));
 </script>

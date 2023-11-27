@@ -1,8 +1,8 @@
 <template>
 <XColumn :column="column" :is-stacked="isStacked" :menu="menu" @parent-focus="$event => emit('parent-focus', $event)">
-	<template #header><i class="ti ti-bell" style="margin-right: 8px;"></i>{{ column.name }}</template>
+    <template #header><i class="ti ti-bell" style="margin-right: 8px;"></i>{{ column.name }}</template>
 
-	<XNotifications :include-types="column.includingTypes"/>
+    <XNotifications :include-types="column.includingTypes"/>
 </XColumn>
 </template>
 
@@ -24,21 +24,21 @@ const emit = defineEmits<{
 }>();
 
 function func() {
-	os.popup(defineAsyncComponent(() => import("@/components/MkNotificationSettingWindow.vue")), {
-		includingTypes: props.column.includingTypes,
-	}, {
-		done: async (res) => {
-			const { includingTypes } = res;
-			updateColumn(props.column.id, {
-				includingTypes: includingTypes,
-			});
-		},
-	}, "closed");
+    os.popup(defineAsyncComponent(() => import("@/components/MkNotificationSettingWindow.vue")), {
+        includingTypes: props.column.includingTypes,
+    }, {
+        done: async (res) => {
+            const { includingTypes } = res;
+            updateColumn(props.column.id, {
+                includingTypes: includingTypes,
+            });
+        },
+    }, "closed");
 }
 
 const menu = [{
-	icon: "ti ti-pencil",
-	text: i18n.ts.notificationSetting,
-	action: func,
+    icon: "ti ti-pencil",
+    text: i18n.ts.notificationSetting,
+    action: func,
 }];
 </script>

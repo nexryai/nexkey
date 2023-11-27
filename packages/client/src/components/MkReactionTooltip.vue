@@ -1,9 +1,9 @@
 <template>
 <MkTooltip ref="tooltip" :target-element="targetElement" :max-width="340" @closed="emit('closed')">
-	<div class="beeadbfb">
-		<XReactionIcon :reaction="reaction" :custom-emojis="emojis" class="icon" :no-style="true"/>
-		<div class="name">{{ reaction.replace('@.', '') }}</div>
-	</div>
+    <div class="beeadbfb">
+        <XReactionIcon :reaction="reaction" :custom-emojis="emojis" class="icon" :no-style="true"/>
+        <div class="name">{{ reaction.replace('@.', '') }}</div>
+    </div>
 </MkTooltip>
 </template>
 

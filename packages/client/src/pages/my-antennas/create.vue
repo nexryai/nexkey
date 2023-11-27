@@ -1,6 +1,6 @@
 <template>
 <div class="geegznzt">
-	<XAntenna :antenna="draft" @created="onAntennaCreated"/>
+    <XAntenna :antenna="draft" @created="onAntennaCreated"/>
 </div>
 </template>
 
@@ -14,21 +14,21 @@ import { useRouter } from "@/router";
 const router = useRouter();
 
 let draft = $ref({
-	name: "",
-	src: "all",
-	userListId: null,
-	userGroupId: null,
-	users: [],
-	keywords: [],
-	excludeKeywords: [],
-	withReplies: false,
-	caseSensitive: false,
-	withFile: false,
-	notify: false,
+    name: "",
+    src: "all",
+    userListId: null,
+    userGroupId: null,
+    users: [],
+    keywords: [],
+    excludeKeywords: [],
+    withReplies: false,
+    caseSensitive: false,
+    withFile: false,
+    notify: false,
 });
 
 function onAntennaCreated() {
-	router.push("/my/antennas");
+    router.push("/my/antennas");
 }
 
 const headerActions = $computed(() => []);
@@ -36,8 +36,8 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
 
 definePageMetadata({
-	title: i18n.ts.manageAntennas,
-	icon: "ti ti-antenna",
+    title: i18n.ts.manageAntennas,
+    icon: "ti ti-antenna",
 });
 </script>
 

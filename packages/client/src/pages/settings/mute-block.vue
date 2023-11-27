@@ -1,86 +1,86 @@
 <template>
 <div v-if="streamModeEnabled">
-	<MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
+    <MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
 </div>
 <div v-if="!streamModeEnabled" class="_formRoot">
-	<FormSection>
-		<template #label>{{ i18n.ts.wordMute }}</template>
-		<MkTab v-model="wordsTab" class="_formBlock">
-			<option value="soft">{{ i18n.ts._wordMute.soft }}</option>
-			<option value="hard">{{ i18n.ts._wordMute.hard }}</option>
-		</MkTab>
-		<div class="_formBlock">
-			<div v-show="wordsTab === 'soft'">
-				<MkInfo class="_formBlock">{{ i18n.ts._wordMute.softDescription }}</MkInfo>
-				<FormTextarea v-model="softMutedWords" class="_formBlock">
-					<span>{{ i18n.ts._wordMute.muteWords }}</span>
-					<template #caption>{{ i18n.ts._wordMute.muteWordsDescription }}<br>{{ i18n.ts._wordMute.muteWordsDescription2 }}</template>
-				</FormTextarea>
-			</div>
-			<div v-show="wordsTab === 'hard'">
-				<MkInfo warn class="_formBlock">{{ i18n.ts._wordMute.hardDescription }} {{ i18n.ts.reflectMayTakeTime }}</MkInfo>
-				<FormTextarea v-model="hardMutedWords" class="_formBlock">
-					<span>{{ i18n.ts._wordMute.muteWords }}</span>
-					<template #caption>{{ i18n.ts._wordMute.muteWordsDescription }}<br>{{ i18n.ts._wordMute.muteWordsDescription2 }}</template>
-				</FormTextarea>
-				<MkKeyValue v-if="hardWordMutedNotesCount != null" class="_formBlock">
-					<template #key>{{ i18n.ts._wordMute.mutedNotes }}</template>
-					<template #value>{{ number(hardWordMutedNotesCount) }}</template>
-				</MkKeyValue>
-			</div>
-		</div>
-		<MkButton primary inline :disabled="!mutedWordsChanged" @click="saveMutedWords()"><i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}</MkButton>
-		<FormSwitch v-model="showMessageOnMuted" class="_formBlock">{{ i18n.ts.showMessageOnMuted }}</FormSwitch>
-	</FormSection>
+    <FormSection>
+        <template #label>{{ i18n.ts.wordMute }}</template>
+        <MkTab v-model="wordsTab" class="_formBlock">
+            <option value="soft">{{ i18n.ts._wordMute.soft }}</option>
+            <option value="hard">{{ i18n.ts._wordMute.hard }}</option>
+        </MkTab>
+        <div class="_formBlock">
+            <div v-show="wordsTab === 'soft'">
+                <MkInfo class="_formBlock">{{ i18n.ts._wordMute.softDescription }}</MkInfo>
+                <FormTextarea v-model="softMutedWords" class="_formBlock">
+                    <span>{{ i18n.ts._wordMute.muteWords }}</span>
+                    <template #caption>{{ i18n.ts._wordMute.muteWordsDescription }}<br>{{ i18n.ts._wordMute.muteWordsDescription2 }}</template>
+                </FormTextarea>
+            </div>
+            <div v-show="wordsTab === 'hard'">
+                <MkInfo warn class="_formBlock">{{ i18n.ts._wordMute.hardDescription }} {{ i18n.ts.reflectMayTakeTime }}</MkInfo>
+                <FormTextarea v-model="hardMutedWords" class="_formBlock">
+                    <span>{{ i18n.ts._wordMute.muteWords }}</span>
+                    <template #caption>{{ i18n.ts._wordMute.muteWordsDescription }}<br>{{ i18n.ts._wordMute.muteWordsDescription2 }}</template>
+                </FormTextarea>
+                <MkKeyValue v-if="hardWordMutedNotesCount != null" class="_formBlock">
+                    <template #key>{{ i18n.ts._wordMute.mutedNotes }}</template>
+                    <template #value>{{ number(hardWordMutedNotesCount) }}</template>
+                </MkKeyValue>
+            </div>
+        </div>
+        <MkButton primary inline :disabled="!mutedWordsChanged" @click="saveMutedWords()"><i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}</MkButton>
+        <FormSwitch v-model="showMessageOnMuted" class="_formBlock">{{ i18n.ts.showMessageOnMuted }}</FormSwitch>
+    </FormSection>
 
-	<FormSection>
-		<template #label>{{ i18n.ts.reactionMute }}</template>
-		<FormTextarea v-model="mutedReactions" class="_formBlock">
-			<template #label>{{ i18n.ts._reactionMute.heading }}</template>
-			<template #caption>{{ i18n.ts._reactionMute.reactionMuteDescription }}</template>
-		</FormTextarea>
-		<MkButton primary :disabled="!mutedReactionsChanged" class="_formBlock" @click="saveMutedReactions()"><i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}</MkButton>
-	</FormSection>
+    <FormSection>
+        <template #label>{{ i18n.ts.reactionMute }}</template>
+        <FormTextarea v-model="mutedReactions" class="_formBlock">
+            <template #label>{{ i18n.ts._reactionMute.heading }}</template>
+            <template #caption>{{ i18n.ts._reactionMute.reactionMuteDescription }}</template>
+        </FormTextarea>
+        <MkButton primary :disabled="!mutedReactionsChanged" class="_formBlock" @click="saveMutedReactions()"><i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}</MkButton>
+    </FormSection>
 
-	<FormSection>
-		<template #label>{{ i18n.ts.instanceMute }}</template>
-		<FormTextarea v-model="instanceMutes" class="_formBlock">
-			<template #label>{{ i18n.ts._instanceMute.heading }}</template>
-			<template #caption>{{ i18n.ts._instanceMute.instanceMuteDescription }}<br>{{ i18n.ts._instanceMute.instanceMuteDescription2 }}</template>
-		</FormTextarea>
-		<MkButton primary :disabled="!mutedInstanceChanged" class="_formBlock" @click="saveMutedInstance()"><i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}</MkButton>
-	</FormSection>
+    <FormSection>
+        <template #label>{{ i18n.ts.instanceMute }}</template>
+        <FormTextarea v-model="instanceMutes" class="_formBlock">
+            <template #label>{{ i18n.ts._instanceMute.heading }}</template>
+            <template #caption>{{ i18n.ts._instanceMute.instanceMuteDescription }}<br>{{ i18n.ts._instanceMute.instanceMuteDescription2 }}</template>
+        </FormTextarea>
+        <MkButton primary :disabled="!mutedInstanceChanged" class="_formBlock" @click="saveMutedInstance()"><i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}</MkButton>
+    </FormSection>
 
-	<FormSection>
-		<template #label>{{ i18n.ts.users }}</template>
-		<MkTab v-model="usersTab" style="margin-bottom: var(--margin);">
-			<option value="mute">{{ i18n.ts.mutedUsers }}</option>
-			<option value="block">{{ i18n.ts.blockedUsers }}</option>
-		</MkTab>
-		<div v-if="usersTab === 'mute'">
-			<MkPagination :pagination="mutingPagination" class="muting">
-				<template #empty><FormInfo>{{ i18n.ts.noUsers }}</FormInfo></template>
-				<template #default="{items}">
-					<FormLink v-for="mute in items" :key="mute.id" :to="userPage(mute.mutee)">
-						<MkAcct :user="mute.mutee"/>
-						<div v-if="mute.expiresAt" class="clock-container">
-							<i class="fas fa-hourglass"></i><MkTime :time="mute.expiresAt" mode="detail"/>
-						</div>
-					</FormLink>
-				</template>
-			</MkPagination>
-		</div>
-		<div v-if="usersTab === 'block'">
-			<MkPagination :pagination="blockingPagination" class="blocking">
-				<template #empty><FormInfo>{{ i18n.ts.noUsers }}</FormInfo></template>
-				<template #default="{items}">
-					<FormLink v-for="block in items" :key="block.id" :to="userPage(block.blockee)">
-						<MkAcct :user="block.blockee"/>
-					</FormLink>
-				</template>
-			</MkPagination>
-		</div>
-	</FormSection>
+    <FormSection>
+        <template #label>{{ i18n.ts.users }}</template>
+        <MkTab v-model="usersTab" style="margin-bottom: var(--margin);">
+            <option value="mute">{{ i18n.ts.mutedUsers }}</option>
+            <option value="block">{{ i18n.ts.blockedUsers }}</option>
+        </MkTab>
+        <div v-if="usersTab === 'mute'">
+            <MkPagination :pagination="mutingPagination" class="muting">
+                <template #empty><FormInfo>{{ i18n.ts.noUsers }}</FormInfo></template>
+                <template #default="{items}">
+                    <FormLink v-for="mute in items" :key="mute.id" :to="userPage(mute.mutee)">
+                        <MkAcct :user="mute.mutee"/>
+                        <div v-if="mute.expiresAt" class="clock-container">
+                            <i class="fas fa-hourglass"></i><MkTime :time="mute.expiresAt" mode="detail"/>
+                        </div>
+                    </FormLink>
+                </template>
+            </MkPagination>
+        </div>
+        <div v-if="usersTab === 'block'">
+            <MkPagination :pagination="blockingPagination" class="blocking">
+                <template #empty><FormInfo>{{ i18n.ts.noUsers }}</FormInfo></template>
+                <template #default="{items}">
+                    <FormLink v-for="block in items" :key="block.id" :to="userPage(block.blockee)">
+                        <MkAcct :user="block.blockee"/>
+                    </FormLink>
+                </template>
+            </MkPagination>
+        </div>
+    </FormSection>
 </div>
 </template>
 
@@ -111,11 +111,11 @@ const streamModeEnabled = ref(defaultStore.state.streamModeEnabled);
 
 // ワードミュート
 const render = (mutedWords) => mutedWords.map(x => {
-	if (Array.isArray(x)) {
-		return x.join(" ");
-	} else {
-		return x;
-	}
+    if (Array.isArray(x)) {
+        return x.join(" ");
+    } else {
+        return x;
+    }
 }).join("\n");
 
 const softMutedWords = ref(render(defaultStore.state.mutedWords));
@@ -131,12 +131,12 @@ const instanceMutes = ref($i!.mutedInstances.join("\n"));
 
 // ユーザーブロック
 const mutingPagination = {
-	endpoint: "mute/list" as const,
-	limit: 10,
+    endpoint: "mute/list" as const,
+    limit: 10,
 };
 const blockingPagination = {
-	endpoint: "blocking/list" as const,
-	limit: 10,
+    endpoint: "blocking/list" as const,
+    limit: 10,
 };
 
 const mutedWordsChanged = ref(false);
@@ -147,100 +147,100 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
 
 os.api("i/get-word-muted-notes-count", {}).then(response => {
-	hardWordMutedNotesCount.value = response?.count;
+    hardWordMutedNotesCount.value = response?.count;
 });
 
 definePageMetadata({
-	title: i18n.ts.muteAndBlock,
-	icon: "ti ti-ban",
+    title: i18n.ts.muteAndBlock,
+    icon: "ti ti-ban",
 });
 
 async function saveMutedWords() {
-	const parseMutes = (mutes, tab) => {
-		// split into lines, remove empty lines and unnecessary whitespace
-		let lines = mutes.trim().split("\n").map(line => line.trim()).filter(line => line !== "");
+    const parseMutes = (mutes, tab) => {
+        // split into lines, remove empty lines and unnecessary whitespace
+        let lines = mutes.trim().split("\n").map(line => line.trim()).filter(line => line !== "");
 
-		// check each line if it is a RegExp or not
-		for (let i = 0; i < lines.length; i++) {
-			const line = lines[i];
-			const regexp = line.match(/^\/(.+)\/(.*)$/);
-			if (regexp) {
-				// check that the RegExp is valid
-				try {
-					new RegExp(regexp[1], regexp[2]);
-					// note that regex lines will not be split by spaces!
-				} catch (err: any) {
-					// invalid syntax: do not save, do not reset changed flag
-					os.alert({
-						type: "error",
-						title: i18n.ts.regexpError,
-						text: i18n.t("regexpErrorDescription", { tab, line: i + 1 }) + "\n" + err.toString(),
-					});
-					// re-throw error so these invalid settings are not saved
-					throw err;
-				}
-			} else {
-				lines[i] = line.split(" ");
-			}
-		}
+        // check each line if it is a RegExp or not
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            const regexp = line.match(/^\/(.+)\/(.*)$/);
+            if (regexp) {
+                // check that the RegExp is valid
+                try {
+                    new RegExp(regexp[1], regexp[2]);
+                    // note that regex lines will not be split by spaces!
+                } catch (err: any) {
+                    // invalid syntax: do not save, do not reset changed flag
+                    os.alert({
+                        type: "error",
+                        title: i18n.ts.regexpError,
+                        text: i18n.t("regexpErrorDescription", { tab, line: i + 1 }) + "\n" + err.toString(),
+                    });
+                    // re-throw error so these invalid settings are not saved
+                    throw err;
+                }
+            } else {
+                lines[i] = line.split(" ");
+            }
+        }
 
-		return lines;
-	};
+        return lines;
+    };
 
-	let softMutes, hardMutes;
-	try {
-		softMutes = parseMutes(softMutedWords.value, i18n.ts._wordMute.soft);
-		hardMutes = parseMutes(hardMutedWords.value, i18n.ts._wordMute.hard);
-	} catch (err) {
-		// already displayed error message in parseMutes
-		return;
-	}
+    let softMutes, hardMutes;
+    try {
+        softMutes = parseMutes(softMutedWords.value, i18n.ts._wordMute.soft);
+        hardMutes = parseMutes(hardMutedWords.value, i18n.ts._wordMute.hard);
+    } catch (err) {
+        // already displayed error message in parseMutes
+        return;
+    }
 
-	mutedWordsChanged.value = false;
-	defaultStore.set("mutedWords", softMutes);
-	await os.api("i/update", {
-		mutedWords: hardMutes,
-	});
+    mutedWordsChanged.value = false;
+    defaultStore.set("mutedWords", softMutes);
+    await os.api("i/update", {
+        mutedWords: hardMutes,
+    });
 }
 
 async function saveMutedReactions() {
-	let mutes = mutedReactions.value
+    let mutes = mutedReactions.value
 		.trim().split("\n")
 		.map(el => el.trim())
 		.filter(el => el);
 
-	mutedReactionsChanged.value = false;
-	defaultStore.set("mutedReactions", mutes);
+    mutedReactionsChanged.value = false;
+    defaultStore.set("mutedReactions", mutes);
 }
 
 async function saveMutedInstance() {
-	let mutes = instanceMutes.value
+    let mutes = instanceMutes.value
       .trim().split("\n")
       .map(el => el.trim())
       .filter(el => el);
 
-	await os.api("i/update", {
-		mutedInstances: mutes,
-	});
+    await os.api("i/update", {
+        mutedInstances: mutes,
+    });
 
-	mutedInstanceChanged.value = false;
-	instanceMutes.value = mutes.join("\n");
+    mutedInstanceChanged.value = false;
+    instanceMutes.value = mutes.join("\n");
 }
 
 watch(softMutedWords, () => {
-	mutedWordsChanged.value = true;
+    mutedWordsChanged.value = true;
 });
 
 watch(hardMutedWords, () => {
-	mutedWordsChanged.value = true;
+    mutedWordsChanged.value = true;
 });
 
 watch(mutedReactions, () => {
-	mutedReactionsChanged.value = true;
+    mutedReactionsChanged.value = true;
 });
 
 watch(instanceMutes, () => {
-	mutedInstanceChanged.value = true;
+    mutedInstanceChanged.value = true;
 });
 </script>
 

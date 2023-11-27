@@ -1,20 +1,20 @@
 <template>
 <div class="iltifgqe">
-	<div class="editor _panel _gap">
-		<PrismEditor v-model="code" class="_code code" :highlight="highlighter" :line-numbers="false"/>
-		<MkButton style="position: absolute; top: 8px; right: 8px;" primary @click="run()"><i class="ti ti-player-play"></i></MkButton>
-	</div>
+    <div class="editor _panel _gap">
+        <PrismEditor v-model="code" class="_code code" :highlight="highlighter" :line-numbers="false"/>
+        <MkButton style="position: absolute; top: 8px; right: 8px;" primary @click="run()"><i class="ti ti-player-play"></i></MkButton>
+    </div>
 
-	<MkContainer :foldable="true" class="_gap">
-		<template #header>{{ i18n.ts.output }}</template>
-		<div class="bepmlvbi">
-			<div v-for="log in logs" :key="log.id" class="log" :class="{ print: log.print }">{{ log.text }}</div>
-		</div>
-	</MkContainer>
+    <MkContainer :foldable="true" class="_gap">
+        <template #header>{{ i18n.ts.output }}</template>
+        <div class="bepmlvbi">
+            <div v-for="log in logs" :key="log.id" class="log" :class="{ print: log.print }">{{ log.text }}</div>
+        </div>
+    </MkContainer>
 
-	<div class="_gap">
-		{{ i18n.ts.scratchpadDescription }}
-	</div>
+    <div class="_gap">
+        {{ i18n.ts.scratchpadDescription }}
+    </div>
 </div>
 </template>
 
@@ -41,69 +41,69 @@ const logs = ref<any[]>([]);
 
 const saved = localStorage.getItem("scratchpad");
 if (saved) {
-	code.value = saved;
+    code.value = saved;
 }
 
 watch(code, () => {
-	localStorage.setItem("scratchpad", code.value);
+    localStorage.setItem("scratchpad", code.value);
 });
 
 async function run() {
-	logs.value = [];
-	const aiscript = new AiScript(createAiScriptEnv({
-		storageKey: "scratchpad",
-		token: $i?.token,
-	}), {
-		in: (q) => {
-			return new Promise(ok => {
-				os.inputText({
-					title: q,
-				}).then(({ canceled, result: a }) => {
-					ok(a);
-				});
-			});
-		},
-		out: (value) => {
-			logs.value.push({
-				id: Math.random(),
-				text: value.type === "str" ? value.value : utils.valToString(value),
-				print: true,
-			});
-		},
-		log: (type, params) => {
-			switch (type) {
-				case "end": logs.value.push({
-					id: Math.random(),
-					text: utils.valToString(params.val, true),
-					print: false,
-				}); break;
-				default: break;
-			}
-		},
-	});
+    logs.value = [];
+    const aiscript = new AiScript(createAiScriptEnv({
+        storageKey: "scratchpad",
+        token: $i?.token,
+    }), {
+        in: (q) => {
+            return new Promise(ok => {
+                os.inputText({
+                    title: q,
+                }).then(({ canceled, result: a }) => {
+                    ok(a);
+                });
+            });
+        },
+        out: (value) => {
+            logs.value.push({
+                id: Math.random(),
+                text: value.type === "str" ? value.value : utils.valToString(value),
+                print: true,
+            });
+        },
+        log: (type, params) => {
+            switch (type) {
+                case "end": logs.value.push({
+                    id: Math.random(),
+                    text: utils.valToString(params.val, true),
+                    print: false,
+                }); break;
+                default: break;
+            }
+        },
+    });
 
-	let ast;
-	try {
-		ast = parse(code.value);
-	} catch (error) {
-		os.alert({
-			type: "error",
-			text: "Syntax error :(",
-		});
-		return;
-	}
-	try {
-		await aiscript.exec(ast);
-	} catch (error: any) {
-		os.alert({
-			type: "error",
-			text: error.message,
-		});
-	}
+    let ast;
+    try {
+        ast = parse(code.value);
+    } catch (error) {
+        os.alert({
+            type: "error",
+            text: "Syntax error :(",
+        });
+        return;
+    }
+    try {
+        await aiscript.exec(ast);
+    } catch (error: any) {
+        os.alert({
+            type: "error",
+            text: error.message,
+        });
+    }
 }
 
 function highlighter(code) {
-	return highlight(code, languages.js, "javascript");
+    return highlight(code, languages.js, "javascript");
 }
 
 const headerActions = $computed(() => []);
@@ -111,8 +111,8 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
 
 definePageMetadata({
-	title: i18n.ts.scratchpad,
-	icon: "ti ti-terminal-2",
+    title: i18n.ts.scratchpad,
+    icon: "ti ti-terminal-2",
 });
 </script>
 

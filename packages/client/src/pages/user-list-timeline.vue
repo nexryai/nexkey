@@ -1,19 +1,19 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
-	<div ref="rootEl" v-size="{ min: [800] }" class="eqqrhokj">
-		<div v-if="queue > 0" class="new"><button class="_buttonPrimary" @click="top()">{{ i18n.ts.newNoteRecived }}</button></div>
-		<div class="tl _block">
-			<XTimeline
-				ref="tlEl" :key="listId"
-				class="tl"
-				src="list"
-				:list="listId"
-				:sound="true"
-				@queue="queueUpdated"
-			/>
-		</div>
-	</div>
+    <template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+    <div ref="rootEl" v-size="{ min: [800] }" class="eqqrhokj">
+        <div v-if="queue > 0" class="new"><button class="_buttonPrimary" @click="top()">{{ i18n.ts.newNoteRecived }}</button></div>
+        <div class="tl _block">
+            <XTimeline
+                ref="tlEl" :key="listId"
+                class="tl"
+                src="list"
+                :list="listId"
+                :sound="true"
+                @queue="queueUpdated"
+            />
+        </div>
+    </div>
 </MkStickyContainer>
 </template>
 
@@ -38,47 +38,47 @@ let tlEl = $ref<InstanceType<typeof XTimeline>>();
 let rootEl = $ref<HTMLElement>();
 
 watch(() => props.listId, async () => {
-	list = await os.api("users/lists/show", {
-		listId: props.listId,
-	});
+    list = await os.api("users/lists/show", {
+        listId: props.listId,
+    });
 }, { immediate: true });
 
 function queueUpdated(q) {
-	queue = q;
+    queue = q;
 }
 
 function top() {
-	scroll(rootEl, { top: 0 });
+    scroll(rootEl, { top: 0 });
 }
 
 function settings() {
-	router.push(`/my/lists/${props.listId}`);
+    router.push(`/my/lists/${props.listId}`);
 }
 
 async function timetravel() {
-	const { canceled, result: date } = await os.inputDate({
-		title: i18n.ts.date,
-	});
-	if (canceled) return;
+    const { canceled, result: date } = await os.inputDate({
+        title: i18n.ts.date,
+    });
+    if (canceled) return;
 
-	tlEl.timetravel(date);
+    tlEl.timetravel(date);
 }
 
 const headerActions = $computed(() => list ? [{
-	icon: "ti ti-calendar-time",
-	text: i18n.ts.jumpToSpecifiedDate,
-	handler: timetravel,
+    icon: "ti ti-calendar-time",
+    text: i18n.ts.jumpToSpecifiedDate,
+    handler: timetravel,
 }, {
-	icon: "ti ti-settings",
-	text: i18n.ts.settings,
-	handler: settings,
+    icon: "ti ti-settings",
+    text: i18n.ts.settings,
+    handler: settings,
 }] : []);
 
 const headerTabs = $computed(() => []);
 
 definePageMetadata(computed(() => list ? {
-	title: list.name,
-	icon: "ti ti-list",
+    title: list.name,
+    icon: "ti ti-list",
 } : null));
 </script>
 

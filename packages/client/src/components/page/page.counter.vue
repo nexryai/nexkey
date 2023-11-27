@@ -1,6 +1,6 @@
 <template>
 <div>
-	<MkButton class="llumlmnx" @click="click()">{{ hpml.interpolate(block.text) }}</MkButton>
+    <MkButton class="llumlmnx" @click="click()">{{ hpml.interpolate(block.text) }}</MkButton>
 </div>
 </template>
 
@@ -12,33 +12,33 @@ import { CounterVarBlock } from "@/scripts/hpml/block";
 import { Hpml } from "@/scripts/hpml/evaluator";
 
 export default defineComponent({
-	components: {
-		MkButton,
-	},
-	props: {
-		block: {
-			type: Object as PropType<CounterVarBlock>,
-			required: true,
-		},
-		hpml: {
-			type: Object as PropType<Hpml>,
-			required: true,
-		},
-	},
-	setup(props, ctx) {
-		const value = computed(() => {
-			return props.hpml.vars.value[props.block.name];
-		});
+    components: {
+        MkButton,
+    },
+    props: {
+        block: {
+            type: Object as PropType<CounterVarBlock>,
+            required: true,
+        },
+        hpml: {
+            type: Object as PropType<Hpml>,
+            required: true,
+        },
+    },
+    setup(props, ctx) {
+        const value = computed(() => {
+            return props.hpml.vars.value[props.block.name];
+        });
 
-		function click() {
-			props.hpml.updatePageVar(props.block.name, value.value + (props.block.inc || 1));
-			props.hpml.eval();
-		}
+        function click() {
+            props.hpml.updatePageVar(props.block.name, value.value + (props.block.inc || 1));
+            props.hpml.eval();
+        }
 
-		return {
-			click,
-		};
-	},
+        return {
+            click,
+        };
+    },
 });
 </script>
 

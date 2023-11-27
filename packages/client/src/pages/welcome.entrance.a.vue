@@ -1,35 +1,35 @@
 <template>
 <div v-if="meta" class="rsqzvsbo">
-	<div class="top">
-		<MkFeaturedPhotos class="bg"/>
-		<img :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" class="misskey" @click="showMenu"/>
-		<div class="emojis">
-			<MkEmoji :normal="true" :no-style="true" emoji="👍"/>
-			<MkEmoji :normal="true" :no-style="true" emoji="❤"/>
-			<MkEmoji :normal="true" :no-style="true" emoji="😆"/>
-			<MkEmoji :normal="true" :no-style="true" emoji="🎉"/>
-			<MkEmoji :normal="true" :no-style="true" emoji="🍮"/>
-		</div>
-		<div class="main">
-			<div class="fg">
-				<h1>
-					<span class="text">{{ instanceName }}</span>
-				</h1>
-				<div class="about">
-					<!-- eslint-disable-next-line vue/no-v-html -->
-					<div class="desc" v-html="meta.description || i18n.ts.headlineMisskey"></div>
-				</div>
-				<div v-if="meta.disableRegistration" class="warn">
-					<MkInfo warn>{{ i18n.ts.invitationRequiredToRegister }}</MkInfo>
-				</div>
-				<div class="action">
-					<MkButton inline rounded gradate data-cy-signup style="margin-right: 12px;" @click="signup()">{{ i18n.ts.signup }}</MkButton>
-					<MkButton inline rounded data-cy-signin @click="signin()">{{ i18n.ts.login }}</MkButton>
-					<MkButton inline rounded data-cy-signin style="margin-left: 12px;" @click="jumpToExplore()">{{ i18n.ts.explore }}</MkButton>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="top">
+        <MkFeaturedPhotos class="bg"/>
+        <img :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" class="misskey" @click="showMenu"/>
+        <div class="emojis">
+            <MkEmoji :normal="true" :no-style="true" emoji="👍"/>
+            <MkEmoji :normal="true" :no-style="true" emoji="❤"/>
+            <MkEmoji :normal="true" :no-style="true" emoji="😆"/>
+            <MkEmoji :normal="true" :no-style="true" emoji="🎉"/>
+            <MkEmoji :normal="true" :no-style="true" emoji="🍮"/>
+        </div>
+        <div class="main">
+            <div class="fg">
+                <h1>
+                    <span class="text">{{ instanceName }}</span>
+                </h1>
+                <div class="about">
+                    <!-- eslint-disable-next-line vue/no-v-html -->
+                    <div class="desc" v-html="meta.description || i18n.ts.headlineMisskey"></div>
+                </div>
+                <div v-if="meta.disableRegistration" class="warn">
+                    <MkInfo warn>{{ i18n.ts.invitationRequiredToRegister }}</MkInfo>
+                </div>
+                <div class="action">
+                    <MkButton inline rounded gradate data-cy-signup style="margin-right: 12px;" @click="signup()">{{ i18n.ts.signup }}</MkButton>
+                    <MkButton inline rounded data-cy-signin @click="signin()">{{ i18n.ts.login }}</MkButton>
+                    <MkButton inline rounded data-cy-signin style="margin-left: 12px;" @click="jumpToExplore()">{{ i18n.ts.explore }}</MkButton>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </template>
 
@@ -47,45 +47,45 @@ import MkInfo from "@/components/MkInfo.vue";
 let meta = $ref();
 
 os.api("meta", { detail: true }).then(_meta => {
-	meta = _meta;
+    meta = _meta;
 });
 
 function signin() {
-	os.popup(XSigninDialog, {
-		autoSet: true,
-	}, {}, "closed");
+    os.popup(XSigninDialog, {
+        autoSet: true,
+    }, {}, "closed");
 }
 
 function signup() {
-	os.popup(XSignupDialog, {
-		autoSet: true,
-	}, {}, "closed");
+    os.popup(XSignupDialog, {
+        autoSet: true,
+    }, {}, "closed");
 }
 
 function jumpToExplore() {
-	window.location.href = "/explore";
+    window.location.href = "/explore";
 }
 
 function showMenu(ev) {
-	os.popupMenu([{
-		text: i18n.ts.instanceInfo,
-		icon: "ti ti-info-circle",
-		action: () => {
-			os.pageWindow("/about");
-		},
-	}, {
-		text: i18n.ts.aboutMisskey,
-		icon: "ti ti-info-circle",
-		action: () => {
-			os.pageWindow("/about-misskey");
-		},
-	}, null, {
-		text: i18n.ts.help,
-		icon: "ti ti-question-circle",
-		action: () => {
-			window.open("https://misskey-hub.net/help.md", "_blank");
-		},
-	}], ev.currentTarget ?? ev.target);
+    os.popupMenu([{
+        text: i18n.ts.instanceInfo,
+        icon: "ti ti-info-circle",
+        action: () => {
+            os.pageWindow("/about");
+        },
+    }, {
+        text: i18n.ts.aboutMisskey,
+        icon: "ti ti-info-circle",
+        action: () => {
+            os.pageWindow("/about-misskey");
+        },
+    }, null, {
+        text: i18n.ts.help,
+        icon: "ti ti-question-circle",
+        action: () => {
+            window.open("https://misskey-hub.net/help.md", "_blank");
+        },
+    }], ev.currentTarget ?? ev.target);
 }
 </script>
 

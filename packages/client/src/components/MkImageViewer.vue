@@ -1,14 +1,14 @@
 <template>
 <MkModal ref="modal" :z-priority="'middle'" @click="modal.close()" @closed="emit('closed')">
-	<div class="xubzgfga">
-		<header>{{ image.name }}</header>
-		<img :src="image.url" :alt="image.comment" :title="image.comment" @click="modal.close()"/>
-		<footer>
-			<span>{{ image.type }}</span>
-			<span>{{ bytes(image.size) }}</span>
-			<span v-if="image.properties && image.properties.width">{{ number(image.properties.width) }}px × {{ number(image.properties.height) }}px</span>
-		</footer>
-	</div>
+    <div class="xubzgfga">
+        <header>{{ image.name }}</header>
+        <img :src="image.url" :alt="image.comment" :title="image.comment" @click="modal.close()"/>
+        <footer>
+            <span>{{ image.type }}</span>
+            <span>{{ bytes(image.size) }}</span>
+            <span v-if="image.properties && image.properties.width">{{ number(image.properties.width) }}px × {{ number(image.properties.height) }}px</span>
+        </footer>
+    </div>
 </MkModal>
 </template>
 

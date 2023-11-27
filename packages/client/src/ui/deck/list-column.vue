@@ -1,10 +1,10 @@
 <template>
 <XColumn :menu="menu" :column="column" :is-stacked="isStacked" @parent-focus="$event => emit('parent-focus', $event)">
-	<template #header>
-		<i class="ti ti-list"></i><span style="margin-left: 8px;">{{ column.name }}</span>
-	</template>
+    <template #header>
+        <i class="ti ti-list"></i><span style="margin-left: 8px;">{{ column.name }}</span>
+    </template>
 
-	<XTimeline v-if="column.listId" ref="timeline" src="list" :list="column.listId" @after="() => emit('loaded')"/>
+    <XTimeline v-if="column.listId" ref="timeline" src="list" :list="column.listId" @after="() => emit('loaded')"/>
 </XColumn>
 </template>
 
@@ -29,28 +29,28 @@ const emit = defineEmits<{
 let timeline = $ref<InstanceType<typeof XTimeline>>();
 
 if (props.column.listId == null) {
-	setList();
+    setList();
 }
 
 async function setList() {
-	const lists = await os.api("users/lists/list");
-	const { canceled, result: list } = await os.select({
-		title: i18n.ts.selectList,
-		items: lists.map(x => ({
-			value: x, text: x.name,
-		})),
-		default: props.column.listId,
-	});
-	if (canceled) return;
-	updateColumn(props.column.id, {
-		listId: list.id,
-	});
+    const lists = await os.api("users/lists/list");
+    const { canceled, result: list } = await os.select({
+        title: i18n.ts.selectList,
+        items: lists.map(x => ({
+            value: x, text: x.name,
+        })),
+        default: props.column.listId,
+    });
+    if (canceled) return;
+    updateColumn(props.column.id, {
+        listId: list.id,
+    });
 }
 
 const menu = [{
-	icon: "ti ti-pencil",
-	text: i18n.ts.selectList,
-	action: setList,
+    icon: "ti ti-pencil",
+    text: i18n.ts.selectList,
+    action: setList,
 }];
 </script>
 

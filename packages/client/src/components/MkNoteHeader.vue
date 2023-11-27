@@ -1,17 +1,17 @@
 <template>
 <header class="kkwtjztg">
-	<MkA v-user-preview="note.user.id" class="name" :to="userPage(note.user)">
-		<MkUserName :user="note.user"/>
-	</MkA>
-	<div v-if="note.user.isBot" class="is-bot">bot</div>
-	<div class="username"><MkAcct :user="note.user"/></div>
-	<div class="info">
-		<MkA class="created-at" :to="notePage(note)">
-			<MkTime :time="note.createdAt"/>
-		</MkA>
-		<MkVisibility :note="note"/>
-	</div>
-	<MkInstanceTicker class="ticker" :instance="note.user.instance"/>
+    <MkA v-user-preview="note.user.id" class="name" :to="userPage(note.user)">
+        <MkUserName :user="note.user"/>
+    </MkA>
+    <div v-if="note.user.isBot" class="is-bot">bot</div>
+    <div class="username"><MkAcct :user="note.user"/></div>
+    <div class="info">
+        <MkA class="created-at" :to="notePage(note)">
+            <MkTime :time="note.createdAt"/>
+        </MkA>
+        <MkVisibility :note="note"/>
+    </div>
+    <MkInstanceTicker class="ticker" :instance="note.user.instance"/>
 </header>
 </template>
 

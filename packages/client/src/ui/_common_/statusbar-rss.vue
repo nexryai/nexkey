@@ -1,17 +1,17 @@
 <template>
 <span v-if="!fetching" class="xbhtxfms">
-	<template v-if="display === 'marquee'">
-		<transition name="change" mode="default">
-			<MarqueeText :key="key" :duration="marqueeDuration" :reverse="marqueeReverse">
-				<span v-for="item in items" class="item">
-					<a class="link" :href="item.link" rel="nofollow noopener" target="_blank" :title="item.title">{{ item.title }}</a><span class="divider"></span>
-				</span>
-			</MarqueeText>
-		</transition>
-	</template>
-	<template v-else-if="display === 'oneByOne'">
-		<!-- TODO -->
-	</template>
+    <template v-if="display === 'marquee'">
+        <transition name="change" mode="default">
+            <MarqueeText :key="key" :duration="marqueeDuration" :reverse="marqueeReverse">
+                <span v-for="item in items" class="item">
+                    <a class="link" :href="item.link" rel="nofollow noopener" target="_blank" :title="item.title">{{ item.title }}</a><span class="divider"></span>
+                </span>
+            </MarqueeText>
+        </transition>
+    </template>
+    <template v-else-if="display === 'oneByOne'">
+        <!-- TODO -->
+    </template>
 </span>
 </template>
 
@@ -37,21 +37,21 @@ const fetching = ref(true);
 let key = $ref(0);
 
 const tick = () => {
-	fetch(`/api/fetch-rss?url=${props.url}`, {}).then(res => {
-		res.json().then(feed => {
-			if (props.shuffle) {
-				shuffle(feed.items);
-			}
-			items.value = feed.items;
-			fetching.value = false;
-			key++;
-		});
-	});
+    fetch(`/api/fetch-rss?url=${props.url}`, {}).then(res => {
+        res.json().then(feed => {
+            if (props.shuffle) {
+                shuffle(feed.items);
+            }
+            items.value = feed.items;
+            fetching.value = false;
+            key++;
+        });
+    });
 };
 
 useInterval(tick, Math.max(5000, props.refreshIntervalSec * 1000), {
-	immediate: true,
-	afterMounted: true,
+    immediate: true,
+    afterMounted: true,
 });
 </script>
 

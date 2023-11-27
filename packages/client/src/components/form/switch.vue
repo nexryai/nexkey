@@ -1,22 +1,22 @@
 <template>
 <div
-	class="ziffeomt"
-	:class="{ disabled, checked }"
+    class="ziffeomt"
+    :class="{ disabled, checked }"
 >
-	<input
-		ref="input"
-		type="checkbox"
-		:disabled="disabled"
-		@keydown.enter="toggle"
-	>
-	<span ref="button" v-tooltip="checked ? i18n.ts.itsOn : i18n.ts.itsOff" class="button" @click.prevent="toggle">
-		<div class="knob"></div>
-	</span>
-	<span class="label">
-		<!-- TODO: 無名slotの方は廃止 -->
-		<span @click="toggle"><slot name="label"></slot><slot></slot></span>
-		<p class="caption"><slot name="caption"></slot></p>
-	</span>
+    <input
+        ref="input"
+        type="checkbox"
+        :disabled="disabled"
+        @keydown.enter="toggle"
+    >
+    <span ref="button" v-tooltip="checked ? i18n.ts.itsOn : i18n.ts.itsOff" class="button" @click.prevent="toggle">
+        <div class="knob"></div>
+    </span>
+    <span class="label">
+        <!-- TODO: 無名slotの方は廃止 -->
+        <span @click="toggle"><slot name="label"></slot><slot></slot></span>
+        <p class="caption"><slot name="caption"></slot></p>
+    </span>
 </div>
 </template>
 
@@ -37,12 +37,12 @@ const emit = defineEmits<{
 let button = $ref<HTMLElement>();
 const checked = toRefs(props).modelValue;
 const toggle = () => {
-	if (props.disabled) return;
-	emit("update:modelValue", !checked.value);
+    if (props.disabled) return;
+    emit("update:modelValue", !checked.value);
 
-	if (!checked.value) {
+    if (!checked.value) {
 
-	}
+    }
 };
 </script>
 

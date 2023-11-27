@@ -28,13 +28,13 @@ const useOsNativeEmojis = computed(() => defaultStore.state.useOsNativeEmojis &&
 const ce = computed(() => props.customEmojis ?? instance.emojis ?? []);
 const customEmoji = computed(() => isCustom.value ? ce.value.find(x => x.name === props.emoji.substr(1, props.emoji.length - 2)) : null);
 const url = computed(() => {
-	if (char.value) {
-		return char2filePath(char.value);
-	} else {
-		return defaultStore.state.disableShowingAnimatedImages
-			? getStaticImageUrl(customEmoji.value.url)
-			: getProxiedImageUrlNullable(customEmoji.value.url, "emoji");
-	}
+    if (char.value) {
+        return char2filePath(char.value);
+    } else {
+        return defaultStore.state.disableShowingAnimatedImages
+            ? getStaticImageUrl(customEmoji.value.url)
+            : getProxiedImageUrlNullable(customEmoji.value.url, "emoji");
+    }
 });
 const alt = computed(() => customEmoji.value ? `:${customEmoji.value.name}:` : char.value);
 </script>

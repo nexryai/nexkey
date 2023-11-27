@@ -1,42 +1,42 @@
 <template>
 <div class="sqxihjet">
-	<div class="wide">
-		<div v-if="narrow === false" class="content">
-			<img :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" class="header-logo" @click="jumpToHome"/>
-			<MkA to="/explore" class="link" active-class="active"><i class="ti ti-hash icon"></i>{{ $ts.explore }}</MkA>
-			<MkA to="/pages" class="link" active-class="active"><i class="ti ti-news icon"></i>{{ $ts.pages }}</MkA>
-			<MkA to="/announcements" class="link" active-class="active"><i class="ti ti-speakerphone icon"></i>{{ $ts.announcements }}</MkA>
-			<div v-if="info" class="page active link">
-				<div class="title">
-					<i v-if="info.icon" class="icon" :class="info.icon"></i>
-					<MkAvatar v-else-if="info.avatar" class="avatar" :user="info.avatar" :disable-preview="true" :show-indicator="true"/>
-					<span v-if="info.title" class="text">{{ info.title }}</span>
-					<MkUserName v-else-if="info.userName" :user="info.userName" :nowrap="false" class="text"/>
-				</div>
-				<button v-if="info.action" class="_button action" @click.stop="info.action.handler"><!-- TODO --></button>
-			</div>
-			<div class="right">
-				<button class="_buttonPrimary signup" @click="signup()">{{ $ts.signup }}</button>
-				<button class="_button login" @click="signin()">{{ $ts.login }}</button>
-			</div>
-		</div>
-	</div>
-	<div v-if="narrow === true" class="narrow">
-		<button class="menu _button" @click="$parent.showMenu = true">
-			<i class="ti ti-menu-2 icon"></i>
-		</button>
-		<img :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" class="header-logo-mobile" @click="jumpToHome"/>
-		<MkA to="/" class="instance-name" active-class="active"><span>{{ instanceName() }}</span></MkA>
-		<div v-if="info" class="title">
-			<i v-if="info.icon" class="icon" :class="info.icon"></i>
-			<MkAvatar v-else-if="info.avatar" class="avatar" :user="info.avatar" :disable-preview="true" :show-indicator="true"/>
-			<span v-if="info.title" class="text">{{ info.title }}</span>
-			<MkUserName v-else-if="info.userName" :user="info.userName" :nowrap="false" class="text"/>
-		</div>
-		<button v-if="info && info.action" class="action _button" @click.stop="info.action.handler">
-			<!-- TODO -->
-		</button>
-	</div>
+    <div class="wide">
+        <div v-if="narrow === false" class="content">
+            <img :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" class="header-logo" @click="jumpToHome"/>
+            <MkA to="/explore" class="link" active-class="active"><i class="ti ti-hash icon"></i>{{ $ts.explore }}</MkA>
+            <MkA to="/pages" class="link" active-class="active"><i class="ti ti-news icon"></i>{{ $ts.pages }}</MkA>
+            <MkA to="/announcements" class="link" active-class="active"><i class="ti ti-speakerphone icon"></i>{{ $ts.announcements }}</MkA>
+            <div v-if="info" class="page active link">
+                <div class="title">
+                    <i v-if="info.icon" class="icon" :class="info.icon"></i>
+                    <MkAvatar v-else-if="info.avatar" class="avatar" :user="info.avatar" :disable-preview="true" :show-indicator="true"/>
+                    <span v-if="info.title" class="text">{{ info.title }}</span>
+                    <MkUserName v-else-if="info.userName" :user="info.userName" :nowrap="false" class="text"/>
+                </div>
+                <button v-if="info.action" class="_button action" @click.stop="info.action.handler"><!-- TODO --></button>
+            </div>
+            <div class="right">
+                <button class="_buttonPrimary signup" @click="signup()">{{ $ts.signup }}</button>
+                <button class="_button login" @click="signin()">{{ $ts.login }}</button>
+            </div>
+        </div>
+    </div>
+    <div v-if="narrow === true" class="narrow">
+        <button class="menu _button" @click="$parent.showMenu = true">
+            <i class="ti ti-menu-2 icon"></i>
+        </button>
+        <img :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" class="header-logo-mobile" @click="jumpToHome"/>
+        <MkA to="/" class="instance-name" active-class="active"><span>{{ instanceName() }}</span></MkA>
+        <div v-if="info" class="title">
+            <i v-if="info.icon" class="icon" :class="info.icon"></i>
+            <MkAvatar v-else-if="info.avatar" class="avatar" :user="info.avatar" :disable-preview="true" :show-indicator="true"/>
+            <span v-if="info.title" class="text">{{ info.title }}</span>
+            <MkUserName v-else-if="info.userName" :user="info.userName" :nowrap="false" class="text"/>
+        </div>
+        <button v-if="info && info.action" class="action _button" @click.stop="info.action.handler">
+            <!-- TODO -->
+        </button>
+    </div>
 </div>
 </template>
 
@@ -50,45 +50,45 @@ import { i18n } from "@/i18n";
 import { instanceName } from "@/config";
 
 export default defineComponent({
-	props: {
-		info: {
-			required: true,
-		},
-	},
+    props: {
+        info: {
+            required: true,
+        },
+    },
 
-	data() {
-		return {
-			narrow: null,
-			showMenu: false,
-		};
-	},
+    data() {
+        return {
+            narrow: null,
+            showMenu: false,
+        };
+    },
 
-	mounted() {
-		this.narrow = this.$el.clientWidth < 800;
-	},
+    mounted() {
+        this.narrow = this.$el.clientWidth < 800;
+    },
 
-	methods: {
-		instanceName() {
-			return instanceName;
-		},
-		jumpToHome() {
-			window.location.href = "/";
-		},
+    methods: {
+        instanceName() {
+            return instanceName;
+        },
+        jumpToHome() {
+            window.location.href = "/";
+        },
 
-		signin() {
-			os.popup(XSigninDialog, {
-				autoSet: true,
-			}, {}, "closed");
-		},
+        signin() {
+            os.popup(XSigninDialog, {
+                autoSet: true,
+            }, {}, "closed");
+        },
 
-		signup() {
-			os.popup(XSignupDialog, {
-				autoSet: true,
-			}, {}, "closed");
-		},
+        signup() {
+            os.popup(XSignupDialog, {
+                autoSet: true,
+            }, {}, "closed");
+        },
 
-		search,
-	},
+        search,
+    },
 });
 </script>
 

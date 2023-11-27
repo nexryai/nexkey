@@ -1,20 +1,20 @@
 <template>
 <MkContainer :max-height="300" :foldable="true">
-	<template #header><i class="ti ti-photo" style="margin-right: 0.5em;"></i>{{ $ts.images }}</template>
-	<div class="ujigsodd">
-		<MkLoading v-if="fetching"/>
-		<div v-if="!fetching && images.length > 0" class="stream">
-			<MkA
-				v-for="image in images"
-				:key="image.note.id + image.file.id"
-				class="img"
-				:to="notePage(image.note)"
-			>
-				<ImgWithBlurhash :hash="image.file.blurhash" :src="thumbnail(image.file)" :title="image.file.name"/>
-			</MkA>
-		</div>
-		<p v-if="!fetching && images.length == 0" class="empty">{{ $ts.nothing }}</p>
-	</div>
+    <template #header><i class="ti ti-photo" style="margin-right: 0.5em;"></i>{{ $ts.images }}</template>
+    <div class="ujigsodd">
+        <MkLoading v-if="fetching"/>
+        <div v-if="!fetching && images.length > 0" class="stream">
+            <MkA
+                v-for="image in images"
+                :key="image.note.id + image.file.id"
+                class="img"
+                :to="notePage(image.note)"
+            >
+                <ImgWithBlurhash :hash="image.file.blurhash" :src="thumbnail(image.file)" :title="image.file.name"/>
+            </MkA>
+        </div>
+        <p v-if="!fetching && images.length == 0" class="empty">{{ $ts.nothing }}</p>
+    </div>
 </MkContainer>
 </template>
 
@@ -39,35 +39,35 @@ let images = $ref<{
 }[]>([]);
 
 function thumbnail(image: misskey.entities.DriveFile): string {
-	return defaultStore.state.disableShowingAnimatedImages
-		? getStaticImageUrl(image.thumbnailUrl)
-		: image.thumbnailUrl;
+    return defaultStore.state.disableShowingAnimatedImages
+        ? getStaticImageUrl(image.thumbnailUrl)
+        : image.thumbnailUrl;
 }
 
 onMounted(() => {
-	const image = [
-		"image/jpeg",
-		"image/png",
-		"image/gif",
-		"image/apng",
-		"image/vnd.mozilla.apng",
-	];
-	os.api("users/notes", {
-		userId: props.user.id,
-		fileType: image,
-		excludeNsfw: defaultStore.state.nsfw !== "ignore",
-		limit: 10,
-	}).then(notes => {
-		for (const note of notes) {
-			for (const file of note.files) {
-				images.push({
-					note,
-					file,
-				});
-			}
-		}
-		fetching = false;
-	});
+    const image = [
+        "image/jpeg",
+        "image/png",
+        "image/gif",
+        "image/apng",
+        "image/vnd.mozilla.apng",
+    ];
+    os.api("users/notes", {
+        userId: props.user.id,
+        fileType: image,
+        excludeNsfw: defaultStore.state.nsfw !== "ignore",
+        limit: 10,
+    }).then(notes => {
+        for (const note of notes) {
+            for (const file of note.files) {
+                images.push({
+                    note,
+                    file,
+                });
+            }
+        }
+        fetching = false;
+    });
 });
 </script>
 

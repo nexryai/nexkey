@@ -1,13 +1,13 @@
 <template>
 <!-- eslint-disable vue/no-mutating-props -->
 <XContainer :draggable="true" @remove="() => $emit('remove')">
-	<template #header><i class="ti ti-bolt"></i> {{ $ts._pages.blocks.textInput }}</template>
+    <template #header><i class="ti ti-bolt"></i> {{ $ts._pages.blocks.textInput }}</template>
 
-	<section style="padding: 0 16px 0 16px;">
-		<MkInput v-model="value.name"><template #prefix><i class="ti ti-wand"></i></template><template #label>{{ $ts._pages.blocks._textInput.name }}</template></MkInput>
-		<MkInput v-model="value.text"><template #label>{{ $ts._pages.blocks._textInput.text }}</template></MkInput>
-		<MkInput v-model="value.default" type="text"><template #label>{{ $ts._pages.blocks._textInput.default }}</template></MkInput>
-	</section>
+    <section style="padding: 0 16px 0 16px;">
+        <MkInput v-model="value.name"><template #prefix><i class="ti ti-wand"></i></template><template #label>{{ $ts._pages.blocks._textInput.name }}</template></MkInput>
+        <MkInput v-model="value.text"><template #label>{{ $ts._pages.blocks._textInput.text }}</template></MkInput>
+        <MkInput v-model="value.default" type="text"><template #label>{{ $ts._pages.blocks._textInput.default }}</template></MkInput>
+    </section>
 </XContainer>
 </template>
 
@@ -20,8 +20,8 @@ import MkInput from "@/components/form/input.vue";
 withDefaults(defineProps<{
 	value: any
 }>(), {
-	value: {
-		name: "",
-	},
+    value: {
+        name: "",
+    },
 });
 </script>

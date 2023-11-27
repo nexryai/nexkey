@@ -1,10 +1,10 @@
 <template>
 <component
-	:is="self ? 'MkA' : 'a'" ref="el" class="xlcxczvw _link" :[attr]="self ? url.substr(local.length) : url" :rel="rel" :target="target"
-	:title="url"
+    :is="self ? 'MkA' : 'a'" ref="el" class="xlcxczvw _link" :[attr]="self ? url.substr(local.length) : url" :rel="rel" :target="target"
+    :title="url"
 >
-	<slot></slot>
-	<i v-if="target === '_blank'" class="ti ti-external-link icon"></i>
+    <slot></slot>
+    <i v-if="target === '_blank'" class="ti ti-external-link icon"></i>
 </component>
 </template>
 
@@ -27,11 +27,11 @@ const target = self ? null : "_blank";
 const el = $ref();
 
 useTooltip($$(el), (showing) => {
-	os.popup(defineAsyncComponent(() => import("@/components/MkUrlPreviewPopup.vue")), {
-		showing,
-		url: props.url,
-		source: el,
-	}, {}, "closed");
+    os.popup(defineAsyncComponent(() => import("@/components/MkUrlPreviewPopup.vue")), {
+        showing,
+        url: props.url,
+        source: el,
+    }, {}, "closed");
 });
 </script>
 

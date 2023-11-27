@@ -1,6 +1,6 @@
 <template>
 <div class="">
-	<XAntenna v-if="antenna" :antenna="antenna" @updated="onAntennaUpdated"/>
+    <XAntenna v-if="antenna" :antenna="antenna" @updated="onAntennaUpdated"/>
 </div>
 </template>
 
@@ -21,11 +21,11 @@ const props = defineProps<{
 }>();
 
 function onAntennaUpdated() {
-	router.push("/my/antennas");
+    router.push("/my/antennas");
 }
 
 os.api("antennas/show", { antennaId: props.antennaId }).then((antennaResponse) => {
-	antenna = antennaResponse;
+    antenna = antennaResponse;
 });
 
 const headerActions = $computed(() => []);
@@ -33,8 +33,8 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
 
 definePageMetadata({
-	title: i18n.ts.manageAntennas,
-	icon: "ti ti-antenna",
+    title: i18n.ts.manageAntennas,
+    icon: "ti ti-antenna",
 });
 </script>
 

@@ -1,10 +1,10 @@
 <template>
 <XColumn :menu="menu" :column="column" :is-stacked="isStacked" @parent-focus="$event => emit('parent-focus', $event)">
-	<template #header>
-		<i class="ti ti-antenna"></i><span style="margin-left: 8px;">{{ column.name }}</span>
-	</template>
+    <template #header>
+        <i class="ti ti-antenna"></i><span style="margin-left: 8px;">{{ column.name }}</span>
+    </template>
 
-	<XTimeline v-if="column.antennaId" ref="timeline" src="antenna" :antenna="column.antennaId" @after="() => emit('loaded')"/>
+    <XTimeline v-if="column.antennaId" ref="timeline" src="antenna" :antenna="column.antennaId" @after="() => emit('loaded')"/>
 </XColumn>
 </template>
 
@@ -29,30 +29,30 @@ const emit = defineEmits<{
 let timeline = $ref<InstanceType<typeof XTimeline>>();
 
 onMounted(() => {
-	if (props.column.antennaId == null) {
-		setAntenna();
-	}
+    if (props.column.antennaId == null) {
+        setAntenna();
+    }
 });
 
 async function setAntenna() {
-	const antennas = await os.api("antennas/list");
-	const { canceled, result: antenna } = await os.select({
-		title: i18n.ts.selectAntenna,
-		items: antennas.map(x => ({
-			value: x, text: x.name,
-		})),
-		default: props.column.antennaId,
-	});
-	if (canceled) return;
-	updateColumn(props.column.id, {
-		antennaId: antenna.id,
-	});
+    const antennas = await os.api("antennas/list");
+    const { canceled, result: antenna } = await os.select({
+        title: i18n.ts.selectAntenna,
+        items: antennas.map(x => ({
+            value: x, text: x.name,
+        })),
+        default: props.column.antennaId,
+    });
+    if (canceled) return;
+    updateColumn(props.column.id, {
+        antennaId: antenna.id,
+    });
 }
 
 const menu = [{
-	icon: "ti ti-pencil",
-	text: i18n.ts.selectAntenna,
-	action: setAntenna,
+    icon: "ti ti-pencil",
+    text: i18n.ts.selectAntenna,
+    action: setAntenna,
 }];
 
 /*

@@ -1,6 +1,6 @@
 <template>
 <div>
-	{{ i18n.ts.processing }}
+    {{ i18n.ts.processing }}
 </div>
 </template>
 
@@ -16,14 +16,14 @@ const props = defineProps<{
 }>();
 
 onMounted(async () => {
-	await os.alert({
-		type: "info",
-		text: i18n.t("clickToFinishEmailVerification", { ok: i18n.ts.gotIt }),
-	});
-	const res = await os.apiWithDialog("signup-pending", {
-		code: props.code,
-	});
-	login(res.i, "/");
+    await os.alert({
+        type: "info",
+        text: i18n.t("clickToFinishEmailVerification", { ok: i18n.ts.gotIt }),
+    });
+    const res = await os.apiWithDialog("signup-pending", {
+        code: props.code,
+    });
+    login(res.i, "/");
 });
 
 const headerActions = $computed(() => []);
@@ -31,8 +31,8 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
 
 definePageMetadata({
-	title: i18n.ts.signup,
-	icon: "ti ti-user",
+    title: i18n.ts.signup,
+    icon: "ti ti-user",
 });
 </script>
 

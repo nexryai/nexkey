@@ -19,23 +19,23 @@ import MkSpacer from "./global/MkSpacer.vue";
 import MkStickyContainer from "./global/MkStickyContainer.vue";
 
 export default function(app: App) {
-	app.component("I18n", I18n);
-	app.component("RouterView", RouterView);
-	app.component("Mfm", Mfm);
-	app.component("MkA", MkA);
-	app.component("MkAcct", MkAcct);
-	app.component("MkAvatar", MkAvatar);
-	app.component("MkEmoji", MkEmoji);
-	app.component("MkUserName", MkUserName);
-	app.component("MkEllipsis", MkEllipsis);
-	app.component("MkTime", MkTime);
-	app.component("MkUrl", MkUrl);
-	app.component("MkLoading", MkLoading);
-	app.component("MkError", MkError);
-	app.component("MkAd", MkAd);
-	app.component("MkPageHeader", MkPageHeader);
-	app.component("MkSpacer", MkSpacer);
-	app.component("MkStickyContainer", MkStickyContainer);
+    app.component("I18n", I18n);
+    app.component("RouterView", RouterView);
+    app.component("Mfm", Mfm);
+    app.component("MkA", MkA);
+    app.component("MkAcct", MkAcct);
+    app.component("MkAvatar", MkAvatar);
+    app.component("MkEmoji", MkEmoji);
+    app.component("MkUserName", MkUserName);
+    app.component("MkEllipsis", MkEllipsis);
+    app.component("MkTime", MkTime);
+    app.component("MkUrl", MkUrl);
+    app.component("MkLoading", MkLoading);
+    app.component("MkError", MkError);
+    app.component("MkAd", MkAd);
+    app.component("MkPageHeader", MkPageHeader);
+    app.component("MkSpacer", MkSpacer);
+    app.component("MkStickyContainer", MkStickyContainer);
 }
 
 declare module "@vue/runtime-core" {

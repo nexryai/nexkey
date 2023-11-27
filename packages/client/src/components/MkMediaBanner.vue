@@ -1,30 +1,30 @@
 <template>
 <div class="mk-media-banner">
-	<div v-if="media.isSensitive && hide" class="sensitive" @click="hide = false">
-		<span class="icon"><i class="ti ti-alert-triangle"></i></span>
-		<b>{{ $ts.sensitive }}</b>
-		<span>{{ $ts.clickToShow }}</span>
-	</div>
-	<div v-else-if="media.type.startsWith('audio') && media.type !== 'audio/midi'" class="audio">
-		<audio
-			ref="audioEl"
-			class="audio"
-			:src="media.url"
-			:title="media.name"
-			controls
-			preload="metadata"
-			@volumechange="volumechange"
-		/>
-	</div>
-	<a
-		v-else class="download"
-		:href="media.url"
-		:title="media.name"
-		:download="media.name"
-	>
-		<span class="icon"><i class="ti ti-download"></i></span>
-		<b>{{ media.name }}</b>
-	</a>
+    <div v-if="media.isSensitive && hide" class="sensitive" @click="hide = false">
+        <span class="icon"><i class="ti ti-alert-triangle"></i></span>
+        <b>{{ $ts.sensitive }}</b>
+        <span>{{ $ts.clickToShow }}</span>
+    </div>
+    <div v-else-if="media.type.startsWith('audio') && media.type !== 'audio/midi'" class="audio">
+        <audio
+            ref="audioEl"
+            class="audio"
+            :src="media.url"
+            :title="media.name"
+            controls
+            preload="metadata"
+            @volumechange="volumechange"
+        />
+    </div>
+    <a
+        v-else class="download"
+        :href="media.url"
+        :title="media.name"
+        :download="media.name"
+    >
+        <span class="icon"><i class="ti ti-download"></i></span>
+        <b>{{ media.name }}</b>
+    </a>
 </div>
 </template>
 
@@ -42,11 +42,11 @@ const audioEl = $ref<HTMLAudioElement | null>();
 let hide = $ref(true);
 
 function volumechange() {
-	if (audioEl) ColdDeviceStorage.set("mediaVolume", audioEl.volume);
+    if (audioEl) ColdDeviceStorage.set("mediaVolume", audioEl.volume);
 }
 
 onMounted(() => {
-	if (audioEl) audioEl.volume = ColdDeviceStorage.get("mediaVolume");
+    if (audioEl) audioEl.volume = ColdDeviceStorage.get("mediaVolume");
 });
 </script>
 

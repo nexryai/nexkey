@@ -1,27 +1,27 @@
 <template>
 <XModalWindow
-	ref="dialogEl"
-	:width="800"
-	:height="500"
-	:scroll="false"
-	:with-ok-button="true"
-	@close="cancel()"
-	@ok="ok()"
-	@closed="$emit('closed')"
+    ref="dialogEl"
+    :width="800"
+    :height="500"
+    :scroll="false"
+    :with-ok-button="true"
+    @close="cancel()"
+    @ok="ok()"
+    @closed="$emit('closed')"
 >
-	<template #header>{{ i18n.ts.cropImage }}</template>
-	<template #default="{ width, height }">
-		<div class="mk-cropper-dialog" :style="`--vw: ${width}px; --vh: ${height}px;`">
-			<Transition name="fade">
-				<div v-if="loading" class="loading">
-					<MkLoading/>
-				</div>
-			</Transition>
-			<div class="container">
-				<img ref="imgEl" :src="imgUrl" style="display: none;" @load="onImageLoad">
-			</div>
-		</div>
-	</template>
+    <template #header>{{ i18n.ts.cropImage }}</template>
+    <template #default="{ width, height }">
+        <div class="mk-cropper-dialog" :style="`--vw: ${width}px; --vh: ${height}px;`">
+            <Transition name="fade">
+                <div v-if="loading" class="loading">
+                    <MkLoading/>
+                </div>
+            </Transition>
+            <div class="container">
+                <img ref="imgEl" :src="imgUrl" style="display: none;" @load="onImageLoad">
+            </div>
+        </div>
+    </template>
 </XModalWindow>
 </template>
 
@@ -56,71 +56,71 @@ let cropper: Cropper | null = null;
 let loading = $ref(true);
 
 const ok = async () => {
-	const promise = new Promise<misskey.entities.DriveFile>(async (res) => {
-		const croppedCanvas = await cropper?.getCropperSelection()?.$toCanvas();
-		croppedCanvas.toBlob(blob => {
-			const formData = new FormData();
-			formData.append("file", blob);
-			formData.append("i", $i.token);
-			if (defaultStore.state.uploadFolder) {
-				formData.append("folderId", defaultStore.state.uploadFolder);
-			}
+    const promise = new Promise<misskey.entities.DriveFile>(async (res) => {
+        const croppedCanvas = await cropper?.getCropperSelection()?.$toCanvas();
+        croppedCanvas.toBlob(blob => {
+            const formData = new FormData();
+            formData.append("file", blob);
+            formData.append("i", $i.token);
+            if (defaultStore.state.uploadFolder) {
+                formData.append("folderId", defaultStore.state.uploadFolder);
+            }
 
-			fetch(apiUrl + "/drive/files/create", {
-				method: "POST",
-				body: formData,
-			})
+            fetch(apiUrl + "/drive/files/create", {
+                method: "POST",
+                body: formData,
+            })
 				.then(response => response.json())
 				.then(f => {
-					res(f);
+				    res(f);
 				});
-		});
-	});
+        });
+    });
 
-	os.promiseDialog(promise);
+    os.promiseDialog(promise);
 
-	const f = await promise;
+    const f = await promise;
 
-	emit("ok", f);
-	dialogEl.close();
+    emit("ok", f);
+    dialogEl.close();
 };
 
 const cancel = () => {
-	emit("cancel");
-	dialogEl.close();
+    emit("cancel");
+    dialogEl.close();
 };
 
 const onImageLoad = () => {
-	loading = false;
+    loading = false;
 
-	if (cropper) {
+    if (cropper) {
 		cropper.getCropperImage()!.$center("contain");
 		cropper.getCropperSelection()!.$center();
-	}
+    }
 };
 
 onMounted(() => {
-	cropper = new Cropper(imgEl, {
-	});
+    cropper = new Cropper(imgEl, {
+    });
 
-	const computedStyle = getComputedStyle(document.documentElement);
+    const computedStyle = getComputedStyle(document.documentElement);
 
-	const selection = cropper.getCropperSelection()!;
-	selection.themeColor = tinycolor(computedStyle.getPropertyValue("--accent")).toHexString();
-	selection.aspectRatio = props.aspectRatio;
-	selection.initialAspectRatio = props.aspectRatio;
-	selection.outlined = true;
+    const selection = cropper.getCropperSelection()!;
+    selection.themeColor = tinycolor(computedStyle.getPropertyValue("--accent")).toHexString();
+    selection.aspectRatio = props.aspectRatio;
+    selection.initialAspectRatio = props.aspectRatio;
+    selection.outlined = true;
 
-	window.setTimeout(() => {
+    window.setTimeout(() => {
 		cropper.getCropperImage()!.$center("contain");
 		selection.$center();
-	}, 100);
+    }, 100);
 
-	// モーダルオープンアニメーションが終わったあとで再度調整
-	window.setTimeout(() => {
+    // モーダルオープンアニメーションが終わったあとで再度調整
+    window.setTimeout(() => {
 		cropper.getCropperImage()!.$center("contain");
 		selection.$center();
-	}, 500);
+    }, 500);
 });
 </script>
 

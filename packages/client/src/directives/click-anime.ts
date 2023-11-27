@@ -2,8 +2,8 @@ import { Directive } from "vue";
 import { defaultStore } from "@/store";
 
 export default {
-	mounted(el, binding, vn) {
-		/*
+    mounted(el, binding, vn) {
+        /*
 		if (!defaultStore.state.animation) return;
 
 		el.classList.add('_anime_bounce_standBy');
@@ -27,5 +27,5 @@ export default {
 			el.classList.add('_anime_bounce_standBy');
 		});
 		*/
-	},
+    },
 } as Directive;

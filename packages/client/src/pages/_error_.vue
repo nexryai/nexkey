@@ -1,19 +1,19 @@
 <template>
 <MkLoading v-if="!loaded"/>
 <transition :name="$store.state.animation ? 'zoom' : ''" appear>
-	<div v-show="loaded" class="mjndxjch">
-		<i class="ti ti-exclamation-mark"></i>
-		<p><b>{{ i18n.ts.pageLoadError }}</b></p>
-		<p v-if="meta && (version === meta.version)">{{ i18n.ts.pageLoadErrorDescription }}</p>
-		<p v-else-if="serverIsDead">{{ i18n.ts.serverIsDead }}</p>
-		<template v-else>
-			<p>{{ i18n.ts.newVersionOfClientAvailable }}</p>
-			<p>{{ i18n.ts.youShouldUpgradeClient }}</p>
-			<MkButton class="button primary" @click="reload">{{ i18n.ts.reload }}</MkButton>
-		</template>
-		<p><MkA to="/docs/general/troubleshooting" class="_link">{{ i18n.ts.troubleshooting }}</MkA></p>
-		<p v-if="error" class="error">ERROR: {{ error }}</p>
-	</div>
+    <div v-show="loaded" class="mjndxjch">
+        <i class="ti ti-exclamation-mark"></i>
+        <p><b>{{ i18n.ts.pageLoadError }}</b></p>
+        <p v-if="meta && (version === meta.version)">{{ i18n.ts.pageLoadErrorDescription }}</p>
+        <p v-else-if="serverIsDead">{{ i18n.ts.serverIsDead }}</p>
+        <template v-else>
+            <p>{{ i18n.ts.newVersionOfClientAvailable }}</p>
+            <p>{{ i18n.ts.youShouldUpgradeClient }}</p>
+            <MkButton class="button primary" @click="reload">{{ i18n.ts.reload }}</MkButton>
+        </template>
+        <p><MkA to="/docs/general/troubleshooting" class="_link">{{ i18n.ts.troubleshooting }}</MkA></p>
+        <p v-if="error" class="error">ERROR: {{ error }}</p>
+    </div>
 </transition>
 </template>
 
@@ -37,19 +37,19 @@ let serverIsDead = $ref(false);
 let meta = $ref<misskey.entities.LiteInstanceMetadata | null>(null);
 
 os.api("meta", {
-	detail: false,
+    detail: false,
 }).then(res => {
-	loaded = true;
-	serverIsDead = false;
-	meta = res;
-	localStorage.setItem("v", res.version);
+    loaded = true;
+    serverIsDead = false;
+    meta = res;
+    localStorage.setItem("v", res.version);
 }, () => {
-	loaded = true;
-	serverIsDead = true;
+    loaded = true;
+    serverIsDead = true;
 });
 
 function reload() {
-	unisonReload();
+    unisonReload();
 }
 
 const headerActions = $computed(() => []);
@@ -57,8 +57,8 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
 
 definePageMetadata({
-	title: i18n.ts.error,
-	icon: "ti ti-alert-triangle",
+    title: i18n.ts.error,
+    icon: "ti ti-alert-triangle",
 });
 </script>
 

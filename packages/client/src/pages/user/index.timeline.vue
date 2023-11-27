@@ -1,13 +1,13 @@
 <template>
 <MkStickyContainer>
-	<template #header>
-		<MkTab v-model="include" :class="$style.tab">
-			<option :value="null">{{ i18n.ts.notes }}</option>
-			<option value="replies">{{ i18n.ts.notesAndReplies }}</option>
-			<option value="files">{{ i18n.ts.withFiles }}</option>
-		</MkTab>
-	</template>
-	<XNotes :no-gap="true" :pagination="pagination"/>
+    <template #header>
+        <MkTab v-model="include" :class="$style.tab">
+            <option :value="null">{{ i18n.ts.notes }}</option>
+            <option value="replies">{{ i18n.ts.notesAndReplies }}</option>
+            <option value="files">{{ i18n.ts.withFiles }}</option>
+        </MkTab>
+    </template>
+    <XNotes :no-gap="true" :pagination="pagination"/>
 </MkStickyContainer>
 </template>
 
@@ -26,13 +26,13 @@ const props = defineProps<{
 const include = ref<string | null>(null);
 
 const pagination = {
-	endpoint: "users/notes" as const,
-	limit: 10,
-	params: computed(() => ({
-		userId: props.user.id,
-		includeReplies: include.value === "replies" || include.value === "files",
-		withFiles: include.value === "files",
-	})),
+    endpoint: "users/notes" as const,
+    limit: 10,
+    params: computed(() => ({
+        userId: props.user.id,
+        includeReplies: include.value === "replies" || include.value === "files",
+        withFiles: include.value === "files",
+    })),
 };
 </script>
 

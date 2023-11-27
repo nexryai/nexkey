@@ -1,11 +1,11 @@
 <template>
 <div class="user-page-clips-list">
-	<MkPagination v-slot="{items}" ref="list" :pagination="pagination" class="list">
-		<MkA v-for="item in items" :key="item.id" :to="`/clips/${item.id}`" class="item _panel _gap">
-			<b>{{ item.name }}</b>
-			<div v-if="item.description" class="description">{{ item.description }}</div>
-		</MkA>
-	</MkPagination>
+    <MkPagination v-slot="{items}" ref="list" :pagination="pagination" class="list">
+        <MkA v-for="item in items" :key="item.id" :to="`/clips/${item.id}`" class="item _panel _gap">
+            <b>{{ item.name }}</b>
+            <div v-if="item.description" class="description">{{ item.description }}</div>
+        </MkA>
+    </MkPagination>
 </div>
 </template>
 
@@ -19,11 +19,11 @@ const props = defineProps<{
 }>();
 
 const pagination = {
-	endpoint: "users/clips" as const,
-	limit: 20,
-	params: computed(() => ({
-		userId: props.user.id,
-	})),
+    endpoint: "users/clips" as const,
+    limit: 20,
+    params: computed(() => ({
+        userId: props.user.id,
+    })),
 };
 </script>
 

@@ -1,8 +1,8 @@
 <template>
 <div class="mkw-onlineUsers" :class="{ _panel: !widgetProps.transparent, pad: !widgetProps.transparent }">
-	<I18n v-if="onlineUsersCount" :src="i18n.ts.onlineUsersCount" text-tag="span" class="text">
-		<template #n><b>{{ onlineUsersCount }}</b></template>
-	</I18n>
+    <I18n v-if="onlineUsersCount" :src="i18n.ts.onlineUsersCount" text-tag="span" class="text">
+        <template #n><b>{{ onlineUsersCount }}</b></template>
+    </I18n>
 </div>
 </template>
 
@@ -17,10 +17,10 @@ import { i18n } from "@/i18n";
 const name = "onlineUsers";
 
 const widgetPropsDef = {
-	transparent: {
-		type: "boolean" as const,
-		default: true,
-	},
+    transparent: {
+        type: "boolean" as const,
+        default: true,
+    },
 };
 
 type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
@@ -32,28 +32,28 @@ const props = defineProps<{ widget?: Widget<WidgetProps>; }>();
 const emit = defineEmits<{ (ev: "updateProps", props: WidgetProps); }>();
 
 const { widgetProps, configure } = useWidgetPropsManager(name,
-	widgetPropsDef,
-	props,
-	emit,
+    widgetPropsDef,
+    props,
+    emit,
 );
 
 const onlineUsersCount = ref(0);
 
 const tick = () => {
-	os.api("get-online-users-count").then(res => {
-		onlineUsersCount.value = res.count;
-	});
+    os.api("get-online-users-count").then(res => {
+        onlineUsersCount.value = res.count;
+    });
 };
 
 useInterval(tick, 1000 * 15, {
-	immediate: true,
-	afterMounted: true,
+    immediate: true,
+    afterMounted: true,
 });
 
 defineExpose<WidgetComponentExpose>({
-	name,
-	configure,
-	id: props.widget ? props.widget.id : null,
+    name,
+    configure,
+    id: props.widget ? props.widget.id : null,
 });
 </script>
 

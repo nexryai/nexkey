@@ -1,25 +1,25 @@
 <template>
 <div v-if="hide" class="icozogqfvdetwohsdglrbswgrejoxbdj" @click="hide = false">
-	<div>
-		<b><i class="ti ti-alert-triangle"></i> {{ $ts.sensitive }}</b>
-		<span>{{ $ts.clickToShow }}</span>
-	</div>
+    <div>
+        <b><i class="ti ti-alert-triangle"></i> {{ $ts.sensitive }}</b>
+        <span>{{ $ts.clickToShow }}</span>
+    </div>
 </div>
 <div v-else class="kkjnbbplepmiyuadieoenjgutgcmtsvu">
-	<video
-		:poster="video.thumbnailUrl"
-		:title="video.comment"
-		:alt="video.comment"
-		preload="none"
-		controls
-		@contextmenu.stop
-	>
-		<source 
-			:src="video.url" 
-			:type="video.type"
-		>
-	</video>
-	<i class="ti ti-eye-off" @click="hide = true"></i>
+    <video
+        :poster="video.thumbnailUrl"
+        :title="video.comment"
+        :alt="video.comment"
+        preload="none"
+        controls
+        @contextmenu.stop
+    >
+        <source 
+            :src="video.url" 
+            :type="video.type"
+        >
+    </video>
+    <i class="ti ti-eye-off" @click="hide = true"></i>
 </div>
 </template>
 

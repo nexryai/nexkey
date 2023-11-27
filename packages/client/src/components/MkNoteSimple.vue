@@ -1,18 +1,18 @@
 <template>
 <div v-size="{ min: [350, 500] }" class="yohlumlk">
-	<MkAvatar class="avatar" :user="note.user"/>
-	<div class="main">
-		<XNoteHeader class="header" :note="note" :mini="true"/>
-		<div class="body">
-			<p v-if="note.cw != null" class="cw">
-				<Mfm v-if="note.cw != ''" class="text" :text="note.cw" :author="note.user" :i="$i" :custom-emojis="note.emojis"/>
-				<XCwButton v-model="showContent" :note="note"/>
-			</p>
-			<div v-show="note.cw == null || showContent" class="content">
-				<MkSubNoteContent class="text" :note="note"/>
-			</div>
-		</div>
-	</div>
+    <MkAvatar class="avatar" :user="note.user"/>
+    <div class="main">
+        <XNoteHeader class="header" :note="note" :mini="true"/>
+        <div class="body">
+            <p v-if="note.cw != null" class="cw">
+                <Mfm v-if="note.cw != ''" class="text" :text="note.cw" :author="note.user" :i="$i" :custom-emojis="note.emojis"/>
+                <XCwButton v-model="showContent" :note="note"/>
+            </p>
+            <div v-show="note.cw == null || showContent" class="content">
+                <MkSubNoteContent class="text" :note="note"/>
+            </div>
+        </div>
+    </div>
 </div>
 </template>
 

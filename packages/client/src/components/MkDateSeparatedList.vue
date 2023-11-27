@@ -5,104 +5,104 @@ import { i18n } from "@/i18n";
 import { defaultStore } from "@/store";
 
 export default defineComponent({
-	props: {
-		items: {
-			type: Array as PropType<{ id: string; createdAt: string; _shouldInsertAd_: boolean; }[]>,
-			required: true,
-		},
-		direction: {
-			type: String,
-			required: false,
-			default: "down",
-		},
-		reversed: {
-			type: Boolean,
-			required: false,
-			default: false,
-		},
-		noGap: {
-			type: Boolean,
-			required: false,
-			default: false,
-		},
-		ad: {
-			type: Boolean,
-			required: false,
-			default: false,
-		},
-	},
+    props: {
+        items: {
+            type: Array as PropType<{ id: string; createdAt: string; _shouldInsertAd_: boolean; }[]>,
+            required: true,
+        },
+        direction: {
+            type: String,
+            required: false,
+            default: "down",
+        },
+        reversed: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+        noGap: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+        ad: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+    },
 
-	setup(props, { slots, expose }) {
-		function getDateText(time: string) {
-			const date = new Date(time).getDate();
-			const month = new Date(time).getMonth() + 1;
-			return i18n.t("monthAndDay", {
-				month: month.toString(),
-				day: date.toString(),
-			});
-		}
+    setup(props, { slots, expose }) {
+        function getDateText(time: string) {
+            const date = new Date(time).getDate();
+            const month = new Date(time).getMonth() + 1;
+            return i18n.t("monthAndDay", {
+                month: month.toString(),
+                day: date.toString(),
+            });
+        }
 
-		if (props.items.length === 0) return;
+        if (props.items.length === 0) return;
 
-		const renderChildren = () => props.items.map((item, i) => {
-			if (!slots || !slots.default) return;
+        const renderChildren = () => props.items.map((item, i) => {
+            if (!slots || !slots.default) return;
 
-			const el = slots.default({
-				item: item,
-			})[0];
-			if (el.key == null && item.id) el.key = item.id;
+            const el = slots.default({
+                item: item,
+            })[0];
+            if (el.key == null && item.id) el.key = item.id;
 
-			if (
-				i !== props.items.length - 1 &&
+            if (
+                i !== props.items.length - 1 &&
 				new Date(item.createdAt).getDate() !== new Date(props.items[i + 1].createdAt).getDate()
-			) {
-				const separator = h("div", {
-					class: "separator",
-					key: item.id + ":separator",
-				}, h("p", {
-					class: "date",
-				}, [
-					h("span", [
-						h("i", {
-							class: "ti ti-chevron-up icon",
-						}),
-						getDateText(item.createdAt),
-					]),
-					h("span", [
-						getDateText(props.items[i + 1].createdAt),
-						h("i", {
-							class: "ti ti-chevron-down icon",
-						}),
-					]),
-				]));
+            ) {
+                const separator = h("div", {
+                    class: "separator",
+                    key: item.id + ":separator",
+                }, h("p", {
+                    class: "date",
+                }, [
+                    h("span", [
+                        h("i", {
+                            class: "ti ti-chevron-up icon",
+                        }),
+                        getDateText(item.createdAt),
+                    ]),
+                    h("span", [
+                        getDateText(props.items[i + 1].createdAt),
+                        h("i", {
+                            class: "ti ti-chevron-down icon",
+                        }),
+                    ]),
+                ]));
 
-				return [el, separator];
-			} else {
-				if (props.ad && item._shouldInsertAd_) {
-					return [h(MkAd, {
-						class: "a", // advertiseの意(ブロッカー対策)
-						key: item.id + ":ad",
-						prefer: ["horizontal", "horizontal-big"],
-					}), el];
-				} else {
-					return el;
-				}
-			}
-		});
+                return [el, separator];
+            } else {
+                if (props.ad && item._shouldInsertAd_) {
+                    return [h(MkAd, {
+                        class: "a", // advertiseの意(ブロッカー対策)
+                        key: item.id + ":ad",
+                        prefer: ["horizontal", "horizontal-big"],
+                    }), el];
+                } else {
+                    return el;
+                }
+            }
+        });
 
-		return () => h(
-			defaultStore.state.animation ? TransitionGroup : "div",
-			defaultStore.state.animation ? {
-				class: "sqadhkmv" + (props.noGap ? " noGap" : ""),
-				name: "list",
-				tag: "div",
-				"data-direction": props.direction,
-				"data-reversed": props.reversed ? "true" : "false",
-			} : {
-				class: "sqadhkmv" + (props.noGap ? " noGap" : ""),
-			},
-			{ default: renderChildren });
-	},
+        return () => h(
+            defaultStore.state.animation ? TransitionGroup : "div",
+            defaultStore.state.animation ? {
+                class: "sqadhkmv" + (props.noGap ? " noGap" : ""),
+                name: "list",
+                tag: "div",
+                "data-direction": props.direction,
+                "data-reversed": props.reversed ? "true" : "false",
+            } : {
+                class: "sqadhkmv" + (props.noGap ? " noGap" : ""),
+            },
+            { default: renderChildren });
+    },
 });
 </script>
 

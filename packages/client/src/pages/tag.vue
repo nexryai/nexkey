@@ -1,9 +1,9 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
-	<MkSpacer :content-max="800">
-		<XNotes class="_content" :pagination="pagination"/>
-	</MkSpacer>
+    <template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+    <MkSpacer :content-max="800">
+        <XNotes class="_content" :pagination="pagination"/>
+    </MkSpacer>
 </MkStickyContainer>
 </template>
 
@@ -17,11 +17,11 @@ const props = defineProps<{
 }>();
 
 const pagination = {
-	endpoint: "notes/search-by-tag" as const,
-	limit: 10,
-	params: computed(() => ({
-		tag: props.tag,
-	})),
+    endpoint: "notes/search-by-tag" as const,
+    limit: 10,
+    params: computed(() => ({
+        tag: props.tag,
+    })),
 };
 
 const headerActions = $computed(() => []);
@@ -29,7 +29,7 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
 
 definePageMetadata(computed(() => ({
-	title: props.tag,
-	icon: "ti ti-hash",
+    title: props.tag,
+    icon: "ti ti-hash",
 })));
 </script>

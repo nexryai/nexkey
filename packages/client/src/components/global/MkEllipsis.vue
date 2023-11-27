@@ -1,6 +1,6 @@
 <template>
 <span class="mk-ellipsis">
-	<span>.</span><span>.</span><span>.</span>
+    <span>.</span><span>.</span><span>.</span>
 </span>
 </template>
 

@@ -1,27 +1,27 @@
 <template>
 <svg :viewBox="`0 0 ${ viewBoxX } ${ viewBoxY }`" style="overflow:visible">
-	<defs>
-		<linearGradient :id="gradientId" x1="0" x2="0" y1="1" y2="0">
-			<stop offset="0%" :stop-color="color" stop-opacity="0"></stop>
-			<stop offset="100%" :stop-color="color" stop-opacity="0.65"></stop>
-		</linearGradient>
-	</defs>
-	<polygon
-		:points="polygonPoints"
-		:style="`stroke: none; fill: url(#${ gradientId });`"
-	/>
-	<polyline
-		:points="polylinePoints"
-		fill="none"
-		:stroke="color"
-		stroke-width="2"
-	/>
-	<circle
-		:cx="headX"
-		:cy="headY"
-		r="3"
-		:fill="color"
-	/>
+    <defs>
+        <linearGradient :id="gradientId" x1="0" x2="0" y1="1" y2="0">
+            <stop offset="0%" :stop-color="color" stop-opacity="0"></stop>
+            <stop offset="100%" :stop-color="color" stop-opacity="0.65"></stop>
+        </linearGradient>
+    </defs>
+    <polygon
+        :points="polygonPoints"
+        :style="`stroke: none; fill: url(#${ gradientId });`"
+    />
+    <polyline
+        :points="polylinePoints"
+        fill="none"
+        :stroke="color"
+        stroke-width="2"
+    />
+    <circle
+        :cx="headX"
+        :cy="headY"
+        r="3"
+        :fill="color"
+    />
 </svg>
 </template>
 
@@ -47,27 +47,27 @@ const accent = tinycolor(getComputedStyle(document.documentElement).getPropertyV
 const color = accent.toRgbString();
 
 function draw(): void {
-	const stats = props.src.slice().reverse();
-	const peak = Math.max.apply(null, stats) || 1;
+    const stats = props.src.slice().reverse();
+    const peak = Math.max.apply(null, stats) || 1;
 
-	const _polylinePoints = stats.map((n, i) => [
-		i * (viewBoxX / (stats.length - 1)),
-		(1 - (n / peak)) * viewBoxY,
-	]);
+    const _polylinePoints = stats.map((n, i) => [
+        i * (viewBoxX / (stats.length - 1)),
+        (1 - (n / peak)) * viewBoxY,
+    ]);
 
-	polylinePoints = _polylinePoints.map(xy => `${xy[0]},${xy[1]}`).join(" ");
+    polylinePoints = _polylinePoints.map(xy => `${xy[0]},${xy[1]}`).join(" ");
 
-	polygonPoints = `0,${ viewBoxY } ${ polylinePoints } ${ viewBoxX },${ viewBoxY }`;
+    polygonPoints = `0,${ viewBoxY } ${ polylinePoints } ${ viewBoxX },${ viewBoxY }`;
 
-	headX = _polylinePoints[_polylinePoints.length - 1][0];
-	headY = _polylinePoints[_polylinePoints.length - 1][1];
+    headX = _polylinePoints[_polylinePoints.length - 1][0];
+    headY = _polylinePoints[_polylinePoints.length - 1][1];
 }
 
 watch(() => props.src, draw, { immediate: true });
 
 // Vueが何故かWatchを発動させない場合があるので
 useInterval(draw, 1000, {
-	immediate: false,
-	afterMounted: true,
+    immediate: false,
+    afterMounted: true,
 });
 </script>

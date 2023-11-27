@@ -1,14 +1,14 @@
 <template>
 <MkContainer :naked="widgetProps.transparent" :show-header="false" class="mkw-instance-cloud">
-	<div class="">
-		<MkTagCloud v-if="activeInstances">
-			<li v-for="instance in activeInstances" :key="instance.id">
-				<a v-if="instance.iconUrl" @click.prevent="onInstanceClick(instance)">
-					<img style="width: 32px;" :src="instance.iconUrl">
-				</a>
-			</li>
-		</MkTagCloud>
-	</div>
+    <div class="">
+        <MkTagCloud v-if="activeInstances">
+            <li v-for="instance in activeInstances" :key="instance.id">
+                <a v-if="instance.iconUrl" @click.prevent="onInstanceClick(instance)">
+                    <img style="width: 32px;" :src="instance.iconUrl">
+                </a>
+            </li>
+        </MkTagCloud>
+    </div>
 </MkContainer>
 </template>
 
@@ -24,10 +24,10 @@ import { useInterval } from "@/scripts/use-interval";
 const name = "instanceCloud";
 
 const widgetPropsDef = {
-	transparent: {
-		type: "boolean" as const,
-		default: false,
-	},
+    transparent: {
+        type: "boolean" as const,
+        default: false,
+    },
 };
 
 type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
@@ -39,35 +39,35 @@ const props = defineProps<{ widget?: Widget<WidgetProps>; }>();
 const emit = defineEmits<{ (ev: "updateProps", props: WidgetProps); }>();
 
 const { widgetProps, configure } = useWidgetPropsManager(name,
-	widgetPropsDef,
-	props,
-	emit,
+    widgetPropsDef,
+    props,
+    emit,
 );
 
 let cloud = $shallowRef<InstanceType<typeof MkTagCloud> | null>();
 let activeInstances = $shallowRef(null);
 
 function onInstanceClick(i) {
-	os.pageWindow(`/instance-info/${i.host}`);
+    os.pageWindow(`/instance-info/${i.host}`);
 }
 
 useInterval(() => {
-	os.api("federation/instances", {
-		sort: "+lastCommunicatedAt",
-		limit: 25,
-	}).then(res => {
-		activeInstances = res;
-		if (cloud) cloud.update();
-	});
+    os.api("federation/instances", {
+        sort: "+lastCommunicatedAt",
+        limit: 25,
+    }).then(res => {
+        activeInstances = res;
+        if (cloud) cloud.update();
+    });
 }, 1000 * 60 * 3, {
-	immediate: true,
-	afterMounted: true,
+    immediate: true,
+    afterMounted: true,
 });
 
 defineExpose<WidgetComponentExpose>({
-	name,
-	configure,
-	id: props.widget ? props.widget.id : null,
+    name,
+    configure,
+    id: props.widget ? props.widget.id : null,
 });
 </script>
 

@@ -1,28 +1,28 @@
 <template>
 <div class="vblkjoeq">
-	<div class="label" @click="focus"><slot name="label"></slot></div>
-	<div ref="container" class="input" :class="{ inline, disabled, focused }" @click.prevent="onClick">
-		<div ref="prefixEl" class="prefix"><slot name="prefix"></slot></div>
-		<select
-			ref="inputEl"
-			v-model="v"
-			v-adaptive-border
-			class="select"
-			:disabled="disabled"
-			:required="required"
-			:readonly="readonly"
-			:placeholder="placeholder"
-			@focus="focused = true"
-			@blur="focused = false"
-			@input="onInput"
-		>
-			<slot></slot>
-		</select>
-		<div ref="suffixEl" class="suffix"><i class="ti ti-chevron-down"></i></div>
-	</div>
-	<div class="caption"><slot name="caption"></slot></div>
+    <div class="label" @click="focus"><slot name="label"></slot></div>
+    <div ref="container" class="input" :class="{ inline, disabled, focused }" @click.prevent="onClick">
+        <div ref="prefixEl" class="prefix"><slot name="prefix"></slot></div>
+        <select
+            ref="inputEl"
+            v-model="v"
+            v-adaptive-border
+            class="select"
+            :disabled="disabled"
+            :required="required"
+            :readonly="readonly"
+            :placeholder="placeholder"
+            @focus="focused = true"
+            @blur="focused = false"
+            @input="onInput"
+        >
+            <slot></slot>
+        </select>
+        <div ref="suffixEl" class="suffix"><i class="ti ti-chevron-down"></i></div>
+    </div>
+    <div class="caption"><slot name="caption"></slot></div>
 
-	<MkButton v-if="manualSave && changed" primary @click="updated"><i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}</MkButton>
+    <MkButton v-if="manualSave && changed" primary @click="updated"><i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}</MkButton>
 </div>
 </template>
 
@@ -70,97 +70,97 @@ const height =
 
 const focus = () => inputEl.value.focus();
 const onInput = (ev) => {
-	changed.value = true;
-	emit("change", ev);
+    changed.value = true;
+    emit("change", ev);
 };
 
 const updated = () => {
-	changed.value = false;
-	emit("update:modelValue", v.value);
+    changed.value = false;
+    emit("update:modelValue", v.value);
 };
 
 watch(modelValue, newValue => {
-	v.value = newValue;
+    v.value = newValue;
 });
 
 watch(v, newValue => {
-	if (!props.manualSave) {
-		updated();
-	}
+    if (!props.manualSave) {
+        updated();
+    }
 
-	invalid.value = inputEl.value.validity.badInput;
+    invalid.value = inputEl.value.validity.badInput;
 });
 
 // このコンポーネントが作成された時、非表示状態である場合がある
 // 非表示状態だと要素の幅などは0になってしまうので、定期的に計算する
 useInterval(() => {
-	if (prefixEl.value) {
-		if (prefixEl.value.offsetWidth) {
-			inputEl.value.style.paddingLeft = prefixEl.value.offsetWidth + "px";
-		}
-	}
-	if (suffixEl.value) {
-		if (suffixEl.value.offsetWidth) {
-			inputEl.value.style.paddingRight = suffixEl.value.offsetWidth + "px";
-		}
-	}
+    if (prefixEl.value) {
+        if (prefixEl.value.offsetWidth) {
+            inputEl.value.style.paddingLeft = prefixEl.value.offsetWidth + "px";
+        }
+    }
+    if (suffixEl.value) {
+        if (suffixEl.value.offsetWidth) {
+            inputEl.value.style.paddingRight = suffixEl.value.offsetWidth + "px";
+        }
+    }
 }, 100, {
-	immediate: true,
-	afterMounted: true,
+    immediate: true,
+    afterMounted: true,
 });
 
 onMounted(() => {
-	nextTick(() => {
-		if (autofocus.value) {
-			focus();
-		}
-	});
+    nextTick(() => {
+        if (autofocus.value) {
+            focus();
+        }
+    });
 });
 
 const onClick = (ev: MouseEvent) => {
-	focused.value = true;
+    focused.value = true;
 
-	const menu = [];
-	let options = slots.default!();
+    const menu = [];
+    let options = slots.default!();
 
-	const pushOption = (option: VNode) => {
-		menu.push({
-			text: option.children,
-			active: v.value === option.props.value,
-			action: () => {
-				v.value = option.props.value;
-			},
-		});
-	};
+    const pushOption = (option: VNode) => {
+        menu.push({
+            text: option.children,
+            active: v.value === option.props.value,
+            action: () => {
+                v.value = option.props.value;
+            },
+        });
+    };
 
-	const scanOptions = (options: VNode[]) => {
-		for (const vnode of options) {
-			if (vnode.type === "optgroup") {
-				const optgroup = vnode;
-				menu.push({
-					type: "label",
-					text: optgroup.props.label,
-				});
-				scanOptions(optgroup.children);
-			} else if (Array.isArray(vnode.children)) { // 何故かフラグメントになってくることがある
-				const fragment = vnode;
-				scanOptions(fragment.children);
-			} else if (vnode.props == null) { // v-if で条件が false のときにこうなる
-				// nop?
-			} else {
-				const option = vnode;
-				pushOption(option);
-			}
-		}
-	};
+    const scanOptions = (options: VNode[]) => {
+        for (const vnode of options) {
+            if (vnode.type === "optgroup") {
+                const optgroup = vnode;
+                menu.push({
+                    type: "label",
+                    text: optgroup.props.label,
+                });
+                scanOptions(optgroup.children);
+            } else if (Array.isArray(vnode.children)) { // 何故かフラグメントになってくることがある
+                const fragment = vnode;
+                scanOptions(fragment.children);
+            } else if (vnode.props == null) { // v-if で条件が false のときにこうなる
+                // nop?
+            } else {
+                const option = vnode;
+                pushOption(option);
+            }
+        }
+    };
 
-	scanOptions(options);
+    scanOptions(options);
 
-	os.popupMenu(menu, container.value, {
-		width: container.value.offsetWidth,
-	}).then(() => {
-		focused.value = false;
-	});
+    os.popupMenu(menu, container.value, {
+        width: container.value.offsetWidth,
+    }).then(() => {
+        focused.value = false;
+    });
 };
 </script>
 

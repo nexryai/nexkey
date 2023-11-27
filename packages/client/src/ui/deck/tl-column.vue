@@ -1,20 +1,20 @@
 <template>
 <XColumn :menu="menu" :column="column" :is-stacked="isStacked" :indicated="indicated" @change-active-state="onChangeActiveState" @parent-focus="$event => emit('parent-focus', $event)">
-	<template #header>
-		<i v-if="column.tl === 'home'" class="ti ti-home"></i>
-		<i v-else-if="column.tl === 'social'" class="ti ti-rocket"></i>
-		<i v-else-if="column.tl === 'global'" class="ti ti-whirl"></i>
-		<span style="margin-left: 8px;">{{ column.name }}</span>
-	</template>
+    <template #header>
+        <i v-if="column.tl === 'home'" class="ti ti-home"></i>
+        <i v-else-if="column.tl === 'social'" class="ti ti-rocket"></i>
+        <i v-else-if="column.tl === 'global'" class="ti ti-whirl"></i>
+        <span style="margin-left: 8px;">{{ column.name }}</span>
+    </template>
 
-	<div v-if="disabled || ((column.tl === 'local' || column.tl === 'social') && !enableLTL) || (column.tl === 'media' && (!enableMTL || !enableLTL)) || (column.tl === 'global' && !enableGTL) || (column.tl === 'personal' && !enablePTL) || (column.tl === 'limited' && !enableLimitedTL)" class="iwaalbte">
-		<p>
-			<i class="ti ti-minus-circle"></i>
-			{{ i18n.ts.disabledTimelineTitle }}
-		</p>
-		<p class="desc">{{ i18n.ts.disabledTimelineDescription }}</p>
-	</div>
-	<XTimeline v-else-if="column.tl" ref="timeline" :key="column.tl" :src="column.tl" @after="() => emit('loaded')" @queue="queueUpdated" @note="onNote"/>
+    <div v-if="disabled || ((column.tl === 'local' || column.tl === 'social') && !enableLTL) || (column.tl === 'media' && (!enableMTL || !enableLTL)) || (column.tl === 'global' && !enableGTL) || (column.tl === 'personal' && !enablePTL) || (column.tl === 'limited' && !enableLimitedTL)" class="iwaalbte">
+        <p>
+            <i class="ti ti-minus-circle"></i>
+            {{ i18n.ts.disabledTimelineTitle }}
+        </p>
+        <p class="desc">{{ i18n.ts.disabledTimelineDescription }}</p>
+    </div>
+    <XTimeline v-else-if="column.tl" ref="timeline" :key="column.tl" :src="column.tl" @after="() => emit('loaded')" @queue="queueUpdated" @note="onNote"/>
 </XColumn>
 </template>
 
@@ -49,68 +49,68 @@ let enablePTL = $ref(false);
 let enableLimitedTL = $ref(false);
 
 onMounted(() => {
-	if (props.column.tl == null) {
-		setType();
-	} else if ($i) {
-		disabled = !$i.isModerator && !$i.isAdmin && (
-			instance.disableLocalTimeline && ["local", "social"].includes(props.column.tl) ||
+    if (props.column.tl == null) {
+        setType();
+    } else if ($i) {
+        disabled = !$i.isModerator && !$i.isAdmin && (
+            instance.disableLocalTimeline && ["local", "social"].includes(props.column.tl) ||
 			instance.disableGlobalTimeline && ["global"].includes(props.column.tl));
-	}
-	enableLTL = defaultStore.state.enableLTL;
-	enableLimitedTL = defaultStore.state.enableLimitedTL;
-	enableMTL = defaultStore.state.enableMTL;
-	enableGTL = defaultStore.state.enableGTL;
-	enablePTL = defaultStore.state.enablePTL;
+    }
+    enableLTL = defaultStore.state.enableLTL;
+    enableLimitedTL = defaultStore.state.enableLimitedTL;
+    enableMTL = defaultStore.state.enableMTL;
+    enableGTL = defaultStore.state.enableGTL;
+    enablePTL = defaultStore.state.enablePTL;
 });
 
 async function setType() {
-	const { canceled, result: src } = await os.select({
-		title: i18n.ts.timeline,
-		items: [{
-			value: "home" as const, text: i18n.ts._timelines.home,
-		}, {
-			value: "local" as const, text: i18n.ts._timelines.local,
-		}, {
-			value: "social" as const, text: i18n.ts._timelines.social,
-		}, {
-			value: "global" as const, text: i18n.ts._timelines.global,
-		}],
-	});
-	if (canceled) {
-		if (props.column.tl == null) {
-			removeColumn(props.column.id);
-		}
-		return;
-	}
-	updateColumn(props.column.id, {
-		tl: src,
-	});
+    const { canceled, result: src } = await os.select({
+        title: i18n.ts.timeline,
+        items: [{
+            value: "home" as const, text: i18n.ts._timelines.home,
+        }, {
+            value: "local" as const, text: i18n.ts._timelines.local,
+        }, {
+            value: "social" as const, text: i18n.ts._timelines.social,
+        }, {
+            value: "global" as const, text: i18n.ts._timelines.global,
+        }],
+    });
+    if (canceled) {
+        if (props.column.tl == null) {
+            removeColumn(props.column.id);
+        }
+        return;
+    }
+    updateColumn(props.column.id, {
+        tl: src,
+    });
 }
 
 function queueUpdated(q) {
-	if (columnActive) {
-		indicated = q !== 0;
-	}
+    if (columnActive) {
+        indicated = q !== 0;
+    }
 }
 
 function onNote() {
-	if (!columnActive) {
-		indicated = true;
-	}
+    if (!columnActive) {
+        indicated = true;
+    }
 }
 
 function onChangeActiveState(state) {
-	columnActive = state;
+    columnActive = state;
 
-	if (columnActive) {
-		indicated = false;
-	}
+    if (columnActive) {
+        indicated = false;
+    }
 }
 
 const menu = [{
-	icon: "ti ti-pencil",
-	text: i18n.ts.timeline,
-	action: setType,
+    icon: "ti ti-pencil",
+    text: i18n.ts.timeline,
+    action: setType,
 }];
 </script>
 

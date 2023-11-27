@@ -1,35 +1,35 @@
 <template>
 <div class="_formRoot">
-	<FormSection v-if="!fetching">
-		<template #label>{{ i18n.ts.usageAmount }}</template>
-		<div class="_formBlock uawsfosz">
-			<div class="meter"><div :style="meterStyle"></div></div>
-		</div>
-		<FormSplit>
-			<MkKeyValue class="_formBlock">
-				<template #key>{{ i18n.ts.capacity }}</template>
-				<template #value>{{ bytes(capacity, 1) }}</template>
-			</MkKeyValue>
-			<MkKeyValue class="_formBlock">
-				<template #key>{{ i18n.ts.inUse }}</template>
-				<template #value>{{ bytes(usage, 1) }}</template>
-			</MkKeyValue>
-		</FormSplit>
-	</FormSection>
+    <FormSection v-if="!fetching">
+        <template #label>{{ i18n.ts.usageAmount }}</template>
+        <div class="_formBlock uawsfosz">
+            <div class="meter"><div :style="meterStyle"></div></div>
+        </div>
+        <FormSplit>
+            <MkKeyValue class="_formBlock">
+                <template #key>{{ i18n.ts.capacity }}</template>
+                <template #value>{{ bytes(capacity, 1) }}</template>
+            </MkKeyValue>
+            <MkKeyValue class="_formBlock">
+                <template #key>{{ i18n.ts.inUse }}</template>
+                <template #value>{{ bytes(usage, 1) }}</template>
+            </MkKeyValue>
+        </FormSplit>
+    </FormSection>
 
-	<FormSection>
-		<template #label>{{ i18n.ts.statistics }}</template>
-		<MkChart src="per-user-drive" :args="{ user: $i }" span="day" :limit="7 * 5" :bar="true" :stacked="true" :detailed="false" :aspect-ratio="6"/>
-	</FormSection>
+    <FormSection>
+        <template #label>{{ i18n.ts.statistics }}</template>
+        <MkChart src="per-user-drive" :args="{ user: $i }" span="day" :limit="7 * 5" :bar="true" :stacked="true" :detailed="false" :aspect-ratio="6"/>
+    </FormSection>
 
-	<FormSection>
-		<FormLink @click="chooseUploadFolder()">
-			{{ i18n.ts.uploadFolder }}
-			<template #suffix>{{ uploadFolder ? uploadFolder.name : '-' }}</template>
-			<template #suffixIcon><i class="ti ti-folder"></i></template>
-		</FormLink>
-		<FormSwitch v-model="keepOriginalUploading" class="_formBlock">{{ i18n.ts.keepOriginalUploading }}<template #caption>{{ i18n.ts.keepOriginalUploadingDescription }}</template></FormSwitch>
-	</FormSection>
+    <FormSection>
+        <FormLink @click="chooseUploadFolder()">
+            {{ i18n.ts.uploadFolder }}
+            <template #suffix>{{ uploadFolder ? uploadFolder.name : '-' }}</template>
+            <template #suffixIcon><i class="ti ti-folder"></i></template>
+        </FormLink>
+        <FormSwitch v-model="keepOriginalUploading" class="_formBlock">{{ i18n.ts.keepOriginalUploading }}<template #caption>{{ i18n.ts.keepOriginalUploadingDescription }}</template></FormSwitch>
+    </FormSection>
 </div>
 </template>
 
@@ -54,44 +54,44 @@ const capacity = ref<any>(null);
 const uploadFolder = ref<any>(null);
 
 const meterStyle = computed(() => {
-	return {
-		width: `${usage.value / capacity.value * 100}%`,
-		background: tinycolor({
-			h: 180 - (usage.value / capacity.value * 180),
-			s: 0.7,
-			l: 0.5,
-		}),
-	};
+    return {
+        width: `${usage.value / capacity.value * 100}%`,
+        background: tinycolor({
+            h: 180 - (usage.value / capacity.value * 180),
+            s: 0.7,
+            l: 0.5,
+        }),
+    };
 });
 
 const keepOriginalUploading = computed(defaultStore.makeGetterSetter("keepOriginalUploading"));
 
 os.api("drive").then(info => {
-	capacity.value = info.capacity;
-	usage.value = info.usage;
-	fetching.value = false;
+    capacity.value = info.capacity;
+    usage.value = info.usage;
+    fetching.value = false;
 });
 
 if (defaultStore.state.uploadFolder) {
-	os.api("drive/folders/show", {
-		folderId: defaultStore.state.uploadFolder,
-	}).then(response => {
-		uploadFolder.value = response;
-	});
+    os.api("drive/folders/show", {
+        folderId: defaultStore.state.uploadFolder,
+    }).then(response => {
+        uploadFolder.value = response;
+    });
 }
 
 function chooseUploadFolder() {
-	os.selectDriveFolder(false).then(async folder => {
-		defaultStore.set("uploadFolder", folder ? folder.id : null);
-		os.success();
-		if (defaultStore.state.uploadFolder) {
-			uploadFolder.value = await os.api("drive/folders/show", {
-				folderId: defaultStore.state.uploadFolder,
-			});
-		} else {
-			uploadFolder.value = null;
-		}
-	});
+    os.selectDriveFolder(false).then(async folder => {
+        defaultStore.set("uploadFolder", folder ? folder.id : null);
+        os.success();
+        if (defaultStore.state.uploadFolder) {
+            uploadFolder.value = await os.api("drive/folders/show", {
+                folderId: defaultStore.state.uploadFolder,
+            });
+        } else {
+            uploadFolder.value = null;
+        }
+    });
 }
 
 const headerActions = $computed(() => []);
@@ -99,8 +99,8 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
 
 definePageMetadata({
-	title: i18n.ts.drive,
-	icon: "ti ti-cloud",
+    title: i18n.ts.drive,
+    icon: "ti ti-cloud",
 });
 </script>
 

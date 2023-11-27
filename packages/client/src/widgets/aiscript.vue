@@ -1,14 +1,14 @@
 <template>
 <MkContainer :show-header="widgetProps.showHeader" class="mkw-aiscript">
-	<template #header><i class="ti ti-terminal-2"></i>{{ i18n.ts._widgets.aiscript }}</template>
+    <template #header><i class="ti ti-terminal-2"></i>{{ i18n.ts._widgets.aiscript }}</template>
 
-	<div class="uylguesu _monospace">
-		<textarea v-model="widgetProps.script" placeholder="(1 + 1)"></textarea>
-		<button class="_buttonPrimary" @click="run">RUN</button>
-		<div class="logs">
-			<div v-for="log in logs" :key="log.id" class="log" :class="{ print: log.print }">{{ log.text }}</div>
-		</div>
-	</div>
+    <div class="uylguesu _monospace">
+        <textarea v-model="widgetProps.script" placeholder="(1 + 1)"></textarea>
+        <button class="_buttonPrimary" @click="run">RUN</button>
+        <div class="logs">
+            <div v-for="log in logs" :key="log.id" class="log" :class="{ print: log.print }">{{ log.text }}</div>
+        </div>
+    </div>
 </MkContainer>
 </template>
 
@@ -26,16 +26,16 @@ import { i18n } from "@/i18n";
 const name = "aiscript";
 
 const widgetPropsDef = {
-	showHeader: {
-		type: "boolean" as const,
-		default: true,
-	},
-	script: {
-		type: "string" as const,
-		multiline: true,
-		default: "(1 + 1)",
-		hidden: true,
-	},
+    showHeader: {
+        type: "boolean" as const,
+        default: true,
+    },
+    script: {
+        type: "string" as const,
+        multiline: true,
+        default: "(1 + 1)",
+        hidden: true,
+    },
 };
 
 type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
@@ -47,9 +47,9 @@ const props = defineProps<{ widget?: Widget<WidgetProps>; }>();
 const emit = defineEmits<{ (ev: "updateProps", props: WidgetProps); }>();
 
 const { widgetProps, configure } = useWidgetPropsManager(name,
-	widgetPropsDef,
-	props,
-	emit,
+    widgetPropsDef,
+    props,
+    emit,
 );
 
 const logs = ref<{
@@ -59,63 +59,63 @@ const logs = ref<{
 }[]>([]);
 
 const run = async () => {
-	logs.value = [];
-	const aiscript = new AiScript(createAiScriptEnv({
-		storageKey: "widget",
-		token: $i?.token,
-	}), {
-		in: (q) => {
-			return new Promise(ok => {
-				os.inputText({
-					title: q,
-				}).then(({ canceled, result: a }) => {
-					ok(a);
-				});
-			});
-		},
-		out: (value) => {
-			logs.value.push({
-				id: Math.random().toString(),
-				text: value.type === "str" ? value.value : utils.valToString(value),
-				print: true,
-			});
-		},
-		log: (type, params) => {
-			switch (type) {
-				case "end": logs.value.push({
-					id: Math.random().toString(),
-					text: utils.valToString(params.val, true),
-					print: false,
-				}); break;
-				default: break;
-			}
-		},
-	});
+    logs.value = [];
+    const aiscript = new AiScript(createAiScriptEnv({
+        storageKey: "widget",
+        token: $i?.token,
+    }), {
+        in: (q) => {
+            return new Promise(ok => {
+                os.inputText({
+                    title: q,
+                }).then(({ canceled, result: a }) => {
+                    ok(a);
+                });
+            });
+        },
+        out: (value) => {
+            logs.value.push({
+                id: Math.random().toString(),
+                text: value.type === "str" ? value.value : utils.valToString(value),
+                print: true,
+            });
+        },
+        log: (type, params) => {
+            switch (type) {
+                case "end": logs.value.push({
+                    id: Math.random().toString(),
+                    text: utils.valToString(params.val, true),
+                    print: false,
+                }); break;
+                default: break;
+            }
+        },
+    });
 
-	let ast;
-	try {
-		ast = parse(widgetProps.script);
-	} catch (err) {
-		os.alert({
-			type: "error",
-			text: "Syntax error :(",
-		});
-		return;
-	}
-	try {
-		await aiscript.exec(ast);
-	} catch (err) {
-		os.alert({
-			type: "error",
-			text: err,
-		});
-	}
+    let ast;
+    try {
+        ast = parse(widgetProps.script);
+    } catch (err) {
+        os.alert({
+            type: "error",
+            text: "Syntax error :(",
+        });
+        return;
+    }
+    try {
+        await aiscript.exec(ast);
+    } catch (err) {
+        os.alert({
+            type: "error",
+            text: err,
+        });
+    }
 };
 
 defineExpose<WidgetComponentExpose>({
-	name,
-	configure,
-	id: props.widget ? props.widget.id : null,
+    name,
+    configure,
+    id: props.widget ? props.widget.id : null,
 });
 </script>
 

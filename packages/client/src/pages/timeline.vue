@@ -1,32 +1,32 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader v-model:tab="src" :actions="headerActions" :tabs="headerTabs" :display-my-avatar="true"/></template>
-	<MkSpacer :content-max="800">
-		<div ref="rootEl" v-hotkey.global="keymap" class="cmuxhskf">
-			<XTutorial v-if="$store.reactiveState.tutorial.value != -1" class="tutorial _block"/>
-			<XPostForm v-if="$store.reactiveState.showFixedPostForm.value" class="post-form _block" fixed/>
+    <template #header><MkPageHeader v-model:tab="src" :actions="headerActions" :tabs="headerTabs" :display-my-avatar="true"/></template>
+    <MkSpacer :content-max="800">
+        <div ref="rootEl" v-hotkey.global="keymap" class="cmuxhskf">
+            <XTutorial v-if="$store.reactiveState.tutorial.value != -1" class="tutorial _block"/>
+            <XPostForm v-if="$store.reactiveState.showFixedPostForm.value" class="post-form _block" fixed/>
 
-			<div v-if="queue > 0" class="new"><button class="_buttonPrimary" @click="top()">{{ i18n.ts.newNoteRecived }}</button></div>
-			<div>
-				<div v-if="((src === 'local' || src === 'social') && !isLocalTimelineAvailable) || (src === 'media' && !isMediaTimelineAvailable) || (src === 'personal' && !isPersonalTimelineAvailable) || (src === 'limited' && !isLimitedTimelineAvailable) || (src === 'global' && !isGlobalTimelineAvailable)" class="iwaalbte">
-					<p>
-						<i class="fas fa-minus-circle"></i>
-						{{ i18n.ts.disabledTimelineTitle }}
-					</p>
-					<p class="desc">{{ i18n.ts.disabledTimelineDescription }}</p>
-				</div>
-				<div v-else class="tl _block">
-					<XTimeline
-						ref="tl" :key="src"
-						class="tl"
-						:src="src"
-						:sound="true"
-						@queue="queueUpdated"
-					/>
-				</div>
-			</div>
-		</div>
-	</MkSpacer>
+            <div v-if="queue > 0" class="new"><button class="_buttonPrimary" @click="top()">{{ i18n.ts.newNoteRecived }}</button></div>
+            <div>
+                <div v-if="((src === 'local' || src === 'social') && !isLocalTimelineAvailable) || (src === 'media' && !isMediaTimelineAvailable) || (src === 'personal' && !isPersonalTimelineAvailable) || (src === 'limited' && !isLimitedTimelineAvailable) || (src === 'global' && !isGlobalTimelineAvailable)" class="iwaalbte">
+                    <p>
+                        <i class="fas fa-minus-circle"></i>
+                        {{ i18n.ts.disabledTimelineTitle }}
+                    </p>
+                    <p class="desc">{{ i18n.ts.disabledTimelineDescription }}</p>
+                </div>
+                <div v-else class="tl _block">
+                    <XTimeline
+                        ref="tl" :key="src"
+                        class="tl"
+                        :src="src"
+                        :sound="true"
+                        @queue="queueUpdated"
+                    />
+                </div>
+            </div>
+        </div>
+    </MkSpacer>
 </MkStickyContainer>
 </template>
 
@@ -52,7 +52,7 @@ const isGlobalTimelineAvailable = (!instance.disableGlobalTimeline || ($i != nul
 const isPersonalTimelineAvailable = $i != null && defaultStore.state.enablePTL;
 const isLimitedTimelineAvailable = $i != null && defaultStore.state.enableLimitedTL;
 const keymap = {
-	"t": focus,
+    "t": focus,
 };
 
 const tlComponent = $ref<InstanceType<typeof XTimeline>>();
@@ -64,91 +64,91 @@ const src = $computed({ get: () => defaultStore.reactiveState.tl.value.src, set:
 watch ($$(src), () => queue = 0);
 
 function queueUpdated(q: number): void {
-	queue = q;
+    queue = q;
 }
 
 function top(): void {
-	scroll(rootEl, { top: 0 });
+    scroll(rootEl, { top: 0 });
 }
 
 async function chooseList(ev: MouseEvent): Promise<void> {
-	const lists = await os.api("users/lists/list");
-	let items = lists.map(list => ({
-		type: "link" as const,
-		text: list.name,
-		to: `/timeline/list/${list.id}`,
-	}));
-	items.push({
+    const lists = await os.api("users/lists/list");
+    let items = lists.map(list => ({
+        type: "link" as const,
+        text: list.name,
+        to: `/timeline/list/${list.id}`,
+    }));
+    items.push({
   	type: "link" as const,
   	icon: "ti ti-settings",
   	text: i18n.ts.manageLists,
   	indicate: false,
   	to: "/my/lists",
-	});
-	os.popupMenu(items, ev.currentTarget ?? ev.target);
+    });
+    os.popupMenu(items, ev.currentTarget ?? ev.target);
 }
 
 async function chooseAntenna(ev: MouseEvent): Promise<void> {
-	const antennas = await os.api("antennas/list");
-	let items = antennas.map(antenna => ({
-		type: "link" as const,
-		text: antenna.name,
-		indicate: antenna.hasUnreadNote,
-		to: `/timeline/antenna/${antenna.id}`,
-	}));
-	items.push({
+    const antennas = await os.api("antennas/list");
+    let items = antennas.map(antenna => ({
+        type: "link" as const,
+        text: antenna.name,
+        indicate: antenna.hasUnreadNote,
+        to: `/timeline/antenna/${antenna.id}`,
+    }));
+    items.push({
   	type: "link" as const,
   	icon: "ti ti-settings",
   	text: i18n.ts.manageAntennas,
   	indicate: false,
   	to: "/my/antennas",
-	});
-	os.popupMenu(items, ev.currentTarget ?? ev.target);
+    });
+    os.popupMenu(items, ev.currentTarget ?? ev.target);
 }
 
 function saveSrc(newSrc: "home" | "local" | "social" | "global" | "limited" | "media" | "personal"): void {
-	defaultStore.set("tl", {
-		...defaultStore.state.tl,
-		src: newSrc,
-	});
+    defaultStore.set("tl", {
+        ...defaultStore.state.tl,
+        src: newSrc,
+    });
 }
 
 function focus(): void {
-	tlComponent.focus();
+    tlComponent.focus();
 }
 
 const headerActions = $computed(() => []);
 
 const headerTabs = $computed(() => [{
-	key: "home",
-	title: i18n.ts._timelines.home,
-	icon: "ti ti-home",
-	iconOnly: true,
+    key: "home",
+    title: i18n.ts._timelines.home,
+    icon: "ti ti-home",
+    iconOnly: true,
 }, ...(isLocalTimelineAvailable ? [{
-	key: "social",
-	title: i18n.ts._timelines.social,
-	icon: "ti ti-rocket",
-	iconOnly: true,
+    key: "social",
+    title: i18n.ts._timelines.social,
+    icon: "ti ti-rocket",
+    iconOnly: true,
 }] : []), ...(isGlobalTimelineAvailable ? [{
-	key: "global",
-	title: i18n.ts._timelines.global,
-	icon: "ti ti-whirl",
-	iconOnly: true,
+    key: "global",
+    title: i18n.ts._timelines.global,
+    icon: "ti ti-whirl",
+    iconOnly: true,
 }] : []), {
-	icon: "ti ti-list",
-	title: i18n.ts.lists,
-	iconOnly: true,
-	onClick: chooseList,
+    icon: "ti ti-list",
+    title: i18n.ts.lists,
+    iconOnly: true,
+    onClick: chooseList,
 }, {
-	icon: "ti ti-antenna",
-	title: i18n.ts.antennas,
-	iconOnly: true,
-	onClick: chooseAntenna,
+    icon: "ti ti-antenna",
+    title: i18n.ts.antennas,
+    iconOnly: true,
+    onClick: chooseAntenna,
 }]);
 
 definePageMetadata(computed(() => ({
-	title: i18n.ts.timeline,
-	icon: src === "local" ? "ti ti-planet" : src === "social" ? "ti ti-rocket" : src === "global" ? "ti ti-whirl" : src === "limited" ? "ti ti-lock-open" : src === "media" ? "ti ti-file" : src === "personal" ? "ti ti-book" : "ti ti-home",
+    title: i18n.ts.timeline,
+    icon: src === "local" ? "ti ti-planet" : src === "social" ? "ti ti-rocket" : src === "global" ? "ti ti-whirl" : src === "limited" ? "ti ti-lock-open" : src === "media" ? "ti ti-file" : src === "personal" ? "ti ti-book" : "ti ti-home",
 })));
 </script>
 

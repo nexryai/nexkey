@@ -1,22 +1,22 @@
 <template>
 <div v-if="hide" class="qjewsnkg" @click="hide = false">
-	<ImgWithBlurhash class="bg" :hash="image.blurhash" :title="image.comment" :alt="image.comment"/>
-	<div class="text">
-		<div class="wrapper">
-			<b style="display: block;"><i class="ti ti-alert-triangle"></i> {{ $ts.sensitive }}</b>
-			<span style="display: block;">{{ $ts.clickToShow }}</span>
-		</div>
-	</div>
+    <ImgWithBlurhash class="bg" :hash="image.blurhash" :title="image.comment" :alt="image.comment"/>
+    <div class="text">
+        <div class="wrapper">
+            <b style="display: block;"><i class="ti ti-alert-triangle"></i> {{ $ts.sensitive }}</b>
+            <span style="display: block;">{{ $ts.clickToShow }}</span>
+        </div>
+    </div>
 </div>
 <div v-else class="gqnyydlz">
-	<a
-		:href="image.url"
-		:title="image.name"
-	>
-		<ImgWithBlurhash :hash="image.blurhash" :src="url" :alt="image.comment" :title="image.comment" :cover="false"/>
-		<div v-if="image.type === 'image/gif'" class="gif">GIF</div>
-	</a>
-	<button v-tooltip="$ts.hide" class="_button hide" @click="hide = true"><i class="ti ti-eye-off"></i></button>
+    <a
+        :href="image.url"
+        :title="image.name"
+    >
+        <ImgWithBlurhash :hash="image.blurhash" :src="url" :alt="image.comment" :title="image.comment" :cover="false"/>
+        <div v-if="image.type === 'image/gif'" class="gif">GIF</div>
+    </a>
+    <button v-tooltip="$ts.hide" class="_button hide" @click="hide = true"><i class="ti ti-eye-off"></i></button>
 </div>
 </template>
 
@@ -35,17 +35,17 @@ const props = defineProps<{
 let hide = $ref(true);
 
 const url = (props.raw || defaultStore.state.loadRawImages)
-	? props.image.url
-	: defaultStore.state.disableShowingAnimatedImages
-		? getStaticImageUrl(props.image.thumbnailUrl)
-		: props.image.thumbnailUrl;
+    ? props.image.url
+    : defaultStore.state.disableShowingAnimatedImages
+        ? getStaticImageUrl(props.image.thumbnailUrl)
+        : props.image.thumbnailUrl;
 
 // Plugin:register_note_view_interruptor を使って書き換えられる可能性があるためwatchする
 watch(() => props.image, () => {
-	hide = (defaultStore.state.nsfw === "force") ? true : props.image.isSensitive && (defaultStore.state.nsfw !== "ignore");
+    hide = (defaultStore.state.nsfw === "force") ? true : props.image.isSensitive && (defaultStore.state.nsfw !== "ignore");
 }, {
-	deep: true,
-	immediate: true,
+    deep: true,
+    immediate: true,
 });
 </script>
 

@@ -1,50 +1,50 @@
 <template>
 <MkStickyContainer>
-	<template #header><XHeader :actions="headerActions" :tabs="headerTabs"/></template>
-	<MkSpacer v-if="streamModeEnabled">
-		<MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
-	</MkSpacer>
-	<MkSpacer v-if="!streamModeEnabled" :content-max="700" :margin-min="16" :margin-max="32">
-		<FormSuspense :p="init">
-			<div class="_formRoot">
-				<FormFolder class="_formBlock">
-					<template #icon><i class="ti ti-shield"></i></template>
-					<template #label>{{ i18n.ts.botProtection }}</template>
-					<template v-if="enableHcaptcha" #suffix>hCaptcha</template>
-					<template v-else-if="enableRecaptcha" #suffix>reCAPTCHA</template>
-					<template v-else-if="enableTurnstile" #suffix>Turnstile</template>
-					<template v-else #suffix>{{ i18n.ts.none }} ({{ i18n.ts.notRecommended }})</template>
+    <template #header><XHeader :actions="headerActions" :tabs="headerTabs"/></template>
+    <MkSpacer v-if="streamModeEnabled">
+        <MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
+    </MkSpacer>
+    <MkSpacer v-if="!streamModeEnabled" :content-max="700" :margin-min="16" :margin-max="32">
+        <FormSuspense :p="init">
+            <div class="_formRoot">
+                <FormFolder class="_formBlock">
+                    <template #icon><i class="ti ti-shield"></i></template>
+                    <template #label>{{ i18n.ts.botProtection }}</template>
+                    <template v-if="enableHcaptcha" #suffix>hCaptcha</template>
+                    <template v-else-if="enableRecaptcha" #suffix>reCAPTCHA</template>
+                    <template v-else-if="enableTurnstile" #suffix>Turnstile</template>
+                    <template v-else #suffix>{{ i18n.ts.none }} ({{ i18n.ts.notRecommended }})</template>
 
-					<XBotProtection/>
-				</FormFolder>
+                    <XBotProtection/>
+                </FormFolder>
 
-				<FormFolder class="_formBlock">
-					<template #label>Log IP address</template>
-					<template v-if="enableIpLogging" #suffix>Enabled</template>
-					<template v-else #suffix>Disabled</template>
+                <FormFolder class="_formBlock">
+                    <template #label>Log IP address</template>
+                    <template v-if="enableIpLogging" #suffix>Enabled</template>
+                    <template v-else #suffix>Disabled</template>
 
-					<div class="_formRoot">
-						<FormSwitch v-model="enableIpLogging" class="_formBlock" @update:modelValue="save">
-							<template #label>Enable</template>
-						</FormSwitch>
-					</div>
-				</FormFolder>
+                    <div class="_formRoot">
+                        <FormSwitch v-model="enableIpLogging" class="_formBlock" @update:modelValue="save">
+                            <template #label>Enable</template>
+                        </FormSwitch>
+                    </div>
+                </FormFolder>
 
-				<FormFolder class="_formBlock">
-					<template #label>Summaly Proxy</template>
+                <FormFolder class="_formBlock">
+                    <template #label>Summaly Proxy</template>
 
-					<div class="_formRoot">
-						<FormInput v-model="summalyProxy" class="_formBlock">
-							<template #prefix><i class="ti ti-link"></i></template>
-							<template #label>Summaly Proxy URL</template>
-						</FormInput>
+                    <div class="_formRoot">
+                        <FormInput v-model="summalyProxy" class="_formBlock">
+                            <template #prefix><i class="ti ti-link"></i></template>
+                            <template #label>Summaly Proxy URL</template>
+                        </FormInput>
 
-						<FormButton primary class="_formBlock" @click="save"><i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}</FormButton>
-					</div>
-				</FormFolder>
-			</div>
-		</FormSuspense>
-	</MkSpacer>
+                        <FormButton primary class="_formBlock" @click="save"><i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}</FormButton>
+                    </div>
+                </FormFolder>
+            </div>
+        </FormSuspense>
+    </MkSpacer>
 </MkStickyContainer>
 </template>
 
@@ -76,23 +76,23 @@ let enableIpLogging: boolean = $ref(false);
 let enableActiveEmailValidation: boolean = $ref(false);
 
 async function init() {
-	const meta = await os.api("admin/meta");
-	summalyProxy = meta.summalyProxy;
-	enableHcaptcha = meta.enableHcaptcha;
-	enableRecaptcha = meta.enableRecaptcha;
-	enableTurnstile = meta.enableTurnstile;
-	enableIpLogging = meta.enableIpLogging;
-	enableActiveEmailValidation = meta.enableActiveEmailValidation;
+    const meta = await os.api("admin/meta");
+    summalyProxy = meta.summalyProxy;
+    enableHcaptcha = meta.enableHcaptcha;
+    enableRecaptcha = meta.enableRecaptcha;
+    enableTurnstile = meta.enableTurnstile;
+    enableIpLogging = meta.enableIpLogging;
+    enableActiveEmailValidation = meta.enableActiveEmailValidation;
 }
 
 function save() {
-	os.apiWithDialog("admin/update-meta", {
-		summalyProxy,
-		enableIpLogging,
-		enableActiveEmailValidation,
-	}).then(() => {
-		fetchInstance();
-	});
+    os.apiWithDialog("admin/update-meta", {
+        summalyProxy,
+        enableIpLogging,
+        enableActiveEmailValidation,
+    }).then(() => {
+        fetchInstance();
+    });
 }
 
 const headerActions = $computed(() => []);
@@ -100,7 +100,7 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
 
 definePageMetadata({
-	title: i18n.ts.security,
-	icon: "ti ti-lock",
+    title: i18n.ts.security,
+    icon: "ti ti-lock",
 });
 </script>

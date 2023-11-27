@@ -14,10 +14,10 @@ const props = withDefaults(defineProps<{
 	customEmojis?: any;
 	isNote?: boolean;
 }>(), {
-	plain: false,
-	nowrap: false,
-	author: null,
-	isNote: true,
+    plain: false,
+    nowrap: false,
+    author: null,
+    isNote: true,
 });
 </script>
 

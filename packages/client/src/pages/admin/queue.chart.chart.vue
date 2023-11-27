@@ -5,21 +5,21 @@
 <script lang="ts" setup>
 import { watch, onMounted, onUnmounted, ref } from "vue";
 import {
-	Chart,
-	ArcElement,
-	LineElement,
-	BarElement,
-	PointElement,
-	BarController,
-	LineController,
-	CategoryScale,
-	LinearScale,
-	TimeScale,
-	Legend,
-	Title,
-	Tooltip,
-	SubTitle,
-	Filler,
+    Chart,
+    ArcElement,
+    LineElement,
+    BarElement,
+    PointElement,
+    BarController,
+    LineController,
+    CategoryScale,
+    LinearScale,
+    TimeScale,
+    Legend,
+    Title,
+    Tooltip,
+    SubTitle,
+    Filler,
 } from "chart.js";
 import number from "@/filters/number";
 import * as os from "@/os";
@@ -27,20 +27,20 @@ import { defaultStore } from "@/store";
 import { useChartTooltip } from "@/scripts/use-chart-tooltip";
 
 Chart.register(
-	ArcElement,
-	LineElement,
-	BarElement,
-	PointElement,
-	BarController,
-	LineController,
-	CategoryScale,
-	LinearScale,
-	TimeScale,
-	Legend,
-	Title,
-	Tooltip,
-	SubTitle,
-	Filler,
+    ArcElement,
+    LineElement,
+    BarElement,
+    PointElement,
+    BarController,
+    LineController,
+    CategoryScale,
+    LinearScale,
+    TimeScale,
+    Legend,
+    Title,
+    Tooltip,
+    SubTitle,
+    Filler,
 );
 
 const props = defineProps<{
@@ -48,11 +48,11 @@ const props = defineProps<{
 }>();
 
 const alpha = (hex, a) => {
-	const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)!;
-	const r = parseInt(result[1], 16);
-	const g = parseInt(result[2], 16);
-	const b = parseInt(result[3], 16);
-	return `rgba(${r}, ${g}, ${b}, ${a})`;
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)!;
+    const r = parseInt(result[1], 16);
+    const g = parseInt(result[2], 16);
+    const b = parseInt(result[3], 16);
+    return `rgba(${r}, ${g}, ${b}, ${a})`;
 };
 
 const chartEl = ref<HTMLCanvasElement>(null);
@@ -67,27 +67,27 @@ const { handler: externalTooltipHandler } = useChartTooltip();
 let chartInstance: Chart;
 
 function setData(values) {
-	if (chartInstance == null) return;
-	for (const value of values) {
-		chartInstance.data.labels.push("");
-		chartInstance.data.datasets[0].data.push(value);
-		if (chartInstance.data.datasets[0].data.length > 200) {
-			chartInstance.data.labels.shift();
-			chartInstance.data.datasets[0].data.shift();
-		}
-	}
-	chartInstance.update();
+    if (chartInstance == null) return;
+    for (const value of values) {
+        chartInstance.data.labels.push("");
+        chartInstance.data.datasets[0].data.push(value);
+        if (chartInstance.data.datasets[0].data.length > 200) {
+            chartInstance.data.labels.shift();
+            chartInstance.data.datasets[0].data.shift();
+        }
+    }
+    chartInstance.update();
 }
 
 function pushData(value) {
-	if (chartInstance == null) return;
-	chartInstance.data.labels.push("");
-	chartInstance.data.datasets[0].data.push(value);
-	if (chartInstance.data.datasets[0].data.length > 200) {
-		chartInstance.data.labels.shift();
-		chartInstance.data.datasets[0].data.shift();
-	}
-	chartInstance.update();
+    if (chartInstance == null) return;
+    chartInstance.data.labels.push("");
+    chartInstance.data.datasets[0].data.push(value);
+    if (chartInstance.data.datasets[0].data.length > 200) {
+        chartInstance.data.labels.shift();
+        chartInstance.data.datasets[0].data.shift();
+    }
+    chartInstance.update();
 }
 
 const label =
@@ -105,74 +105,74 @@ const color =
 	"?" as never;
 
 onMounted(() => {
-	chartInstance = new Chart(chartEl.value, {
-		type: "line",
-		data: {
-			labels: [],
-			datasets: [{
-				label: label,
-				pointRadius: 0,
-				tension: 0.3,
-				borderWidth: 2,
-				borderJoinStyle: "round",
-				borderColor: color,
-				backgroundColor: alpha(color, 0.1),
-				data: [],
-			}],
-		},
-		options: {
-			aspectRatio: 2.5,
-			layout: {
-				padding: {
-					left: 0,
-					right: 0,
-					top: 0,
-					bottom: 0,
-				},
-			},
-			scales: {
-				x: {
-					grid: {
-						display: true,
-						color: gridColor,
-						borderColor: "rgb(0, 0, 0, 0)",
-					},
-					ticks: {
-						display: false,
-						maxTicksLimit: 10,
-					},
-				},
-				y: {
-					min: 0,
-					grid: {
-						color: gridColor,
-						borderColor: "rgb(0, 0, 0, 0)",
-					},
-				},
-			},
-			interaction: {
-				intersect: false,
-			},
-			plugins: {
-				legend: {
-					display: false,
-				},
-				tooltip: {
-					enabled: false,
-					mode: "index",
-					animation: {
-						duration: 0,
-					},
-					external: externalTooltipHandler,
-				},
-			},
-		},
-	});
+    chartInstance = new Chart(chartEl.value, {
+        type: "line",
+        data: {
+            labels: [],
+            datasets: [{
+                label: label,
+                pointRadius: 0,
+                tension: 0.3,
+                borderWidth: 2,
+                borderJoinStyle: "round",
+                borderColor: color,
+                backgroundColor: alpha(color, 0.1),
+                data: [],
+            }],
+        },
+        options: {
+            aspectRatio: 2.5,
+            layout: {
+                padding: {
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    bottom: 0,
+                },
+            },
+            scales: {
+                x: {
+                    grid: {
+                        display: true,
+                        color: gridColor,
+                        borderColor: "rgb(0, 0, 0, 0)",
+                    },
+                    ticks: {
+                        display: false,
+                        maxTicksLimit: 10,
+                    },
+                },
+                y: {
+                    min: 0,
+                    grid: {
+                        color: gridColor,
+                        borderColor: "rgb(0, 0, 0, 0)",
+                    },
+                },
+            },
+            interaction: {
+                intersect: false,
+            },
+            plugins: {
+                legend: {
+                    display: false,
+                },
+                tooltip: {
+                    enabled: false,
+                    mode: "index",
+                    animation: {
+                        duration: 0,
+                    },
+                    external: externalTooltipHandler,
+                },
+            },
+        },
+    });
 });
 
 defineExpose({
-	setData,
-	pushData,
+    setData,
+    pushData,
 });
 </script>
 

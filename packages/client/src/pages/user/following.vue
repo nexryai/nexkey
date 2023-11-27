@@ -1,15 +1,15 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
-	<MkSpacer :content-max="1000">
-		<transition name="fade" mode="out-in">
-			<div v-if="user">
-				<XFollowList :user="user" type="following"/>
-			</div>
-			<MkError v-else-if="error" @retry="fetchUser()"/>
-			<MkLoading v-else/>
-		</transition>
-	</MkSpacer>
+    <template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+    <MkSpacer :content-max="1000">
+        <transition name="fade" mode="out-in">
+            <div v-if="user">
+                <XFollowList :user="user" type="following"/>
+            </div>
+            <MkError v-else-if="error" @retry="fetchUser()"/>
+            <MkLoading v-else/>
+        </transition>
+    </MkSpacer>
 </MkStickyContainer>
 </template>
 
@@ -31,17 +31,17 @@ let user = $ref<null | misskey.entities.UserDetailed>(null);
 let error = $ref(null);
 
 function fetchUser(): void {
-	if (props.acct == null) return;
-	user = null;
-	os.api("users/show", Acct.parse(props.acct)).then(u => {
-		user = u;
-	}).catch(err => {
-		error = err;
-	});
+    if (props.acct == null) return;
+    user = null;
+    os.api("users/show", Acct.parse(props.acct)).then(u => {
+        user = u;
+    }).catch(err => {
+        error = err;
+    });
 }
 
 watch(() => props.acct, fetchUser, {
-	immediate: true,
+    immediate: true,
 });
 
 const headerActions = $computed(() => []);
@@ -49,11 +49,11 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
 
 definePageMetadata(computed(() => user ? {
-	icon: "ti ti-user",
-	title: user.name ? `${user.name} (@${user.username})` : `@${user.username}`,
-	subtitle: i18n.ts.following,
-	userName: user,
-	avatar: user,
+    icon: "ti ti-user",
+    title: user.name ? `${user.name} (@${user.username})` : `@${user.username}`,
+    subtitle: i18n.ts.following,
+    userName: user,
+    avatar: user,
 } : null));
 </script>
 

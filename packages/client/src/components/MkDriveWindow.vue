@@ -1,15 +1,15 @@
 <template>
 <XWindow
-	ref="window"
-	:initial-width="800"
-	:initial-height="500"
-	:can-resize="true"
-	@closed="emit('closed')"
+    ref="window"
+    :initial-width="800"
+    :initial-height="500"
+    :can-resize="true"
+    @closed="emit('closed')"
 >
-	<template #header>
-		{{ i18n.ts.drive }}
-	</template>
-	<XDrive :initial-folder="initialFolder"/>
+    <template #header>
+        {{ i18n.ts.drive }}
+    </template>
+    <XDrive :initial-folder="initialFolder"/>
 </XWindow>
 </template>
 

@@ -1,19 +1,19 @@
 <template>
 <div v-if="chosen" class="qiivuoyo">
-	<div v-if="!showMenu" class="main" :class="chosen.place">
-		<a :href="chosen.url" target="_blank">
-			<img :src="chosen.imageUrl">
-			<button class="_button menu" @click.prevent.stop="toggleMenu"><span class="ti ti-info-circle info-circle"></span></button>
-		</a>
-	</div>
-	<div v-else class="menu">
-		<div class="body">
-			<div>Ads by {{ host }}</div>
-			<!--<MkButton class="button" primary>{{ $ts._ad.like }}</MkButton>-->
-			<MkButton v-if="chosen.ratio !== 0" class="button" @click="reduceFrequency">{{ $ts._ad.reduceFrequencyOfThisAd }}</MkButton>
-			<button class="_textButton" @click="toggleMenu">{{ $ts._ad.back }}</button>
-		</div>
-	</div>
+    <div v-if="!showMenu" class="main" :class="chosen.place">
+        <a :href="chosen.url" target="_blank">
+            <img :src="chosen.imageUrl">
+            <button class="_button menu" @click.prevent.stop="toggleMenu"><span class="ti ti-info-circle info-circle"></span></button>
+        </a>
+    </div>
+    <div v-else class="menu">
+        <div class="body">
+            <div>Ads by {{ host }}</div>
+            <!--<MkButton class="button" primary>{{ $ts._ad.like }}</MkButton>-->
+            <MkButton v-if="chosen.ratio !== 0" class="button" @click="reduceFrequency">{{ $ts._ad.reduceFrequencyOfThisAd }}</MkButton>
+            <button class="_textButton" @click="toggleMenu">{{ $ts._ad.back }}</button>
+        </div>
+    </div>
 </div>
 <div v-else></div>
 </template>
@@ -35,60 +35,60 @@ const props = defineProps<{
 
 const showMenu = ref(false);
 const toggleMenu = (): void => {
-	showMenu.value = !showMenu.value;
+    showMenu.value = !showMenu.value;
 };
 
 const choseAd = (): Ad | null => {
-	if (props.specify) {
-		return props.specify;
-	}
+    if (props.specify) {
+        return props.specify;
+    }
 
-	const allAds = instance.ads.map(ad => defaultStore.state.mutedAds.includes(ad.id) ? {
-		...ad,
-		ratio: 0,
-	} : ad);
+    const allAds = instance.ads.map(ad => defaultStore.state.mutedAds.includes(ad.id) ? {
+        ...ad,
+        ratio: 0,
+    } : ad);
 
-	let ads = allAds.filter(ad => props.prefer.includes(ad.place));
+    let ads = allAds.filter(ad => props.prefer.includes(ad.place));
 
-	if (ads.length === 0) {
-		ads = allAds.filter(ad => ad.place === "square");
-	}
+    if (ads.length === 0) {
+        ads = allAds.filter(ad => ad.place === "square");
+    }
 
-	const lowPriorityAds = ads.filter(ad => ad.ratio === 0);
-	ads = ads.filter(ad => ad.ratio !== 0);
+    const lowPriorityAds = ads.filter(ad => ad.ratio === 0);
+    ads = ads.filter(ad => ad.ratio !== 0);
 
-	if (ads.length === 0) {
-		if (lowPriorityAds.length !== 0) {
-			return lowPriorityAds[Math.floor(Math.random() * lowPriorityAds.length)];
-		} else {
-			return null;
-		}
-	}
+    if (ads.length === 0) {
+        if (lowPriorityAds.length !== 0) {
+            return lowPriorityAds[Math.floor(Math.random() * lowPriorityAds.length)];
+        } else {
+            return null;
+        }
+    }
 
-	const totalFactor = ads.reduce((a, b) => a + b.ratio, 0);
-	const r = Math.random() * totalFactor;
+    const totalFactor = ads.reduce((a, b) => a + b.ratio, 0);
+    const r = Math.random() * totalFactor;
 
-	let stackedFactor = 0;
-	for (const ad of ads) {
-		if (r >= stackedFactor && r <= stackedFactor + ad.ratio) {
-			return ad;
-		} else {
-			stackedFactor += ad.ratio;
-		}
-	}
+    let stackedFactor = 0;
+    for (const ad of ads) {
+        if (r >= stackedFactor && r <= stackedFactor + ad.ratio) {
+            return ad;
+        } else {
+            stackedFactor += ad.ratio;
+        }
+    }
 
-	return null;
+    return null;
 };
 
 const chosen = ref(choseAd());
 
 function reduceFrequency(): void {
-	if (chosen.value == null) return;
-	if (defaultStore.state.mutedAds.includes(chosen.value.id)) return;
-	defaultStore.push("mutedAds", chosen.value.id);
-	os.success();
-	chosen.value = choseAd();
-	showMenu.value = false;
+    if (chosen.value == null) return;
+    if (defaultStore.state.mutedAds.includes(chosen.value.id)) return;
+    defaultStore.push("mutedAds", chosen.value.id);
+    os.success();
+    chosen.value = choseAd();
+    showMenu.value = false;
 }
 </script>
 

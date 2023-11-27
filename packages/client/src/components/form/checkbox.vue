@@ -1,22 +1,22 @@
 <template>
 <div
-	class="ziffeoms"
-	:class="{ disabled, checked }"
+    class="ziffeoms"
+    :class="{ disabled, checked }"
 >
-	<input
-		ref="input"
-		type="checkbox"
-		:disabled="disabled"
-		@keydown.enter="toggle"
-	>
-	<span ref="button" v-adaptive-border v-tooltip="checked ? i18n.ts.itsOn : i18n.ts.itsOff" class="button" @click.prevent="toggle">
-		<i class="check ti ti-check"></i>
-	</span>
-	<span class="label">
-		<!-- TODO: 無名slotの方は廃止 -->
-		<span @click="toggle"><slot name="label"></slot><slot></slot></span>
-		<p class="caption"><slot name="caption"></slot></p>
-	</span>
+    <input
+        ref="input"
+        type="checkbox"
+        :disabled="disabled"
+        @keydown.enter="toggle"
+    >
+    <span ref="button" v-adaptive-border v-tooltip="checked ? i18n.ts.itsOn : i18n.ts.itsOff" class="button" @click.prevent="toggle">
+        <i class="check ti ti-check"></i>
+    </span>
+    <span class="label">
+        <!-- TODO: 無名slotの方は廃止 -->
+        <span @click="toggle"><slot name="label"></slot><slot></slot></span>
+        <p class="caption"><slot name="caption"></slot></p>
+    </span>
 </div>
 </template>
 
@@ -38,15 +38,15 @@ const emit = defineEmits<{
 let button = $ref<HTMLElement>();
 const checked = toRefs(props).modelValue;
 const toggle = () => {
-	if (props.disabled) return;
-	emit("update:modelValue", !checked.value);
+    if (props.disabled) return;
+    emit("update:modelValue", !checked.value);
 
-	if (!checked.value) {
-		const rect = button.getBoundingClientRect();
-		const x = rect.left + (button.offsetWidth / 2);
-		const y = rect.top + (button.offsetHeight / 2);
-		os.popup(Ripple, { x, y, particle: false }, {}, "end");
-	}
+    if (!checked.value) {
+        const rect = button.getBoundingClientRect();
+        const x = rect.left + (button.offsetWidth / 2);
+        const y = rect.top + (button.offsetHeight / 2);
+        os.popup(Ripple, { x, y, particle: false }, {}, "end");
+    }
 };
 </script>
 

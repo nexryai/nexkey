@@ -1,42 +1,42 @@
 <template>
 <div class="gbhvwtnk" :class="{ wallpaper }" :style="`--globalHeaderHeight:${globalHeaderHeight}px`">
-	<XHeaderMenu v-if="showMenuOnTop" v-get-size="(w, h) => globalHeaderHeight = h"/>
+    <XHeaderMenu v-if="showMenuOnTop" v-get-size="(w, h) => globalHeaderHeight = h"/>
 
-	<div class="columns" :class="{ fullView, withGlobalHeader: showMenuOnTop }">
-		<div v-if="!showMenuOnTop" class="sidebar">
-			<XSidebar/>
-		</div>
-		<div v-else ref="widgetsLeft" class="widgets left">
-			<XWidgets :place="'left'" @mounted="attachSticky(widgetsLeft)"/>
-		</div>
+    <div class="columns" :class="{ fullView, withGlobalHeader: showMenuOnTop }">
+        <div v-if="!showMenuOnTop" class="sidebar">
+            <XSidebar/>
+        </div>
+        <div v-else ref="widgetsLeft" class="widgets left">
+            <XWidgets :place="'left'" @mounted="attachSticky(widgetsLeft)"/>
+        </div>
 
-		<main class="main" :style="{ background: pageMetadata?.value?.bg }" @contextmenu.stop="onContextmenu">
-			<div class="content">
-				<RouterView/>
-			</div>
-		</main>
+        <main class="main" :style="{ background: pageMetadata?.value?.bg }" @contextmenu.stop="onContextmenu">
+            <div class="content">
+                <RouterView/>
+            </div>
+        </main>
 
-		<div v-if="isDesktop" ref="widgetsRight" class="widgets right">
-			<XWidgets :place="null" @mounted="attachSticky(widgetsRight)"/>
-		</div>
-	</div>
+        <div v-if="isDesktop" ref="widgetsRight" class="widgets right">
+            <XWidgets :place="null" @mounted="attachSticky(widgetsRight)"/>
+        </div>
+    </div>
 
-	<transition :name="$store.state.animation ? 'tray-back' : ''">
-		<div
-			v-if="widgetsShowing"
-			class="tray-back _modalBg"
-			@click="widgetsShowing = false"
-			@touchstart.passive="widgetsShowing = false"
-		></div>
-	</transition>
+    <transition :name="$store.state.animation ? 'tray-back' : ''">
+        <div
+            v-if="widgetsShowing"
+            class="tray-back _modalBg"
+            @click="widgetsShowing = false"
+            @touchstart.passive="widgetsShowing = false"
+        ></div>
+    </transition>
 
-	<transition :name="$store.state.animation ? 'tray' : ''">
-		<XWidgets v-if="widgetsShowing" class="tray"/>
-	</transition>
+    <transition :name="$store.state.animation ? 'tray' : ''">
+        <XWidgets v-if="widgetsShowing" class="tray"/>
+    </transition>
 
-	<iframe v-if="$store.state.aiChanMode" ref="live2d" class="ivnzpscs" src="https://misskey-dev.github.io/mascot-web/?scale=2&y=1.4"></iframe>
+    <iframe v-if="$store.state.aiChanMode" ref="live2d" class="ivnzpscs" src="https://misskey-dev.github.io/mascot-web/?scale=2&y=1.4"></iframe>
 
-	<XCommon/>
+    <XCommon/>
 </div>
 </template>
 
@@ -70,104 +70,104 @@ let widgetsRight = $ref();
 
 provide("router", mainRouter);
 provideMetadataReceiver((info) => {
-	pageMetadata = info;
-	if (pageMetadata.value) {
-		document.title = `${pageMetadata.value.title} | ${instanceName}`;
-	}
+    pageMetadata = info;
+    if (pageMetadata.value) {
+        document.title = `${pageMetadata.value.title} | ${instanceName}`;
+    }
 });
 provide("shouldHeaderThin", showMenuOnTop);
 provide("shouldSpacerMin", true);
 
 function attachSticky(el) {
-	const sticky = new StickySidebar(el, defaultStore.state.menuDisplay === "top" ? 0 : 16, defaultStore.state.menuDisplay === "top" ? 60 : 0); // TODO: ヘッダーの高さを60pxと決め打ちしているのを直す
-	window.addEventListener("scroll", () => {
-		sticky.calc(window.scrollY);
-	}, { passive: true });
+    const sticky = new StickySidebar(el, defaultStore.state.menuDisplay === "top" ? 0 : 16, defaultStore.state.menuDisplay === "top" ? 60 : 0); // TODO: ヘッダーの高さを60pxと決め打ちしているのを直す
+    window.addEventListener("scroll", () => {
+        sticky.calc(window.scrollY);
+    }, { passive: true });
 }
 
 function top() {
-	window.scroll({ top: 0, behavior: "smooth" });
+    window.scroll({ top: 0, behavior: "smooth" });
 }
 
 function onContextmenu(ev: MouseEvent) {
-	const isLink = (el: HTMLElement) => {
-		if (el.tagName === "A") return true;
-		if (el.parentElement) {
-			return isLink(el.parentElement);
-		}
-	};
-	if (isLink(ev.target)) return;
-	if (["INPUT", "TEXTAREA", "IMG", "VIDEO", "CANVAS"].includes(ev.target.tagName) || ev.target.attributes["contenteditable"]) return;
-	if (window.getSelection().toString() !== "") return;
-	const path = mainRouter.getCurrentPath();
-	os.contextMenu([{
-		type: "label",
-		text: path,
-	}, {
-		icon: fullView ? "ti ti-minimize" : "ti ti-maximize",
-		text: fullView ? i18n.ts.quitFullView : i18n.ts.fullView,
-		action: () => {
-			fullView = !fullView;
-		},
-	}, {
-		icon: "ti ti-window-maximize",
-		text: i18n.ts.openInWindow,
-		action: () => {
-			os.pageWindow(path);
-		},
-	}], ev);
+    const isLink = (el: HTMLElement) => {
+        if (el.tagName === "A") return true;
+        if (el.parentElement) {
+            return isLink(el.parentElement);
+        }
+    };
+    if (isLink(ev.target)) return;
+    if (["INPUT", "TEXTAREA", "IMG", "VIDEO", "CANVAS"].includes(ev.target.tagName) || ev.target.attributes["contenteditable"]) return;
+    if (window.getSelection().toString() !== "") return;
+    const path = mainRouter.getCurrentPath();
+    os.contextMenu([{
+        type: "label",
+        text: path,
+    }, {
+        icon: fullView ? "ti ti-minimize" : "ti ti-maximize",
+        text: fullView ? i18n.ts.quitFullView : i18n.ts.fullView,
+        action: () => {
+            fullView = !fullView;
+        },
+    }, {
+        icon: "ti ti-window-maximize",
+        text: i18n.ts.openInWindow,
+        action: () => {
+            os.pageWindow(path);
+        },
+    }], ev);
 }
 
 function onAiClick(ev) {
-	//if (this.live2d) this.live2d.click(ev);
+    //if (this.live2d) this.live2d.click(ev);
 }
 
 if (window.innerWidth < 1024) {
-	localStorage.setItem("ui", "default");
-	location.reload();
+    localStorage.setItem("ui", "default");
+    location.reload();
 }
 
 document.documentElement.style.overflowY = "scroll";
 
 if (defaultStore.state.widgets.length === 0) {
-	defaultStore.set("widgets", [{
-		name: "calendar",
-		id: "a", place: null, data: {},
-	}, {
-		name: "notifications",
-		id: "b", place: null, data: {},
-	}, {
-		name: "trends",
-		id: "c", place: null, data: {},
-	}]);
+    defaultStore.set("widgets", [{
+        name: "calendar",
+        id: "a", place: null, data: {},
+    }, {
+        name: "notifications",
+        id: "b", place: null, data: {},
+    }, {
+        name: "trends",
+        id: "c", place: null, data: {},
+    }]);
 }
 
 onMounted(() => {
-	window.addEventListener("resize", () => {
-		isDesktop = (window.innerWidth >= DESKTOP_THRESHOLD);
-	}, { passive: true });
+    window.addEventListener("resize", () => {
+        isDesktop = (window.innerWidth >= DESKTOP_THRESHOLD);
+    }, { passive: true });
 
-	if (defaultStore.state.aiChanMode) {
-		const iframeRect = live2d.getBoundingClientRect();
-		window.addEventListener("mousemove", ev => {
-			live2d.contentWindow.postMessage({
-				type: "moveCursor",
-				body: {
-					x: ev.clientX - iframeRect.left,
-					y: ev.clientY - iframeRect.top,
-				},
-			}, "*");
-		}, { passive: true });
-		window.addEventListener("touchmove", ev => {
-			live2d.contentWindow.postMessage({
-				type: "moveCursor",
-				body: {
-					x: ev.touches[0].clientX - iframeRect.left,
-					y: ev.touches[0].clientY - iframeRect.top,
-				},
-			}, "*");
-		}, { passive: true });
-	}
+    if (defaultStore.state.aiChanMode) {
+        const iframeRect = live2d.getBoundingClientRect();
+        window.addEventListener("mousemove", ev => {
+            live2d.contentWindow.postMessage({
+                type: "moveCursor",
+                body: {
+                    x: ev.clientX - iframeRect.left,
+                    y: ev.clientY - iframeRect.top,
+                },
+            }, "*");
+        }, { passive: true });
+        window.addEventListener("touchmove", ev => {
+            live2d.contentWindow.postMessage({
+                type: "moveCursor",
+                body: {
+                    x: ev.touches[0].clientX - iframeRect.left,
+                    y: ev.touches[0].clientY - iframeRect.top,
+                },
+            }, "*");
+        }, { passive: true });
+    }
 });
 </script>
 

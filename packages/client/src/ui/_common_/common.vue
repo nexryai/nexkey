@@ -1,10 +1,10 @@
 <template>
 <component
-	:is="popup.component"
-	v-for="popup in popups"
-	:key="popup.id"
-	v-bind="popup.props"
-	v-on="popup.events"
+    :is="popup.component"
+    v-for="popup in popups"
+    :key="popup.id"
+    v-bind="popup.props"
+    v-on="popup.events"
 />
 
 <XUpload v-if="uploads.length > 0"/>
@@ -36,29 +36,29 @@ const enableBotLoggedinWarning = defaultStore.state.enableBotLoggedinWarning;
 const enableAdminLoggedinWarning = defaultStore.state.enableAdminLoggedinWarning;
 
 const onNotification = notification => {
-	if ($i.mutingNotificationTypes.includes(notification.type)) return;
+    if ($i.mutingNotificationTypes.includes(notification.type)) return;
 
-	if (document.visibilityState === "visible") {
-		stream.send("readNotification", {
-			id: notification.id,
-		});
+    if (document.visibilityState === "visible") {
+        stream.send("readNotification", {
+            id: notification.id,
+        });
 
-		popup(defineAsyncComponent(() => import("@/components/MkNotificationToast.vue")), {
-			notification,
-		}, {}, "closed");
-	}
+        popup(defineAsyncComponent(() => import("@/components/MkNotificationToast.vue")), {
+            notification,
+        }, {}, "closed");
+    }
 
-	sound.play("notification");
+    sound.play("notification");
 };
 
 if ($i) {
-	const connection = stream.useChannel("main", null, "UI");
-	connection.on("notification", onNotification);
+    const connection = stream.useChannel("main", null, "UI");
+    connection.on("notification", onNotification);
 
-	//#region Listen message from SW
-	if ("serviceWorker" in navigator) {
-		swInject();
-	}
+    //#region Listen message from SW
+    if ("serviceWorker" in navigator) {
+        swInject();
+    }
 }
 </script>
 

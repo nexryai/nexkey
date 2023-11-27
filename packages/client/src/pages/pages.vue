@@ -1,26 +1,26 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader v-model:tab="tab" :actions="headerActions" :tabs="headerTabs"/></template>
-	<MkSpacer :content-max="700">
-		<div v-if="tab === 'featured'" class="rknalgpo">
-			<MkPagination v-slot="{items}" :pagination="featuredPagesPagination">
-				<MkPagePreview v-for="page in items" :key="page.id" class="ckltabjg" :page="page"/>
-			</MkPagination>
-		</div>
+    <template #header><MkPageHeader v-model:tab="tab" :actions="headerActions" :tabs="headerTabs"/></template>
+    <MkSpacer :content-max="700">
+        <div v-if="tab === 'featured'" class="rknalgpo">
+            <MkPagination v-slot="{items}" :pagination="featuredPagesPagination">
+                <MkPagePreview v-for="page in items" :key="page.id" class="ckltabjg" :page="page"/>
+            </MkPagination>
+        </div>
 
-		<div v-else-if="tab === 'my'" class="rknalgpo my">
-			<MkButton class="new" @click="create()"><i class="ti ti-plus"></i></MkButton>
-			<MkPagination v-slot="{items}" :pagination="myPagesPagination">
-				<MkPagePreview v-for="page in items" :key="page.id" class="ckltabjg" :page="page"/>
-			</MkPagination>
-		</div>
+        <div v-else-if="tab === 'my'" class="rknalgpo my">
+            <MkButton class="new" @click="create()"><i class="ti ti-plus"></i></MkButton>
+            <MkPagination v-slot="{items}" :pagination="myPagesPagination">
+                <MkPagePreview v-for="page in items" :key="page.id" class="ckltabjg" :page="page"/>
+            </MkPagination>
+        </div>
 
-		<div v-else-if="tab === 'liked'" class="rknalgpo">
-			<MkPagination v-slot="{items}" :pagination="likedPagesPagination">
-				<MkPagePreview v-for="like in items" :key="like.page.id" class="ckltabjg" :page="like.page"/>
-			</MkPagination>
-		</div>
-	</MkSpacer>
+        <div v-else-if="tab === 'liked'" class="rknalgpo">
+            <MkPagination v-slot="{items}" :pagination="likedPagesPagination">
+                <MkPagePreview v-for="like in items" :key="like.page.id" class="ckltabjg" :page="like.page"/>
+            </MkPagination>
+        </div>
+    </MkSpacer>
 </MkStickyContainer>
 </template>
 
@@ -38,45 +38,45 @@ const router = useRouter();
 let tab = $ref("featured");
 
 const featuredPagesPagination = {
-	endpoint: "pages/featured" as const,
-	noPaging: true,
+    endpoint: "pages/featured" as const,
+    noPaging: true,
 };
 const myPagesPagination = {
-	endpoint: "i/pages" as const,
-	limit: 5,
+    endpoint: "i/pages" as const,
+    limit: 5,
 };
 const likedPagesPagination = {
-	endpoint: "i/page-likes" as const,
-	limit: 5,
+    endpoint: "i/page-likes" as const,
+    limit: 5,
 };
 
 function create() {
-	router.push("/pages/new");
+    router.push("/pages/new");
 }
 
 const headerActions = $computed(() => [{
-	icon: "ti ti-plus",
-	text: i18n.ts.create,
-	handler: create,
+    icon: "ti ti-plus",
+    text: i18n.ts.create,
+    handler: create,
 }]);
 
 const headerTabs = $computed(() => [{
-	key: "featured",
-	title: i18n.ts._pages.featured,
-	icon: "ti ti-flare",
+    key: "featured",
+    title: i18n.ts._pages.featured,
+    icon: "ti ti-flare",
 }, {
-	key: "my",
-	title: i18n.ts._pages.my,
-	icon: "ti ti-edit",
+    key: "my",
+    title: i18n.ts._pages.my,
+    icon: "ti ti-edit",
 }, {
-	key: "liked",
-	title: i18n.ts._pages.liked,
-	icon: "ti ti-heart",
+    key: "liked",
+    title: i18n.ts._pages.liked,
+    icon: "ti ti-heart",
 }]);
 
 definePageMetadata(computed(() => ({
-	title: i18n.ts.pages,
-	icon: "ti ti-note",
+    title: i18n.ts.pages,
+    icon: "ti ti-note",
 })));
 </script>
 

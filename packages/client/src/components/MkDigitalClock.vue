@@ -1,12 +1,12 @@
 <template>
 <span class="zjobosdg">
-	<span v-text="hh"></span>
-	<span class="colon" :class="{ showColon }">:</span>
-	<span v-text="mm"></span>
-	<span v-if="showS" class="colon" :class="{ showColon }">:</span>
-	<span v-if="showS" v-text="ss"></span>
-	<span v-if="showMs" class="colon" :class="{ showColon }">:</span>
-	<span v-if="showMs" v-text="ms"></span>
+    <span v-text="hh"></span>
+    <span class="colon" :class="{ showColon }">:</span>
+    <span v-text="mm"></span>
+    <span v-if="showS" class="colon" :class="{ showColon }">:</span>
+    <span v-if="showS" v-text="ss"></span>
+    <span v-if="showMs" class="colon" :class="{ showColon }">:</span>
+    <span v-if="showMs" v-text="ms"></span>
 </span>
 </template>
 
@@ -18,9 +18,9 @@ const props = withDefaults(defineProps<{
 	showMs?: boolean;
 	offset?: number;
 }>(), {
-	showS: true,
-	showMs: false,
-	offset: 0 - new Date().getTimezoneOffset(),
+    showS: true,
+    showMs: false,
+    offset: 0 - new Date().getTimezoneOffset(),
 });
 
 let intervalId;
@@ -32,33 +32,33 @@ const showColon = ref(false);
 let prevSec: number | null = null;
 
 watch(showColon, (v) => {
-	if (v) {
-		window.setTimeout(() => {
-			showColon.value = false;
-		}, 30);
-	}
+    if (v) {
+        window.setTimeout(() => {
+            showColon.value = false;
+        }, 30);
+    }
 });
 
 const tick = () => {
-	const now = new Date();
-	now.setMinutes(now.getMinutes() + (new Date().getTimezoneOffset() + props.offset));
-	hh.value = now.getHours().toString().padStart(2, "0");
-	mm.value = now.getMinutes().toString().padStart(2, "0");
-	ss.value = now.getSeconds().toString().padStart(2, "0");
-	ms.value = Math.floor(now.getMilliseconds() / 10).toString().padStart(2, "0");
-	if (now.getSeconds() !== prevSec) showColon.value = true;
-	prevSec = now.getSeconds();
+    const now = new Date();
+    now.setMinutes(now.getMinutes() + (new Date().getTimezoneOffset() + props.offset));
+    hh.value = now.getHours().toString().padStart(2, "0");
+    mm.value = now.getMinutes().toString().padStart(2, "0");
+    ss.value = now.getSeconds().toString().padStart(2, "0");
+    ms.value = Math.floor(now.getMilliseconds() / 10).toString().padStart(2, "0");
+    if (now.getSeconds() !== prevSec) showColon.value = true;
+    prevSec = now.getSeconds();
 };
 
 tick();
 
 watch(() => props.showMs, () => {
-	if (intervalId) window.clearInterval(intervalId);
-	intervalId = window.setInterval(tick, props.showMs ? 10 : 1000);
+    if (intervalId) window.clearInterval(intervalId);
+    intervalId = window.setInterval(tick, props.showMs ? 10 : 1000);
 }, { immediate: true });
 
 onUnmounted(() => {
-	window.clearInterval(intervalId);
+    window.clearInterval(intervalId);
 });
 </script>
 

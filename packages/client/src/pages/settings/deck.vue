@@ -1,14 +1,14 @@
 <template>
 <div class="_formRoot">
-	<FormSwitch v-model="navWindow">{{ i18n.ts.defaultNavigationBehaviour }}: {{ i18n.ts.openInWindow }}</FormSwitch>
+    <FormSwitch v-model="navWindow">{{ i18n.ts.defaultNavigationBehaviour }}: {{ i18n.ts.openInWindow }}</FormSwitch>
 
-	<FormSwitch v-model="alwaysShowMainColumn" class="_formBlock">{{ i18n.ts._deck.alwaysShowMainColumn }}</FormSwitch>
+    <FormSwitch v-model="alwaysShowMainColumn" class="_formBlock">{{ i18n.ts._deck.alwaysShowMainColumn }}</FormSwitch>
 
-	<FormRadios v-model="columnAlign" class="_formBlock">
-		<template #label>{{ i18n.ts._deck.columnAlign }}</template>
-		<option value="left">{{ i18n.ts.left }}</option>
-		<option value="center">{{ i18n.ts.center }}</option>
-	</FormRadios>
+    <FormRadios v-model="columnAlign" class="_formBlock">
+        <template #label>{{ i18n.ts._deck.columnAlign }}</template>
+        <option value="left">{{ i18n.ts.left }}</option>
+        <option value="center">{{ i18n.ts.center }}</option>
+    </FormRadios>
 </div>
 </template>
 
@@ -33,7 +33,7 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
 
 definePageMetadata({
-	title: i18n.ts.deck,
-	icon: "ti ti-columns",
+    title: i18n.ts.deck,
+    icon: "ti ti-columns",
 });
 </script>

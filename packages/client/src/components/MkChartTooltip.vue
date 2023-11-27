@@ -1,14 +1,14 @@
 <template>
 <MkTooltip ref="tooltip" :showing="showing" :x="x" :y="y" :max-width="340" :direction="'top'" :inner-margin="16" @closed="emit('closed')">
-	<div v-if="title || series" class="qpcyisrl">
-		<div v-if="title" class="title">{{ title }}</div>
-		<template v-if="series">
-			<div v-for="x in series" class="series">
-				<span class="color" :style="{ background: x.backgroundColor, borderColor: x.borderColor }"></span>
-				<span>{{ x.text }}</span>
-			</div>
-		</template>
-	</div>
+    <div v-if="title || series" class="qpcyisrl">
+        <div v-if="title" class="title">{{ title }}</div>
+        <template v-if="series">
+            <div v-for="x in series" class="series">
+                <span class="color" :style="{ background: x.backgroundColor, borderColor: x.borderColor }"></span>
+                <span>{{ x.text }}</span>
+            </div>
+        </template>
+    </div>
 </MkTooltip>
 </template>
 

@@ -1,9 +1,9 @@
 <template>
 <div class="ipledcug">
-	<div class="_fullinfo">
-		<i class="ti ti-exclamation-mark"></i>
-		<div>{{ i18n.ts.notFoundDescription }}</div>
-	</div>
+    <div class="_fullinfo">
+        <i class="ti ti-exclamation-mark"></i>
+        <div>{{ i18n.ts.notFoundDescription }}</div>
+    </div>
 </div>
 </template>
 
@@ -16,7 +16,7 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
 
 definePageMetadata({
-	title: i18n.ts.notFound,
-	icon: "ti ti-alert-triangle",
+    title: i18n.ts.notFound,
+    icon: "ti ti-alert-triangle",
 });
 </script>

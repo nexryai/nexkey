@@ -1,19 +1,19 @@
 <template>
 <div class="dlrsnxqu">
-	<div
-		v-for="x in defaultStore.reactiveState.statusbars.value" :key="x.id" class="item" :class="[{ black: x.black }, {
-			verySmall: x.size === 'verySmall',
-			small: x.size === 'small',
-			medium: x.size === 'medium',
-			large: x.size === 'large',
-			veryLarge: x.size === 'veryLarge',
-		}]"
-	>
-		<span class="name">{{ x.name }}</span>
-		<XRss v-if="x.type === 'rss'" class="body" :refresh-interval-sec="x.props.refreshIntervalSec" :marquee-duration="x.props.marqueeDuration" :marquee-reverse="x.props.marqueeReverse" :display="x.props.display" :url="x.props.url" :shuffle="x.props.shuffle"/>
-		<XFederation v-else-if="x.type === 'federation'" class="body" :refresh-interval-sec="x.props.refreshIntervalSec" :marquee-duration="x.props.marqueeDuration" :marquee-reverse="x.props.marqueeReverse" :display="x.props.display" :colored="x.props.colored"/>
-		<XUserList v-else-if="x.type === 'userList'" class="body" :refresh-interval-sec="x.props.refreshIntervalSec" :marquee-duration="x.props.marqueeDuration" :marquee-reverse="x.props.marqueeReverse" :display="x.props.display" :user-list-id="x.props.userListId"/>
-	</div>
+    <div
+        v-for="x in defaultStore.reactiveState.statusbars.value" :key="x.id" class="item" :class="[{ black: x.black }, {
+            verySmall: x.size === 'verySmall',
+            small: x.size === 'small',
+            medium: x.size === 'medium',
+            large: x.size === 'large',
+            veryLarge: x.size === 'veryLarge',
+        }]"
+    >
+        <span class="name">{{ x.name }}</span>
+        <XRss v-if="x.type === 'rss'" class="body" :refresh-interval-sec="x.props.refreshIntervalSec" :marquee-duration="x.props.marqueeDuration" :marquee-reverse="x.props.marqueeReverse" :display="x.props.display" :url="x.props.url" :shuffle="x.props.shuffle"/>
+        <XFederation v-else-if="x.type === 'federation'" class="body" :refresh-interval-sec="x.props.refreshIntervalSec" :marquee-duration="x.props.marqueeDuration" :marquee-reverse="x.props.marqueeReverse" :display="x.props.display" :colored="x.props.colored"/>
+        <XUserList v-else-if="x.type === 'userList'" class="body" :refresh-interval-sec="x.props.refreshIntervalSec" :marquee-duration="x.props.marqueeDuration" :marquee-reverse="x.props.marqueeReverse" :display="x.props.display" :user-list-id="x.props.userListId"/>
+    </div>
 </div>
 </template>
 

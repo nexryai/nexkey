@@ -4,17 +4,17 @@ import { $i } from "@/account";
 import { url } from "@/config";
 
 export const stream = markRaw(new Misskey.Stream(url, $i ? {
-	token: $i.token,
+    token: $i.token,
 } : null));
 
 export let isReloading = false;
 
 export function reloadStream() {
-	isReloading = true;
+    isReloading = true;
 
-	stream.close();
-	stream.once("_connected_", () => isReloading = false);
-	stream.stream.reconnect();
+    stream.close();
+    stream.once("_connected_", () => isReloading = false);
+    stream.stream.reconnect();
 
-	return stream;
+    return stream;
 }

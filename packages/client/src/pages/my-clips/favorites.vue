@@ -1,21 +1,21 @@
 <template>
 <MkStickyContainer>
-	<MkSpacer :content-max="800">
-		<MkPagination ref="pagingComponent" :pagination="pagination">
-			<template #empty>
-				<div class="_fullinfo">
-					<i class="ti ti-exclamation-mark"></i>
-					<div>{{ i18n.ts.noNotes }}</div>
-				</div>
-			</template>
+    <MkSpacer :content-max="800">
+        <MkPagination ref="pagingComponent" :pagination="pagination">
+            <template #empty>
+                <div class="_fullinfo">
+                    <i class="ti ti-exclamation-mark"></i>
+                    <div>{{ i18n.ts.noNotes }}</div>
+                </div>
+            </template>
 
-			<template #default="{ items }">
-				<XList v-slot="{ item }" :items="items" :direction="'down'" :no-gap="false" :ad="false">
-					<XNote :key="item.id" :note="item.note" :class="$style.note"/>
-				</XList>
-			</template>
-		</MkPagination>
-	</MkSpacer>
+            <template #default="{ items }">
+                <XList v-slot="{ item }" :items="items" :direction="'down'" :no-gap="false" :ad="false">
+                    <XNote :key="item.id" :note="item.note" :class="$style.note"/>
+                </XList>
+            </template>
+        </MkPagination>
+    </MkSpacer>
 </MkStickyContainer>
 </template>
 
@@ -28,15 +28,15 @@ import { i18n } from "@/i18n";
 import { definePageMetadata } from "@/scripts/page-metadata";
 
 const pagination = {
-	endpoint: "i/favorites" as const,
-	limit: 10,
+    endpoint: "i/favorites" as const,
+    limit: 10,
 };
 
 const pagingComponent = ref<InstanceType<typeof MkPagination>>();
 
 definePageMetadata({
-	title: i18n.ts.favorites,
-	icon: "ti ti-star",
+    title: i18n.ts.favorites,
+    icon: "ti ti-star",
 });
 </script>
 

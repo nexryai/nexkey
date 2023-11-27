@@ -1,35 +1,35 @@
 <template>
 <transition :name="$store.state.animation ? 'popup' : ''" appear @after-leave="emit('closed')">
-	<div v-if="showing" class="fxxzrfni _popup _shadow" :style="{ zIndex, top: top + 'px', left: left + 'px' }" @mouseover="() => { emit('mouseover'); }" @mouseleave="() => { emit('mouseleave'); }">
-		<div v-if="user != null" class="info">
-			<div class="banner" :style="user.bannerUrl ? `background-image: url(${user.bannerUrl})` : ''">
-				<span v-if="$i && $i.id != user.id && user.isFollowed" class="followed">{{ $ts.followsYou }}</span>
-			</div>
-			<MkAvatar class="avatar" :user="user" :disable-preview="true" :show-indicator="true"/>
-			<div class="title">
-				<MkA class="name" :to="userPage(user)"><MkUserName :user="user" :nowrap="false"/></MkA>
-				<p class="username"><MkAcct :user="user"/></p>
-			</div>
-			<div class="description">
-				<Mfm v-if="user.description" :text="user.description" :author="user" :i="$i" :custom-emojis="user.emojis"/>
-			</div>
-			<div class="status">
-				<div>
-					<p>{{ $ts.notes }}</p><span>{{ user.notesCount }}</span>
-				</div>
-				<div>
-					<p>{{ $ts.following }}</p><span>{{ user.followingCount }}</span>
-				</div>
-				<div>
-					<p>{{ $ts.followers }}</p><span>{{ user.followersCount }}</span>
-				</div>
-			</div>
-			<MkFollowButton v-if="$i && user.id != $i.id" class="koudoku-button" :user="user" mini/>
-		</div>
-		<div v-else>
-			<MkLoading/>
-		</div>
-	</div>
+    <div v-if="showing" class="fxxzrfni _popup _shadow" :style="{ zIndex, top: top + 'px', left: left + 'px' }" @mouseover="() => { emit('mouseover'); }" @mouseleave="() => { emit('mouseleave'); }">
+        <div v-if="user != null" class="info">
+            <div class="banner" :style="user.bannerUrl ? `background-image: url(${user.bannerUrl})` : ''">
+                <span v-if="$i && $i.id != user.id && user.isFollowed" class="followed">{{ $ts.followsYou }}</span>
+            </div>
+            <MkAvatar class="avatar" :user="user" :disable-preview="true" :show-indicator="true"/>
+            <div class="title">
+                <MkA class="name" :to="userPage(user)"><MkUserName :user="user" :nowrap="false"/></MkA>
+                <p class="username"><MkAcct :user="user"/></p>
+            </div>
+            <div class="description">
+                <Mfm v-if="user.description" :text="user.description" :author="user" :i="$i" :custom-emojis="user.emojis"/>
+            </div>
+            <div class="status">
+                <div>
+                    <p>{{ $ts.notes }}</p><span>{{ user.notesCount }}</span>
+                </div>
+                <div>
+                    <p>{{ $ts.following }}</p><span>{{ user.followingCount }}</span>
+                </div>
+                <div>
+                    <p>{{ $ts.followers }}</p><span>{{ user.followersCount }}</span>
+                </div>
+            </div>
+            <MkFollowButton v-if="$i && user.id != $i.id" class="koudoku-button" :user="user" mini/>
+        </div>
+        <div v-else>
+            <MkLoading/>
+        </div>
+    </div>
 </transition>
 </template>
 
@@ -59,25 +59,25 @@ let top = $ref(0);
 let left = $ref(0);
 
 onMounted(() => {
-	if (typeof props.q === "object") {
-		user = props.q;
-	} else {
-		const query = props.q.startsWith("@") ?
-			Acct.parse(props.q.substr(1)) :
-			{ userId: props.q };
+    if (typeof props.q === "object") {
+        user = props.q;
+    } else {
+        const query = props.q.startsWith("@") ?
+            Acct.parse(props.q.substr(1)) :
+            { userId: props.q };
 
-		os.api("users/show", query).then(res => {
-			if (!props.showing) return;
-			user = res;
-		});
-	}
+        os.api("users/show", query).then(res => {
+            if (!props.showing) return;
+            user = res;
+        });
+    }
 
-	const rect = props.source.getBoundingClientRect();
-	const x = ((rect.left + (props.source.offsetWidth / 2)) - (300 / 2)) + window.pageXOffset;
-	const y = rect.top + props.source.offsetHeight + window.pageYOffset;
+    const rect = props.source.getBoundingClientRect();
+    const x = ((rect.left + (props.source.offsetWidth / 2)) - (300 / 2)) + window.pageXOffset;
+    const y = rect.top + props.source.offsetHeight + window.pageYOffset;
 
-	top = y;
-	left = x;
+    top = y;
+    left = x;
 });
 </script>
 

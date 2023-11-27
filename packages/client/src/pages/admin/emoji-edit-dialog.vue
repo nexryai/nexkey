@@ -1,30 +1,30 @@
 <template>
 <XModalWindow
-	ref="dialog"
-	:width="370"
-	:with-ok-button="true"
-	@close="$refs.dialog.close()"
-	@closed="$emit('closed')"
-	@ok="ok()"
+    ref="dialog"
+    :width="370"
+    :with-ok-button="true"
+    @close="$refs.dialog.close()"
+    @closed="$emit('closed')"
+    @ok="ok()"
 >
-	<template #header>:{{ emoji.name }}:</template>
+    <template #header>:{{ emoji.name }}:</template>
 
-	<div class="_monolithic_">
-		<div class="yigymqpb _section">
-			<img :src="emoji.url" class="img"/>
-			<MkInput v-model="name" class="_formBlock">
-				<template #label>{{ i18n.ts.name }}</template>
-			</MkInput>
-			<MkInput v-model="category" class="_formBlock" :datalist="categories">
-				<template #label>{{ i18n.ts.category }}</template>
-			</MkInput>
-			<MkInput v-model="aliases" class="_formBlock">
-				<template #label>{{ i18n.ts.tags }}</template>
-				<template #caption>{{ i18n.ts.setMultipleBySeparatingWithSpace }}</template>
-			</MkInput>
-			<MkButton danger @click="del()"><i class="ti ti-trash"></i> {{ i18n.ts.delete }}</MkButton>
-		</div>
-	</div>
+    <div class="_monolithic_">
+        <div class="yigymqpb _section">
+            <img :src="emoji.url" class="img"/>
+            <MkInput v-model="name" class="_formBlock">
+                <template #label>{{ i18n.ts.name }}</template>
+            </MkInput>
+            <MkInput v-model="category" class="_formBlock" :datalist="categories">
+                <template #label>{{ i18n.ts.category }}</template>
+            </MkInput>
+            <MkInput v-model="aliases" class="_formBlock">
+                <template #label>{{ i18n.ts.tags }}</template>
+                <template #caption>{{ i18n.ts.setMultipleBySeparatingWithSpace }}</template>
+            </MkInput>
+            <MkButton danger @click="del()"><i class="ti ti-trash"></i> {{ i18n.ts.delete }}</MkButton>
+        </div>
+    </div>
 </XModalWindow>
 </template>
 
@@ -54,44 +54,44 @@ const emit = defineEmits<{
 }>();
 
 function ok() {
-	update();
+    update();
 }
 
 async function update() {
-	await os.apiWithDialog("admin/emoji/update", {
-		id: props.emoji.id,
-		name,
-		category,
-		aliases: aliases.split(" "),
-	});
+    await os.apiWithDialog("admin/emoji/update", {
+        id: props.emoji.id,
+        name,
+        category,
+        aliases: aliases.split(" "),
+    });
 
-	emit("done", {
-		updated: {
-			id: props.emoji.id,
-			name,
-			category,
-			aliases: aliases.split(" "),
-		},
-	});
+    emit("done", {
+        updated: {
+            id: props.emoji.id,
+            name,
+            category,
+            aliases: aliases.split(" "),
+        },
+    });
 
-	dialog.close();
+    dialog.close();
 }
 
 async function del() {
-	const { canceled } = await os.confirm({
-		type: "warning",
-		text: i18n.t("removeAreYouSure", { x: name }),
-	});
-	if (canceled) return;
+    const { canceled } = await os.confirm({
+        type: "warning",
+        text: i18n.t("removeAreYouSure", { x: name }),
+    });
+    if (canceled) return;
 
-	os.api("admin/emoji/delete", {
-		id: props.emoji.id,
-	}).then(() => {
-		emit("done", {
-			deleted: true,
-		});
-		dialog.close();
-	});
+    os.api("admin/emoji/delete", {
+        id: props.emoji.id,
+    }).then(() => {
+        emit("done", {
+            deleted: true,
+        });
+        dialog.close();
+    });
 }
 </script>
 

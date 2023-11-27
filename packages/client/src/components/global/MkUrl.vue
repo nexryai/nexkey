@@ -1,20 +1,20 @@
 <template>
 <component
-	:is="self ? 'MkA' : 'a'" ref="el" class="ieqqeuvs _link" :[attr]="self ? props.url.substring(local.length) : props.url" :rel="rel" :target="target"
-	@contextmenu.stop="() => {}"
+    :is="self ? 'MkA' : 'a'" ref="el" class="ieqqeuvs _link" :[attr]="self ? props.url.substring(local.length) : props.url" :rel="rel" :target="target"
+    @contextmenu.stop="() => {}"
 >
-	<template v-if="!self">
-		<span class="schema">{{ schema }}//</span>
-		<span class="hostname">{{ hostname }}</span>
-		<span v-if="port != ''" class="port">:{{ port }}</span>
-	</template>
-	<template v-if="pathname === '/' && self">
-		<span class="self">{{ hostname }}</span>
-	</template>
-	<span v-if="pathname != ''" class="pathname">{{ self ? pathname.substring(1) : pathname }}</span>
-	<span class="query">{{ query }}</span>
-	<span class="hash">{{ hash }}</span>
-	<i v-if="target === '_blank'" class="ti ti-external-link icon"></i>
+    <template v-if="!self">
+        <span class="schema">{{ schema }}//</span>
+        <span class="hostname">{{ hostname }}</span>
+        <span v-if="port != ''" class="port">:{{ port }}</span>
+    </template>
+    <template v-if="pathname === '/' && self">
+        <span class="self">{{ hostname }}</span>
+    </template>
+    <span v-if="pathname != ''" class="pathname">{{ self ? pathname.substring(1) : pathname }}</span>
+    <span class="query">{{ query }}</span>
+    <span class="hash">{{ hash }}</span>
+    <i v-if="target === '_blank'" class="ti ti-external-link icon"></i>
 </component>
 </template>
 
@@ -37,11 +37,11 @@ if (!["http:", "https:"].includes(url.protocol)) throw new Error("invalid url");
 const el = ref();
 
 useTooltip(el, (showing) => {
-	os.popup(defineAsyncComponent(() => import("@/components/MkUrlPreviewPopup.vue")), {
-		showing,
-		url: props.url,
-		source: el.value,
-	}, {}, "closed");
+    os.popup(defineAsyncComponent(() => import("@/components/MkUrlPreviewPopup.vue")), {
+        showing,
+        url: props.url,
+        source: el.value,
+    }, {}, "closed");
 });
 
 const schema = url.protocol;

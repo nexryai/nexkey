@@ -1,33 +1,33 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader/></template>
-	<MkSpacer :content-max="800">
-		<MkPagination ref="paginationComponent" :pagination="pagination">
-			<template #empty>
-				<div class="_fullinfo">
-					<i class="ti ti-exclamation-mark"></i>
-					<div>{{ i18n.ts.noFollowRequests }}</div>
-				</div>
-			</template>
-			<template #default="{items}">
-				<div class="mk-follow-requests">
-					<div v-for="req in items" :key="req.id" class="user _panel">
-						<MkAvatar class="avatar" :user="req.follower" :show-indicator="true"/>
-						<div class="body">
-							<div class="name">
-								<MkA v-user-preview="req.follower.id" class="name" :to="userPage(req.follower)"><MkUserName :user="req.follower"/></MkA>
-								<p class="acct">@{{ acct(req.follower) }}</p>
-							</div>
-							<div class="commands">
-								<MkButton class="command" rounded primary @click="accept(req.follower)"><i class="ti ti-check"/> {{ i18n.ts.accept }}</MkButton>
-								<MkButton class="command" rounded danger @click="reject(req.follower)"><i class="ti ti-x"/> {{ i18n.ts.reject }}</MkButton>
-							</div>
-						</div>
-					</div>
-				</div>
-			</template>
-		</MkPagination>
-	</MkSpacer>
+    <template #header><MkPageHeader/></template>
+    <MkSpacer :content-max="800">
+        <MkPagination ref="paginationComponent" :pagination="pagination">
+            <template #empty>
+                <div class="_fullinfo">
+                    <i class="ti ti-exclamation-mark"></i>
+                    <div>{{ i18n.ts.noFollowRequests }}</div>
+                </div>
+            </template>
+            <template #default="{items}">
+                <div class="mk-follow-requests">
+                    <div v-for="req in items" :key="req.id" class="user _panel">
+                        <MkAvatar class="avatar" :user="req.follower" :show-indicator="true"/>
+                        <div class="body">
+                            <div class="name">
+                                <MkA v-user-preview="req.follower.id" class="name" :to="userPage(req.follower)"><MkUserName :user="req.follower"/></MkA>
+                                <p class="acct">@{{ acct(req.follower) }}</p>
+                            </div>
+                            <div class="commands">
+                                <MkButton class="command" rounded primary @click="accept(req.follower)"><i class="ti ti-check"/> {{ i18n.ts.accept }}</MkButton>
+                                <MkButton class="command" rounded danger @click="reject(req.follower)"><i class="ti ti-x"/> {{ i18n.ts.reject }}</MkButton>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </MkPagination>
+    </MkSpacer>
 </MkStickyContainer>
 </template>
 
@@ -43,20 +43,20 @@ import { definePageMetadata } from "@/scripts/page-metadata";
 const paginationComponent = ref<InstanceType<typeof MkPagination>>();
 
 const pagination = {
-	endpoint: "following/requests/list" as const,
-	limit: 10,
+    endpoint: "following/requests/list" as const,
+    limit: 10,
 };
 
 function accept(user) {
-	os.api("following/requests/accept", { userId: user.id }).then(() => {
-		paginationComponent.value.reload();
-	});
+    os.api("following/requests/accept", { userId: user.id }).then(() => {
+        paginationComponent.value.reload();
+    });
 }
 
 function reject(user) {
-	os.api("following/requests/reject", { userId: user.id }).then(() => {
-		paginationComponent.value.reload();
-	});
+    os.api("following/requests/reject", { userId: user.id }).then(() => {
+        paginationComponent.value.reload();
+    });
 }
 
 const headerActions = $computed(() => []);
@@ -64,8 +64,8 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
 
 definePageMetadata(computed(() => ({
-	title: i18n.ts.followRequests,
-	icon: "ti ti-user-plus",
+    title: i18n.ts.followRequests,
+    icon: "ti ti-user-plus",
 })));
 </script>
 

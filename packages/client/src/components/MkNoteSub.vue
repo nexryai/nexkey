@@ -1,35 +1,35 @@
 <template>
 <div v-if="!muted" v-size="{ max: [450] }" class="wrpstxzv" :class="{ children: depth > 1 }">
-	<div class="main">
-		<MkAvatar class="avatar" :user="note.user"/>
-		<div class="body">
-			<XNoteHeader class="header" :note="note" :mini="true"/>
-			<div class="body">
-				<p v-if="note.cw != null" class="cw">
-					<Mfm v-if="note.cw != ''" class="text" :text="note.cw" :author="note.user" :i="$i" :custom-emojis="note.emojis"/>
-					<XCwButton v-model="showContent" :note="note"/>
-				</p>
-				<div v-show="note.cw == null || showContent" class="content">
-					<MkSubNoteContent class="text" :note="note"/>
-				</div>
-			</div>
-		</div>
-	</div>
-	<template v-if="depth < 5">
-		<MkNoteSub v-for="reply in replies" :key="reply.id" :note="reply" class="reply" :detail="true" :depth="depth + 1"/>
-	</template>
-	<div v-else class="more">
-		<MkA class="text _link" :to="notePage(note)">{{ i18n.ts.continueThread }} <i class="ti ti-chevron-double-right"></i></MkA>
-	</div>
+    <div class="main">
+        <MkAvatar class="avatar" :user="note.user"/>
+        <div class="body">
+            <XNoteHeader class="header" :note="note" :mini="true"/>
+            <div class="body">
+                <p v-if="note.cw != null" class="cw">
+                    <Mfm v-if="note.cw != ''" class="text" :text="note.cw" :author="note.user" :i="$i" :custom-emojis="note.emojis"/>
+                    <XCwButton v-model="showContent" :note="note"/>
+                </p>
+                <div v-show="note.cw == null || showContent" class="content">
+                    <MkSubNoteContent class="text" :note="note"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <template v-if="depth < 5">
+        <MkNoteSub v-for="reply in replies" :key="reply.id" :note="reply" class="reply" :detail="true" :depth="depth + 1"/>
+    </template>
+    <div v-else class="more">
+        <MkA class="text _link" :to="notePage(note)">{{ i18n.ts.continueThread }} <i class="ti ti-chevron-double-right"></i></MkA>
+    </div>
 </div>
 <div v-else class="muted" @click="muted = false">
-	<I18n :src="i18n.ts.userSaysSomething" tag="small">
-		<template #name>
-			<MkA v-user-preview="note.userId" class="name" :to="userPage(note.user)">
-				<MkUserName :user="note.user"/>
-			</MkA>
-		</template>
-	</I18n>
+    <I18n :src="i18n.ts.userSaysSomething" tag="small">
+        <template #name>
+            <MkA v-user-preview="note.userId" class="name" :to="userPage(note.user)">
+                <MkUserName :user="note.user"/>
+            </MkA>
+        </template>
+    </I18n>
 </div>
 </template>
 
@@ -54,19 +54,19 @@ const props = withDefaults(defineProps<{
 	// how many notes are in between this one and the note being viewed in detail
 	depth?: number;
 }>(), {
-	depth: 1,
+    depth: 1,
 });
 
 let showContent = $ref(false);
 let replies: misskey.entities.Note[] = $ref([]);
 
 if (props.detail) {
-	os.api("notes/children", {
-		noteId: props.note.id,
-		limit: 5,
-	}).then(res => {
-		replies = res;
-	});
+    os.api("notes/children", {
+        noteId: props.note.id,
+        limit: 5,
+    }).then(res => {
+        replies = res;
+    });
 }
 </script>
 

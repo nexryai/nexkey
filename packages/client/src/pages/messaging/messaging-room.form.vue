@@ -1,28 +1,28 @@
 <template>
 <div
-	class="pemppnzi _block"
-	@dragover.stop="onDragover"
-	@drop.stop="onDrop"
+    class="pemppnzi _block"
+    @dragover.stop="onDragover"
+    @drop.stop="onDrop"
 >
-	<textarea
-		ref="textEl"
-		v-model="text"
-		:placeholder="i18n.ts.inputMessageHere"
-		@keydown="onKeydown"
-		@compositionupdate="onCompositionUpdate"
-		@paste="onPaste"
-	></textarea>
-	<footer>
-		<div v-if="file" class="file" @click="file = null">{{ file.name }}</div>
-		<div class="buttons">
-			<button class="_button" @click="chooseFile"><i class="ti ti-photo-plus"></i></button>
-			<button class="_button" @click="insertEmoji"><i class="ti ti-mood-happy"></i></button>
-			<button class="send _button" :disabled="!canSend || sending" :title="i18n.ts.send" @click="send">
-				<template v-if="!sending"><i class="ti ti-send"></i></template><template v-if="sending"><MkLoading :em="true"/></template>
-			</button>
-		</div>
-	</footer>
-	<input ref="fileEl" type="file" @change="onChangeFile"/>
+    <textarea
+        ref="textEl"
+        v-model="text"
+        :placeholder="i18n.ts.inputMessageHere"
+        @keydown="onKeydown"
+        @compositionupdate="onCompositionUpdate"
+        @paste="onPaste"
+    ></textarea>
+    <footer>
+        <div v-if="file" class="file" @click="file = null">{{ file.name }}</div>
+        <div class="buttons">
+            <button class="_button" @click="chooseFile"><i class="ti ti-photo-plus"></i></button>
+            <button class="_button" @click="insertEmoji"><i class="ti ti-mood-happy"></i></button>
+            <button class="send _button" :disabled="!canSend || sending" :title="i18n.ts.send" @click="send">
+                <template v-if="!sending"><i class="ti ti-send"></i></template><template v-if="sending"><MkLoading :em="true"/></template>
+            </button>
+        </div>
+    </footer>
+    <input ref="fileEl" type="file" @change="onChangeFile"/>
 </div>
 </template>
 
@@ -53,7 +53,7 @@ let text = $ref<string>("");
 let file = $ref<Misskey.entities.DriveFile | null>(null);
 let sending = $ref(false);
 const typing = throttle(3000, () => {
-	stream.send("typingOnMessaging", props.user ? { partner: props.user.id } : { group: props.group?.id });
+    stream.send("typingOnMessaging", props.user ? { partner: props.user.id } : { group: props.group?.id });
 });
 
 let draftKey = $computed(() => props.user ? "user:" + props.user.id : "group:" + props.group?.id);
@@ -62,176 +62,176 @@ let canSend = $computed(() => (text != null && text !== "") || file != null);
 watch([$$(text), $$(file)], saveDraft);
 
 async function onPaste(ev: ClipboardEvent) {
-	if (!ev.clipboardData) return;
+    if (!ev.clipboardData) return;
 
-	const clipboardData = ev.clipboardData;
-	const items = clipboardData.items;
+    const clipboardData = ev.clipboardData;
+    const items = clipboardData.items;
 
-	if (items.length === 1) {
-		if (items[0].kind === "file") {
-			const pastedFile = items[0].getAsFile();
-			if (!pastedFile) return;
-			const lio = pastedFile.name.lastIndexOf(".");
-			const ext = lio >= 0 ? pastedFile.name.slice(lio) : "";
-			const formatted = formatTimeString(new Date(pastedFile.lastModified), defaultStore.state.pastedFileName).replace(/{{number}}/g, "1") + ext;
-			if (formatted) upload(pastedFile, formatted);
-		}
-	} else {
-		if (items[0].kind === "file") {
-			os.alert({
-				type: "error",
-				text: i18n.ts.onlyOneFileCanBeAttached,
-			});
-		}
-	}
+    if (items.length === 1) {
+        if (items[0].kind === "file") {
+            const pastedFile = items[0].getAsFile();
+            if (!pastedFile) return;
+            const lio = pastedFile.name.lastIndexOf(".");
+            const ext = lio >= 0 ? pastedFile.name.slice(lio) : "";
+            const formatted = formatTimeString(new Date(pastedFile.lastModified), defaultStore.state.pastedFileName).replace(/{{number}}/g, "1") + ext;
+            if (formatted) upload(pastedFile, formatted);
+        }
+    } else {
+        if (items[0].kind === "file") {
+            os.alert({
+                type: "error",
+                text: i18n.ts.onlyOneFileCanBeAttached,
+            });
+        }
+    }
 }
 
 function onDragover(ev: DragEvent) {
-	if (!ev.dataTransfer) return;
+    if (!ev.dataTransfer) return;
 
-	const isFile = ev.dataTransfer.items[0].kind === "file";
-	const isDriveFile = ev.dataTransfer.types[0] === _DATA_TRANSFER_DRIVE_FILE_;
-	if (isFile || isDriveFile) {
-		ev.preventDefault();
-		switch (ev.dataTransfer.effectAllowed) {
-			case "all":
-			case "uninitialized":
-			case "copy": 
-			case "copyLink": 
-			case "copyMove": 
-				ev.dataTransfer.dropEffect = "copy";
-				break;
-			case "linkMove":
-			case "move":
-				ev.dataTransfer.dropEffect = "move";
-				break;
-			default:
-				ev.dataTransfer.dropEffect = "none";
-				break;
-		}
-	}
+    const isFile = ev.dataTransfer.items[0].kind === "file";
+    const isDriveFile = ev.dataTransfer.types[0] === _DATA_TRANSFER_DRIVE_FILE_;
+    if (isFile || isDriveFile) {
+        ev.preventDefault();
+        switch (ev.dataTransfer.effectAllowed) {
+            case "all":
+            case "uninitialized":
+            case "copy": 
+            case "copyLink": 
+            case "copyMove": 
+                ev.dataTransfer.dropEffect = "copy";
+                break;
+            case "linkMove":
+            case "move":
+                ev.dataTransfer.dropEffect = "move";
+                break;
+            default:
+                ev.dataTransfer.dropEffect = "none";
+                break;
+        }
+    }
 }
 
 function onDrop(ev: DragEvent): void {
-	if (!ev.dataTransfer) return;
+    if (!ev.dataTransfer) return;
 
-	// ファイルだったら
-	if (ev.dataTransfer.files.length === 1) {
-		ev.preventDefault();
-		upload(ev.dataTransfer.files[0]);
-		return;
-	} else if (ev.dataTransfer.files.length > 1) {
-		ev.preventDefault();
-		os.alert({
-			type: "error",
-			text: i18n.ts.onlyOneFileCanBeAttached,
-		});
-		return;
-	}
+    // ファイルだったら
+    if (ev.dataTransfer.files.length === 1) {
+        ev.preventDefault();
+        upload(ev.dataTransfer.files[0]);
+        return;
+    } else if (ev.dataTransfer.files.length > 1) {
+        ev.preventDefault();
+        os.alert({
+            type: "error",
+            text: i18n.ts.onlyOneFileCanBeAttached,
+        });
+        return;
+    }
 
-	//#region ドライブのファイル
-	const driveFile = ev.dataTransfer.getData(_DATA_TRANSFER_DRIVE_FILE_);
-	if (driveFile != null && driveFile !== "") {
-		file = JSON.parse(driveFile);
-		ev.preventDefault();
-	}
-	//#endregion
+    //#region ドライブのファイル
+    const driveFile = ev.dataTransfer.getData(_DATA_TRANSFER_DRIVE_FILE_);
+    if (driveFile != null && driveFile !== "") {
+        file = JSON.parse(driveFile);
+        ev.preventDefault();
+    }
+    //#endregion
 }
 
 function onKeydown(ev: KeyboardEvent) {
-	typing();
-	if ((ev.key === "Enter") && (ev.ctrlKey || ev.metaKey) && canSend) {
-		send();
-	}
+    typing();
+    if ((ev.key === "Enter") && (ev.ctrlKey || ev.metaKey) && canSend) {
+        send();
+    }
 }
 
 function onCompositionUpdate() {
-	typing();
+    typing();
 }
 
 function chooseFile(ev: MouseEvent) {
-	selectFile(ev.currentTarget ?? ev.target, i18n.ts.selectFile).then(selectedFile => {
-		file = selectedFile;
-	});
+    selectFile(ev.currentTarget ?? ev.target, i18n.ts.selectFile).then(selectedFile => {
+        file = selectedFile;
+    });
 }
 
 function onChangeFile() {
-	if (fileEl.files![0]) upload(fileEl.files[0]);
+    if (fileEl.files![0]) upload(fileEl.files[0]);
 }
 
 function upload(fileToUpload: File, name?: string) {
-	uploadFile(fileToUpload, defaultStore.state.uploadFolder, name).then(res => {
-		file = res;
-	});
+    uploadFile(fileToUpload, defaultStore.state.uploadFolder, name).then(res => {
+        file = res;
+    });
 }
 
 function send() {
-	sending = true;
-	os.api("messaging/messages/create", {
-		userId: props.user ? props.user.id : undefined,
-		groupId: props.group ? props.group.id : undefined,
-		text: text ? text : undefined,
-		fileId: file ? file.id : undefined,
-	}).then(message => {
-		clear();
-	}).catch(err => {
-		console.error(err);
-	}).then(() => {
-		sending = false;
-	});
+    sending = true;
+    os.api("messaging/messages/create", {
+        userId: props.user ? props.user.id : undefined,
+        groupId: props.group ? props.group.id : undefined,
+        text: text ? text : undefined,
+        fileId: file ? file.id : undefined,
+    }).then(message => {
+        clear();
+    }).catch(err => {
+        console.error(err);
+    }).then(() => {
+        sending = false;
+    });
 }
 
 function clear() {
-	text = "";
-	file = null;
-	deleteDraft();
+    text = "";
+    file = null;
+    deleteDraft();
 }
 
 function saveDraft() {
-	const drafts = JSON.parse(localStorage.getItem("message_drafts") || "{}");
+    const drafts = JSON.parse(localStorage.getItem("message_drafts") || "{}");
 
-	drafts[draftKey] = {
-		updatedAt: new Date(),
-		// eslint-disable-next-line id-denylist
-		data: {
-			text: text,
-			file: file,
-		},
-	};
+    drafts[draftKey] = {
+        updatedAt: new Date(),
+        // eslint-disable-next-line id-denylist
+        data: {
+            text: text,
+            file: file,
+        },
+    };
 
-	localStorage.setItem("message_drafts", JSON.stringify(drafts));
+    localStorage.setItem("message_drafts", JSON.stringify(drafts));
 }
 
 function deleteDraft() {
-	const drafts = JSON.parse(localStorage.getItem("message_drafts") || "{}");
+    const drafts = JSON.parse(localStorage.getItem("message_drafts") || "{}");
 
-	delete drafts[draftKey];
+    delete drafts[draftKey];
 
-	localStorage.setItem("message_drafts", JSON.stringify(drafts));
+    localStorage.setItem("message_drafts", JSON.stringify(drafts));
 }
 
 async function insertEmoji(ev: MouseEvent) {
-	os.openEmojiPicker(ev.currentTarget ?? ev.target, {}, textEl);
+    os.openEmojiPicker(ev.currentTarget ?? ev.target, {}, textEl);
 }
 
 onMounted(() => {
-	autosize(textEl);
+    autosize(textEl);
 
-	// TODO: detach when unmount
-	// TODO
-	//new Autocomplete(textEl, this, { model: 'text' });
+    // TODO: detach when unmount
+    // TODO
+    //new Autocomplete(textEl, this, { model: 'text' });
 
-	// 書きかけの投稿を復元
-	const draft = JSON.parse(localStorage.getItem("message_drafts") || "{}")[draftKey];
-	if (draft) {
-		text = draft.data.text;
-		file = draft.data.file;
-	}
+    // 書きかけの投稿を復元
+    const draft = JSON.parse(localStorage.getItem("message_drafts") || "{}")[draftKey];
+    if (draft) {
+        text = draft.data.text;
+        file = draft.data.file;
+    }
 });
 
 defineExpose({
-	file,
-	upload,
+    file,
+    upload,
 });
 </script>
 

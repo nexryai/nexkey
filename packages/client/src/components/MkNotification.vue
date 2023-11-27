@@ -1,80 +1,80 @@
 <template>
 <div ref="elRef" v-size="{ max: [500, 600] }" class="qglefbjs" :class="notification.type">
-	<div class="head">
-		<MkAvatar v-if="notification.type === 'pollEnded'" class="icon" :user="notification.note.user"/>
-		<MkAvatar v-else-if="notification.user" class="icon" :user="notification.user"/>
-		<img v-else-if="notification.icon" class="icon" :src="notification.icon" alt=""/>
-		<div class="sub-icon" :class="notification.type">
-			<i v-if="notification.type === 'follow'" class="ti ti-plus"></i>
-			<i v-else-if="notification.type === 'receiveFollowRequest'" class="ti ti-clock"></i>
-			<i v-else-if="notification.type === 'followRequestAccepted'" class="ti ti-check"></i>
-			<i v-else-if="notification.type === 'groupInvited'" class="ti ti-certificate-2"></i>
-			<i v-else-if="notification.type === 'renote'" class="ti ti-repeat"></i>
-			<i v-else-if="notification.type === 'reply'" class="ti ti-arrow-back-up"></i>
-			<i v-else-if="notification.type === 'mention'" class="ti ti-at"></i>
-			<i v-else-if="notification.type === 'quote'" class="ti ti-quote"></i>
-			<i v-else-if="notification.type === 'pollVote'" class="ti ti-chart-arrows"></i>
-			<i v-else-if="notification.type === 'pollEnded'" class="ti ti-chart-arrows"></i>
-			<!-- notification.reaction が null になることはまずないが、ここでoptional chaining使うと一部ブラウザで刺さるので念の為 -->
-			<XReactionIcon
-				v-else-if="notification.type === 'reaction'"
-				ref="reactionRef"
-				:reaction="notification.reaction ? notification.reaction.replace(/^:(\w+):$/, ':$1@.:') : notification.reaction"
-				:custom-emojis="notification.note.emojis"
-				:no-style="true"
-			/>
-		</div>
-	</div>
-	<div class="tail">
-		<header>
-			<span v-if="notification.type === 'pollEnded'">{{ i18n.ts._notification.pollEnded }}</span>
-			<MkA v-else-if="notification.user" v-user-preview="notification.user.id" class="name" :to="userPage(notification.user)"><MkUserName :user="notification.user"/></MkA>
-			<span v-else>{{ notification.header }}</span>
-			<MkTime v-if="withTime" :time="notification.createdAt" class="time"/>
-		</header>
-		<MkA v-if="notification.type === 'reaction'" class="text" :to="notePage(notification.note)" :title="getNoteSummary(notification.note)">
-			<i class="ti ti-quote"></i>
-			<Mfm :text="getNoteSummary(notification.note)" :plain="true" :nowrap="!full" :custom-emojis="notification.note.emojis"/>
-			<i class="ti ti-quote"></i>
-		</MkA>
-		<MkA v-if="notification.type === 'renote'" class="text" :to="notePage(notification.note)" :title="getNoteSummary(notification.note.renote)">
-			<i class="ti ti-quote"></i>
-			<Mfm :text="getNoteSummary(notification.note.renote)" :plain="true" :nowrap="!full" :custom-emojis="notification.note.renote.emojis"/>
-			<i class="ti ti-quote"></i>
-		</MkA>
-		<MkA v-if="notification.type === 'reply'" class="text" :to="notePage(notification.note)" :title="getNoteSummary(notification.note)">
-			<Mfm :text="getNoteSummary(notification.note)" :plain="true" :nowrap="!full" :custom-emojis="notification.note.emojis"/>
-		</MkA>
-		<MkA v-if="notification.type === 'mention'" class="text" :to="notePage(notification.note)" :title="getNoteSummary(notification.note)">
-			<Mfm :text="getNoteSummary(notification.note)" :plain="true" :nowrap="!full" :custom-emojis="notification.note.emojis"/>
-		</MkA>
-		<MkA v-if="notification.type === 'quote'" class="text" :to="notePage(notification.note)" :title="getNoteSummary(notification.note)">
-			<Mfm :text="getNoteSummary(notification.note)" :plain="true" :nowrap="!full" :custom-emojis="notification.note.emojis"/>
-		</MkA>
-		<MkA v-if="notification.type === 'pollVote'" class="text" :to="notePage(notification.note)" :title="getNoteSummary(notification.note)">
-			<i class="ti ti-quote"></i>
-			<Mfm :text="getNoteSummary(notification.note)" :plain="true" :nowrap="!full" :custom-emojis="notification.note.emojis"/>
-			<i class="ti ti-quote"></i>
-		</MkA>
-		<MkA v-if="notification.type === 'pollEnded'" class="text" :to="notePage(notification.note)" :title="getNoteSummary(notification.note)">
-			<i class="ti ti-quote"></i>
-			<Mfm :text="getNoteSummary(notification.note)" :plain="true" :nowrap="!full" :custom-emojis="notification.note.emojis"/>
-			<i class="ti ti-quote"></i>
-		</MkA>
-		<span v-if="notification.type === 'follow'" class="text" style="opacity: 0.6;">{{ i18n.ts.youGotNewFollower }}<div v-if="full"><MkFollowButton :user="notification.user" :full="true"/></div></span>
-		<span v-if="notification.type === 'followRequestAccepted'" class="text" style="opacity: 0.6;">{{ i18n.ts.followRequestAccepted }}</span>
-		<template v-else-if="notification.type === 'receiveFollowRequest'">
-			<span class="text" style="opacity: 0.6;">{{ i18n.ts.receiveFollowRequest }}</span>
-			<div v-if="full && !followRequestDone" class="followRequestCommands">
-				<MkButton class="followRequestCommandButton" rounded primary @click="acceptFollowRequest()"><i class="ti ti-check"/> {{ i18n.ts.accept }}</MkButton>
-				<MkButton class="followRequestCommandButton" rounded danger @click="rejectFollowRequest()"><i class="ti ti-x"/> {{ i18n.ts.reject }}</MkButton>
-			</div>
-		</template>
-		<span v-if="notification.type === 'groupInvited'" class="text" style="opacity: 0.6;">{{ i18n.ts.groupInvited }}: <b>{{ notification.invitation.group.name }}</b><div v-if="full && !groupInviteDone"><button class="_textButton" @click="acceptGroupInvitation()">{{ i18n.ts.accept }}</button> | <button class="_textButton" @click="rejectGroupInvitation()">{{ i18n.ts.reject }}</button></div></span>
-		<span v-if="notification.type === 'app'" class="text">
-			<Mfm :text="notification.body" :nowrap="!full"/>
-		</span>
-	</div>
+    <div class="head">
+        <MkAvatar v-if="notification.type === 'pollEnded'" class="icon" :user="notification.note.user"/>
+        <MkAvatar v-else-if="notification.user" class="icon" :user="notification.user"/>
+        <img v-else-if="notification.icon" class="icon" :src="notification.icon" alt=""/>
+        <div class="sub-icon" :class="notification.type">
+            <i v-if="notification.type === 'follow'" class="ti ti-plus"></i>
+            <i v-else-if="notification.type === 'receiveFollowRequest'" class="ti ti-clock"></i>
+            <i v-else-if="notification.type === 'followRequestAccepted'" class="ti ti-check"></i>
+            <i v-else-if="notification.type === 'groupInvited'" class="ti ti-certificate-2"></i>
+            <i v-else-if="notification.type === 'renote'" class="ti ti-repeat"></i>
+            <i v-else-if="notification.type === 'reply'" class="ti ti-arrow-back-up"></i>
+            <i v-else-if="notification.type === 'mention'" class="ti ti-at"></i>
+            <i v-else-if="notification.type === 'quote'" class="ti ti-quote"></i>
+            <i v-else-if="notification.type === 'pollVote'" class="ti ti-chart-arrows"></i>
+            <i v-else-if="notification.type === 'pollEnded'" class="ti ti-chart-arrows"></i>
+            <!-- notification.reaction が null になることはまずないが、ここでoptional chaining使うと一部ブラウザで刺さるので念の為 -->
+            <XReactionIcon
+                v-else-if="notification.type === 'reaction'"
+                ref="reactionRef"
+                :reaction="notification.reaction ? notification.reaction.replace(/^:(\w+):$/, ':$1@.:') : notification.reaction"
+                :custom-emojis="notification.note.emojis"
+                :no-style="true"
+            />
+        </div>
+    </div>
+    <div class="tail">
+        <header>
+            <span v-if="notification.type === 'pollEnded'">{{ i18n.ts._notification.pollEnded }}</span>
+            <MkA v-else-if="notification.user" v-user-preview="notification.user.id" class="name" :to="userPage(notification.user)"><MkUserName :user="notification.user"/></MkA>
+            <span v-else>{{ notification.header }}</span>
+            <MkTime v-if="withTime" :time="notification.createdAt" class="time"/>
+        </header>
+        <MkA v-if="notification.type === 'reaction'" class="text" :to="notePage(notification.note)" :title="getNoteSummary(notification.note)">
+            <i class="ti ti-quote"></i>
+            <Mfm :text="getNoteSummary(notification.note)" :plain="true" :nowrap="!full" :custom-emojis="notification.note.emojis"/>
+            <i class="ti ti-quote"></i>
+        </MkA>
+        <MkA v-if="notification.type === 'renote'" class="text" :to="notePage(notification.note)" :title="getNoteSummary(notification.note.renote)">
+            <i class="ti ti-quote"></i>
+            <Mfm :text="getNoteSummary(notification.note.renote)" :plain="true" :nowrap="!full" :custom-emojis="notification.note.renote.emojis"/>
+            <i class="ti ti-quote"></i>
+        </MkA>
+        <MkA v-if="notification.type === 'reply'" class="text" :to="notePage(notification.note)" :title="getNoteSummary(notification.note)">
+            <Mfm :text="getNoteSummary(notification.note)" :plain="true" :nowrap="!full" :custom-emojis="notification.note.emojis"/>
+        </MkA>
+        <MkA v-if="notification.type === 'mention'" class="text" :to="notePage(notification.note)" :title="getNoteSummary(notification.note)">
+            <Mfm :text="getNoteSummary(notification.note)" :plain="true" :nowrap="!full" :custom-emojis="notification.note.emojis"/>
+        </MkA>
+        <MkA v-if="notification.type === 'quote'" class="text" :to="notePage(notification.note)" :title="getNoteSummary(notification.note)">
+            <Mfm :text="getNoteSummary(notification.note)" :plain="true" :nowrap="!full" :custom-emojis="notification.note.emojis"/>
+        </MkA>
+        <MkA v-if="notification.type === 'pollVote'" class="text" :to="notePage(notification.note)" :title="getNoteSummary(notification.note)">
+            <i class="ti ti-quote"></i>
+            <Mfm :text="getNoteSummary(notification.note)" :plain="true" :nowrap="!full" :custom-emojis="notification.note.emojis"/>
+            <i class="ti ti-quote"></i>
+        </MkA>
+        <MkA v-if="notification.type === 'pollEnded'" class="text" :to="notePage(notification.note)" :title="getNoteSummary(notification.note)">
+            <i class="ti ti-quote"></i>
+            <Mfm :text="getNoteSummary(notification.note)" :plain="true" :nowrap="!full" :custom-emojis="notification.note.emojis"/>
+            <i class="ti ti-quote"></i>
+        </MkA>
+        <span v-if="notification.type === 'follow'" class="text" style="opacity: 0.6;">{{ i18n.ts.youGotNewFollower }}<div v-if="full"><MkFollowButton :user="notification.user" :full="true"/></div></span>
+        <span v-if="notification.type === 'followRequestAccepted'" class="text" style="opacity: 0.6;">{{ i18n.ts.followRequestAccepted }}</span>
+        <template v-else-if="notification.type === 'receiveFollowRequest'">
+            <span class="text" style="opacity: 0.6;">{{ i18n.ts.receiveFollowRequest }}</span>
+            <div v-if="full && !followRequestDone" class="followRequestCommands">
+                <MkButton class="followRequestCommandButton" rounded primary @click="acceptFollowRequest()"><i class="ti ti-check"/> {{ i18n.ts.accept }}</MkButton>
+                <MkButton class="followRequestCommandButton" rounded danger @click="rejectFollowRequest()"><i class="ti ti-x"/> {{ i18n.ts.reject }}</MkButton>
+            </div>
+        </template>
+        <span v-if="notification.type === 'groupInvited'" class="text" style="opacity: 0.6;">{{ i18n.ts.groupInvited }}: <b>{{ notification.invitation.group.name }}</b><div v-if="full && !groupInviteDone"><button class="_textButton" @click="acceptGroupInvitation()">{{ i18n.ts.accept }}</button> | <button class="_textButton" @click="rejectGroupInvitation()">{{ i18n.ts.reject }}</button></div></span>
+        <span v-if="notification.type === 'app'" class="text">
+            <Mfm :text="notification.body" :nowrap="!full"/>
+        </span>
+    </div>
 </div>
 </template>
 
@@ -98,8 +98,8 @@ const props = withDefaults(defineProps<{
 	withTime?: boolean;
 	full?: boolean;
 }>(), {
-	withTime: false,
-	full: false,
+    withTime: false,
+    full: false,
 });
 
 const elRef = ref<HTMLElement>(null);
@@ -109,61 +109,61 @@ let readObserver: IntersectionObserver | undefined;
 let connection;
 
 onMounted(() => {
-	if (!props.notification.isRead) {
-		readObserver = new IntersectionObserver((entries, observer) => {
-			if (!entries.some(entry => entry.isIntersecting)) return;
-			stream.send("readNotification", {
-				id: props.notification.id,
-			});
-			observer.disconnect();
-		});
+    if (!props.notification.isRead) {
+        readObserver = new IntersectionObserver((entries, observer) => {
+            if (!entries.some(entry => entry.isIntersecting)) return;
+            stream.send("readNotification", {
+                id: props.notification.id,
+            });
+            observer.disconnect();
+        });
 
-		readObserver.observe(elRef.value);
+        readObserver.observe(elRef.value);
 
-		connection = stream.useChannel("main");
-		connection.on("readAllNotifications", () => readObserver.disconnect());
+        connection = stream.useChannel("main");
+        connection.on("readAllNotifications", () => readObserver.disconnect());
 
-		watch(props.notification.isRead, () => {
-			readObserver.disconnect();
-		});
-	}
+        watch(props.notification.isRead, () => {
+            readObserver.disconnect();
+        });
+    }
 });
 
 onUnmounted(() => {
-	if (readObserver) readObserver.disconnect();
-	if (connection) connection.dispose();
+    if (readObserver) readObserver.disconnect();
+    if (connection) connection.dispose();
 });
 
 const followRequestDone = ref(false);
 const groupInviteDone = ref(false);
 
 const acceptFollowRequest = () => {
-	followRequestDone.value = true;
-	os.api("following/requests/accept", { userId: props.notification.user.id });
+    followRequestDone.value = true;
+    os.api("following/requests/accept", { userId: props.notification.user.id });
 };
 
 const rejectFollowRequest = () => {
-	followRequestDone.value = true;
-	os.api("following/requests/reject", { userId: props.notification.user.id });
+    followRequestDone.value = true;
+    os.api("following/requests/reject", { userId: props.notification.user.id });
 };
 
 const acceptGroupInvitation = () => {
-	groupInviteDone.value = true;
-	os.apiWithDialog("users/groups/invitations/accept", { invitationId: props.notification.invitation.id });
+    groupInviteDone.value = true;
+    os.apiWithDialog("users/groups/invitations/accept", { invitationId: props.notification.invitation.id });
 };
 
 const rejectGroupInvitation = () => {
-	groupInviteDone.value = true;
-	os.api("users/groups/invitations/reject", { invitationId: props.notification.invitation.id });
+    groupInviteDone.value = true;
+    os.api("users/groups/invitations/reject", { invitationId: props.notification.invitation.id });
 };
 
 useTooltip(reactionRef, (showing) => {
-	os.popup(XReactionTooltip, {
-		showing,
-		reaction: props.notification.reaction ? props.notification.reaction.replace(/^:(\w+):$/, ":$1@.:") : props.notification.reaction,
-		emojis: props.notification.note.emojis,
-		targetElement: reactionRef.value.$el,
-	}, {}, "closed");
+    os.popup(XReactionTooltip, {
+        showing,
+        reaction: props.notification.reaction ? props.notification.reaction.replace(/^:(\w+):$/, ":$1@.:") : props.notification.reaction,
+        emojis: props.notification.note.emojis,
+        targetElement: reactionRef.value.$el,
+    }, {}, "closed");
 });
 </script>
 

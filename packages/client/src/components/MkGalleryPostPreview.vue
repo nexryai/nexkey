@@ -1,16 +1,16 @@
 <template>
 <MkA :to="`/gallery/${post.id}`" class="ttasepnz _panel" tabindex="-1">
-	<div class="thumbnail">
-		<ImgWithBlurhash class="img" :src="post.files[0].thumbnailUrl" :hash="post.files[0].blurhash"/>
-	</div>
-	<article>
-		<header>
-			<MkAvatar :user="post.user" class="avatar"/>
-		</header>
-		<footer>
-			<span class="title">{{ post.title }}</span>
-		</footer>
-	</article>
+    <div class="thumbnail">
+        <ImgWithBlurhash class="img" :src="post.files[0].thumbnailUrl" :hash="post.files[0].blurhash"/>
+    </div>
+    <article>
+        <header>
+            <MkAvatar :user="post.user" class="avatar"/>
+        </header>
+        <footer>
+            <span class="title">{{ post.title }}</span>
+        </footer>
+    </article>
 </MkA>
 </template>
 

@@ -1,12 +1,12 @@
 <template>
 <div class="mk-toast">
-	<transition :name="$store.state.animation ? 'toast' : ''" appear @after-leave="emit('closed')">
-		<div v-if="showing" class="body _acrylic" :style="{ zIndex }">
-			<div class="message">
-				{{ message }}
-			</div>
-		</div>
-	</transition>
+    <transition :name="$store.state.animation ? 'toast' : ''" appear @after-leave="emit('closed')">
+        <div v-if="showing" class="body _acrylic" :style="{ zIndex }">
+            <div class="message">
+                {{ message }}
+            </div>
+        </div>
+    </transition>
 </div>
 </template>
 
@@ -26,9 +26,9 @@ const zIndex = os.claimZIndex("high");
 let showing = $ref(true);
 
 onMounted(() => {
-	window.setTimeout(() => {
-		showing = false;
-	}, 4000);
+    window.setTimeout(() => {
+        showing = false;
+    }, 4000);
 });
 </script>
 

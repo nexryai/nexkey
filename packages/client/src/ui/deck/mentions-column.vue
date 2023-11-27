@@ -1,8 +1,8 @@
 <template>
 <XColumn :column="column" :is-stacked="isStacked" @parent-focus="$event => emit('parent-focus', $event)">
-	<template #header><i class="ti ti-at" style="margin-right: 8px;"></i>{{ column.name }}</template>
+    <template #header><i class="ti ti-at" style="margin-right: 8px;"></i>{{ column.name }}</template>
 
-	<XNotes :pagination="pagination"/>
+    <XNotes :pagination="pagination"/>
 </XColumn>
 </template>
 
@@ -22,7 +22,7 @@ const emit = defineEmits<{
 }>();
 
 const pagination = {
-	endpoint: "notes/mentions" as const,
-	limit: 10,
+    endpoint: "notes/mentions" as const,
+    limit: 10,
 };
 </script>

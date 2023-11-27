@@ -1,11 +1,11 @@
 <template>
 <MkContainer :show-header="widgetProps.showHeader" class="mkw-memo">
-	<template #header><i class="ti ti-note"></i>{{ i18n.ts._widgets.memo }}</template>
+    <template #header><i class="ti ti-note"></i>{{ i18n.ts._widgets.memo }}</template>
 
-	<div class="otgbylcu">
-		<textarea v-model="text" :placeholder="i18n.ts.placeholder" @input="onChange"></textarea>
-		<button :disabled="!changed" class="_buttonPrimary" @click="saveMemo">{{ i18n.ts.save }}</button>
-	</div>
+    <div class="otgbylcu">
+        <textarea v-model="text" :placeholder="i18n.ts.placeholder" @input="onChange"></textarea>
+        <button :disabled="!changed" class="_buttonPrimary" @click="saveMemo">{{ i18n.ts.save }}</button>
+    </div>
 </MkContainer>
 </template>
 
@@ -21,10 +21,10 @@ import { i18n } from "@/i18n";
 const name = "memo";
 
 const widgetPropsDef = {
-	showHeader: {
-		type: "boolean" as const,
-		default: true,
-	},
+    showHeader: {
+        type: "boolean" as const,
+        default: true,
+    },
 };
 
 type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
@@ -36,9 +36,9 @@ const props = defineProps<{ widget?: Widget<WidgetProps>; }>();
 const emit = defineEmits<{ (ev: "updateProps", props: WidgetProps); }>();
 
 const { widgetProps, configure } = useWidgetPropsManager(name,
-	widgetPropsDef,
-	props,
-	emit,
+    widgetPropsDef,
+    props,
+    emit,
 );
 
 const text = ref<string | null>(defaultStore.state.memo);
@@ -46,24 +46,24 @@ const changed = ref(false);
 let timeoutId;
 
 const saveMemo = () => {
-	defaultStore.set("memo", text.value);
-	changed.value = false;
+    defaultStore.set("memo", text.value);
+    changed.value = false;
 };
 
 const onChange = () => {
-	changed.value = true;
-	window.clearTimeout(timeoutId);
-	timeoutId = window.setTimeout(saveMemo, 1000);
+    changed.value = true;
+    window.clearTimeout(timeoutId);
+    timeoutId = window.setTimeout(saveMemo, 1000);
 };
 
 watch(() => defaultStore.reactiveState.memo, newText => {
-	text.value = newText.value;
+    text.value = newText.value;
 });
 
 defineExpose<WidgetComponentExpose>({
-	name,
-	configure,
-	id: props.widget ? props.widget.id : null,
+    name,
+    configure,
+    id: props.widget ? props.widget.id : null,
 });
 </script>
 

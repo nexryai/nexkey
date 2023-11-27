@@ -1,11 +1,11 @@
 <template>
 <div class="_formRoot">
-	<FormFolder v-for="x in statusbars" :key="x.id" class="_formBlock">
-		<template #label>{{ x.type ?? i18n.ts.notSet }}</template>
-		<template #suffix>{{ x.name }}</template>
-		<XStatusbar :_id="x.id" :user-lists="userLists"/>
-	</FormFolder>
-	<FormButton primary @click="add">{{ i18n.ts.add }}</FormButton>
+    <FormFolder v-for="x in statusbars" :key="x.id" class="_formBlock">
+        <template #label>{{ x.type ?? i18n.ts.notSet }}</template>
+        <template #suffix>{{ x.name }}</template>
+        <XStatusbar :_id="x.id" :user-lists="userLists"/>
+    </FormFolder>
+    <FormButton primary @click="add">{{ i18n.ts.add }}</FormButton>
 </div>
 </template>
 
@@ -27,19 +27,19 @@ const statusbars = defaultStore.reactiveState.statusbars;
 let userLists = $ref();
 
 onMounted(() => {
-	os.api("users/lists/list").then(res => {
-		userLists = res;
-	});
+    os.api("users/lists/list").then(res => {
+        userLists = res;
+    });
 });
 
 async function add() {
-	defaultStore.push("statusbars", {
-		id: uuid(),
-		type: null,
-		black: false,
-		size: "medium",
-		props: {},
-	});
+    defaultStore.push("statusbars", {
+        id: uuid(),
+        type: null,
+        black: false,
+        size: "medium",
+        props: {},
+    });
 }
 
 const headerActions = $computed(() => []);
@@ -47,8 +47,8 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
 
 definePageMetadata({
-	title: i18n.ts.statusbar,
-	icon: "ti ti-list",
-	bg: "var(--bg)",
+    title: i18n.ts.statusbar,
+    icon: "ti ti-list",
+    bg: "var(--bg)",
 });
 </script>

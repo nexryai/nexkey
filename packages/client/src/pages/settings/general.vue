@@ -1,111 +1,111 @@
 <template>
 <div class="_formRoot">
-	<FormSelect v-model="lang" class="_formBlock">
-		<template #label>{{ i18n.ts.uiLanguage }}</template>
-		<option v-for="x in langs" :key="x[0]" :value="x[0]">{{ x[1] }}</option>
-		<template #caption>
-			<I18n :src="i18n.ts.i18nInfo" tag="span">
-				<template #link>
-					<MkLink url="https://crowdin.com/project/misskey">Crowdin</MkLink>
-				</template>
-			</I18n>
-		</template>
-	</FormSelect>
+    <FormSelect v-model="lang" class="_formBlock">
+        <template #label>{{ i18n.ts.uiLanguage }}</template>
+        <option v-for="x in langs" :key="x[0]" :value="x[0]">{{ x[1] }}</option>
+        <template #caption>
+            <I18n :src="i18n.ts.i18nInfo" tag="span">
+                <template #link>
+                    <MkLink url="https://crowdin.com/project/misskey">Crowdin</MkLink>
+                </template>
+            </I18n>
+        </template>
+    </FormSelect>
 
-	<FormRadios v-model="overridedDeviceKind" class="_formBlock">
-		<template #label>{{ i18n.ts.overridedDeviceKind }}</template>
-		<option :value="null">{{ i18n.ts.auto }}</option>
-		<option value="smartphone"><i class="ti ti-device-mobile"/> {{ i18n.ts.smartphone }}</option>
-		<option value="tablet"><i class="ti ti-device-tablet"/> {{ i18n.ts.tablet }}</option>
-		<option value="desktop"><i class="ti ti-device-desktop"/> {{ i18n.ts.desktop }}</option>
-	</FormRadios>
+    <FormRadios v-model="overridedDeviceKind" class="_formBlock">
+        <template #label>{{ i18n.ts.overridedDeviceKind }}</template>
+        <option :value="null">{{ i18n.ts.auto }}</option>
+        <option value="smartphone"><i class="ti ti-device-mobile"/> {{ i18n.ts.smartphone }}</option>
+        <option value="tablet"><i class="ti ti-device-tablet"/> {{ i18n.ts.tablet }}</option>
+        <option value="desktop"><i class="ti ti-device-desktop"/> {{ i18n.ts.desktop }}</option>
+    </FormRadios>
 
-	<MkButton @click="switchUi"><i class="ti ti-devices"></i> {{ i18n.ts.switchUi }}</MkButton>
-	<FormSwitch v-model="showFixedPostForm" class="_formBlock">{{ i18n.ts.showFixedPostForm }}</FormSwitch>
-	<FormSwitch v-model="showOnlineUsersOnNavbar" class="_formBlock">{{ i18n.ts.showOnlineUsersOnNavbar }}</FormSwitch>
+    <MkButton @click="switchUi"><i class="ti ti-devices"></i> {{ i18n.ts.switchUi }}</MkButton>
+    <FormSwitch v-model="showFixedPostForm" class="_formBlock">{{ i18n.ts.showFixedPostForm }}</FormSwitch>
+    <FormSwitch v-model="showOnlineUsersOnNavbar" class="_formBlock">{{ i18n.ts.showOnlineUsersOnNavbar }}</FormSwitch>
 
-	<FormSelect v-model="searchEngine" class="_formBlock">
-		<template #label>{{ i18n.ts.searchEngine }}</template>
-		<option value="https://google.com/search?">
-			Google Search (google.com)
-		</option>
-		<option value="https://duckduckgo.com/?">
-			DuckDuckGo (duckduckgo.com)
-		</option>
-		<option value="https://search.yahoo.com/search?">
-			Yahoo! Search (search.yahoo.com)
-		</option>
-		<option value="https://www.ecosia.org/search?">
-			Ecosia (ecosia.org)
-		</option>
-		<option value="https://www.startpage.com/do/search?">
-			Startpage (startpage.com)
-		</option>
-	</FormSelect>
+    <FormSelect v-model="searchEngine" class="_formBlock">
+        <template #label>{{ i18n.ts.searchEngine }}</template>
+        <option value="https://google.com/search?">
+            Google Search (google.com)
+        </option>
+        <option value="https://duckduckgo.com/?">
+            DuckDuckGo (duckduckgo.com)
+        </option>
+        <option value="https://search.yahoo.com/search?">
+            Yahoo! Search (search.yahoo.com)
+        </option>
+        <option value="https://www.ecosia.org/search?">
+            Ecosia (ecosia.org)
+        </option>
+        <option value="https://www.startpage.com/do/search?">
+            Startpage (startpage.com)
+        </option>
+    </FormSelect>
 
-	<FormSection>
-		<template #label>{{ i18n.ts.behavior }}</template>
-		<FormSwitch v-model="imageNewTab" class="_formBlock">{{ i18n.ts.openImageInNewTab }}</FormSwitch>
-		<FormSwitch v-model="enableInfiniteScroll" class="_formBlock">{{ i18n.ts.enableInfiniteScroll }}</FormSwitch>
-		<FormSwitch v-model="useReactionPickerForContextMenu" class="_formBlock">{{ i18n.ts.useReactionPickerForContextMenu }}</FormSwitch>
-		<FormSwitch v-model="disablePagesScript" class="_formBlock">{{ i18n.ts.disablePagesScript }}</FormSwitch>
+    <FormSection>
+        <template #label>{{ i18n.ts.behavior }}</template>
+        <FormSwitch v-model="imageNewTab" class="_formBlock">{{ i18n.ts.openImageInNewTab }}</FormSwitch>
+        <FormSwitch v-model="enableInfiniteScroll" class="_formBlock">{{ i18n.ts.enableInfiniteScroll }}</FormSwitch>
+        <FormSwitch v-model="useReactionPickerForContextMenu" class="_formBlock">{{ i18n.ts.useReactionPickerForContextMenu }}</FormSwitch>
+        <FormSwitch v-model="disablePagesScript" class="_formBlock">{{ i18n.ts.disablePagesScript }}</FormSwitch>
 
-		<FormSelect v-model="serverDisconnectedBehavior" class="_formBlock">
-			<template #label>{{ i18n.ts.whenServerDisconnected }}</template>
-			<option value="reload">{{ i18n.ts._serverDisconnectedBehavior.reload }}</option>
-			<option value="dialog">{{ i18n.ts._serverDisconnectedBehavior.dialog }}</option>
-			<option value="quiet">{{ i18n.ts._serverDisconnectedBehavior.quiet }}</option>
-		</FormSelect>
-	</FormSection>
+        <FormSelect v-model="serverDisconnectedBehavior" class="_formBlock">
+            <template #label>{{ i18n.ts.whenServerDisconnected }}</template>
+            <option value="reload">{{ i18n.ts._serverDisconnectedBehavior.reload }}</option>
+            <option value="dialog">{{ i18n.ts._serverDisconnectedBehavior.dialog }}</option>
+            <option value="quiet">{{ i18n.ts._serverDisconnectedBehavior.quiet }}</option>
+        </FormSelect>
+    </FormSection>
 
-	<FormSection>
-		<template #label>{{ i18n.ts.appearance }}</template>
-		<FormSwitch v-model="disableAnimatedMfm" class="_formBlock">{{ i18n.ts.disableAnimatedMfm }}</FormSwitch>
-		<FormSwitch v-model="enableMfm" class="_formBlock">{{ i18n.ts.enableMfm }}</FormSwitch>
-		<FormSwitch v-model="reduceAnimation" class="_formBlock">{{ i18n.ts.reduceUiAnimation }}</FormSwitch>
-		<FormSwitch v-model="useBlurEffect" class="_formBlock">{{ i18n.ts.useBlurEffect }}</FormSwitch>
-		<FormSwitch v-model="useBlurEffectForModal" class="_formBlock">{{ i18n.ts.useBlurEffectForModal }}</FormSwitch>
-		<FormSwitch v-model="showGapBetweenNotesInTimeline" class="_formBlock">{{ i18n.ts.showGapBetweenNotesInTimeline }}</FormSwitch>
-		<FormSwitch v-model="loadRawImages" class="_formBlock">{{ i18n.ts.loadRawImages }}</FormSwitch>
-		<FormSwitch v-model="disableShowingAnimatedImages" class="_formBlock">{{ i18n.ts.disableShowingAnimatedImages }}</FormSwitch>
-		<FormSwitch v-model="squareAvatars" class="_formBlock">{{ i18n.ts.squareAvatars }}</FormSwitch>
-		<FormSwitch v-model="useSystemFont" class="_formBlock">{{ i18n.ts.useSystemFont }}</FormSwitch>
-		<FormSwitch v-model="useOsNativeEmojis" class="_formBlock">
-			{{ i18n.ts.useOsNativeEmojis }}
-			<div><Mfm :key="useOsNativeEmojis" text="🍮🍦🍭🍩🍰🍫🍬🥞🍪"/></div>
-		</FormSwitch>
-		<FormSwitch v-model="disableDrawer" class="_formBlock">{{ i18n.ts.disableDrawer }}</FormSwitch>
+    <FormSection>
+        <template #label>{{ i18n.ts.appearance }}</template>
+        <FormSwitch v-model="disableAnimatedMfm" class="_formBlock">{{ i18n.ts.disableAnimatedMfm }}</FormSwitch>
+        <FormSwitch v-model="enableMfm" class="_formBlock">{{ i18n.ts.enableMfm }}</FormSwitch>
+        <FormSwitch v-model="reduceAnimation" class="_formBlock">{{ i18n.ts.reduceUiAnimation }}</FormSwitch>
+        <FormSwitch v-model="useBlurEffect" class="_formBlock">{{ i18n.ts.useBlurEffect }}</FormSwitch>
+        <FormSwitch v-model="useBlurEffectForModal" class="_formBlock">{{ i18n.ts.useBlurEffectForModal }}</FormSwitch>
+        <FormSwitch v-model="showGapBetweenNotesInTimeline" class="_formBlock">{{ i18n.ts.showGapBetweenNotesInTimeline }}</FormSwitch>
+        <FormSwitch v-model="loadRawImages" class="_formBlock">{{ i18n.ts.loadRawImages }}</FormSwitch>
+        <FormSwitch v-model="disableShowingAnimatedImages" class="_formBlock">{{ i18n.ts.disableShowingAnimatedImages }}</FormSwitch>
+        <FormSwitch v-model="squareAvatars" class="_formBlock">{{ i18n.ts.squareAvatars }}</FormSwitch>
+        <FormSwitch v-model="useSystemFont" class="_formBlock">{{ i18n.ts.useSystemFont }}</FormSwitch>
+        <FormSwitch v-model="useOsNativeEmojis" class="_formBlock">
+            {{ i18n.ts.useOsNativeEmojis }}
+            <div><Mfm :key="useOsNativeEmojis" text="🍮🍦🍭🍩🍰🍫🍬🥞🍪"/></div>
+        </FormSwitch>
+        <FormSwitch v-model="disableDrawer" class="_formBlock">{{ i18n.ts.disableDrawer }}</FormSwitch>
 
-		<FormRadios v-model="fontSize" class="_formBlock">
-			<template #label>{{ i18n.ts.fontSize }}</template>
-			<option :value="null"><span style="font-size: 14px;">Aa</span></option>
-			<option value="1"><span style="font-size: 15px;">Aa</span></option>
-			<option value="2"><span style="font-size: 16px;">Aa</span></option>
-			<option value="3"><span style="font-size: 17px;">Aa</span></option>
-		</FormRadios>
-	</FormSection>
+        <FormRadios v-model="fontSize" class="_formBlock">
+            <template #label>{{ i18n.ts.fontSize }}</template>
+            <option :value="null"><span style="font-size: 14px;">Aa</span></option>
+            <option value="1"><span style="font-size: 15px;">Aa</span></option>
+            <option value="2"><span style="font-size: 16px;">Aa</span></option>
+            <option value="3"><span style="font-size: 17px;">Aa</span></option>
+        </FormRadios>
+    </FormSection>
 
-	<FormSection>
-		<FormSwitch v-model="aiChanMode">{{ i18n.ts.aiChanMode }}</FormSwitch>
-	</FormSection>
+    <FormSection>
+        <FormSwitch v-model="aiChanMode">{{ i18n.ts.aiChanMode }}</FormSwitch>
+    </FormSection>
 
-	<FormSelect v-model="nsfw" class="_formBlock">
-		<template #label>{{ i18n.ts.nsfw }}</template>
-		<option value="respect">{{ i18n.ts._nsfw.respect }}</option>
-		<option value="ignore">{{ i18n.ts._nsfw.ignore }}</option>
-		<option value="force">{{ i18n.ts._nsfw.force }}</option>
-	</FormSelect>
+    <FormSelect v-model="nsfw" class="_formBlock">
+        <template #label>{{ i18n.ts.nsfw }}</template>
+        <option value="respect">{{ i18n.ts._nsfw.respect }}</option>
+        <option value="ignore">{{ i18n.ts._nsfw.ignore }}</option>
+        <option value="force">{{ i18n.ts._nsfw.force }}</option>
+    </FormSelect>
 
-	<FormRange v-model="numberOfPageCache" :min="1" :max="10" :step="1" easing class="_formBlock">
-		<template #label>{{ i18n.ts.numberOfPageCache }}</template>
-		<template #caption>{{ i18n.ts.numberOfPageCacheDescription }}</template>
-	</FormRange>
+    <FormRange v-model="numberOfPageCache" :min="1" :max="10" :step="1" easing class="_formBlock">
+        <template #label>{{ i18n.ts.numberOfPageCache }}</template>
+        <template #caption>{{ i18n.ts.numberOfPageCacheDescription }}</template>
+    </FormRange>
 
-	<FormLink to="/settings/deck" class="_formBlock">{{ i18n.ts.deck }}</FormLink>
+    <FormLink to="/settings/deck" class="_formBlock">{{ i18n.ts.deck }}</FormLink>
 
-	<FormLink to="/settings/custom-css" class="_formBlock"><template #icon><i class="ti ti-code"></i></template>{{ i18n.ts.customCss }}</FormLink>
+    <FormLink to="/settings/custom-css" class="_formBlock"><template #icon><i class="ti ti-code"></i></template>{{ i18n.ts.customCss }}</FormLink>
 
-	<FormLink to="/settings/timeline" class="_formBlock"><template #icon><i class="ti ti-list"></i></template>{{ i18n.ts.timeline }}</FormLink>
+    <FormLink to="/settings/timeline" class="_formBlock"><template #icon><i class="ti ti-list"></i></template>{{ i18n.ts.timeline }}</FormLink>
 </div>
 </template>
 
@@ -131,13 +131,13 @@ const fontSize = ref(localStorage.getItem("fontSize"));
 const useSystemFont = ref(localStorage.getItem("useSystemFont") != null);
 
 async function reloadAsk() {
-	const { canceled } = await os.confirm({
-		type: "info",
-		text: i18n.ts.reloadToApplySetting,
-	});
-	if (canceled) return;
+    const { canceled } = await os.confirm({
+        type: "info",
+        text: i18n.ts.reloadToApplySetting,
+    });
+    if (canceled) return;
 
-	unisonReload();
+    unisonReload();
 }
 
 const overridedDeviceKind = computed(defaultStore.makeGetterSetter("overridedDeviceKind"));
@@ -166,38 +166,38 @@ const showOnlineUsersOnNavbar = computed(defaultStore.makeGetterSetter("showOnli
 const searchEngine = computed(defaultStore.makeGetterSetter("searchEngine"));
 
 watch(lang, () => {
-	localStorage.setItem("lang", lang.value as string);
-	localStorage.removeItem("locale");
+    localStorage.setItem("lang", lang.value as string);
+    localStorage.removeItem("locale");
 });
 
 watch(fontSize, () => {
-	if (fontSize.value == null) {
-		localStorage.removeItem("fontSize");
-	} else {
-		localStorage.setItem("fontSize", fontSize.value);
-	}
+    if (fontSize.value == null) {
+        localStorage.removeItem("fontSize");
+    } else {
+        localStorage.setItem("fontSize", fontSize.value);
+    }
 });
 
 watch(useSystemFont, () => {
-	if (useSystemFont.value) {
-		localStorage.setItem("useSystemFont", "t");
-	} else {
-		localStorage.removeItem("useSystemFont");
-	}
+    if (useSystemFont.value) {
+        localStorage.setItem("useSystemFont", "t");
+    } else {
+        localStorage.removeItem("useSystemFont");
+    }
 });
 
 watch([
-	lang,
-	fontSize,
-	useSystemFont,
-	enableInfiniteScroll,
-	squareAvatars,
-	aiChanMode,
-	showGapBetweenNotesInTimeline,
-	instanceTicker,
-	overridedDeviceKind,
+    lang,
+    fontSize,
+    useSystemFont,
+    enableInfiniteScroll,
+    squareAvatars,
+    aiChanMode,
+    showGapBetweenNotesInTimeline,
+    instanceTicker,
+    overridedDeviceKind,
 ], async () => {
-	await reloadAsk();
+    await reloadAsk();
 });
 
 const headerActions = $computed(() => []);
@@ -205,25 +205,25 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
 
 definePageMetadata({
-	title: i18n.ts.general,
-	icon: "ti ti-adjustments",
+    title: i18n.ts.general,
+    icon: "ti ti-adjustments",
 });
 
 function switchUi(ev) {
-	os.popupMenu([{
-		text: i18n.ts.default,
-		active: ui === "default" || ui === null,
-		action: () => {
-			localStorage.setItem("ui", "default");
-			unisonReload();
-		},
-	}, {
-		text: i18n.ts.deck,
-		active: ui === "deck",
-		action: () => {
-			localStorage.setItem("ui", "deck");
-			unisonReload();
-		},
-	}], ev.currentTarget ?? ev.target);
+    os.popupMenu([{
+        text: i18n.ts.default,
+        active: ui === "default" || ui === null,
+        action: () => {
+            localStorage.setItem("ui", "default");
+            unisonReload();
+        },
+    }, {
+        text: i18n.ts.deck,
+        active: ui === "deck",
+        action: () => {
+            localStorage.setItem("ui", "deck");
+            unisonReload();
+        },
+    }], ev.currentTarget ?? ev.target);
 }
 </script>

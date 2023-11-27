@@ -1,8 +1,8 @@
 module.exports = {
-	root: true,
-	env: {
-		'node': false,
-	},
+    root: true,
+    env: {
+        'node': false,
+    },
 	parser: 'vue-eslint-parser',
 	parserOptions: {
 		'parser': '@typescript-eslint/parser',
@@ -36,8 +36,8 @@ module.exports = {
 			'ignoreProperties': false,
 		}],
 		'vue/no-v-html': 'error',
-		'vue/order-in-components': 'error',
-		'vue/html-indent': ['warn', 'tab', {
+        'vue/order-in-components': 'error',
+        'vue/html-indent': ['error', 4, {
 			'attribute': 1,
 			'baseIndent': 0,
 			'closeBracket': 0,

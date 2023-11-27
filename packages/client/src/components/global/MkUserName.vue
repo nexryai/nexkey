@@ -10,6 +10,6 @@ const props = withDefaults(defineProps<{
 	user: misskey.entities.User;
 	nowrap?: boolean;
 }>(), {
-	nowrap: true,
+    nowrap: true,
 });
 </script>
