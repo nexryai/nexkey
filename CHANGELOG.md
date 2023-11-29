@@ -8,8 +8,19 @@
 You should also include the user name that made the change.
 -->
 
+## 12.119.2-fix.6.1 (2023/11/29)
+### Improvements
+- クライアントで正しく自分のインスタンスのドメイン名が表示されるように @Candinya
+- クイックアクションから管理者がメールアドレスでユーザーを検索できるように @syuilo @atsu1125
+
+### Bugfixes
+- サイレンスされているときに無効な公開範囲をクライアントで選ばないように @ozelotdev @atsu1125
+- ストリーミングのチャンネル名を修正 @atsu1125
+- 通知音の再生時に端末のメディア再生を停止しないように @samunohito @anatawa12 @kakkokari-gtyih @acid-chicken @atsu1125
+- リモートユーザーのHTTP署名のチェックを適切に行っていないのを修正 @atsu1125
+
 ## 12.119.2-fix.6.0 (2023/11/09)
-## Bugfixes
+### Bugfixes
 - ドメインブロックがサブドメインに反映されないのを修正 @atsu1125
 - ドメインブロックのスイッチが動かないのを修正 @atsu1125
 - メールドメインブロックがサブドメインに反映されないのを修正 @atsu1125
@@ -22,7 +33,7 @@ You should also include the user name that made the change.
 - NodejsとDockerのDebianのOSをバージョンアップ @atsu1125
 - 2段階認証のバックアップコードを利用できるように @syuilo @CyberRex0
 
-## Bugfixes
+### Bugfixes
 - 連合なしのアンケートが配送されないように @mei23
 - ノート作成時のローカルのみチェックを追加 @atsu1125
 - 絵文字を重複して追加できないように @nenohi @atsu1125
