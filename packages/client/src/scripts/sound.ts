@@ -26,7 +26,7 @@ export function play(type: string) {
 	const sound = ColdDeviceStorage.get('sound_' + type as any);
 	if (sound.type == null || !canPlay) return;
 	canPlay = false;
-	playFile(sound.type, sound.volume).then(() => {
+	playFile(sound.type, sound.volume).finally(() => {
 		// ごく短時間に音が重複しないように
 		setTimeout(() => {
 			canPlay = true;
