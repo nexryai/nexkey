@@ -42,15 +42,37 @@ async function inbox(ctx: Router.RouterContext) {
     });
     ctx.request.body = parsed;
 
+    if (raw == null) {
+        ctx.status = 400;
+        return;
+    }
+
     let signature: httpSignature.IParsedSignature;
 
     try {
-        // ヘッダーの検証はライブラリに投げる
         signature = httpSignature.parseRequest(ctx.req, { "headers": ["(request-target)", "digest", "host", "date"] });
     } catch (e) {
         logger.warn("inbox: signature parse error");
         ctx.status = 401;
+
+        if (e instanceof Error) {
+            if (e.name === "ExpiredRequestError") ctx.message = "Expired Request Error";
+            if (e.name === "MissingHeaderError") ctx.message = "Missing Required Header";
+        }
+
         return;
+    }
+
+    // Validate signature algorithm
+    if (!signature.algorithm.toLowerCase().match(/^((dsa|rsa|ecdsa)-(sha256|sha384|sha512)|ed25519-sha512|hs2019)$/)) {
+        logger.warn(`inbox: invalid signature algorithm ${signature.algorithm}`);
+        ctx.status = 401;
+        ctx.message = "Invalid Signature Algorithm";
+        return;
+
+        // hs2019
+        // keyType=ED25519 => ed25519-sha512
+        // keyType=other => (keyType)-sha256
     }
 
     // Digestヘッダーの検証
@@ -96,7 +118,7 @@ async function inbox(ctx: Router.RouterContext) {
     }
 
     const activity = ctx.request.body as IActivity;
-    await processInbox(activity, signature);
+    processInbox(activity, signature);
 
     ctx.status = 202;
 }
@@ -118,23 +140,6 @@ export function setResponseType(ctx: Router.RouterContext) {
         ctx.response.type = ACTIVITY_JSON;
     }
 }
-
-/*
-async function parseJsonBodyOrFail(ctx: Router.RouterContext, next: Koa.Next) {
-	const koaBodyParser = bodyParser({
-		enableTypes: ["json"],
-		detectJSON: () => true,
-	});
-
-	try {
-		await koaBodyParser(ctx, next);
-	}
-	catch {
-		ctx.status = 400;
-		return;
-	}
-}
-*/
 
 // inbox
 router.post("/inbox", inbox);
