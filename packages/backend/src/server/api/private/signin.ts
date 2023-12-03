@@ -1,7 +1,6 @@
 import { randomBytes } from "node:crypto";
 import Koa from "koa";
 import * as speakeasy from "speakeasy";
-import * as OTPAuth from "otpauth";
 import { IsNull } from "typeorm";
 import { comparePassword, hashPassword, isOldAlgorithm } from "@/misc/password.js";
 import config from "@/config/index.js";
