@@ -242,9 +242,9 @@ export default async (ctx: Koa.Context) => {
 
         // 32 byte challenge
         const challenge = randomBytes(32).toString("base64")
-			.replace(/=/g, "")
-			.replace(/\+/g, "-")
-			.replace(/\//g, "_");
+					.replace(/=/g, "")
+					.replace(/\+/g, "-")
+					.replace(/\//g, "_");
 
         const challengeId = genId();
 
