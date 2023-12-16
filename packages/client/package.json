@@ -18,11 +18,11 @@
 		"@syuilo/aiscript": "0.11.1",
 		"@tabler/icons": "^1.117.0",
 		"@vitejs/plugin-vue": "4.5.2",
-		"@vue/compiler-sfc": "3.3.9",
+		"@vue/compiler-sfc": "3.3.11",
 		"autobind-decorator": "2.4.0",
 		"autosize": "6.0.1",
 		"blurhash": "2.0.5",
-		"broadcast-channel": "6.0.0",
+		"broadcast-channel": "7.0.0",
 		"browser-image-resizer": "git+https://github.com/misskey-dev/browser-image-resizer#v2.2.1-misskey.2",
 		"chart.js": "4.4.0",
 		"chartjs-adapter-date-fns": "3.0.0",
@@ -85,7 +85,7 @@
 		"eslint": "8.55.0",
 		"eslint-plugin-import": "2.29.0",
 		"eslint-plugin-vue": "9.19.2",
-		"rollup": "4.6.1",
+		"rollup": "4.9.0",
 		"start-server-and-test": "2.0.3"
 	}
 }
