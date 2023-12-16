@@ -41,6 +41,7 @@ import { scrollToTop } from "@/scripts/scroll";
 import { globalEvents } from "@/events";
 import { injectPageMetadata } from "@/scripts/page-metadata";
 import { $i, openAccountMenu as openAccountMenu_ } from "@/account";
+import {defaultStore} from "@/store";
 
 const props = withDefaults(defineProps<{
 	tabs?: Tab[];
@@ -74,6 +75,7 @@ const hasActions = $computed(() => props.actions && props.actions.length > 0);
 const show = $computed(() => {
     return !hideTitle || hasTabs || hasActions;
 });
+const enableBlur = ref(defaultStore.state.useBlurEffect);
 
 const preventDrag = (ev: TouchEvent) => {
     ev.stopPropagation();
@@ -98,7 +100,9 @@ function onTabClick(): void {
 const calcBg = () => {
     const rawBg = "var(--bg)";
     const tinyBg = tinycolor(rawBg.startsWith("var(") ? getComputedStyle(document.documentElement).getPropertyValue(rawBg.slice(4, -1)) : rawBg);
-    tinyBg.setAlpha(0.85);
+    if (enableBlur.value) {
+        tinyBg.setAlpha(0.85);
+		}
     bg.value = tinyBg.toRgbString();
 };
 
