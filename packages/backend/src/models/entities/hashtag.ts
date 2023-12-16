@@ -1,87 +1,87 @@
-import { Entity, PrimaryColumn, Index, Column } from 'typeorm';
-import { User } from './user.js';
-import { id } from '../id.js';
+import { Entity, PrimaryColumn, Index, Column } from "typeorm";
+import { id } from "../id.js";
+import { User } from "./user.js";
 
 @Entity()
 export class Hashtag {
 	@PrimaryColumn(id())
-	public id: string;
+    public id: string;
 
 	@Index({ unique: true })
-	@Column('varchar', {
-		length: 128,
+	@Column("varchar", {
+	    length: 128,
 	})
 	public name: string;
 
 	@Column({
-		...id(),
-		array: true,
+	    ...id(),
+	    array: true,
 	})
-	public mentionedUserIds: User['id'][];
+	public mentionedUserIds: User["id"][];
 
 	@Index()
-	@Column('integer', {
-		default: 0,
+	@Column("integer", {
+	    default: 0,
 	})
 	public mentionedUsersCount: number;
 
 	@Column({
-		...id(),
-		array: true,
+	    ...id(),
+	    array: true,
 	})
-	public mentionedLocalUserIds: User['id'][];
+	public mentionedLocalUserIds: User["id"][];
 
 	@Index()
-	@Column('integer', {
-		default: 0,
+	@Column("integer", {
+	    default: 0,
 	})
 	public mentionedLocalUsersCount: number;
 
 	@Column({
-		...id(),
-		array: true,
+	    ...id(),
+	    array: true,
 	})
-	public mentionedRemoteUserIds: User['id'][];
+	public mentionedRemoteUserIds: User["id"][];
 
 	@Index()
-	@Column('integer', {
-		default: 0,
+	@Column("integer", {
+	    default: 0,
 	})
 	public mentionedRemoteUsersCount: number;
 
 	@Column({
-		...id(),
-		array: true,
+	    ...id(),
+	    array: true,
 	})
-	public attachedUserIds: User['id'][];
+	public attachedUserIds: User["id"][];
 
 	@Index()
-	@Column('integer', {
-		default: 0,
+	@Column("integer", {
+	    default: 0,
 	})
 	public attachedUsersCount: number;
 
 	@Column({
-		...id(),
-		array: true,
+	    ...id(),
+	    array: true,
 	})
-	public attachedLocalUserIds: User['id'][];
+	public attachedLocalUserIds: User["id"][];
 
 	@Index()
-	@Column('integer', {
-		default: 0,
+	@Column("integer", {
+	    default: 0,
 	})
 	public attachedLocalUsersCount: number;
 
 	@Column({
-		...id(),
-		array: true,
+	    ...id(),
+	    array: true,
 	})
-	public attachedRemoteUserIds: User['id'][];
+	public attachedRemoteUserIds: User["id"][];
 
 	@Index()
-	@Column('integer', {
-		default: 0,
+	@Column("integer", {
+	    default: 0,
 	})
 	public attachedRemoteUsersCount: number;
 }

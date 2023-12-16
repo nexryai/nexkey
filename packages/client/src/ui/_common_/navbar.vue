@@ -1,198 +1,198 @@
 <template>
 <div class="mvcprjjd" :class="{ iconOnly }">
-	<div class="body">
-		<div class="top">
-			<div class="banner" :style="{ backgroundImage: `url(${ $instance.bannerUrl })` }"></div>
-			<button v-click-anime v-tooltip.noDelay.right="$instance.name ?? i18n.ts.instance" class="item _button instance" @click="openInstanceMenu">
-				<img :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" alt="" class="icon"/>
-        <div v-if="!iconOnly && showOnlineUsersOnNavbar" class="instance_info">
-          <div class="instance_info_text">
-            <I18n v-if="onlineUsersCount" :src="i18n.ts.onlineUsersCountAlt" text-tag="span" class="text">
-              <template #n><i class="ti ti-access-point" style="vertical-align: middle; padding-right: 4px;"></i><b>{{ onlineUsersCount }}</b></template>
-            </I18n>
-          </div>
+    <div class="body">
+        <div class="top">
+            <div class="banner" :style="{ backgroundImage: `url(${ $instance.bannerUrl })` }"></div>
+            <button v-click-anime v-tooltip.noDelay.right="$instance.name ?? i18n.ts.instance" class="item _button instance" @click="openInstanceMenu">
+                <img :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" alt="" class="icon"/>
+                <div v-if="!iconOnly && showOnlineUsersOnNavbar" class="instance_info">
+                    <div class="instance_info_text">
+                        <I18n v-if="onlineUsersCount" :src="i18n.ts.onlineUsersCountAlt" text-tag="span" class="text">
+                            <template #n><i class="ti ti-access-point" style="vertical-align: middle; padding-right: 4px;"></i><b>{{ onlineUsersCount }}</b></template>
+                        </I18n>
+                    </div>
+                </div>
+            </button>
         </div>
-			</button>
-		</div>
-		<div class="middle">
-			<MkA v-click-anime v-tooltip.noDelay.right="i18n.ts.timeline" class="item index" active-class="active" to="/" exact>
-				<i class="icon ti ti-home ti-fw"></i><span class="text">{{ i18n.ts.timeline }}</span>
-			</MkA>
-			<template v-for="item in menu">
-				<div v-if="item === '-'" class="divider"></div>
-				<component
-					:is="navbarItemDef[item].to ? 'MkA' : 'button'"
-					v-else-if="navbarItemDef[item] && (navbarItemDef[item].show !== false)"
-					v-click-anime
-					v-tooltip.noDelay.right="i18n.ts[navbarItemDef[item].title]"
-					class="item _button"
-					:class="[item, { active: navbarItemDef[item].active }]"
-					active-class="active"
-					:to="navbarItemDef[item].to"
-					v-on="navbarItemDef[item].action ? { click: navbarItemDef[item].action } : {}"
-				>
-					<i class="icon ti-fw" :class="navbarItemDef[item].icon"></i><span class="text">{{ i18n.ts[navbarItemDef[item].title] }}</span>
-					<span v-if="navbarItemDef[item].indicated" class="indicator"><i class="icon _indicatorCircle"></i></span>
-				</component>
-			</template>
-			<div class="divider"></div>
-			<MkA v-if="$i.isAdmin || $i.isModerator" v-click-anime v-tooltip.noDelay.right="i18n.ts.controlPanel" class="item" active-class="active" to="/admin">
-				<i class="icon ti ti-dashboard ti-fw"></i><span class="text">{{ i18n.ts.controlPanel }}</span>
-			</MkA>
-			<button v-click-anime class="item _button" @click="more">
-				<i class="icon ti ti-grid-dots ti-fw"></i><span class="text">{{ i18n.ts.more }}</span>
-				<span v-if="otherMenuItemIndicated" class="indicator"><i class="icon _indicatorCircle"></i></span>
-			</button>
-			<MkA v-click-anime v-tooltip.noDelay.right="i18n.ts.settings" class="item" active-class="active" to="/settings">
-				<i class="icon ti ti-settings ti-fw"></i><span class="text">{{ i18n.ts.settings }}</span>
-			</MkA>
-		</div>
-		<div class="bottom">
-			<button v-tooltip.noDelay.right="i18n.ts.note" class="item _button post" data-cy-open-post-form @click="os.post">
-				<i class="icon ti ti-pencil ti-fw"></i><span class="text">{{ i18n.ts.note }}</span>
-			</button>
-			<button v-click-anime v-tooltip.noDelay.right="`${i18n.ts.account}: @${$i.username}`" class="item _button account" @click="openAccountMenu">
-				<MkAvatar :user="$i" class="avatar"/><MkAcct class="text" :user="$i"/>
-			</button>
-		</div>
-	</div>
+        <div class="middle">
+            <MkA v-click-anime v-tooltip.noDelay.right="i18n.ts.timeline" class="item index" active-class="active" to="/" exact>
+                <i class="icon ti ti-home ti-fw"></i><span class="text">{{ i18n.ts.timeline }}</span>
+            </MkA>
+            <template v-for="item in menu">
+                <div v-if="item === '-'" class="divider"></div>
+                <component
+                    :is="navbarItemDef[item].to ? 'MkA' : 'button'"
+                    v-else-if="navbarItemDef[item] && (navbarItemDef[item].show !== false)"
+                    v-click-anime
+                    v-tooltip.noDelay.right="i18n.ts[navbarItemDef[item].title]"
+                    class="item _button"
+                    :class="[item, { active: navbarItemDef[item].active }]"
+                    active-class="active"
+                    :to="navbarItemDef[item].to"
+                    v-on="navbarItemDef[item].action ? { click: navbarItemDef[item].action } : {}"
+                >
+                    <i class="icon ti-fw" :class="navbarItemDef[item].icon"></i><span class="text">{{ i18n.ts[navbarItemDef[item].title] }}</span>
+                    <span v-if="navbarItemDef[item].indicated" class="indicator"><i class="icon _indicatorCircle"></i></span>
+                </component>
+            </template>
+            <div class="divider"></div>
+            <MkA v-if="$i.isAdmin || $i.isModerator" v-click-anime v-tooltip.noDelay.right="i18n.ts.controlPanel" class="item" active-class="active" to="/admin">
+                <i class="icon ti ti-dashboard ti-fw"></i><span class="text">{{ i18n.ts.controlPanel }}</span>
+            </MkA>
+            <button v-click-anime class="item _button" @click="more">
+                <i class="icon ti ti-grid-dots ti-fw"></i><span class="text">{{ i18n.ts.more }}</span>
+                <span v-if="otherMenuItemIndicated" class="indicator"><i class="icon _indicatorCircle"></i></span>
+            </button>
+            <MkA v-click-anime v-tooltip.noDelay.right="i18n.ts.settings" class="item" active-class="active" to="/settings">
+                <i class="icon ti ti-settings ti-fw"></i><span class="text">{{ i18n.ts.settings }}</span>
+            </MkA>
+        </div>
+        <div class="bottom">
+            <button v-tooltip.noDelay.right="i18n.ts.note" class="item _button post" data-cy-open-post-form @click="os.post">
+                <i class="icon ti ti-pencil ti-fw"></i><span class="text">{{ i18n.ts.note }}</span>
+            </button>
+            <button v-click-anime v-tooltip.noDelay.right="`${i18n.ts.account}: @${$i.username}`" class="item _button account" @click="openAccountMenu">
+                <MkAvatar :user="$i" class="avatar"/><MkAcct class="text" :user="$i"/>
+            </button>
+        </div>
+    </div>
 </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, defineAsyncComponent, ref, watch } from 'vue';
-import * as os from '@/os';
-import { navbarItemDef } from '@/navbar';
-import { $i, openAccountMenu as openAccountMenu_ } from '@/account';
-import { defaultStore } from '@/store';
-import { i18n } from '@/i18n';
-import { instance } from '@/instance';
-import {host, ui} from '@/config';
-import { useInterval } from '@/scripts/use-interval';
-import {unisonReload} from "@/scripts/unison-reload";
+import { computed, defineAsyncComponent, ref, watch } from "vue";
+import * as os from "@/os";
+import { navbarItemDef } from "@/navbar";
+import { $i, openAccountMenu as openAccountMenu_ } from "@/account";
+import { defaultStore } from "@/store";
+import { i18n } from "@/i18n";
+import { instance } from "@/instance";
+import { host, ui } from "@/config";
+import { useInterval } from "@/scripts/use-interval";
+import { unisonReload } from "@/scripts/unison-reload";
 
 const iconOnly = ref(false);
-const streamModeEnabled = computed(defaultStore.makeGetterSetter('streamModeEnabled'));
+const streamModeEnabled = computed(defaultStore.makeGetterSetter("streamModeEnabled"));
 const showOnlineUsersOnNavbar = ref(defaultStore.state.showOnlineUsersOnNavbar);
 
 const menu = computed(() => defaultStore.state.menu);
 const otherMenuItemIndicated = computed(() => {
-	for (const def in navbarItemDef) {
-		if (menu.value.includes(def)) continue;
-		if (navbarItemDef[def].indicated) return true;
-	}
-	return false;
+    for (const def in navbarItemDef) {
+        if (menu.value.includes(def)) continue;
+        if (navbarItemDef[def].indicated) return true;
+    }
+    return false;
 });
 
 const calcViewState = () => {
-	iconOnly.value = (window.innerWidth <= 1279) || (defaultStore.state.menuDisplay === 'sideIcon');
+    iconOnly.value = (window.innerWidth <= 1279) || (defaultStore.state.menuDisplay === "sideIcon");
 };
 
 calcViewState();
 
-window.addEventListener('resize', calcViewState);
+window.addEventListener("resize", calcViewState);
 
 watch(defaultStore.reactiveState.menuDisplay, () => {
-	calcViewState();
+    calcViewState();
 });
 
 function openAccountMenu(ev: MouseEvent) {
-	openAccountMenu_({
-		withExtraOperation: true,
-	}, ev);
+    openAccountMenu_({
+        withExtraOperation: true,
+    }, ev);
 }
 
 function openInstanceMenu(ev: MouseEvent) {
-	os.popupMenu([{
-		text: instance.name ?? host,
-		type: 'label',
-	}, {
-		type: 'link',
-		text: i18n.ts.instanceInfo,
-		icon: 'ti ti-info-circle',
-		to: '/about',
-	}, {
-		type: 'link',
-		text: i18n.ts.customEmojis,
-		icon: 'ti ti-mood-happy',
-		to: '/about#emojis',
-	}, {
-		type: 'link',
-		text: i18n.ts.federation,
-		icon: 'ti ti-whirl',
-		to: '/about#federation',
-  }, null, {
-		text: i18n.ts.enableStreamingMode,
-		type: 'switch',
-		ref: streamModeEnabled,
-	}, null, {
-      type: 'parent',
-      text: i18n.ts.switchUi,
-      icon: 'ti ti-devices',
-      children: [{
-        text: i18n.ts.default,
-        action: () => {
-          localStorage.setItem('ui', 'default');
-          unisonReload();
-        },
-      }, {
-        text: i18n.ts.deck,
-        action: () => {
-          localStorage.setItem('ui', 'deck');
-          unisonReload();
-        },
-      }],
-	}, {
-		type: 'parent',
-		text: i18n.ts.help,
-		icon: 'ti ti-question-circle',
-		children: [{
-			type: 'link',
-			to: '/mfm-cheat-sheet',
-			text: i18n.ts._mfm.cheatSheet,
-			icon: 'ti ti-code',
-		}, {
-			type: 'link',
-			to: '/scratchpad',
-			text: i18n.ts.scratchpad,
-			icon: 'ti ti-terminal-2',
-		}, {
-			type: 'link',
-			to: '/api-console',
-			text: 'API Console',
-			icon: 'ti ti-terminal-2',
-		}, null, {
-			text: i18n.ts.document,
-			icon: 'ti ti-question-circle',
-			action: () => {
-				window.open('https://misskey-hub.net/help.html', '_blank');
-			},
-		}],
-	}, {
-		type: 'link',
-		text: i18n.ts.aboutMisskey,
-		to: '/about-misskey',
-	}], ev.currentTarget ?? ev.target, {
-		align: 'left',
-	});
+    os.popupMenu([{
+        text: instance.name ?? host,
+        type: "label",
+    }, {
+        type: "link",
+        text: i18n.ts.instanceInfo,
+        icon: "ti ti-info-circle",
+        to: "/about",
+    }, {
+        type: "link",
+        text: i18n.ts.customEmojis,
+        icon: "ti ti-mood-happy",
+        to: "/about#emojis",
+    }, {
+        type: "link",
+        text: i18n.ts.federation,
+        icon: "ti ti-whirl",
+        to: "/about#federation",
+    }, null, {
+        text: i18n.ts.enableStreamingMode,
+        type: "switch",
+        ref: streamModeEnabled,
+    }, null, {
+        type: "parent",
+        text: i18n.ts.switchUi,
+        icon: "ti ti-devices",
+        children: [{
+            text: i18n.ts.default,
+            action: () => {
+                localStorage.setItem("ui", "default");
+                unisonReload();
+            },
+        }, {
+            text: i18n.ts.deck,
+            action: () => {
+                localStorage.setItem("ui", "deck");
+                unisonReload();
+            },
+        }],
+    }, {
+        type: "parent",
+        text: i18n.ts.help,
+        icon: "ti ti-question-circle",
+        children: [{
+            type: "link",
+            to: "/mfm-cheat-sheet",
+            text: i18n.ts._mfm.cheatSheet,
+            icon: "ti ti-code",
+        }, {
+            type: "link",
+            to: "/scratchpad",
+            text: i18n.ts.scratchpad,
+            icon: "ti ti-terminal-2",
+        }, {
+            type: "link",
+            to: "/api-console",
+            text: "API Console",
+            icon: "ti ti-terminal-2",
+        }, null, {
+            text: i18n.ts.document,
+            icon: "ti ti-question-circle",
+            action: () => {
+                window.open("https://misskey-hub.net/help.html", "_blank");
+            },
+        }],
+    }, {
+        type: "link",
+        text: i18n.ts.aboutMisskey,
+        to: "/about-nexkey",
+    }], ev.currentTarget ?? ev.target, {
+        align: "left",
+    });
 }
 
 function more(ev: MouseEvent) {
-	os.popup(defineAsyncComponent(() => import('@/components/MkLaunchPad.vue')), {
-		src: ev.currentTarget ?? ev.target,
-	}, {
-	}, 'closed');
+    os.popup(defineAsyncComponent(() => import("@/components/MkLaunchPad.vue")), {
+        src: ev.currentTarget ?? ev.target,
+    }, {
+    }, "closed");
 }
 
 const onlineUsersCount = ref(0);
 const tick = () => {
-  os.api('get-online-users-count').then(res => {
-    onlineUsersCount.value = res.count;
-  });
+    os.api("get-online-users-count").then(res => {
+        onlineUsersCount.value = res.count;
+    });
 };
 useInterval(tick, 1000 * 15, {
-  immediate: true,
-  afterMounted: true,
+    immediate: true,
+    afterMounted: true,
 });
 </script>
 

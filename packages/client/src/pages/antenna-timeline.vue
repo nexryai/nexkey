@@ -1,30 +1,30 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
-	<div ref="rootEl" v-hotkey.global="keymap" v-size="{ min: [800] }" class="tqmomfks">
-		<div v-if="queue > 0" class="new"><button class="_buttonPrimary" @click="top()">{{ $ts.newNoteRecived }}</button></div>
-		<div class="tl _block">
-			<XTimeline
-				ref="tlEl" :key="antennaId"
-				class="tl"
-				src="antenna"
-				:antenna="antennaId"
-				:sound="true"
-				@queue="queueUpdated"
-			/>
-		</div>
-	</div>
+    <template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+    <div ref="rootEl" v-hotkey.global="keymap" v-size="{ min: [800] }" class="tqmomfks">
+        <div v-if="queue > 0" class="new"><button class="_buttonPrimary" @click="top()">{{ $ts.newNoteRecived }}</button></div>
+        <div class="tl _block">
+            <XTimeline
+                ref="tlEl" :key="antennaId"
+                class="tl"
+                src="antenna"
+                :antenna="antennaId"
+                :sound="true"
+                @queue="queueUpdated"
+            />
+        </div>
+    </div>
 </MkStickyContainer>
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, watch } from 'vue';
-import XTimeline from '@/components/MkTimeline.vue';
-import { scroll } from '@/scripts/scroll';
-import * as os from '@/os';
-import { useRouter } from '@/router';
-import { definePageMetadata } from '@/scripts/page-metadata';
-import { i18n } from '@/i18n';
+import { computed, inject, watch } from "vue";
+import XTimeline from "@/components/MkTimeline.vue";
+import { scroll } from "@/scripts/scroll";
+import * as os from "@/os";
+import { useRouter } from "@/router";
+import { definePageMetadata } from "@/scripts/page-metadata";
+import { i18n } from "@/i18n";
 
 const router = useRouter();
 
@@ -37,42 +37,42 @@ let queue = $ref(0);
 let rootEl = $ref<HTMLElement>();
 let tlEl = $ref<InstanceType<typeof XTimeline>>();
 const keymap = $computed(() => ({
-	't': focus,
+    "t": focus,
 }));
 
 function queueUpdated(q) {
-	queue = q;
+    queue = q;
 }
 
 function top() {
-	scroll(rootEl, { top: 0 });
+    scroll(rootEl, { top: 0 });
 }
 
 function settings() {
-	router.push(`/my/antennas/${props.antennaId}`);
+    router.push(`/my/antennas/${props.antennaId}`);
 }
 
 function focus() {
-	tlEl.focus();
+    tlEl.focus();
 }
 
 watch(() => props.antennaId, async () => {
-	antenna = await os.api('antennas/show', {
-		antennaId: props.antennaId,
-	});
+    antenna = await os.api("antennas/show", {
+        antennaId: props.antennaId,
+    });
 }, { immediate: true });
 
 const headerActions = $computed(() => antenna ? [{
-	icon: 'ti ti-calendar-time',
-	text: i18n.ts.settings,
-	handler: settings,
+    icon: "ti ti-calendar-time",
+    text: i18n.ts.settings,
+    handler: settings,
 }] : []);
 
 const headerTabs = $computed(() => []);
 
 definePageMetadata(computed(() => antenna ? {
-	title: antenna.name,
-	icon: 'ti ti-antenna',
+    title: antenna.name,
+    icon: "ti ti-antenna",
 } : null));
 </script>
 

@@ -1,108 +1,108 @@
 <template>
 <div v-if="streamModeEnabled">
-  <MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
+    <MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
 </div>
 <div v-if="!streamModeEnabled" class="_formRoot">
-	<FormSection>
-		<template #label>{{ i18n.ts.password }}</template>
-		<FormButton primary @click="change()">{{ i18n.ts.changePassword }}</FormButton>
-	</FormSection>
+    <FormSection>
+        <template #label>{{ i18n.ts.password }}</template>
+        <FormButton primary @click="change()">{{ i18n.ts.changePassword }}</FormButton>
+    </FormSection>
 
-	<FormSection>
-		<template #label>{{ i18n.ts.twoStepAuthentication }}</template>
-		<X2fa/>
-	</FormSection>
+    <FormSection>
+        <template #label>{{ i18n.ts.twoStepAuthentication }}</template>
+        <X2fa/>
+    </FormSection>
 	
-	<FormSection>
-		<template #label>{{ i18n.ts.signinHistory }}</template>
-		<MkPagination :pagination="pagination" disable-auto-load>
-			<template #default="{items}">
-				<div>
-					<div v-for="item in items" :key="item.id" v-panel class="timnmucd">
-						<header>
-							<i v-if="item.success" class="ti ti-check icon succ"></i>
-							<i v-else class="ti ti-circle-x icon fail"></i>
-							<code class="ip _monospace">{{ item.ip }}</code>
-							<MkTime :time="item.createdAt" class="time"/>
-						</header>
-					</div>
-				</div>
-			</template>
-		</MkPagination>
-	</FormSection>
+    <FormSection>
+        <template #label>{{ i18n.ts.signinHistory }}</template>
+        <MkPagination :pagination="pagination" disable-auto-load>
+            <template #default="{items}">
+                <div>
+                    <div v-for="item in items" :key="item.id" v-panel class="timnmucd">
+                        <header>
+                            <i v-if="item.success" class="ti ti-check icon succ"></i>
+                            <i v-else class="ti ti-circle-x icon fail"></i>
+                            <code class="ip _monospace">{{ item.ip }}</code>
+                            <MkTime :time="item.createdAt" class="time"/>
+                        </header>
+                    </div>
+                </div>
+            </template>
+        </MkPagination>
+    </FormSection>
 
-	<FormSection>
-		<FormSlot>
-			<FormButton danger @click="regenerateToken"><i class="ti ti-refresh"></i> {{ i18n.ts.regenerateLoginToken }}</FormButton>
-			<template #caption>{{ i18n.ts.regenerateLoginTokenDescription }}</template>
-		</FormSlot>
-	</FormSection>
+    <FormSection>
+        <FormSlot>
+            <FormButton danger @click="regenerateToken"><i class="ti ti-refresh"></i> {{ i18n.ts.regenerateLoginToken }}</FormButton>
+            <template #caption>{{ i18n.ts.regenerateLoginTokenDescription }}</template>
+        </FormSlot>
+    </FormSection>
 </div>
 </template>
 
 <script lang="ts" setup>
-import X2fa from './2fa.vue';
-import FormSection from '@/components/form/section.vue';
-import FormSlot from '@/components/form/slot.vue';
-import FormButton from '@/components/MkButton.vue';
-import MkPagination from '@/components/MkPagination.vue';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { ref } from "vue";
+import X2fa from "./2fa.vue";
+import FormSection from "@/components/form/section.vue";
+import FormSlot from "@/components/form/slot.vue";
+import FormButton from "@/components/MkButton.vue";
+import MkPagination from "@/components/MkPagination.vue";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
+import { definePageMetadata } from "@/scripts/page-metadata";
 import MkInfo from "@/components/MkInfo.vue";
-import {ref} from "vue";
-import {defaultStore} from "@/store";
+import { defaultStore } from "@/store";
 
 const streamModeEnabled = ref(defaultStore.state.streamModeEnabled);
 
 const pagination = {
-	endpoint: 'i/signin-history' as const,
-	limit: 5,
+    endpoint: "i/signin-history" as const,
+    limit: 5,
 };
 
 async function change() {
-	const { canceled: canceled1, result: currentPassword } = await os.inputText({
-		title: i18n.ts.currentPassword,
-		type: 'password',
-	});
-	if (canceled1) return;
+    const { canceled: canceled1, result: currentPassword } = await os.inputText({
+        title: i18n.ts.currentPassword,
+        type: "password",
+    });
+    if (canceled1) return;
 
-	const { canceled: canceled2, result: newPassword } = await os.inputText({
-		title: i18n.ts.newPassword,
-		type: 'password',
-	});
-	if (canceled2) return;
+    const { canceled: canceled2, result: newPassword } = await os.inputText({
+        title: i18n.ts.newPassword,
+        type: "password",
+    });
+    if (canceled2) return;
 
-	const { canceled: canceled3, result: newPassword2 } = await os.inputText({
-		title: i18n.ts.newPasswordRetype,
-		type: 'password',
-	});
-	if (canceled3) return;
+    const { canceled: canceled3, result: newPassword2 } = await os.inputText({
+        title: i18n.ts.newPasswordRetype,
+        type: "password",
+    });
+    if (canceled3) return;
 
-	if (newPassword !== newPassword2) {
-		os.alert({
-			type: 'error',
-			text: i18n.ts.retypedNotMatch,
-		});
-		return;
-	}
+    if (newPassword !== newPassword2) {
+        os.alert({
+            type: "error",
+            text: i18n.ts.retypedNotMatch,
+        });
+        return;
+    }
 	
-	os.apiWithDialog('i/change-password', {
-		currentPassword,
-		newPassword,
-	});
+    os.apiWithDialog("i/change-password", {
+        currentPassword,
+        newPassword,
+    });
 }
 
 function regenerateToken() {
-	os.inputText({
-		title: i18n.ts.password,
-		type: 'password',
-	}).then(({ canceled, result: password }) => {
-		if (canceled) return;
-		os.api('i/regenerate_token', {
-			password: password,
-		});
-	});
+    os.inputText({
+        title: i18n.ts.password,
+        type: "password",
+    }).then(({ canceled, result: password }) => {
+        if (canceled) return;
+        os.api("i/regenerate_token", {
+            password: password,
+        });
+    });
 }
 
 const headerActions = $computed(() => []);
@@ -110,8 +110,8 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
 
 definePageMetadata({
-	title: i18n.ts.security,
-	icon: 'ti ti-lock',
+    title: i18n.ts.security,
+    icon: "ti ti-lock",
 });
 </script>
 

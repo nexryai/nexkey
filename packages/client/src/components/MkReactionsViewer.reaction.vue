@@ -1,26 +1,26 @@
 <template>
 <button
-	v-if="count > 0 && !muted"
-	ref="buttonRef"
-	v-ripple="canToggle"
-	class="hkzvhatu _button"
-	:class="{ reacted: note.myReaction == reaction, canToggle }"
-	@click="toggleReaction()"
+    v-if="count > 0 && !muted"
+    ref="buttonRef"
+    v-ripple="canToggle"
+    class="hkzvhatu _button"
+    :class="{ reacted: note.myReaction == reaction, canToggle }"
+    @click="toggleReaction()"
 >
-	<XReactionIcon class="icon" :reaction="reaction" :custom-emojis="note.emojis"/>
-	<span class="count">{{ count }}</span>
+    <XReactionIcon class="icon" :reaction="reaction" :custom-emojis="note.emojis"/>
+    <span class="count">{{ count }}</span>
 </button>
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref, watch } from 'vue';
-import * as misskey from 'misskey-js';
-import XDetails from '@/components/MkReactionsViewer.details.vue';
-import XReactionIcon from '@/components/MkReactionIcon.vue';
-import * as os from '@/os';
-import { useTooltip } from '@/scripts/use-tooltip';
-import { $i } from '@/account';
-import { defaultStore } from '@/store';
+import { computed, onMounted, ref, watch } from "vue";
+import * as misskey from "misskey-js";
+import XDetails from "@/components/MkReactionsViewer.details.vue";
+import XReactionIcon from "@/components/MkReactionIcon.vue";
+import * as os from "@/os";
+import { useTooltip } from "@/scripts/use-tooltip";
+import { $i } from "@/account";
+import { defaultStore } from "@/store";
 import { checkReactionMute } from "@/scripts/check-reaction-mute";
 
 const props = defineProps<{
@@ -38,60 +38,60 @@ const buttonRef = ref<HTMLElement>();
 const canToggle = computed(() => !props.reaction.match(/@\w/) && $i);
 
 const toggleReaction = () => {
-	if (!canToggle.value) return;
+    if (!canToggle.value) return;
 
-	const oldReaction = props.note.myReaction;
-	if (oldReaction) {
-		os.api('notes/reactions/delete', {
-			noteId: props.note.id,
-		}).then(() => {
-			if (oldReaction !== props.reaction) {
-				os.api('notes/reactions/create', {
-					noteId: props.note.id,
-					reaction: props.reaction,
-				});
-			}
-		});
-	} else {
-		os.api('notes/reactions/create', {
-			noteId: props.note.id,
-			reaction: props.reaction,
-		});
-	}
+    const oldReaction = props.note.myReaction;
+    if (oldReaction) {
+        os.api("notes/reactions/delete", {
+            noteId: props.note.id,
+        }).then(() => {
+            if (oldReaction !== props.reaction) {
+                os.api("notes/reactions/create", {
+                    noteId: props.note.id,
+                    reaction: props.reaction,
+                });
+            }
+        });
+    } else {
+        os.api("notes/reactions/create", {
+            noteId: props.note.id,
+            reaction: props.reaction,
+        });
+    }
 };
 
 const anime = () => {
-	if (document.hidden) return;
+    if (document.hidden) return;
 
-	// TODO: 新しくリアクションが付いたことが視覚的に分かりやすいアニメーション
+    // TODO: 新しくリアクションが付いたことが視覚的に分かりやすいアニメーション
 };
 
 watch(() => props.count, (newCount, oldCount) => {
-	if (oldCount < newCount) anime();
+    if (oldCount < newCount) anime();
 });
 
 onMounted(() => {
-	if (!props.isInitial) anime();
+    if (!props.isInitial) anime();
 });
 
 useTooltip(buttonRef, async (showing) => {
-	const reactions = await os.apiGet('notes/reactions', {
-		noteId: props.note.id,
-		type: props.reaction,
-		limit: 11,
-		_cacheKey_: props.count,
-	});
+    const reactions = await os.apiGet("notes/reactions", {
+        noteId: props.note.id,
+        type: props.reaction,
+        limit: 11,
+        _cacheKey_: props.count,
+    });
 
-	const users = reactions.map(x => x.user);
+    const users = reactions.map(x => x.user);
 
-	os.popup(XDetails, {
-		showing,
-		reaction: props.reaction,
-		emojis: props.note.emojis,
-		users,
-		count: props.count,
-		targetElement: buttonRef.value,
-	}, {}, 'closed');
+    os.popup(XDetails, {
+        showing,
+        reaction: props.reaction,
+        emojis: props.note.emojis,
+        users,
+        count: props.count,
+        targetElement: buttonRef.value,
+    }, {}, "closed");
 }, 100);
 </script>
 

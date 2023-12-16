@@ -1,94 +1,94 @@
-import Channel from '../channel.js';
-import { Notes, UserListJoinings, UserLists } from '@/models/index.js';
-import { User } from '@/models/entities/user.js';
-import { isUserRelated } from '@/misc/is-user-related.js';
-import { Packed } from '@/misc/schema.js';
+import { Notes, UserListJoinings, UserLists } from "@/models/index.js";
+import { User } from "@/models/entities/user.js";
+import { isUserRelated } from "@/misc/is-user-related.js";
+import { Packed } from "@/misc/schema.js";
+import Channel from "../channel.js";
 
 export default class extends Channel {
-	public readonly chName = 'userList';
-	public static shouldShare = false;
-	public static requireCredential = false;
-	private listId: string;
-	public listUsers: User['id'][] = [];
-	private listUsersClock: NodeJS.Timer;
+    public readonly chName = "userList";
+    public static shouldShare = false;
+    public static requireCredential = false;
+    private listId: string;
+    public listUsers: User["id"][] = [];
+    private listUsersClock: NodeJS.Timer;
 
-	constructor(id: string, connection: Channel['connection']) {
-		super(id, connection);
-		this.updateListUsers = this.updateListUsers.bind(this);
-		this.onNote = this.onNote.bind(this);
-	}
+    constructor(id: string, connection: Channel["connection"]) {
+        super(id, connection);
+        this.updateListUsers = this.updateListUsers.bind(this);
+        this.onNote = this.onNote.bind(this);
+    }
 
-	public async init(params: any) {
-		this.listId = params.listId as string;
+    public async init(params: any) {
+        this.listId = params.listId as string;
 
-		// Check existence and owner
-		const list = await UserLists.findOneBy({
-			id: this.listId,
-			userId: this.user!.id,
-		});
-		if (!list) return;
+        // Check existence and owner
+        const list = await UserLists.findOneBy({
+            id: this.listId,
+            userId: this.user!.id,
+        });
+        if (!list) return;
 
-		// Subscribe stream
-		this.subscriber.on(`userListStream:${this.listId}`, this.send);
+        // Subscribe stream
+        this.subscriber.on(`userListStream:${this.listId}`, this.send);
 
-		this.subscriber.on('notesStream', this.onNote);
+        this.subscriber.on("notesStream", this.onNote);
 
-		this.updateListUsers();
-		this.listUsersClock = setInterval(this.updateListUsers, 5000);
-	}
+        this.updateListUsers();
+        this.listUsersClock = setInterval(this.updateListUsers, 5000);
+    }
 
-	private async updateListUsers() {
-		const users = await UserListJoinings.find({
-			where: {
-				userListId: this.listId,
-			},
-			select: ['userId'],
-		});
+    private async updateListUsers() {
+        const users = await UserListJoinings.find({
+            where: {
+                userListId: this.listId,
+            },
+            select: ["userId"],
+        });
 
-		this.listUsers = users.map(x => x.userId);
-	}
+        this.listUsers = users.map(x => x.userId);
+    }
 
-	private async onNote(note: Packed<'Note'>) {
-		if (!this.listUsers.includes(note.userId)) return;
+    private async onNote(note: Packed<"Note">) {
+        if (!this.listUsers.includes(note.userId)) return;
 
-		if (['followers', 'specified'].includes(note.visibility)) {
-			note = await Notes.pack(note.id, this.user, {
-				detail: true,
-			});
+        if (["followers", "specified"].includes(note.visibility)) {
+            note = await Notes.pack(note.id, this.user, {
+                detail: true,
+            });
 
-			if (note.isHidden) {
-				return;
-			}
-		} else {
-			// リプライなら再pack
-			if (note.replyId != null) {
-				note.reply = await Notes.pack(note.replyId, this.user, {
-					detail: true,
-				});
-			}
-			// Renoteなら再pack
-			if (note.renoteId != null) {
-				note.renote = await Notes.pack(note.renoteId, this.user, {
-					detail: true,
-				});
-			}
-		}
+            if (note.isHidden) {
+                return;
+            }
+        } else {
+            // リプライなら再pack
+            if (note.replyId != null) {
+                note.reply = await Notes.pack(note.replyId, this.user, {
+                    detail: true,
+                });
+            }
+            // Renoteなら再pack
+            if (note.renoteId != null) {
+                note.renote = await Notes.pack(note.renoteId, this.user, {
+                    detail: true,
+                });
+            }
+        }
 
-		// 流れてきたNoteがミュートしているユーザーが関わるものだったら無視する
-		if (isUserRelated(note, this.muting)) return;
-		// 流れてきたNoteがブロックされているユーザーが関わるものだったら無視する
-		if (isUserRelated(note, this.blocking)) return;
-		// リノートミュートだったら無視
-		if (note.renote && !note.text && isUserRelated(note, this.renoteMuting)) return;
+        // 流れてきたNoteがミュートしているユーザーが関わるものだったら無視する
+        if (isUserRelated(note, this.muting)) return;
+        // 流れてきたNoteがブロックされているユーザーが関わるものだったら無視する
+        if (isUserRelated(note, this.blocking)) return;
+        // リノートミュートだったら無視
+        if (note.renote && !note.text && isUserRelated(note, this.renoteMuting)) return;
 
-		this.send('note', note);
-	}
+        this.send("note", note);
+    }
 
-	public dispose() {
-		// Unsubscribe events
-		this.subscriber.off(`userListStream:${this.listId}`, this.send);
-		this.subscriber.off('notesStream', this.onNote);
+    public dispose() {
+        // Unsubscribe events
+        this.subscriber.off(`userListStream:${this.listId}`, this.send);
+        this.subscriber.off("notesStream", this.onNote);
 
-		clearInterval(this.listUsersClock);
-	}
+        clearInterval(this.listUsersClock);
+    }
 }

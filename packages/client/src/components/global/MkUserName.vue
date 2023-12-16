@@ -3,13 +3,13 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import * as misskey from 'misskey-js';
+import { } from "vue";
+import * as misskey from "misskey-js";
 
 const props = withDefaults(defineProps<{
 	user: misskey.entities.User;
 	nowrap?: boolean;
 }>(), {
-	nowrap: true,
+    nowrap: true,
 });
 </script>

@@ -1,13 +1,13 @@
 <template>
 <div class="xubzgfgb" :class="{ cover }" :title="title">
-	<canvas v-if="!loaded" ref="canvas" :width="size" :height="size" :title="title"/>
-	<img v-if="src" :src="src" :title="title" :alt="alt" @load="onLoad"/>
+    <canvas v-if="!loaded" ref="canvas" :width="size" :height="size" :title="title"/>
+    <img v-if="src" :src="src" :title="title" :alt="alt" @load="onLoad"/>
 </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
-import { decode } from 'blurhash';
+import { onMounted } from "vue";
+import { decode } from "blurhash";
 
 const props = withDefaults(defineProps<{
 	src?: string | null;
@@ -17,31 +17,31 @@ const props = withDefaults(defineProps<{
 	size?: number;
 	cover?: boolean;
 }>(), {
-	src: null,
-	alt: '',
-	title: null,
-	size: 64,
-	cover: true,
+    src: null,
+    alt: "",
+    title: null,
+    size: 64,
+    cover: true,
 });
 
 const canvas = $ref<HTMLCanvasElement>();
 let loaded = $ref(false);
 
 function draw() {
-	if (props.hash == null) return;
-	const pixels = decode(props.hash, props.size, props.size);
-	const ctx = canvas.getContext('2d');
-	const imageData = ctx!.createImageData(props.size, props.size);
-	imageData.data.set(pixels);
+    if (props.hash == null) return;
+    const pixels = decode(props.hash, props.size, props.size);
+    const ctx = canvas.getContext("2d");
+    const imageData = ctx!.createImageData(props.size, props.size);
+    imageData.data.set(pixels);
 	ctx!.putImageData(imageData, 0, 0);
 }
 
 function onLoad() {
-	loaded = true;
+    loaded = true;
 }
 
 onMounted(() => {
-	draw();
+    draw();
 });
 </script>
 

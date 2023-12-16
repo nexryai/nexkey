@@ -1,5 +1,5 @@
-declare module '@peertube/http-signature' {
-	import { IncomingMessage, ClientRequest } from 'node:http';
+declare module "@peertube/http-signature" {
+	import { IncomingMessage, ClientRequest } from "node:http";
 
 	interface ISignature {
 		keyId: string;
@@ -42,15 +42,15 @@ declare module '@peertube/http-signature' {
 	}
 
 	class RequestSigner {
-		constructor(options: RequestSignerConstructorOptions);
+	    constructor(options: RequestSignerConstructorOptions);
 
-		public writeHeader(header: string, value: string): string;
+	    public writeHeader(header: string, value: string): string;
 
-		public writeDateHeader(): string;
+	    public writeDateHeader(): string;
 
-		public writeTarget(method: string, path: string): void;
+	    public writeTarget(method: string, path: string): void;
 
-		public sign(cb: (err: any, authz: string) => void): void;
+	    public sign(cb: (err: any, authz: string) => void): void;
 	}
 
 	interface ISignRequestOptions extends IOptions {

@@ -1,23 +1,23 @@
 <template>
 <MkModal ref="modal" :z-priority="'middle'" @click="modal.close()" @closed="emit('closed')">
-	<div class="xubzgfga">
-		<header>{{ image.name }}</header>
-		<img :src="image.url" :alt="image.comment" :title="image.comment" @click="modal.close()"/>
-		<footer>
-			<span>{{ image.type }}</span>
-			<span>{{ bytes(image.size) }}</span>
-			<span v-if="image.properties && image.properties.width">{{ number(image.properties.width) }}px × {{ number(image.properties.height) }}px</span>
-		</footer>
-	</div>
+    <div class="xubzgfga">
+        <header>{{ image.name }}</header>
+        <img :src="image.url" :alt="image.comment" :title="image.comment" @click="modal.close()"/>
+        <footer>
+            <span>{{ image.type }}</span>
+            <span>{{ bytes(image.size) }}</span>
+            <span v-if="image.properties && image.properties.width">{{ number(image.properties.width) }}px × {{ number(image.properties.height) }}px</span>
+        </footer>
+    </div>
 </MkModal>
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import * as misskey from 'misskey-js';
-import bytes from '@/filters/bytes';
-import number from '@/filters/number';
-import MkModal from '@/components/MkModal.vue';
+import { } from "vue";
+import * as misskey from "misskey-js";
+import bytes from "@/filters/bytes";
+import number from "@/filters/number";
+import MkModal from "@/components/MkModal.vue";
 
 const props = withDefaults(defineProps<{
 	image: misskey.entities.DriveFile;
@@ -25,7 +25,7 @@ const props = withDefaults(defineProps<{
 });
 
 const emit = defineEmits<{
-	(ev: 'closed'): void;
+	(ev: "closed"): void;
 }>();
 
 const modal = $ref<InstanceType<typeof MkModal>>();

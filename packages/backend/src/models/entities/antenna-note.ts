@@ -1,43 +1,43 @@
-import { Entity, Index, JoinColumn, Column, ManyToOne, PrimaryColumn } from 'typeorm';
-import { Note } from './note.js';
-import { Antenna } from './antenna.js';
-import { id } from '../id.js';
+import { Entity, Index, JoinColumn, Column, ManyToOne, PrimaryColumn } from "typeorm";
+import { id } from "../id.js";
+import { Note } from "./note.js";
+import { Antenna } from "./antenna.js";
 
 @Entity()
-@Index(['noteId', 'antennaId'], { unique: true })
+@Index(["noteId", "antennaId"], { unique: true })
 export class AntennaNote {
 	@PrimaryColumn(id())
-	public id: string;
+    public id: string;
 
 	@Index()
 	@Column({
-		...id(),
-		comment: 'The note ID.',
+	    ...id(),
+	    comment: "The note ID.",
 	})
-	public noteId: Note['id'];
+	public noteId: Note["id"];
 
 	@ManyToOne(type => Note, {
-		onDelete: 'CASCADE',
+	    onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public note: Note | null;
 
 	@Index()
 	@Column({
-		...id(),
-		comment: 'The antenna ID.',
+	    ...id(),
+	    comment: "The antenna ID.",
 	})
-	public antennaId: Antenna['id'];
+	public antennaId: Antenna["id"];
 
 	@ManyToOne(type => Antenna, {
-		onDelete: 'CASCADE',
+	    onDelete: "CASCADE",
 	})
 	@JoinColumn()
 	public antenna: Antenna | null;
 
 	@Index()
-	@Column('boolean', {
-		default: false,
+	@Column("boolean", {
+	    default: false,
 	})
 	public read: boolean;
 }

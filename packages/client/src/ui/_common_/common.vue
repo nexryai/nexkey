@@ -1,34 +1,34 @@
 <template>
 <component
-	:is="popup.component"
-	v-for="popup in popups"
-	:key="popup.id"
-	v-bind="popup.props"
-	v-on="popup.events"
+    :is="popup.component"
+    v-for="popup in popups"
+    :key="popup.id"
+    v-bind="popup.props"
+    v-on="popup.events"
 />
 
 <XUpload v-if="uploads.length > 0"/>
 <XStreamIndicator/>
-  <div v-if="pendingApiRequestsCount > 0" id="wait"></div>
-  <div v-if="dev && !streamModeEnabled" id="devTicker"><span>DEV BUILD -- DO NOT USE IN PRODUCTION</span></div> <div v-if="dev" id="versionInfo"><span>Nexkey build v{{version}}-devel</span></div>
-  <div v-if="$i && $i.isBot && enableBotLoggedinWarning" id="botWarn"><span>{{ $ts.loggedInAsBot }}</span></div>
-  <div v-if="$i && $i.isAdmin && enableAdminLoggedinWarning" id="adminWarn"><span>{{ $ts.loggedInAsAdmin }}</span></div>
-  <div v-if="streamModeEnabled" id="devTicker"><span>Streaming mode is enabled</span></div>
+<div v-if="pendingApiRequestsCount > 0" id="wait"></div>
+<div v-if="dev && !streamModeEnabled" id="devTicker"><span>DEV BUILD -- DO NOT USE IN PRODUCTION</span></div> <div v-if="dev" id="versionInfo"><span>Nexkey build v{{ version }}-devel</span></div>
+<div v-if="$i && $i.isBot && enableBotLoggedinWarning" id="botWarn"><span>{{ $ts.loggedInAsBot }}</span></div>
+<div v-if="$i && $i.isAdmin && enableAdminLoggedinWarning" id="adminWarn"><span>{{ $ts.loggedInAsAdmin }}</span></div>
+<div v-if="streamModeEnabled" id="devTicker"><span>Streaming mode is enabled</span></div>
 </template>
 
 <script lang="ts" setup>
-import { defineAsyncComponent } from 'vue';
-import { version } from '@/config';
-import { swInject } from './sw-inject';
-import { popup, popups, pendingApiRequestsCount } from '@/os';
-import { uploads } from '@/scripts/upload';
-import * as sound from '@/scripts/sound';
-import { $i } from '@/account';
-import { stream } from '@/stream';
-import { defaultStore } from '@/store';
+import { defineAsyncComponent } from "vue";
+import { swInject } from "./sw-inject";
+import { version } from "@/config";
+import { popup, popups, pendingApiRequestsCount } from "@/os";
+import { uploads } from "@/scripts/upload";
+import * as sound from "@/scripts/sound";
+import { $i } from "@/account";
+import { stream } from "@/stream";
+import { defaultStore } from "@/store";
 
-const XStreamIndicator = defineAsyncComponent(() => import('./stream-indicator.vue'));
-const XUpload = defineAsyncComponent(() => import('./upload.vue'));
+const XStreamIndicator = defineAsyncComponent(() => import("./stream-indicator.vue"));
+const XUpload = defineAsyncComponent(() => import("./upload.vue"));
 
 const dev = _DEV_;
 const streamModeEnabled = defaultStore.state.streamModeEnabled;
@@ -36,29 +36,29 @@ const enableBotLoggedinWarning = defaultStore.state.enableBotLoggedinWarning;
 const enableAdminLoggedinWarning = defaultStore.state.enableAdminLoggedinWarning;
 
 const onNotification = notification => {
-	if ($i.mutingNotificationTypes.includes(notification.type)) return;
+    if ($i.mutingNotificationTypes.includes(notification.type)) return;
 
-	if (document.visibilityState === 'visible') {
-		stream.send('readNotification', {
-			id: notification.id,
-		});
+    if (document.visibilityState === "visible") {
+        stream.send("readNotification", {
+            id: notification.id,
+        });
 
-		popup(defineAsyncComponent(() => import('@/components/MkNotificationToast.vue')), {
-			notification,
-		}, {}, 'closed');
-	}
+        popup(defineAsyncComponent(() => import("@/components/MkNotificationToast.vue")), {
+            notification,
+        }, {}, "closed");
+    }
 
-	sound.play('notification');
+    sound.play("notification");
 };
 
 if ($i) {
-	const connection = stream.useChannel('main', null, 'UI');
-	connection.on('notification', onNotification);
+    const connection = stream.useChannel("main", null, "UI");
+    connection.on("notification", onNotification);
 
-	//#region Listen message from SW
-	if ('serviceWorker' in navigator) {
-		swInject();
-	}
+    //#region Listen message from SW
+    if ("serviceWorker" in navigator) {
+        swInject();
+    }
 }
 </script>
 

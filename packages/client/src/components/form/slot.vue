@@ -1,18 +1,18 @@
 <template>
 <div class="adhpbeou">
-	<div class="label" @click="focus"><slot name="label"></slot></div>
-	<div class="content">
-		<slot></slot>
-	</div>
-	<div class="caption"><slot name="caption"></slot></div>
+    <div class="label" @click="focus"><slot name="label"></slot></div>
+    <div class="content">
+        <slot></slot>
+    </div>
+    <div class="caption"><slot name="caption"></slot></div>
 </div>
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
+import { } from "vue";
 
 function focus() {
-	// TODO
+    // TODO
 }
 </script>
 

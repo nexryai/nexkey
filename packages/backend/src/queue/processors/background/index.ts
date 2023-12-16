@@ -1,15 +1,15 @@
-import type Bull from "bull";
 import indexAllNotes from "./index-all-notes.js";
+import type Bull from "bull";
 
 const jobs = {
-	indexAllNotes,
+    indexAllNotes,
 } as Record<
 	string,
 	Bull.ProcessCallbackFunction<Record<string, unknown>>
 >;
 
 export default function (q: Bull.Queue) {
-	for (const [k, v] of Object.entries(jobs)) {
-		q.process(k, 16, v);
-	}
+    for (const [k, v] of Object.entries(jobs)) {
+        q.process(k, 16, v);
+    }
 }

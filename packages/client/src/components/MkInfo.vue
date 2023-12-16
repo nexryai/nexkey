@@ -1,13 +1,13 @@
 <template>
 <div class="fpezltsf" :class="{ warn }">
-	<i v-if="warn" class="ti ti-alert-triangle"></i>
-	<i v-else class="ti ti-info-circle"></i>
-	<slot></slot>
+    <i v-if="warn" class="ti ti-alert-triangle"></i>
+    <i v-else class="ti ti-info-circle"></i>
+    <slot></slot>
 </div>
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
+import { } from "vue";
 
 const props = defineProps<{
 	warn?: boolean;

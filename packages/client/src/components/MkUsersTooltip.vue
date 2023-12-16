@@ -1,18 +1,18 @@
 <template>
 <MkTooltip ref="tooltip" :target-element="targetElement" :max-width="250" @closed="emit('closed')">
-	<div class="beaffaef">
-		<div v-for="u in users" :key="u.id" class="user">
-			<MkAvatar class="avatar" :user="u"/>
-			<MkUserName class="name" :user="u" :nowrap="true"/>
-		</div>
-		<div v-if="users.length < count" class="omitted">+{{ count - users.length }}</div>
-	</div>
+    <div class="beaffaef">
+        <div v-for="u in users" :key="u.id" class="user">
+            <MkAvatar class="avatar" :user="u"/>
+            <MkUserName class="name" :user="u" :nowrap="true"/>
+        </div>
+        <div v-if="users.length < count" class="omitted">+{{ count - users.length }}</div>
+    </div>
 </MkTooltip>
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import MkTooltip from './MkTooltip.vue';
+import { } from "vue";
+import MkTooltip from "./MkTooltip.vue";
 
 const props = defineProps<{
 	users: any[]; // TODO
@@ -21,7 +21,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-	(ev: 'closed'): void;
+	(ev: "closed"): void;
 }>();
 </script>
 

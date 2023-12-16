@@ -1,9 +1,9 @@
 <template>
 <div class="vrtktovh _formBlock">
-	<div class="label"><slot name="label"></slot></div>
-	<div class="main _formRoot">
-		<slot></slot>
-	</div>
+    <div class="label"><slot name="label"></slot></div>
+    <div class="main _formRoot">
+        <slot></slot>
+    </div>
 </div>
 </template>
 

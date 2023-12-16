@@ -1,4 +1,4 @@
-declare module 'os-utils' {
+declare module "os-utils" {
 	type FreeCommandCallback = (usedmem: number) => void;
 
 	type HarddriveCallback = (total: number, free: number, used: number) => void;

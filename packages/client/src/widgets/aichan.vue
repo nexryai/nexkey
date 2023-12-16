@@ -1,21 +1,21 @@
 <template>
 <MkContainer :naked="widgetProps.transparent" :show-header="false" class="mkw-aichan">
-	<iframe ref="live2d" class="dedjhjmo" src="https://misskey-dev.github.io/mascot-web/?scale=1.5&y=1.1&eyeY=100" @click="touched"></iframe>
+    <iframe ref="live2d" class="dedjhjmo" src="https://misskey-dev.github.io/mascot-web/?scale=1.5&y=1.1&eyeY=100" @click="touched"></iframe>
 </MkContainer>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, reactive, ref } from 'vue';
-import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from './widget';
-import { GetFormResultType } from '@/scripts/form';
+import { onMounted, onUnmounted, reactive, ref } from "vue";
+import { useWidgetPropsManager, Widget, WidgetComponentEmits, WidgetComponentExpose, WidgetComponentProps } from "./widget";
+import { GetFormResultType } from "@/scripts/form";
 
-const name = 'ai';
+const name = "ai";
 
 const widgetPropsDef = {
-	transparent: {
-		type: 'boolean' as const,
-		default: false,
-	},
+    transparent: {
+        type: "boolean" as const,
+        default: false,
+    },
 };
 
 type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
@@ -24,43 +24,43 @@ type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
 //const props = defineProps<WidgetComponentProps<WidgetProps>>();
 //const emit = defineEmits<WidgetComponentEmits<WidgetProps>>();
 const props = defineProps<{ widget?: Widget<WidgetProps>; }>();
-const emit = defineEmits<{ (ev: 'updateProps', props: WidgetProps); }>();
+const emit = defineEmits<{ (ev: "updateProps", props: WidgetProps); }>();
 
 const { widgetProps, configure } = useWidgetPropsManager(name,
-	widgetPropsDef,
-	props,
-	emit,
+    widgetPropsDef,
+    props,
+    emit,
 );
 
 const live2d = ref<HTMLIFrameElement>();
 
 const touched = () => {
-	//if (this.live2d) this.live2d.changeExpression('gurugurume');
+    //if (this.live2d) this.live2d.changeExpression('gurugurume');
 };
 
 const onMousemove = (ev: MouseEvent) => {
-	const iframeRect = live2d.value.getBoundingClientRect();
-	live2d.value.contentWindow.postMessage({
-		type: 'moveCursor',
-		body: {
-			x: ev.clientX - iframeRect.left,
-			y: ev.clientY - iframeRect.top,
-		},
-	}, '*');
+    const iframeRect = live2d.value.getBoundingClientRect();
+    live2d.value.contentWindow.postMessage({
+        type: "moveCursor",
+        body: {
+            x: ev.clientX - iframeRect.left,
+            y: ev.clientY - iframeRect.top,
+        },
+    }, "*");
 };
 
 onMounted(() => {
-	window.addEventListener('mousemove', onMousemove, { passive: true });
+    window.addEventListener("mousemove", onMousemove, { passive: true });
 });
 
 onUnmounted(() => {
-	window.removeEventListener('mousemove', onMousemove);
+    window.removeEventListener("mousemove", onMousemove);
 });
 
 defineExpose<WidgetComponentExpose>({
-	name,
-	configure,
-	id: props.widget ? props.widget.id : null,
+    name,
+    configure,
+    id: props.widget ? props.widget.id : null,
 });
 </script>
 

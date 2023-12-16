@@ -1,56 +1,56 @@
 <template>
 <MkStickyContainer>
-	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
-	<MkSpacer :content-max="800">
-		<div class="fcuexfpr">
-			<transition :name="$store.state.animation ? 'fade' : ''" mode="out-in">
-				<div v-if="note" class="note">
-					<div v-if="showNext" class="_gap">
-						<XNotes class="_content" :pagination="nextPagination" :no-gap="true"/>
-					</div>
+    <template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+    <MkSpacer :content-max="800">
+        <div class="fcuexfpr">
+            <transition :name="$store.state.animation ? 'fade' : ''" mode="out-in">
+                <div v-if="note" class="note">
+                    <div v-if="showNext" class="_gap">
+                        <XNotes class="_content" :pagination="nextPagination" :no-gap="true"/>
+                    </div>
 
-					<div class="main _gap">
-						<MkButton v-if="!showNext && hasNext" class="load next" @click="showNext = true"><i class="ti ti-chevron-up"></i></MkButton>
-						<div class="note _gap">
-							<MkRemoteCaution v-if="note.user.host != null" :href="note.url ?? note.uri"/>
-							<XNoteDetailed :key="note.id" v-model:note="note" class="note"/>
-						</div>
-						<div v-if="clips && clips.length > 0" class="_content clips _gap">
-							<div class="title">{{ i18n.ts.clip }}</div>
-							<MkA v-for="item in clips" :key="item.id" :to="`/clips/${item.id}`" class="item _panel _gap">
-								<b>{{ item.name }}</b>
-								<div v-if="item.description" class="description">{{ item.description }}</div>
-								<div class="user">
-									<MkAvatar :user="item.user" class="avatar" :show-indicator="true"/> <MkUserName :user="item.user" :nowrap="false"/>
-								</div>
-							</MkA>
-						</div>
-						<MkButton v-if="!showPrev && hasPrev" class="load prev" @click="showPrev = true"><i class="ti ti-chevron-down"></i></MkButton>
-					</div>
+                    <div class="main _gap">
+                        <MkButton v-if="!showNext && hasNext" class="load next" @click="showNext = true"><i class="ti ti-chevron-up"></i></MkButton>
+                        <div class="note _gap">
+                            <MkRemoteCaution v-if="note.user.host != null" :href="note.url ?? note.uri"/>
+                            <XNoteDetailed :key="note.id" v-model:note="note" class="note"/>
+                        </div>
+                        <div v-if="clips && clips.length > 0" class="_content clips _gap">
+                            <div class="title">{{ i18n.ts.clip }}</div>
+                            <MkA v-for="item in clips" :key="item.id" :to="`/clips/${item.id}`" class="item _panel _gap">
+                                <b>{{ item.name }}</b>
+                                <div v-if="item.description" class="description">{{ item.description }}</div>
+                                <div class="user">
+                                    <MkAvatar :user="item.user" class="avatar" :show-indicator="true"/> <MkUserName :user="item.user" :nowrap="false"/>
+                                </div>
+                            </MkA>
+                        </div>
+                        <MkButton v-if="!showPrev && hasPrev" class="load prev" @click="showPrev = true"><i class="ti ti-chevron-down"></i></MkButton>
+                    </div>
 
-					<div v-if="showPrev" class="_gap">
-						<XNotes class="_content" :pagination="prevPagination" :no-gap="true"/>
-					</div>
-				</div>
-				<MkError v-else-if="error" @retry="fetch()"/>
-				<MkLoading v-else/>
-			</transition>
-		</div>
-	</MkSpacer>
+                    <div v-if="showPrev" class="_gap">
+                        <XNotes class="_content" :pagination="prevPagination" :no-gap="true"/>
+                    </div>
+                </div>
+                <MkError v-else-if="error" @retry="fetch()"/>
+                <MkLoading v-else/>
+            </transition>
+        </div>
+    </MkSpacer>
 </MkStickyContainer>
 </template>
 
 <script lang="ts" setup>
-import { computed, defineComponent, watch } from 'vue';
-import * as misskey from 'misskey-js';
-import XNote from '@/components/MkNote.vue';
-import XNoteDetailed from '@/components/MkNoteDetailed.vue';
-import XNotes from '@/components/MkNotes.vue';
-import MkRemoteCaution from '@/components/MkRemoteCaution.vue';
-import MkButton from '@/components/MkButton.vue';
-import * as os from '@/os';
-import { definePageMetadata } from '@/scripts/page-metadata';
-import { i18n } from '@/i18n';
+import { computed, defineComponent, watch } from "vue";
+import * as misskey from "misskey-js";
+import XNote from "@/components/MkNote.vue";
+import XNoteDetailed from "@/components/MkNoteDetailed.vue";
+import XNotes from "@/components/MkNotes.vue";
+import MkRemoteCaution from "@/components/MkRemoteCaution.vue";
+import MkButton from "@/components/MkButton.vue";
+import * as os from "@/os";
+import { definePageMetadata } from "@/scripts/page-metadata";
+import { i18n } from "@/i18n";
 
 const props = defineProps<{
 	noteId: string;
@@ -65,60 +65,60 @@ let showNext = $ref(false);
 let error = $ref();
 
 const prevPagination = {
-	endpoint: 'users/notes' as const,
-	limit: 10,
-	params: computed(() => note ? ({
-		userId: note.userId,
-		untilId: note.id,
-	}) : null),
+    endpoint: "users/notes" as const,
+    limit: 10,
+    params: computed(() => note ? ({
+        userId: note.userId,
+        untilId: note.id,
+    }) : null),
 };
 
 const nextPagination = {
-	reversed: true,
-	endpoint: 'users/notes' as const,
-	limit: 10,
-	params: computed(() => note ? ({
-		userId: note.userId,
-		sinceId: note.id,
-	}) : null),
+    reversed: true,
+    endpoint: "users/notes" as const,
+    limit: 10,
+    params: computed(() => note ? ({
+        userId: note.userId,
+        sinceId: note.id,
+    }) : null),
 };
 
 function fetchNote() {
-	hasPrev = false;
-	hasNext = false;
-	showPrev = false;
-	showNext = false;
-	note = null;
-	os.api('notes/show', {
-		noteId: props.noteId,
-	}).then(res => {
-		note = res;
-		Promise.all([
-			os.api('notes/clips', {
-				noteId: note.id,
-			}),
-			os.api('users/notes', {
-				userId: note.userId,
-				untilId: note.id,
-				limit: 1,
-			}),
-			os.api('users/notes', {
-				userId: note.userId,
-				sinceId: note.id,
-				limit: 1,
-			}),
-		]).then(([_clips, prev, next]) => {
-			clips = _clips;
-			hasPrev = prev.length !== 0;
-			hasNext = next.length !== 0;
-		});
-	}).catch(err => {
-		error = err;
-	});
+    hasPrev = false;
+    hasNext = false;
+    showPrev = false;
+    showNext = false;
+    note = null;
+    os.api("notes/show", {
+        noteId: props.noteId,
+    }).then(res => {
+        note = res;
+        Promise.all([
+            os.api("notes/clips", {
+                noteId: note.id,
+            }),
+            os.api("users/notes", {
+                userId: note.userId,
+                untilId: note.id,
+                limit: 1,
+            }),
+            os.api("users/notes", {
+                userId: note.userId,
+                sinceId: note.id,
+                limit: 1,
+            }),
+        ]).then(([_clips, prev, next]) => {
+            clips = _clips;
+            hasPrev = prev.length !== 0;
+            hasNext = next.length !== 0;
+        });
+    }).catch(err => {
+        error = err;
+    });
 }
 
 watch(() => props.noteId, fetchNote, {
-	immediate: true,
+    immediate: true,
 });
 
 const headerActions = $computed(() => []);
@@ -126,14 +126,14 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
 
 definePageMetadata(computed(() => note ? {
-	title: i18n.ts.note,
-	subtitle: new Date(note.createdAt).toLocaleString(),
-	avatar: note.user,
-	path: `/notes/${note.id}`,
-	share: {
-		title: i18n.t('noteOf', { user: note.user.name }),
-		text: note.text,
-	},
+    title: i18n.ts.note,
+    subtitle: new Date(note.createdAt).toLocaleString(),
+    avatar: note.user,
+    path: `/notes/${note.id}`,
+    share: {
+        title: i18n.t("noteOf", { user: note.user.name }),
+        text: note.text,
+    },
 } : null));
 </script>
 

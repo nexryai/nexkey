@@ -1,48 +1,48 @@
 <template>
 <div v-size="{ max: [400, 500] }" class="thvuemwp" :class="{ isMe }">
-	<MkAvatar class="avatar" :user="message.user" :show-indicator="true"/>
-	<div class="content">
-		<div class="balloon" :class="{ noText: message.text == null }" >
-			<button v-if="isMe" class="delete-button" :title="$ts.delete" @click="del">
-				<img src="/client-assets/remove.png" alt="Delete"/>
-			</button>
-			<div v-if="!message.isDeleted" class="content">
-				<Mfm v-if="message.text" ref="text" class="text" :text="message.text" :i="$i"/>
-				<div v-if="message.file" class="file">
-					<a :href="message.file.url" rel="noopener" target="_blank" :title="message.file.name">
-						<img v-if="message.file.type.split('/')[0] == 'image'" :src="message.file.url" :alt="message.file.name"/>
-						<p v-else>{{ message.file.name }}</p>
-					</a>
-				</div>
-			</div>
-			<div v-else class="content">
-				<p class="is-deleted">{{ $ts.deleted }}</p>
-			</div>
-		</div>
-		<div></div>
-		<MkUrlPreview v-for="url in urls" :key="url" :url="url" style="margin: 8px 0;"/>
-		<footer>
-			<template v-if="isGroup">
-				<span v-if="message.reads.length > 0" class="read">{{ $ts.messageRead }} {{ message.reads.length }}</span>
-			</template>
-			<template v-else>
-				<span v-if="isMe && message.isRead" class="read">{{ $ts.messageRead }}</span>
-			</template>
-			<MkTime :time="message.createdAt"/>
-			<template v-if="message.is_edited"><i class="ti ti-pencil"></i></template>
-		</footer>
-	</div>
+    <MkAvatar class="avatar" :user="message.user" :show-indicator="true"/>
+    <div class="content">
+        <div class="balloon" :class="{ noText: message.text == null }">
+            <button v-if="isMe" class="delete-button" :title="$ts.delete" @click="del">
+                <img src="/client-assets/remove.png" alt="Delete"/>
+            </button>
+            <div v-if="!message.isDeleted" class="content">
+                <Mfm v-if="message.text" ref="text" class="text" :text="message.text" :i="$i"/>
+                <div v-if="message.file" class="file">
+                    <a :href="message.file.url" rel="noopener" target="_blank" :title="message.file.name">
+                        <img v-if="message.file.type.split('/')[0] == 'image'" :src="message.file.url" :alt="message.file.name"/>
+                        <p v-else>{{ message.file.name }}</p>
+                    </a>
+                </div>
+            </div>
+            <div v-else class="content">
+                <p class="is-deleted">{{ $ts.deleted }}</p>
+            </div>
+        </div>
+        <div></div>
+        <MkUrlPreview v-for="url in urls" :key="url" :url="url" style="margin: 8px 0;"/>
+        <footer>
+            <template v-if="isGroup">
+                <span v-if="message.reads.length > 0" class="read">{{ $ts.messageRead }} {{ message.reads.length }}</span>
+            </template>
+            <template v-else>
+                <span v-if="isMe && message.isRead" class="read">{{ $ts.messageRead }}</span>
+            </template>
+            <MkTime :time="message.createdAt"/>
+            <template v-if="message.is_edited"><i class="ti ti-pencil"></i></template>
+        </footer>
+    </div>
 </div>
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import * as mfm from 'mfm-js';
-import * as Misskey from 'misskey-js';
-import { extractUrlFromMfm } from '@/scripts/extract-url-from-mfm';
-import MkUrlPreview from '@/components/MkUrlPreview.vue';
-import * as os from '@/os';
-import { $i } from '@/account';
+import { } from "vue";
+import * as mfm from "mfm-js";
+import * as Misskey from "misskey-js";
+import { extractUrlFromMfm } from "@/scripts/extract-url-from-mfm";
+import MkUrlPreview from "@/components/MkUrlPreview.vue";
+import * as os from "@/os";
+import { $i } from "@/account";
 
 const props = defineProps<{
 	message: Misskey.entities.MessagingMessage;
@@ -53,9 +53,9 @@ const isMe = $computed(() => props.message.userId === $i?.id);
 const urls = $computed(() => props.message.text ? extractUrlFromMfm(mfm.parse(props.message.text)) : []);
 
 function del(): void {
-	os.api('messaging/messages/delete', {
-		messageId: props.message.id,
-	});
+    os.api("messaging/messages/delete", {
+        messageId: props.message.id,
+    });
 }
 </script>
 

@@ -1,16 +1,16 @@
 <template>
 <transition :name="$store.state.animation ? 'zoom' : ''" appear>
-	<div class="mjndxjcg">
-		<i class="ti ti-exclamation-mark"></i>
-		<p>{{ i18n.ts.somethingHappened }}</p>
-		<MkButton class="button" @click="() => $emit('retry')">{{ i18n.ts.retry }}</MkButton>
-	</div>
+    <div class="mjndxjcg">
+        <i class="ti ti-exclamation-mark"></i>
+        <p>{{ i18n.ts.somethingHappened }}</p>
+        <MkButton class="button" @click="() => $emit('retry')">{{ i18n.ts.retry }}</MkButton>
+    </div>
 </transition>
 </template>
 
 <script lang="ts" setup>
-import MkButton from '@/components/MkButton.vue';
-import { i18n } from '@/i18n';
+import MkButton from "@/components/MkButton.vue";
+import { i18n } from "@/i18n";
 </script>
 
 <style lang="scss" scoped>

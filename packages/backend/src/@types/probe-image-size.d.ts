@@ -1,5 +1,5 @@
-declare module 'probe-image-size' {
-	import { ReadStream } from 'node:fs';
+declare module "probe-image-size" {
+	import { ReadStream } from "node:fs";
 
 	type ProbeOptions = {
 		retries: 1;
@@ -12,8 +12,8 @@ declare module 'probe-image-size' {
 		length?: number;
 		type: string;
 		mime: string;
-		wUnits: 'in' | 'mm' | 'cm' | 'pt' | 'pc' | 'px' | 'em' | 'ex';
-		hUnits: 'in' | 'mm' | 'cm' | 'pt' | 'pc' | 'px' | 'em' | 'ex';
+		wUnits: "in" | "mm" | "cm" | "pt" | "pc" | "px" | "em" | "ex";
+		hUnits: "in" | "mm" | "cm" | "pt" | "pc" | "px" | "em" | "ex";
 		url?: string;
 	};
 

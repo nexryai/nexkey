@@ -1,41 +1,41 @@
-import { publishMainStream } from '@/services/stream.js';
-import define from '../../define.js';
-import { MessagingMessages, UserGroupJoinings } from '@/models/index.js';
+import { publishMainStream } from "@/services/stream.js";
+import { MessagingMessages, UserGroupJoinings } from "@/models/index.js";
+import define from "../../define.js";
 
 export const meta = {
-	tags: ['account', 'messaging'],
+    tags: ["account", "messaging"],
 
-	requireCredential: true,
+    requireCredential: true,
 
-	kind: 'write:account',
+    kind: "write:account",
 } as const;
 
 export const paramDef = {
-	type: 'object',
-	properties: {},
-	required: [],
+    type: "object",
+    properties: {},
+    required: [],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	// Update documents
-	await MessagingMessages.update({
-		recipientId: user.id,
-		isRead: false,
-	}, {
-		isRead: true,
-	});
+    // Update documents
+    await MessagingMessages.update({
+        recipientId: user.id,
+        isRead: false,
+    }, {
+        isRead: true,
+    });
 
-	const joinings = await UserGroupJoinings.findBy({ userId: user.id });
+    const joinings = await UserGroupJoinings.findBy({ userId: user.id });
 
-	await Promise.all(joinings.map(j => MessagingMessages.createQueryBuilder().update()
+    await Promise.all(joinings.map(j => MessagingMessages.createQueryBuilder().update()
 		.set({
-			reads: (() => `array_append("reads", '${user.id}')`) as any,
+		    reads: (() => `array_append("reads", '${user.id}')`) as any,
 		})
-		.where(`groupId = :groupId`, { groupId: j.userGroupId })
-		.andWhere('userId != :userId', { userId: user.id })
-		.andWhere('NOT (:userId = ANY(reads))', { userId: user.id })
+		.where("groupId = :groupId", { groupId: j.userGroupId })
+		.andWhere("userId != :userId", { userId: user.id })
+		.andWhere("NOT (:userId = ANY(reads))", { userId: user.id })
 		.execute()));
 
-	publishMainStream(user.id, 'readAllMessagingMessages');
+    publishMainStream(user.id, "readAllMessagingMessages");
 });

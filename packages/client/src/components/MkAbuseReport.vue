@@ -1,70 +1,70 @@
 <template>
 <div class="bcekxzvu _gap _panel">
-	<div class="item target">
-		<MkA v-user-preview="report.targetUserId" class="info" :to="`/user-info/${report.targetUserId}`">
-			<MkAvatar class="avatar" :user="report.targetUser" :show-indicator="true" :disable-link="true"/>
-			<div class="names">
-				<MkUserName :nowrap="false" class="name" :user="report.targetUser"/>
-				<MkAcct class="acct" :user="report.targetUser" style="display: block;"/>
-			</div>
-		</MkA>
-		<MkKeyValue class="_formBlock">
-			<template #key>{{ i18n.ts.registeredDate }}</template>
-			<template #value>{{ new Date(report.targetUser.createdAt).toLocaleString() }} (<MkTime :time="report.targetUser.createdAt"/>)</template>
-		</MkKeyValue>
-	</div>
-	<div class="item report">
-		<Mfm :text="report.comment"/>
-	</div>
-	<div class="item detail">
-		<div>{{ i18n.ts.reporter }}: <MkAcct :user="report.reporter"/></div>
-		<div v-if="report.assignee">
-			{{ i18n.ts.moderator }}:
-			<MkAcct :user="report.assignee"/>
-		</div>
-		<div><MkTime :time="report.createdAt"/></div>
-		<div class="action">
-			<MkSwitch v-model="forward" :disabled="report.targetUser.host == null || report.resolved">
-				{{ i18n.ts.forwardReport }}
-				<template #caption>{{ i18n.ts.forwardReportIsAnonymous }}</template>
-			</MkSwitch>
-			<MkButton v-if="!report.resolved" primary @click="resolve">{{ i18n.ts.abuseMarkAsResolved }}</MkButton>
-		</div>
-	</div>
+    <div class="item target">
+        <MkA v-user-preview="report.targetUserId" class="info" :to="`/user-info/${report.targetUserId}`">
+            <MkAvatar class="avatar" :user="report.targetUser" :show-indicator="true" :disable-link="true"/>
+            <div class="names">
+                <MkUserName :nowrap="false" class="name" :user="report.targetUser"/>
+                <MkAcct class="acct" :user="report.targetUser" style="display: block;"/>
+            </div>
+        </MkA>
+        <MkKeyValue class="_formBlock">
+            <template #key>{{ i18n.ts.registeredDate }}</template>
+            <template #value>{{ new Date(report.targetUser.createdAt).toLocaleString() }} (<MkTime :time="report.targetUser.createdAt"/>)</template>
+        </MkKeyValue>
+    </div>
+    <div class="item report">
+        <Mfm :text="report.comment"/>
+    </div>
+    <div class="item detail">
+        <div>{{ i18n.ts.reporter }}: <MkAcct :user="report.reporter"/></div>
+        <div v-if="report.assignee">
+            {{ i18n.ts.moderator }}:
+            <MkAcct :user="report.assignee"/>
+        </div>
+        <div><MkTime :time="report.createdAt"/></div>
+        <div class="action">
+            <MkSwitch v-model="forward" :disabled="report.targetUser.host == null || report.resolved">
+                {{ i18n.ts.forwardReport }}
+                <template #caption>{{ i18n.ts.forwardReportIsAnonymous }}</template>
+            </MkSwitch>
+            <MkButton v-if="!report.resolved" primary @click="resolve">{{ i18n.ts.abuseMarkAsResolved }}</MkButton>
+        </div>
+    </div>
 </div>
 </template>
 
 <script lang="ts" setup>
-import MkButton from '@/components/MkButton.vue';
-import MkSwitch from '@/components/form/switch.vue';
-import MkKeyValue from '@/components/MkKeyValue.vue';
-import { acct, userPage } from '@/filters/user';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
+import MkButton from "@/components/MkButton.vue";
+import MkSwitch from "@/components/form/switch.vue";
+import MkKeyValue from "@/components/MkKeyValue.vue";
+import { acct, userPage } from "@/filters/user";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
 
 const props = defineProps<{
 	report: any;
 }>();
 
 const emit = defineEmits<{
-	(ev: 'resolved', reportId: string): void;
+	(ev: "resolved", reportId: string): void;
 }>();
 
 let forward = $ref(props.report.forwarded);
 
 function resolve() {
-	os.confirm({
-		type: 'warning',
-		text: i18n.t('resolveAreYouSure', { x: props.report.comment }),
-	}).then(({ canceled }) => {
-		if (canceled) return;
-		os.apiWithDialog('admin/resolve-abuse-user-report', {
-			forward: forward,
-			reportId: props.report.id,
-		}).then(() => {
-			emit('resolved', props.report.id);
-		});
-});
+    os.confirm({
+        type: "warning",
+        text: i18n.t("resolveAreYouSure", { x: props.report.comment }),
+    }).then(({ canceled }) => {
+        if (canceled) return;
+        os.apiWithDialog("admin/resolve-abuse-user-report", {
+            forward: forward,
+            reportId: props.report.id,
+        }).then(() => {
+            emit("resolved", props.report.id);
+        });
+    });
 }
 </script>
 

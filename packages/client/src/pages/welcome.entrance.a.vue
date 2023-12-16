@@ -1,111 +1,91 @@
 <template>
 <div v-if="meta" class="rsqzvsbo">
-	<div class="top">
-		<MkFeaturedPhotos class="bg"/>
-		<img @click="showMenu" :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" class="misskey"/>
-		<div class="emojis">
-			<MkEmoji :normal="true" :no-style="true" emoji="👍"/>
-			<MkEmoji :normal="true" :no-style="true" emoji="❤"/>
-			<MkEmoji :normal="true" :no-style="true" emoji="😆"/>
-			<MkEmoji :normal="true" :no-style="true" emoji="🎉"/>
-			<MkEmoji :normal="true" :no-style="true" emoji="🍮"/>
-		</div>
-		<div class="main">
-			<div class="fg">
-				<h1>
-					<!-- 背景色によってはロゴが見えなくなるのでとりあえず無効に -->
-					<!-- <img class="logo" v-if="meta.logoImageUrl" :src="meta.logoImageUrl"><span v-else class="text">{{ instanceName }}</span> -->
-					<span class="text">{{ instanceName }}</span>
-				</h1>
-				<div class="about">
-					<!-- eslint-disable-next-line vue/no-v-html -->
-					<div class="desc" v-html="meta.description || i18n.ts.headlineMisskey"></div>
-				</div>
-				<div v-if="meta.disableRegistration" class="warn">
-					<MkInfo warn>{{ i18n.ts.invitationRequiredToRegister }}</MkInfo>
-				</div>
-				<div class="action">
-					<MkButton inline rounded gradate data-cy-signup style="margin-right: 12px;" @click="signup()">{{ i18n.ts.signup }}</MkButton>
-					<MkButton inline rounded data-cy-signin @click="signin()">{{ i18n.ts.login }}</MkButton>
-          <MkButton inline rounded data-cy-signin style="margin-left: 12px;" @click="jumpToExplore()">{{ i18n.ts.explore }}</MkButton>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="top">
+        <MkFeaturedPhotos class="bg"/>
+        <img :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" class="misskey" @click="showMenu"/>
+        <div class="emojis">
+            <MkEmoji :normal="true" :no-style="true" emoji="👍"/>
+            <MkEmoji :normal="true" :no-style="true" emoji="❤"/>
+            <MkEmoji :normal="true" :no-style="true" emoji="😆"/>
+            <MkEmoji :normal="true" :no-style="true" emoji="🎉"/>
+            <MkEmoji :normal="true" :no-style="true" emoji="🍮"/>
+        </div>
+        <div class="main">
+            <div class="fg">
+                <h1>
+                    <span class="text">{{ instanceName }}</span>
+                </h1>
+                <div class="about">
+                    <!-- eslint-disable-next-line vue/no-v-html -->
+                    <div class="desc" v-html="meta.description || i18n.ts.headlineMisskey"></div>
+                </div>
+                <div v-if="meta.disableRegistration" class="warn">
+                    <MkInfo warn>{{ i18n.ts.invitationRequiredToRegister }}</MkInfo>
+                </div>
+                <div class="action">
+                    <MkButton inline rounded gradate data-cy-signup style="margin-right: 12px;" @click="signup()">{{ i18n.ts.signup }}</MkButton>
+                    <MkButton inline rounded data-cy-signin @click="signin()">{{ i18n.ts.login }}</MkButton>
+                    <MkButton inline rounded data-cy-signin style="margin-left: 12px;" @click="jumpToExplore()">{{ i18n.ts.explore }}</MkButton>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import XSigninDialog from '@/components/MkSigninDialog.vue';
-import XSignupDialog from '@/components/MkSignupDialog.vue';
-import MkButton from '@/components/MkButton.vue';
-import MkFeaturedPhotos from '@/components/MkFeaturedPhotos.vue';
-import { instanceName } from '@/config';
-import * as os from '@/os';
-import { i18n } from '@/i18n';
-import MkInfo from '@/components/MkInfo.vue';
+import { } from "vue";
+import XSigninDialog from "@/components/MkSigninDialog.vue";
+import XSignupDialog from "@/components/MkSignupDialog.vue";
+import MkButton from "@/components/MkButton.vue";
+import MkFeaturedPhotos from "@/components/MkFeaturedPhotos.vue";
+import { instanceName } from "@/config";
+import * as os from "@/os";
+import { i18n } from "@/i18n";
+import MkInfo from "@/components/MkInfo.vue";
 
 let meta = $ref();
-let stats = $ref();
-let tags = $ref();
-let onlineUsersCount = $ref();
 
-os.api('meta', { detail: true }).then(_meta => {
-	meta = _meta;
-});
-
-os.api('stats').then(_stats => {
-	stats = _stats;
-});
-
-os.api('get-online-users-count').then(res => {
-	onlineUsersCount = res.count;
-});
-
-os.api('hashtags/list', {
-	sort: '+mentionedLocalUsers',
-	limit: 8,
-}).then(_tags => {
-	tags = _tags;
+os.api("meta", { detail: true }).then(_meta => {
+    meta = _meta;
 });
 
 function signin() {
-	os.popup(XSigninDialog, {
-		autoSet: true,
-	}, {}, 'closed');
+    os.popup(XSigninDialog, {
+        autoSet: true,
+    }, {}, "closed");
 }
 
 function signup() {
-	os.popup(XSignupDialog, {
-		autoSet: true,
-	}, {}, 'closed');
+    os.popup(XSignupDialog, {
+        autoSet: true,
+    }, {}, "closed");
 }
 
 function jumpToExplore() {
-  window.location.href = '/explore';
+    window.location.href = "/explore";
 }
 
 function showMenu(ev) {
-	os.popupMenu([{
-		text: i18n.ts.instanceInfo,
-		icon: 'ti ti-info-circle',
-		action: () => {
-			os.pageWindow('/about');
-		},
-	}, {
-		text: i18n.ts.aboutMisskey,
-		icon: 'ti ti-info-circle',
-		action: () => {
-			os.pageWindow('/about-misskey');
-		},
-	}, null, {
-		text: i18n.ts.help,
-		icon: 'ti ti-question-circle',
-		action: () => {
-			window.open('https://misskey-hub.net/help.md', '_blank');
-		},
-	}], ev.currentTarget ?? ev.target);
+    os.popupMenu([{
+        text: i18n.ts.instanceInfo,
+        icon: "ti ti-info-circle",
+        action: () => {
+            os.pageWindow("/about");
+        },
+    }, {
+        text: i18n.ts.aboutMisskey,
+        icon: "ti ti-info-circle",
+        action: () => {
+            os.pageWindow("/about-nexkey");
+        },
+    }, null, {
+        text: i18n.ts.help,
+        icon: "ti ti-question-circle",
+        action: () => {
+            window.open("https://misskey-hub.net/help.md", "_blank");
+        },
+    }], ev.currentTarget ?? ev.target);
 }
 </script>
 
@@ -119,11 +99,12 @@ function showMenu(ev) {
 		padding: 16px;
 
 		> .bg {
-			position: absolute;
+			position: fixed;
 			top: 0;
 			right: 0;
-			width: 100%;
-			height: 100%;
+			width: calc(100% + 20px);
+			height: calc(100% + 20px);
+			margin: -10px;
 		}
 
 		> .tl {
@@ -189,7 +170,7 @@ function showMenu(ev) {
 		> .main {
 			position: relative;
 			width: min(480px, 100%);
-			margin: auto auto auto 128px;
+			margin: auto auto auto auto;
 			background: var(--panel);
 			border-radius: var(--radius);
 			box-shadow: 0 12px 32px rgb(0 0 0 / 25%);

@@ -1,157 +1,157 @@
 <template>
 <div class="_formRoot rsljpzjq">
-	<div v-adaptive-border class="rfqxtzch _panel _formBlock">
-		<div class="toggle">
-			<div class="toggleWrapper">
-				<input id="dn" v-model="darkMode" type="checkbox" class="dn"/>
-				<label for="dn" class="toggle">
-					<span class="before">{{ i18n.ts.light }}</span>
-					<span class="after">{{ i18n.ts.dark }}</span>
-					<span class="toggle__handler">
-						<span class="crater crater--1"></span>
-						<span class="crater crater--2"></span>
-						<span class="crater crater--3"></span>
-					</span>
-					<span class="star star--1"></span>
-					<span class="star star--2"></span>
-					<span class="star star--3"></span>
-					<span class="star star--4"></span>
-					<span class="star star--5"></span>
-					<span class="star star--6"></span>
-				</label>
-			</div>
-		</div>
-		<div class="sync">
-			<FormSwitch v-model="syncDeviceDarkMode">{{ i18n.ts.syncDeviceDarkMode }}</FormSwitch>
-		</div>
-	</div>
+    <div v-adaptive-border class="rfqxtzch _panel _formBlock">
+        <div class="toggle">
+            <div class="toggleWrapper">
+                <input id="dn" v-model="darkMode" type="checkbox" class="dn"/>
+                <label for="dn" class="toggle">
+                    <span class="before">{{ i18n.ts.light }}</span>
+                    <span class="after">{{ i18n.ts.dark }}</span>
+                    <span class="toggle__handler">
+                        <span class="crater crater--1"></span>
+                        <span class="crater crater--2"></span>
+                        <span class="crater crater--3"></span>
+                    </span>
+                    <span class="star star--1"></span>
+                    <span class="star star--2"></span>
+                    <span class="star star--3"></span>
+                    <span class="star star--4"></span>
+                    <span class="star star--5"></span>
+                    <span class="star star--6"></span>
+                </label>
+            </div>
+        </div>
+        <div class="sync">
+            <FormSwitch v-model="syncDeviceDarkMode">{{ i18n.ts.syncDeviceDarkMode }}</FormSwitch>
+        </div>
+    </div>
 
-	<div class="selects _formBlock">
-		<FormSelect v-model="lightThemeId" large class="select">
-			<template #label>{{ i18n.ts.themeForLightMode }}</template>
-			<template #prefix><i class="ti ti-sun"></i></template>
-			<option v-if="instanceLightTheme" :key="'instance:' + instanceLightTheme.id" :value="instanceLightTheme.id">{{ instanceLightTheme.name }}</option>
-			<optgroup v-if="installedLightThemes.length > 0" :label="i18n.ts._theme.installedThemes">
-				<option v-for="x in installedLightThemes" :key="'installed:' + x.id" :value="x.id">{{ x.name }}</option>
-			</optgroup>
-			<optgroup :label="i18n.ts._theme.builtinThemes">
-				<option v-for="x in builtinLightThemes" :key="'builtin:' + x.id" :value="x.id">{{ x.name }}</option>
-			</optgroup>
-		</FormSelect>
-		<FormSelect v-model="darkThemeId" large class="select">
-			<template #label>{{ i18n.ts.themeForDarkMode }}</template>
-			<template #prefix><i class="ti ti-moon"></i></template>
-			<option v-if="instanceDarkTheme" :key="'instance:' + instanceDarkTheme.id" :value="instanceDarkTheme.id">{{ instanceDarkTheme.name }}</option>
-			<optgroup v-if="installedDarkThemes.length > 0" :label="i18n.ts._theme.installedThemes">
-				<option v-for="x in installedDarkThemes" :key="'installed:' + x.id" :value="x.id">{{ x.name }}</option>
-			</optgroup>
-			<optgroup :label="i18n.ts._theme.builtinThemes">
-				<option v-for="x in builtinDarkThemes" :key="'builtin:' + x.id" :value="x.id">{{ x.name }}</option>
-			</optgroup>
-		</FormSelect>
-	</div>
+    <div class="selects _formBlock">
+        <FormSelect v-model="lightThemeId" large class="select">
+            <template #label>{{ i18n.ts.themeForLightMode }}</template>
+            <template #prefix><i class="ti ti-sun"></i></template>
+            <option v-if="instanceLightTheme" :key="'instance:' + instanceLightTheme.id" :value="instanceLightTheme.id">{{ instanceLightTheme.name }}</option>
+            <optgroup v-if="installedLightThemes.length > 0" :label="i18n.ts._theme.installedThemes">
+                <option v-for="x in installedLightThemes" :key="'installed:' + x.id" :value="x.id">{{ x.name }}</option>
+            </optgroup>
+            <optgroup :label="i18n.ts._theme.builtinThemes">
+                <option v-for="x in builtinLightThemes" :key="'builtin:' + x.id" :value="x.id">{{ x.name }}</option>
+            </optgroup>
+        </FormSelect>
+        <FormSelect v-model="darkThemeId" large class="select">
+            <template #label>{{ i18n.ts.themeForDarkMode }}</template>
+            <template #prefix><i class="ti ti-moon"></i></template>
+            <option v-if="instanceDarkTheme" :key="'instance:' + instanceDarkTheme.id" :value="instanceDarkTheme.id">{{ instanceDarkTheme.name }}</option>
+            <optgroup v-if="installedDarkThemes.length > 0" :label="i18n.ts._theme.installedThemes">
+                <option v-for="x in installedDarkThemes" :key="'installed:' + x.id" :value="x.id">{{ x.name }}</option>
+            </optgroup>
+            <optgroup :label="i18n.ts._theme.builtinThemes">
+                <option v-for="x in builtinDarkThemes" :key="'builtin:' + x.id" :value="x.id">{{ x.name }}</option>
+            </optgroup>
+        </FormSelect>
+    </div>
 
-	<FormSection>
-		<div class="_formLinksGrid">
-			<FormLink to="/settings/theme/manage"><template #icon><i class="ti ti-tool"></i></template>{{ i18n.ts._theme.manage }}<template #suffix>{{ themesCount }}</template></FormLink>
-			<FormLink to="https://assets.misskey.io/theme/list" external><template #icon><i class="ti ti-world"></i></template>{{ i18n.ts._theme.explore }}</FormLink>
-			<FormLink to="/settings/theme/install"><template #icon><i class="ti ti-download"></i></template>{{ i18n.ts._theme.install }}</FormLink>
-			<FormLink to="/theme-editor"><template #icon><i class="ti ti-paint"></i></template>{{ i18n.ts._theme.make }}</FormLink>
-		</div>
-	</FormSection>
+    <FormSection>
+        <div class="_formLinksGrid">
+            <FormLink to="/settings/theme/manage"><template #icon><i class="ti ti-tool"></i></template>{{ i18n.ts._theme.manage }}<template #suffix>{{ themesCount }}</template></FormLink>
+            <FormLink to="https://assets.misskey.io/theme/list" external><template #icon><i class="ti ti-world"></i></template>{{ i18n.ts._theme.explore }}</FormLink>
+            <FormLink to="/settings/theme/install"><template #icon><i class="ti ti-download"></i></template>{{ i18n.ts._theme.install }}</FormLink>
+            <FormLink to="/theme-editor"><template #icon><i class="ti ti-paint"></i></template>{{ i18n.ts._theme.make }}</FormLink>
+        </div>
+    </FormSection>
 
-	<FormButton v-if="wallpaper == null" class="_formBlock" @click="setWallpaper">{{ i18n.ts.setWallpaper }}</FormButton>
-	<FormButton v-else class="_formBlock" @click="wallpaper = null">{{ i18n.ts.removeWallpaper }}</FormButton>
+    <FormButton v-if="wallpaper == null" class="_formBlock" @click="setWallpaper">{{ i18n.ts.setWallpaper }}</FormButton>
+    <FormButton v-else class="_formBlock" @click="wallpaper = null">{{ i18n.ts.removeWallpaper }}</FormButton>
 </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, onActivated, ref, watch } from 'vue';
-import JSON5 from 'json5';
-import FormSwitch from '@/components/form/switch.vue';
-import FormSelect from '@/components/form/select.vue';
-import FormSection from '@/components/form/section.vue';
-import FormLink from '@/components/form/link.vue';
-import FormButton from '@/components/MkButton.vue';
-import { getBuiltinThemesRef } from '@/scripts/theme';
-import { selectFile } from '@/scripts/select-file';
-import { isDeviceDarkmode } from '@/scripts/is-device-darkmode';
-import { ColdDeviceStorage , defaultStore } from '@/store';
-import { i18n } from '@/i18n';
-import { instance } from '@/instance';
-import { uniqueBy } from '@/scripts/array';
-import { fetchThemes, getThemes } from '@/theme-store';
-import { definePageMetadata } from '@/scripts/page-metadata';
+import { computed, onActivated, ref, watch } from "vue";
+import JSON5 from "json5";
+import FormSwitch from "@/components/form/switch.vue";
+import FormSelect from "@/components/form/select.vue";
+import FormSection from "@/components/form/section.vue";
+import FormLink from "@/components/form/link.vue";
+import FormButton from "@/components/MkButton.vue";
+import { getBuiltinThemesRef } from "@/scripts/theme";
+import { selectFile } from "@/scripts/select-file";
+import { isDeviceDarkmode } from "@/scripts/is-device-darkmode";
+import { ColdDeviceStorage , defaultStore } from "@/store";
+import { i18n } from "@/i18n";
+import { instance } from "@/instance";
+import { uniqueBy } from "@/scripts/array";
+import { fetchThemes, getThemes } from "@/theme-store";
+import { definePageMetadata } from "@/scripts/page-metadata";
 
 const installedThemes = ref(getThemes());
 const builtinThemes = getBuiltinThemesRef();
 
 const instanceDarkTheme = computed(() => instance.defaultDarkTheme ? JSON5.parse(instance.defaultDarkTheme) : null);
-const installedDarkThemes = computed(() => installedThemes.value.filter(t => t.base === 'dark' || t.kind === 'dark'));
-const builtinDarkThemes = computed(() => builtinThemes.value.filter(t => t.base === 'dark' || t.kind === 'dark'));
+const installedDarkThemes = computed(() => installedThemes.value.filter(t => t.base === "dark" || t.kind === "dark"));
+const builtinDarkThemes = computed(() => builtinThemes.value.filter(t => t.base === "dark" || t.kind === "dark"));
 const instanceLightTheme = computed(() => instance.defaultLightTheme ? JSON5.parse(instance.defaultLightTheme) : null);
-const installedLightThemes = computed(() => installedThemes.value.filter(t => t.base === 'light' || t.kind === 'light'));
-const builtinLightThemes = computed(() => builtinThemes.value.filter(t => t.base === 'light' || t.kind === 'light'));
+const installedLightThemes = computed(() => installedThemes.value.filter(t => t.base === "light" || t.kind === "light"));
+const builtinLightThemes = computed(() => builtinThemes.value.filter(t => t.base === "light" || t.kind === "light"));
 const themes = computed(() => uniqueBy([ instanceDarkTheme.value, instanceLightTheme.value, ...builtinThemes.value, ...installedThemes.value ].filter(x => x != null), theme => theme.id));
 
-const darkTheme = ColdDeviceStorage.ref('darkTheme');
+const darkTheme = ColdDeviceStorage.ref("darkTheme");
 const darkThemeId = computed({
-	get() {
-		return darkTheme.value.id;
-	},
-	set(id) {
-		const t = themes.value.find(x => x.id === id);
-		if (t) { // テーマエディタでテーマを作成したときなどは、themesに反映されないため undefined になる
-			ColdDeviceStorage.set('darkTheme', t);
-		}
-	},
+    get() {
+        return darkTheme.value.id;
+    },
+    set(id) {
+        const t = themes.value.find(x => x.id === id);
+        if (t) { // テーマエディタでテーマを作成したときなどは、themesに反映されないため undefined になる
+            ColdDeviceStorage.set("darkTheme", t);
+        }
+    },
 });
-const lightTheme = ColdDeviceStorage.ref('lightTheme');
+const lightTheme = ColdDeviceStorage.ref("lightTheme");
 const lightThemeId = computed({
-	get() {
-		return lightTheme.value.id;
-	},
-	set(id) {
-		const t = themes.value.find(x => x.id === id);
-		if (t) { // テーマエディタでテーマを作成したときなどは、themesに反映されないため undefined になる
-			ColdDeviceStorage.set('lightTheme', t);
-		}
-	},
+    get() {
+        return lightTheme.value.id;
+    },
+    set(id) {
+        const t = themes.value.find(x => x.id === id);
+        if (t) { // テーマエディタでテーマを作成したときなどは、themesに反映されないため undefined になる
+            ColdDeviceStorage.set("lightTheme", t);
+        }
+    },
 });
-const darkMode = computed(defaultStore.makeGetterSetter('darkMode'));
-const syncDeviceDarkMode = computed(ColdDeviceStorage.makeGetterSetter('syncDeviceDarkMode'));
-const wallpaper = ref(localStorage.getItem('wallpaper'));
+const darkMode = computed(defaultStore.makeGetterSetter("darkMode"));
+const syncDeviceDarkMode = computed(ColdDeviceStorage.makeGetterSetter("syncDeviceDarkMode"));
+const wallpaper = ref(localStorage.getItem("wallpaper"));
 const themesCount = installedThemes.value.length;
 
 watch(syncDeviceDarkMode, () => {
-	if (syncDeviceDarkMode.value) {
-		defaultStore.set('darkMode', isDeviceDarkmode());
-	}
+    if (syncDeviceDarkMode.value) {
+        defaultStore.set("darkMode", isDeviceDarkmode());
+    }
 });
 
 watch(wallpaper, () => {
-	if (wallpaper.value == null) {
-		localStorage.removeItem('wallpaper');
-	} else {
-		localStorage.setItem('wallpaper', wallpaper.value);
-	}
-	location.reload();
+    if (wallpaper.value == null) {
+        localStorage.removeItem("wallpaper");
+    } else {
+        localStorage.setItem("wallpaper", wallpaper.value);
+    }
+    location.reload();
 });
 
 onActivated(() => {
-	fetchThemes().then(() => {
-		installedThemes.value = getThemes();
-	});
+    fetchThemes().then(() => {
+        installedThemes.value = getThemes();
+    });
 });
 
 fetchThemes().then(() => {
-	installedThemes.value = getThemes();
+    installedThemes.value = getThemes();
 });
 
 function setWallpaper(event) {
-	selectFile(event.currentTarget ?? event.target, null).then(file => {
-		wallpaper.value = file.url;
-	});
+    selectFile(event.currentTarget ?? event.target, null).then(file => {
+        wallpaper.value = file.url;
+    });
 }
 
 const headerActions = $computed(() => []);
@@ -159,8 +159,8 @@ const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
 
 definePageMetadata({
-	title: i18n.ts.theme,
-	icon: 'ti ti-palette',
+    title: i18n.ts.theme,
+    icon: "ti ti-palette",
 });
 </script>
 

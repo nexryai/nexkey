@@ -1,4 +1,4 @@
-import { literalDefs, Type } from '.';
+import { literalDefs, Type } from ".";
 
 export type ExprBase = {
 	id: string;
@@ -12,37 +12,37 @@ export type EmptyValue = ExprBase & {
 };
 
 export type TextValue = ExprBase & {
-	type: 'text';
+	type: "text";
 	value: string;
 };
 
 export type MultiLineTextValue = ExprBase & {
-	type: 'multiLineText';
+	type: "multiLineText";
 	value: string;
 };
 
 export type TextListValue = ExprBase & {
-	type: 'textList';
+	type: "textList";
 	value: string;
 };
 
 export type NumberValue = ExprBase & {
-	type: 'number';
+	type: "number";
 	value: number;
 };
 
 export type RefValue = ExprBase & {
-	type: 'ref';
+	type: "ref";
 	value: string; // value is variable name
 };
 
 export type AiScriptRefValue = ExprBase & {
-	type: 'aiScriptVar';
+	type: "aiScriptVar";
 	value: string; // value is variable name
 };
 
 export type UserFnValue = ExprBase & {
-	type: 'fn';
+	type: "fn";
 	value: UserFnInnerValue;
 };
 type UserFnInnerValue = {
@@ -57,9 +57,9 @@ export type Value =
 	EmptyValue | TextValue | MultiLineTextValue | TextListValue | NumberValue | RefValue | AiScriptRefValue | UserFnValue;
 
 export function isLiteralValue(expr: Expr): expr is Value {
-	if (expr.type == null) return true;
-	if (literalDefs[expr.type]) return true;
-	return false;
+    if (expr.type == null) return true;
+    if (literalDefs[expr.type]) return true;
+    return false;
 }
 
 // call function

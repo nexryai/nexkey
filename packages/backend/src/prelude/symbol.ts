@@ -1,1 +1,1 @@
-export const fallback = Symbol('fallback');
+export const fallback = Symbol("fallback");

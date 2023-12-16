@@ -1,76 +1,76 @@
 <script lang="ts">
-import { h, onMounted, onUnmounted, ref, watch } from 'vue';
+import { h, onMounted, onUnmounted, ref, watch } from "vue";
 
 export default {
-	name: 'MarqueeText',
-	props: {
-		duration: {
-			type: Number,
-			default: 15,
-		},
-		repeat: {
-			type: Number,
-			default: 2,
-		},
-		paused: {
-			type: Boolean,
-			default: false,
-		},
-		reverse: {
-			type: Boolean,
-			default: false,
-		},
-	},
-	setup(props) {
-		const contentEl = ref();
+    name: "MarqueeText",
+    props: {
+        duration: {
+            type: Number,
+            default: 15,
+        },
+        repeat: {
+            type: Number,
+            default: 2,
+        },
+        paused: {
+            type: Boolean,
+            default: false,
+        },
+        reverse: {
+            type: Boolean,
+            default: false,
+        },
+    },
+    setup(props) {
+        const contentEl = ref();
 
-		function calc() {
-			const eachLength = contentEl.value.offsetWidth / props.repeat;
-			const factor = 3000;
-			const duration = props.duration / ((1 / eachLength) * factor);
+        function calc() {
+            const eachLength = contentEl.value.offsetWidth / props.repeat;
+            const factor = 3000;
+            const duration = props.duration / ((1 / eachLength) * factor);
 
-			contentEl.value.style.animationDuration = `${duration}s`;
-		}
+            contentEl.value.style.animationDuration = `${duration}s`;
+        }
 
-		watch(() => props.duration, calc);
+        watch(() => props.duration, calc);
 
-		onMounted(() => {
-			calc();
-		});
+        onMounted(() => {
+            calc();
+        });
 
-		onUnmounted(() => {
-		});
+        onUnmounted(() => {
+        });
 
-		return {
-			contentEl,
-		};
-	},
-	render({
-		$slots, $style, $props: {
-			duration, repeat, paused, reverse,
-		},
-	}) {
-		return h('div', { class: [$style.wrap] }, [
-			h('span', {
-				ref: 'contentEl',
-				class: [
-					paused
-						? $style.paused
-						: undefined,
-					$style.content,
-				],
-			}, Array(repeat).fill(
-				h('span', {
-					class: $style.text,
-					style: {
-						animationDirection: reverse
-							? 'reverse'
-							: undefined,
-					},
-				}, $slots.default()),
-			)),
-		]);
-	},
+        return {
+            contentEl,
+        };
+    },
+    render({
+        $slots, $style, $props: {
+            duration, repeat, paused, reverse,
+        },
+    }) {
+        return h("div", { class: [$style.wrap] }, [
+            h("span", {
+                ref: "contentEl",
+                class: [
+                    paused
+                        ? $style.paused
+                        : undefined,
+                    $style.content,
+                ],
+            }, Array(repeat).fill(
+                h("span", {
+                    class: $style.text,
+                    style: {
+                        animationDirection: reverse
+                            ? "reverse"
+                            : undefined,
+                    },
+                }, $slots.default()),
+            )),
+        ]);
+    },
 };
 </script>
 

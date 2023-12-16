@@ -1,38 +1,38 @@
-import define from '../../define.js';
-import { Users } from '@/models/index.js';
-import { insertModerationLog } from '@/services/insert-moderation-log.js';
-import { doPostUnsuspend } from '@/services/unsuspend-user.js';
+import { Users } from "@/models/index.js";
+import { insertModerationLog } from "@/services/insert-moderation-log.js";
+import { doPostUnsuspend } from "@/services/unsuspend-user.js";
+import define from "../../define.js";
 
 export const meta = {
-	tags: ['admin'],
+    tags: ["admin"],
 
-	requireCredential: true,
-	requireModerator: true,
+    requireCredential: true,
+    requireModerator: true,
 } as const;
 
 export const paramDef = {
-	type: 'object',
-	properties: {
-		userId: { type: 'string', format: 'misskey:id' },
-	},
-	required: ['userId'],
+    type: "object",
+    properties: {
+        userId: { type: "string", format: "misskey:id" },
+    },
+    required: ["userId"],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, me) => {
-	const user = await Users.findOneBy({ id: ps.userId });
+    const user = await Users.findOneBy({ id: ps.userId });
 
-	if (user == null) {
-		throw new Error('user not found');
-	}
+    if (user == null) {
+        throw new Error("user not found");
+    }
 
-	await Users.update(user.id, {
-		isSuspended: false,
-	});
+    await Users.update(user.id, {
+        isSuspended: false,
+    });
 
-	insertModerationLog(me, 'unsuspend', {
-		targetId: user.id,
-	});
+    insertModerationLog(me, "unsuspend", {
+        targetId: user.id,
+    });
 
-	doPostUnsuspend(user);
+    doPostUnsuspend(user);
 });

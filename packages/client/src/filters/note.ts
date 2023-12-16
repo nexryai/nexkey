@@ -1,3 +1,3 @@
 export const notePage = note => {
-	return `/notes/${note.id}`;
+    return `/notes/${note.id}`;
 };

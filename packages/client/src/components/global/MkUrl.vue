@@ -1,30 +1,30 @@
 <template>
 <component
-	:is="self ? 'MkA' : 'a'" ref="el" class="ieqqeuvs _link" :[attr]="self ? props.url.substring(local.length) : props.url" :rel="rel" :target="target"
-	@contextmenu.stop="() => {}"
+    :is="self ? 'MkA' : 'a'" ref="el" class="ieqqeuvs _link" :[attr]="self ? props.url.substring(local.length) : props.url" :rel="rel" :target="target"
+    @contextmenu.stop="() => {}"
 >
-	<template v-if="!self">
-		<span class="schema">{{ schema }}//</span>
-		<span class="hostname">{{ hostname }}</span>
-		<span v-if="port != ''" class="port">:{{ port }}</span>
-	</template>
-	<template v-if="pathname === '/' && self">
-		<span class="self">{{ hostname }}</span>
-	</template>
-	<span v-if="pathname != ''" class="pathname">{{ self ? pathname.substring(1) : pathname }}</span>
-	<span class="query">{{ query }}</span>
-	<span class="hash">{{ hash }}</span>
-	<i v-if="target === '_blank'" class="ti ti-external-link icon"></i>
+    <template v-if="!self">
+        <span class="schema">{{ schema }}//</span>
+        <span class="hostname">{{ hostname }}</span>
+        <span v-if="port != ''" class="port">:{{ port }}</span>
+    </template>
+    <template v-if="pathname === '/' && self">
+        <span class="self">{{ hostname }}</span>
+    </template>
+    <span v-if="pathname != ''" class="pathname">{{ self ? pathname.substring(1) : pathname }}</span>
+    <span class="query">{{ query }}</span>
+    <span class="hash">{{ hash }}</span>
+    <i v-if="target === '_blank'" class="ti ti-external-link icon"></i>
 </component>
 </template>
 
 <script lang="ts" setup>
-import { defineAsyncComponent, ref } from 'vue';
-import { toUnicode as decodePunycode } from 'punycode/';
-import { url as local } from '@/config';
-import * as os from '@/os';
-import { useTooltip } from '@/scripts/use-tooltip';
-import { safeURIDecode } from '@/scripts/safe-uri-decode';
+import { defineAsyncComponent, ref } from "vue";
+import { toUnicode as decodePunycode } from "punycode/";
+import { url as local } from "@/config";
+import * as os from "@/os";
+import { useTooltip } from "@/scripts/use-tooltip";
+import { safeURIDecode } from "@/scripts/safe-uri-decode";
 
 const props = defineProps<{
 	url: string;
@@ -33,15 +33,15 @@ const props = defineProps<{
 
 const self = props.url.startsWith(local);
 const url = new URL(props.url);
-if (!['http:', 'https:'].includes(url.protocol)) throw new Error('invalid url');
+if (!["http:", "https:"].includes(url.protocol)) throw new Error("invalid url");
 const el = ref();
 
 useTooltip(el, (showing) => {
-	os.popup(defineAsyncComponent(() => import('@/components/MkUrlPreviewPopup.vue')), {
-		showing,
-		url: props.url,
-		source: el.value,
-	}, {}, 'closed');
+    os.popup(defineAsyncComponent(() => import("@/components/MkUrlPreviewPopup.vue")), {
+        showing,
+        url: props.url,
+        source: el.value,
+    }, {}, "closed");
 });
 
 const schema = url.protocol;
@@ -50,8 +50,8 @@ const port = url.port;
 const pathname = safeURIDecode(url.pathname);
 const query = safeURIDecode(url.search);
 const hash = safeURIDecode(url.hash);
-const attr = self ? 'to' : 'href';
-const target = self ? null : '_blank';
+const attr = self ? "to" : "href";
+const target = self ? null : "_blank";
 </script>
 
 <style lang="scss" scoped>

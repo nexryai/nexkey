@@ -1,25 +1,25 @@
 <template>
 <div
-	v-adaptive-border
-	class="novjtctn"
-	:class="{ disabled, checked }"
-	:aria-checked="checked"
-	:aria-disabled="disabled"
-	@click="toggle"
+    v-adaptive-border
+    class="novjtctn"
+    :class="{ disabled, checked }"
+    :aria-checked="checked"
+    :aria-disabled="disabled"
+    @click="toggle"
 >
-	<input
-		type="radio"
-		:disabled="disabled"
-	>
-	<span class="button">
-		<span></span>
-	</span>
-	<span class="label"><slot></slot></span>
+    <input
+        type="radio"
+        :disabled="disabled"
+    >
+    <span class="button">
+        <span></span>
+    </span>
+    <span class="label"><slot></slot></span>
 </div>
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
+import { } from "vue";
 
 const props = defineProps<{
 	modelValue: any;
@@ -28,14 +28,14 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-	(ev: 'update:modelValue', value: any): void;
+	(ev: "update:modelValue", value: any): void;
 }>();
 
 let checked = $computed(() => props.modelValue === props.value);
 
 function toggle(): void {
-	if (props.disabled) return;
-	emit('update:modelValue', props.value);
+    if (props.disabled) return;
+    emit("update:modelValue", props.value);
 }
 </script>
 

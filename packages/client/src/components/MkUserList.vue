@@ -1,26 +1,26 @@
 <template>
 <MkPagination ref="pagingComponent" :pagination="pagination">
-	<template #empty>
-		<div class="_fullinfo">
-			<i class="ti ti-exclamation-mark"></i>
-			<div>{{ i18n.ts.noUsers }}</div>
-		</div>
-	</template>
+    <template #empty>
+        <div class="_fullinfo">
+            <i class="ti ti-exclamation-mark"></i>
+            <div>{{ i18n.ts.noUsers }}</div>
+        </div>
+    </template>
 
-	<template #default="{ items: users }">
-		<div class="efvhhmdq">
-			<MkUserInfo v-for="user in users" :key="user.id" class="user" :user="user"/>
-		</div>
-	</template>
+    <template #default="{ items: users }">
+        <div class="efvhhmdq">
+            <MkUserInfo v-for="user in users" :key="user.id" class="user" :user="user"/>
+        </div>
+    </template>
 </MkPagination>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import MkUserInfo from '@/components/MkUserInfo.vue';
-import MkPagination, { Paging } from '@/components/MkPagination.vue';
-import { userPage } from '@/filters/user';
-import { i18n } from '@/i18n';
+import { ref } from "vue";
+import MkUserInfo from "@/components/MkUserInfo.vue";
+import MkPagination, { Paging } from "@/components/MkPagination.vue";
+import { userPage } from "@/filters/user";
+import { i18n } from "@/i18n";
 
 const props = defineProps<{
 	pagination: Paging;

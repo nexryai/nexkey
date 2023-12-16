@@ -1,16 +1,16 @@
 <template>
 <MkModal ref="modal" :prefer-type="'dialog'" :z-priority="'high'" @click="success ? done() : () => {}" @closed="emit('closed')">
-	<div class="iuyakobc" :class="{ iconOnly: (text == null) || success }">
-		<i v-if="success" class="ti ti-check icon success"></i>
-		<MkLoading v-else class="icon waiting" :em="true"/>
-		<div v-if="text && !success" class="text">{{ text }}<MkEllipsis/></div>
-	</div>
+    <div class="iuyakobc" :class="{ iconOnly: (text == null) || success }">
+        <i v-if="success" class="ti ti-check icon success"></i>
+        <MkLoading v-else class="icon waiting" :em="true"/>
+        <div v-if="text && !success" class="text">{{ text }}<MkEllipsis/></div>
+    </div>
 </MkModal>
 </template>
 
 <script lang="ts" setup>
-import { watch, ref } from 'vue';
-import MkModal from '@/components/MkModal.vue';
+import { watch, ref } from "vue";
+import MkModal from "@/components/MkModal.vue";
 
 const modal = ref<InstanceType<typeof MkModal>>();
 
@@ -21,17 +21,17 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-	(ev: 'done');
-	(ev: 'closed');
+	(ev: "done");
+	(ev: "closed");
 }>();
 
 function done() {
-	emit('done');
-	modal.value.close();
+    emit("done");
+    modal.value.close();
 }
 
 watch(() => props.showing, () => {
-	if (!props.showing) done();
+    if (!props.showing) done();
 });
 </script>
 

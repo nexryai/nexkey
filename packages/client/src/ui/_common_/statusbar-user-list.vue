@@ -1,36 +1,36 @@
 <template>
 <span v-if="!fetching" class="osdsvwzy">
-	<template v-if="display === 'marquee'">
-		<transition name="change" mode="default">
-			<MarqueeText :key="key" :duration="marqueeDuration" :reverse="marqueeReverse">
-				<span v-for="note in notes" :key="note.id" class="item">
-					<img class="avatar" :src="note.user.avatarUrl" decoding="async"/>
-					<MkA class="text" :to="notePage(note)">
-						<Mfm class="text" :text="getNoteSummary(note)" :plain="true" :nowrap="true" :custom-emojis="note.emojis"/>
-					</MkA>
-					<span class="divider"></span>
-				</span>
-			</MarqueeText>
-		</transition>
-	</template>
-	<template v-else-if="display === 'oneByOne'">
-		<!-- TODO -->
-	</template>
+    <template v-if="display === 'marquee'">
+        <transition name="change" mode="default">
+            <MarqueeText :key="key" :duration="marqueeDuration" :reverse="marqueeReverse">
+                <span v-for="note in notes" :key="note.id" class="item">
+                    <img class="avatar" :src="note.user.avatarUrl" decoding="async"/>
+                    <MkA class="text" :to="notePage(note)">
+                        <Mfm class="text" :text="getNoteSummary(note)" :plain="true" :nowrap="true" :custom-emojis="note.emojis"/>
+                    </MkA>
+                    <span class="divider"></span>
+                </span>
+            </MarqueeText>
+        </transition>
+    </template>
+    <template v-else-if="display === 'oneByOne'">
+        <!-- TODO -->
+    </template>
 </span>
 </template>
 
 <script lang="ts" setup>
-import { computed, defineAsyncComponent, ref, toRef, watch } from 'vue';
-import * as misskey from 'misskey-js';
-import MarqueeText from '@/components/MkMarquee.vue';
-import * as os from '@/os';
-import { useInterval } from '@/scripts/use-interval';
-import { getNoteSummary } from '@/scripts/get-note-summary';
-import { notePage } from '@/filters/note';
+import { computed, defineAsyncComponent, ref, toRef, watch } from "vue";
+import * as misskey from "misskey-js";
+import MarqueeText from "@/components/MkMarquee.vue";
+import * as os from "@/os";
+import { useInterval } from "@/scripts/use-interval";
+import { getNoteSummary } from "@/scripts/get-note-summary";
+import { notePage } from "@/filters/note";
 
 const props = defineProps<{
 	userListId?: string;
-	display?: 'marquee' | 'oneByOne';
+	display?: "marquee" | "oneByOne";
 	marqueeDuration?: number;
 	marqueeReverse?: boolean;
 	oneByOneInterval?: number;
@@ -42,21 +42,21 @@ const fetching = ref(true);
 let key = $ref(0);
 
 const tick = () => {
-	if (props.userListId == null) return;
-	os.api('notes/user-list-timeline', {
-		listId: props.userListId,
-	}).then(res => {
-		notes.value = res;
-		fetching.value = false;
-		key++;
-	});
+    if (props.userListId == null) return;
+    os.api("notes/user-list-timeline", {
+        listId: props.userListId,
+    }).then(res => {
+        notes.value = res;
+        fetching.value = false;
+        key++;
+    });
 };
 
 watch(() => props.userListId, tick);
 
 useInterval(tick, Math.max(5000, props.refreshIntervalSec * 1000), {
-	immediate: true,
-	afterMounted: true,
+    immediate: true,
+    afterMounted: true,
 });
 </script>
 

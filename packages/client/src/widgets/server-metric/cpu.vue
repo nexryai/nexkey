@@ -1,17 +1,17 @@
 <template>
 <div class="vrvdvrys">
-	<XPie class="pie" :value="usage"/>
-	<div>
-		<p><i class="ti ti-cpu"></i>CPU</p>
-		<p>{{ meta.cpu.cores }} Logical cores</p>
-		<p>{{ meta.cpu.model }}</p>
-	</div>
+    <XPie class="pie" :value="usage"/>
+    <div>
+        <p><i class="ti ti-cpu"></i>CPU</p>
+        <p>{{ meta.cpu.cores }} Logical cores</p>
+        <p>{{ meta.cpu.model }}</p>
+    </div>
 </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onBeforeUnmount } from 'vue';
-import XPie from './pie.vue';
+import { onMounted, onBeforeUnmount } from "vue";
+import XPie from "./pie.vue";
 
 const props = defineProps<{
 	connection: any,
@@ -21,15 +21,15 @@ const props = defineProps<{
 let usage: number = $ref(0);
 
 function onStats(stats) {
-	usage = stats.cpu;
+    usage = stats.cpu;
 }
 
 onMounted(() => {
-	props.connection.on('stats', onStats);
+    props.connection.on("stats", onStats);
 });
 
 onBeforeUnmount(() => {
-	props.connection.off('stats', onStats);
+    props.connection.off("stats", onStats);
 });
 </script>
 

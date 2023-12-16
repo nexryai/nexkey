@@ -12,7 +12,7 @@ module.exports = {
 		'plugin:import/typescript'
 	],
 	rules: {
-		'indent': ['warn', 'tab', {
+		'indent': ['warn', 4, {
 			'SwitchCase': 1,
 			'MemberExpression': 'off',
 			'flatTernaryExpressions': true,
@@ -22,7 +22,7 @@ module.exports = {
 		'eol-last': ['error', 'always'],
 		'semi': ['error', 'always'],
 		'semi-spacing': ['error', { 'before': false, 'after': true }],
-		'quotes': ['warn', 'single'],
+		'quotes': ['warn', 'double'],
 		'comma-dangle': ['warn', 'always-multiline'],
 		'keyword-spacing': ['error', {
 			'before': true,

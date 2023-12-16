@@ -1,31 +1,31 @@
 <template>
 <div class="mk-notification-toast" :style="{ zIndex }">
-	<transition :name="$store.state.animation ? 'notification-toast' : ''" appear @after-leave="$emit('closed')">
-		<XNotification v-if="showing" :notification="notification" class="notification _acrylic"/>
-	</transition>
+    <transition :name="$store.state.animation ? 'notification-toast' : ''" appear @after-leave="$emit('closed')">
+        <XNotification v-if="showing" :notification="notification" class="notification _acrylic"/>
+    </transition>
 </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
-import XNotification from '@/components/MkNotification.vue';
-import * as os from '@/os';
+import { onMounted } from "vue";
+import XNotification from "@/components/MkNotification.vue";
+import * as os from "@/os";
 
 defineProps<{
 	notification: any; // TODO
 }>();
 
 const emit = defineEmits<{
-	(ev: 'closed'): void;
+	(ev: "closed"): void;
 }>();
 
-const zIndex = os.claimZIndex('high');
+const zIndex = os.claimZIndex("high");
 let showing = $ref(true);
 
 onMounted(() => {
-	window.setTimeout(() => {
-		showing = false;
-	}, 6000);
+    window.setTimeout(() => {
+        showing = false;
+    }, 6000);
 });
 </script>
 

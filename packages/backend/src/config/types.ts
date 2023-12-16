@@ -68,7 +68,7 @@ export type Source = {
 
 	id: string;
 
-	outgoingAddressFamily?: 'ipv4' | 'ipv6' | 'dual';
+	outgoingAddressFamily?: "ipv4" | "ipv6" | "dual";
 
 	deliverJobConcurrency?: number;
 	inboxJobConcurrency?: number;
@@ -83,10 +83,7 @@ export type Source = {
 	};
 
 	mediaProxy?: string;
-	proxyRemoteFiles?: boolean;
-
-	signToActivityPubGet?: boolean;
-
+	
 	disableAntenna?: boolean;
 	disableSearch?: boolean;
 };

@@ -1,29 +1,29 @@
 export type FormItem = {
 	label?: string;
-	type: 'string';
+	type: "string";
 	default: string | null;
 	hidden?: boolean;
 	multiline?: boolean;
 } | {
 	label?: string;
-	type: 'number';
+	type: "number";
 	default: number | null;
 	hidden?: boolean;
 	step?: number;
 } | {
 	label?: string;
-	type: 'boolean';
+	type: "boolean";
 	default: boolean | null;
 	hidden?: boolean;
 } | {
 	label?: string;
-	type: 'enum';
+	type: "enum";
 	default: string | null;
 	hidden?: boolean;
 	enum: string[];
 } | {
 	label?: string;
-	type: 'radio';
+	type: "radio";
 	default: unknown | null;
 	hidden?: boolean;
 	options: {
@@ -32,12 +32,12 @@ export type FormItem = {
 	}[];
 } | {
 	label?: string;
-	type: 'object';
+	type: "object";
 	default: Record<string, unknown> | null;
 	hidden: true;
 } | {
 	label?: string;
-	type: 'array';
+	type: "array";
 	default: unknown[] | null;
 	hidden: true;
 };
@@ -45,13 +45,13 @@ export type FormItem = {
 export type Form = Record<string, FormItem>;
 
 type GetItemType<Item extends FormItem> =
-	Item['type'] extends 'string' ? string :
-	Item['type'] extends 'number' ? number :
-	Item['type'] extends 'boolean' ? boolean :
-	Item['type'] extends 'radio' ? unknown :
-	Item['type'] extends 'enum' ? string :
-	Item['type'] extends 'array' ? unknown[] :
-	Item['type'] extends 'object' ? Record<string, unknown>
+	Item["type"] extends "string" ? string :
+	Item["type"] extends "number" ? number :
+	Item["type"] extends "boolean" ? boolean :
+	Item["type"] extends "radio" ? unknown :
+	Item["type"] extends "enum" ? string :
+	Item["type"] extends "array" ? unknown[] :
+	Item["type"] extends "object" ? Record<string, unknown>
 	: never;
 
 export type GetFormResultType<F extends Form> = {

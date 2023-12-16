@@ -1,30 +1,30 @@
 <script lang="ts">
-import { defineComponent, h, resolveDirective, withDirectives } from 'vue';
+import { defineComponent, h, resolveDirective, withDirectives } from "vue";
 
 export default defineComponent({
-	props: {
-		modelValue: {
-			required: true,
-		},
-	},
-	render() {
-		const options = this.$slots.default();
+    props: {
+        modelValue: {
+            required: true,
+        },
+    },
+    render() {
+        const options = this.$slots.default();
 
-		return withDirectives(h('div', {
-			class: 'pxhvhrfw',
-		}, options.map(option => withDirectives(h('button', {
-			class: ['_button', { active: this.modelValue === option.props.value }],
-			key: option.key,
-			disabled: this.modelValue === option.props.value,
-			onClick: () => {
-				this.$emit('update:modelValue', option.props.value);
-			},
-		}, option.children), [
-			[resolveDirective('click-anime')],
-		]))), [
-			[resolveDirective('size'), { max: [500] }],
-		]);
-	},
+        return withDirectives(h("div", {
+            class: "pxhvhrfw",
+        }, options.map(option => withDirectives(h("button", {
+            class: ["_button", { active: this.modelValue === option.props.value }],
+            key: option.key,
+            disabled: this.modelValue === option.props.value,
+            onClick: () => {
+                this.$emit("update:modelValue", option.props.value);
+            },
+        }, option.children), [
+            [resolveDirective("click-anime")],
+        ]))), [
+            [resolveDirective("size"), { max: [500] }],
+        ]);
+    },
 });
 </script>
 

@@ -8,21 +8,21 @@
  */
 export default function(id: string | null, totalItems: any, first?: string, last?: string, orderedItems?: Record<string, unknown>[]): {
 	id: string | null;
-	type: 'OrderedCollection';
+	type: "OrderedCollection";
 	totalItems: any;
 	first?: string;
 	last?: string;
 	orderedItems?: Record<string, unknown>[];
 } {
-	const page: any = {
-		id,
-		type: 'OrderedCollection',
-		totalItems,
-	};
+    const page: any = {
+        id,
+        type: "OrderedCollection",
+        totalItems,
+    };
 
-	if (first) page.first = first;
-	if (last) page.last = last;
-	if (orderedItems) page.orderedItems = orderedItems;
+    if (first) page.first = first;
+    if (last) page.last = last;
+    if (orderedItems) page.orderedItems = orderedItems;
 
-	return page;
+    return page;
 }

@@ -1,27 +1,27 @@
 <template>
 <svg class="hsalcinq" viewBox="0 0 1 1" preserveAspectRatio="none">
-	<circle
-		:r="r"
-		cx="50%" cy="50%"
-		fill="none"
-		stroke-width="0.1"
-		stroke="rgba(0, 0, 0, 0.05)"
-	/>
-	<circle
-		:r="r"
-		cx="50%" cy="50%"
-		:stroke-dasharray="Math.PI * (r * 2)"
-		:stroke-dashoffset="strokeDashoffset"
-		fill="none"
-		stroke-width="0.1"
-		:stroke="color"
-	/>
-	<text x="50%" y="50%" dy="0.05" text-anchor="middle">{{ (value * 100).toFixed(0) }}%</text>
+    <circle
+        :r="r"
+        cx="50%" cy="50%"
+        fill="none"
+        stroke-width="0.1"
+        stroke="rgba(0, 0, 0, 0.05)"
+    />
+    <circle
+        :r="r"
+        cx="50%" cy="50%"
+        :stroke-dasharray="Math.PI * (r * 2)"
+        :stroke-dashoffset="strokeDashoffset"
+        fill="none"
+        stroke-width="0.1"
+        :stroke="color"
+    />
+    <text x="50%" y="50%" dy="0.05" text-anchor="middle">{{ (value * 100).toFixed(0) }}%</text>
 </svg>
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
+import { } from "vue";
 
 const props = defineProps<{
 	value: number;

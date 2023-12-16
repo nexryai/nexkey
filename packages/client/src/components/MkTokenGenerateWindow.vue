@@ -1,41 +1,41 @@
 <template>
 <XModalWindow
-	ref="dialog"
-	:width="400"
-	:height="450"
-	:with-ok-button="true"
-	:ok-button-disabled="false"
-	:can-close="false"
-	@close="dialog.close()"
-	@closed="$emit('closed')"
-	@ok="ok()"
+    ref="dialog"
+    :width="400"
+    :height="450"
+    :with-ok-button="true"
+    :ok-button-disabled="false"
+    :can-close="false"
+    @close="dialog.close()"
+    @closed="$emit('closed')"
+    @ok="ok()"
 >
-	<template #header>{{ title || $ts.generateAccessToken }}</template>
-	<div v-if="information" class="_section">
-		<MkInfo warn>{{ information }}</MkInfo>
-	</div>
-	<div class="_section" style="padding: 10px;">
-		<MkInput v-model="name">
-			<template #label>{{ $ts.name }}</template>
-		</MkInput>
-	</div>
-	<div class="_section" style="padding: 10px;">
-		<div style="margin-bottom: 16px;"><b>{{ $ts.permission }}</b></div>
-		<MkButton inline @click="disableAll" style="margin: 10px;">{{ $ts.disableAll }}</MkButton>
-		<MkButton inline @click="enableAll" style="margin: 10px;">{{ $ts.enableAll }}</MkButton>
-		<MkSwitch v-for="kind in (initialPermissions || kinds)" :key="kind" v-model="permissions[kind]" style="padding: 10px;">{{ $t(`_permissions.${kind}`) }}</MkSwitch>
-	</div>
+    <template #header>{{ title || $ts.generateAccessToken }}</template>
+    <div v-if="information" class="_section">
+        <MkInfo warn>{{ information }}</MkInfo>
+    </div>
+    <div class="_section" style="padding: 10px;">
+        <MkInput v-model="name">
+            <template #label>{{ $ts.name }}</template>
+        </MkInput>
+    </div>
+    <div class="_section" style="padding: 10px;">
+        <div style="margin-bottom: 16px;"><b>{{ $ts.permission }}</b></div>
+        <MkButton inline style="margin: 10px;" @click="disableAll">{{ $ts.disableAll }}</MkButton>
+        <MkButton inline style="margin: 10px;" @click="enableAll">{{ $ts.enableAll }}</MkButton>
+        <MkSwitch v-for="kind in (initialPermissions || kinds)" :key="kind" v-model="permissions[kind]" style="padding: 10px;">{{ $t(`_permissions.${kind}`) }}</MkSwitch>
+    </div>
 </XModalWindow>
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import { permissions as kinds } from 'misskey-js';
-import MkInput from './form/input.vue';
-import MkSwitch from './form/switch.vue';
-import MkButton from './MkButton.vue';
-import MkInfo from './MkInfo.vue';
-import XModalWindow from '@/components/MkModalWindow.vue';
+import { } from "vue";
+import { permissions as kinds } from "misskey-js";
+import MkInput from "./form/input.vue";
+import MkSwitch from "./form/switch.vue";
+import MkButton from "./MkButton.vue";
+import MkInfo from "./MkInfo.vue";
+import XModalWindow from "@/components/MkModalWindow.vue";
 
 const props = withDefaults(defineProps<{
 	title?: string | null;
@@ -43,15 +43,15 @@ const props = withDefaults(defineProps<{
 	initialName?: string | null;
 	initialPermissions?: string[] | null;
 }>(), {
-	title: null,
-	information: null,
-	initialName: null,
-	initialPermissions: null,
+    title: null,
+    information: null,
+    initialName: null,
+    initialPermissions: null,
 });
 
 const emit = defineEmits<{
-	(ev: 'closed'): void;
-	(ev: 'done', result: { name: string | null, permissions: string[] }): void;
+	(ev: "closed"): void;
+	(ev: "done", result: { name: string | null, permissions: string[] }): void;
 }>();
 
 const dialog = $ref<InstanceType<typeof XModalWindow>>();
@@ -59,32 +59,32 @@ let name = $ref(props.initialName);
 let permissions = $ref({});
 
 if (props.initialPermissions) {
-	for (const kind of props.initialPermissions) {
-		permissions[kind] = true;
-	}
+    for (const kind of props.initialPermissions) {
+        permissions[kind] = true;
+    }
 } else {
-	for (const kind of kinds) {
-		permissions[kind] = false;
-	}
+    for (const kind of kinds) {
+        permissions[kind] = false;
+    }
 }
 
 function ok(): void {
-	emit('done', {
-		name: name,
-		permissions: Object.keys(permissions).filter(p => permissions[p]),
-	});
-	dialog.close();
+    emit("done", {
+        name: name,
+        permissions: Object.keys(permissions).filter(p => permissions[p]),
+    });
+    dialog.close();
 }
 
 function disableAll(): void {
-	for (const p in permissions) {
-		permissions[p] = false;
-	}
+    for (const p in permissions) {
+        permissions[p] = false;
+    }
 }
 
 function enableAll(): void {
-	for (const p in permissions) {
-		permissions[p] = true;
-	}
+    for (const p in permissions) {
+        permissions[p] = true;
+    }
 }
 </script>

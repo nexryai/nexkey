@@ -1,21 +1,21 @@
 <template>
 <div class="dwzlatin" :class="{ opened }">
-	<div class="header _button" @click="toggle">
-		<span class="icon"><slot name="icon"></slot></span>
-		<span class="text"><slot name="label"></slot></span>
-		<span class="right">
-			<span class="text"><slot name="suffix"></slot></span>
-			<i v-if="opened" class="ti ti-chevron-up icon"></i>
-			<i v-else class="ti ti-chevron-down icon"></i>
-		</span>
-	</div>
-	<KeepAlive>
-		<div v-if="openedAtLeastOnce" v-show="opened" class="body">
-			<MkSpacer :margin-min="14" :margin-max="22">
-				<slot></slot>
-			</MkSpacer>
-		</div>
-	</KeepAlive>
+    <div class="header _button" @click="toggle">
+        <span class="icon"><slot name="icon"></slot></span>
+        <span class="text"><slot name="label"></slot></span>
+        <span class="right">
+            <span class="text"><slot name="suffix"></slot></span>
+            <i v-if="opened" class="ti ti-chevron-up icon"></i>
+            <i v-else class="ti ti-chevron-down icon"></i>
+        </span>
+    </div>
+    <KeepAlive>
+        <div v-if="openedAtLeastOnce" v-show="opened" class="body">
+            <MkSpacer :margin-min="14" :margin-max="22">
+                <slot></slot>
+            </MkSpacer>
+        </div>
+    </KeepAlive>
 </div>
 </template>
 
@@ -23,17 +23,17 @@
 const props = withDefaults(defineProps<{
 	defaultOpen: boolean;
 }>(), {
-	defaultOpen: false,
+    defaultOpen: false,
 });
 
 let opened = $ref(props.defaultOpen);
 let openedAtLeastOnce = $ref(props.defaultOpen);
 
 const toggle = () => {
-	opened = !opened;
-	if (opened) {
-		openedAtLeastOnce = true;
-	}
+    opened = !opened;
+    if (opened) {
+        openedAtLeastOnce = true;
+    }
 };
 </script>
 

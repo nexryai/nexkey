@@ -3,21 +3,21 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import * as misskey from 'misskey-js';
-import { i18n } from '@/i18n';
+import { } from "vue";
+import * as misskey from "misskey-js";
+import { i18n } from "@/i18n";
 
 const props = defineProps<{
 	user: misskey.entities.User;
 }>();
 
 const text = $computed(() => {
-	switch (props.user.onlineStatus) {
-		case 'online': return i18n.ts.online;
-		case 'active': return i18n.ts.active;
-		case 'offline': return i18n.ts.offline;
-		case 'unknown': return i18n.ts.unknown;
-	}
+    switch (props.user.onlineStatus) {
+        case "online": return i18n.ts.online;
+        case "active": return i18n.ts.active;
+        case "offline": return i18n.ts.offline;
+        case "unknown": return i18n.ts.unknown;
+    }
 });
 </script>
 

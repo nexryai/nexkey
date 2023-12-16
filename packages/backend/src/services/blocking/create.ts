@@ -1,155 +1,152 @@
-import { publishMainStream, publishUserEvent } from '@/services/stream.js';
-import { renderActivity } from '@/remote/activitypub/renderer/index.js';
-import renderFollow from '@/remote/activitypub/renderer/follow.js';
-import renderUndo from '@/remote/activitypub/renderer/undo.js';
-import { renderBlock } from '@/remote/activitypub/renderer/block.js';
-import { deliver } from '@/queue/index.js';
-import renderReject from '@/remote/activitypub/renderer/reject.js';
-import { Blocking } from '@/models/entities/blocking.js';
-import { User } from '@/models/entities/user.js';
-import { Blockings, Users, FollowRequests, Followings, UserListJoinings, UserLists } from '@/models/index.js';
-import { perUserFollowingChart } from '@/services/chart/index.js';
-import { genId } from '@/misc/gen-id.js';
-import { IdentifiableError } from '@/misc/identifiable-error.js';
-import { getActiveWebhooks } from '@/misc/webhook-cache.js';
-import { webhookDeliver } from '@/queue/index.js';
+import { publishMainStream, publishUserEvent } from "@/services/stream.js";
+import { renderActivity } from "@/remote/activitypub/renderer/index.js";
+import renderFollow from "@/remote/activitypub/renderer/follow.js";
+import renderUndo from "@/remote/activitypub/renderer/undo.js";
+import { renderBlock } from "@/remote/activitypub/renderer/block.js";
+import { deliver , webhookDeliver } from "@/queue/index.js";
+import renderReject from "@/remote/activitypub/renderer/reject.js";
+import { Blocking } from "@/models/entities/blocking.js";
+import { User } from "@/models/entities/user.js";
+import { Blockings, Users, FollowRequests, Followings, UserListJoinings, UserLists } from "@/models/index.js";
+import { genId } from "@/misc/gen-id.js";
+import { IdentifiableError } from "@/misc/identifiable-error.js";
+import { getActiveWebhooks } from "@/misc/webhook-cache.js";
 
 export default async function(blocker: User, blockee: User) {
-	await Promise.all([
-		cancelRequest(blocker, blockee),
-		cancelRequest(blockee, blocker),
-		unFollow(blocker, blockee),
-		unFollow(blockee, blocker),
-		removeFromList(blockee, blocker),
-	]);
+    await Promise.all([
+        cancelRequest(blocker, blockee),
+        cancelRequest(blockee, blocker),
+        unFollow(blocker, blockee),
+        unFollow(blockee, blocker),
+        removeFromList(blockee, blocker),
+    ]);
 
-	const blocking = {
-		id: genId(),
-		createdAt: new Date(),
-		blocker,
-		blockerId: blocker.id,
-		blockee,
-		blockeeId: blockee.id,
-	} as Blocking;
+    const blocking = {
+        id: genId(),
+        createdAt: new Date(),
+        blocker,
+        blockerId: blocker.id,
+        blockee,
+        blockeeId: blockee.id,
+    } as Blocking;
 
-	await Blockings.insert(blocking);
+    await Blockings.insert(blocking);
 
-	if (Users.isLocalUser(blocker) && Users.isRemoteUser(blockee)) {
-		const content = renderActivity(renderBlock(blocking));
-		deliver(blocker, content, blockee.inbox);
-	}
+    if (Users.isLocalUser(blocker) && Users.isRemoteUser(blockee)) {
+        const content = renderActivity(renderBlock(blocking));
+        deliver(blocker, content, blockee.inbox);
+    }
 
-	if (Users.isLocalUser(blockee)) {
-		publishUserEvent(blockee.id, 'block', blocker);
-	}
+    if (Users.isLocalUser(blockee)) {
+        publishUserEvent(blockee.id, "block", blocker);
+    }
 }
 
 async function cancelRequest(follower: User, followee: User) {
-	const request = await FollowRequests.findOneBy({
-		followeeId: followee.id,
-		followerId: follower.id,
-	});
+    const request = await FollowRequests.findOneBy({
+        followeeId: followee.id,
+        followerId: follower.id,
+    });
 
-	if (request == null) {
-		return;
-	}
+    if (request == null) {
+        return;
+    }
 
-	await FollowRequests.delete({
-		followeeId: followee.id,
-		followerId: follower.id,
-	});
+    await FollowRequests.delete({
+        followeeId: followee.id,
+        followerId: follower.id,
+    });
 
-	if (Users.isLocalUser(followee)) {
-		Users.pack(followee, followee, {
-			detail: true,
-		}).then(packed => publishMainStream(followee.id, 'meUpdated', packed));
-	}
+    if (Users.isLocalUser(followee)) {
+        Users.pack(followee, followee, {
+            detail: true,
+        }).then(packed => publishMainStream(followee.id, "meUpdated", packed));
+    }
 
-	if (Users.isLocalUser(follower)) {
-		Users.pack(followee, follower, {
-			detail: true,
-		}).then(async packed => {
-			publishUserEvent(follower.id, 'unfollow', packed);
-			publishMainStream(follower.id, 'unfollow', packed);
+    if (Users.isLocalUser(follower)) {
+        Users.pack(followee, follower, {
+            detail: true,
+        }).then(async packed => {
+            publishUserEvent(follower.id, "unfollow", packed);
+            publishMainStream(follower.id, "unfollow", packed);
 
-			const webhooks = (await getActiveWebhooks()).filter(x => x.userId === follower.id && x.on.includes('unfollow'));
-			for (const webhook of webhooks) {
-				webhookDeliver(webhook, 'unfollow', {
-					user: packed,
-				});
-			}
-		});
-	}
+            const webhooks = (await getActiveWebhooks()).filter(x => x.userId === follower.id && x.on.includes("unfollow"));
+            for (const webhook of webhooks) {
+                webhookDeliver(webhook, "unfollow", {
+                    user: packed,
+                });
+            }
+        });
+    }
 
-	// リモートにフォローリクエストをしていたらUndoFollow送信
-	if (Users.isLocalUser(follower) && Users.isRemoteUser(followee)) {
-		const content = renderActivity(renderUndo(renderFollow(follower, followee), follower));
-		deliver(follower, content, followee.inbox);
-	}
+    // リモートにフォローリクエストをしていたらUndoFollow送信
+    if (Users.isLocalUser(follower) && Users.isRemoteUser(followee)) {
+        const content = renderActivity(renderUndo(renderFollow(follower, followee), follower));
+        deliver(follower, content, followee.inbox);
+    }
 
-	// リモートからフォローリクエストを受けていたらReject送信
-	if (Users.isRemoteUser(follower) && Users.isLocalUser(followee)) {
-		const content = renderActivity(renderReject(renderFollow(follower, followee, request.requestId!), followee));
-		deliver(followee, content, follower.inbox);
-	}
+    // リモートからフォローリクエストを受けていたらReject送信
+    if (Users.isRemoteUser(follower) && Users.isLocalUser(followee)) {
+        const content = renderActivity(renderReject(renderFollow(follower, followee, request.requestId!), followee));
+        deliver(followee, content, follower.inbox);
+    }
 }
 
 async function unFollow(follower: User, followee: User) {
-	const following = await Followings.findOneBy({
-		followerId: follower.id,
-		followeeId: followee.id,
-	});
+    const following = await Followings.findOneBy({
+        followerId: follower.id,
+        followeeId: followee.id,
+    });
 
-	if (following == null) {
-		return;
-	}
+    if (following == null) {
+        return;
+    }
 
-	await Promise.all([
-		Followings.delete(following.id),
-		Users.decrement({ id: follower.id }, 'followingCount', 1),
-		Users.decrement({ id: followee.id }, 'followersCount', 1),
-		perUserFollowingChart.update(follower, followee, false),
-	]);
+    await Promise.all([
+        Followings.delete(following.id),
+        Users.decrement({ id: follower.id }, "followingCount", 1),
+        Users.decrement({ id: followee.id }, "followersCount", 1),
+    ]);
 
-	// Publish unfollow event
-	if (Users.isLocalUser(follower)) {
-		Users.pack(followee, follower, {
-			detail: true,
-		}).then(async packed => {
-			publishUserEvent(follower.id, 'unfollow', packed);
-			publishMainStream(follower.id, 'unfollow', packed);
+    // Publish unfollow event
+    if (Users.isLocalUser(follower)) {
+        Users.pack(followee, follower, {
+            detail: true,
+        }).then(async packed => {
+            publishUserEvent(follower.id, "unfollow", packed);
+            publishMainStream(follower.id, "unfollow", packed);
 
-			const webhooks = (await getActiveWebhooks()).filter(x => x.userId === follower.id && x.on.includes('unfollow'));
-			for (const webhook of webhooks) {
-				webhookDeliver(webhook, 'unfollow', {
-					user: packed,
-				});
-			}
-		});
-	}
+            const webhooks = (await getActiveWebhooks()).filter(x => x.userId === follower.id && x.on.includes("unfollow"));
+            for (const webhook of webhooks) {
+                webhookDeliver(webhook, "unfollow", {
+                    user: packed,
+                });
+            }
+        });
+    }
 
-	// リモートにフォローをしていたらUndoFollow送信
-	if (Users.isLocalUser(follower) && Users.isRemoteUser(followee)) {
-		const content = renderActivity(renderUndo(renderFollow(follower, followee), follower));
-		deliver(follower, content, followee.inbox);
-	}
+    // リモートにフォローをしていたらUndoFollow送信
+    if (Users.isLocalUser(follower) && Users.isRemoteUser(followee)) {
+        const content = renderActivity(renderUndo(renderFollow(follower, followee), follower));
+        deliver(follower, content, followee.inbox);
+    }
 
-	// リモートにフォローをされていたらRejectFollow送信
-	if (Users.isLocalUser(followee) && Users.isRemoteUser(follower)) {
-		const content = renderActivity(renderReject(renderFollow(follower, followee), follower));
-		deliver(followee, content, follower.inbox);
-	}
+    // リモートにフォローをされていたらRejectFollow送信
+    if (Users.isLocalUser(followee) && Users.isRemoteUser(follower)) {
+        const content = renderActivity(renderReject(renderFollow(follower, followee), follower));
+        deliver(followee, content, follower.inbox);
+    }
 }
 
 async function removeFromList(listOwner: User, user: User) {
-	const userLists = await UserLists.findBy({
-		userId: listOwner.id,
-	});
+    const userLists = await UserLists.findBy({
+        userId: listOwner.id,
+    });
 
-	for (const userList of userLists) {
-		await UserListJoinings.delete({
-			userListId: userList.id,
-			userId: user.id,
-		});
-	}
+    for (const userList of userLists) {
+        await UserListJoinings.delete({
+            userListId: userList.id,
+            userId: user.id,
+        });
+    }
 }

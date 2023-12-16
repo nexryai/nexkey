@@ -1,13 +1,13 @@
 <template>
 <div class="mk-google">
-	<input v-model="query" type="search" :placeholder="q">
-	<button @click="search"><i class="ti ti-search"></i> {{ $ts.searchByGoogle }}</button>
+    <input v-model="query" type="search" :placeholder="q">
+    <button @click="search"><i class="ti ti-search"></i> {{ $ts.searchByGoogle }}</button>
 </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import { defaultStore } from '@/store';
+import { ref } from "vue";
+import { defaultStore } from "@/store";
 
 const props = defineProps<{
 	q: string;
@@ -16,9 +16,9 @@ const props = defineProps<{
 const query = ref(props.q);
 
 const search = () => {
-	const sp = new URLSearchParams();
-	sp.append('q', query.value);
-	window.open(`${defaultStore.state.searchEngine}${sp.toString()}`, '_blank');
+    const sp = new URLSearchParams();
+    sp.append("q", query.value);
+    window.open(`${defaultStore.state.searchEngine}${sp.toString()}`, "_blank");
 };
 </script>
 

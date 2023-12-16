@@ -1,6 +1,6 @@
 // https://gist.github.com/nfantone/1eaa803772025df69d07f4dbf5df7e58
 
-'use strict';
+"use strict";
 
 /**
  * @callback BeforeShutdownListener
@@ -11,7 +11,7 @@
  * System signals the app will listen to initiate shutdown.
  * @const {string[]}
  */
-const SHUTDOWN_SIGNALS = ['SIGINT', 'SIGTERM'];
+const SHUTDOWN_SIGNALS = ["SIGINT", "SIGTERM"];
 
 /**
  * Time in milliseconds to wait before forcing shutdown.
@@ -32,9 +32,9 @@ const shutdownListeners: ((signalOrEvent: string) => void)[] = [];
  * @param  {function(string)} fn Function to execute on shutdown.
  */
 const processOnce = (signals: string[], fn: (signalOrEvent: string) => void) => {
-	for (const sig of signals) {
-		process.once(sig, fn);
-	}
+    for (const sig of signals) {
+        process.once(sig, fn);
+    }
 };
 
 /**
@@ -42,11 +42,11 @@ const processOnce = (signals: string[], fn: (signalOrEvent: string) => void) => 
  * @param {number} timeout Time to wait before forcing shutdown (milliseconds)
  */
 const forceExitAfter = (timeout: number) => () => {
-	setTimeout(() => {
-		// Force shutdown after timeout
-		console.warn(`Could not close resources gracefully after ${timeout}ms: forcing shutdown`);
-		return process.exit(1);
-	}, timeout).unref();
+    setTimeout(() => {
+        // Force shutdown after timeout
+        console.warn(`Could not close resources gracefully after ${timeout}ms: forcing shutdown`);
+        return process.exit(1);
+    }, timeout).unref();
 };
 
 /**
@@ -56,21 +56,21 @@ const forceExitAfter = (timeout: number) => () => {
  * @param {string} signalOrEvent The exit signal or event name received on the process.
  */
 async function shutdownHandler(signalOrEvent: string) {
-	if (process.env.NODE_ENV === 'test') return process.exit(0);
+    if (process.env.NODE_ENV === "test") return process.exit(0);
 
-	console.warn(`Shutting down: received [${signalOrEvent}] signal`);
+    console.warn(`Shutting down: received [${signalOrEvent}] signal`);
 
-	for (const listener of shutdownListeners) {
-		try {
-			await listener(signalOrEvent);
-		} catch (err) {
-			if (err instanceof Error) {
-				console.warn(`A shutdown handler failed before completing with: ${err.message || err}`);
-			}
-		}
-	}
+    for (const listener of shutdownListeners) {
+        try {
+            await listener(signalOrEvent);
+        } catch (err) {
+            if (err instanceof Error) {
+                console.warn(`A shutdown handler failed before completing with: ${err.message || err}`);
+            }
+        }
+    }
 
-	return process.exit(0);
+    return process.exit(0);
 }
 
 /**
@@ -81,8 +81,8 @@ async function shutdownHandler(signalOrEvent: string) {
  * @returns {BeforeShutdownListener} Echoes back the supplied `listener`.
  */
 export function beforeShutdown(listener: () => void) {
-	shutdownListeners.push(listener);
-	return listener;
+    shutdownListeners.push(listener);
+    return listener;
 }
 
 // Register shutdown callback that kills the process after `SHUTDOWN_TIMEOUT` milliseconds

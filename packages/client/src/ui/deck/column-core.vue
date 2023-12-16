@@ -12,16 +12,16 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import XMainColumn from './main-column.vue';
-import XTlColumn from './tl-column.vue';
-import XAntennaColumn from './antenna-column.vue';
-import XListColumn from './list-column.vue';
-import XNotificationsColumn from './notifications-column.vue';
-import XWidgetsColumn from './widgets-column.vue';
-import XMentionsColumn from './mentions-column.vue';
-import XDirectColumn from './direct-column.vue';
-import { Column } from './deck-store';
+import { } from "vue";
+import XMainColumn from "./main-column.vue";
+import XTlColumn from "./tl-column.vue";
+import XAntennaColumn from "./antenna-column.vue";
+import XListColumn from "./list-column.vue";
+import XNotificationsColumn from "./notifications-column.vue";
+import XWidgetsColumn from "./widgets-column.vue";
+import XMentionsColumn from "./mentions-column.vue";
+import XDirectColumn from "./direct-column.vue";
+import { Column } from "./deck-store";
 
 defineProps<{
 	column?: Column;
@@ -29,6 +29,6 @@ defineProps<{
 }>();
 
 const emit = defineEmits<{
-	(ev: 'parent-focus', direction: 'up' | 'down' | 'left' | 'right'): void;
+	(ev: "parent-focus", direction: "up" | "down" | "left" | "right"): void;
 }>();
 </script>

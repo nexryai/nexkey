@@ -1,23 +1,23 @@
 <template>
 <div class="_panel">
-	<div :class="$style.container" :style="{ backgroundImage: $instance.bannerUrl ? `url(${ $instance.bannerUrl })` : null }">
-		<div :class="$style.iconContainer">
-			<img :src="$instance.iconUrl ?? $instance.faviconUrl ?? '/favicon.ico'" alt="" :class="$style.icon"/>
-		</div>
-		<div :class="$style.bodyContainer">
-			<div :class="$style.body">
-				<MkA :class="$style.name" to="/about" behavior="window">{{ $instance.name }}</MkA>
-				<div :class="$style.host">{{ host }}</div>
-			</div>
-		</div>
-	</div>
+    <div :class="$style.container" :style="{ backgroundImage: $instance.bannerUrl ? `url(${ $instance.bannerUrl })` : null }">
+        <div :class="$style.iconContainer">
+            <img :src="$instance.iconUrl ?? $instance.faviconUrl ?? '/favicon.ico'" alt="" :class="$style.icon"/>
+        </div>
+        <div :class="$style.bodyContainer">
+            <div :class="$style.body">
+                <MkA :class="$style.name" to="/about" behavior="window">{{ $instance.name }}</MkA>
+                <div :class="$style.host">{{ host }}</div>
+            </div>
+        </div>
+    </div>
 </div>
 </template>
 <script lang="ts" setup>
-import { useWidgetPropsManager, Widget, WidgetComponentExpose } from './widget';
-import { GetFormResultType } from '@/scripts/form';
-import { host } from '@/config';
-const name = 'instanceInfo';
+import { useWidgetPropsManager, Widget, WidgetComponentExpose } from "./widget";
+import { GetFormResultType } from "@/scripts/form";
+import { host } from "@/config";
+const name = "instanceInfo";
 const widgetPropsDef = {
 };
 type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
@@ -25,16 +25,16 @@ type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
 //const props = defineProps<WidgetComponentProps<WidgetProps>>();
 //const emit = defineEmits<WidgetComponentEmits<WidgetProps>>();
 const props = defineProps<{ widget?: Widget<WidgetProps>; }>();
-const emit = defineEmits<{ (ev: 'updateProps', props: WidgetProps); }>();
+const emit = defineEmits<{ (ev: "updateProps", props: WidgetProps); }>();
 const { widgetProps, configure } = useWidgetPropsManager(name,
-	widgetPropsDef,
-	props,
-	emit,
+    widgetPropsDef,
+    props,
+    emit,
 );
 defineExpose<WidgetComponentExpose>({
-	name,
-	configure,
-	id: props.widget ? props.widget.id : null,
+    name,
+    configure,
+    id: props.widget ? props.widget.id : null,
 });
 </script>
 <style lang="scss" module>

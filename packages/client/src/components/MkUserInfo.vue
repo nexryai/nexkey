@@ -1,38 +1,38 @@
 <template>
 <div class="_panel vjnjpkug">
-	<div class="banner" :style="user.bannerUrl ? `background-image: url(${user.bannerUrl})` : ''"></div>
-	<MkAvatar class="avatar" :user="user" :disable-preview="true" :show-indicator="true"/>
-	<div class="title">
-		<MkA class="name" :to="userPage(user)"><MkUserName :user="user" :nowrap="false"/></MkA>
-		<p class="username"><MkAcct :user="user"/></p>
-	</div>
-	<span v-if="$i && $i.id !== user.id && user.isFollowed" class="followed">{{ $ts.followsYou }}</span>
-	<div class="description">
-		<div v-if="user.description" class="mfm">
-			<Mfm :text="user.description" :author="user" :i="$i" :custom-emojis="user.emojis"/>
-		</div>
-		<span v-else style="opacity: 0.7;">{{ i18n.ts.noAccountDescription }}</span>
-	</div>
-	<div class="status">
-		<div>
-			<p>{{ i18n.ts.notes }}</p><span>{{ user.notesCount }}</span>
-		</div>
-		<div>
-			<p>{{ i18n.ts.following }}</p><span>{{ user.followingCount }}</span>
-		</div>
-		<div>
-			<p>{{ i18n.ts.followers }}</p><span>{{ user.followersCount }}</span>
-		</div>
-	</div>
-	<MkFollowButton v-if="$i && user.id != $i.id" class="koudoku-button" :user="user" mini/>
+    <div class="banner" :style="user.bannerUrl ? `background-image: url(${user.bannerUrl})` : ''"></div>
+    <MkAvatar class="avatar" :user="user" :disable-preview="true" :show-indicator="true"/>
+    <div class="title">
+        <MkA class="name" :to="userPage(user)"><MkUserName :user="user" :nowrap="false"/></MkA>
+        <p class="username"><MkAcct :user="user"/></p>
+    </div>
+    <span v-if="$i && $i.id !== user.id && user.isFollowed" class="followed">{{ $ts.followsYou }}</span>
+    <div class="description">
+        <div v-if="user.description" class="mfm">
+            <Mfm :text="user.description" :author="user" :i="$i" :custom-emojis="user.emojis"/>
+        </div>
+        <span v-else style="opacity: 0.7;">{{ i18n.ts.noAccountDescription }}</span>
+    </div>
+    <div class="status">
+        <div>
+            <p>{{ i18n.ts.notes }}</p><span>{{ user.notesCount }}</span>
+        </div>
+        <div>
+            <p>{{ i18n.ts.following }}</p><span>{{ user.followingCount }}</span>
+        </div>
+        <div>
+            <p>{{ i18n.ts.followers }}</p><span>{{ user.followersCount }}</span>
+        </div>
+    </div>
+    <MkFollowButton v-if="$i && user.id != $i.id" class="koudoku-button" :user="user" mini/>
 </div>
 </template>
 
 <script lang="ts" setup>
-import * as misskey from 'misskey-js';
-import MkFollowButton from '@/components/MkFollowButton.vue';
-import { userPage } from '@/filters/user';
-import { i18n } from '@/i18n';
+import * as misskey from "misskey-js";
+import MkFollowButton from "@/components/MkFollowButton.vue";
+import { userPage } from "@/filters/user";
+import { i18n } from "@/i18n";
 
 defineProps<{
 	user: misskey.entities.UserDetailed;

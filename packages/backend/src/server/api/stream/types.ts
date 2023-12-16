@@ -1,29 +1,29 @@
-import { EventEmitter } from 'events';
-import Emitter from 'strict-event-emitter-types';
-import { Channel } from '@/models/entities/channel.js';
-import { User } from '@/models/entities/user.js';
-import { UserProfile } from '@/models/entities/user-profile.js';
-import { Note } from '@/models/entities/note.js';
-import { Antenna } from '@/models/entities/antenna.js';
-import { DriveFile } from '@/models/entities/drive-file.js';
-import { DriveFolder } from '@/models/entities/drive-folder.js';
-import { Emoji } from '@/models/entities/emoji.js';
-import { UserList } from '@/models/entities/user-list.js';
-import { MessagingMessage } from '@/models/entities/messaging-message.js';
-import { UserGroup } from '@/models/entities/user-group.js';
-import { AbuseUserReport } from '@/models/entities/abuse-user-report.js';
-import { Signin } from '@/models/entities/signin.js';
-import { Page } from '@/models/entities/page.js';
-import { Packed } from '@/misc/schema.js';
-import { Webhook } from '@/models/entities/webhook';
+import { EventEmitter } from "events";
+import Emitter from "strict-event-emitter-types";
+import { Channel } from "@/models/entities/channel.js";
+import { User } from "@/models/entities/user.js";
+import { UserProfile } from "@/models/entities/user-profile.js";
+import { Note } from "@/models/entities/note.js";
+import { Antenna } from "@/models/entities/antenna.js";
+import { DriveFile } from "@/models/entities/drive-file.js";
+import { DriveFolder } from "@/models/entities/drive-folder.js";
+import { Emoji } from "@/models/entities/emoji.js";
+import { UserList } from "@/models/entities/user-list.js";
+import { MessagingMessage } from "@/models/entities/messaging-message.js";
+import { UserGroup } from "@/models/entities/user-group.js";
+import { AbuseUserReport } from "@/models/entities/abuse-user-report.js";
+import { Signin } from "@/models/entities/signin.js";
+import { Page } from "@/models/entities/page.js";
+import { Packed } from "@/misc/schema.js";
+import { Webhook } from "@/models/entities/webhook";
 
 //#region Stream type-body definitions
 export interface InternalStreamTypes {
-	userChangeSuspendedState: { id: User['id']; isSuspended: User['isSuspended']; };
-	userChangeSilencedState: { id: User['id']; isSilenced: User['isSilenced']; };
-	userChangeModeratorState: { id: User['id']; isModerator: User['isModerator']; };
-	userTokenRegenerated: { id: User['id']; oldToken: User['token']; newToken: User['token']; };
-	remoteUserUpdated: { id: User['id']; };
+	userChangeSuspendedState: { id: User["id"]; isSuspended: User["isSuspended"]; };
+	userChangeSilencedState: { id: User["id"]; isSilenced: User["isSilenced"]; };
+	userChangeModeratorState: { id: User["id"]; isModerator: User["isModerator"]; };
+	userTokenRegenerated: { id: User["id"]; oldToken: User["token"]; newToken: User["token"]; };
+	remoteUserUpdated: { id: User["id"]; };
 	webhookCreated: Webhook;
 	webhookDeleted: Webhook;
 	webhookUpdated: Webhook;
@@ -34,7 +34,7 @@ export interface InternalStreamTypes {
 
 export interface BroadcastTypes {
 	emojiAdded: {
-		emoji: Packed<'Emoji'>;
+		emoji: Packed<"Emoji">;
 	};
 }
 
@@ -47,45 +47,45 @@ export interface UserStreamTypes {
 	unmute: User;
 	block: User;
 	unblock: User;
-	follow: Packed<'UserDetailedNotMe'>;
-	unfollow: Packed<'User'>;
-	userAdded: Packed<'User'>;
+	follow: Packed<"UserDetailedNotMe">;
+	unfollow: Packed<"User">;
+	userAdded: Packed<"User">;
 }
 
 export interface MainStreamTypes {
-	notification: Packed<'Notification'>;
-	mention: Packed<'Note'>;
-	reply: Packed<'Note'>;
-	renote: Packed<'Note'>;
-	follow: Packed<'UserDetailedNotMe'>;
-	followed: Packed<'User'>;
-	unfollow: Packed<'User'>;
-	meUpdated: Packed<'User'>;
+	notification: Packed<"Notification">;
+	mention: Packed<"Note">;
+	reply: Packed<"Note">;
+	renote: Packed<"Note">;
+	follow: Packed<"UserDetailedNotMe">;
+	followed: Packed<"User">;
+	unfollow: Packed<"User">;
+	meUpdated: Packed<"User">;
 	pageEvent: {
-		pageId: Page['id'];
+		pageId: Page["id"];
 		event: string;
 		var: any;
-		userId: User['id'];
-		user: Packed<'User'>;
+		userId: User["id"];
+		user: Packed<"User">;
 	};
 	urlUploadFinished: {
 		marker?: string | null;
-		file: Packed<'DriveFile'>;
+		file: Packed<"DriveFile">;
 	};
 	readAllNotifications: undefined;
-	unreadNotification: Packed<'Notification'>;
-	unreadMention: Note['id'];
+	unreadNotification: Packed<"Notification">;
+	unreadMention: Note["id"];
 	readAllUnreadMentions: undefined;
-	unreadSpecifiedNote: Note['id'];
+	unreadSpecifiedNote: Note["id"];
 	readAllUnreadSpecifiedNotes: undefined;
 	readAllMessagingMessages: undefined;
-	messagingMessage: Packed<'MessagingMessage'>;
-	unreadMessagingMessage: Packed<'MessagingMessage'>;
+	messagingMessage: Packed<"MessagingMessage">;
+	unreadMessagingMessage: Packed<"MessagingMessage">;
 	readAllAntennas: undefined;
 	unreadAntenna: Antenna;
 	readAllAnnouncements: undefined;
 	readAllChannels: undefined;
-	unreadChannel: Note['id'];
+	unreadChannel: Note["id"];
 	myTokenRegenerated: undefined;
 	signin: Signin;
 	registryUpdated: {
@@ -93,24 +93,24 @@ export interface MainStreamTypes {
 		key: string;
 		value: any | null;
 	};
-	driveFileCreated: Packed<'DriveFile'>;
+	driveFileCreated: Packed<"DriveFile">;
 	readAntenna: Antenna;
-	receiveFollowRequest: Packed<'User'>;
+	receiveFollowRequest: Packed<"User">;
 }
 
 export interface DriveStreamTypes {
-	fileCreated: Packed<'DriveFile'>;
-	fileDeleted: DriveFile['id'];
-	fileUpdated: Packed<'DriveFile'>;
-	folderCreated: Packed<'DriveFolder'>;
-	folderDeleted: DriveFolder['id'];
-	folderUpdated: Packed<'DriveFolder'>;
+	fileCreated: Packed<"DriveFile">;
+	fileDeleted: DriveFile["id"];
+	fileUpdated: Packed<"DriveFile">;
+	folderCreated: Packed<"DriveFolder">;
+	folderDeleted: DriveFolder["id"];
+	folderUpdated: Packed<"DriveFolder">;
 }
 
 export interface NoteStreamTypes {
 	pollVoted: {
 		choice: number;
-		userId: User['id'];
+		userId: User["id"];
 	};
 	deleted: {
 		deletedAt: Date;
@@ -121,27 +121,27 @@ export interface NoteStreamTypes {
 			name: string;
 			url: string;
 		} | null;
-		userId: User['id'];
+		userId: User["id"];
 	};
 	unreacted: {
 		reaction: string;
-		userId: User['id'];
+		userId: User["id"];
 	};
 }
 type NoteStreamEventTypes = {
 	[key in keyof NoteStreamTypes]: {
-		id: Note['id'];
+		id: Note["id"];
 		body: NoteStreamTypes[key];
 	};
 };
 
 export interface ChannelStreamTypes {
-	typing: User['id'];
+	typing: User["id"];
 }
 
 export interface UserListStreamTypes {
-	userAdded: Packed<'User'>;
-	userRemoved: Packed<'User'>;
+	userAdded: Packed<"User">;
+	userRemoved: Packed<"User">;
 }
 
 export interface AntennaStreamTypes {
@@ -149,32 +149,32 @@ export interface AntennaStreamTypes {
 }
 
 export interface MessagingStreamTypes {
-	read: MessagingMessage['id'][];
-	typing: User['id'];
-	message: Packed<'MessagingMessage'>;
-	deleted: MessagingMessage['id'];
+	read: MessagingMessage["id"][];
+	typing: User["id"];
+	message: Packed<"MessagingMessage">;
+	deleted: MessagingMessage["id"];
 }
 
 export interface GroupMessagingStreamTypes {
 	read: {
-		ids: MessagingMessage['id'][];
-		userId: User['id'];
+		ids: MessagingMessage["id"][];
+		userId: User["id"];
 	};
-	typing: User['id'];
-	message: Packed<'MessagingMessage'>;
-	deleted: MessagingMessage['id'];
+	typing: User["id"];
+	message: Packed<"MessagingMessage">;
+	deleted: MessagingMessage["id"];
 }
 
 export interface MessagingIndexStreamTypes {
-	read: MessagingMessage['id'][];
-	message: Packed<'MessagingMessage'>;
+	read: MessagingMessage["id"][];
+	message: Packed<"MessagingMessage">;
 }
 
 export interface AdminStreamTypes {
 	newAbuseUserReport: {
-		id: AbuseUserReport['id'];
-		targetUserId: User['id'],
-		reporterId: User['id'],
+		id: AbuseUserReport["id"];
+		targetUserId: User["id"],
+		reporterId: User["id"],
 		comment: string;
 	};
 }
@@ -192,66 +192,66 @@ type EventUnionFromDictionary<
 // name/messages(spec) pairs dictionary
 export type StreamMessages = {
 	internal: {
-		name: 'internal';
+		name: "internal";
 		payload: EventUnionFromDictionary<InternalStreamTypes>;
 	};
 	broadcast: {
-		name: 'broadcast';
+		name: "broadcast";
 		payload: EventUnionFromDictionary<BroadcastTypes>;
 	};
 	user: {
-		name: `user:${User['id']}`;
+		name: `user:${User["id"]}`;
 		payload: EventUnionFromDictionary<UserStreamTypes>;
 	};
 	main: {
-		name: `mainStream:${User['id']}`;
+		name: `mainStream:${User["id"]}`;
 		payload: EventUnionFromDictionary<MainStreamTypes>;
 	};
 	drive: {
-		name: `driveStream:${User['id']}`;
+		name: `driveStream:${User["id"]}`;
 		payload: EventUnionFromDictionary<DriveStreamTypes>;
 	};
 	note: {
-		name: `noteStream:${Note['id']}`;
+		name: `noteStream:${Note["id"]}`;
 		payload: EventUnionFromDictionary<NoteStreamEventTypes>;
 	};
 	channel: {
-		name: `channelStream:${Channel['id']}`;
+		name: `channelStream:${Channel["id"]}`;
 		payload: EventUnionFromDictionary<ChannelStreamTypes>;
 	};
 	userList: {
-		name: `userListStream:${UserList['id']}`;
+		name: `userListStream:${UserList["id"]}`;
 		payload: EventUnionFromDictionary<UserListStreamTypes>;
 	};
 	antenna: {
-		name: `antennaStream:${Antenna['id']}`;
+		name: `antennaStream:${Antenna["id"]}`;
 		payload: EventUnionFromDictionary<AntennaStreamTypes>;
 	};
 	messaging: {
-		name: `messagingStream:${User['id']}-${User['id']}`;
+		name: `messagingStream:${User["id"]}-${User["id"]}`;
 		payload: EventUnionFromDictionary<MessagingStreamTypes>;
 	};
 	groupMessaging: {
-		name: `messagingStream:${UserGroup['id']}`;
+		name: `messagingStream:${UserGroup["id"]}`;
 		payload: EventUnionFromDictionary<GroupMessagingStreamTypes>;
 	};
 	messagingIndex: {
-		name: `messagingIndexStream:${User['id']}`;
+		name: `messagingIndexStream:${User["id"]}`;
 		payload: EventUnionFromDictionary<MessagingIndexStreamTypes>;
 	};
 	admin: {
-		name: `adminStream:${User['id']}`;
+		name: `adminStream:${User["id"]}`;
 		payload: EventUnionFromDictionary<AdminStreamTypes>;
 	};
 	notes: {
-		name: 'notesStream';
-		payload: Packed<'Note'>;
+		name: "notesStream";
+		payload: Packed<"Note">;
 	};
 };
 
 // API event definitions
 // ストリームごとのEmitterの辞書を用意
-type EventEmitterDictionary = { [x in keyof StreamMessages]: Emitter<EventEmitter, { [y in StreamMessages[x]['name']]: (e: StreamMessages[x]['payload']) => void }> };
+type EventEmitterDictionary = { [x in keyof StreamMessages]: Emitter<EventEmitter, { [y in StreamMessages[x]["name"]]: (e: StreamMessages[x]["payload"]) => void }> };
 // 共用体型を交差型にする型 https://stackoverflow.com/questions/54938141/typescript-convert-union-to-intersection
 type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends ((k: infer I) => void) ? I : never;
 // Emitter辞書から共用体型を作り、UnionToIntersectionで交差型にする
@@ -259,4 +259,4 @@ export type StreamEventEmitter = UnionToIntersection<EventEmitterDictionary[keyo
 // { [y in name]: (e: spec) => void }をまとめてその交差型をEmitterにかけるとts(2590)にひっかかる
 
 // provide stream channels union
-export type StreamChannels = StreamMessages[keyof StreamMessages]['name'];
+export type StreamChannels = StreamMessages[keyof StreamMessages]["name"];

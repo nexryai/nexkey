@@ -1,47 +1,47 @@
-import * as nodemailer from 'nodemailer';
-import { fetchMeta } from '@/misc/fetch-meta.js';
-import Logger from './logger.js';
-import config from '@/config/index.js';
-import extractDomain from 'extract-domain';
+import * as nodemailer from "nodemailer";
+import extractDomain from "extract-domain";
+import { fetchMeta } from "@/misc/fetch-meta.js";
+import config from "@/config/index.js";
+import Logger from "./logger.js";
 
-export const logger = new Logger('email');
+export const logger = new Logger("email");
 
 export async function sendEmail(to: string, subject: string, html: string, text: string) {
-	const meta = await fetchMeta(true);
+    const meta = await fetchMeta(true);
 
-	const iconUrl = `${config.url}/static-assets/mi-white.png`;
-	const emailSettingUrl = `${config.url}/settings/email`;
+    const iconUrl = `${config.url}/static-assets/mi-white.png`;
+    const emailSettingUrl = `${config.url}/settings/email`;
 
-	const enableAuth = meta.smtpUser != null && meta.smtpUser !== '';
+    const enableAuth = meta.smtpUser != null && meta.smtpUser !== "";
 
-	// メールドメインブロックしてたら中断
-	const domain = extractDomain(to).toLowerCase();
+    // メールドメインブロックしてたら中断
+    const domain = extractDomain(to).toLowerCase();
 
-	if (meta.blockedEmailDomains.some(x => domain.endsWith(x))) {
-		logger.error(`Blocked Email Domain: ${domain}`);
-		throw err;
-	}
+    if (meta.blockedEmailDomains.some(x => domain.endsWith(x))) {
+        logger.error(`Blocked Email Domain: ${domain}`);
+        throw err;
+    }
 
-	const transporter = nodemailer.createTransport({
-		host: meta.smtpHost,
-		port: meta.smtpPort,
-		secure: meta.smtpSecure,
-		ignoreTLS: !enableAuth,
-		proxy: config.proxySmtp,
-		auth: enableAuth ? {
-			user: meta.smtpUser,
-			pass: meta.smtpPass,
-		} : undefined,
-	} as any);
+    const transporter = nodemailer.createTransport({
+        host: meta.smtpHost,
+        port: meta.smtpPort,
+        secure: meta.smtpSecure,
+        ignoreTLS: !enableAuth,
+        proxy: config.proxySmtp,
+        auth: enableAuth ? {
+            user: meta.smtpUser,
+            pass: meta.smtpPass,
+        } : undefined,
+    } as any);
 
-	try {
-		// TODO: htmlサニタイズ
-		const info = await transporter.sendMail({
-			from: meta.email!,
-			to: to,
-			subject: subject,
-			text: text,
-			html: `<!doctype html>
+    try {
+        // TODO: htmlサニタイズ
+        const info = await transporter.sendMail({
+            from: meta.email!,
+            to: to,
+            subject: subject,
+            text: text,
+            html: `<!doctype html>
 <html>
 	<head>
 		<meta charset="utf-8">
@@ -113,7 +113,7 @@ export async function sendEmail(to: string, subject: string, html: string, text:
 				<div>${ html }</div>
 			</article>
 			<footer>
-				<a href="${ emailSettingUrl }">${ 'Email setting' }</a>
+				<a href="${ emailSettingUrl }">${ "Email setting" }</a>
 			</footer>
 		</main>
 		<nav>
@@ -121,11 +121,11 @@ export async function sendEmail(to: string, subject: string, html: string, text:
 		</nav>
 	</body>
 </html>`,
-		});
+        });
 
-		logger.info(`Message sent: ${info.messageId}`);
-	} catch (err) {
-		logger.error(err as Error);
-		throw err;
-	}
+        logger.info(`Message sent: ${info.messageId}`);
+    } catch (err) {
+        logger.error(err as Error);
+        throw err;
+    }
 }

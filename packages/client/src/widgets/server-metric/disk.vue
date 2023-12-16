@@ -1,19 +1,19 @@
 <template>
 <div class="zbwaqsat">
-	<XPie class="pie" :value="usage"/>
-	<div>
-		<p><i class="ti ti-database"></i>Disk</p>
-		<p>Total: {{ bytes(total, 1) }}</p>
-		<p>Free: {{ bytes(available, 1) }}</p>
-		<p>Used: {{ bytes(used, 1) }}</p>
-	</div>
+    <XPie class="pie" :value="usage"/>
+    <div>
+        <p><i class="ti ti-database"></i>Disk</p>
+        <p>Total: {{ bytes(total, 1) }}</p>
+        <p>Free: {{ bytes(available, 1) }}</p>
+        <p>Used: {{ bytes(used, 1) }}</p>
+    </div>
 </div>
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
-import XPie from './pie.vue';
-import bytes from '@/filters/bytes';
+import { } from "vue";
+import XPie from "./pie.vue";
+import bytes from "@/filters/bytes";
 
 const props = defineProps<{
 	meta: any; // TODO
