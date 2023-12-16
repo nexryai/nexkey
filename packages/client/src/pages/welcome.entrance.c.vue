@@ -129,7 +129,7 @@ export default defineComponent({
                 text: this.$ts.aboutMisskey,
                 icon: "ti ti-info-circle",
                 action: () => {
-                    os.pageWindow("/about-misskey");
+                    os.pageWindow("/about-nexkey");
                 },
             }, null, {
                 text: this.$ts.help,

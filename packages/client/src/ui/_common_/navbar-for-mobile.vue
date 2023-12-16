@@ -136,7 +136,7 @@ function openInstanceMenu(ev: MouseEvent) {
     }, {
         type: "link",
         text: i18n.ts.aboutMisskey,
-        to: "/about-misskey",
+        to: "/about-nexkey",
     }], ev.currentTarget ?? ev.target, {
         align: "left",
     });

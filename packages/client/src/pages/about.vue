@@ -22,7 +22,7 @@
                     <template #key>Misskey</template>
                     <template #value>{{ version }}</template>
                 </MkKeyValue>
-                <FormLink to="/about-misskey">{{ i18n.ts.aboutMisskey }}</FormLink>
+                <FormLink to="/about-nexkey">{{ i18n.ts.aboutMisskey }}</FormLink>
             </FormSection>
 
             <FormSection>
