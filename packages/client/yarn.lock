@@ -150,14 +150,14 @@
     debug "^3.1.0"
     lodash.once "^4.1.1"
 
-"@discordapp/twemoji@14.1.2":
-  version "14.1.2"
-  resolved "https://registry.yarnpkg.com/@discordapp/twemoji/-/twemoji-14.1.2.tgz#6cd37c702746ed578d8cfbd06eeeb19205328ed5"
-  integrity sha512-Rkuu30/biwy8Zss0r5qfFvQzoQGPTHXzA7Y/MPMkCQqFd0WskoYvjfJRTz0iuZwUpMfrgbM8eakSsptCxmOqog==
+"@discordapp/twemoji@15.0.2":
+  version "15.0.2"
+  resolved "https://registry.yarnpkg.com/@discordapp/twemoji/-/twemoji-15.0.2.tgz#8422df8a86e071b16ebc03268200cbd161895e54"
+  integrity sha512-SrWKcv3SrGfrLQ/vfUnA+bAG73Q6Yjys01UuoY5SzUlc9iS03amQ6DxLhzVsjW/aTdgiMQdUatLidD+YPfYMCw==
   dependencies:
+    "@twemoji/parser" "15.0.0"
     fs-extra "^8.0.1"
     jsonfile "^5.0.0"
-    twemoji-parser "14.0.0"
     universalify "^0.1.2"
 
 "@esbuild/android-arm64@0.19.8":
@@ -489,6 +489,11 @@
   version "1.119.0"
   resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-1.119.0.tgz#8c590bc5a563c8673a78ccd451bedabd584b376e"
   integrity sha512-Fk3Qq4w2SXcTjc/n1cuL5bccPkylrOMo7cYpQIf/yw6zP76LQV9dtLcHQUjFiUnaYuswR645CnURIhlafyAh9g==
+
+"@twemoji/parser@15.0.0":
+  version "15.0.0"
+  resolved "https://registry.yarnpkg.com/@twemoji/parser/-/parser-15.0.0.tgz#8ae9749659ef524b5f0e6ee1412d0e48865e77bf"
+  integrity sha512-lh9515BNsvKSNvyUqbj5yFu83iIDQ77SwVcsN/SnEGawczhsKU6qWuogewN1GweTi5Imo5ToQ9s+nNTf97IXvg==
 
 "@types/color-name@^1.1.1":
   version "1.1.1"
