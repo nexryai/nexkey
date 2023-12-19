@@ -8,6 +8,13 @@
 	<div class="info">
 		<MkA class="created-at" :to="notePage(note)">
 			<MkTime :time="note.createdAt"/>
+			{{ }}
+			<i v-if="note.updatedAt" class="fas fa-pencil-alt"></i>
+			<MkTime
+							v-if="note.updatedAt"
+							:time="note.updatedAt"
+							></MkTime
+			>
 		</MkA>
 		<MkVisibility :note="note"/>
 	</div>

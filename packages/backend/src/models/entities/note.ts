@@ -20,6 +20,13 @@ export class Note {
 	public createdAt: Date;
 
 	@Index()
+	@Column('timestamp with time zone', {
+		nullable: true,
+		comment: 'The updated date of the Note.',
+	})
+	public updatedAt: Date | null;
+
+	@Index()
 	@Column({
 		...id(),
 		nullable: true,

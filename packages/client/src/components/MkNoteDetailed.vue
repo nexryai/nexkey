@@ -79,6 +79,14 @@
 				<div class="info">
 					<MkA class="created-at" :to="notePage(appearNote)">
 						<MkTime :time="appearNote.createdAt" mode="detail"/>
+						{{ }}
+						<i v-if="appearNote.updatedAt" class="fas fa-pencil-alt"></i>
+						<MkTime
+										v-if="appearNote.updatedAt"
+										:time="appearNote.updatedAt"
+										mode="detail"
+										></MkTime
+						>
 					</MkA>
 				</div>
 				<XReactionsViewer ref="reactionsViewer" :note="appearNote"/>

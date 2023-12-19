@@ -83,6 +83,13 @@ export function useNoteCapture(props: {
 				note.value.fileIds = [];
 				break;
 			}
+
+			case 'updated': {
+				note.value.updatedAt = body.updatedAt;
+				note.value.text = body.text;
+				note.value.cw = body.cw;
+				break;
+			}
 		}
 	}
 
