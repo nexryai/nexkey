@@ -1228,9 +1228,9 @@ broadcast-channel@7.0.0:
     p-queue "6.6.2"
     unload "2.4.1"
 
-"browser-image-resizer@git+https://github.com/misskey-dev/browser-image-resizer#v2.2.1-misskey.2":
-  version "2.2.1-misskey.2"
-  resolved "git+https://github.com/misskey-dev/browser-image-resizer#a58834f5fe2af9f9f31ff115121aef3de6f9d416"
+"browser-image-resizer@git+https://github.com/misskey-dev/browser-image-resizer#v2.2.1-misskey.10":
+  version "2.2.1-misskey.10"
+  resolved "git+https://github.com/misskey-dev/browser-image-resizer#5a70660c2ac8aad3d436bfa67a5e7f7c8946cac4"
 
 buffer-crc32@~0.2.3:
   version "0.2.13"
