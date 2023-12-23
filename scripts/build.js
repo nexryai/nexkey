@@ -27,7 +27,7 @@ const execa = require('execa');
 
 	console.log('build finishing ...');
 
-	await execa('npm', ['run', 'gulp'], {
+	await execa('npm', ['run', 'build-assets'], {
 		cwd: __dirname + '/../',
 		stdout: process.stdout,
 		stderr: process.stderr,

@@ -485,10 +485,17 @@
     stringz "2.1.0"
     uuid "7.0.3"
 
-"@tabler/icons@^1.117.0":
-  version "1.119.0"
-  resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-1.119.0.tgz#8c590bc5a563c8673a78ccd451bedabd584b376e"
-  integrity sha512-Fk3Qq4w2SXcTjc/n1cuL5bccPkylrOMo7cYpQIf/yw6zP76LQV9dtLcHQUjFiUnaYuswR645CnURIhlafyAh9g==
+"@tabler/icons-webfont@2.44.0":
+  version "2.44.0"
+  resolved "https://registry.yarnpkg.com/@tabler/icons-webfont/-/icons-webfont-2.44.0.tgz#105024173bf89964ec0485292daec62f2a6c2e90"
+  integrity sha512-E5+CYnZXKTUGFhpb0KGiRR4s+Tylbsq6/CA88QKn44xaBfU3ui/zVwKc1vaTKBL9kxZIxNz7qLkne+lUd/Hvzw==
+  dependencies:
+    "@tabler/icons" "2.44.0"
+
+"@tabler/icons@2.44.0":
+  version "2.44.0"
+  resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-2.44.0.tgz#9f3cf86150b23e84a6eaf9d29ab2b2aaa8c7eed6"
+  integrity sha512-WPPtihDcAwEm1QZM9MXQw6+r/R2/qx7KMU1eegsi9DsqBLAb0W2kbt6e/syvd6j9c+6XNpRVBW1ziGqSWQAWOg==
 
 "@twemoji/parser@15.0.0":
   version "15.0.0"
