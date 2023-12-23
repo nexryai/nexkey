@@ -131,7 +131,7 @@
 		"@types/fluent-ffmpeg": "2.1.24",
 		"@types/js-yaml": "4.0.9",
 		"@types/jsdom": "20.0.0",
-		"@types/jsonld": "1.5.11",
+		"@types/jsonld": "1.5.13",
 		"@types/jsrsasign": "10.5.12",
 		"@types/koa": "2.13.11",
 		"@types/koa-bodyparser": "4.3.12",

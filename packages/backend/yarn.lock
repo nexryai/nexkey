@@ -885,10 +885,10 @@
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
 
-"@types/jsonld@1.5.11":
-  version "1.5.11"
-  resolved "https://registry.yarnpkg.com/@types/jsonld/-/jsonld-1.5.11.tgz#71b4122f307ecc35bc8e4fa21405cbd6ebc972c8"
-  integrity sha512-/B5yjthc6MEJMR4+TUtaj5LgE3bByVSNIXvPcUxiecj5F7GZKQJS5oery5rbOni7T9QBpjDF0RufCcVVlCe4hw==
+"@types/jsonld@1.5.13":
+  version "1.5.13"
+  resolved "https://registry.yarnpkg.com/@types/jsonld/-/jsonld-1.5.13.tgz#32cb7bf8893ff811036b5025edaf626593a6f36f"
+  integrity sha512-n7fUU6W4kSYK8VQlf/LsE9kddBHPKhODoVOjsZswmve+2qLwBy6naWxs/EiuSZN9NU0N06Ra01FR+j87C62T0A==
 
 "@types/jsrsasign@10.5.12":
   version "10.5.12"
