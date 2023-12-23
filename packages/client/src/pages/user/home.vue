@@ -73,11 +73,11 @@
                             <b>{{ number(user.notesCount) }}</b>
                             <span>{{ i18n.ts.notes }}</span>
                         </MkA>
-                        <MkA v-click-anime :to="userPage(user, 'following')" :class="{ active: page === 'following' }">
+                        <MkA v-if="user.host == null" v-click-anime :to="userPage(user, 'following')" :class="{ active: page === 'following' }">
                             <b>{{ number(user.followingCount) }}</b>
                             <span>{{ i18n.ts.following }}</span>
                         </MkA>
-                        <MkA v-click-anime :to="userPage(user, 'followers')" :class="{ active: page === 'followers' }">
+                        <MkA v-if="user.host == null" v-click-anime :to="userPage(user, 'followers')" :class="{ active: page === 'followers' }">
                             <b>{{ number(user.followersCount) }}</b>
                             <span>{{ i18n.ts.followers }}</span>
                         </MkA>
@@ -91,7 +91,7 @@
                 </div>
                 <template v-if="narrow">
                     <XPhotos :key="user.id" :user="user" style="margin-top: var(--margin);"/>
-                    <XActivity :key="user.id" :user="user" style="margin-top: var(--margin);"/>
+                    <XActivity v-if="user.host == null" :key="user.id" :user="user" style="margin-top: var(--margin);"/>
                 </template>
             </div>
             <div>

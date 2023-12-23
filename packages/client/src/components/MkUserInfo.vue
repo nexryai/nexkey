@@ -17,10 +17,10 @@
         <div>
             <p>{{ i18n.ts.notes }}</p><span>{{ user.notesCount }}</span>
         </div>
-        <div>
+        <div v-if="user.host == null">
             <p>{{ i18n.ts.following }}</p><span>{{ user.followingCount }}</span>
         </div>
-        <div>
+        <div v-if="user.host == null">
             <p>{{ i18n.ts.followers }}</p><span>{{ user.followersCount }}</span>
         </div>
     </div>

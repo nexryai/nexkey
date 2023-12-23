@@ -13,17 +13,6 @@
             <div class="description">
                 <Mfm v-if="user.description" :text="user.description" :author="user" :i="$i" :custom-emojis="user.emojis"/>
             </div>
-            <div class="status">
-                <div>
-                    <p>{{ $ts.notes }}</p><span>{{ user.notesCount }}</span>
-                </div>
-                <div>
-                    <p>{{ $ts.following }}</p><span>{{ user.followingCount }}</span>
-                </div>
-                <div>
-                    <p>{{ $ts.followers }}</p><span>{{ user.followersCount }}</span>
-                </div>
-            </div>
             <MkFollowButton v-if="$i && user.id != $i.id" class="koudoku-button" :user="user" mini/>
         </div>
         <div v-else>
@@ -149,7 +138,7 @@ onMounted(() => {
 		}
 
 		> .description {
-			padding: 0 16px;
+			padding: 8px 16px;
 			font-size: 0.8em;
 			color: var(--fg);
 		}
