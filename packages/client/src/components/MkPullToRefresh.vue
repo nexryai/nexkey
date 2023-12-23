@@ -187,6 +187,8 @@ defineExpose({
 
 <style lang="scss" module>
 .frame {
+	overscroll-behavior-y: none;
+
 	position: relative;
 	overflow: clip;
 
@@ -198,6 +200,7 @@ defineExpose({
 }
 
 .frameContent {
+	overscroll-behavior-y: none;
 	position: absolute;
 	bottom: 0;
 	width: 100%;
