@@ -197,7 +197,6 @@ import FormSuspense from "@/components/form/suspense.vue";
 import MkFileListForAdmin from "@/components/MkFileListForAdmin.vue";
 import MkInfo from "@/components/MkInfo.vue";
 import * as os from "@/os";
-import number from "@/filters/number";
 import bytes from "@/filters/bytes";
 import { url } from "@/config";
 import { userPage, acct } from "@/filters/user";

@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, watch } from "vue";
+import { computed, watch } from "vue";
 import XTimeline from "@/components/MkTimeline.vue";
 import { scroll } from "@/scripts/scroll";
 import * as os from "@/os";
@@ -63,7 +63,7 @@ watch(() => props.antennaId, async () => {
 }, { immediate: true });
 
 const headerActions = $computed(() => antenna ? [{
-    icon: "ti ti-calendar-time",
+    icon: "ti ti-settings",
     text: i18n.ts.settings,
     handler: settings,
 }] : []);

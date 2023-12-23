@@ -18,7 +18,7 @@
 
     <button v-if="!isDesktop && !isMobile" class="widgetButton _button" @click="widgetsShowing = true"><i class="ti ti-apps"></i></button>
 
-    <div v-if="isMobile" class="buttons">
+    <div v-if="isMobile" class="buttons" :style="{ background: bg }">
         <button class="button nav _button" @click="drawerMenuShowing = true"><i class="icon ti ti-menu-2"></i><span v-if="menuIndicated" class="indicator"><i class="_indicatorCircle"></i></span></button>
         <button class="button home _button" @click="mainRouter.currentRoute.value.name === 'index' ? top() : mainRouter.push('/')"><i class="icon ti ti-home"></i></button>
         <button class="button notifications _button" @click="mainRouter.push('/my/notifications')"><i class="icon ti ti-bell"></i><span v-if="$i?.hasUnreadNotification" class="indicator"><i class="_indicatorCircle"></i></span></button>
@@ -71,12 +71,14 @@ import { Router } from "@/nirax";
 import { mainRouter } from "@/router";
 import { PageMetadata, provideMetadataReceiver, setPageMetadata } from "@/scripts/page-metadata";
 import { deviceKind } from "@/scripts/device-kind";
+import tinycolor from "tinycolor2";
 const XWidgets = defineAsyncComponent(() => import("./universal.widgets.vue"));
 const XSidebar = defineAsyncComponent(() => import("@/ui/_common_/navbar.vue"));
 const XStatusBars = defineAsyncComponent(() => import("@/ui/_common_/statusbars.vue"));
 
 const DESKTOP_THRESHOLD = 1100;
 const MOBILE_THRESHOLD = 500;
+const bg = ref<string | undefined>(undefined);
 
 // デスクトップでウィンドウを狭くしたときモバイルUIが表示されて欲しいことはあるので deviceKind === 'desktop' の判定は行わない
 const isDesktop = ref(window.innerWidth >= DESKTOP_THRESHOLD);
@@ -106,6 +108,16 @@ const menuIndicated = computed(() => {
 });
 
 const drawerMenuShowing = ref(false);
+const enableBlur = ref(defaultStore.state.useBlurEffect);
+
+const calcBg = () => {
+    const rawBg = "var(--header)";
+		const tinyBg = tinycolor(rawBg.startsWith("var(") ? getComputedStyle(document.documentElement).getPropertyValue(rawBg.slice(4, -1)) : rawBg);
+		if (!enableBlur.value) {
+				tinyBg.setAlpha(99);
+		}
+		bg.value = tinyBg.toRgbString();
+};
 
 mainRouter.on("change", () => {
     drawerMenuShowing.value = false;
@@ -127,6 +139,7 @@ if (defaultStore.state.widgets.length === 0) {
 }
 
 onMounted(() => {
+		calcBg();
     if (!isDesktop.value) {
         window.addEventListener("resize", () => {
             if (window.innerWidth >= DESKTOP_THRESHOLD) isDesktop.value = true;
