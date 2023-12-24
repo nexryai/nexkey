@@ -5817,10 +5817,10 @@ redis-info@^3.0.8:
   dependencies:
     lodash "^4.17.11"
 
-redis-lock@0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/redis-lock/-/redis-lock-0.1.4.tgz#e83590bee22b5f01cdb65bfbd88d988045356272"
-  integrity sha512-7/+zu86XVQfJVx1nHTzux5reglDiyUCDwmW7TSlvVezfhH2YLc/Rc8NE0ejQG+8/0lwKzm29/u/4+ogKeLosiA==
+redis-lock@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/redis-lock/-/redis-lock-1.0.0.tgz#bc70d5b3ebb0081b11fb49b94bb13a986751fc9d"
+  integrity sha512-zfI+Il36jXwRT/W8SBsG132Bc2yp3tMuf3KTGjSzXimadI17NEGBvb/KrDkCuAC2hzVxW5uR5ns/rxuqiWeV3Q==
 
 redis-parser@^3.0.0:
   version "3.0.0"
