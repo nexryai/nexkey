@@ -1,4 +1,4 @@
-import { validate as validateEmail } from "deep-email-validator";
+import { verifyEmail, isDisposableEmail } from "@devmehq/email-validator-js";
 import extractDomain from "extract-domain";
 import { UserProfiles } from "@/models/index.js";
 import { fetchMeta } from "@/misc/fetch-meta.js";
@@ -14,23 +14,32 @@ export async function validateEmailForAccount(emailAddress: string): Promise<{
         email: emailAddress,
     });
 
-    const validated = meta.enableActiveEmailValidation ? await validateEmail({
-        email: emailAddress,
-        validateRegex: true,
-        validateMx: true,
-        validateTypo: false, // TLDを見ているみたいだけどclubとか弾かれるので
-        validateDisposable: true, // 捨てアドかどうかチェック
-        validateSMTP: false, // 日本だと25ポートが殆どのプロバイダーで塞がれていてタイムアウトになるので
-    }) : { valid: true };
+    let validated;
+
+    const { validFormat, validMx } = await verifyEmail({ emailAddress: emailAddress, verifyMx: true, verifySmtp: false, timeout: 3000 });
+
+    if (!validFormat) {
+        validated = { valid: false, reason: "regex" };
+    } else if (meta.enableActiveEmailValidation) {
+        if (!validMx) {
+            validated = { valid: false, reason: "mx" };
+        } else if (isDisposableEmail(emailAddress)) {
+            validated = { valid: false, reason: "disposable" };
+        } else {
+            validated = { valid: true };
+        }
+    } else {
+        validated = { valid: true };
+    }
 
     // メールドメインブロックを判定
     const domain = extractDomain(emailAddress).toLowerCase();
-    let blockedemaildomain = false;
+    let blockedEmailDomain = false;
     if (meta.blockedEmailDomains.some(x => domain.endsWith(x))) {
-        blockedemaildomain = true;
+        blockedEmailDomain = true;
     }
 
-    const available = exist === 0 && validated.valid && !blockedemaildomain;
+    const available = exist === 0 && validated.valid && !blockedEmailDomain;
 
     return {
         available,
@@ -40,7 +49,7 @@ export async function validateEmailForAccount(emailAddress: string): Promise<{
         validated.reason === "disposable" ? "disposable" :
         validated.reason === "mx" ? "mx" :
         validated.reason === "smtp" ? "smtp" :
-        blockedemaildomain ? "blocked" :
+        blockedEmailDomain ? "blocked" :
         null,
     };
 }
