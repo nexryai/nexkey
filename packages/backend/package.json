@@ -16,7 +16,7 @@
 	},
 	"overrides": { "multer": { "busboy": "1.6.0" } },
 	"dependencies": {
-		"@bull-board/koa": "5.9.1",
+		"@bull-board/koa": "5.10.2",
 		"@devmehq/email-validator-js": "1.0.19",
 		"@discordapp/twemoji": "15.0.2",
 		"@elastic/elasticsearch": "8.10.0",
