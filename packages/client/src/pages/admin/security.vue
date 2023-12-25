@@ -19,12 +19,25 @@
                 </FormFolder>
 
                 <FormFolder class="_formBlock">
+                    <template #label>Active Email Validation</template>
+                    <template v-if="enableActiveEmailValidation" #suffix>Enabled</template>
+                    <template v-else #suffix>Disabled</template>
+
+                    <div class="_formRoot">
+                        <span class="_formBlock">{{ i18n.ts.activeEmailValidationDescription }}</span>
+                        <FormSwitch v-model="enableActiveEmailValidation" class="_formBlock" @update:model-value="save">
+                            <template #label>Enable</template>
+                        </FormSwitch>
+                    </div>
+                </FormFolder>
+
+                <FormFolder class="_formBlock">
                     <template #label>Log IP address</template>
                     <template v-if="enableIpLogging" #suffix>Enabled</template>
                     <template v-else #suffix>Disabled</template>
 
                     <div class="_formRoot">
-                        <FormSwitch v-model="enableIpLogging" class="_formBlock" @update:modelValue="save">
+                        <FormSwitch v-model="enableIpLogging" class="_formBlock" @update:model-value="save">
                             <template #label>Enable</template>
                         </FormSwitch>
                     </div>
@@ -54,9 +67,7 @@ import XBotProtection from "./bot-protection.vue";
 import XHeader from "./_header_.vue";
 import FormFolder from "@/components/form/folder.vue";
 import FormSwitch from "@/components/form/switch.vue";
-import FormInfo from "@/components/MkInfo.vue";
 import FormSuspense from "@/components/form/suspense.vue";
-import FormSection from "@/components/form/section.vue";
 import FormInput from "@/components/form/input.vue";
 import FormButton from "@/components/MkButton.vue";
 import * as os from "@/os";

@@ -49,7 +49,7 @@ const props = defineProps<{
 	aspectRatio: number;
 }>();
 
-const imgUrl = getProxiedImageUrl(props.file.url);
+const imgUrl = getProxiedImageUrl(props.file.url, "thumbnail", true);
 let dialogEl = $ref<InstanceType<typeof XModalWindow>>();
 let imgEl = $ref<HTMLImageElement>();
 let cropper: Cropper | null = null;
