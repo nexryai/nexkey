@@ -1,3 +1,11 @@
+## 12.23Q4.4
+ - Backend: deep-email-validatorをdevmehq/email-validator-jsで置き換えより高精度で捨てアド判定ができるように
+ - Fix: 画像のクロップが永遠に終わらない問題を修正
+ - Fix (Client): ActiveEmailValidationの設定がコントロールパネルに表示されない問題を修正
+
+### 既知の問題
+ - page等でAiScriptが動作しない問題がありますが、原因が分からずこのバージョンでの修正は実現しませんでした。
+
 ## 12.23Q4.3
  - 依存関係の更新
  - gulpやめる
