@@ -1,5 +1,6 @@
 ## 12.23Q4.4
  - Backend: deep-email-validatorをdevmehq/email-validator-jsで置き換えより高精度で捨てアド判定ができるように
+ - Feat: arm64のDockerコンテナを利用可能に
  - Fix: 画像のクロップが永遠に終わらない問題を修正
  - Fix (Client): ActiveEmailValidationの設定がコントロールパネルに表示されない問題を修正
 
