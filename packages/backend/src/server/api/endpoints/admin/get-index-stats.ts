@@ -6,8 +6,6 @@ export const meta = {
     requireModerator: true,
 
     tags: ["admin"],
-
-    kind: "write:admin",
 } as const;
 
 export const paramDef = {
