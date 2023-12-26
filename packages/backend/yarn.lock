@@ -1101,10 +1101,10 @@
   resolved "https://registry.yarnpkg.com/@types/rename/-/rename-1.0.6.tgz#cdf05d05e406f498ff62f15936bee39f3f1de286"
   integrity sha512-uLznlquGwzyFMxjBGcR3mY+k/zWv+9kk3yEzsldIU5OzjRw0i6EdZ1ydVCjTEYQ4HkWGBY+bXn62lrGKS+G1iw==
 
-"@types/sanitize-html@2.9.3":
-  version "2.9.3"
-  resolved "https://registry.yarnpkg.com/@types/sanitize-html/-/sanitize-html-2.9.3.tgz#eb31abeb496838719014b094b9e647dd7937ce7d"
-  integrity sha512-1rsSdEJLV7utAG+Fms2uP+nSmmYmOhUUSSZvUz4wF2wlA0M5/A/gVgnpWZ7EKaPWsrrxWiSuNJqSBW8dh2isBA==
+"@types/sanitize-html@2.9.5":
+  version "2.9.5"
+  resolved "https://registry.yarnpkg.com/@types/sanitize-html/-/sanitize-html-2.9.5.tgz#e8b2214c8afc7bb88d62f9c3bbbc5b4ecc80a25d"
+  integrity sha512-2Sr1vd8Dw+ypsg/oDDfZ57OMSG2Befs+l2CMyCC5bVSK3CpE7lTB2aNlbbWzazgVA+Qqfuholwom6x/mWd1qmw==
   dependencies:
     htmlparser2 "^8.0.0"
 
