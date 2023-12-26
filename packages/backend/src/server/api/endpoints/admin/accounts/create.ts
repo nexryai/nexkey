@@ -6,6 +6,8 @@ import { signup } from "../../../common/signup.js";
 export const meta = {
     tags: ["admin"],
 
+    kind: "write:admin",
+
     res: {
         type: "object",
         optional: false, nullable: false,

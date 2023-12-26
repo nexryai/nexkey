@@ -4,6 +4,8 @@ import define from "../../define.js";
 export const meta = {
     tags: ["admin"],
 
+    kind: "write:admin",
+
     requireCredential: true,
     requireAdmin: true,
 } as const;

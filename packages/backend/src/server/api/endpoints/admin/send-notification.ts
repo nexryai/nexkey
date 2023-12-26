@@ -6,6 +6,8 @@ import { ApiError } from "../../error.js";
 export const meta = {
     tags: ["users"],
 
+    kind: "write:admin",
+
     requireCredential: true,
     requireModerator: true,
 
