@@ -1,3 +1,9 @@
+## 12.23Q4.5
+ - Security Hotfix: 管理者用APIのアクセス権限が適切に設定されていない問題を修正
+   * Appは管理者/モデレータ権限を使えないように
+ - fix: Filter featured collection
+ - 依存関係の更新
+
 ## 12.23Q4.4
  - Backend: deep-email-validatorをdevmehq/email-validator-jsで置き換えより高精度で捨てアド判定ができるように
  - Feat: arm64のDockerコンテナを利用可能に
