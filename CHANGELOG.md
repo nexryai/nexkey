@@ -1,6 +1,7 @@
 ## 12.23Q4.5
  - Security Hotfix: 管理者用APIのアクセス権限が適切に設定されていない問題を修正
  - fix: Filter featured collection
+ - Appは管理者/モデレータ権限を使えないように
  - 依存関係の更新
 
 ## 12.23Q4.4
