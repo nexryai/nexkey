@@ -1797,10 +1797,10 @@ bufferutil@^4.0.1:
   dependencies:
     node-gyp-build "^4.3.0"
 
-bull@*, bull@4.11.4:
-  version "4.11.4"
-  resolved "https://registry.yarnpkg.com/bull/-/bull-4.11.4.tgz#e504fedb946a427cad67a387efb807d601201e16"
-  integrity sha512-6rPnFkUbN/eWhzGF65mcYM2HWDl2rp0fTidZ8en64Zwplioe/QxpdiWfLLtXX4Yy25piPly4f96wHR0NquiyyQ==
+bull@*, bull@4.12.0:
+  version "4.12.0"
+  resolved "https://registry.yarnpkg.com/bull/-/bull-4.12.0.tgz#d73c9f28262cff7bb788f6b2a6324a71e6b46a54"
+  integrity sha512-+GCM3KayIZvgiwAq5YC1qDcuncQbRLusLULOBZYRky7a7ttf4tlKWaFxTFtOfRrcb0erzFw6aWy73waorvR5pw==
   dependencies:
     cron-parser "^4.2.1"
     get-port "^5.1.1"
