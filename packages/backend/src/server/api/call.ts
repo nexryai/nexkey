@@ -1,4 +1,5 @@
 import { performance } from "perf_hooks";
+import { v4 as uuid } from "uuid";
 import Koa from "koa";
 import { CacheableLocalUser, User } from "@/models/entities/user.js";
 import { AccessToken } from "@/models/entities/access-token.js";
@@ -128,20 +129,20 @@ export default async (endpoint: string, user: CacheableLocalUser | null | undefi
         if (e instanceof ApiError) {
             throw e;
         } else {
-            apiLogger.error(`Internal error occurred in ${ep.name}: ${e.message}`, {
+            const errId = uuid();
+            apiLogger.error(`Internal error occurred in ${ep.name}: ${e.message} (Event ID: ${errId})`, {
                 ep: ep.name,
                 ps: data,
                 e: {
                     message: e.message,
-                    code: e.name,
                     stack: e.stack,
+                    code: e.name,
                 },
             });
             throw new ApiError(null, {
                 e: {
-                    message: e.message,
+                    message: `System error. Event ID is ${errId}`,
                     code: e.name,
-                    stack: e.stack,
                 },
             });
         }
