@@ -1142,10 +1142,10 @@
   resolved "https://registry.yarnpkg.com/@types/sinonjs__fake-timers/-/sinonjs__fake-timers-8.1.2.tgz#bf2e02a3dbd4aecaf95942ecd99b7402e03fad5e"
   integrity sha512-9GcLXF0/v3t80caGs5p2rRfkB+a8VBGLJZVih6CNFkx8IZ994wiKKLSRs9nuFwk1HevWs/1mnUmkApGrSGsShA==
 
-"@types/speakeasy@2.0.9":
-  version "2.0.9"
-  resolved "https://registry.yarnpkg.com/@types/speakeasy/-/speakeasy-2.0.9.tgz#621fff385854dac3c09c98e0f7e465b1e15a3971"
-  integrity sha512-7x3cymisAaN7JhNWB1z0C7qeAmHTK3jnhJJtGZmNxmXbWucLn7l5bofKZEYXfF7N6yPWDB/gc3jcw/uMYeB+ng==
+"@types/speakeasy@2.0.10":
+  version "2.0.10"
+  resolved "https://registry.yarnpkg.com/@types/speakeasy/-/speakeasy-2.0.10.tgz#a1f0e474696abd165e544478b9b02549778fa4e2"
+  integrity sha512-QVRlDW5r4yl7p7xkNIbAIC/JtyOcClDIIdKfuG7PWdDT1MmyhtXSANsildohy0K+Lmvf/9RUtLbNLMacvrVwxA==
   dependencies:
     "@types/node" "*"
 
@@ -1797,10 +1797,10 @@ bufferutil@^4.0.1:
   dependencies:
     node-gyp-build "^4.3.0"
 
-bull@*, bull@4.11.4:
-  version "4.11.4"
-  resolved "https://registry.yarnpkg.com/bull/-/bull-4.11.4.tgz#e504fedb946a427cad67a387efb807d601201e16"
-  integrity sha512-6rPnFkUbN/eWhzGF65mcYM2HWDl2rp0fTidZ8en64Zwplioe/QxpdiWfLLtXX4Yy25piPly4f96wHR0NquiyyQ==
+bull@*, bull@4.12.0:
+  version "4.12.0"
+  resolved "https://registry.yarnpkg.com/bull/-/bull-4.12.0.tgz#d73c9f28262cff7bb788f6b2a6324a71e6b46a54"
+  integrity sha512-+GCM3KayIZvgiwAq5YC1qDcuncQbRLusLULOBZYRky7a7ttf4tlKWaFxTFtOfRrcb0erzFw6aWy73waorvR5pw==
   dependencies:
     cron-parser "^4.2.1"
     get-port "^5.1.1"
@@ -4549,12 +4549,12 @@ methods@^1.1.2:
   resolved "https://registry.yarnpkg.com/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
   integrity sha512-iclAHeNqNm68zFtnZ0e+1L2yUIdvzNoauKU4WBA3VvH/vPFieF7qfRlwUZU+DA9P9bPXIS90ulxoUoCH23sV2w==
 
-mfm-js@0.23.3:
-  version "0.23.3"
-  resolved "https://registry.yarnpkg.com/mfm-js/-/mfm-js-0.23.3.tgz#b487b809164cf26220b2c25456e1f77db7311379"
-  integrity sha512-o8scYmbey6rMUmWAlT3k3ntt6khaCLdxlmHhAWV5wTTMj2OK1atQvZfRUq0SIVm1Jig08qlZg/ps71xUqrScNA==
+mfm-js@0.24.0:
+  version "0.24.0"
+  resolved "https://registry.yarnpkg.com/mfm-js/-/mfm-js-0.24.0.tgz#06e5827fa1e093b52dfe1dbc6ce16954e8b1cd31"
+  integrity sha512-6m8N0ElH9/4CA1izhVqmxTfLj5Z9RspdqM/lMew4xU/UTgm4Pf//VpDunpasxbRFjeJSVW+zoVwL4ZPfPtfiQg==
   dependencies:
-    twemoji-parser "14.0.0"
+    "@twemoji/parser" "15.0.0"
 
 micromatch@^4.0.0, micromatch@^4.0.4:
   version "4.0.5"
