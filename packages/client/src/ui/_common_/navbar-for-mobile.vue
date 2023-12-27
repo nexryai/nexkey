@@ -128,7 +128,7 @@ function openInstanceMenu(ev: MouseEvent) {
             icon: "ti ti-terminal-2",
         }, null, {
             text: i18n.ts.document,
-            icon: "ti ti-question-circle",
+            icon: "ti ti-help",
             action: () => {
                 window.open("https://misskey-hub.net/help.html", "_blank");
             },
