@@ -133,7 +133,7 @@ export default defineComponent({
                 },
             }, null, {
                 text: this.$ts.help,
-                icon: "ti ti-question-circle",
+                icon: "ti ti-help",
                 action: () => {
                     window.open("https://misskey-hub.net/help.md", "_blank");
                 },

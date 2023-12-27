@@ -1,3 +1,7 @@
+## 12.23Q4.6
+ - 12.23Q4.5でのHotfixの修正漏れ箇所の修正
+ - Fix (Client): ti-question-circle >> ti-help
+
 ## 12.23Q4.5
  - Security Hotfix: 管理者用APIのアクセス権限が適切に設定されていない問題を修正
    * Appは管理者/モデレータ権限を使えないように

@@ -29,12 +29,13 @@ export const paramDef = {
 } as const;
 
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps, _me) => {
+export default define(meta, paramDef, async (ps, _me, token) => {
     const me = _me ? await Users.findOneByOrFail({ id: _me.id }) : null;
     const noUsers = (await Users.countBy({
         host: IsNull(),
     })) === 0;
     if (!noUsers && !me?.isAdmin) throw new Error("access denied");
+    if (token) throw new Error("access denied");
 
     const { account, secret } = await signup({
         username: ps.username,
