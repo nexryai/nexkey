@@ -110,7 +110,7 @@ function openInstanceMenu(ev: MouseEvent) {
     }, null, {
         type: "parent",
         text: i18n.ts.help,
-        icon: "ti ti-question-circle",
+        icon: "ti ti-help",
         children: [{
             type: "link",
             to: "/mfm-cheat-sheet",

@@ -7,7 +7,7 @@
             </div>
             <div v-else-if="!select" class="icon header-icon" :class="type">
                 <i v-if="text==i18n.ts.currentPassword" class="ti ti-shield-lock security"></i>
-                <i v-else-if="input" class="ti ti-question-circle"></i>
+                <i v-else-if="input" class="ti ti-help"></i>
                 <i v-else-if="type === 'success'" class="ti ti-check"></i>
                 <i v-else-if="type === 'error'" class="ti ti-circle-x"></i>
                 <i v-else-if="type === 'warning'" class="ti ti-alert-triangle"></i>
