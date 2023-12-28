@@ -2,92 +2,103 @@
 <div v-if="streamModeEnabled">
     <MkInfo warn>{{ i18n.ts.streamingModeWarning }}</MkInfo>
 </div>
-<div v-if="!streamModeEnabled" class="_formRoot">
-    <FormSection>
-        <template #label>{{ i18n.ts.wordMute }}</template>
-        <MkTab v-model="wordsTab" class="_formBlock">
-            <option value="soft">{{ i18n.ts._wordMute.soft }}</option>
-            <option value="hard">{{ i18n.ts._wordMute.hard }}</option>
-        </MkTab>
-        <div class="_formBlock">
-            <div v-show="wordsTab === 'soft'">
-                <MkInfo class="_formBlock">{{ i18n.ts._wordMute.softDescription }}</MkInfo>
-                <FormTextarea v-model="softMutedWords" class="_formBlock">
-                    <span>{{ i18n.ts._wordMute.muteWords }}</span>
-                    <template #caption>{{ i18n.ts._wordMute.muteWordsDescription }}<br>{{ i18n.ts._wordMute.muteWordsDescription2 }}</template>
-                </FormTextarea>
+<MkSpacer v-if="!streamModeEnabled" :content-max="1000" :margin-min="16" :margin-max="32">
+    <div class="_formRoot">
+        <FormFolder class="_formBlock">
+            <template #icon><i class="ti ti-message-2-cancel"></i></template>
+            <template #label>{{ i18n.ts.wordMute }}</template>
+            <MkTab v-model="wordsTab" class="_formBlock">
+                <option value="soft">{{ i18n.ts._wordMute.soft }}</option>
+                <option value="hard">{{ i18n.ts._wordMute.hard }}</option>
+            </MkTab>
+            <div class="_formBlock">
+                <div v-show="wordsTab === 'soft'">
+                    <MkInfo class="_formBlock">{{ i18n.ts._wordMute.softDescription }}</MkInfo>
+                    <FormTextarea v-model="softMutedWords" class="_formBlock">
+                        <span>{{ i18n.ts._wordMute.muteWords }}</span>
+                        <template #caption>{{ i18n.ts._wordMute.muteWordsDescription }}<br>{{ i18n.ts._wordMute.muteWordsDescription2 }}</template>
+                    </FormTextarea>
+                </div>
+                <div v-show="wordsTab === 'hard'">
+                    <MkInfo warn class="_formBlock">{{ i18n.ts._wordMute.hardDescription }} {{ i18n.ts.reflectMayTakeTime }}</MkInfo>
+                    <FormTextarea v-model="hardMutedWords" class="_formBlock">
+                        <span>{{ i18n.ts._wordMute.muteWords }}</span>
+                        <template #caption>{{ i18n.ts._wordMute.muteWordsDescription }}<br>{{ i18n.ts._wordMute.muteWordsDescription2 }}</template>
+                    </FormTextarea>
+                    <MkKeyValue v-if="hardWordMutedNotesCount != null" class="_formBlock">
+                        <template #key>{{ i18n.ts._wordMute.mutedNotes }}</template>
+                        <template #value>{{ number(hardWordMutedNotesCount) }}</template>
+                    </MkKeyValue>
+                </div>
             </div>
-            <div v-show="wordsTab === 'hard'">
-                <MkInfo warn class="_formBlock">{{ i18n.ts._wordMute.hardDescription }} {{ i18n.ts.reflectMayTakeTime }}</MkInfo>
-                <FormTextarea v-model="hardMutedWords" class="_formBlock">
-                    <span>{{ i18n.ts._wordMute.muteWords }}</span>
-                    <template #caption>{{ i18n.ts._wordMute.muteWordsDescription }}<br>{{ i18n.ts._wordMute.muteWordsDescription2 }}</template>
-                </FormTextarea>
-                <MkKeyValue v-if="hardWordMutedNotesCount != null" class="_formBlock">
-                    <template #key>{{ i18n.ts._wordMute.mutedNotes }}</template>
-                    <template #value>{{ number(hardWordMutedNotesCount) }}</template>
-                </MkKeyValue>
-            </div>
-        </div>
-        <MkButton primary inline :disabled="!mutedWordsChanged" @click="saveMutedWords()"><i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}</MkButton>
-        <FormSwitch v-model="showMessageOnMuted" class="_formBlock">{{ i18n.ts.showMessageOnMuted }}</FormSwitch>
-    </FormSection>
+            <MkButton primary inline :disabled="!mutedWordsChanged" @click="saveMutedWords()"><i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}</MkButton>
+            <FormSwitch v-model="showMessageOnMuted" class="_formBlock">{{ i18n.ts.showMessageOnMuted }}</FormSwitch>
+        </FormFolder>
 
-    <FormSection>
-        <template #label>{{ i18n.ts.reactionMute }}</template>
-        <FormTextarea v-model="mutedReactions" class="_formBlock">
-            <template #label>{{ i18n.ts._reactionMute.heading }}</template>
-            <template #caption>{{ i18n.ts._reactionMute.reactionMuteDescription }}</template>
-        </FormTextarea>
-        <MkButton primary :disabled="!mutedReactionsChanged" class="_formBlock" @click="saveMutedReactions()"><i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}</MkButton>
-    </FormSection>
+        <FormFolder class="_formBlock">
+            <template #icon><i class="ti ti-thumb-down-off"></i></template>
+            <template #label>{{ i18n.ts.reactionMute }}</template>
+            <FormTextarea v-model="mutedReactions" class="_formBlock">
+                <template #label>{{ i18n.ts._reactionMute.heading }}</template>
+                <template #caption>{{ i18n.ts._reactionMute.reactionMuteDescription }}</template>
+            </FormTextarea>
+            <MkButton primary :disabled="!mutedReactionsChanged" class="_formBlock" @click="saveMutedReactions()"><i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}</MkButton>
+        </FormFolder>
 
-    <FormSection>
-        <template #label>{{ i18n.ts.instanceMute }}</template>
-        <FormTextarea v-model="instanceMutes" class="_formBlock">
-            <template #label>{{ i18n.ts._instanceMute.heading }}</template>
-            <template #caption>{{ i18n.ts._instanceMute.instanceMuteDescription }}<br>{{ i18n.ts._instanceMute.instanceMuteDescription2 }}</template>
-        </FormTextarea>
-        <MkButton primary :disabled="!mutedInstanceChanged" class="_formBlock" @click="saveMutedInstance()"><i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}</MkButton>
-    </FormSection>
+        <FormFolder class="_formBlock">
+            <template #icon><i class="ti ti-planet-off"></i></template>
+            <template #label>{{ i18n.ts.instanceMute }}</template>
+            <FormTextarea v-model="instanceMutes" class="_formBlock">
+                <template #label>{{ i18n.ts._instanceMute.heading }}</template>
+                <template #caption>{{ i18n.ts._instanceMute.instanceMuteDescription }}<br>{{ i18n.ts._instanceMute.instanceMuteDescription2 }}</template>
+            </FormTextarea>
+            <MkButton primary :disabled="!mutedInstanceChanged" class="_formBlock" @click="saveMutedInstance()"><i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}</MkButton>
+        </FormFolder>
 
-    <FormSection>
-        <template #label>{{ i18n.ts.users }}</template>
-        <MkTab v-model="usersTab" style="margin-bottom: var(--margin);">
-            <option value="mute">{{ i18n.ts.mutedUsers }}</option>
-            <option value="block">{{ i18n.ts.blockedUsers }}</option>
-        </MkTab>
-        <div v-if="usersTab === 'mute'">
-            <MkPagination :pagination="mutingPagination" class="muting">
-                <template #empty><FormInfo>{{ i18n.ts.noUsers }}</FormInfo></template>
-                <template #default="{items}">
-                    <FormLink v-for="mute in items" :key="mute.id" :to="userPage(mute.mutee)">
-                        <MkAcct :user="mute.mutee"/>
-                        <div v-if="mute.expiresAt" class="clock-container">
-                            <i class="fas fa-hourglass"></i><MkTime :time="mute.expiresAt" mode="detail"/>
+        <FormFolder class="_formBlock">
+            <template #icon><i class="ti ti-user-cancel"></i></template>
+            <template #label>{{ i18n.ts.users }}</template>
+            <MkTab v-model="usersTab" style="margin-bottom: var(--margin);">
+                <option value="mute">{{ i18n.ts.mutedUsers }}</option>
+                <option value="block">{{ i18n.ts.blockedUsers }}</option>
+            </MkTab>
+            <div v-if="usersTab === 'mute'">
+                <MkPagination :pagination="mutingPagination" class="muting">
+                    <template #empty><FormInfo>{{ i18n.ts.noUsers }}</FormInfo></template>
+                    <template #default="{items}">
+                        <div class="_formLinks">
+                            <FormLink v-for="mute in items" :key="mute.id" :to="userPage(mute.mutee)">
+                                <MkAcct :user="mute.mutee"/>
+                                <div v-if="mute.expiresAt" class="clock-container">
+                                    <i class="ti ti-clock-cancel"></i><MkTime :time="mute.expiresAt" mode="detail"/>
+                                </div>
+                            </FormLink>
                         </div>
-                    </FormLink>
-                </template>
-            </MkPagination>
-        </div>
-        <div v-if="usersTab === 'block'">
-            <MkPagination :pagination="blockingPagination" class="blocking">
-                <template #empty><FormInfo>{{ i18n.ts.noUsers }}</FormInfo></template>
-                <template #default="{items}">
-                    <FormLink v-for="block in items" :key="block.id" :to="userPage(block.blockee)">
-                        <MkAcct :user="block.blockee"/>
-                    </FormLink>
-                </template>
-            </MkPagination>
-        </div>
-    </FormSection>
-</div>
+                    </template>
+                </MkPagination>
+            </div>
+            <div v-if="usersTab === 'block'">
+                <MkPagination :pagination="blockingPagination" class="blocking">
+                    <template #empty><FormInfo>{{ i18n.ts.noUsers }}</FormInfo></template>
+                    <template #default="{items}">
+                        <div class="_formLinks">
+                            <FormLink v-for="block in items" :key="block.id" :to="userPage(block.blockee)">
+                                <MkAcct :user="block.blockee"/>
+                            </FormLink>
+                        </div>
+                    </template>
+                </MkPagination>
+            </div>
+        </FormFolder>
+    </div>
+</MkSpacer>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref ,watch } from "vue";
 import MkPagination from "@/components/MkPagination.vue";
 import MkTab from "@/components/MkTab.vue";
+import FormFolder from "@/components/form/folder.vue";
 import FormInfo from "@/components/MkInfo.vue";
 import FormLink from "@/components/form/link.vue";
 import { userPage } from "@/filters/user";
@@ -97,7 +108,6 @@ import { definePageMetadata } from "@/scripts/page-metadata";
 import MkButton from "@/components/MkButton.vue";
 import FormTextarea from "@/components/form/textarea.vue";
 import { defaultStore } from "@/store";
-import FormSection from "@/components/form/section.vue";
 import number from "@/filters/number";
 import FormSwitch from "@/components/form/switch.vue";
 import MkInfo from "@/components/MkInfo.vue";
