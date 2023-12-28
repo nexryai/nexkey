@@ -12,7 +12,7 @@
                 <MkInfo v-if="noBotProtection" warn class="info">{{ i18n.ts.noBotProtectionWarning }} <MkA to="/admin/security" class="_link">{{ i18n.ts.configure }}</MkA></MkInfo>
                 <MkInfo v-if="noEmailServer" warn class="info">{{ i18n.ts.noEmailServerWarning }} <MkA to="/admin/email-settings" class="_link">{{ i18n.ts.configure }}</MkA></MkInfo>
 
-                <FormSwitch v-model="moderator" class="_formBlock" @update:modelValue="toggleModerator">{{ i18n.ts.moderator }}</FormSwitch>
+                <FormSwitch v-model="moderator" class="_formBlock" @update:model-value="toggleModerator">{{ i18n.ts.moderator }}</FormSwitch>
                 <MkSuperMenu :def="menuDef" :grid="narrow"></MkSuperMenu>
             </div>
         </MkSpacer>
@@ -179,7 +179,7 @@ const menuDef = $computed(() => [{
         to: "/admin/instance-block",
         active: currentPage?.route.name === "instance-block",
     }, {
-        icon: "ti ti-ban",
+        icon: "ti ti-mail-cancel",
         text: i18n.ts.emailDomainBlocking,
         to: "/admin/email-block",
         active: currentPage?.route.name === "email-block",
