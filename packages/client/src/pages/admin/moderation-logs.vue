@@ -66,7 +66,7 @@ const pagination = {
 
 definePageMetadata({
     title: i18n.ts.moderationlogs,
-    icon: "ti ti-shield-lock",
+    icon: "ti ti-list-check",
 });
 </script>
 

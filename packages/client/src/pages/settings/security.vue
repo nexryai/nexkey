@@ -62,19 +62,22 @@ const pagination = {
 
 async function change() {
     const { canceled: canceled1, result: currentPassword } = await os.inputText({
-        title: i18n.ts.currentPassword,
+        title: "Authentication required",
+        text: i18n.ts.currentPassword,
         type: "password",
     });
     if (canceled1) return;
 
     const { canceled: canceled2, result: newPassword } = await os.inputText({
-        title: i18n.ts.newPassword,
+        title: "Password updater",
+        text: i18n.ts.newPassword,
         type: "password",
     });
     if (canceled2) return;
 
     const { canceled: canceled3, result: newPassword2 } = await os.inputText({
-        title: i18n.ts.newPasswordRetype,
+        title: "Password updater",
+        text: i18n.ts.newPasswordRetype,
         type: "password",
     });
     if (canceled3) return;
@@ -111,7 +114,7 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
     title: i18n.ts.security,
-    icon: "ti ti-lock",
+    icon: "ti ti-shield",
 });
 </script>
 

@@ -8,7 +8,8 @@
         <FormSuspense :p="init">
             <div class="_formRoot">
                 <FormFolder class="_formBlock">
-                    <template #icon><i class="ti ti-shield"></i></template>
+                    <template v-if="enableBotProtection" #icon><i class="ti ti-shield-check folder-icon-green"></i></template>
+                    <template v-else #icon><i class="ti ti-shield-x folder-icon-red"></i></template>
                     <template #label>{{ i18n.ts.botProtection }}</template>
                     <template v-if="enableHcaptcha" #suffix>hCaptcha</template>
                     <template v-else-if="enableRecaptcha" #suffix>reCAPTCHA</template>
@@ -19,6 +20,8 @@
                 </FormFolder>
 
                 <FormFolder class="_formBlock">
+                    <template v-if="enableActiveEmailValidation" #icon><i class="ti ti-mail-check folder-icon-green"></i></template>
+                    <template v-else #icon><i class="ti ti-mail-x folder-icon-red"></i></template>
                     <template #label>Active Email Validation</template>
                     <template v-if="enableActiveEmailValidation" #suffix>Enabled</template>
                     <template v-else #suffix>Disabled</template>
@@ -32,6 +35,8 @@
                 </FormFolder>
 
                 <FormFolder class="_formBlock">
+                    <template v-if="enableIpLogging" #icon><i class="ti ti-list-search folder-icon-green"></i></template>
+                    <template v-else #icon><i class="ti ti-shield-x folder-icon-red"></i></template>
                     <template #label>Log IP address</template>
                     <template v-if="enableIpLogging" #suffix>Enabled</template>
                     <template v-else #suffix>Disabled</template>
@@ -44,6 +49,7 @@
                 </FormFolder>
 
                 <FormFolder class="_formBlock">
+                    <template #icon><i class="ti ti-link"></i></template>
                     <template #label>Summaly Proxy</template>
 
                     <div class="_formRoot">
@@ -84,6 +90,7 @@ let enableHcaptcha: boolean = $ref(false);
 let enableRecaptcha: boolean = $ref(false);
 let enableTurnstile: boolean = $ref(false);
 let enableIpLogging: boolean = $ref(false);
+let enableBotProtection: boolean = enableHcaptcha || enableRecaptcha || enableTurnstile;
 let enableActiveEmailValidation: boolean = $ref(false);
 
 async function init() {
@@ -112,6 +119,17 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
     title: i18n.ts.security,
-    icon: "ti ti-lock",
+    icon: "ti ti-shield",
 });
 </script>
+
+<style>
+.folder-icon-green {
+    color: #41b781;
+}
+
+.folder-icon-red {
+    color: red;
+}
+
+</style>

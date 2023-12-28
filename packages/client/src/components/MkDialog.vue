@@ -1,21 +1,26 @@
 <template>
 <MkModal ref="modal" :prefer-type="'dialog'" :z-priority="'high'" @click="done(true)" @closed="emit('closed')">
     <div class="mk-dialog">
-        <div v-if="icon" class="icon">
-            <i :class="icon"></i>
-        </div>
-        <div v-else-if="!select" class="icon" :class="type">
-            <i v-if="title==i18n.ts.currentPassword" class="ti ti-shield-lock security"></i>
-            <i v-else-if="input" class="ti ti-question-circle"></i>
-            <i v-else-if="type === 'success'" class="ti ti-check"></i>
-            <i v-else-if="type === 'error'" class="ti ti-circle-x"></i>
-            <i v-else-if="type === 'warning'" class="ti ti-alert-triangle"></i>
-            <i v-else-if="type === 'info'" class="ti ti-info-circle"></i>
-            <i v-else-if="type === 'question'" class="ti ti-help"></i>
-            <MkLoading v-else-if="type === 'waiting'" :em="true"/>
-        </div>
-        <header v-if="title"><Mfm :text="title"/></header>
-        <div v-if="text" class="body"><Mfm :text="text"/></div>
+        <header>
+            <div v-if="icon" class="icon header-icon">
+                <i :class="icon"></i>
+            </div>
+            <div v-else-if="!select" class="icon header-icon" :class="type">
+                <i v-if="text==i18n.ts.currentPassword" class="ti ti-shield-lock security"></i>
+                <i v-else-if="input" class="ti ti-help"></i>
+                <i v-else-if="type === 'success'" class="ti ti-check"></i>
+                <i v-else-if="type === 'error'" class="ti ti-circle-x"></i>
+                <i v-else-if="type === 'warning'" class="ti ti-alert-triangle"></i>
+                <i v-else-if="type === 'info'" class="ti ti-info-circle"></i>
+                <i v-else-if="type === 'question'" class="ti ti-message-question"></i>
+                <MkLoading v-else-if="type === 'waiting'" :em="true"/>
+            </div>
+            <div class="header-text">
+                <Mfm v-if="title" class="header-title" :text="title"/>
+                <div v-if="text" class="body"><Mfm :text="text"/></div>
+            </div>
+        </header>
+
         <MkInput v-if="input" v-model="inputValue" autofocus :type="input.type || 'text'" :placeholder="input.placeholder || undefined" @keydown="onInputKeydown">
             <template v-if="input.type === 'password'" #prefix><i class="ti ti-lock"></i></template>
         </MkInput>
@@ -156,47 +161,68 @@ onBeforeUnmount(() => {
 	background: var(--panel);
 	border-radius: var(--radius);
 
-	> .icon {
-		font-size: 24px;
-
-		> .security {
-			color: #eabb02;
-		}
-
-		&.info {
-			color: #55c4dd;
-		}
-
-		&.success {
-			color: var(--success);
-		}
-
-		&.error {
-			color: var(--error);
-		}
-
-		&.warning {
-			color: var(--warn);
-		}
-
-		> * {
-			display: block;
-			margin: 0 auto;
-		}
-
-		& + header {
-			margin-top: 16px;
-		}
-	}
-
 	> header {
 		margin: 0 0 39px 0;
-		font-weight: bold;
 		font-size: 16px;
 
 		& + .body {
 			margin-top: 8px;
 		}
+
+        > .header-icon {
+            float: left;
+
+            display: flex;
+            align-items: normal;
+            padding-right: 10px;
+        }
+
+        > .header-text {
+            text-align: left;
+
+            > .header-title {
+                font-weight: bold;
+            }
+
+            > .body {
+                font-size: 14px;
+                text-align: center;
+                margin-top: 34px;
+            }
+        }
+
+        > .icon {
+            font-size: 20px;
+
+            > .security {
+                color: #eabb02;
+            }
+
+            &.info {
+                color: #55c4dd;
+            }
+
+            &.success {
+                color: var(--success);
+            }
+
+            &.error {
+                color: var(--error);
+            }
+
+            &.warning {
+                color: var(--warn);
+            }
+
+            > * {
+                display: block;
+                margin: 0 auto;
+            }
+
+            & + header {
+                margin-top: 16px;
+            }
+        }
 	}
 
 	> .body {
@@ -204,7 +230,7 @@ onBeforeUnmount(() => {
 	}
 
 	> .buttons {
-		margin-top: 32px;
+		margin-top: 34px;
 
 		> * {
 			margin: 0 8px;

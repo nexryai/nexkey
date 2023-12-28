@@ -14,41 +14,6 @@
         </MkInfo>
         <p>{{ i18n.ts._2fa.alreadyRegistered }}</p>
         <MkButton @click="unregister">{{ i18n.ts.unregister }}</MkButton>
-
-        <template v-if="supportsCredentials">
-            <hr class="totp-method-sep">
-
-            <h4>{{ i18n.ts.securityKey }}</h4>
-            <p>{{ i18n.ts._2fa.securityKeyInfo }}</p>
-            <div class="key-list">
-                <div v-for="key in $i.securityKeysList" class="key">
-                    <h3>{{ key.name }}</h3>
-                    <div class="last-used">{{ i18n.ts.lastUsed }}<MkTime :time="key.lastUsed"/></div>
-                    <MkButton @click="unregisterKey(key)">{{ i18n.ts.unregister }}</MkButton>
-                </div>
-            </div>
-
-            <MkSwitch v-if="$i.securityKeysList.length > 0" v-model="usePasswordLessLogin" @update:modelValue="updatePasswordLessLogin">{{ i18n.ts.passwordLessLogin }}</MkSwitch>
-
-            <MkInfo v-if="registration && registration.error" warn>{{ i18n.ts.error }} {{ registration.error }}</MkInfo>
-            <MkButton v-if="!registration || registration.error" @click="addSecurityKey">{{ i18n.ts._2fa.registerKey }}</MkButton>
-
-            <ol v-if="registration && !registration.error">
-                <li v-if="registration.stage >= 0">
-                    {{ i18n.ts.tapSecurityKey }}
-                    <MkLoading v-if="registration.saving && registration.stage == 0" :em="true"/>
-                </li>
-                <li v-if="registration.stage >= 1">
-                    <MkForm :disabled="registration.stage != 1 || registration.saving">
-                        <MkInput v-model="keyName" :max="30">
-                            <template #label>{{ i18n.ts.securityKeyName }}</template>
-                        </MkInput>
-                        <MkButton :disabled="keyName.length == 0" @click="registerKey">{{ i18n.ts.registerSecurityKey }}</MkButton>
-                        <MkLoading v-if="registration.saving && registration.stage == 1" :em="true"/>
-                    </MkForm>
-                </li>
-            </ol>
-        </template>
     </template>
     <div v-if="twoFactorData && !$i.twoFactorEnabled">
         <ol style="margin: 0; padding: 0 0 0 1em;">
@@ -83,13 +48,11 @@ import { byteify, hexify, stringify } from "@/scripts/2fa";
 import MkButton from "@/components/MkButton.vue";
 import MkInfo from "@/components/MkInfo.vue";
 import MkInput from "@/components/form/input.vue";
-import MkSwitch from "@/components/form/switch.vue";
 import * as os from "@/os";
 import { $i } from "@/account";
 import { i18n } from "@/i18n";
 
 const twoFactorData = ref<any>(null);
-const supportsCredentials = ref(!!navigator.credentials);
 const usePasswordLessLogin = ref($i!.usePasswordLessLogin);
 const registration = ref<any>(null);
 const keyName = ref("");
@@ -155,7 +118,8 @@ function registerKey() {
 
 function unregisterKey(key) {
     os.inputText({
-        title: i18n.ts.currentPassword,
+        title: "Authentication required",
+        text: i18n.ts.currentPassword,
         type: "password",
     }).then(({ canceled, result: password }) => {
         if (canceled) return;

@@ -1,3 +1,18 @@
+## 12.23Q4.7
+ - Security: Update multer to 1.4.5-lts.1 and fix CVE-2022-24434 ("Crash in HeaderParser in dicer") alert
+ - Fix: エラー発生時にバックエンドの情報が漏洩する問題を修正
+ - Client: ダイアログのUIを調整
+ - Client: 各種ページのアイコンの調整
+ - Client: refactor and improve mute-block setting ui
+ - Client: セキュリティキーのサポートを一旦廃止
+   * 新たな登録ができなくなります
+ - Client: admin/security で設定状況を視覚的にわかりやすく
+ - 依存関係の更新
+
+### Note
+個人的な事情により、恐らくこのバージョンかこの次のバージョンをリリースしたあと2月中旬〜下旬頃まで脆弱性の修正やPRのマージを除きしばらくリリースはできません。
+AiScriptのバグもしばらく修正できる見込みがありません。ご迷惑をおかけしますがよろしくお願いします。
+
 ## 12.23Q4.6
  - 12.23Q4.5でのHotfixの修正漏れ箇所の修正
  - Fix (Client): ti-question-circle >> ti-help

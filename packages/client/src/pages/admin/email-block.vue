@@ -46,6 +46,6 @@ const headerTabs = $computed(() => []);
 
 definePageMetadata({
     title: i18n.ts.emailDomainBlocking,
-    icon: "fas fa-ban",
+    icon: "ti ti-mail-cancel",
 });
 </script>
