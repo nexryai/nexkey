@@ -164,7 +164,7 @@ const menuDef = $computed(() => [{
         to: "/admin/object-storage",
         active: currentPage?.route.name === "object-storage",
     }, {
-        icon: "ti ti-lock",
+        icon: "ti ti-shield",
         text: i18n.ts.security,
         to: "/admin/security",
         active: currentPage?.route.name === "security",
@@ -192,7 +192,7 @@ const menuDef = $computed(() => [{
 }, {
     title: i18n.ts.info,
     items: [{
-        icon: "ti ti-shield-lock",
+        icon: "ti ti-list-check",
         text: i18n.ts.moderationlogs,
         to: "/admin/moderation-logs",
         active: currentPage?.route.name === "moderation-logs",

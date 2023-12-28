@@ -63,7 +63,7 @@ const menuDef = computed(() => [{
         to: "/settings/profile",
         active: currentPage?.route.name === "profile",
     }, {
-        icon: "ti ti-lock-open",
+        icon: "ti ti-fingerprint-off",
         text: i18n.ts.privacy,
         to: "/settings/privacy",
         active: currentPage?.route.name === "privacy",
@@ -93,7 +93,7 @@ const menuDef = computed(() => [{
         to: "/settings/email",
         active: currentPage?.route.name === "email",
     }, {
-        icon: "ti ti-lock",
+        icon: "ti ti-shield",
         text: i18n.ts.security,
         to: "/settings/security",
         active: currentPage?.route.name === "security",
