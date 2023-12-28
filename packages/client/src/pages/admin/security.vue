@@ -89,8 +89,8 @@ let summalyProxy: string = $ref("");
 let enableHcaptcha: boolean = $ref(false);
 let enableRecaptcha: boolean = $ref(false);
 let enableTurnstile: boolean = $ref(false);
+let enableBotProtection: boolean = $ref(false);
 let enableIpLogging: boolean = $ref(false);
-let enableBotProtection: boolean = enableHcaptcha || enableRecaptcha || enableTurnstile;
 let enableActiveEmailValidation: boolean = $ref(false);
 
 async function init() {
@@ -99,6 +99,7 @@ async function init() {
     enableHcaptcha = meta.enableHcaptcha;
     enableRecaptcha = meta.enableRecaptcha;
     enableTurnstile = meta.enableTurnstile;
+    enableBotProtection = enableHcaptcha || enableRecaptcha || enableTurnstile;
     enableIpLogging = meta.enableIpLogging;
     enableActiveEmailValidation = meta.enableActiveEmailValidation;
 }
