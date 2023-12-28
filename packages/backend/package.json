@@ -14,7 +14,6 @@
 		"chokidar": "^3.3.1",
 		"lodash": "^4.17.21"
 	},
-	"overrides": { "multer": { "busboy": "1.6.0" } },
 	"dependencies": {
 		"@bull-board/koa": "5.10.2",
 		"@devmehq/email-validator-js": "1.0.19",
@@ -76,7 +75,7 @@
 		"misskey-js": "0.0.14",
 		"mocha": "10.2.0",
 		"ms": "3.0.0-canary.1",
-		"multer": "1.4.4",
+		"multer": "1.4.5-lts.1",
 		"nested-property": "4.0.0",
 		"node-fetch": "3.3.2",
 		"nodemailer": "6.9.7",
