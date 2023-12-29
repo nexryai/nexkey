@@ -7,7 +7,6 @@ import { Antenna } from "@/models/entities/antenna.js";
 import { Channel } from "@/models/entities/channel.js";
 import {
     StreamChannels,
-    AdminStreamTypes,
     AntennaStreamTypes,
     BroadcastTypes,
     ChannelStreamTypes,
@@ -90,10 +89,6 @@ class Publisher {
     public publishNotesStream = (note: Packed<"Note">): void => {
         this.publish("notesStream", null, note);
     };
-
-    public publishAdminStream = <K extends keyof AdminStreamTypes>(userId: User["id"], type: K, value?: AdminStreamTypes[K]): void => {
-        this.publish(`adminStream:${userId}`, type, typeof value === "undefined" ? null : value);
-    };
 }
 
 const publisher = new Publisher();
@@ -113,4 +108,3 @@ export const publishAntennaStream = publisher.publishAntennaStream;
 export const publishMessagingStream = publisher.publishMessagingStream;
 export const publishGroupMessagingStream = publisher.publishGroupMessagingStream;
 export const publishMessagingIndexStream = publisher.publishMessagingIndexStream;
-export const publishAdminStream = publisher.publishAdminStream;
