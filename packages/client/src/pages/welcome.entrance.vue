@@ -20,15 +20,17 @@
                     <!-- eslint-disable-next-line vue/no-v-html -->
                     <div class="desc" v-html="meta.description || i18n.ts.headlineMisskey"></div>
                 </div>
-                <div>
-                    <MkSignin @login="onLogin"/>
+                <div class="entrance-form">
+                    <MkSignin v-if="!dontHaveAccount" @login="onLogin"/>
+                    <MkSignup v-else class="signup-form" @signup="onLogin" @signup-email-pending="onSignupEmailPending"/>
                 </div>
                 <div class="action">
                     <p> - or - </p>
                     <div v-if="meta.disableRegistration" class="warn">
                         <MkInfo warn>{{ i18n.ts.invitationRequiredToRegister }}</MkInfo>
                     </div>
-                    <MkButton inline rounded gradate data-cy-signup style="margin-right: 12px;" @click="signup()">{{ i18n.ts.signup }}</MkButton>
+                    <MkButton v-if="!dontHaveAccount" inline rounded gradate data-cy-signup style="margin-right: 12px;" @click="signup()">{{ i18n.ts.signup }}</MkButton>
+                    <MkButton v-else inline rounded gradate data-cy-signup style="margin-right: 12px;" @click="signin()">{{ i18n.ts.login }}</MkButton>
                     <MkButton inline rounded data-cy-signin style="margin-left: 12px;" @click="jumpToExplore()">{{ i18n.ts.explore }}</MkButton>
                 </div>
             </div>
@@ -39,7 +41,6 @@
 
 <script lang="ts" setup>
 import { } from "vue";
-import XSignupDialog from "@/components/MkSignupDialog.vue";
 import MkButton from "@/components/MkButton.vue";
 import MkFeaturedPhotos from "@/components/MkFeaturedPhotos.vue";
 import { instanceName } from "@/config";
@@ -47,19 +48,23 @@ import * as os from "@/os";
 import { i18n } from "@/i18n";
 import MkInfo from "@/components/MkInfo.vue";
 import MkSignin from "@/components/MkSignin.vue";
+import MkSignup from "@/components/MkSignup.vue";
 import { login } from "@/account";
 import MkAnimBg from "@/components/MkAnimBg.vue";
 
 let meta = $ref();
+let dontHaveAccount = $ref(false);
 
 os.api("meta", { detail: true }).then(_meta => {
     meta = _meta;
 });
 
 function signup() {
-    os.popup(XSignupDialog, {
-        autoSet: true,
-    }, {}, "closed");
+    dontHaveAccount = true;
+}
+
+function signin() {
+    dontHaveAccount = false;
 }
 
 function jumpToExplore() {
@@ -91,6 +96,12 @@ function showMenu(ev) {
 function onLogin(res): void {
     login(res.i);
 }
+
+function onSignup(res) {
+    login(res.i);
+}
+
+function onSignupEmailPending() {}
 </script>
 
 <style lang="scss" scoped>
@@ -221,6 +232,12 @@ function onLogin(res): void {
 					padding: 0 32px;
 				}
 
+                > .entrance-form {
+                    > .signup-form {
+                        padding: 32px;
+                    }
+                }
+
 				> .action {
                     padding: 0 32px 32px;
 
@@ -230,27 +247,9 @@ function onLogin(res): void {
 
                     > .warn {
                         padding: 2px 0 16px;
+                        line-height: 22px;
                     }
 				}
-			}
-		}
-
-		> .federation {
-			position: absolute;
-			bottom: 16px;
-			left: 0;
-			right: 0;
-			margin: auto;
-			background: var(--acrylicPanel);
-			-webkit-backdrop-filter: var(--blur, blur(15px));
-			backdrop-filter: var(--blur, blur(15px));
-			border-radius: 999px;
-			overflow: clip;
-			width: 800px;
-			padding: 8px 0;
-
-			@media (max-width: 900px) {
-				display: none;
 			}
 		}
 	}

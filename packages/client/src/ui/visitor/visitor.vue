@@ -4,7 +4,6 @@
 
     <div class="main">
         <div class="contents">
-            <XHeader v-if="!root" class="header" :info="pageInfo"/>
             <main>
                 <RouterView/>
             </main>
@@ -40,7 +39,6 @@
 
 <script lang="ts" setup>
 import { ComputedRef, onMounted, provide } from "vue";
-import XHeader from "./header.vue";
 import { host, instanceName } from "@/config";
 import { search } from "@/scripts/search";
 import * as os from "@/os";
@@ -48,7 +46,7 @@ import XSigninDialog from "@/components/MkSigninDialog.vue";
 import XSignupDialog from "@/components/MkSignupDialog.vue";
 import { ColdDeviceStorage, defaultStore } from "@/store";
 import { mainRouter } from "@/router";
-import { PageMetadata, provideMetadataReceiver, setPageMetadata } from "@/scripts/page-metadata";
+import { PageMetadata, provideMetadataReceiver } from "@/scripts/page-metadata";
 
 const DESKTOP_THRESHOLD = 1100;
 
