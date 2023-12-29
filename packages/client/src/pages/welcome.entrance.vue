@@ -3,7 +3,7 @@
     <div class="top">
         <MkAnimBg v-if="meta.backgroundImageUrl == null || meta.backgroundImageUrl == ''" style="position: absolute; top: 0; left: 0;" :scale="1.5"></MkAnimBg>
         <MkFeaturedPhotos v-else class="bg"/>
-        <img :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" class="misskey" @click="showMenu"/>
+        <img :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" class="instance-icon" @click="showMenu"/>
         <div class="emojis">
             <MkEmoji :normal="true" :no-style="true" emoji="👍"/>
             <MkEmoji :normal="true" :no-style="true" emoji="❤"/>
@@ -122,51 +122,14 @@ function onSignupEmailPending() {}
 			margin: -10px;
 		}
 
-		> .tl {
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			right: 64px;
-			margin: auto;
-			width: 500px;
-			height: calc(100% - 128px);
-			overflow: hidden;
-			-webkit-mask-image: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 128px, rgba(0,0,0,1) calc(100% - 128px), rgba(0,0,0,0) 100%);
-			mask-image: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 128px, rgba(0,0,0,1) calc(100% - 128px), rgba(0,0,0,0) 100%);
-
-			@media (max-width: 1200px) {
-				display: none;
-			}
-		}
-
-		> .shape1 {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background: var(--accent);
-			clip-path: polygon(0% 0%, 45% 0%, 20% 100%, 0% 100%);
-		}
-		> .shape2 {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background: var(--accent);
-			clip-path: polygon(0% 0%, 25% 0%, 35% 100%, 0% 100%);
-			opacity: 0.5;
-		}
-
-		> .misskey {
-			position: absolute;
-			top: 28px;
-			left: 28px;
-			width: 50px;
-      height: auto;
-			border-radius: 4px;
-		}
+        > .instance-icon {
+            position: absolute;
+            top: 28px;
+            left: 28px;
+            width: 50px;
+            height: auto;
+            border-radius: 4px;
+        }
 
 		> .emojis {
 			position: absolute;
@@ -252,26 +215,6 @@ function onSignupEmailPending() {}
 				}
 			}
 		}
-	}
-}
-</style>
-
-<style lang="scss" module>
-.federationInstance {
-	display: inline-flex;
-	align-items: center;
-	vertical-align: bottom;
-	padding: 6px 12px 6px 6px;
-	margin: 0 10px 0 0;
-	background: var(--panel);
-	border-radius: 999px;
-
-	> :global(.icon) {
-		display: inline-block;
-		width: 20px;
-		height: 20px;
-		margin-right: 5px;
-		border-radius: 999px;
 	}
 }
 </style>
