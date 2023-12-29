@@ -1,7 +1,8 @@
 <template>
 <div v-if="meta" class="rsqzvsbo">
     <div class="top">
-        <MkFeaturedPhotos class="bg"/>
+        <MkAnimBg v-if="meta.backgroundImageUrl == null || meta.backgroundImageUrl == ''" style="position: absolute; top: 0; left: 0;" :scale="1.5"></MkAnimBg>
+        <MkFeaturedPhotos v-else class="bg"/>
         <img :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" class="misskey" @click="showMenu"/>
         <div class="emojis">
             <MkEmoji :normal="true" :no-style="true" emoji="👍"/>
@@ -19,12 +20,15 @@
                     <!-- eslint-disable-next-line vue/no-v-html -->
                     <div class="desc" v-html="meta.description || i18n.ts.headlineMisskey"></div>
                 </div>
-                <div v-if="meta.disableRegistration" class="warn">
-                    <MkInfo warn>{{ i18n.ts.invitationRequiredToRegister }}</MkInfo>
+                <div>
+                    <MkSignin @login="onLogin"/>
                 </div>
                 <div class="action">
+                    <p> - or - </p>
+                    <div v-if="meta.disableRegistration" class="warn">
+                        <MkInfo warn>{{ i18n.ts.invitationRequiredToRegister }}</MkInfo>
+                    </div>
                     <MkButton inline rounded gradate data-cy-signup style="margin-right: 12px;" @click="signup()">{{ i18n.ts.signup }}</MkButton>
-                    <MkButton inline rounded data-cy-signin @click="signin()">{{ i18n.ts.login }}</MkButton>
                     <MkButton inline rounded data-cy-signin style="margin-left: 12px;" @click="jumpToExplore()">{{ i18n.ts.explore }}</MkButton>
                 </div>
             </div>
@@ -35,7 +39,6 @@
 
 <script lang="ts" setup>
 import { } from "vue";
-import XSigninDialog from "@/components/MkSigninDialog.vue";
 import XSignupDialog from "@/components/MkSignupDialog.vue";
 import MkButton from "@/components/MkButton.vue";
 import MkFeaturedPhotos from "@/components/MkFeaturedPhotos.vue";
@@ -43,18 +46,15 @@ import { instanceName } from "@/config";
 import * as os from "@/os";
 import { i18n } from "@/i18n";
 import MkInfo from "@/components/MkInfo.vue";
+import MkSignin from "@/components/MkSignin.vue";
+import { login } from "@/account";
+import MkAnimBg from "@/components/MkAnimBg.vue";
 
 let meta = $ref();
 
 os.api("meta", { detail: true }).then(_meta => {
     meta = _meta;
 });
-
-function signin() {
-    os.popup(XSigninDialog, {
-        autoSet: true,
-    }, {}, "closed");
-}
 
 function signup() {
     os.popup(XSignupDialog, {
@@ -86,6 +86,10 @@ function showMenu(ev) {
             window.open("https://misskey-hub.net/help.md", "_blank");
         },
     }], ev.currentTarget ?? ev.target);
+}
+
+function onLogin(res): void {
+    login(res.i);
 }
 </script>
 
@@ -217,16 +221,16 @@ function showMenu(ev) {
 					padding: 0 32px;
 				}
 
-				> .warn {
-					padding: 32px 32px 0 32px;
-				}
-
 				> .action {
-					padding: 32px;
+                    padding: 0 32px 32px;
 
-					> * {
+                    > * {
 						line-height: 28px;
 					}
+
+                    > .warn {
+                        padding: 2px 0 16px;
+                    }
 				}
 			}
 		}
