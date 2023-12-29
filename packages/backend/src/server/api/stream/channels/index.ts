@@ -11,7 +11,6 @@ import messagingIndex from "./messaging-index.js";
 import drive from "./drive.js";
 import hashtag from "./hashtag.js";
 import channel from "./channel.js";
-import admin from "./admin.js";
 
 export default {
     main,
@@ -27,5 +26,4 @@ export default {
     drive,
     hashtag,
     channel,
-    admin,
 };

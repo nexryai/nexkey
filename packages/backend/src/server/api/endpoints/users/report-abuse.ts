@@ -1,5 +1,4 @@
 import * as sanitizeHtml from "sanitize-html";
-import { publishAdminStream } from "@/services/stream.js";
 import { AbuseUserReports, Users } from "@/models/index.js";
 import { genId } from "@/misc/gen-id.js";
 import { sendEmail } from "@/services/send-email.js";
@@ -62,7 +61,7 @@ export default define(meta, paramDef, async (ps, me) => {
         throw new ApiError(meta.errors.cannotReportAdmin);
     }
 
-    const report = await AbuseUserReports.insert({
+    await AbuseUserReports.insert({
         id: genId(),
         createdAt: new Date(),
         targetUserId: user.id,
@@ -74,23 +73,6 @@ export default define(meta, paramDef, async (ps, me) => {
 
     // Publish event to moderators
     setImmediate(async () => {
-        const moderators = await Users.find({
-            where: [{
-                isAdmin: true,
-            }, {
-                isModerator: true,
-            }],
-        });
-
-        for (const moderator of moderators) {
-            publishAdminStream(moderator.id, "newAbuseUserReport", {
-                id: report.id,
-                targetUserId: report.targetUserId,
-                reporterId: report.reporterId,
-                comment: report.comment,
-            });
-        }
-
         const meta = await fetchMeta();
         if (meta.email) {
             emailDeliver(meta.email, "New abuse report",

@@ -1,3 +1,7 @@
+## 12.23Q4.8
+ - セキュリティの観点からadmin streamingを廃止
+ - Fix: Botチャレンジを有効にしてもインジケーターが赤いままになる問題を修正
+
 ## 12.23Q4.7
  - Security: Update multer to 1.4.5-lts.1 and fix CVE-2022-24434 ("Crash in HeaderParser in dicer") alert
  - Fix: エラー発生時にバックエンドの情報が漏洩する問題を修正
