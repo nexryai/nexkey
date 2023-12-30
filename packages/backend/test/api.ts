@@ -30,6 +30,14 @@ describe("API", () => {
             assert.strictEqual(res.status, 400);
         }));
 
+        it("脆弱なパスワードは登録できない", async(async () => {
+            const res = await request("/signup", {
+                username: "veryunsafeuser",
+                password: "1234",
+            });
+            assert.strictEqual(res.status, 400);
+        }));
+
         it("missing require param", async(async () => {
             const res = await request("/test", {
                 string: "a",

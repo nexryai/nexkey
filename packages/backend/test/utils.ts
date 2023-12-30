@@ -88,7 +88,7 @@ export const request = async (endpoint: string, params: any, me?: any): Promise<
 export const signup = async (params?: any): Promise<any> => {
     const q = Object.assign({
         username: "test",
-        password: "test",
+        password: "MEANING_OF_LIFE",
     }, params);
 
     const res = await api("signup", q);
