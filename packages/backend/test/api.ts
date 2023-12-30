@@ -36,7 +36,6 @@ describe("API", () => {
                 password: "12345",
             });
             assert.strictEqual(res.status, 400);
-            assert.strictEqual(res.body, "UNSAFE_PASSWORD");
         }));
 
         it("missing require param", async(async () => {

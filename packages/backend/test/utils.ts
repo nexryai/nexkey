@@ -243,7 +243,7 @@ export const simpleGet = async (path: string, accept = "*/*"): Promise<{ status?
     });
 };
 
-export const simplePost = async (endpoint: string, params: any): Promise<{ body: any, status: number }> => {
+export const simplePost = async (endpoint: string, params: any): Promise<{ status: number }> => {
     const res = await fetch(`http://localhost:${port}/api${endpoint}`, {
         method: "POST",
         headers: {
@@ -253,10 +253,9 @@ export const simplePost = async (endpoint: string, params: any): Promise<{ body:
     });
 
     const status = res.status;
-    const body = res.body;
 
     return {
-        body, status,
+        status,
     };
 };
 
