@@ -67,7 +67,7 @@ describe("Fetch resource", () => {
         it("GET api.json", async(async () => {
             const res = await simpleGet("/api.json");
             assert.strictEqual(res.status, 200);
-            assert.strictEqual(res.type, JSON);
+            assert.strictEqual(res.type, TYPE_JSON);
         }));
 
         it("Validate api.json", async(async () => {

@@ -243,6 +243,23 @@ export const simpleGet = async (path: string, accept = "*/*"): Promise<{ status?
     });
 };
 
+export const simplePost = async (endpoint: string, params: any): Promise<{ body: any, status: number }> => {
+    const res = await fetch(`http://localhost:${port}/api${endpoint}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(Object.assign(params)),
+    });
+
+    const status = res.status;
+    const body = res.body;
+
+    return {
+        body, status,
+    };
+};
+
 export function launchServer(callbackSpawnedProcess: (p: childProcess.ChildProcess) => void, moreProcess: () => Promise<void> = async () => {}) {
     return (done: (err?: Error) => any) => {
         const p = childProcess.spawn("node", [_dirname + "/../index.js"], {
