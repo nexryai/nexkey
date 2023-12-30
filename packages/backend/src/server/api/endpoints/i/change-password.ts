@@ -11,7 +11,7 @@ export const paramDef = {
     type: "object",
     properties: {
         currentPassword: { type: "string" },
-        newPassword: { type: "string", minLength: 1 },
+        newPassword: { type: "string", minLength: 6 },
     },
     required: ["currentPassword", "newPassword"],
 } as const;
