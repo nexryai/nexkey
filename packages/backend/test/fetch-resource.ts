@@ -2,7 +2,11 @@ process.env.NODE_ENV = "test";
 
 import * as assert from "assert";
 import * as childProcess from "child_process";
+import * as crypto from "crypto";
 import * as openapi from "@redocly/openapi-core";
+import { createSignedPost } from "../src/remote/activitypub/ap-request";
+import { genRsaKeyPair } from "../src/misc/gen-key-pair";
+import { StatusError, getResponse } from "../src/misc/fetch";
 import { async, startServer, signup, post, request, simpleGet, port, shutdownServer } from "./utils.js";
 
 // Request Accept
@@ -13,7 +17,7 @@ const UNSPECIFIED = "*/*";
 
 // Response Contet-Type
 const AP = "application/activity+json; charset=utf-8";
-const JSON = "application/json; charset=utf-8";
+const TYPE_JSON = "application/json; charset=utf-8";
 const HTML = "text/html; charset=utf-8";
 
 describe("Fetch resource", () => {
@@ -201,5 +205,209 @@ describe("Fetch resource", () => {
             assert.strictEqual(res.status, 200);
             assert.strictEqual(res.type, "application/json; charset=utf-8");
         }));
+    });
+
+    describe("inbox", async () => {
+        const myInbox = `http://localhost:${port}/inbox`;
+
+        const myHost = "misskey.local";
+        const xHost = "xxx.local";
+
+        const inboxPost = async (url: string, headers: Record<string, string>, body: string) => {
+            const res = await getResponse({
+                url,
+                method: "POST",
+                headers,
+                body,
+                timeout: 10 * 1000,
+            }).then(r => {
+                return {
+                    statusCode: r.status,
+                    statusMessage: r.statusText,
+                    body: r.body,
+                };
+            }).catch(err => {
+                if (err instanceof StatusError) {
+                    return {
+                        statusCode: err.statusCode,
+                        statusMessage: err.statusMessage,
+                    };
+                } else {
+                    throw err;
+                }
+            });
+            return res;
+        };
+
+        // 鍵はここでは検証しないのでなんでもいい
+        let keyPair: any;
+        let key: any;
+
+        before(async () => {
+            keyPair = await genRsaKeyPair();
+            key = {
+                privateKeyPem: keyPair.privateKey,
+                keyId: `https://${myHost}/users/a#main-key`,
+            };
+        });
+
+        it("Accepted", async () => {
+            const object = { a: 1, b: 2 };
+            const body = JSON.stringify(object);
+
+            const req = createSignedPost({
+                key,
+                url: myInbox,
+                body,
+                additionalHeaders: {
+                    Host: myHost,
+                },
+            });
+
+            const res = await inboxPost(myInbox, req.request.headers, body);
+
+            assert.strictEqual(res.statusCode, 202);
+        });
+
+        it("Invalid Host", async () => {
+            const object = { a: 1, b: 2 };
+            const body = JSON.stringify(object);
+
+            const req = createSignedPost({
+                key,
+                url: myInbox,
+                body,
+                additionalHeaders: {
+                    Host: xHost,	// ★
+                },
+            });
+
+            const res = await inboxPost(myInbox, req.request.headers, body);
+
+            assert.strictEqual(res.statusCode, 400);
+        });
+
+        it("Payload Too Large", async () => {
+            const object = { a: 1, b: "x".repeat(70000) };	// ★
+            const body = JSON.stringify(object);
+
+            const req = createSignedPost({
+                key,
+                url: myInbox,
+                body,
+                additionalHeaders: {
+                    Host: myHost,
+                },
+            });
+
+            const res = await inboxPost(myInbox, req.request.headers, body);
+
+            assert.strictEqual(res.statusCode, 413);
+        });
+
+        it("Signature Header Required", async () => {
+            const object = { a: 1, b: 2 };
+            const body = JSON.stringify(object);
+
+            const req = createSignedPost({
+                key,
+                url: myInbox,
+                body,
+                additionalHeaders: {
+                    Host: myHost,
+                },
+            });
+
+            delete req.request.headers.signature;	// ★
+
+            const res = await inboxPost(myInbox, req.request.headers, body);
+
+            assert.strictEqual(res.statusCode, 401);
+            //assert.strictEqual(res.statusMessage, 'Signature Header Required');
+        });
+
+        it("Digest Header Required", async () => {
+            const object = { a: 1, b: 2 };
+            const body = JSON.stringify(object);
+
+            const req = createSignedPost({
+                key,
+                url: myInbox,
+                body,
+                additionalHeaders: {
+                    Host: myHost,
+                },
+            });
+
+            delete req.request.headers.digest;	// ★
+
+            const res = await inboxPost(myInbox, req.request.headers, body);
+
+            assert.strictEqual(res.statusCode, 401);
+            //assert.strictEqual(res.statusMessage, 'Digest Header Required');
+        });
+
+        it("Invalid Digest Header", async () => {
+            const object = { a: 1, b: 2 };
+            const body = JSON.stringify(object);
+
+            const req = createSignedPost({
+                key,
+                url: myInbox,
+                body,
+                additionalHeaders: {
+                    Host: myHost,
+                },
+            });
+
+            req.request.headers.digest = "puee";	// ★
+
+            const res = await inboxPost(myInbox, req.request.headers, body);
+
+            assert.strictEqual(res.statusCode, 401);
+            //assert.strictEqual(res.statusMessage, "Invalid Digest Header");
+        });
+
+        it("Unsupported Digest Algorithm", async () => {
+            const object = { a: 1, b: 2 };
+            const body = JSON.stringify(object);
+
+            const req = createSignedPost({
+                key,
+                url: myInbox,
+                body,
+                additionalHeaders: {
+                    Host: myHost,
+                },
+            });
+
+            req.request.headers.digest = "SHA-5000=abc";	// ★
+
+            const res = await inboxPost(myInbox, req.request.headers, body);
+
+            assert.strictEqual(res.statusCode, 401);
+            //assert.strictEqual(res.statusMessage, "Unsupported Digest Algorithm");
+        });
+
+        it("Digest Missmath", async () => {
+            const object = { a: 1, b: 2 };
+            const body = JSON.stringify(object);
+
+            const req = createSignedPost({
+                key,
+                url: myInbox,
+                body,
+                additionalHeaders: {
+                    Host: myHost,
+                },
+            });
+
+            req.request.headers.digest = `SHA-256=${crypto.createHash("sha256").update("puppukupu-").digest("base64")}`;
+
+            const res = await inboxPost(myInbox, req.request.headers, body);
+
+            assert.strictEqual(res.statusCode, 401);
+            //assert.strictEqual(res.statusMessage, "Digest Missmatch");
+        });
     });
 });
