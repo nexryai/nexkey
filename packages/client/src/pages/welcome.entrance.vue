@@ -1,7 +1,7 @@
 <template>
 <div v-if="meta" class="rsqzvsbo">
     <div class="top">
-        <MkAnimBg v-if="meta.backgroundImageUrl == null || meta.backgroundImageUrl == ''" style="position: absolute; top: 0; left: 0;" :scale="1.5"></MkAnimBg>
+        <MkAnimBg v-if="meta.backgroundImageUrl == null || meta.backgroundImageUrl == '' " style="position: absolute; top: 0; left: 0;" :scale="1.5"></MkAnimBg>
         <MkFeaturedPhotos v-else class="bg"/>
         <img :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" class="instance-icon" @click="showMenu"/>
         <div class="emojis">
@@ -17,8 +17,9 @@
                     <span class="text">{{ instanceName }}</span>
                 </h1>
                 <div class="about">
-                    <!-- eslint-disable-next-line vue/no-v-html -->
-                    <div class="desc" v-html="meta.description || i18n.ts.headlineMisskey"></div>
+                    <div class="desc">
+                        <MkA @click="os.pageWindow('/about');"> <i class="ti ti-info-circle"></i> {{ i18n.ts.instanceInfo }} </MkA>
+                    </div>
                 </div>
                 <div class="entrance-form">
                     <MkSignin v-if="!dontHaveAccount" @login="onLogin"/>
@@ -97,10 +98,6 @@ function onLogin(res): void {
     login(res.i);
 }
 
-function onSignup(res) {
-    login(res.i);
-}
-
 function onSignupEmailPending() {}
 </script>
 
@@ -156,6 +153,10 @@ function onSignupEmailPending() {}
 			@media (max-width: 1200px) {
 				margin: auto;
 			}
+
+            @media (max-width: 800px) {
+                margin-top: 80px;
+            }
 
 			> .icon {
 				width: 85px;
