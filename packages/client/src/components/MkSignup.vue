@@ -116,6 +116,7 @@ const shouldDisableSubmitting = $computed((): boolean => {
 		instance.enableHcaptcha && !hCaptchaResponse ||
 		instance.enableRecaptcha && !reCaptchaResponse ||
 		instance.enableTurnstile && !turnstileResponse ||
+        passwordStrength === "low" ||
 		passwordRetypeState === "not-match";
 });
 
