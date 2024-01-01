@@ -124,7 +124,7 @@
 	},
 	"devDependencies": {
 		"@redocly/openapi-core": "1.4.0",
-		"@types/bcryptjs": "2.4.4",
+		"@types/bcryptjs": "2.4.6",
 		"@types/bull": "4.10.0",
 		"@types/cbor": "6.0.0",
 		"@types/escape-regexp": "0.0.3",
