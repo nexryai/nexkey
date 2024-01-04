@@ -56,6 +56,23 @@ export async function createNotification(
 		if (data.notifierId && blockings.map(m => m.blockeeId).includes(data.notifierId)) {
 			return;
 		}
+		if (data.notifierId) {
+			const notifierData = await Users.findOneBy({
+				id: data.notifierId,
+			});
+			if (notifierData.host != null) {
+				if (profile.mutedInstances.includes(notifierData.host)) {
+					const updates = {
+						isRead: true,
+					};
+					await Notifications.update({
+						notifierId: data.notifierId,
+						notifieeId: notifieeId,
+					}, updates);
+					return;
+				}
+			}
+		}
 		//#endregion
 
 		publishMainStream(notifieeId, 'unreadNotification', packed);

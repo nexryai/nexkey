@@ -1,7 +1,7 @@
 import { CacheableUser, User } from '@/models/entities/user.js';
 import { UserGroup } from '@/models/entities/user-group.js';
 import { DriveFile } from '@/models/entities/drive-file.js';
-import { MessagingMessages, UserGroupJoinings, Mutings, Users, Blockings } from '@/models/index.js';
+import { MessagingMessages, UserGroupJoinings, Mutings, Users, Blockings, UserProfiles } from '@/models/index.js';
 import { genId } from '@/misc/gen-id.js';
 import { MessagingMessage } from '@/models/entities/messaging-message.js';
 import { publishMessagingStream, publishMessagingIndexStream, publishMainStream, publishGroupMessagingStream } from '@/services/stream.js';
@@ -74,6 +74,24 @@ export async function createMessage(user: { id: User['id']; host: User['host']; 
 			});
 			if (mute.map(m => m.muteeId).includes(user.id)) return;
 			if (block.map(m => m.blockeeId).includes(user.id)) return;
+			const recipientProfile = await UserProfiles.findOneBy({
+				userId: recipientUser.id,
+			});
+			const userData = await Users.findOneBy({
+				id: user.id,
+			});
+			if (userData.host != null) {
+				if (recipientProfile.mutedInstances.includes(userData.host)) {
+					const updates = {
+						isRead: true,
+					};
+					await MessagingMessages.update({
+						recipientId: recipientUser.id,
+						userId: user.id,
+					}, updates);
+					return;
+				}
+			}
 			//#endregion
 
 			publishMainStream(recipientUser.id, 'unreadMessagingMessage', messageObj);
