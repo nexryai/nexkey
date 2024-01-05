@@ -1,11 +1,11 @@
 import * as fs from "fs";
-import pluginVue from "@vitejs/plugin-vue";
 import { defineConfig } from "vite";
 
+import pluginVue from "@vitejs/plugin-vue";
+import ReactivityTransform from "@vue-macros/reactivity-transform/vite";
 import locales from "../../locales";
 import meta from "../../package.json";
 import pluginJson5 from "./vite.json5";
-
 const extensions = [".ts", ".tsx", ".js", ".jsx", ".mjs", ".json", ".json5", ".svg", ".sass", ".scss", ".css", ".vue"];
 
 export default defineConfig(({ command, mode }) => {
@@ -16,10 +16,9 @@ export default defineConfig(({ command, mode }) => {
         base: "/assets/",
 
         plugins: [
-            pluginVue({
-                reactivityTransform: true,
-            }),
+            ReactivityTransform(),
             pluginJson5(),
+            pluginVue(),
         ],
 
         resolve: {

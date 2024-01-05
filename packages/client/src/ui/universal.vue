@@ -58,6 +58,7 @@
 
 <script lang="ts" setup>
 import { defineAsyncComponent, provide, onMounted, computed, ref, watch, ComputedRef } from "vue";
+import tinycolor from "tinycolor2";
 import XCommon from "./_common_/common.vue";
 import { instanceName } from "@/config";
 import { StickySidebar } from "@/scripts/sticky-sidebar";
@@ -67,11 +68,9 @@ import { defaultStore } from "@/store";
 import { navbarItemDef } from "@/navbar";
 import { i18n } from "@/i18n";
 import { $i } from "@/account";
-import { Router } from "@/nirax";
 import { mainRouter } from "@/router";
-import { PageMetadata, provideMetadataReceiver, setPageMetadata } from "@/scripts/page-metadata";
+import { PageMetadata, provideMetadataReceiver } from "@/scripts/page-metadata";
 import { deviceKind } from "@/scripts/device-kind";
-import tinycolor from "tinycolor2";
 const XWidgets = defineAsyncComponent(() => import("./universal.widgets.vue"));
 const XSidebar = defineAsyncComponent(() => import("@/ui/_common_/navbar.vue"));
 const XStatusBars = defineAsyncComponent(() => import("@/ui/_common_/statusbars.vue"));
@@ -87,13 +86,13 @@ window.addEventListener("resize", () => {
     isMobile.value = deviceKind === "smartphone" || window.innerWidth <= MOBILE_THRESHOLD;
 });
 
-let pageMetadata = $ref<null | ComputedRef<PageMetadata>>();
-const widgetsEl = $ref<HTMLElement>();
-const widgetsShowing = $ref(false);
+let pageMetadata = ref<null | ComputedRef<PageMetadata>>();
+const widgetsEl = ref<HTMLElement>();
+const widgetsShowing = ref(false);
 
 provide("router", mainRouter);
 provideMetadataReceiver((info) => {
-    pageMetadata = info;
+    pageMetadata.value = info;
     if (pageMetadata.value) {
         document.title = `${pageMetadata.value.title} | ${instanceName}`;
     }
@@ -112,11 +111,11 @@ const enableBlur = ref(defaultStore.state.useBlurEffect);
 
 const calcBg = () => {
     const rawBg = "var(--header)";
-		const tinyBg = tinycolor(rawBg.startsWith("var(") ? getComputedStyle(document.documentElement).getPropertyValue(rawBg.slice(4, -1)) : rawBg);
-		if (!enableBlur.value) {
-				tinyBg.setAlpha(99);
-		}
-		bg.value = tinyBg.toRgbString();
+    const tinyBg = tinycolor(rawBg.startsWith("var(") ? getComputedStyle(document.documentElement).getPropertyValue(rawBg.slice(4, -1)) : rawBg);
+    if (!enableBlur.value) {
+        tinyBg.setAlpha(99);
+    }
+    bg.value = tinyBg.toRgbString();
 };
 
 mainRouter.on("change", () => {
@@ -139,7 +138,7 @@ if (defaultStore.state.widgets.length === 0) {
 }
 
 onMounted(() => {
-		calcBg();
+    calcBg();
     if (!isDesktop.value) {
         window.addEventListener("resize", () => {
             if (window.innerWidth >= DESKTOP_THRESHOLD) isDesktop.value = true;

@@ -11,7 +11,7 @@
     <div class="_monolithic_">
         <div class="_section">
             <MkAnimBg style="position: absolute; top: 0; left: 0;" :scale="1.5"/>
-            <XSignup :auto-set="autoSet" @signup="onSignup" @signupEmailPending="onSignupEmailPending"/>
+            <XSignup :auto-set="autoSet" @signup="onSignup" @signup-email-pending="onSignupEmailPending"/>
         </div>
     </div>
 </XModalWindow>

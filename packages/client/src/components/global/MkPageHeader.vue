@@ -41,7 +41,7 @@ import { scrollToTop } from "@/scripts/scroll";
 import { globalEvents } from "@/events";
 import { injectPageMetadata } from "@/scripts/page-metadata";
 import { $i, openAccountMenu as openAccountMenu_ } from "@/account";
-import {defaultStore} from "@/store";
+import { defaultStore } from "@/store";
 
 const props = withDefaults(defineProps<{
 	tabs?: Tab[];
@@ -102,7 +102,7 @@ const calcBg = () => {
     const tinyBg = tinycolor(rawBg.startsWith("var(") ? getComputedStyle(document.documentElement).getPropertyValue(rawBg.slice(4, -1)) : rawBg);
     if (enableBlur.value) {
         tinyBg.setAlpha(0.85);
-		}
+    }
     bg.value = tinyBg.toRgbString();
 };
 

@@ -46,7 +46,7 @@ export async function signout() {
         if (accounts.length === 0) {
             await navigator.serviceWorker.getRegistrations()
 				.then(registrations => {
-						return Promise.all(registrations.map(registration => registration.unregister()));
+				    return Promise.all(registrations.map(registration => registration.unregister()));
 				});
         }
     } catch (err) {}
