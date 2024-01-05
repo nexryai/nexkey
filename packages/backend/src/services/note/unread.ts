@@ -1,7 +1,7 @@
 import { Note } from '@/models/entities/note.js';
 import { publishMainStream } from '@/services/stream.js';
 import { User } from '@/models/entities/user.js';
-import { Mutings, NoteThreadMutings, NoteUnreads } from '@/models/index.js';
+import { Mutings, NoteThreadMutings, NoteUnreads, UserProfiles } from '@/models/index.js';
 import { genId } from '@/misc/gen-id.js';
 
 export async function insertNoteUnread(userId: User['id'], note: Note, params: {
@@ -15,6 +15,14 @@ export async function insertNoteUnread(userId: User['id'], note: Note, params: {
 		muterId: userId,
 	});
 	if (mute.map(m => m.muteeId).includes(note.userId)) return;
+	if (note.userHost != null) {
+		const pushedUserProfile = await UserProfiles.findOneBy({
+			userId: userId,
+		});
+		if (pushedUserProfile.mutedInstances.includes(note.userHost)) {
+			return;
+		}
+	}
 	//#endregion
 
 	// スレッドミュート

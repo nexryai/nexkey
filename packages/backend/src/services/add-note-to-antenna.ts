@@ -1,6 +1,6 @@
 import { Antenna } from '@/models/entities/antenna.js';
 import { Note } from '@/models/entities/note.js';
-import { AntennaNotes, Mutings, Notes } from '@/models/index.js';
+import { AntennaNotes, Mutings, Notes, UserProfiles } from '@/models/index.js';
 import { genId } from '@/misc/gen-id.js';
 import { isUserRelated } from '@/misc/is-user-related.js';
 import { publishAntennaStream, publishMainStream } from '@/services/stream.js';
@@ -10,8 +10,10 @@ export async function addNoteToAntenna(antenna: Antenna, note: Note, noteUser: {
 	// 通知しない設定になっているか、自分自身の投稿なら既読にする
 	const read = !antenna.notify || (antenna.userId === noteUser.id);
 
+	const newAntennaNoteId = genId();
+
 	AntennaNotes.insert({
-		id: genId(),
+		id: newAntennaNoteId,
 		antennaId: antenna.id,
 		noteId: note.id,
 		read: read,
@@ -40,7 +42,28 @@ export async function addNoteToAntenna(antenna: Antenna, note: Note, noteUser: {
 		}
 
 		if (isUserRelated(_note, new Set<string>(mutings.map(x => x.muteeId)))) {
+			const updates = {
+				read: true,
+			};
+			await AntennaNotes.update({
+				id: newAntennaNoteId,
+			}, updates);
 			return;
+		}
+
+		if (note.userHost != null) {
+			const antennaUserProfile = await UserProfiles.findOneBy({
+				userId: antenna.userId,
+			});
+			if (antennaUserProfile.mutedInstances.includes(note.userHost)) {
+				const updates = {
+					read: true,
+				};
+				await AntennaNotes.update({
+					id: newAntennaNoteId,
+				}, updates);
+				return;
+			}
 		}
 
 		// 2秒経っても既読にならなかったら通知

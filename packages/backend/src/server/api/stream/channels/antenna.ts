@@ -1,6 +1,7 @@
 import Channel from '../channel.js';
 import { Notes } from '@/models/index.js';
 import { isUserRelated } from '@/misc/is-user-related.js';
+import { isInstanceMuted } from '@/misc/is-instance-muted.js';
 import { StreamMessages } from '../types.js';
 
 export default class extends Channel {
@@ -29,6 +30,8 @@ export default class extends Channel {
 			if (isUserRelated(note, this.muting)) return;
 			// 流れてきたNoteがブロックされているユーザーが関わるものだったら無視する
 			if (isUserRelated(note, this.blocking)) return;
+			// Ignore notes from instances the user has muted
+			if (isInstanceMuted(note, new Set<string>(this.userProfile?.mutedInstances ?? []))) return;
 
 			this.connection.cacheNote(note);
 
