@@ -103,10 +103,11 @@ function openInstanceMenu(ev: MouseEvent) {
         icon: "ti ti-whirl",
         to: "/about#federation",
     }, {
-        type: "link",
-        text: i18n.ts.ads,
-        icon: "fas fa-rectangle-ad",
-        to: "/ads",
+        text: i18n.ts.emergencyClient,
+        icon: "ti ti-battery-eco",
+        action: () => {
+            window.location.href = "/cli";
+        },
     }, null, {
         type: "parent",
         text: i18n.ts.help,

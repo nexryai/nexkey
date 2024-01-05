@@ -945,6 +945,7 @@ searchEngine: "Search engine used to search for MFM"
 releaseToRefresh: "Release to reload"
 refreshing: "reloading..."
 pullDownToRefresh: "Pull down to reload"
+emergencyClient: "Emergency safe mode client"
 
 _sensitiveMediaDetection:
   description: "Reduces the effort of server moderation through automatically recognizing NSFW media via Machine Learning. This will slightly increase the load on the server."

@@ -941,6 +941,7 @@ searchEngine: "MFMの検索で利用する検索エンジン"
 releaseToRefresh: "離してリロード"
 refreshing: "リロード中"
 pullDownToRefresh: "引っ張ってリロード"
+emergencyClient: "緊急省電力クライアント"
 
 _sensitiveMediaDetection:
   description: "機械学習を使って自動でセンシティブなメディアを検出し、モデレーションに役立てることができます。サーバーの負荷が少し増えます。"
