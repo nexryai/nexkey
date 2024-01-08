@@ -791,19 +791,19 @@
     local-pkg "^0.5.0"
     magic-string-ast "^0.3.0"
 
-"@vue-macros/reactivity-transform@0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@vue-macros/reactivity-transform/-/reactivity-transform-0.4.1.tgz#c87ba9febf36bb5144351d62f802ee5a108c9703"
-  integrity sha512-P+9MnDx9eVr23jDo2CifUtfgYGZ8NcTAE3njS1ef3DpEs9C3p4UfcEbeLyvt1fCpPVf9kpdo//8mVJ8MgVK6cw==
+"@vue-macros/reactivity-transform@0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@vue-macros/reactivity-transform/-/reactivity-transform-0.4.2.tgz#8cf81a57e775853f0174db88f9d5a2979ca27056"
+  integrity sha512-4qgi0GCLrVEtphO+ZQwrgp+pxUcZhzihI248fvo1b9bKBEDkYzSse1LcrpFGUhsndbvoovdebuBBlFWnIuFtUQ==
   dependencies:
-    "@babel/parser" "^7.23.5"
+    "@babel/parser" "^7.23.6"
     "@vue-macros/common" "1.10.0"
-    "@vue/compiler-core" "^3.3.10"
-    "@vue/shared" "^3.3.10"
+    "@vue/compiler-core" "^3.4.5"
+    "@vue/shared" "^3.4.5"
     magic-string "^0.30.5"
-    unplugin "^1.5.1"
+    unplugin "^1.6.0"
 
-"@vue/compiler-core@3.4.5", "@vue/compiler-core@^3.3.10":
+"@vue/compiler-core@3.4.5", "@vue/compiler-core@^3.4.5":
   version "3.4.5"
   resolved "https://registry.yarnpkg.com/@vue/compiler-core/-/compiler-core-3.4.5.tgz#9565aebaadef8649eb7c8e150a5f4f4e2542667d"
   integrity sha512-Daka7P1z2AgKjzuueWXhwzIsKu0NkLB6vGbNVEV2iJ8GJTrzraZo/Sk4GWCMRtd/qVi3zwnk+Owbd/xSZbwHtQ==
@@ -877,7 +877,7 @@
     "@vue/compiler-ssr" "3.4.5"
     "@vue/shared" "3.4.5"
 
-"@vue/shared@3.4.5", "@vue/shared@^3.3.10":
+"@vue/shared@3.4.5", "@vue/shared@^3.4.5":
   version "3.4.5"
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.4.5.tgz#c8b4eb6399a7fc986565ea736d938b3a1579256d"
   integrity sha512-6XptuzlMvN4l4cDnDw36pdGEV+9njYkQ1ZE0Q6iZLwrKefKaOJyiFmcP3/KBDHbt72cJZGtllAc1GaHe6XGAyg==
@@ -3925,7 +3925,7 @@ unload@2.4.1:
   resolved "https://registry.yarnpkg.com/unload/-/unload-2.4.1.tgz#b0c5b7fb44e17fcbf50dcb8fb53929c59dd226a5"
   integrity sha512-IViSAm8Z3sRBYA+9wc0fLQmU9Nrxb16rcDmIiR6Y9LJSZzI7QY5QsDhqPpKOjAn0O9/kfK1TfNEMMAGPTIraPw==
 
-unplugin@^1.5.1:
+unplugin@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/unplugin/-/unplugin-1.6.0.tgz#0bd7c344182c73e685c864f4f7161531f024b942"
   integrity sha512-BfJEpWBu3aE/AyHx8VaNE/WgouoQxgH9baAiH82JjX8cqVyi3uJQstqwD5J+SZxIK326SZIhsSZlALXVBCknTQ==
