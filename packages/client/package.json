@@ -31,7 +31,7 @@
 		"chartjs-plugin-zoom": "2.0.1",
 		"compare-versions": "6.1.0",
 		"cropperjs": "2.0.0-beta.4",
-		"date-fns": "3.1.0",
+		"date-fns": "3.2.0",
 		"escape-regexp": "0.0.1",
 		"eventemitter3": "5.0.1",
 		"idb-keyval": "6.2.1",
