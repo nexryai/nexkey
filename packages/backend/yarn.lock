@@ -1049,10 +1049,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/oauth@0.9.3":
-  version "0.9.3"
-  resolved "https://registry.yarnpkg.com/@types/oauth/-/oauth-0.9.3.tgz#4be90beb6c4a23e1a1614c966a165af1ef5e5e0d"
-  integrity sha512-avZiwxSz/WS6EaEjhchzXKgWtlGGYGnEVJoHuQuDLHf7gIW1Gmm9eIxOMuJ6umQNNKZkJ3Uy+C/rLzEvL3I8Sw==
+"@types/oauth@0.9.4":
+  version "0.9.4"
+  resolved "https://registry.yarnpkg.com/@types/oauth/-/oauth-0.9.4.tgz#dcbab5efa2f34f312b915f80685760ccc8111e0a"
+  integrity sha512-qk9orhti499fq5XxKCCEbd0OzdPZuancneyse3KtR+vgMiHRbh+mn8M4G6t64ob/Fg+GZGpa565MF/2dKWY32A==
   dependencies:
     "@types/node" "*"
 
