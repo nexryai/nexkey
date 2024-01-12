@@ -80,7 +80,7 @@
 		"node-fetch": "3.3.2",
 		"nodemailer": "6.9.8",
 		"os-utils": "0.0.14",
-		"otpauth": "9.1.5",
+		"otpauth": "9.2.1",
 		"parse5": "7.1.2",
 		"pg": "8.11.3",
 		"private-ip": "3.0.1",
