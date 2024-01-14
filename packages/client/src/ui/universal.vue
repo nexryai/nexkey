@@ -57,7 +57,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineAsyncComponent, provide, onMounted, computed, ref, watch, ComputedRef } from "vue";
+import { defineAsyncComponent, provide, onMounted, computed, ref, ComputedRef } from "vue";
 import tinycolor from "tinycolor2";
 import XCommon from "./_common_/common.vue";
 import { instanceName } from "@/config";
@@ -86,15 +86,15 @@ window.addEventListener("resize", () => {
     isMobile.value = deviceKind === "smartphone" || window.innerWidth <= MOBILE_THRESHOLD;
 });
 
-let pageMetadata = ref<null | ComputedRef<PageMetadata>>();
+const pageMetadata = ref<null | ComputedRef<PageMetadata>>();
 const widgetsEl = ref<HTMLElement>();
 const widgetsShowing = ref(false);
 
 provide("router", mainRouter);
 provideMetadataReceiver((info) => {
     pageMetadata.value = info;
-    if (pageMetadata.value) {
-        document.title = `${pageMetadata.value.title} | ${instanceName}`;
+    if (pageMetadata.value.value) {
+        document.title = `${pageMetadata.value.value.title} | ${instanceName}`;
     }
 });
 

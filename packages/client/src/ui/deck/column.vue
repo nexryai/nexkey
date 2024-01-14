@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onBeforeUnmount, onMounted, provide, Ref, watch } from "vue";
+import { computed, onBeforeUnmount, onMounted, provide, ref, watch } from "vue";
 import { updateColumn, swapLeftColumn, swapRightColumn, swapUpColumn, swapDownColumn, stackLeftColumn, popRightColumn, removeColumn, swapColumn, Column , deckStore } from "./deck-store";
 import * as os from "@/os";
 import { i18n } from "@/i18n";
@@ -59,19 +59,19 @@ const emit = defineEmits<{
 	(ev: "change-active-state", v: boolean): void;
 }>();
 
-let body = $ref<HTMLDivElement>();
+let body = ref<HTMLDivElement>();
 
-let dragging = $ref(false);
+let dragging = ref(false);
 watch($$(dragging), v => os.deckGlobalEvents.emit(v ? "column.dragStart" : "column.dragEnd"));
 
-let draghover = $ref(false);
-let dropready = $ref(false);
+let draghover = ref(false);
+let dropready = ref(false);
 
-const isMainColumn = $computed(() => props.column.type === "main");
-const active = $computed(() => props.column.active !== false);
+const isMainColumn = computed(() => props.column.type === "main");
+const active = computed(() => props.column.active !== false);
 watch($$(active), v => emit("change-active-state", v));
 
-const keymap = $computed(() => ({
+const keymap = computed(() => ({
     "shift+up": () => emit("parent-focus", "up"),
     "shift+down": () => emit("parent-focus", "down"),
     "shift+left": () => emit("parent-focus", "left"),
@@ -89,11 +89,11 @@ onBeforeUnmount(() => {
 });
 
 function onOtherDragStart() {
-    dropready = true;
+    dropready.value = true;
 }
 
 function onOtherDragEnd() {
-    dropready = false;
+    dropready.value = false;
 }
 
 function toggleActive() {
@@ -195,7 +195,7 @@ function onContextmenu(ev: MouseEvent) {
 }
 
 function goTop() {
-    body.scrollTo({
+    body.value.scrollTo({
         top: 0,
         behavior: "smooth",
     });
@@ -208,17 +208,17 @@ function onDragstart(ev) {
     // Chromeのバグで、Dragstartハンドラ内ですぐにDOMを変更する(=リアクティブなプロパティを変更する)とDragが終了してしまう
     // SEE: https://stackoverflow.com/questions/19639969/html5-dragend-event-firing-immediately
     window.setTimeout(() => {
-        dragging = true;
+        dragging.value = true;
     }, 10);
 }
 
 function onDragend(ev) {
-    dragging = false;
+    dragging.value = false;
 }
 
 function onDragover(ev) {
     // 自分自身がドラッグされている場合
-    if (dragging) {
+    if (dragging.value) {
         // 自分自身にはドロップさせない
         ev.dataTransfer.dropEffect = "none";
     } else {
@@ -226,16 +226,16 @@ function onDragover(ev) {
 
         ev.dataTransfer.dropEffect = isDeckColumn ? "move" : "none";
 
-        if (isDeckColumn) draghover = true;
+        if (isDeckColumn) draghover.value = true;
     }
 }
 
 function onDragleave() {
-    draghover = false;
+    draghover.value = false;
 }
 
 function onDrop(ev) {
-    draghover = false;
+    draghover.value = false;
     os.deckGlobalEvents.emit("column.dragEnd");
 
     const id = ev.dataTransfer.getData(_DATA_TRANSFER_DECK_COLUMN_);

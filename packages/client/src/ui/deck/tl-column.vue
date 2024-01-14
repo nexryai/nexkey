@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import XColumn from "./column.vue";
 import { removeColumn, updateColumn, Column } from "./deck-store";
 import XTimeline from "@/components/MkTimeline.vue";
@@ -39,28 +39,28 @@ const emit = defineEmits<{
 	(ev: "parent-focus", direction: "up" | "down" | "left" | "right"): void;
 }>();
 
-let disabled = $ref(false);
-let indicated = $ref(false);
-let columnActive = $ref(true);
-let enableMTL = $ref(false);
-let enableLTL = $ref(false);
-let enableGTL = $ref(false);
-let enablePTL = $ref(false);
-let enableLimitedTL = $ref(false);
+let disabled = ref(false);
+let indicated = ref(false);
+let columnActive = ref(true);
+let enableMTL = ref(false);
+let enableLTL = ref(false);
+let enableGTL = ref(false);
+let enablePTL = ref(false);
+let enableLimitedTL = ref(false);
 
 onMounted(() => {
     if (props.column.tl == null) {
         setType();
     } else if ($i) {
-        disabled = !$i.isModerator && !$i.isAdmin && (
+        disabled.value = !$i.isModerator && !$i.isAdmin && (
             instance.disableLocalTimeline && ["local", "social"].includes(props.column.tl) ||
 			instance.disableGlobalTimeline && ["global"].includes(props.column.tl));
     }
-    enableLTL = defaultStore.state.enableLTL;
-    enableLimitedTL = defaultStore.state.enableLimitedTL;
-    enableMTL = defaultStore.state.enableMTL;
-    enableGTL = defaultStore.state.enableGTL;
-    enablePTL = defaultStore.state.enablePTL;
+    enableLTL.value = defaultStore.state.enableLTL;
+    enableLimitedTL.value = defaultStore.state.enableLimitedTL;
+    enableMTL.value = defaultStore.state.enableMTL;
+    enableGTL.value = defaultStore.state.enableGTL;
+    enablePTL.value = defaultStore.state.enablePTL;
 });
 
 async function setType() {
@@ -88,22 +88,22 @@ async function setType() {
 }
 
 function queueUpdated(q) {
-    if (columnActive) {
-        indicated = q !== 0;
+    if (columnActive.value) {
+        indicated.value = q !== 0;
     }
 }
 
 function onNote() {
-    if (!columnActive) {
-        indicated = true;
+    if (!columnActive.value) {
+        indicated.value = true;
     }
 }
 
 function onChangeActiveState(state) {
-    columnActive = state;
+    columnActive.value = state;
 
-    if (columnActive) {
-        indicated = false;
+    if (columnActive.value) {
+        indicated.value = false;
     }
 }
 

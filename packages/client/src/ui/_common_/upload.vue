@@ -18,7 +18,6 @@
 </template>
 
 <script lang="ts" setup>
-import { } from "vue";
 import * as os from "@/os";
 import { uploads } from "@/scripts/upload";
 import { i18n } from "@/i18n";

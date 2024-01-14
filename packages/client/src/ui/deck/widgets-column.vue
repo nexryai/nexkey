@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { } from "vue";
+import { ref } from "vue";
 import XColumn from "./column.vue";
 import { addColumnWidget, Column, removeColumnWidget, setColumnWidgets, updateColumnWidget } from "./deck-store";
 import XWidgets from "@/components/MkWidgets.vue";
@@ -25,7 +25,7 @@ const emit = defineEmits<{
 	(ev: "parent-focus", direction: "up" | "down" | "left" | "right"): void;
 }>();
 
-let edit = $ref(false);
+let edit = ref(false);
 
 function addWidget(widget) {
     addColumnWidget(props.column.id, widget);
@@ -44,7 +44,7 @@ function updateWidgets(widgets) {
 }
 
 function func() {
-    edit = !edit;
+    edit.value = !edit.value;
 }
 
 const menu = [{
