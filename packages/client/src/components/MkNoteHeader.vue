@@ -9,6 +9,12 @@
         <MkA class="created-at" :to="notePage(note)">
             <MkTime :time="note.createdAt"/>
         </MkA>
+        {{ }}
+        <i v-if="note.updatedAt" class="ti ti-pencil"></i>
+        <MkTime
+            v-if="note.updatedAt"
+            :time="note.updatedAt"
+        />
         <MkVisibility :note="note"/>
     </div>
     <MkInstanceTicker class="ticker" :instance="note.user.instance"/>

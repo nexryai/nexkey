@@ -19,13 +19,20 @@ export class Note {
 	})
 	public createdAt: Date;
 
+    @Index()
+    @Column("timestamp with time zone", {
+        nullable: true,
+        comment: "The updated date of the Note.",
+    })
+	public updatedAt: Date | null;
+
 	@Index()
 	@Column({
 	    ...id(),
 	    nullable: true,
 	    comment: "The ID of reply target.",
 	})
-	public replyId: Note["id"] | null;
+    public replyId: Note["id"] | null;
 
 	@ManyToOne(type => Note, {
 	    onDelete: "CASCADE",

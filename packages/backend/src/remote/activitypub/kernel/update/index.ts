@@ -1,9 +1,10 @@
 import { CacheableRemoteUser } from "@/models/entities/user.js";
-import { getApType, IUpdate, isActor } from "../../type.js";
+import { getApType, IUpdate, isActor, isPost } from "../../type.js";
 import { apLogger } from "../../logger.js";
 import { updateQuestion } from "../../models/question.js";
 import Resolver from "../../resolver.js";
 import { updatePerson } from "../../models/person.js";
+import updateNote from "./note.js";
 
 /**
  * Updateアクティビティを捌きます
@@ -28,6 +29,8 @@ export default async (actor: CacheableRemoteUser, activity: IUpdate): Promise<st
     } else if (getApType(object) === "Question") {
         await updateQuestion(object, resolver).catch(e => console.log(e));
         return "ok: Question updated";
+    } else if (isPost(object)) {
+        return await updateNote(actor, object);
     } else {
         return `skip: Unknown type: ${getApType(object)}`;
     }
