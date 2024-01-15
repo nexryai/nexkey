@@ -59,6 +59,9 @@ if (config.url.startsWith("https") && !config.disableHsts) {
 }
 
 app.use(async (ctx, next) => {
+    ctx.set("X-Content-Type-Options", "nosniff");
+    ctx.set("X-Frame-Options", "DENY");
+    ctx.set("Content-Security-Policy", "default-src 'none'");
     ctx.set("Permissions-Policy", "accelerometer=(), camera=(), geolocation=(), gyroscope=(), microphone=(), interest-cohort=()");
     await next();
 });

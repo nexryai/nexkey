@@ -36,6 +36,25 @@ const clientAssets = `${_dirname}/../../../../client/assets/`;
 const assets = `${_dirname}/../../../../../built/_client_dist_/`;
 const swAssets = `${_dirname}/../../../../../built/_sw_dist_/`;
 
+// 参考にした: https://github.com/mei23/misskey/blob/2c6db29a4acbce7e4ad8d40a54afc481019199ab/src/server/web/index.ts#L33
+// ToDo: script-srcのunsafeを消せるようにする
+export function genCsp() {
+    const csp
+        = "base-uri 'none'; "
+        + "default-src 'none'; "
+        + "script-src 'self' 'unsafe-inline' https://www.recaptcha.net/recaptcha/ https://www.gstatic.com/recaptcha/ https://challenges.cloudflare.com; "
+        + "img-src 'self' https: data: blob:; "
+        + "media-src 'self' https:; "
+        + "style-src 'self' 'unsafe-inline'; "
+        + "font-src 'self'; "
+        + "frame-src 'self' https:; "
+        + "manifest-src 'self'; "
+        + `connect-src 'self' data: blob: ${config.wsUrl}; `	// wssを指定しないとSafariで動かない https://github.com/w3c/webappsec-csp/issues/7#issuecomment-1086257826
+        + "frame-ancestors 'none'";
+
+    return { csp };
+}
+
 // Init app
 const app = new Koa();
 
@@ -207,6 +226,10 @@ router.get("/robots.txt", async ctx => {
 
 // Docs
 router.get("/api-doc", async ctx => {
+    const { csp } = genCsp();
+    ctx.set("Content-Security-Policy", csp);
+    ctx.set("Cache-Control", "public, max-age=60");
+
     await send(ctx as any, "/redoc.html", {
         root: staticAssets,
     });
@@ -285,6 +308,8 @@ router.get(["/@:user", "/@:user/:sub"], async (ctx, next) => {
 				.map(field => field.value)
             : [];
 
+        const { csp } = genCsp();
+
         await ctx.render("user", {
             user, profile, me,
             avatarUrl: await Users.getAvatarUrl(user),
@@ -293,7 +318,9 @@ router.get(["/@:user", "/@:user/:sub"], async (ctx, next) => {
             icon: meta.iconUrl,
             themeColor: meta.themeColor,
         });
-        ctx.set("Cache-Control", "public, max-age=15");
+
+        ctx.set("Content-Security-Policy", csp);
+        ctx.set("Cache-Control", "public, max-age=30");
     } else {
         // リモートユーザーなので
         // モデレータがAPI経由で参照可能にするために404にはしない
@@ -327,6 +354,8 @@ router.get("/notes/:note", async (ctx, next) => {
         const _note = await Notes.pack(note);
         const profile = await UserProfiles.findOneByOrFail({ userId: note.userId });
         const meta = await fetchMeta();
+        const { csp } = genCsp();
+
         await ctx.render("note", {
             note: _note,
             profile,
@@ -338,7 +367,8 @@ router.get("/notes/:note", async (ctx, next) => {
             themeColor: meta.themeColor,
         });
 
-        ctx.set("Cache-Control", "public, max-age=15");
+        ctx.set("Content-Security-Policy", csp);
+        ctx.set("Cache-Control", "public, max-age=30");
 
         return;
     }
@@ -365,6 +395,8 @@ router.get("/@:user/pages/:page", async (ctx, next) => {
         const _page = await Pages.pack(page);
         const profile = await UserProfiles.findOneByOrFail({ userId: page.userId });
         const meta = await fetchMeta();
+        const { csp } = genCsp();
+
         await ctx.render("page", {
             page: _page,
             profile,
@@ -373,6 +405,8 @@ router.get("/@:user/pages/:page", async (ctx, next) => {
             icon: meta.iconUrl,
             themeColor: meta.themeColor,
         });
+
+        ctx.set("Content-Security-Policy", csp);
 
         if (["public"].includes(page.visibility)) {
             ctx.set("Cache-Control", "public, max-age=15");
@@ -397,6 +431,8 @@ router.get("/clips/:clip", async (ctx, next) => {
         const _clip = await Clips.pack(clip);
         const profile = await UserProfiles.findOneByOrFail({ userId: clip.userId });
         const meta = await fetchMeta();
+        const { csp } = genCsp();
+
         await ctx.render("clip", {
             clip: _clip,
             profile,
@@ -406,6 +442,7 @@ router.get("/clips/:clip", async (ctx, next) => {
             themeColor: meta.themeColor,
         });
 
+        ctx.set("Content-Security-Policy", csp);
         ctx.set("Cache-Control", "public, max-age=15");
 
         return;
@@ -413,56 +450,6 @@ router.get("/clips/:clip", async (ctx, next) => {
 
     await next();
 });
-
-// Gallery post
-router.get("/gallery/:post", async (ctx, next) => {
-    const post = await GalleryPosts.findOneBy({ id: ctx.params.post });
-
-    if (post) {
-        const _post = await GalleryPosts.pack(post);
-        const profile = await UserProfiles.findOneByOrFail({ userId: post.userId });
-        const meta = await fetchMeta();
-        await ctx.render("gallery-post", {
-            post: _post,
-            profile,
-            avatarUrl: await Users.getAvatarUrl(await Users.findOneByOrFail({ id: post.userId })),
-            instanceName: meta.name || "Misskey",
-            icon: meta.iconUrl,
-            themeColor: meta.themeColor,
-        });
-
-        ctx.set("Cache-Control", "public, max-age=15");
-
-        return;
-    }
-
-    await next();
-});
-
-// Channel
-router.get("/channels/:channel", async (ctx, next) => {
-    const channel = await Channels.findOneBy({
-        id: ctx.params.channel,
-    });
-
-    if (channel) {
-        const _channel = await Channels.pack(channel);
-        const meta = await fetchMeta();
-        await ctx.render("channel", {
-            channel: _channel,
-            instanceName: meta.name || "Misskey",
-            icon: meta.iconUrl,
-            themeColor: meta.themeColor,
-        });
-
-        ctx.set("Cache-Control", "public, max-age=15");
-
-        return;
-    }
-
-    await next();
-});
-//#endregion
 
 router.get("/_info_card_", async ctx => {
     const meta = await fetchMeta(true);
@@ -494,7 +481,9 @@ const override = (source: string, target: string, depth = 0) =>
     [, ...target.split("/").filter(x => x), ...source.split("/").filter(x => x).splice(depth)].join("/");
 
 router.get("/flush", async ctx => {
+    const { csp } = genCsp();
     await ctx.render("flush");
+    ctx.set("Content-Security-Policy", csp);
 });
 
 // streamingに非WebSocketリクエストが来た場合にbase htmlをキャシュ付きで返すと、Proxy等でそのパスがキャッシュされておかしくなる
@@ -506,6 +495,8 @@ router.get("/streaming", async ctx => {
 // Render base html for all requests
 router.get("(.*)", async ctx => {
     const meta = await fetchMeta();
+    const { csp } = genCsp();
+
     await ctx.render("base", {
         img: meta.bannerUrl,
         title: meta.name || "Misskey",
@@ -514,7 +505,9 @@ router.get("(.*)", async ctx => {
         icon: meta.iconUrl,
         themeColor: meta.themeColor,
     });
-    ctx.set("Cache-Control", "public, max-age=15");
+
+    ctx.set("Content-Security-Policy", csp);
+    ctx.set("Cache-Control", "public, max-age=30");
 });
 
 // Register router
