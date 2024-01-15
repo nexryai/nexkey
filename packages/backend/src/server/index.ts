@@ -58,6 +58,11 @@ if (config.url.startsWith("https") && !config.disableHsts) {
     });
 }
 
+app.use(async (ctx, next) => {
+    ctx.set("Permissions-Policy", "accelerometer=(), camera=(), geolocation=(), gyroscope=(), microphone=(), interest-cohort=()");
+    await next();
+});
+
 app.use(mount("/api", apiServer));
 app.use(mount("/files", fileServer));
 app.use(mount("/proxy", proxyServer));
