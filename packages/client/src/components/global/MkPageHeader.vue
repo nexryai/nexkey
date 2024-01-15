@@ -193,11 +193,12 @@ onUnmounted(() => {
 
 				> .avatar {
 					$size: 32px;
-					display: inline-block;
+                    contain: strict;
+                    overflow: clip;
 					width: $size;
 					height: $size;
-					vertical-align: bottom;
-					margin: 0 8px;
+                    padding: 8px;
+                    flex-shrink: 0;
 				}
 			}
 
@@ -235,7 +236,6 @@ onUnmounted(() => {
 			display: flex;
 			align-items: center;
 			max-width: min(30vw, 400px);
-			overflow: auto;
 			white-space: nowrap;
 			text-align: left;
 			font-weight: bold;
