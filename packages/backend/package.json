@@ -172,6 +172,6 @@
 		"eslint": "8.54.0",
 		"eslint-plugin-import": "2.29.1",
 		"execa": "8.0.1",
-		"typescript": "5.2.2"
+		"typescript": "5.3.3"
 	}
 }
