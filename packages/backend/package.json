@@ -32,10 +32,10 @@
 		"argon2": "0.31.2",
 		"autobind-decorator": "2.4.0",
 		"autwh": "0.1.0",
-		"aws-sdk": "2.1533.0",
+		"aws-sdk": "2.1538.0",
 		"bcryptjs": "2.4.3",
 		"blurhash": "2.0.5",
-		"bull": "4.12.0",
+		"bull": "4.12.2",
 		"cacheable-lookup": "7.0.0",
 		"cbor": "9.0.1",
 		"chalk": "5.3.0",
@@ -60,7 +60,7 @@
 		"json5": "2.2.3",
 		"json5-loader": "4.0.1",
 		"jsonld": "8.3.2",
-		"jsrsasign": "10.9.0",
+		"jsrsasign": "11.0.0",
 		"koa": "2.15.0",
 		"koa-bodyparser": "4.4.1",
 		"koa-favicon": "2.1.0",
@@ -123,7 +123,7 @@
 		"xev": "3.0.2"
 	},
 	"devDependencies": {
-		"@redocly/openapi-core": "1.4.0",
+		"@redocly/openapi-core": "1.6.0",
 		"@types/bcryptjs": "2.4.6",
 		"@types/bull": "4.10.0",
 		"@types/cbor": "6.0.0",
@@ -145,7 +145,7 @@
 		"@types/koa__multer": "2.0.7",
 		"@types/koa__router": "8.0.11",
 		"@types/mocha": "10.0.6",
-		"@types/node": "20.11.0",
+		"@types/node": "20.11.4",
 		"@types/node-fetch": "3.0.3",
 		"@types/nodemailer": "6.4.14",
 		"@types/oauth": "0.9.4",
@@ -172,6 +172,6 @@
 		"eslint": "8.54.0",
 		"eslint-plugin-import": "2.29.1",
 		"execa": "8.0.1",
-		"typescript": "5.2.2"
+		"typescript": "5.3.3"
 	}
 }
