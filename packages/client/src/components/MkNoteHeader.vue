@@ -6,7 +6,7 @@
     <div v-if="note.user.isBot" class="is-bot">bot</div>
     <div class="username"><MkAcct :user="note.user"/></div>
     <div class="info">
-        <MkA class="created-at" :to="notePage(note)">
+        <MkA v-if="!note.updatedAt" class="created-at" :to="notePage(note)">
             <MkTime :time="note.createdAt"/>
         </MkA>
         {{ }}
