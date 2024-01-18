@@ -76,12 +76,28 @@ export async function proxyMedia(ctx: Koa.Context) {
     } else {
         // 外部のMediaProxyを使うはずなのにこっちに誘導されたならリダイレクト
         redirectUrl = config.mediaProxy;
+
         // パスとパラメータを取得
         const { path, query } = ctx.request;
-        const queryString = querystring.stringify(query);
 
-        // パスとパラメータを維持してリダイレクト
-        const targetUrl = redirectUrl + path + (queryString ? `?${queryString}` : "");
+        let imageUrl = query.url;
+        if (imageUrl == null) {
+            ctx.status = 400;
+            return;
+        }
+
+        // urlクエリにconfig.mediaProxyが含まれている場合imageUrlを復元
+        if (imageUrl.includes(config.mediaProxy)) {
+            imageUrl = (new URL(imageUrl instanceof Array ? imageUrl[0] : imageUrl)).searchParams.get("url") ?? imageUrl;
+        }
+
+        // サポートするクエリ
+        const supportedQueries = ["preview", "emoji", "avatar", "ticker", "thumbnail"];
+
+        // 対応するクエリが1の場合にtargetUrlに追加
+        const additionalQueries = supportedQueries.filter(queryName => query[queryName] === "1");
+        const additionalQueryString = additionalQueries.length > 0 ? `&${additionalQueries.join("&")}` : "";
+        const targetUrl = redirectUrl + path + `?url=${imageUrl}${additionalQueryString}=1`;
 
         ctx.redirect(targetUrl);
     }
