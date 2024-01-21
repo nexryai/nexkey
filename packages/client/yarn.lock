@@ -803,18 +803,7 @@
     magic-string "^0.30.5"
     unplugin "^1.6.0"
 
-"@vue/compiler-core@3.4.14", "@vue/compiler-core@^3.4.5":
-  version "3.4.14"
-  resolved "https://registry.yarnpkg.com/@vue/compiler-core/-/compiler-core-3.4.14.tgz#c3efdf3be8b0c4bf30830063d505c8c7945b6f0d"
-  integrity sha512-ro4Zzl/MPdWs7XwxT7omHRxAjMbDFRZEEjD+2m3NBf8YzAe3HuoSEZosXQo+m1GQ1G3LQ1LdmNh1RKTYe+ssEg==
-  dependencies:
-    "@babel/parser" "^7.23.6"
-    "@vue/shared" "3.4.14"
-    entities "^4.5.0"
-    estree-walker "^2.0.2"
-    source-map-js "^1.0.2"
-
-"@vue/compiler-core@3.4.15":
+"@vue/compiler-core@3.4.15", "@vue/compiler-core@^3.4.5":
   version "3.4.15"
   resolved "https://registry.yarnpkg.com/@vue/compiler-core/-/compiler-core-3.4.15.tgz#be20d1bbe19626052500b48969302cb6f396d36e"
   integrity sha512-XcJQVOaxTKCnth1vCxEChteGuwG6wqnUHxAm1DO3gCz0+uXKaJNx8/digSz4dLALCy8n2lKq24jSUs8segoqIw==
@@ -825,14 +814,6 @@
     estree-walker "^2.0.2"
     source-map-js "^1.0.2"
 
-"@vue/compiler-dom@3.4.14":
-  version "3.4.14"
-  resolved "https://registry.yarnpkg.com/@vue/compiler-dom/-/compiler-dom-3.4.14.tgz#ba7269996ef12a3b9293083ac109b52d14c9ccb5"
-  integrity sha512-nOZTY+veWNa0DKAceNWxorAbWm0INHdQq7cejFaWM1WYnoNSJbSEKYtE7Ir6lR/+mo9fttZpPVI9ZFGJ1juUEQ==
-  dependencies:
-    "@vue/compiler-core" "3.4.14"
-    "@vue/shared" "3.4.14"
-
 "@vue/compiler-dom@3.4.15":
   version "3.4.15"
   resolved "https://registry.yarnpkg.com/@vue/compiler-dom/-/compiler-dom-3.4.15.tgz#753f5ed55f78d33dff04701fad4d76ff0cf81ee5"
@@ -840,21 +821,6 @@
   dependencies:
     "@vue/compiler-core" "3.4.15"
     "@vue/shared" "3.4.15"
-
-"@vue/compiler-sfc@3.4.14":
-  version "3.4.14"
-  resolved "https://registry.yarnpkg.com/@vue/compiler-sfc/-/compiler-sfc-3.4.14.tgz#d472b9be05f0f958911a8aad0826a12d92fdb82f"
-  integrity sha512-1vHc9Kv1jV+YBZC/RJxQJ9JCxildTI+qrhtDh6tPkR1O8S+olBUekimY0km0ZNn8nG1wjtFAe9XHij+YLR8cRQ==
-  dependencies:
-    "@babel/parser" "^7.23.6"
-    "@vue/compiler-core" "3.4.14"
-    "@vue/compiler-dom" "3.4.14"
-    "@vue/compiler-ssr" "3.4.14"
-    "@vue/shared" "3.4.14"
-    estree-walker "^2.0.2"
-    magic-string "^0.30.5"
-    postcss "^8.4.33"
-    source-map-js "^1.0.2"
 
 "@vue/compiler-sfc@3.4.15", "@vue/compiler-sfc@^3.3.10":
   version "3.4.15"
@@ -870,14 +836,6 @@
     magic-string "^0.30.5"
     postcss "^8.4.33"
     source-map-js "^1.0.2"
-
-"@vue/compiler-ssr@3.4.14":
-  version "3.4.14"
-  resolved "https://registry.yarnpkg.com/@vue/compiler-ssr/-/compiler-ssr-3.4.14.tgz#7de5a04267e036d18ad33768a78a780cab570305"
-  integrity sha512-bXT6+oAGlFjTYVOTtFJ4l4Jab1wjsC0cfSfOe2B4Z0N2vD2zOBSQ9w694RsCfhjk+bC2DY5Gubb1rHZVii107Q==
-  dependencies:
-    "@vue/compiler-dom" "3.4.14"
-    "@vue/shared" "3.4.14"
 
 "@vue/compiler-ssr@3.4.15":
   version "3.4.15"
@@ -918,11 +876,6 @@
   dependencies:
     "@vue/compiler-ssr" "3.4.15"
     "@vue/shared" "3.4.15"
-
-"@vue/shared@3.4.14":
-  version "3.4.14"
-  resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.4.14.tgz#bc2d199a42a87f0349492fdfb83abc205ddd4d60"
-  integrity sha512-nmi3BtLpvqXAWoRZ6HQ+pFJOHBU4UnH3vD3opgmwXac7vhaHKA9nj1VeGjMggdB9eLtW83eHyPCmOU1qzdsC7Q==
 
 "@vue/shared@3.4.15", "@vue/shared@^3.4.5":
   version "3.4.15"
