@@ -80,7 +80,7 @@
 		"@types/tinycolor2": "1.4.6",
 		"@types/uuid": "9.0.7",
 		"@typescript-eslint/eslint-plugin": "6.19.0",
-		"@typescript-eslint/parser": "6.19.0",
+		"@typescript-eslint/parser": "6.19.1",
 		"cross-env": "7.0.3",
 		"cypress": "13.6.3",
 		"eslint": "8.56.0",
