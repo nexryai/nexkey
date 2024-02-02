@@ -60,7 +60,7 @@
 		"json5": "2.2.3",
 		"json5-loader": "4.0.1",
 		"jsonld": "8.3.2",
-		"jsrsasign": "11.0.0",
+		"jsrsasign": "11.1.0",
 		"koa": "2.15.0",
 		"koa-bodyparser": "4.4.1",
 		"koa-favicon": "2.1.0",
