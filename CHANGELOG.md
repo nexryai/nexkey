@@ -8,6 +8,13 @@
 You should also include the user name that made the change.
 -->
 
+## 12.119.2-fix.6.3 (2024/02/04)
+### Bugfixes
+- インスタンスミュートが一部（アンテナ・通知などに）効かないのを修正 @atsu1125
+- `cc followers`を正しい公開範囲で解釈できるよう修正 @trwnh
+- isBot判定が正しく行われるように @Mar0xy
+- メール配信が管理者によって無効化されているなら配送を行わないように @atsu1125
+
 ## 12.119.2-fix.6.2 (2023/12/27)
 ### Improvements
 - 自分のインスタンスのノート探索速度を向上 @atsu1125
