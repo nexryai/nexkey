@@ -289,20 +289,20 @@
     "@babel/helper-validator-identifier" "^7.22.5"
     to-fast-properties "^2.0.0"
 
-"@bull-board/api@5.13.0":
-  version "5.13.0"
-  resolved "https://registry.yarnpkg.com/@bull-board/api/-/api-5.13.0.tgz#119dcb675555537b9a90d59294a3c093b02afac7"
-  integrity sha512-v5wvnGim1pmSK9PR1RYSx1dsCW6sOQYJnpvRgU6HZbVbW/5Z0luUBGpYYxM2Ry98uYKeU999mbS7xjunOkAQDw==
+"@bull-board/api@5.14.0":
+  version "5.14.0"
+  resolved "https://registry.yarnpkg.com/@bull-board/api/-/api-5.14.0.tgz#19ccccecd9644fda018278c16af9019fe4c2be49"
+  integrity sha512-ppN9GeCH8QmCzs47CpDFwVb4Q5W2nK2QvcnbxKpjktCTonZ+5PnoWyXQvLStbcKU9SbMKAM0/OXhj4xOcSRllQ==
   dependencies:
     redis-info "^3.0.8"
 
-"@bull-board/koa@5.13.0":
-  version "5.13.0"
-  resolved "https://registry.yarnpkg.com/@bull-board/koa/-/koa-5.13.0.tgz#ffb240245f6086badd0cb46bcff206592885e020"
-  integrity sha512-gGqVL+YtA8cggg8C9mz6Fjw2cd2jyEPQOe3Z5QxBCNqRaUahdLCymms3fEqlsUAforNAzIfgQI8d03FKk0Xzhw==
+"@bull-board/koa@5.14.0":
+  version "5.14.0"
+  resolved "https://registry.yarnpkg.com/@bull-board/koa/-/koa-5.14.0.tgz#18cb845a9fbee530170a46566680aeecc5f959a0"
+  integrity sha512-TPNNZOpzL58ccSm48pDQzOEsEmp/Hqnwsuw0RUXOe+BEgBO7Ixbgk8ENf4+OyIaYQ6HTGq2uZQrq8pebpLcw3w==
   dependencies:
-    "@bull-board/api" "5.13.0"
-    "@bull-board/ui" "5.13.0"
+    "@bull-board/api" "5.14.0"
+    "@bull-board/ui" "5.14.0"
     ejs "^3.1.7"
     koa "^2.13.1"
     koa-mount "^4.0.0"
@@ -310,12 +310,12 @@
     koa-static "^5.0.0"
     koa-views "^7.0.1"
 
-"@bull-board/ui@5.13.0":
-  version "5.13.0"
-  resolved "https://registry.yarnpkg.com/@bull-board/ui/-/ui-5.13.0.tgz#b0f1a5a0e446c608b4c6c29bb5d866c05c9c8bd7"
-  integrity sha512-UZ88j0c/G/UI5+F3zh6If9LqgF4kMmvRmTgnNckm8HJbclUdqvrcHBpo/e0HfdCaWGGhI2Gc12hq+AECc6c4Sw==
+"@bull-board/ui@5.14.0":
+  version "5.14.0"
+  resolved "https://registry.yarnpkg.com/@bull-board/ui/-/ui-5.14.0.tgz#85d218af58cb2785db19a066aefc8c99975cdada"
+  integrity sha512-quustWmLsLbqdbCQd4Mud9Eo/2BQzfJSNSiyJt9OrtYT4AXHMgGtbFUy2Ycyda7iQjC4ScKl8f+WdFs4y+KUJA==
   dependencies:
-    "@bull-board/api" "5.13.0"
+    "@bull-board/api" "5.14.0"
 
 "@chainsafe/is-ip@^2.0.1":
   version "2.0.2"

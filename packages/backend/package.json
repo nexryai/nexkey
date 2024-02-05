@@ -15,7 +15,7 @@
 		"lodash": "^4.17.21"
 	},
 	"dependencies": {
-		"@bull-board/koa": "5.13.0",
+		"@bull-board/koa": "5.14.0",
 		"@devmehq/email-validator-js": "1.0.19",
 		"@discordapp/twemoji": "15.0.2",
 		"@elastic/elasticsearch": "8.11.0",
