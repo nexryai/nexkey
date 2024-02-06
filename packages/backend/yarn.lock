@@ -5396,10 +5396,10 @@ pretty@^2.0.0:
     extend-shallow "^2.0.1"
     js-beautify "^1.6.12"
 
-private-ip@3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/private-ip/-/private-ip-3.0.1.tgz#1fa8108f53512c6b82f79d4d2ac665140dee5da5"
-  integrity sha512-Ezc16ANuhSHmWAE6lbXUKburNzGpR0J5X0Zh5Um/PZ/s57Fp+HYqYe6BYPH2QbqKr/5WebfzJQ1jq6Kj5dbRmA==
+private-ip@3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/private-ip/-/private-ip-3.0.2.tgz#1daf6052ee5cee53238616a377d6be180e9490ef"
+  integrity sha512-2pkOVPGYD/4QyAg95c6E/4bLYXPthT5Xw4ocXYzIIsMBhskOMn6IwkWXmg6ZiA6K58+O6VD/n02r1hDhk7vDPw==
   dependencies:
     "@chainsafe/is-ip" "^2.0.1"
     ip-regex "^5.0.0"
