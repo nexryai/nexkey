@@ -62,7 +62,7 @@ app.use(async (ctx, next) => {
     ctx.set("X-Content-Type-Options", "nosniff");
     ctx.set("X-Frame-Options", "DENY");
     ctx.set("Content-Security-Policy", "default-src 'none'");
-    ctx.set("Permissions-Policy", "accelerometer=(), camera=(), geolocation=(), gyroscope=(), microphone=(), interest-cohort=()");
+    ctx.set("Permissions-Policy", "accelerometer=(), camera=(), geolocation=(), gyroscope=(), microphone=(), interest-cohort=(), browsing-topics=()");
     await next();
 });
 
