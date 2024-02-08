@@ -20,9 +20,11 @@ import { In, IsNull, Not } from 'typeorm';
 import { renderLike } from '@/remote/activitypub/renderer/like.js';
 import { getUserKeypair } from '@/misc/keypair-store.js';
 import renderFollow from '@/remote/activitypub/renderer/follow.js';
-import { verifyDigest } from '@/remote/activitypub/check-fetch.js';
 import config from '@/config/index.js';
 import Koa from 'koa';
+import * as crypto from 'node:crypto';
+import { inspect } from 'node:util';
+import { IActivity } from '@/remote/activitypub/type.js';
 
 // Init router
 const router = new Router();
@@ -31,25 +33,92 @@ const router = new Router();
 
 function inbox(ctx: Router.RouterContext) {
 	if (ctx.req.headers.host !== config.host) {
+		serverLogger.warn("inbox: Invalid Host");
 		ctx.status = 400;
+		ctx.message = "Invalid Host";
 		return;
 	}
 
-	let signature;
+	let signature: httpSignature.IParsedSignature;
 
 	try {
 		signature = httpSignature.parseRequest(ctx.req, { headers: ['(request-target)', 'digest', 'host', 'date'] });
 	} catch (e) {
+		serverLogger.warn(`inbox: signature parse error: ${inspect(e)}`);
 		ctx.status = 401;
+
+		if (e instanceof Error) {
+			if (e.name === "ExpiredRequestError")
+				ctx.message = "Expired Request Error";
+			if (e.name === "MissingHeaderError")
+				ctx.message = "Missing Required Header";
+		}
+
 		return;
 	}
 
-	if (!verifyDigest(ctx.request.rawBody, ctx.headers.digest)) {
+	// Validate signature algorithm
+	if (
+		!signature.algorithm
+			.toLowerCase()
+			.match(/^((dsa|rsa|ecdsa)-(sha256|sha384|sha512)|ed25519-sha512|hs2019)$/)
+	) {
+		serverLogger.warn(
+			`inbox: invalid signature algorithm ${signature.algorithm}`,
+		);
 		ctx.status = 401;
+		ctx.message = "Invalid Signature Algorithm";
+		return;
+
+		// hs2019
+		// keyType=ED25519 => ed25519-sha512
+		// keyType=other => (keyType)-sha256
+	}
+
+	// Validate digest header
+	const digest = ctx.req.headers.digest;
+
+	if (typeof digest !== "string") {
+		serverLogger.warn(
+			"inbox: zero or more than one digest header(s) are present",
+		);
+		ctx.status = 401;
+		ctx.message = "Invalid Digest Header";
 		return;
 	}
 
-	processInbox(ctx.request.body, signature);
+	const match = digest.match(/^([0-9A-Za-z-]+)=(.+)$/);
+
+	if (match == null) {
+		serverLogger.warn("inbox: unrecognized digest header");
+		ctx.status = 401;
+		ctx.message = "Invalid Digest Header";
+		return;
+	}
+
+	const digestAlgo = match[1];
+	const expectedDigest = match[2];
+
+	if (digestAlgo.toUpperCase() !== "SHA-256") {
+		serverLogger.warn("inbox: unsupported digest algorithm");
+		ctx.status = 401;
+		ctx.message = "Unsupported Digest Algorithm";
+		return;
+	}
+
+	const actualDigest = crypto
+		.createHash("sha256")
+		.update(ctx.request.rawBody)
+		.digest("base64");
+
+	if (expectedDigest !== actualDigest) {
+		serverLogger.warn("inbox: Digest Mismatch");
+		ctx.status = 401;
+		ctx.message = "Digest Missmatch";
+		return;
+	}
+
+	processInbox(ctx.request.body as IActivity, signature);
 
 	ctx.status = 202;
 }
