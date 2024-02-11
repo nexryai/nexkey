@@ -14,7 +14,9 @@ export async function workerMain() {
 	}
 
 	// start job queue
-	import('../queue/index.js').then(x => x.default());
+	if (!envOption.onlyServer) {
+		import('../queue/index.js').then(x => x.default());
+	}	
 
 	if (cluster.isWorker) {
 		// Send a 'ready' message to parent process

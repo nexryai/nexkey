@@ -71,7 +71,9 @@ export async function masterMain() {
 		await spawnWorkers(config.clusterLimit);
 	}
 
-	bootLogger.succ(`Now listening on port ${config.port} on ${config.url}`, null, true);
+	if (!envOption.onlyQueue) {
+		bootLogger.succ(`Now listening on port ${config.port} on ${config.url}`, null, true);
+	}
 
 	if (!envOption.noDaemons && !envOption.onlyQueue) {
 		import('../daemons/server-stats.js').then(x => x.default());
@@ -89,6 +91,11 @@ function showEnvironment(): void {
 		logger.warn('The environment is not in production mode.');
 		logger.warn('DO NOT USE FOR PRODUCTION PURPOSE!', null, true);
 	}
+
+	if (envOption.onlyServer) logger.warn('onlyServer is set.');
+	if (envOption.onlyQueue) logger.warn('onlyQueue is set.');
+	if (envOption.noDaemons) logger.warn('noDaemons is set.');
+	if (envOption.disableClustering) logger.warn('disableClustering is set.');
 }
 
 function showNodejsVersion(): void {
