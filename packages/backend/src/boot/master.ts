@@ -73,7 +73,7 @@ export async function masterMain() {
 
 	bootLogger.succ(`Now listening on port ${config.port} on ${config.url}`, null, true);
 
-	if (!envOption.noDaemons) {
+	if (!envOption.noDaemons && !envOption.onlyQueue) {
 		import('../daemons/server-stats.js').then(x => x.default());
 		import('../daemons/queue-stats.js').then(x => x.default());
 		import('../daemons/janitor.js').then(x => x.default());

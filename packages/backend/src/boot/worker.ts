@@ -1,5 +1,6 @@
 import cluster from 'node:cluster';
 import { initDb } from '../db/postgre.js';
+import { envOption } from '../env.js';
 
 /**
  * Init worker process
@@ -8,7 +9,9 @@ export async function workerMain() {
 	await initDb();
 
 	// start server
-	await import('../server/index.js').then(x => x.default());
+	if (!envOption.onlyQueue) {
+		await import('../server/index.js').then(x => x.default());
+	}
 
 	// start job queue
 	import('../queue/index.js').then(x => x.default());
