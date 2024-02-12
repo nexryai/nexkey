@@ -23,10 +23,6 @@ self.addEventListener('activate', ev => {
 	);
 });
 
-function offlineContentHTML(): string {
-	return `<!doctype html>Offline. Service Worker @${_VERSION_} <button onclick="location.reload()">reload</button>`
-}
-
 self.addEventListener('fetch', ev => {
 	let isHTMLRequest = false;
 	if (ev.request.headers.get('sec-fetch-dest') === 'document') {
@@ -38,17 +34,6 @@ self.addEventListener('fetch', ev => {
 	}
 
 	if (!isHTMLRequest) return;
-	ev.respondWith(
-		fetch(ev.request)
-		.catch(() => {
-			return new Response(offlineContentHTML(), {
-				status: 200,
-				headers: {
-					'content-type': 'text/html',
-				},
-			});
-		}),
-	);
 });
 
 self.addEventListener('push', ev => {
