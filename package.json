@@ -1,7 +1,7 @@
 {
 	"name": "nexkey",
 	"version": "12.24Q1.1",
-	"codename": "chirigiku",
+	"codename": "SpringNap",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/nexryai/nexkey"
