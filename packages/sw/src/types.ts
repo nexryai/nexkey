@@ -1,9 +1,9 @@
-import * as Misskey from 'misskey-js';
+import * as Misskey from "misskey-js";
 
-export type swMessageOrderType = 'post' | 'push';
+export type swMessageOrderType = "post" | "push";
 
 export type SwMessage = {
-	type: 'order';
+	type: "order";
 	order: swMessageOrderType;
 	loginId: string;
 	url: string;
@@ -32,16 +32,16 @@ export type pushNotificationDataMap = {
 };
 
 export type badgeNames = 
-	'null'
-	| 'antenna'
-	| 'arrow-back-up'
-	| 'at'
-	| 'chart-arrows'
-	| 'circle-check'
-	| 'messages'
-	| 'plus'
-	| 'quote'
-	| 'repeat'
-	| 'user-plus'
-	| 'users'
+	"null"
+	| "antenna"
+	| "arrow-back-up"
+	| "at"
+	| "chart-arrows"
+	| "circle-check"
+	| "messages"
+	| "plus"
+	| "quote"
+	| "repeat"
+	| "user-plus"
+	| "users"
 	;
