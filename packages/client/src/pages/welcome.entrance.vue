@@ -1,8 +1,9 @@
 <template>
 <div v-if="meta" class="rsqzvsbo">
     <div class="top">
-        <MkFeaturedPhotos class="bg"/>
-        <img :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" class="misskey" @click="showMenu"/>
+        <MkAnimBg v-if="meta.backgroundImageUrl == null || meta.backgroundImageUrl == '' " style="position: absolute; top: 0; left: 0;" :scale="1.5"></MkAnimBg>
+        <MkFeaturedPhotos v-else class="bg"/>
+        <img :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" class="instance-icon" @click="showMenu"/>
         <div class="emojis">
             <MkEmoji :normal="true" :no-style="true" emoji="👍"/>
             <MkEmoji :normal="true" :no-style="true" emoji="❤"/>
@@ -16,15 +17,21 @@
                     <span class="text">{{ instanceName }}</span>
                 </h1>
                 <div class="about">
-                    <!-- eslint-disable-next-line vue/no-v-html -->
-                    <div class="desc" v-html="meta.description || i18n.ts.headlineMisskey"></div>
+                    <div class="desc">
+                        <MkA @click="os.pageWindow('/about');"> <i class="ti ti-info-circle"></i> {{ i18n.ts.instanceInfo }} </MkA>
+                    </div>
                 </div>
-                <div v-if="meta.disableRegistration" class="warn">
-                    <MkInfo warn>{{ i18n.ts.invitationRequiredToRegister }}</MkInfo>
+                <div class="entrance-form">
+                    <MkSignin v-if="!dontHaveAccount" @login="onLogin"/>
+                    <MkSignup v-else class="signup-form" @signup="onLogin" @signup-email-pending="onSignupEmailPending"/>
                 </div>
                 <div class="action">
-                    <MkButton inline rounded gradate data-cy-signup style="margin-right: 12px;" @click="signup()">{{ i18n.ts.signup }}</MkButton>
-                    <MkButton inline rounded data-cy-signin @click="signin()">{{ i18n.ts.login }}</MkButton>
+                    <p> - or - </p>
+                    <div v-if="meta.disableRegistration" class="warn">
+                        <MkInfo warn>{{ i18n.ts.invitationRequiredToRegister }}</MkInfo>
+                    </div>
+                    <MkButton v-if="!dontHaveAccount" inline rounded gradate data-cy-signup style="margin-right: 12px;" @click="signup()">{{ i18n.ts.signup }}</MkButton>
+                    <MkButton v-else inline rounded gradate data-cy-signup style="margin-right: 12px;" @click="signin()">{{ i18n.ts.login }}</MkButton>
                     <MkButton inline rounded data-cy-signin style="margin-left: 12px;" @click="jumpToExplore()">{{ i18n.ts.explore }}</MkButton>
                 </div>
             </div>
@@ -35,31 +42,30 @@
 
 <script lang="ts" setup>
 import { } from "vue";
-import XSigninDialog from "@/components/MkSigninDialog.vue";
-import XSignupDialog from "@/components/MkSignupDialog.vue";
 import MkButton from "@/components/MkButton.vue";
 import MkFeaturedPhotos from "@/components/MkFeaturedPhotos.vue";
 import { instanceName } from "@/config";
 import * as os from "@/os";
 import { i18n } from "@/i18n";
 import MkInfo from "@/components/MkInfo.vue";
+import MkSignin from "@/components/MkSignin.vue";
+import MkSignup from "@/components/MkSignup.vue";
+import { login } from "@/account";
+import MkAnimBg from "@/components/MkAnimBg.vue";
 
 let meta = $ref();
+let dontHaveAccount = $ref(false);
 
 os.api("meta", { detail: true }).then(_meta => {
     meta = _meta;
 });
 
-function signin() {
-    os.popup(XSigninDialog, {
-        autoSet: true,
-    }, {}, "closed");
+function signup() {
+    dontHaveAccount = true;
 }
 
-function signup() {
-    os.popup(XSignupDialog, {
-        autoSet: true,
-    }, {}, "closed");
+function signin() {
+    dontHaveAccount = false;
 }
 
 function jumpToExplore() {
@@ -87,6 +93,12 @@ function showMenu(ev) {
         },
     }], ev.currentTarget ?? ev.target);
 }
+
+function onLogin(res): void {
+    login(res.i);
+}
+
+function onSignupEmailPending() {}
 </script>
 
 <style lang="scss" scoped>
@@ -107,51 +119,14 @@ function showMenu(ev) {
 			margin: -10px;
 		}
 
-		> .tl {
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			right: 64px;
-			margin: auto;
-			width: 500px;
-			height: calc(100% - 128px);
-			overflow: hidden;
-			-webkit-mask-image: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 128px, rgba(0,0,0,1) calc(100% - 128px), rgba(0,0,0,0) 100%);
-			mask-image: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 128px, rgba(0,0,0,1) calc(100% - 128px), rgba(0,0,0,0) 100%);
-
-			@media (max-width: 1200px) {
-				display: none;
-			}
-		}
-
-		> .shape1 {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background: var(--accent);
-			clip-path: polygon(0% 0%, 45% 0%, 20% 100%, 0% 100%);
-		}
-		> .shape2 {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background: var(--accent);
-			clip-path: polygon(0% 0%, 25% 0%, 35% 100%, 0% 100%);
-			opacity: 0.5;
-		}
-
-		> .misskey {
-			position: absolute;
-			top: 28px;
-			left: 28px;
-			width: 50px;
-      height: auto;
-			border-radius: 4px;
-		}
+        > .instance-icon {
+            position: absolute;
+            top: 28px;
+            left: 28px;
+            width: 50px;
+            height: auto;
+            border-radius: 4px;
+        }
 
 		> .emojis {
 			position: absolute;
@@ -178,6 +153,10 @@ function showMenu(ev) {
 			@media (max-width: 1200px) {
 				margin: auto;
 			}
+
+            @media (max-width: 800px) {
+                margin-top: 80px;
+            }
 
 			> .icon {
 				width: 85px;
@@ -217,58 +196,26 @@ function showMenu(ev) {
 					padding: 0 32px;
 				}
 
-				> .warn {
-					padding: 32px 32px 0 32px;
-				}
+                > .entrance-form {
+                    > .signup-form {
+                        padding: 32px;
+                    }
+                }
 
 				> .action {
-					padding: 32px;
+                    padding: 0 32px 32px;
 
-					> * {
+                    > * {
 						line-height: 28px;
 					}
+
+                    > .warn {
+                        padding: 2px 0 16px;
+                        line-height: 22px;
+                    }
 				}
 			}
 		}
-
-		> .federation {
-			position: absolute;
-			bottom: 16px;
-			left: 0;
-			right: 0;
-			margin: auto;
-			background: var(--acrylicPanel);
-			-webkit-backdrop-filter: var(--blur, blur(15px));
-			backdrop-filter: var(--blur, blur(15px));
-			border-radius: 999px;
-			overflow: clip;
-			width: 800px;
-			padding: 8px 0;
-
-			@media (max-width: 900px) {
-				display: none;
-			}
-		}
-	}
-}
-</style>
-
-<style lang="scss" module>
-.federationInstance {
-	display: inline-flex;
-	align-items: center;
-	vertical-align: bottom;
-	padding: 6px 12px 6px 6px;
-	margin: 0 10px 0 0;
-	background: var(--panel);
-	border-radius: 999px;
-
-	> :global(.icon) {
-		display: inline-block;
-		width: 20px;
-		height: 20px;
-		margin-right: 5px;
-		border-radius: 999px;
 	}
 }
 </style>

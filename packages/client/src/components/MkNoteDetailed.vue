@@ -77,7 +77,14 @@
             <footer class="footer">
                 <div class="info">
                     <MkA class="created-at" :to="notePage(appearNote)">
-                        <MkTime :time="appearNote.createdAt" mode="detail"/>
+                        <MkTime :time="appearNote.createdAt" mode="detail"/><br>
+                        {{ }}
+                        <i v-if="appearNote.updatedAt" class="ti ti-pencil"></i>
+                        <MkTime
+                            v-if="appearNote.updatedAt"
+                            :time="appearNote.updatedAt"
+                            mode="detail"
+                        />
                     </MkA>
                 </div>
                 <XReactionsViewer ref="reactionsViewer" :note="appearNote"/>

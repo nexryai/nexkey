@@ -7,19 +7,19 @@
 </template>
 
 <script lang="ts" setup>
-import { provide, ComputedRef } from "vue";
+import { provide, ref, ComputedRef } from "vue";
 import XCommon from "./_common_/common.vue";
 import { mainRouter } from "@/router";
-import { PageMetadata, provideMetadataReceiver, setPageMetadata } from "@/scripts/page-metadata";
+import { PageMetadata, provideMetadataReceiver } from "@/scripts/page-metadata";
 import { instanceName } from "@/config";
 
-let pageMetadata = $ref<null | ComputedRef<PageMetadata>>();
+const pageMetadata = ref<null | ComputedRef<PageMetadata>>();
 
 provide("router", mainRouter);
 provideMetadataReceiver((info) => {
-    pageMetadata = info;
-    if (pageMetadata.value) {
-        document.title = `${pageMetadata.value.title} | ${instanceName}`;
+    pageMetadata.value = info;
+    if (pageMetadata.value.value) {
+        document.title = `${pageMetadata.value.value.title} | ${instanceName}`;
     }
 });
 

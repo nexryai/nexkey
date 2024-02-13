@@ -50,7 +50,7 @@ export async function getFileInfo(path: string): Promise<FileInfo> {
     let height: number | undefined;
     let orientation: number | undefined;
 
-    if (["image/jpeg", "image/gif", "image/png", "image/apng", "image/webp", "image/bmp", "image/tiff", "image/svg+xml", "image/vnd.adobe.photoshop"].includes(type.mime)) {
+    if (["image/jpeg", "image/gif", "image/png", "image/apng", "image/webp", "image/avif", "image/bmp", "image/tiff", "image/svg+xml", "image/vnd.adobe.photoshop"].includes(type.mime)) {
         const imageSize = await detectImageSize(path).catch(e => {
             warnings.push(`detectImageSize failed: ${e}`);
             return undefined;

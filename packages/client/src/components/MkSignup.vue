@@ -29,6 +29,7 @@
             <span v-else-if="emailState === 'unavailable:disposable'" style="color: var(--error)"><i class="ti ti-alert-triangle ti-fw"></i> {{ i18n.ts._emailUnavailable.disposable }}</span>
             <span v-else-if="emailState === 'unavailable:mx'" style="color: var(--error)"><i class="ti ti-alert-triangle ti-fw"></i> {{ i18n.ts._emailUnavailable.mx }}</span>
             <span v-else-if="emailState === 'unavailable:smtp'" style="color: var(--error)"><i class="ti ti-alert-triangle ti-fw"></i> {{ i18n.ts._emailUnavailable.smtp }}</span>
+            <span v-else-if="emailState === 'unavailable:blocked'" style="color: var(--error)"><i class="ti ti-alert-triangle ti-fw"></i> {{ i18n.ts.thisEmailAddressIsBlocked }}</span>
             <span v-else-if="emailState === 'unavailable'" style="color: var(--error)"><i class="ti ti-alert-triangle ti-fw"></i> {{ i18n.ts.unavailable }}</span>
             <span v-else-if="emailState === 'error'" style="color: var(--error)"><i class="ti ti-alert-triangle ti-fw"></i> {{ i18n.ts.error }}</span>
         </template>
@@ -116,6 +117,7 @@ const shouldDisableSubmitting = $computed((): boolean => {
 		instance.enableHcaptcha && !hCaptchaResponse ||
 		instance.enableRecaptcha && !reCaptchaResponse ||
 		instance.enableTurnstile && !turnstileResponse ||
+        passwordStrength === "low" ||
 		passwordRetypeState === "not-match";
 });
 

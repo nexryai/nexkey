@@ -31,13 +31,14 @@
 		],
 		"types": [
 			"vite/client",
+            "reactivity-transform/macros-global"
 		],
 		"lib": [
 			"esnext",
 			"dom"
 		],
-		"jsx": "preserve"
-	},
+		"jsx": "preserve",
+    },
 	"compileOnSave": false,
 	"include": [
 		".eslintrc.js",

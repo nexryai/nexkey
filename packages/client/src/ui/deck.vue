@@ -72,7 +72,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineAsyncComponent, onMounted, provide, ref, watch } from "vue";
+import { computed, defineAsyncComponent, ref, watch } from "vue";
 import { v4 as uuid } from "uuid";
 import XCommon from "./_common_/common.vue";
 import { deckStore, addColumn as addColumnToStore, loadDeck, getProfiles, deleteProfile as deleteProfile_ } from "./deck/deck-store";
@@ -125,7 +125,7 @@ function showSettings() {
     os.pageWindow("/settings/deck");
 }
 
-let columnsEl = $ref<HTMLElement>();
+let columnsEl = ref<HTMLElement>();
 
 const addColumn = async (ev) => {
     const columns = [
@@ -165,10 +165,10 @@ const onContextmenu = (ev) => {
 document.documentElement.style.overflowY = "hidden";
 document.documentElement.style.scrollBehavior = "auto";
 window.addEventListener("wheel", (ev) => {
-    if (ev.target === columnsEl && ev.deltaX === 0) {
-        columnsEl.scrollLeft += ev.deltaY;
+    if (ev.target === columnsEl.value && ev.deltaX === 0) {
+        columnsEl.value.scrollLeft += ev.deltaY;
     } else if (getScrollContainer(ev.target as HTMLElement) == null && ev.deltaX === 0) {
-        columnsEl.scrollLeft += ev.deltaY;
+        columnsEl.value.scrollLeft += ev.deltaY;
     }
 });
 loadDeck();

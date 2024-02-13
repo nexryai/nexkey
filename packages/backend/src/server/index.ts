@@ -58,6 +58,15 @@ if (config.url.startsWith("https") && !config.disableHsts) {
     });
 }
 
+app.use(async (ctx, next) => {
+    ctx.set("X-Content-Type-Options", "nosniff");
+    ctx.set("X-Frame-Options", "DENY");
+    ctx.set("Content-Security-Policy", "default-src 'none'");
+    // ambient-light-sensor=()以降はChrome対策
+    ctx.set("Permissions-Policy", "accelerometer=(), camera=(), display-capture=(), geolocation=(), gyroscope=(), microphone=(), ambient-light-sensor=(), battery=(), browsing-topics=(), interest-cohort=(), local-fonts=(), magnetometer=(), serial=(), usb=(), window-management=()");
+    await next();
+});
+
 app.use(mount("/api", apiServer));
 app.use(mount("/files", fileServer));
 app.use(mount("/proxy", proxyServer));

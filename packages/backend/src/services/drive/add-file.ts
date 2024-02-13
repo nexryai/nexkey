@@ -46,6 +46,7 @@ async function save(file: DriveFile, path: string, name: string, type: string, h
             if (type === "image/jpeg") ext = ".jpg";
             if (type === "image/png") ext = ".png";
             if (type === "image/webp") ext = ".webp";
+            if (type === "image/avif") ext = ".avif";
             if (type === "image/apng") ext = ".apng";
             if (type === "image/vnd.mozilla.apng") ext = ".apng";
         }

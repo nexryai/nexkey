@@ -1,11 +1,11 @@
 import * as fs from "fs";
-import pluginVue from "@vitejs/plugin-vue";
 import { defineConfig } from "vite";
 
+import pluginVue from "@vitejs/plugin-vue";
+import ReactivityTransform from "@vue-macros/reactivity-transform/vite";
 import locales from "../../locales";
 import meta from "../../package.json";
 import pluginJson5 from "./vite.json5";
-
 const extensions = [".ts", ".tsx", ".js", ".jsx", ".mjs", ".json", ".json5", ".svg", ".sass", ".scss", ".css", ".vue"];
 
 export default defineConfig(({ command, mode }) => {
@@ -16,10 +16,9 @@ export default defineConfig(({ command, mode }) => {
         base: "/assets/",
 
         plugins: [
-            pluginVue({
-                reactivityTransform: true,
-            }),
+            ReactivityTransform(),
             pluginJson5(),
+            pluginVue(),
         ],
 
         resolve: {
@@ -42,6 +41,10 @@ export default defineConfig(({ command, mode }) => {
             _DATA_TRANSFER_DECK_COLUMN_: JSON.stringify("mk_deck_column"),
             __VUE_OPTIONS_API__: true,
             __VUE_PROD_DEVTOOLS__: false,
+        },
+
+        optimizeDeps: {
+            include: ["misskey-js"],
         },
 
         build: {
@@ -68,6 +71,9 @@ export default defineConfig(({ command, mode }) => {
             emptyOutDir: false,
             sourcemap: process.env.NODE_ENV !== "production",
             reportCompressedSize: false,
+            commonjsOptions: {
+                include: [/misskey-js/, /node_modules/],
+            },
         },
     };
 });

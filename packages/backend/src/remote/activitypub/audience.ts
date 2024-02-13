@@ -40,7 +40,7 @@ export async function parseAudience(actor: CacheableRemoteUser, to?: ApObject, c
         };
     }
 
-    if (toGroups.followers.length > 0) {
+    if (toGroups.followers.length > 0 || ccGroups.followers.length > 0) {
         return {
             visibility: "followers",
             mentionedUsers,

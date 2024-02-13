@@ -2,7 +2,7 @@ process.env.NODE_ENV = "test";
 
 import * as assert from "assert";
 import * as childProcess from "child_process";
-import { async, signup, request, post, react, uploadFile, startServer, shutdownServer } from "./utils.js";
+import { async, signup, request, startServer, shutdownServer, post, simplePost } from "./utils.js";
 
 describe("API", () => {
     let p: childProcess.ChildProcess;
@@ -26,6 +26,14 @@ describe("API", () => {
             const res = await request("/test", {
                 required: true,
                 string: 42,
+            });
+            assert.strictEqual(res.status, 400);
+        }));
+
+        it("脆弱なパスワードは登録できない", async(async () => {
+            const res = await simplePost("/signup", {
+                username: "unsafe",
+                password: "12345",
             });
             assert.strictEqual(res.status, 400);
         }));

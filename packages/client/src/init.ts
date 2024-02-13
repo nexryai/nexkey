@@ -3,7 +3,6 @@
  */
 
 import "@/style.scss";
-import { isReloading } from "@/stream.js";
 
 //#region account indexedDB migration
 import { set } from "@/scripts/idb-proxy";
@@ -21,7 +20,7 @@ import JSON5 from "json5";
 import widgets from "@/widgets";
 import directives from "@/directives";
 import components from "@/components";
-import { version, ui, lang, host } from "@/config";
+import { version, ui, lang } from "@/config";
 import { applyTheme } from "@/scripts/theme";
 import { isDeviceDarkmode } from "@/scripts/is-device-darkmode";
 import { i18n } from "@/i18n";
@@ -173,7 +172,6 @@ import { getAccountFromId } from "@/scripts/get-account-from-id";
         window.location.search === "?zen" ? defineAsyncComponent(() => import("@/ui/zen.vue")) :
         !$i ? defineAsyncComponent(() => import("@/ui/visitor.vue")) :
         ui === "deck" ? defineAsyncComponent(() => import("@/ui/deck.vue")) :
-        ui === "classic" ? defineAsyncComponent(() => import("@/ui/classic.vue")) :
         defineAsyncComponent(() => import("@/ui/universal.vue")),
     );
 

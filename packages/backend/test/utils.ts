@@ -88,7 +88,7 @@ export const request = async (endpoint: string, params: any, me?: any): Promise<
 export const signup = async (params?: any): Promise<any> => {
     const q = Object.assign({
         username: "test",
-        password: "test",
+        password: "MEANING_OF_LIFE",
     }, params);
 
     const res = await api("signup", q);
@@ -241,6 +241,22 @@ export const simpleGet = async (path: string, accept = "*/*"): Promise<{ status?
 
         req.end();
     });
+};
+
+export const simplePost = async (endpoint: string, params: any): Promise<{ status: number }> => {
+    const res = await fetch(`http://localhost:${port}/api${endpoint}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(Object.assign(params)),
+    });
+
+    const status = res.status;
+
+    return {
+        status,
+    };
 };
 
 export function launchServer(callbackSpawnedProcess: (p: childProcess.ChildProcess) => void, moreProcess: () => Promise<void> = async () => {}) {

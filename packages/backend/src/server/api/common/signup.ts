@@ -49,6 +49,11 @@ export async function signup(opts: {
         throw new Error("USED_USERNAME");
     }
 
+    // ほんとはpasswordSchemaのminLengthでなんとかしたいが既に6文字未満のユーザーが居る可能性があるため
+    if (password != null && password.length < 6) {
+        throw new Error("UNSAFE_PASSWORD");
+    }
+
     const keyPair = await new Promise<string[]>((res, rej) =>
         generateKeyPair("rsa", {
             modulusLength: 4096,
