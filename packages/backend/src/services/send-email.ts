@@ -9,6 +9,8 @@ export const logger = new Logger("email");
 export async function sendEmail(to: string, subject: string, html: string, text: string) {
     const meta = await fetchMeta(true);
 
+    if (!meta.enableEmail) return;
+
     const iconUrl = `${config.url}/static-assets/mi-white.png`;
     const emailSettingUrl = `${config.url}/settings/email`;
 
