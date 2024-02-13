@@ -40,7 +40,7 @@
 		"katex": "0.16.9",
 		"matter-js": "0.19.0",
 		"mfm-js": "0.24.0",
-		"misskey-js": "../misskey-js",
+		"misskey-js": "0.0.16",
 		"photoswipe": "5.4.3",
 		"prismjs": "1.29.0",
 		"punycode": "2.3.1",

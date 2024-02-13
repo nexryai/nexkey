@@ -15,10 +15,6 @@
 		"jest": "jest --coverage --detectOpenHandles",
 		"test": "npm run jest && npm run tsd"
 	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/misskey-dev/misskey.js.git"
-	},
 	"devDependencies": {
 		"@microsoft/api-extractor": "^7.19.3",
 		"@types/jest": "^27.4.0",
