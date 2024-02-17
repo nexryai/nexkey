@@ -1,3 +1,7 @@
+## 12.24Q1.2
+ - SECURITY FIX: Fix and Validate AP Content-Type (GHSA-qqrm-9grj-6v32)
+ - Update deps
+
 ## 12.24Q1.1
  - Client: エントランスUIの改修
    * 背景未設定でもいい感じのデザインになるようにした
