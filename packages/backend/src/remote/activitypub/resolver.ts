@@ -1,4 +1,3 @@
-import { getJson } from "@/misc/fetch.js";
 import { ILocalUser } from "@/models/entities/user.js";
 import { getInstanceActor } from "@/services/instance-actor.js";
 import { fetchMeta } from "@/misc/fetch-meta.js";
@@ -13,7 +12,7 @@ import { renderActivity } from "@/remote/activitypub/renderer/index.js";
 import renderFollow from "@/remote/activitypub/renderer/follow.js";
 import { parseUri } from "./db-resolver.js";
 import { IObject, isCollectionOrOrderedCollection, ICollection, IOrderedCollection } from "./type.js";
-import { signedGet } from "./request.js";
+import { apGet } from "./request.js";
 
 export default class Resolver {
     private history: Set<string>;
@@ -81,9 +80,7 @@ export default class Resolver {
             this.user = await getInstanceActor();
         }
 
-        const object = (this.user
-            ? await signedGet(value, this.user)
-            : await getJson(value, "application/activity+json, application/ld+json")) as IObject;
+        const object = await apGet(value, this.user);
 
         if (object == null || (
             Array.isArray(object["@context"]) ?
