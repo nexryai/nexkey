@@ -25,6 +25,7 @@ import Koa from 'koa';
 import * as crypto from 'node:crypto';
 import { inspect } from 'node:util';
 import { IActivity } from '@/remote/activitypub/type.js';
+import { serverLogger } from './index.js';
 
 // Init router
 const router = new Router();
