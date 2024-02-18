@@ -8,6 +8,16 @@
 You should also include the user name that made the change.
 -->
 
+
+## 12.119.2-fix.6.4 (2024/02/18)
+### Improvements
+- より多くの署名アルゴリズムを受け付けるように @mei23 @naskya @atsu1125
+
+### Bugfixes
+- `MK_ONLY_QUEUE`が動くように @atsu1125
+- ActivityPubの`Content-Type`の検証を正しく行うように @mei23 @naskya @atsu1125
+- zip処理にunzipperではなくslaccを使うように @yurucat-dev @atsu1125
+
 ## 12.119.2-fix.6.3 (2024/02/04)
 ### Bugfixes
 - インスタンスミュートが一部（アンテナ・通知などに）効かないのを修正 @atsu1125
