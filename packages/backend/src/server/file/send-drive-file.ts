@@ -10,7 +10,7 @@ import { InternalStorage } from "@/services/drive/internal-storage.js";
 import { createTemp } from "@/misc/create-temp.js";
 import { downloadUrl } from "@/misc/download-url.js";
 import { detectType } from "@/misc/get-file-info.js";
-import { convertToWebp, convertToJpeg, convertToPng } from "@/services/drive/image-processor.js";
+import { convertToWebp, convertToPng } from "@/services/drive/image-processor.js";
 import { GenerateVideoThumbnail } from "@/services/drive/generate-video-thumbnail.js";
 import { StatusError } from "@/misc/fetch.js";
 import { FILE_TYPE_BROWSERSAFE } from "@/const.js";
@@ -104,6 +104,8 @@ export default async function(ctx: Koa.Context) {
         return;
     }
 
+    let contentType;
+
     if (isThumbnail || isWebpublic) {
         const { mime, ext } = await detectType(InternalStorage.resolvePath(key));
         const filename = rename(file.name, {
@@ -111,13 +113,41 @@ export default async function(ctx: Koa.Context) {
             extname: ext ? `.${ext}` : undefined,
         }).toString();
 
+        contentType = FILE_TYPE_BROWSERSAFE.includes(mime) ? mime : "application/octet-stream";
+
+        if (contentType === "application/octet-stream") {
+            ctx.vary("Accept");
+            ctx.set("Cache-Control", "private, max-age=0, must-revalidate");
+
+            if (ctx.header.accept?.match(/activity\+json|ld\+json/)) {
+                ctx.status = 400;
+                return;
+            }
+        } else {
+            ctx.set("Cache-Control", "max-age=2592000, s-maxage=172800, immutable");
+        }
+
         ctx.body = InternalStorage.read(key);
         ctx.set("Content-Type", FILE_TYPE_BROWSERSAFE.includes(mime) ? mime : "application/octet-stream");
-        ctx.set("Cache-Control", "max-age=31536000, immutable");
         ctx.set("Content-Disposition", contentDisposition("inline", filename));
     } else {
         const readable = InternalStorage.read(file.accessKey!);
         readable.on("error", commonReadableHandlerGenerator(ctx));
+
+        contentType = FILE_TYPE_BROWSERSAFE.includes(file.type) ? file.type : "application/octet-stream";
+
+        if (contentType === "application/octet-stream") {
+            ctx.vary("Accept");
+            ctx.set("Cache-Control", "private, max-age=0, must-revalidate");
+
+            if (ctx.header.accept?.match(/activity\+json|ld\+json/)) {
+                ctx.status = 400;
+                return;
+            }
+        } else {
+            ctx.set("Cache-Control", "max-age=2592000, s-maxage=172800, immutable");
+        }
+
         ctx.body = readable;
         ctx.set("Content-Type", FILE_TYPE_BROWSERSAFE.includes(file.type) ? file.type : "application/octet-stream");
         ctx.set("Cache-Control", "max-age=31536000, immutable");
