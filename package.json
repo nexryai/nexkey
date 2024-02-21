@@ -43,7 +43,7 @@
 		"@types/gulp-rename": "2.0.6",
 		"@typescript-eslint/parser": "7.0.2",
 		"cross-env": "7.0.3",
-		"cypress": "13.6.4",
+		"cypress": "13.6.5",
 		"start-server-and-test": "2.0.3",
 		"typescript": "5.3.3"
 	}
