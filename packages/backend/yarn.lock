@@ -289,20 +289,20 @@
     "@babel/helper-validator-identifier" "^7.22.5"
     to-fast-properties "^2.0.0"
 
-"@bull-board/api@5.14.0":
-  version "5.14.0"
-  resolved "https://registry.yarnpkg.com/@bull-board/api/-/api-5.14.0.tgz#19ccccecd9644fda018278c16af9019fe4c2be49"
-  integrity sha512-ppN9GeCH8QmCzs47CpDFwVb4Q5W2nK2QvcnbxKpjktCTonZ+5PnoWyXQvLStbcKU9SbMKAM0/OXhj4xOcSRllQ==
+"@bull-board/api@5.14.1":
+  version "5.14.1"
+  resolved "https://registry.yarnpkg.com/@bull-board/api/-/api-5.14.1.tgz#deb2f6ebb435d54607f1b9388a71cb3180a8d796"
+  integrity sha512-iDxzpjdFvNj1CRtcKSNreQ0iFO2+Sv/vTSsA8Eq/cu+6BUr7L/T6cyoHFHzPwc1Lauc4v3DJxTxzy20ZC06wgA==
   dependencies:
     redis-info "^3.0.8"
 
-"@bull-board/koa@5.14.0":
-  version "5.14.0"
-  resolved "https://registry.yarnpkg.com/@bull-board/koa/-/koa-5.14.0.tgz#18cb845a9fbee530170a46566680aeecc5f959a0"
-  integrity sha512-TPNNZOpzL58ccSm48pDQzOEsEmp/Hqnwsuw0RUXOe+BEgBO7Ixbgk8ENf4+OyIaYQ6HTGq2uZQrq8pebpLcw3w==
+"@bull-board/koa@5.14.1":
+  version "5.14.1"
+  resolved "https://registry.yarnpkg.com/@bull-board/koa/-/koa-5.14.1.tgz#bc58d90e8eec4976eb498e2ebd585b8c88b52f7c"
+  integrity sha512-VAB8MFf+mlF3nxxdN8WnyuV7ILl/GMg79DuQQQ/zN8CxQksNQDfD09/iv+V3CTsECXT1W1+uLO7Hl+ezZA3KMg==
   dependencies:
-    "@bull-board/api" "5.14.0"
-    "@bull-board/ui" "5.14.0"
+    "@bull-board/api" "5.14.1"
+    "@bull-board/ui" "5.14.1"
     ejs "^3.1.7"
     koa "^2.13.1"
     koa-mount "^4.0.0"
@@ -310,12 +310,12 @@
     koa-static "^5.0.0"
     koa-views "^7.0.1"
 
-"@bull-board/ui@5.14.0":
-  version "5.14.0"
-  resolved "https://registry.yarnpkg.com/@bull-board/ui/-/ui-5.14.0.tgz#85d218af58cb2785db19a066aefc8c99975cdada"
-  integrity sha512-quustWmLsLbqdbCQd4Mud9Eo/2BQzfJSNSiyJt9OrtYT4AXHMgGtbFUy2Ycyda7iQjC4ScKl8f+WdFs4y+KUJA==
+"@bull-board/ui@5.14.1":
+  version "5.14.1"
+  resolved "https://registry.yarnpkg.com/@bull-board/ui/-/ui-5.14.1.tgz#4c0bb32629b3d7723e2e0f00e4c920dde917f816"
+  integrity sha512-4hdZBN5+DgGZDhy05ngrsXkPJxDYeS9JW0yyeIgS9g5nmGYQyG3l1TPPF7J8+L7HT/lwsY62EyMLSV1PoBE8iQ==
   dependencies:
-    "@bull-board/api" "5.14.0"
+    "@bull-board/api" "5.14.1"
 
 "@chainsafe/is-ip@^2.0.1":
   version "2.0.2"
