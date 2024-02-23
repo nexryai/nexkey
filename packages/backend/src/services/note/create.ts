@@ -215,6 +215,9 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 
 	if (data.text) {
 		data.text = data.text.trim();
+		if (data.text === '') {
+			data.text = null;
+		}
 	} else {
 		data.text = null;
 	}

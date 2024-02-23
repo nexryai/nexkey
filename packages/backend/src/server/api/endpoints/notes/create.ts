@@ -136,34 +136,33 @@ export const paramDef = {
 			required: ['choices'],
 		},
 	},
-	anyOf: [
-		{
-			// (re)note with text, files and poll are optional
-			properties: {
-				text: { type: 'string', minLength: 1, maxLength: MAX_NOTE_TEXT_LENGTH, nullable: false },
+	if: {
+		properties: {
+			renoteId: {
+				type: 'null',
 			},
-			required: ['text'],
-		},
-		{
-			// (re)note with files, text and poll are optional
-			required: ['fileIds'],
-		},
-		{
-			// (re)note with files, text and poll are optional
-			required: ['mediaIds'],
-		},
-		{
-			// (re)note with poll, text and files are optional
-			properties: {
-				poll: { type: 'object', nullable: false },
+			fileIds: {
+				type: 'null',
 			},
-			required: ['poll'],
+			mediaIds: {
+				type: 'null',
+			},
+			poll: {
+				type: 'null',
+			},
 		},
-		{
-			// pure renote
-			required: ['renoteId'],
+	},
+	then: {
+		properties: {
+			text: {
+				type: 'string',
+				minLength: 1,
+				maxLength: MAX_NOTE_TEXT_LENGTH,
+				pattern: '[^\\s]+',
+			},
 		},
-	],
+		required: ['text'],
+	},
 } as const;
 
 // eslint-disable-next-line import/no-default-export
