@@ -24,7 +24,7 @@ export async function loadAudio(file: string, useCache = true) {
 
 export function play(type: string) {
 	const sound = ColdDeviceStorage.get('sound_' + type as any);
-	if (sound.type == null || !canPlay) return;
+	if (sound.type == null || !canPlay || !navigator.userActivation.hasBeenActive) return;
 	canPlay = false;
 	playFile(sound.type, sound.volume).finally(() => {
 		// ごく短時間に音が重複しないように
