@@ -98,7 +98,7 @@
                 <template #label>{{ i18n.ts.personNotWelcomeAlt }}</template>
                 <template #caption>{{ i18n.ts.personNotWelcomeDescription }}</template>
             </FormTextarea>
-            <MkButton primary :disabled="!personNotWelcomeChanged" class="_formBlock" @click="saveMutedReactions()">
+            <MkButton primary :disabled="!personNotWelcomeChanged" class="_formBlock" @click="savePersonNotWelcome()">
                 <i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}
             </MkButton>
         </FormFolder>
@@ -152,7 +152,7 @@ const mutedReactions = ref(defaultStore.state.mutedReactions.join("\n"));
 const instanceMutes = ref($i!.mutedInstances.join("\n"));
 
 // 好ましくない人物
-const personNotWelcome = ref(defaultStore.state.personNotWelcome);
+const personNotWelcome = ref(defaultStore.state.personNotWelcome.join("\n"));
 
 // ユーザーブロック
 const mutingPagination = {
@@ -253,6 +253,16 @@ async function saveMutedInstance() {
     instanceMutes.value = mutes.join("\n");
 }
 
+async function savePersonNotWelcome() {
+    let mutes = personNotWelcome.value
+        .trim().split("\n")
+        .map(el => el.trim())
+        .filter(el => el);
+
+    personNotWelcomeChanged.value = false;
+    defaultStore.set("personNotWelcome", mutes);
+}
+
 watch(softMutedWords, () => {
     mutedWordsChanged.value = true;
 });
@@ -267,6 +277,10 @@ watch(mutedReactions, () => {
 
 watch(instanceMutes, () => {
     mutedInstanceChanged.value = true;
+});
+
+watch(personNotWelcome, () => {
+    personNotWelcomeChanged.value = true;
 });
 </script>
 
