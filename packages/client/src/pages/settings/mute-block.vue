@@ -92,7 +92,7 @@
         </FormFolder>
 
         <FormFolder class="_formBlock">
-            <template #icon><i class="ti user-minus"></i></template>
+            <template #icon><i class="ti ti-mood-sad"></i></template>
             <template #label>{{ i18n.ts.personNotWelcome }}</template>
             <FormTextarea v-model="personNotWelcome" class="_formBlock">
                 <template #label>{{ i18n.ts.personNotWelcomeAlt }}</template>
