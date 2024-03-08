@@ -1,7 +1,7 @@
 <template>
 <XNotes ref="tlComponent"
         :no-gap="!$store.state.showGapBetweenNotesInTimeline"
-        :mute-person-not-welcome="true"
+        :mute-person-not-welcome="mutePersonNotWelcome"
         :pagination="pagination"
         @queue="emit('queue', $event)"
 />
@@ -59,9 +59,11 @@ let endpoint;
 let query;
 let connection;
 let connection2;
+let mutePersonNotWelcome = true;
 
 if (props.src === "antenna") {
     endpoint = "antennas/notes";
+    mutePersonNotWelcome = false;
     query = {
         antennaId: props.antenna,
     };
@@ -91,10 +93,12 @@ if (props.src === "antenna") {
     connection.on("note", prepend);
 } else if (props.src === "mentions") {
     endpoint = "notes/mentions";
+    mutePersonNotWelcome = false;
     connection = stream.useChannel("main");
     connection.on("mention", prepend);
 } else if (props.src === "directs") {
     endpoint = "notes/mentions";
+    mutePersonNotWelcome = false;
     query = {
         visibility: "specified",
     };
@@ -107,6 +111,7 @@ if (props.src === "antenna") {
     connection.on("mention", onNote);
 } else if (props.src === "list") {
     endpoint = "notes/user-list-timeline";
+    mutePersonNotWelcome = false;
     query = {
         listId: props.list,
     };
