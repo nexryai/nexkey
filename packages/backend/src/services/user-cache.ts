@@ -1,4 +1,4 @@
-import { CacheableLocalUser, CacheableUser, ILocalUser, User } from "@/models/entities/user.js";
+import { CacheableLocalUser, CacheableUser, ILocalUser } from "@/models/entities/user.js";
 import { Users } from "@/models/index.js";
 import { Cache } from "@/misc/cache.js";
 import { subsdcriber } from "@/db/redis.js";
