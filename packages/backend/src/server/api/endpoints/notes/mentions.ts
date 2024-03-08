@@ -7,6 +7,7 @@ import { generateMutedUserQuery } from "../../common/generate-muted-user-query.j
 import { makePaginationQuery } from "../../common/make-pagination-query.js";
 import { generateBlockedUserQuery } from "../../common/generate-block-query.js";
 import { generateMutedNoteThreadQuery } from "../../common/generate-muted-note-thread-query.js";
+import { generateMutedNoteQuery } from "../../common/generate-muted-note-query.js";
 
 export const meta = {
     tags: ["notes"],
@@ -61,6 +62,7 @@ export default define(meta, paramDef, async (ps, user) => {
 
     generateVisibilityQuery(query, user);
     generateMutedUserQuery(query, user);
+    generateMutedNoteQuery(query, user);
     generateMutedNoteThreadQuery(query, user);
     generateBlockedUserQuery(query, user);
 

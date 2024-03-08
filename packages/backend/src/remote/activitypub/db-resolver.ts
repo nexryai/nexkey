@@ -1,7 +1,7 @@
 import escapeRegexp from "escape-regexp";
 import config from "@/config/index.js";
 import { Note } from "@/models/entities/note.js";
-import { User, IRemoteUser, CacheableRemoteUser, CacheableUser } from "@/models/entities/user.js";
+import { CacheableRemoteUser, CacheableUser } from "@/models/entities/user.js";
 import { UserPublickey } from "@/models/entities/user-publickey.js";
 import { MessagingMessage } from "@/models/entities/messaging-message.js";
 import { Notes, Users, UserPublickeys, MessagingMessages } from "@/models/index.js";

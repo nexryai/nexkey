@@ -1,6 +1,6 @@
 {
 	"name": "nexkey",
-	"version": "12.24Q1.2",
+	"version": "12.24Q1.3",
 	"codename": "SpringNap",
 	"repository": {
 		"type": "git",
@@ -32,19 +32,19 @@
 		"cleanall": "npm run clean-all"
 	},
 	"dependencies": {
-		"cssnano": "6.0.3",
+		"cssnano": "6.1.0",
 		"execa": "8.0.1",
 		"js-yaml": "4.1.0",
 		"postcss": "^8.4.35",
-		"terser": "5.27.1"
+		"terser": "5.29.1"
 	},
 	"devDependencies": {
 		"@types/gulp": "4.0.17",
 		"@types/gulp-rename": "2.0.6",
-		"@typescript-eslint/parser": "7.0.1",
+		"@typescript-eslint/parser": "7.1.1",
 		"cross-env": "7.0.3",
-		"cypress": "13.6.4",
+		"cypress": "13.6.6",
 		"start-server-and-test": "2.0.3",
-		"typescript": "5.3.3"
+		"typescript": "5.4.2"
 	}
 }

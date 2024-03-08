@@ -9,7 +9,7 @@ import { publishMainStream, publishDriveStream } from "@/services/stream.js";
 import { fetchMeta } from "@/misc/fetch-meta.js";
 import { contentDisposition } from "@/misc/content-disposition.js";
 import { getFileInfo } from "@/misc/get-file-info.js";
-import { DriveFiles, DriveFolders, Users, Instances, UserProfiles } from "@/models/index.js";
+import { DriveFiles, DriveFolders, Users, UserProfiles } from "@/models/index.js";
 import { DriveFile } from "@/models/entities/drive-file.js";
 import { IRemoteUser, User } from "@/models/entities/user.js";
 import { genId } from "@/misc/gen-id.js";

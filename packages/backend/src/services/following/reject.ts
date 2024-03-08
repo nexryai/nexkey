@@ -3,7 +3,7 @@ import renderFollow from "@/remote/activitypub/renderer/follow.js";
 import renderReject from "@/remote/activitypub/renderer/reject.js";
 import { deliver, webhookDeliver } from "@/queue/index.js";
 import { publishMainStream, publishUserEvent } from "@/services/stream.js";
-import { User, ILocalUser, IRemoteUser } from "@/models/entities/user.js";
+import { ILocalUser, IRemoteUser } from "@/models/entities/user.js";
 import { Users, FollowRequests, Followings } from "@/models/index.js";
 import { getActiveWebhooks } from "@/misc/webhook-cache.js";
 import { decrementFollowing } from "./delete.js";

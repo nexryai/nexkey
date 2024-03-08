@@ -10,7 +10,10 @@
     <template #default="{ items: notes }">
         <div class="giivymft" :class="{ noGap }">
             <XList ref="notes" v-slot="{ item: note }" :items="notes" :direction="pagination.reversed ? 'up' : 'down'" :reversed="pagination.reversed" :no-gap="noGap" :ad="true" class="notes">
-                <XNote :key="note._featuredId_ || note._prId_ || note.id" class="qtqtichx" :note="note"/>
+                <XNote :key="note._featuredId_ || note._prId_ || note.id" class="qtqtichx"
+                       :note="note"
+                       :mute-person-not-welcome="props.mutePersonNotWelcome"
+                />
             </XList>
         </div>
     </template>
@@ -27,6 +30,7 @@ import { i18n } from "@/i18n";
 const props = defineProps<{
 	pagination: Paging;
 	noGap?: boolean;
+    mutePersonNotWelcome?: boolean;
 }>();
 
 const pagingComponent = ref<InstanceType<typeof MkPagination>>();

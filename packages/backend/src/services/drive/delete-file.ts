@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 import { IsNull } from "typeorm";
 import { DriveFile } from "@/models/entities/drive-file.js";
-import { DriveFiles, Instances, Emojis } from "@/models/index.js";
+import { DriveFiles, Emojis } from "@/models/index.js";
 import { createDeleteObjectStorageFileJob } from "@/queue/index.js";
 import { fetchMeta } from "@/misc/fetch-meta.js";
 import { InternalStorage } from "./internal-storage.js";

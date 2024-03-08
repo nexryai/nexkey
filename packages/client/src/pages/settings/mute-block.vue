@@ -90,6 +90,18 @@
                 </MkPagination>
             </div>
         </FormFolder>
+
+        <FormFolder class="_formBlock">
+            <template #icon><i class="ti ti-mood-sad"></i></template>
+            <template #label>{{ i18n.ts.personNotWelcome }}</template>
+            <FormTextarea v-model="personNotWelcome" class="_formBlock">
+                <template #label>{{ i18n.ts.personNotWelcomeAlt }}</template>
+                <template #caption>{{ i18n.ts.personNotWelcomeDescription }}</template>
+            </FormTextarea>
+            <MkButton primary :disabled="!personNotWelcomeChanged" class="_formBlock" @click="savePersonNotWelcome()">
+                <i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}
+            </MkButton>
+        </FormFolder>
     </div>
 </MkSpacer>
 </template>
@@ -139,6 +151,9 @@ const mutedReactions = ref(defaultStore.state.mutedReactions.join("\n"));
 // インスタンスミュート
 const instanceMutes = ref($i!.mutedInstances.join("\n"));
 
+// 好ましくない人物
+const personNotWelcome = ref(defaultStore.state.personNotWelcome.join("\n"));
+
 // ユーザーブロック
 const mutingPagination = {
     endpoint: "mute/list" as const,
@@ -152,6 +167,7 @@ const blockingPagination = {
 const mutedWordsChanged = ref(false);
 const mutedReactionsChanged = ref(false);
 const mutedInstanceChanged = ref(false);
+const personNotWelcomeChanged = ref(false);
 
 const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);
@@ -237,6 +253,16 @@ async function saveMutedInstance() {
     instanceMutes.value = mutes.join("\n");
 }
 
+async function savePersonNotWelcome() {
+    let mutes = personNotWelcome.value
+        .trim().split("\n")
+        .map(el => el.trim())
+        .filter(el => el);
+
+    personNotWelcomeChanged.value = false;
+    defaultStore.set("personNotWelcome", mutes);
+}
+
 watch(softMutedWords, () => {
     mutedWordsChanged.value = true;
 });
@@ -251,6 +277,10 @@ watch(mutedReactions, () => {
 
 watch(instanceMutes, () => {
     mutedInstanceChanged.value = true;
+});
+
+watch(personNotWelcome, () => {
+    personNotWelcomeChanged.value = true;
 });
 </script>
 
