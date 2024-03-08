@@ -1,3 +1,8 @@
+## 12.24Q1.3
+ - Fix: apply word mutes in notifications
+ - Refactor: Remove unused imports
+ - Update vulnerable dependencies
+
 ## 12.24Q1.2
  - SECURITY FIX: Fix and Validate AP Content-Type (GHSA-qqrm-9grj-6v32)
  - Update deps
