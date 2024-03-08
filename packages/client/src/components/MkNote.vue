@@ -208,7 +208,7 @@ const isLong = (appearNote.cw == null && appearNote.text != null && (
 const collapsed = ref(appearNote.cw == null && isLong);
 const isDeleted = ref(false);
 const muted = ref(checkWordMute(appearNote, $i, defaultStore.state.mutedWords));
-const notWelcomed = ref(props.mutePersonNotWelcome && checkPersonNotWelcome(appearNote.user.username, defaultStore.state.personNotWelcome));
+const notWelcomed = props.mutePersonNotWelcome && ref(checkPersonNotWelcome(appearNote.user.username, defaultStore.state.personNotWelcome));
 const streamMode = ref(checkStreamMode(appearNote, $i, defaultStore.state.streamModeEnabled));
 const translation = ref(null);
 const translating = ref(false);
