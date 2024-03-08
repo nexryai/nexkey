@@ -1,6 +1,6 @@
 <template>
 <div
-    v-if="!(muted || streamMode)"
+    v-if="!(muted || notWelcomed || streamMode)"
     v-show="!isDeleted"
     ref="el"
     v-hotkey="keymap"
@@ -117,7 +117,7 @@
         </div>
     </article>
 </div>
-<div v-else-if="showMessageOnMuted" class="muted" @click="muted = false">
+<div v-else-if="showMessageOnMuted && muted" class="muted" @click="muted = false">
     <I18n :src="i18n.ts.userSaysSomething" tag="small">
         <template #name>
             <MkA v-user-preview="appearNote.userId" class="name" :to="userPage(appearNote.user)">
@@ -130,7 +130,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, onMounted, onUnmounted, reactive, ref, Ref } from "vue";
+import { inject, onMounted, ref, Ref } from "vue";
 import * as mfm from "mfm-js";
 import * as misskey from "misskey-js";
 import MkNoteSub from "@/components/MkNoteSub.vue";
@@ -146,6 +146,7 @@ import MkVisibility from "@/components/MkVisibility.vue";
 import { pleaseLogin } from "@/scripts/please-login";
 import { focusPrev, focusNext } from "@/scripts/focus";
 import { checkWordMute } from "@/scripts/check-word-mute";
+import { checkPersonNotWelcome } from "@/scripts/check-person-not-welcome";
 import { checkStreamMode } from "@/scripts/check-stream-mode";
 import { userPage } from "@/filters/user";
 import * as os from "@/os";
@@ -160,6 +161,7 @@ import { useNoteCapture } from "@/scripts/use-note-capture";
 const props = defineProps<{
 	note: misskey.entities.Note;
 	pinned?: boolean;
+    mutePersonNotWelcome?: boolean;
 }>();
 
 const inChannel = inject("inChannel", null);
@@ -206,6 +208,7 @@ const isLong = (appearNote.cw == null && appearNote.text != null && (
 const collapsed = ref(appearNote.cw == null && isLong);
 const isDeleted = ref(false);
 const muted = ref(checkWordMute(appearNote, $i, defaultStore.state.mutedWords));
+const notWelcomed = ref(props.mutePersonNotWelcome && checkPersonNotWelcome(appearNote.user.username, defaultStore.state.personNotWelcome));
 const streamMode = ref(checkStreamMode(appearNote, $i, defaultStore.state.streamModeEnabled));
 const translation = ref(null);
 const translating = ref(false);

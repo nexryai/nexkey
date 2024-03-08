@@ -90,6 +90,18 @@
                 </MkPagination>
             </div>
         </FormFolder>
+
+        <FormFolder class="_formBlock">
+            <template #icon><i class="ti user-minus"></i></template>
+            <template #label>{{ i18n.ts.personNotWelcome }}</template>
+            <FormTextarea v-model="personNotWelcome" class="_formBlock">
+                <template #label>{{ i18n.ts.personNotWelcomeAlt }}</template>
+                <template #caption>{{ i18n.ts.personNotWelcomeDescription }}</template>
+            </FormTextarea>
+            <MkButton primary :disabled="!personNotWelcomeChanged" class="_formBlock" @click="saveMutedReactions()">
+                <i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}
+            </MkButton>
+        </FormFolder>
     </div>
 </MkSpacer>
 </template>
@@ -139,6 +151,9 @@ const mutedReactions = ref(defaultStore.state.mutedReactions.join("\n"));
 // インスタンスミュート
 const instanceMutes = ref($i!.mutedInstances.join("\n"));
 
+// 好ましくない人物
+const personNotWelcome = ref(defaultStore.state.personNotWelcome);
+
 // ユーザーブロック
 const mutingPagination = {
     endpoint: "mute/list" as const,
@@ -152,6 +167,7 @@ const blockingPagination = {
 const mutedWordsChanged = ref(false);
 const mutedReactionsChanged = ref(false);
 const mutedInstanceChanged = ref(false);
+const personNotWelcomeChanged = ref(false);
 
 const headerActions = $computed(() => []);
 const headerTabs = $computed(() => []);

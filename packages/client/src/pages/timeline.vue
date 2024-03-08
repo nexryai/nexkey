@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineAsyncComponent, computed, watch, provide } from "vue";
+import { defineAsyncComponent, computed, watch, provide, ref } from "vue";
 import XTimeline from "@/components/MkTimeline.vue";
 import XPostForm from "@/components/MkPostForm.vue";
 import { scroll } from "@/scripts/scroll";
@@ -55,11 +55,11 @@ const keymap = {
     "t": focus,
 };
 
-const tlComponent = $ref<InstanceType<typeof XTimeline>>();
-const rootEl = $ref<HTMLElement>();
+const tlComponent = ref<InstanceType<typeof XTimeline>>();
+const rootEl = ref<HTMLElement>();
 
-let queue = $ref(0);
-const src = $computed({ get: () => defaultStore.reactiveState.tl.value.src, set: (x) => saveSrc(x) });
+let queue = ref(0);
+const src = computed({ get: () => defaultStore.reactiveState.tl.value.src, set: (x) => saveSrc(x) });
 
 watch ($$(src), () => queue = 0);
 
@@ -117,9 +117,9 @@ function focus(): void {
     tlComponent.focus();
 }
 
-const headerActions = $computed(() => []);
+const headerActions = computed(() => []);
 
-const headerTabs = $computed(() => [{
+const headerTabs = computed(() => [{
     key: "home",
     title: i18n.ts._timelines.home,
     icon: "ti ti-home",

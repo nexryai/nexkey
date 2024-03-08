@@ -1,5 +1,10 @@
 <template>
-<XNotes ref="tlComponent" :no-gap="!$store.state.showGapBetweenNotesInTimeline" :pagination="pagination" @queue="emit('queue', $event)"/>
+<XNotes ref="tlComponent"
+        :no-gap="!$store.state.showGapBetweenNotesInTimeline"
+        :mute-person-not-welcome="true"
+        :pagination="pagination"
+        @queue="emit('queue', $event)"
+/>
 </template>
 
 <script lang="ts" setup>
@@ -111,15 +116,6 @@ if (props.src === "antenna") {
     connection.on("note", prepend);
     connection.on("userAdded", onUserAdded);
     connection.on("userRemoved", onUserRemoved);
-} else if (props.src === "channel") {
-    endpoint = "channels/timeline";
-    query = {
-        channelId: props.channel,
-    };
-    connection = stream.useChannel("channel", {
-        channelId: props.channel,
-    });
-    connection.on("note", prepend);
 }
 
 const pagination = {
