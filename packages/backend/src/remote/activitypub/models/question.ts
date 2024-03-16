@@ -4,6 +4,7 @@ import { IPoll } from '@/models/entities/poll.js';
 import Resolver from '../resolver.js';
 import { IObject, IQuestion, isQuestion } from '../type.js';
 import { apLogger } from '../logger.js';
+import { isSelfOrigin } from '@/misc/convert-host.js';
 
 export async function extractPollFromQuestion(source: string | IObject, resolver?: Resolver): Promise<IPoll> {
 	if (resolver == null) resolver = new Resolver();
@@ -44,7 +45,7 @@ export async function updateQuestion(value: any, resolver?: Resolver) {
 	const uri = typeof value === 'string' ? value : value.id;
 
 	// URIがこのサーバーを指しているならスキップ
-	if (uri.startsWith(config.url + '/')) throw new Error('uri points local');
+	if (isSelfOrigin(uri)) throw new Error('uri points local');
 
 	//#region このサーバーに既に登録されているか
 	const note = await Notes.findOneBy({ uri });

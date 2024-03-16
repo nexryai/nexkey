@@ -13,7 +13,7 @@ import { genId } from '@/misc/gen-id.js';
 import { instanceChart, usersChart } from '@/services/chart/index.js';
 import { UserPublickey } from '@/models/entities/user-publickey.js';
 import { isDuplicateKeyValueError } from '@/misc/is-duplicate-key-value-error.js';
-import { toPuny } from '@/misc/convert-host.js';
+import { toPuny, isSelfOrigin } from '@/misc/convert-host.js';
 import { UserProfile } from '@/models/entities/user-profile.js';
 import { toArray } from '@/prelude/array.js';
 import { fetchInstanceMetadata } from '@/services/fetch-instance-metadata.js';
@@ -112,7 +112,7 @@ export async function fetchPerson(uri: string, resolver?: Resolver): Promise<Cac
 	if (cached) return cached;
 
 	// URIがこのサーバーを指しているならデータベースからフェッチ
-	if (uri.startsWith(config.url + '/')) {
+	if (isSelfOrigin(uri)) {
 		const id = uri.split('/').pop();
 		const u = await Users.findOneBy({ id });
 		if (u) uriPersonCache.set(uri, u);
@@ -137,7 +137,7 @@ export async function fetchPerson(uri: string, resolver?: Resolver): Promise<Cac
 export async function createPerson(uri: string, resolver?: Resolver): Promise<User> {
 	if (typeof uri !== 'string') throw new Error('uri is not string');
 
-	if (uri.startsWith(config.url)) {
+	if (isSelfOrigin(uri)) {
 		throw new StatusError('cannot resolve local user', 400, 'cannot resolve local user');
 	}
 
@@ -287,7 +287,7 @@ export async function updatePerson(uri: string, resolver?: Resolver | null, hint
 	if (typeof uri !== 'string') throw new Error('uri is not string');
 
 	// URIがこのサーバーを指しているならスキップ
-	if (uri.startsWith(config.url + '/')) {
+	if (isSelfOrigin(uri)) {
 		return;
 	}
 
