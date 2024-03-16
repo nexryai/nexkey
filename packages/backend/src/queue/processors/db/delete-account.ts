@@ -8,6 +8,7 @@ import { MoreThan } from 'typeorm';
 import { deleteFileSync } from '@/services/drive/delete-file.js';
 import { sendEmail } from '@/services/send-email.js';
 import { emailDeliver } from '@/queue/index.js';
+import deleteFollowing from '@/services/following/delete.js';
 
 const logger = queueLogger.createSubLogger('delete-account');
 
@@ -17,6 +18,63 @@ export async function deleteAccount(job: Bull.Job<DbUserDeleteJobData>): Promise
 	const user = await Users.findOneBy({ id: job.data.user.id });
 	if (user == null) {
 		return;
+	}
+
+	{ // Reject Follows
+		// When deleting a remote account, the account obviously doesn't
+		// actually become deleted on its origin server, i.e. unlike a
+		// locally deleted account it continues to have access to its home
+		// feed and other content. To prevent it from being able to continue
+		// to access toots it would receive because it follows local accounts,
+		// we have to force it to unfollow them.
+
+		if (!Users.isLocalUser(job.data.user)) {
+			const follower = user;
+
+			const followings = await Followings.findBy({
+				followerId: follower.id,
+			});
+
+			for (const following of followings) {
+				const followee = await Users.findOneBy({
+					id: following.followeeId,
+				});
+
+				if (followee == null) {
+					throw `Cant find followee ${following.followeeId}`;
+				}
+
+				await deleteFollowing(follower, followee, true);
+			}
+		}
+	}
+
+	{ // Undo Follows
+		// When deleting a remote account, the account obviously doesn't
+    // actually become deleted on its origin server, but following relationships
+    // are severed on our end. Therefore, make the remote server aware that the
+    // follow relationships are severed to avoid confusion and potential issues
+    // if the remote account gets un-suspended.
+
+		if (!Users.isLocalUser(job.data.user)) {
+			const followee = user;
+
+			const followers = await Followings.findBy({
+				followeeId: followee.id,
+			});
+
+			for (const following of followers) {
+				const follower = await Users.findOneBy({
+					id: following.followerId,
+				});
+
+				if (follower == null) {
+					throw `Cant find follower ${following.followerId}`;
+				}
+
+				await deleteFollowing(follower, followee, true);
+			}
+		}
 	}
 
 	{ // Delete notes
