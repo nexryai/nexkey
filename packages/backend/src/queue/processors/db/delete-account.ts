@@ -20,8 +20,6 @@ export async function deleteAccount(job: Bull.Job<DbUserDeleteJobData>): Promise
 	}
 
 	{ // Delete notes
-		let cursor: Note['id'] | null = null;
-
 		const notesCount = await Notes.createQueryBuilder('note')
     .where('note.userId = :userId', { userId: job.data.user.id })
     .getCount();
@@ -30,24 +28,15 @@ export async function deleteAccount(job: Bull.Job<DbUserDeleteJobData>): Promise
 			const notes = await Notes.find({
 				where: {
 					userId: user.id,
-					...(cursor ? { id: MoreThan(cursor) } : {}),
 				},
-				take: 100,
-				order: {
-					id: 1,
-				},
+				take: 50,
 			}) as Note[];
 
 			if (notes.length === 0) {
 				break;
 			}
 
-			cursor = notes[notes.length - 1].id;
-
-			for (const note of notes) {
-				await Notes.delete(note.id);
-				await new Promise(resolve => setTimeout(resolve, 500)); // 0.5秒待機
-			}
+			await Notes.delete(notes.map(note => note.id));
 
 			let currentNotesCount = await Notes.createQueryBuilder('note')
 			.where('note.userId = :userId', { userId: job.data.user.id })
@@ -62,25 +51,17 @@ export async function deleteAccount(job: Bull.Job<DbUserDeleteJobData>): Promise
 	}
 
 	{ // Delete files
-		let cursor: DriveFile['id'] | null = null;
-
 		while (true) {
 			const files = await DriveFiles.find({
 				where: {
 					userId: user.id,
-					...(cursor ? { id: MoreThan(cursor) } : {}),
 				},
 				take: 10,
-				order: {
-					id: 1,
-				},
 			}) as DriveFile[];
 
 			if (files.length === 0) {
 				break;
 			}
-
-			cursor = files[files.length - 1].id;
 
 			for (const file of files) {
 				await deleteFileSync(file);
