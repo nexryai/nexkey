@@ -81,7 +81,7 @@ export function getNoteMenu(props: {
 	}
 
 	function copyLink(): void {
-		copyToClipboard(`${url}/notes/${appearNote.id}`);
+		copyToClipboard(appearNote.url || appearNote.uri || `${url}/notes/${appearNote.id}`);
 		os.success();
 	}
 
