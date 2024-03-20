@@ -919,6 +919,7 @@ moderationlogs: "モデレーションログ"
 deleted: "削除済み"
 reset2fa: "２段階認証をリセット"
 reset2faConfirm: "このユーザーの２段階認証をリセットしてもいいですか？"
+deleteAccountFederation: "リモートインスタンスにアカウント削除を送信する"
 
 _sensitiveMediaDetection:
   description: "機械学習を使って自動でセンシティブなメディアを検出し、モデレーションに役立てることができます。サーバーの負荷が少し増えます。"

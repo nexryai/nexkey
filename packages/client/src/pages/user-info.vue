@@ -100,6 +100,7 @@
 				<div class="_formBlock">
 					<FormButton v-if="user.host == null && iAmModerator" inline style="margin-right: 8px;" @click="resetPassword"><i class="fas fa-key"></i> {{ i18n.ts.resetPassword }}</FormButton>
 					<FormButton v-if="user.host == null && user.twoFactorEnabled && iAmModerator" inline style="margin-right: 8px;" @click="reset2fa"><i class="fas fa-key"></i> {{ i18n.ts.reset2fa }}</FormButton>
+					<FormButton v-if="user.host == null && user.isSuspended && iAmModerator" inline danger style="margin-right: 8px;" @click="sendDeleteAccountToRemote"><i class="fas fa-trash-alt"></i> {{ i18n.ts.deleteAccountFederation }}</FormButton>
 					<FormButton v-if="$i.isAdmin" inline danger style="margin-right: 8px;" @click="deleteAccount"><i class="fas fa-trash-alt"></i> {{ i18n.ts.deleteAccount }}</FormButton>
 					<FormButton v-if="$i.isAdmin" inline danger style="margin-right: 8px;" @click="deleteAllFiles"><i class="fas fa-trash-alt"></i> {{ i18n.ts.deleteAllFiles }}</FormButton>
 					<FormButton v-if="user.host == null && iAmModerator && !suspended" inline style="margin-right: 8px;" @click="sendModNotification"><i class="fas fa-bell"></i> {{ $ts.sendModNotification }}</FormButton>
@@ -424,6 +425,19 @@ async function deleteAccount() {
 			text: 'input not match',
 		});
 	}
+}
+
+async function sendDeleteAccountToRemote() {
+	const confirm = await os.confirm({
+		type: 'warning',
+		text: i18n.ts.deleteAccountConfirm,
+	});
+	if (confirm.canceled) return;
+	await os.apiWithDialog('admin/suspend-user', {
+		userId: user.id,
+		isDelete: true,
+	});
+	await refreshUser();
 }
 
 async function sendModNotification() {
