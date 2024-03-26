@@ -6,6 +6,7 @@ import { createSignedPost, createSignedGet } from './ap-request.js';
 import type { Response } from 'node-fetch';
 import { IObject } from './type.js';
 import { isValidUrl } from '@/misc/is-valid-url.js';
+import { apLogger } from '@/remote/activitypub/logger.js';
 
 export default async (user: { id: User['id'] }, url: string, object: any) => {
 	const body = JSON.stringify(object);
@@ -34,11 +35,15 @@ export default async (user: { id: User['id'] }, url: string, object: any) => {
 
 /**
  * Get ActivityPub object
- * @param user http-signature user
  * @param url URL to fetch
+ * @param user http-signature user
+ * @param redirects whether or not to accept redirects
  */
-
-export async function apGet(url: string, user?: ILocalUser): Promise<IObject> {
+export async function apGet(
+	url: string,
+	user?: ILocalUser,
+	redirects: boolean = true
+): Promise<IObject> {
 	if (!isValidUrl(url)) {
 		throw new StatusError('Invalid URL', 400);
 	}
@@ -62,7 +67,15 @@ export async function apGet(url: string, user?: ILocalUser): Promise<IObject> {
 			url,
 			method: req.request.method,
 			headers: req.request.headers,
+			redirect: redirects ? 'manual' : 'error',
 		});
+
+		if (redirects && [301, 302, 307, 308].includes(res.status)) {
+			const newUrl = res.headers.get('location');
+			if (newUrl == null) throw new Error('apGet got redirect but no target location');
+			apLogger.debug(`apGet is redirecting to ${newUrl}`);
+			return apGet(newUrl, user, false);
+		}
 	} else {
 		res = await getResponse({
 			url,
@@ -72,12 +85,20 @@ export async function apGet(url: string, user?: ILocalUser): Promise<IObject> {
 					'application/activity+json, application/ld+json; profile="https://www.w3.org/ns/activitystreams"',
 				"User-Agent": config.userAgent,
 			},
+			redirect: redirects ? 'manual' : 'error',
 		});
+
+		if (redirects && [301, 302, 307, 308].includes(res.status)) {
+			const newUrl = res.headers.get('location');
+			if (newUrl == null) throw new Error('apGet got redirect but no target location');
+			apLogger.debug(`apGet is redirecting to ${newUrl}`);
+			return apGet(newUrl, undefined, false);
+		}
 	}
 
 	const contentType = res.headers.get("content-type");
 	if (contentType == null || !validateContentType(contentType)) {
-		throw new Error("Invalid Content Type");
+		throw new Error(`apGet response had unexpected content-type: ${contentType}`);
 	}
 
 	if (res.body == null) throw new Error("body is null");
