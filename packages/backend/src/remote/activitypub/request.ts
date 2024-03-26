@@ -42,8 +42,8 @@ export default async (user: { id: User['id'] }, url: string, object: any) => {
 export async function apGet(
 	url: string,
 	user?: ILocalUser,
-	redirects: boolean = true
-): Promise<IObject> {
+	redirects: boolean = true,
+): Promise<{ finalUrl: string; content: IObject }> {
 	if (!isValidUrl(url)) {
 		throw new StatusError('Invalid URL', 400);
 	}
@@ -106,7 +106,10 @@ export async function apGet(
 	const text = await res.text();
 	if (text.length > 65536) throw new Error("too big result");
 
-	return JSON.parse(text) as IObject;
+	return {
+		finalUrl: res.url,
+		content: JSON.parse(text) as IObject,
+	};
 }
 
 function validateContentType(contentType: string): boolean {

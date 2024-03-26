@@ -82,7 +82,7 @@ export default class Resolver {
 			this.user = await getInstanceActor();
 		}
 
-		const object = await apGet(value, this.user);
+		const { finalUrl, content: object } = await apGet(value, this.user);
 
 		if (object == null || (
 			Array.isArray(object['@context']) ?
@@ -90,6 +90,13 @@ export default class Resolver {
 				object['@context'] !== 'https://www.w3.org/ns/activitystreams'
 		)) {
 			throw new Error('invalid response');
+		}
+
+		if (
+			object.id != null &&
+			new URL(finalUrl).host != new URL(object.id).host
+		) {
+			throw new Error("Object ID host doesn't match final url host");
 		}
 
 		return object;
