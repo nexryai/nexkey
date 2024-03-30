@@ -92,7 +92,10 @@ export default class Resolver {
 			throw new Error('invalid response');
 		}
 
-		if (object.id == null) return object;
+		if (object.id == null) {
+			throw new Error('Object has no ID');
+		}
+
 		if (finalUrl === object.id) return object;
 
 		if (new URL(finalUrl).host !== new URL(object.id).host) {
