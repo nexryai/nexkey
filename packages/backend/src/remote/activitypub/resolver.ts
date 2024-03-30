@@ -92,14 +92,21 @@ export default class Resolver {
 			throw new Error('invalid response');
 		}
 
-		if (
-			object.id != null &&
-			new URL(finalUrl).host != new URL(object.id).host
-		) {
+		if (object.id == null) return object;
+		if (finalUrl === object.id) return object;
+
+		if (new URL(finalUrl).host !== new URL(object.id).host) {
 			throw new Error("Object ID host doesn't match final url host");
 		}
 
-		return object;
+		const finalRes = await apGet(object.id, this.user);
+
+		if (finalRes.finalUrl !== finalRes.content.id)
+			throw new Error(
+				"Object ID still doesn't match final URL after second fetch attempt",
+			);
+
+		return finalRes.content;
 	}
 
 	private async resolveLocal(url: string): Promise<IObject> {
