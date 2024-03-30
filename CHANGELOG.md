@@ -8,6 +8,9 @@
 You should also include the user name that made the change.
 -->
 
+## 12.119.2-fix.6.6 (2024/03/30)
+### Bugfixes
+- AP取得のチェックの修正
 
 ## 12.119.2-fix.6.5 (2024/03/26)
 ### Improvements
