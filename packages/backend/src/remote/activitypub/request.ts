@@ -1,7 +1,8 @@
 import config from "@/config/index.js";
 import { getUserKeypair } from "@/misc/keypair-store.js";
 import { User, ILocalUser } from "@/models/entities/user.js";
-import { getResponse } from "@/misc/fetch.js";
+import { StatusError, getResponse } from "@/misc/fetch.js";
+import { isValidUrl } from "@/misc/is-valid-url.js";
 import { createSignedPost, createSignedGet } from "./ap-request.js";
 import { IObject } from "./type.js";
 import type { Response } from "node-fetch";
@@ -32,13 +33,18 @@ export default async (user: { id: User["id"] }, url: string, object: any) => {
 };
 
 /**
- * Get AP object
+ * Get ActivityPub object
  * @param user http-signature user
  * @param url URL to fetch
  */
-export async function apGet(url: string, user?: ILocalUser): Promise<IObject> {
-    let res: Response;
 
+export async function apGet(url: string, user?: ILocalUser): Promise<IObject> {
+    if (!isValidUrl(url)) {
+        throw new StatusError("Invalid URL", 400);
+    }
+
+    let res: Response;
+	
     if (user != null) {
         const keypair = await getUserKeypair(user.id);
         const req = createSignedGet({
@@ -63,7 +69,7 @@ export async function apGet(url: string, user?: ILocalUser): Promise<IObject> {
             method: "GET",
             headers: {
                 Accept:
-                    "application/activity+json, application/ld+json; profile=\"https://www.w3.org/ns/activitystreams\"",
+					"application/activity+json, application/ld+json; profile=\"https://www.w3.org/ns/activitystreams\"",
                 "User-Agent": config.userAgent,
             },
         });
@@ -87,9 +93,9 @@ function validateContentType(contentType: string): boolean {
     if (parts[0] === "application/activity+json") return true;
     if (parts[0] !== "application/ld+json") return false;
     return parts
-        .slice(1)
-        .some(
-            (part) =>
-                part.trim() === "profile=\"https://www.w3.org/ns/activitystreams\"",
-        );
+		.slice(1)
+		.some(
+		    (part) =>
+		        part.trim() === "profile=\"https://www.w3.org/ns/activitystreams\"",
+		);
 }
