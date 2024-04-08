@@ -2,16 +2,16 @@ version: 2
 updates:
 - package-ecosystem: npm
   directory: "/"
-  target-branch: "devel"
+  target-branch: "nightly"
   schedule:
     interval: daily
 - package-ecosystem: npm
   directory: "/packages/backend"
-  target-branch: "devel"
+  target-branch: "nightly"
   schedule:
     interval: daily
 - package-ecosystem: npm
   directory: "/packages/client"
-  target-branch: "devel"
+  target-branch: "nightly"
   schedule:
     interval: daily

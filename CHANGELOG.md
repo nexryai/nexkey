@@ -1,7 +1,3 @@
-## 12.24Q1.4
- - URGENT SECURITY FIX: AP取得のチェックの修正
- - Update deps
-
 ## 12.24Q1.3
  - Fix: apply word mutes in notifications
  - Refactor: Remove unused imports
