@@ -82,7 +82,7 @@
 		"os-utils": "0.0.14",
 		"otpauth": "9.2.3",
 		"parse5": "7.1.2",
-		"pg": "8.11.3",
+		"pg": "8.11.5",
 		"private-ip": "3.0.2",
 		"probe-image-size": "7.2.3",
 		"promise-limit": "2.7.0",
