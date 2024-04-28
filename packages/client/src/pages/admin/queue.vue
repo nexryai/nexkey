@@ -5,34 +5,25 @@
         <XQueue v-if="tab === 'deliver'" domain="deliver"/>
         <XQueue v-else-if="tab === 'inbox'" domain="inbox"/>
     </MkSpacer>
+    <br>
+    <MkButton @click="promoteAllQueues"><i class="ti ti-reload"></i> Promote all jobs</MkButton>
 </MkStickyContainer>
 </template>
 
 <script lang="ts" setup>
-import { markRaw, onMounted, onBeforeUnmount, nextTick } from "vue";
+import { ref, computed } from "vue";
 import XQueue from "./queue.chart.vue";
 import XHeader from "./_header_.vue";
-import MkButton from "@/components/MkButton.vue";
 import * as os from "@/os";
 import * as config from "@/config";
 import { i18n } from "@/i18n";
 import { definePageMetadata } from "@/scripts/page-metadata";
+import { $i } from "@/account";
+import MkButton from "@/components/MkButton.vue";
 
-let tab = $ref("deliver");
+let tab = ref("deliver");
 
-function clear() {
-    os.confirm({
-        type: "warning",
-        title: i18n.ts.clearQueueConfirmTitle,
-        text: i18n.ts.clearQueueConfirmText,
-    }).then(({ canceled }) => {
-        if (canceled) return;
-
-        os.apiWithDialog("admin/queue/clear");
-    });
-}
-
-const headerActions = $computed(() => [{
+const headerActions = computed(() => [{
     asFullButton: true,
     icon: "ti ti-external-link",
     text: i18n.ts.dashboard,
@@ -41,13 +32,33 @@ const headerActions = $computed(() => [{
     },
 }]);
 
-const headerTabs = $computed(() => [{
+const headerTabs = computed(() => [{
     key: "deliver",
     title: "Deliver",
 }, {
     key: "inbox",
     title: "Inbox",
 }]);
+
+function promoteAllQueues() {
+    os.confirm({
+        type: "warning",
+        title: "OK?",
+    }).then(({ canceled }) => {
+        if (canceled || !$i) return;
+
+        // /api/queues/deliver/promoteにPUT
+        fetch("/queue/api/queues/deliver/promote", {
+            method: "PUT",
+            headers: {
+                // token
+                "Cookie": "token=" + $i.token,
+            },
+        }).then(() => {
+            os.toast(i18n.ts.retryAllQueuesSuccess);
+        });
+    });
+}
 
 definePageMetadata({
     title: i18n.ts.jobQueue,

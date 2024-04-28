@@ -60,35 +60,40 @@ const app = new Koa();
 
 //#region Bull Dashboard
 const bullBoardPath = "/queue";
+const bullBoardAllowedEndpoints = [
+    bullBoardPath + "/api/queues/deliver/promote",
+];
 
 // Authenticate
 app.use(async (ctx, next) => {
     // %71ueueとかでリクエストされたら困るため
     const url = decodeURI(ctx.path);
     if (url === bullBoardPath || url.startsWith(bullBoardPath + "/")) {
-        ctx.set("Content-Security-Policy",
-            "base-uri 'self'; "
-            + "default-src 'none'; "
-            + "script-src 'self'; "
-            + "img-src 'self' https: data: blob:; "
-            + "style-src 'self' 'unsafe-inline' https:; "
-            + "font-src 'self' https:; "
-            + "connect-src 'self' data: blob:; "
-            + "frame-ancestors 'none'");
-
-        if (!url.startsWith(bullBoardPath + "/static/")) {
-            ctx.set("Cache-Control", "private, max-age=0, must-revalidate");
-        }
-
-        const token = ctx.cookies.get("token");
-        if (token == null) {
-            ctx.status = 401;
+        if (!bullBoardAllowedEndpoints.includes(url)) {
+            ctx.status = 404;
             return;
-        }
-        const user = await Users.findOneBy({ token });
-        if (user == null || !(user.isAdmin || user.isModerator)) {
-            ctx.status = 403;
-            return;
+        } else {
+            ctx.set("Content-Security-Policy",
+                + "base-uri 'self'; "
+                + "default-src 'none'; "
+                + "script-src 'self'; "
+                + "img-src 'self' https: data: blob:; "
+                + "style-src 'self' 'unsafe-inline' https:; "
+                + "font-src 'self' https:; "
+                + "connect-src 'self' data: blob:; "
+                + "frame-ancestors 'none'");
+
+            const token = ctx.cookies.get("token");
+            if (token == null) {
+                ctx.status = 401;
+                return;
+            }
+
+            const user = await Users.findOneBy({ token });
+            if (user == null || !(user.isAdmin || user.isModerator)) {
+                ctx.status = 403;
+                return;
+            }
         }
     }
     await next();
