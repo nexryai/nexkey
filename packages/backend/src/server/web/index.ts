@@ -69,19 +69,11 @@ app.use(async (ctx, next) => {
     // %71ueueとかでリクエストされたら困るため
     const url = decodeURI(ctx.path);
     if (url === bullBoardPath || url.startsWith(bullBoardPath + "/")) {
-        if (!bullBoardAllowedEndpoints.includes(url)) {
+        if (!bullBoardAllowedEndpoints.includes(url) || ctx.method !== "PUT") {
             ctx.status = 404;
             return;
         } else {
-            ctx.set("Content-Security-Policy",
-                + "base-uri 'self'; "
-                + "default-src 'none'; "
-                + "script-src 'self'; "
-                + "img-src 'self' https: data: blob:; "
-                + "style-src 'self' 'unsafe-inline' https:; "
-                + "font-src 'self' https:; "
-                + "connect-src 'self' data: blob:; "
-                + "frame-ancestors 'none'");
+            ctx.set("Cache-Control", "private, max-age=0, must-revalidate");
 
             const token = ctx.cookies.get("token");
             if (token == null) {
