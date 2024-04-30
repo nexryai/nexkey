@@ -2,7 +2,7 @@ import * as crypto from "node:crypto";
 import jsonld from "jsonld";
 import fetch from "node-fetch";
 import { httpAgent, httpsAgent } from "@/misc/fetch.js";
-import { CONTEXTS } from "./contexts.js";
+import { CONTEXTS, WellKnownContext } from "./contexts.js";
 
 // RsaSignature2017 based from https://github.com/transmute-industries/RsaSignature2017
 
@@ -82,6 +82,13 @@ export class LdSignature {
             documentLoader: customLoader,
         });
     }
+
+    public async compactToWellKnown(data: any): Promise<any> {
+		const options = { documentLoader: this.getLoader() };
+		const context = WellKnownContext as any;
+		delete data["signature"];
+		return await jsonld.compact(data, context, options);
+	}
 
     private getLoader() {
         return async (url: string): Promise<any> => {
