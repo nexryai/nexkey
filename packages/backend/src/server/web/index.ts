@@ -60,6 +60,7 @@ const app = new Koa();
 
 //#region Bull Dashboard
 const bullBoardPath = "/queue";
+// ToDo: もしこのエンドポイント一覧が増えないようなら本体のAPIとして実装してbullBoardやめる
 const bullBoardAllowedEndpoints = [
     bullBoardPath + "/api/queues/deliver/promote",
 ];
