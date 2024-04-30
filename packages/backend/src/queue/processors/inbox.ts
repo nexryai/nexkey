@@ -3,6 +3,7 @@ import Bull from "bull";
 import httpSignature from "@peertube/http-signature";
 import perform from "@/remote/activitypub/perform.js";
 import Logger from "@/services/logger.js";
+import config from '../../config';
 import { registerOrFetchInstanceDoc } from "@/services/register-or-fetch-instance-doc.js";
 import { Instances } from "@/models/index.js";
 import { apRequestChart, federationChart, instanceChart } from "@/services/chart/index.js";
@@ -83,7 +84,7 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
     // また、signatureのsignerは、activity.actorと一致する必要がある
     if (!httpSignatureValidated || authUser.user.uri !== activity.actor) {
         // 一致しなくても、でもLD-Signatureがありそうならそっちも見る
-        if (activity.signature) {
+        if (!config.ignoreApForwarded && activity.signature) {
             if (activity.signature.type !== "RsaSignature2017") {
                 return `skip: unsupported LD-signature type ${activity.signature.type}`;
             }
@@ -125,7 +126,7 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
                 return `Blocked request: ${ldHost}`;
             }
         } else {
-            return `skip: http-signature verification failed and no LD-Signature. keyId=${signature.keyId}`;
+            return `skip: http-signature verification failed and ${config.ignoreApForwarded ? 'ignoreApForwarded' : 'no LD-Signature'}. keyId=${signature.keyId}`;
         }
     }
 
