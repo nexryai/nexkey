@@ -1,3 +1,7 @@
+## 12.24Q2.2
+ - URGENT SECURITY FIX: Hotfix of GHSA-2vxv-pv3m-3wvj
+ - backend: Add ignoreApForwarded option
+
 ## 12.24Q2.1
  - SECURITY FIX: Bullダッシュボードを基本的には使用できないようにする
     * Bullダッシュボードのヘッダーの問題を修正
