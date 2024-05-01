@@ -126,7 +126,7 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
                 return `Blocked request: ${ldHost}`;
             }
         } else {
-            return `skip: http-signature verification failed and ${config.ignoreApForwarded ? 'ignoreApForwarded' : 'no LD-Signature'}. keyId=${signature.keyId}`;
+            return `skip: http-signature verification failed and ${config.ignoreApForwarded ? "ignoreApForwarded" : "no LD-Signature"}. keyId=${signature.keyId}`;
         }
     }
 

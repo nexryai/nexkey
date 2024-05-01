@@ -84,11 +84,11 @@ export class LdSignature {
     }
 
     public async compactToWellKnown(data: any): Promise<any> {
-		const options = { documentLoader: this.getLoader() };
-		const context = WellKnownContext as any;
-		delete data["signature"];
-		return await jsonld.compact(data, context, options);
-	}
+        const options = { documentLoader: this.getLoader() };
+        const context = WellKnownContext as any;
+        delete data["signature"];
+        return await jsonld.compact(data, context, options);
+    }
 
     private getLoader() {
         return async (url: string): Promise<any> => {

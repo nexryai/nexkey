@@ -2,9 +2,9 @@ import { v4 as uuid } from "uuid";
 import config from "@/config/index.js";
 import { getUserKeypair } from "@/misc/keypair-store.js";
 import { User } from "@/models/entities/user.js";
+import { WellKnownContext } from "@/remote/activitypub/misc/contexts.js";
 import { IActivity } from "../type.js";
 import { LdSignature } from "../misc/ld-signature.js";
-import { WellKnownContext } from "@/remote/activitypub/misc/contexts.js";
 
 export const renderActivity = (x: any): IActivity | null => {
     if (x == null) return null;
