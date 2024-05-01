@@ -419,7 +419,17 @@ export async function promoteAllDeliverJobs() {
     const delayedQueues = await deliverQueue.getDelayed();
     for (let queueIndex = 0; queueIndex < delayedQueues.length; queueIndex++) {
         const queue = delayedQueues[queueIndex];
-        await queue.promote();
+        try {
+            await queue.promote();
+        } catch (e) {
+            if (e instanceof Error) {
+                if (e.message.indexOf("not in a delayed state") !== -1) {
+                    throw e;
+                }
+            } else {
+                throw e;
+            }
+        }
     }
 }
 
@@ -427,6 +437,16 @@ export async function promoteAllInboxJobs() {
     const delayedQueues = await inboxQueue.getDelayed();
     for (let queueIndex = 0; queueIndex < delayedQueues.length; queueIndex++) {
         const queue = delayedQueues[queueIndex];
-        await queue.promote();
+        try {
+            await queue.promote();
+        } catch (e) {
+            if (e instanceof Error) {
+                if (e.message.indexOf("not in a delayed state") !== -1) {
+                    throw e;
+                }
+            } else {
+                throw e;
+            }
+        }
     }
 }
