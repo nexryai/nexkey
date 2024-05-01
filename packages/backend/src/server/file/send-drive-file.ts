@@ -41,7 +41,11 @@ export default async function(ctx: Koa.Context) {
     if (file == null) {
         ctx.status = 404;
         ctx.set("Cache-Control", "max-age=86400");
-        await send(ctx as any, "/dummy.png", { root: assets });
+        try {
+            await send(ctx as any, "/dummy.png", { root: assets });
+        } catch (e) {
+            ctx.status = 500;
+        }
         return;
     }
 
