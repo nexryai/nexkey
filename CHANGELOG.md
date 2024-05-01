@@ -1,3 +1,10 @@
+## 12.24Q2.3
+ - Client: ジョブキュー管理画面の多言語化
+ - Feat: bull-boardやめる
+   * 12.24Q2.1で行った変更と表面上の差はありませんが、内部的にbull-boardを使わないように変更されています
+ - Fix: Federation: ActivityPubのcontextに別フォーク由来の項目が含まれているのを修正
+ - Update deps
+
 ## 12.24Q2.2
  - URGENT SECURITY FIX: Hotfix of GHSA-2vxv-pv3m-3wvj
  - backend: Add ignoreApForwarded option
