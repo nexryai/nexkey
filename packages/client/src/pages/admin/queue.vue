@@ -37,16 +37,7 @@ function promoteAllQueues() {
     }).then(({ canceled }) => {
         if (canceled || !$i) return;
 
-        // /api/queues/deliver/promoteにPUT
-        fetch("/queue/api/queues/deliver/promote", {
-            method: "PUT",
-            headers: {
-                // token
-                "Cookie": "token=" + $i.token,
-            },
-        }).then(() => {
-            os.toast(i18n.ts.retryAllQueuesSuccess);
-        });
+        os.apiWithDialog("admin/queue/promote", { type: tab });
     });
 }
 

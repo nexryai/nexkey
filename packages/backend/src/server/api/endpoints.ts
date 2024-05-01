@@ -42,6 +42,7 @@ import * as ep___admin_moderators_add from "./endpoints/admin/moderators/add.js"
 import * as ep___admin_moderators_remove from "./endpoints/admin/moderators/remove.js";
 import * as ep___admin_promo_create from "./endpoints/admin/promo/create.js";
 import * as ep___admin_queue_clear from "./endpoints/admin/queue/clear.js";
+import * as ep___admin_queue_promote from "./endpoints/admin/queue/promote.js";
 import * as ep___admin_queue_deliverDelayed from "./endpoints/admin/queue/deliver-delayed.js";
 import * as ep___admin_queue_inboxDelayed from "./endpoints/admin/queue/inbox-delayed.js";
 import * as ep___admin_queue_stats from "./endpoints/admin/queue/stats.js";
@@ -326,6 +327,7 @@ const eps = [
     ["admin/moderators/remove", ep___admin_moderators_remove],
     ["admin/promo/create", ep___admin_promo_create],
     ["admin/queue/clear", ep___admin_queue_clear],
+    ["admin/queue/promote", ep___admin_queue_promote],
     ["admin/queue/deliver-delayed", ep___admin_queue_deliverDelayed],
     ["admin/queue/inbox-delayed", ep___admin_queue_inboxDelayed],
     ["admin/queue/stats", ep___admin_queue_stats],
