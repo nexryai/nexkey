@@ -98,7 +98,7 @@
 		"rndstr": "1.0.0",
 		"rss-parser": "3.13.0",
 		"s-age": "1.1.2",
-		"sanitize-html": "2.12.1",
+		"sanitize-html": "2.13.0",
 		"sharp": "0.32.6",
 		"slacc": "0.0.10",
         "sonic-channel": "1.3.1",
