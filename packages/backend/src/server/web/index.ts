@@ -34,13 +34,13 @@ const swAssets = `${_dirname}/../../../../../built/_sw_dist_/`;
 
 const allowedAssetsExt = [".js", ".css", ".map", ".png", ".jpg", ".jpeg", ".gif", ".svg", ".ico", ".webp", ".avif", ".woff", ".woff2", ".ttf", ".eot", ".otf", "LICENSE"];
 
-function isAllowedAssetExt(ctx: Koa.Context) {
+function isAllowedAssetExt(ctx: Koa.Context): boolean {
     return allowedAssetsExt.some(ext => ctx.path.endsWith(ext));
 }
 
 // 参考にした: https://github.com/mei23/misskey/blob/2c6db29a4acbce7e4ad8d40a54afc481019199ab/src/server/web/index.ts#L33
 // ToDo: script-srcのunsafeを消せるようにする
-export function genCsp() {
+export function genCsp(): {csp: string } {
     const csp
         = "base-uri 'none'; "
         + "default-src 'none'; "
