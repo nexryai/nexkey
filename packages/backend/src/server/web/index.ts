@@ -32,7 +32,7 @@ const clientAssets = `${_dirname}/../../../../client/assets/`;
 const assets = `${_dirname}/../../../../../built/_client_dist_/`;
 const swAssets = `${_dirname}/../../../../../built/_sw_dist_/`;
 
-const allowedAssetsExt = [".js", ".css", ".png", ".jpg", ".jpeg", ".gif", ".svg", ".ico", ".woff", ".woff2", ".ttf", ".eot", ".otf"];
+const allowedAssetsExt = [".js", ".css", ".map", ".png", ".jpg", ".jpeg", ".gif", ".svg", ".ico", ".webp", ".avif", ".woff", ".woff2", ".ttf", ".eot", ".otf", "LICENSE"];
 
 function isAllowedAssetExt(ctx: Koa.Context) {
     return allowedAssetsExt.some(ext => ctx.path.endsWith(ext));
