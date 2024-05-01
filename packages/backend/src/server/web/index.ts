@@ -82,31 +82,47 @@ const router = new Router();
 //#region static assets
 
 router.get("/static-assets/(.*)", async ctx => {
-    await send(ctx as any, ctx.path.replace("/static-assets/", ""), {
-        root: staticAssets,
-        maxage: ms("7 days"),
-    });
+    try {
+        await send(ctx as any, ctx.path.replace("/static-assets/", ""), {
+            root: staticAssets,
+            maxage: ms("7 days"),
+        });
+    } catch (e) {
+        ctx.status = 404;
+    }
 });
 
 router.get("/client-assets/(.*)", async ctx => {
-    await send(ctx as any, ctx.path.replace("/client-assets/", ""), {
-        root: clientAssets,
-        maxage: ms("7 days"),
-    });
+    try {
+        await send(ctx as any, ctx.path.replace("/client-assets/", ""), {
+            root: clientAssets,
+            maxage: ms("7 days"),
+        });
+    } catch (e) {
+        ctx.status = 404;
+    }
 });
 
 router.get("/assets/(.*)", async ctx => {
-    await send(ctx as any, ctx.path.replace("/assets/", ""), {
-        root: assets,
-        maxage: ms("7 days"),
-    });
+    try {
+        await send(ctx as any, ctx.path.replace("/assets/", ""), {
+            root: assets,
+            maxage: ms("7 days"),
+        });
+    } catch (e) {
+        ctx.status = 404;
+    }
 });
 
 // Apple touch icon
 router.get("/apple-touch-icon.png", async ctx => {
-    await send(ctx as any, "/apple-touch-icon.png", {
-        root: staticAssets,
-    });
+    try {
+        await send(ctx as any, "/apple-touch-icon.png", {
+            root: staticAssets,
+        });
+    } catch (e) {
+        ctx.status = 500;
+    }
 });
 
 router.get("/twemoji/(.*)", async ctx => {
@@ -119,10 +135,14 @@ router.get("/twemoji/(.*)", async ctx => {
 
     ctx.set("Content-Security-Policy", "default-src 'none'; style-src 'unsafe-inline'");
 
-    await send(ctx as any, path, {
-        root: `${_dirname}/../../../node_modules/@discordapp/twemoji/dist/svg/`,
-        maxage: ms("30 days"),
-    });
+    try {
+        await send(ctx as any, path, {
+            root: `${_dirname}/../../../node_modules/@discordapp/twemoji/dist/svg/`,
+            maxage: ms("30 days"),
+        });
+    } catch (e) {
+        ctx.status = 404;
+    }
 });
 
 router.get("/twemoji-badge/(.*)", async ctx => {
@@ -170,19 +190,27 @@ router.get("/twemoji-badge/(.*)", async ctx => {
 
 // ServiceWorker
 router.get("/sw.js", async ctx => {
-    await send(ctx as any, "/sw.js", {
-        root: swAssets,
-        maxage: ms("10 minutes"),
-    });
+    try {
+        await send(ctx as any, "/sw.js", {
+            root: swAssets,
+            maxage: ms("10 minutes"),
+        });
+    } catch (e) {
+        ctx.status = 500;
+    }
 });
 
 // Manifest
 router.get("/manifest.json", manifestHandler);
 
 router.get("/robots.txt", async ctx => {
-    await send(ctx as any, "/robots.txt", {
-        root: staticAssets,
-    });
+    try {
+        await send(ctx as any, "/robots.txt", {
+            root: staticAssets,
+        });
+    } catch (e) {
+        ctx.status = 500;
+    }
 });
 
 //#endregion
@@ -193,9 +221,13 @@ router.get("/api-doc", async ctx => {
     ctx.set("Content-Security-Policy", csp);
     ctx.set("Cache-Control", "public, max-age=60");
 
-    await send(ctx as any, "/redoc.html", {
-        root: staticAssets,
-    });
+    try {
+        await send(ctx as any, "/redoc.html", {
+            root: staticAssets,
+        });
+    } catch (e) {
+        ctx.status = 500;
+    }
 });
 
 // URL preview endpoint
