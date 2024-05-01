@@ -520,51 +520,36 @@ const activitystreams = {
 };
 
 export const WellKnownContext = {
-	"@context": [
-		"https://www.w3.org/ns/activitystreams",
-		"https://w3id.org/security/v1",
-		{
-			// as non-standards
-			manuallyApprovesFollowers: "as:manuallyApprovesFollowers",
-			movedTo: {
-				"@id": "https://www.w3.org/ns/activitystreams#movedTo",
-				"@type": "@id"
-			},
-			movedToUri: "as:movedTo",
-			sensitive: "as:sensitive",
-			Hashtag: "as:Hashtag",
-			quoteUri: "fedibird:quoteUri",
-			quoteUrl: "as:quoteUrl",
-			// Mastodon
-			toot: "http://joinmastodon.org/ns#",
-			Emoji: "toot:Emoji",
-			featured: "toot:featured",
-			discoverable: "toot:discoverable",
-			indexable: "toot:indexable",
-			// schema
-			schema: "http://schema.org#",
-			PropertyValue: "schema:PropertyValue",
-			value: "schema:value",
-			// Firefish
-			firefish: "https://firefish.dev/ns#",
-			speakAsCat: "firefish:speakAsCat",
-			// Misskey
-			misskey: "https://misskey-hub.net/ns#",
-			_misskey_talk: "misskey:_misskey_talk",
-			_misskey_reaction: "misskey:_misskey_reaction",
-			_misskey_votes: "misskey:_misskey_votes",
-			_misskey_summary: "misskey:_misskey_summary",
-			isCat: "misskey:isCat",
-			// Fedibird
-			fedibird: "http://fedibird.com/ns#",
-			// vcard
-			vcard: "http://www.w3.org/2006/vcard/ns#",
-			// litepub
-			litepub: "http://litepub.social/ns#",
-			ChatMessage: "litepub:ChatMessage",
-			directMessage: "litepub:directMessage",
-		},
-	],
+    "@context": [
+        "https://www.w3.org/ns/activitystreams",
+        "https://w3id.org/security/v1",
+        {
+            // as non-standards
+            manuallyApprovesFollowers: "as:manuallyApprovesFollowers",
+            sensitive: "as:sensitive",
+            Hashtag: "as:Hashtag",
+            quoteUrl: "as:quoteUrl",
+            // Mastodon
+            toot: "http://joinmastodon.org/ns#",
+            Emoji: "toot:Emoji",
+            featured: "toot:featured",
+            discoverable: "toot:discoverable",
+            // schema
+            schema: "http://schema.org#",
+            PropertyValue: "schema:PropertyValue",
+            value: "schema:value",
+            // Misskey
+            misskey: "https://misskey-hub.net/ns#",
+            "_misskey_content": "misskey:_misskey_content",
+            "_misskey_quote": "misskey:_misskey_quote",
+            "_misskey_reaction": "misskey:_misskey_reaction",
+            "_misskey_votes": "misskey:_misskey_votes",
+            "_misskey_talk": "misskey:_misskey_talk",
+            "isCat": "misskey:isCat",
+            // vcard
+            vcard: "http://www.w3.org/2006/vcard/ns#",
+        },
+    ],
 };
 
 export const CONTEXTS: Record<string, unknown> = {
