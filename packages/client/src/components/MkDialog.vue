@@ -186,7 +186,7 @@ onBeforeUnmount(() => {
 
             > .body {
                 font-size: 14px;
-                text-align: center;
+                text-align: left;
                 margin-top: 34px;
             }
         }
@@ -231,6 +231,7 @@ onBeforeUnmount(() => {
 
 	> .buttons {
 		margin-top: 34px;
+        text-align: right;
 
 		> * {
 			margin: 0 8px;
