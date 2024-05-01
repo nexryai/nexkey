@@ -5,7 +5,7 @@
         <XQueue v-if="tab === 'deliver'" domain="deliver"/>
         <XQueue v-else-if="tab === 'inbox'" domain="inbox"/>
         <br>
-        <MkButton @click="promoteAllQueues"><i class="ti ti-reload"></i> Promote all jobs</MkButton>
+        <MkButton @click="promoteAllQueues"><i class="ti ti-reload"></i> {{ i18n.ts.promoteQueue }}</MkButton>
     </MkSpacer>
 </MkStickyContainer>
 </template>
@@ -33,7 +33,8 @@ const headerTabs = computed(() => [{
 function promoteAllQueues() {
     os.confirm({
         type: "warning",
-        title: "OK?",
+        title: i18n.ts.promoteQueueConfirmTitle,
+        text: i18n.ts.promoteQueueConfirmText,
     }).then(({ canceled }) => {
         if (canceled || !$i) return;
 
