@@ -37,7 +37,7 @@ function promoteAllQueues() {
     }).then(({ canceled }) => {
         if (canceled || !$i) return;
 
-        os.apiWithDialog("admin/queue/promote", { type: tab });
+        os.apiWithDialog("admin/queue/promote", { type: tab.value });
     });
 }
 
