@@ -4,7 +4,7 @@
 
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { PathOrFileDescriptor, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import ms from "ms";
 import Koa from "koa";
 import Router from "@koa/router";
@@ -12,17 +12,13 @@ import send from "koa-send";
 import favicon from "koa-favicon";
 import views from "koa-views";
 import sharp from "sharp";
-import { createBullBoard } from "@bull-board/api";
-import { BullAdapter } from "@bull-board/api/bullAdapter.js";
-import { KoaAdapter } from "@bull-board/koa";
 
 import { In, IsNull } from "typeorm";
 import { fetchMeta } from "@/misc/fetch-meta.js";
 import config from "@/config/index.js";
-import { Users, Notes, UserProfiles, Pages, Channels, Clips, GalleryPosts } from "@/models/index.js";
+import { Users, Notes, UserProfiles, Pages, Clips } from "@/models/index.js";
 import * as Acct from "@/misc/acct.js";
 import { getNoteSummary } from "@/misc/get-note-summary.js";
-import { queues } from "@/queue/queues.js";
 import { genOpenapiSpec } from "../api/openapi/gen-spec.js";
 import { urlPreviewHandler } from "./url-preview.js";
 import { manifestHandler } from "./manifest.js";
@@ -57,51 +53,6 @@ export function genCsp() {
 
 // Init app
 const app = new Koa();
-
-//#region Bull Dashboard
-const bullBoardPath = "/queue";
-// ToDo: もしこのエンドポイント一覧が増えないようなら本体のAPIとして実装してbullBoardやめる
-const bullBoardAllowedEndpoints = [
-    bullBoardPath + "/api/queues/deliver/promote",
-];
-
-// Authenticate
-app.use(async (ctx, next) => {
-    // %71ueueとかでリクエストされたら困るため
-    const url = decodeURI(ctx.path);
-    if (url === bullBoardPath || url.startsWith(bullBoardPath + "/")) {
-        if (!bullBoardAllowedEndpoints.includes(url) || ctx.method !== "PUT") {
-            ctx.status = 404;
-            return;
-        } else {
-            ctx.set("Cache-Control", "private, max-age=0, must-revalidate");
-
-            const token = ctx.cookies.get("token");
-            if (token == null) {
-                ctx.status = 401;
-                return;
-            }
-
-            const user = await Users.findOneBy({ token });
-            if (user == null || !(user.isAdmin || user.isModerator)) {
-                ctx.status = 403;
-                return;
-            }
-        }
-    }
-    await next();
-});
-
-const serverAdapter = new KoaAdapter();
-
-createBullBoard({
-    queues: queues.map(q => new BullAdapter(q)),
-    serverAdapter,
-});
-
-serverAdapter.setBasePath(bullBoardPath);
-app.use(serverAdapter.registerPlugin());
-//#endregion
 
 // Init renderer
 app.use(views(_dirname + "/views", {
