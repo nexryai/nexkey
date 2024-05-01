@@ -1,12 +1,37 @@
 <template>
-<img v-if="customEmoji" class="mk-emoji custom" :class="{ normal, noStyle }" :src="url" :alt="alt" :title="alt" decoding="async"/>
-<img v-else-if="char && !useOsNativeEmojis" class="mk-emoji" :src="url" :alt="alt" :title="alt" decoding="async"/>
-<span v-else-if="char && useOsNativeEmojis">{{ char }}</span>
-<span v-else>{{ emoji }}</span>
+<img v-if="errored"
+     class="mk-emoji custom"
+     :class="{ normal, noStyle }"
+     src="/static-assets/dummy.png"
+     :alt="alt"
+     :title="alt"
+     decoding="async"
+/>
+<img v-else-if="customEmoji"
+     class="mk-emoji custom"
+     :class="{ normal, noStyle }"
+     :src="url"
+     :alt="alt"
+     :title="alt"
+     decoding="async"
+/>
+<img v-else-if="char && !useOsNativeEmojis"
+     class="mk-emoji"
+     :src="url"
+     :alt="alt"
+     :title="alt"
+     decoding="async"
+/>
+<span v-else-if="char && useOsNativeEmojis">
+    {{ char }}
+</span>
+<span v-else>
+    {{ emoji }}
+</span>
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from "vue";
+import { computed, ref } from "vue";
 import { CustomEmoji } from "misskey-js/built/entities";
 import { getProxiedImageUrlNullable } from "@/scripts/media-proxy";
 import { getStaticImageUrl } from "@/scripts/get-static-image-url";
@@ -37,6 +62,7 @@ const url = computed(() => {
     }
 });
 const alt = computed(() => customEmoji.value ? `:${customEmoji.value.name}:` : char.value);
+const errored = ref(url.value == null && customEmoji);
 </script>
 
 <style lang="scss" scoped>
