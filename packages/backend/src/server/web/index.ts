@@ -32,6 +32,12 @@ const clientAssets = `${_dirname}/../../../../client/assets/`;
 const assets = `${_dirname}/../../../../../built/_client_dist_/`;
 const swAssets = `${_dirname}/../../../../../built/_sw_dist_/`;
 
+const allowedAssetsExt = [".js", ".css", ".png", ".jpg", ".jpeg", ".gif", ".svg", ".ico", ".woff", ".woff2", ".ttf", ".eot", ".otf"];
+
+function isAllowedAssetExt(ctx: Koa.Context) {
+    return allowedAssetsExt.some(ext => ctx.path.endsWith(ext));
+}
+
 // 参考にした: https://github.com/mei23/misskey/blob/2c6db29a4acbce7e4ad8d40a54afc481019199ab/src/server/web/index.ts#L33
 // ToDo: script-srcのunsafeを消せるようにする
 export function genCsp() {
@@ -82,6 +88,11 @@ const router = new Router();
 //#region static assets
 
 router.get("/static-assets/(.*)", async ctx => {
+    if (!isAllowedAssetExt(ctx)) {
+        ctx.status = 404;
+        return;
+    }
+
     try {
         await send(ctx as any, ctx.path.replace("/static-assets/", ""), {
             root: staticAssets,
@@ -93,6 +104,11 @@ router.get("/static-assets/(.*)", async ctx => {
 });
 
 router.get("/client-assets/(.*)", async ctx => {
+    if (!isAllowedAssetExt(ctx)) {
+        ctx.status = 404;
+        return;
+    }
+
     try {
         await send(ctx as any, ctx.path.replace("/client-assets/", ""), {
             root: clientAssets,
@@ -104,6 +120,11 @@ router.get("/client-assets/(.*)", async ctx => {
 });
 
 router.get("/assets/(.*)", async ctx => {
+    if (!isAllowedAssetExt(ctx)) {
+        ctx.status = 404;
+        return;
+    }
+
     try {
         await send(ctx as any, ctx.path.replace("/assets/", ""), {
             root: assets,
