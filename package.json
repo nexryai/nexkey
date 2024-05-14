@@ -33,7 +33,7 @@
 	},
 	"dependencies": {
 		"cssnano": "7.0.1",
-		"execa": "9.0.1",
+		"execa": "9.1.0",
 		"js-yaml": "4.1.0",
 		"postcss": "^8.4.38",
 		"terser": "5.31.0"
