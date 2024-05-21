@@ -5332,10 +5332,10 @@ os-utils@0.0.14:
   resolved "https://registry.yarnpkg.com/os-utils/-/os-utils-0.0.14.tgz#29e511697b1982b8c627722175fe39797ef64156"
   integrity sha512-ajB8csaHLBvJOYsHJkp8YdO2FvlBbf/ZxaYQwXXRDyQ84UoE+uTuLXxqd0shekXMX6Qr/pt/DDyLMRAMsgfWzg==
 
-otpauth@9.2.3:
-  version "9.2.3"
-  resolved "https://registry.yarnpkg.com/otpauth/-/otpauth-9.2.3.tgz#67462230173c8d90ee3579454a2fab76e6e3ab1f"
-  integrity sha512-oAG55Ch4MBL5Jdg+RXfKiRCZ2lCwa/UIQKsmSfYbGGLSI4dErY1HPZv0JGPPESIYGyDO3s9iJqM4HU/1IppMoQ==
+otpauth@9.2.4:
+  version "9.2.4"
+  resolved "https://registry.yarnpkg.com/otpauth/-/otpauth-9.2.4.tgz#3b7941a689f63c31db43ab2494d3c2d90bc1f150"
+  integrity sha512-t0Nioq2Up2ZaT5AbpXZLTjrsNtLc/g/rVSaEThmKLErAuT9mrnAKJryiPOKc3rCH+3ycWBgKpRHYn+DHqfaPiQ==
   dependencies:
     jssha "~3.3.1"
 

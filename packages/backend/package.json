@@ -78,7 +78,7 @@
 		"node-fetch": "3.3.2",
 		"nodemailer": "6.9.11",
 		"os-utils": "0.0.14",
-		"otpauth": "9.2.3",
+		"otpauth": "9.2.4",
 		"parse5": "7.1.2",
 		"pg": "8.11.5",
 		"private-ip": "3.0.2",
