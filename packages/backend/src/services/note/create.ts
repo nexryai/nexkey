@@ -39,8 +39,6 @@ import { updateHashtags } from "../update-hashtag.js";
 import { deliverToRelays } from "../relay.js";
 import { addNoteToAntenna } from "../add-note-to-antenna.js";
 import { createNotification } from "../create-notification.js";
-import sonic from "../../db/sonic.js";
-import es from "../../db/elasticsearch.js";
 
 const mutedWordsCache = new Cache<{ userId: UserProfile["userId"]; mutedWords: UserProfile["mutedWords"]; }[]>(1000 * 60 * 5);
 
@@ -310,7 +308,7 @@ export default async (user: { id: User["id"]; username: User["username"]; host: 
     });
 
     // Antenna
-	 // TODO: キャッシュしたい
+    // TODO: キャッシュしたい
     if (!config.disableAntenna) {
         Followings.createQueryBuilder("following")
 			.andWhere("following.followeeId = :userId", { userId: note.userId })
@@ -523,13 +521,7 @@ export default async (user: { id: User["id"]; username: User["username"]; host: 
                 Channels.increment({ id: data.channel!.id }, "usersCount", 1);
             }
         });
-
-        // Register to search database
-        await index(note);
     }
-
-    // Register to search database
-    index(note);
 });
 
 async function renderNoteOrRenoteActivity(data: Option, note: Note) {
@@ -645,36 +637,6 @@ async function insertNote(user: { id: User["id"]; host: User["host"]; }, data: O
         console.error(e);
 
         throw e;
-    }
-}
-
-export async function index(note: Note): Promise<void> {
-    if (!note.text) return;
-
-    if (config.elasticsearch && es) {
-        es.index({
-            index: config.elasticsearch.index || "misskey_note",
-            id: note.id.toString(),
-            body: {
-                text: normalizeForSearch(note.text),
-                userId: note.userId,
-                userHost: note.userHost,
-            },
-        });
-    }
-
-    if (sonic) {
-        await sonic.ingest.push(
-            sonic.collection,
-            sonic.bucket,
-            JSON.stringify({
-                id: note.id,
-                userId: note.userId,
-                userHost: note.userHost,
-                channelId: note.channelId,
-            }),
-            note.text,
-        );
     }
 }
 

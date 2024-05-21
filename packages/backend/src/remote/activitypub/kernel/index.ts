@@ -1,6 +1,5 @@
 import { CacheableRemoteUser } from "@/models/entities/user.js";
 import { toArray } from "@/prelude/array.js";
-import { Users } from "@/models/index.js";
 import { IObject, isCreate, isDelete, isUpdate, isRead, isFollow, isAccept, isReject, isAdd, isRemove, isAnnounce, isLike, isUndo, isBlock, isCollectionOrOrderedCollection, isCollection, isFlag } from "../type.js";
 import { apLogger } from "../logger.js";
 import Resolver from "../resolver.js";

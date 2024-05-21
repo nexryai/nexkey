@@ -57,6 +57,7 @@ module.exports = {
 		'no-control-regex': ['warn'],
 		'no-empty': ['warn'],
 		'no-inner-declarations': ['off'],
+        'no-mixed-spaces-and-tabs': ['off'],
 		'no-sparse-arrays': ['off'],
 		'nonblock-statement-body-position': ['error', 'beside'],
 		'object-curly-spacing': ['error', 'always'],
