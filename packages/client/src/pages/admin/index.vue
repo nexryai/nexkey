@@ -24,17 +24,15 @@
 </template>
 
 <script lang="ts" setup>
-import { defineAsyncComponent, inject, nextTick, onMounted, onUnmounted, provide, watch } from "vue";
+import {computed, onMounted, onUnmounted, provide, ref, watch} from "vue";
 import { i18n } from "@/i18n";
 import MkSuperMenu from "@/components/MkSuperMenu.vue";
 import MkInfo from "@/components/MkInfo.vue";
-import { scroll } from "@/scripts/scroll";
 import { instance } from "@/instance";
 import * as os from "@/os";
 import { lookupUser } from "@/scripts/lookup-user";
-import { indexPosts } from "@/scripts/index-posts";
 import { useRouter } from "@/router";
-import { definePageMetadata, provideMetadataReceiver, setPageMetadata } from "@/scripts/page-metadata";
+import { definePageMetadata, provideMetadataReceiver } from "@/scripts/page-metadata";
 import { defaultStore } from "@/store";
 import FormSwitch from "@/components/form/switch.vue";
 import { unisonReload } from "@/scripts/unison-reload";
@@ -52,18 +50,18 @@ const indexInfo = {
 
 provide("shouldOmitHeaderTitle", false);
 
-let INFO = $ref(indexInfo);
-let childInfo = $ref(null);
-let narrow = $ref(false);
-let view = $ref(null);
-let el = $ref(null);
-let pageProps = $ref({});
+let INFO = ref(indexInfo);
+let childInfo = ref(null);
+let narrow = ref(false);
+let view = ref(null);
+let el = ref(null);
+let pageProps = ref({});
 let noMaintainerInformation = isEmpty(instance.maintainerName) || isEmpty(instance.maintainerEmail);
 let noBotProtection = !instance.disableRegistration && !instance.enableHcaptcha && !instance.enableRecaptcha　&& !instance.enableTurnstil;
 let noEmailServer = !instance.enableEmail;
-let thereIsUnresolvedAbuseReport = $ref(false);
-let currentPage = $computed(() => router.currentRef.value.child);
-let moderator = $ref(false);
+let thereIsUnresolvedAbuseReport = ref(false);
+let currentPage = computed(() => router.currentRef.value.child);
+let moderator = ref(false);
 
 moderator = defaultStore.state.enableSudo;
 
@@ -80,18 +78,13 @@ const ro = new ResizeObserver((entries, observer) => {
     narrow = entries[0].borderBoxSize[0].inlineSize < NARROW_THRESHOLD;
 });
 
-const menuDef = $computed(() => [{
+const menuDef = computed(() => [{
     title: i18n.ts.quickAction,
     items: [{
         type: "button",
         icon: "ti ti-search",
         text: i18n.ts.lookup,
         action: lookup,
-    },{
-        type: "button",
-        icon: "ti ti-database",
-        text: i18n.ts.indexPosts,
-        action: indexPosts,
     }, ...(instance.disableRegistration ? [{
         type: "button",
         icon: "ti ti-user",
@@ -285,9 +278,9 @@ const lookup = (ev) => {
     }], ev.currentTarget ?? ev.target);
 };
 
-const headerActions = $computed(() => []);
+const headerActions = computed(() => []);
 
-const headerTabs = $computed(() => []);
+const headerTabs = computed(() => []);
 
 definePageMetadata(INFO);
 
