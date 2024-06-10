@@ -17,7 +17,7 @@
 		"@rollup/pluginutils": "5.1.0",
 		"@syuilo/aiscript": "0.11.1",
 		"@tabler/icons-webfont": "3.5.0",
-		"@vitejs/plugin-vue": "5.0.4",
+		"@vitejs/plugin-vue": "5.0.5",
 		"@vue/compiler-sfc": "3.4.27",
         "@vue-macros/reactivity-transform": "0.4.6",
 		"autobind-decorator": "2.4.0",
