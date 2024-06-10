@@ -40,11 +40,6 @@ export const navbarItemDef = reactive({
         indicated: computed(() => $i != null && $i.hasUnreadAnnouncement),
         to: "/announcements",
     },
-    pages: {
-        title: "pages",
-        icon: "ti ti-news",
-        to: "/pages",
-    },
     clips: {
         title: "clip",
         icon: "ti ti-paperclip",
