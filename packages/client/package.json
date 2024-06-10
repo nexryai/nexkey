@@ -28,7 +28,6 @@
 		"chartjs-adapter-date-fns": "3.0.0",
 		"chartjs-plugin-gradient": "0.6.1",
 		"chartjs-plugin-zoom": "2.0.1",
-		"compare-versions": "6.1.0",
 		"cropperjs": "2.0.0-rc",
 		"date-fns": "3.6.0",
 		"escape-regexp": "0.0.1",

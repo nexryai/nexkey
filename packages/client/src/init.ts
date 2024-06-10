@@ -14,7 +14,6 @@ if (localStorage.getItem("accounts") != null) {
 //#endregion
 
 import { computed, createApp, watch, markRaw, version as vueVersion, defineAsyncComponent } from "vue";
-import { compareVersions } from "compare-versions";
 import JSON5 from "json5";
 
 import widgets from "@/widgets";
@@ -235,16 +234,6 @@ import { getAccountFromId } from "@/scripts/get-account-from-id";
 
         // テーマリビルドするため
         localStorage.removeItem("theme");
-
-        try { // 変なバージョン文字列来るとcompareVersionsでエラーになるため
-            if (lastVersion != null && compareVersions(version, lastVersion) === 1) {
-                // ログインしてる場合だけ
-                if ($i) {
-                    popup(defineAsyncComponent(() => import("@/components/MkUpdated.vue")), {}, {}, "closed");
-                }
-            }
-        } catch (err) {
-        }
     }
 
     // NOTE: この処理は必ず↑のクライアント更新時処理より後に来ること(テーマ再構築のため)
