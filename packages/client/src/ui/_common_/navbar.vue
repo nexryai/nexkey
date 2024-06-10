@@ -153,11 +153,6 @@ function openInstanceMenu(ev: MouseEvent) {
             icon: "ti ti-code",
         }, {
             type: "link",
-            to: "/scratchpad",
-            text: i18n.ts.scratchpad,
-            icon: "ti ti-terminal-2",
-        }, {
-            type: "link",
             to: "/api-console",
             text: "API Console",
             icon: "ti ti-terminal-2",

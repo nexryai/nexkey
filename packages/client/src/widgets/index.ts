@@ -21,8 +21,6 @@ export default function(app: App) {
     app.component("MkwOnlineUsers", defineAsyncComponent(() => import("./online-users.vue")));
     app.component("MkwJobQueue", defineAsyncComponent(() => import("./job-queue.vue")));
     app.component("MkwInstanceCloud", defineAsyncComponent(() => import("./instance-cloud.vue")));
-    app.component("MkwButton", defineAsyncComponent(() => import("./button.vue")));
-    app.component("MkwAiscript", defineAsyncComponent(() => import("./aiscript.vue")));
     app.component("MkwAichan", defineAsyncComponent(() => import("./aichan.vue")));
     app.component("MkwStreamMode", defineAsyncComponent(() => import("./stream-mode.vue")));
 }
