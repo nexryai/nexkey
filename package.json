@@ -32,7 +32,7 @@
 		"cleanall": "npm run clean-all"
 	},
 	"dependencies": {
-		"cssnano": "7.0.1",
+		"cssnano": "7.0.2",
 		"execa": "9.1.0",
 		"js-yaml": "4.1.0",
 		"postcss": "^8.4.38",
