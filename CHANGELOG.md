@@ -1,4 +1,6 @@
 ## 12.24Q2.5
+ - BREAKING: Remove AiScript related components and pages
+   * 昨年12月リリースのバージョン以来壊れていたので影響は少ないと思います
  - Revert "Client: カスタム絵文字のフォールバックを改善"
    * 画像にフォールバックするのがよろしくないシーンがあるため
  - Update deps
