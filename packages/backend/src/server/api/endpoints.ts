@@ -239,13 +239,6 @@ import * as ep___notifications_create from "./endpoints/notifications/create.js"
 import * as ep___notifications_markAllAsRead from "./endpoints/notifications/mark-all-as-read.js";
 import * as ep___notifications_read from "./endpoints/notifications/read.js";
 import * as ep___pagePush from "./endpoints/page-push.js";
-import * as ep___pages_create from "./endpoints/pages/create.js";
-import * as ep___pages_delete from "./endpoints/pages/delete.js";
-import * as ep___pages_featured from "./endpoints/pages/featured.js";
-import * as ep___pages_like from "./endpoints/pages/like.js";
-import * as ep___pages_show from "./endpoints/pages/show.js";
-import * as ep___pages_unlike from "./endpoints/pages/unlike.js";
-import * as ep___pages_update from "./endpoints/pages/update.js";
 import * as ep___ping from "./endpoints/ping.js";
 import * as ep___pinnedUsers from "./endpoints/pinned-users.js";
 import * as ep___promo_read from "./endpoints/promo/read.js";
@@ -523,13 +516,6 @@ const eps = [
     ["notifications/mark-all-as-read", ep___notifications_markAllAsRead],
     ["notifications/read", ep___notifications_read],
     ["page-push", ep___pagePush],
-    ["pages/create", ep___pages_create],
-    ["pages/delete", ep___pages_delete],
-    ["pages/featured", ep___pages_featured],
-    ["pages/like", ep___pages_like],
-    ["pages/show", ep___pages_show],
-    ["pages/unlike", ep___pages_unlike],
-    ["pages/update", ep___pages_update],
     ["ping", ep___ping],
     ["pinned-users", ep___pinnedUsers],
     ["promo/read", ep___promo_read],
