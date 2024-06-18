@@ -1,3 +1,6 @@
+## 12.24Q2.6
+ - コントロールパネルが開けない問題を修正
+
 ## 12.24Q2.5
  - BREAKING: Remove AiScript related components and pages
    * 昨年12月リリースのバージョン以来壊れていたので影響は少ないと思います
