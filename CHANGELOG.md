@@ -1,5 +1,7 @@
 ## 12.24Q2.6
  - コントロールパネルが開けない問題を修正
+ - Update deps
+   * **複数の脆弱な依存関係の更新を含む**
 
 ## 12.24Q2.5
  - BREAKING: Remove AiScript related components and pages
